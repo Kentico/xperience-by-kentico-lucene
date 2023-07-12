@@ -1,0 +1,154 @@
+name: '$(Build.DefinitionName) #$(Build.BuildId)'
+
+trigger:
+  - master
+
+parameters:
+  - name: AgentPoolName
+    displayName: Agent pool name
+    type: string
+    default: Default
+
+  - name: AgentName
+    displayName: Agent name - single char for any
+    type: string
+    default: ' '
+
+stages:
+  - stage: Build
+    jobs:
+      - job: Build
+        displayName: Build, Sign, Test & Pack
+
+        pool:
+          name: ${{ parameters.AgentPoolName }}
+          ${{ if ne(length(parameters.AgentName), 1) }}:
+            demands:
+              - Agent.Name -equals ${{ parameters.AgentName }}
+
+        workspace:
+          clean: resources
+
+        variables:
+          - group: 14.0 Authenticode signature parameters
+
+          - name: Configuration
+            value: Release
+
+          - name: DotNetSdkVersion
+            value: 5.0.x
+
+        steps:
+          - task: UseDotNet@2
+            displayName: Select dotnet version
+            inputs:
+              packageType: sdk
+              version: ${{ variables.DotNetSdkVersion }}
+
+          - task: DotNetCoreCLI@2
+            displayName: Restore dependencies
+            inputs:
+              command: restore
+              projects: '**/*.csproj'
+              feedsToUse: select
+
+          - pwsh: |
+              $DirectoryBuildTargetsContent = @"
+              <Project>
+                  <Target Name="SignAssemblyWithAuthenticodeSignature" AfterTargets="AfterBuild" Condition="'`$(MSBuildProjectFullPath.Contains(&quot;node_modules&quot;))' == 'false'">
+                      <PropertyGroup>
+                          <XmlSerializersTargetPath>`$(TargetDir)`$(TargetName).XmlSerializers.dll</XmlSerializersTargetPath>
+                          <RazorViewsTargetPath>`$(TargetDir)`$(TargetName).Views.dll</RazorViewsTargetPath>
+                      </PropertyGroup>
+
+                      <ItemGroup>
+                          <AssemblyToSign Include="`$(TargetPath)" />
+                          <AssemblyToSign Include="`$(XmlSerializersTargetPath)" Condition="Exists('`$(XmlSerializersTargetPath)')" />
+                          <AssemblyToSign Include="`$(RazorViewsTargetPath)" Condition="Exists('`$(RazorViewsTargetPath)')" />
+                      </ItemGroup>
+
+                      <SignFile CertificateThumbprint="`$(AuthenticodeCertificateThumbprint)" TimestampUrl="http://time.certum.pl" SigningTarget="%(AssemblyToSign.Identity)" />
+                  </Target>
+              </Project>
+              "@
+
+              Set-Content -Value $DirectoryBuildTargetsContent -Path "$(System.DefaultWorkingDirectory)/Directory.Build.targets"
+            displayName: Create Directory.Build.targets to sign DLLs
+
+          - task: DotNetCoreCLI@2
+            displayName: Build
+            inputs:
+              command: build
+              projects: '**/*.csproj'
+              arguments: --no-restore --configuration ${{ variables.Configuration }}
+
+          - task: DotNetCoreCLI@2
+            displayName: Test
+            inputs:
+              command: test
+              projects: '**/*.Tests.csproj'
+              arguments: --no-build --configuration ${{ variables.Configuration }}
+
+          - task: DotNetCoreCLI@2
+            displayName: Create NuGet package
+            inputs:
+              command: pack
+              packagesToPack: '**/*.csproj'
+              configuration: ${{ variables.Configuration }}
+              nobuild: true
+              versioningScheme: 'off'
+
+          - task: PublishPipelineArtifact@1
+            displayName: Publish NuGet package as artifact
+            inputs:
+              targetPath: $(Build.ArtifactStagingDirectory)
+              artifact: artifact
+              publishLocation: pipeline
+
+  - ${{ if eq(variables['Build.SourceBranch'], 'refs/heads/master') }}:
+      - stage: PublishNuGetPackages
+        displayName: Publish NuGet packages
+        dependsOn: Build
+
+        jobs:
+          - deployment: PublishNuGetPackages
+            displayName: Publish NuGet packages
+
+            pool:
+              name: ${{ parameters.AgentPoolName }}
+              ${{ if ne(length(parameters.AgentName), 1) }}:
+                demands:
+                  - Agent.Name -equals ${{ parameters.AgentName }}
+
+            workspace:
+              clean: resources
+
+            environment: integrations-release-nuget
+            strategy:
+              runOnce:
+                deploy:
+                  steps:
+                    - checkout: none
+
+                    - task: DownloadPipelineArtifact@2
+                      displayName: Download NuGetPackages
+                      inputs:
+                        artifact: artifact
+                        path: $(Build.ArtifactStagingDirectory)
+
+                    - task: NuGetToolInstaller@1
+                      displayName: Install nuget.exe
+                      inputs:
+                        versionSpec: '>=5.6'
+                        checkLatest: true
+
+                    - task: NuGetAuthenticate@0
+                      displayName: NuGet Authenticate
+
+                    - task: NuGetCommand@2
+                      displayName: NuGet push
+                      inputs:
+                        command: push
+                        packagesToPush: $(Build.ArtifactStagingDirectory)/*.nupkg
+                        nuGetFeedType: external
+                        publishFeedCredentials: nuget.org
