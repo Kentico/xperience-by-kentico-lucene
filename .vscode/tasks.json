@@ -1,0 +1,54 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "type": "npm",
+      "script": "install",
+      "path": "src/Kentico.Xperience.Lucene/Admin/Client",
+      "group": "clean",
+      "problemMatcher": [],
+      "label": "npm: install - src/Kentico.Xperience.Lucene/Admin/Client",
+      "detail": "install dependencies from package"
+    },
+    {
+      "type": "dotnet",
+      "task": "build",
+      "problemMatcher": ["$msCompile"],
+      "group": "build",
+      "label": "dotnet: build"
+    },
+    {
+      "type": "dotnet",
+      "task": "clean",
+      "problemMatcher": ["$msCompile"],
+      "group": "clean",
+      "label": "dotnet: clean"
+    },
+    {
+      "type": "npm",
+      "script": "build",
+      "path": "src/Kentico.Xperience.Lucene/Admin/Client",
+      "group": "build",
+      "problemMatcher": [],
+      "label": "npm: build - src/Kentico.Xperience.Lucene/Admin/Client",
+      "detail": "webpack --mode=production"
+    },
+    {
+      "type": "npm",
+      "script": "build:dev",
+      "path": "src/Kentico.Xperience.Lucene/Admin/Client",
+      "group": "build",
+      "problemMatcher": [],
+      "label": "npm: build:dev - src/Kentico.Xperience.Lucene/Admin/Client",
+      "detail": "webpack --mode=development"
+    },
+    {
+      "type": "npm",
+      "script": "start",
+      "path": "src/Kentico.Xperience.Lucene/Admin/Client",
+      "problemMatcher": [],
+      "label": "npm: start - src/Kentico.Xperience.Lucene/Admin/Client",
+      "detail": "webpack serve --mode development"
+    }
+  ]
+}

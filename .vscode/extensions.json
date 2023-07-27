@@ -1,0 +1,12 @@
+{
+  "recommendations": [
+    "ms-dotnettools.csdevkit",
+    "k--kato.docomment",
+    "editorconfig.editorconfig",
+    "davidanson.vscode-markdownlint",
+    "tintoy.msbuild-project-tools",
+    "esbenp.prettier-vscode",
+    "dotjoshjohnson.xml"
+  ],
+  "unwantedRecommendations": []
+}

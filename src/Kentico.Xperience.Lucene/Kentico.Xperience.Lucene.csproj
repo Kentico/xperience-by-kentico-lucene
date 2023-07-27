@@ -1,0 +1,73 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net6.0</TargetFramework>
+		<AdminOrgName>kentico</AdminOrgName>
+		<RootNamespace>Kentico.Xperience.Lucene</RootNamespace>
+		<LangVersion>Latest</LangVersion>
+		<EnableDefaultEmbeddedResourceItems>false</EnableDefaultEmbeddedResourceItems>
+		<NoWarn>S1075</NoWarn>
+	</PropertyGroup>
+
+	<PropertyGroup>
+		<Title>Xperience by Kentico Lucene Search</Title>
+		<PackageId>Kentico.Xperience.Lucene</PackageId>
+		<Version>0.0.1</Version>
+		<Authors>Kentico Software</Authors>
+		<Company>Kentico Software</Company>
+		<PackageIcon>logo.png</PackageIcon>
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+		<PackageTags>kentico xperience mvc core lucene search</PackageTags>
+		<Description>Enables the creation of Lucene search indexes and the indexing of Xperience content tree pages using a code-first approach.</Description>
+		<RepositoryUrl>https://github.com/kentico/xperience-by-kentico-lucene</RepositoryUrl>
+		<RepositoryType>git</RepositoryType>
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+		<GenerateDocumentationFile>true</GenerateDocumentationFile>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<AdminClientPath Include="Admin\Client\dist\**">
+			<ProjectName>xperience-integrations-lucene</ProjectName>
+		</AdminClientPath>
+	</ItemGroup>
+
+	<ItemGroup>
+		<None Include="..\..\images\logo.png" Pack="true" PackagePath="" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Compile Remove="Admin\Client\node_modules\**" />
+		<EmbeddedResource Remove="Admin\Client\node_modules\**" />
+		<None Remove="Admin\Client\node_modules\**" />
+	</ItemGroup>
+
+	<PropertyGroup Condition=" $(Configuration) == 'Release' ">
+		<ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
+		<PublishRepositoryUrl>true</PublishRepositoryUrl>
+		<EmbedUntrackedSources>true</EmbedUntrackedSources>
+		<IncludeSymbols>true</IncludeSymbols>
+		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Kentico.Xperience.Admin" Version="26.2.0" />
+		<PackageReference Include="Kentico.Xperience.WebApp" Version="26.2.0" />
+		<PackageReference Include="Lucene.Net" Version="4.8.0-beta00016" />
+		<PackageReference Include="Lucene.Net.Analysis.Common" Version="4.8.0-beta00016" />
+		<PackageReference Include="Microsoft.AspNetCore.Html.Abstractions" Version="2.2.0" />
+		<PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />
+		<PackageReference Include="Microsoft.AspNetCore.Mvc.ViewFeatures" Version="2.2.0" />
+		<PackageReference Include="System.Configuration.ConfigurationManager" Version="8.0.0-preview.6.23329.7" />
+		<PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+	</ItemGroup>
+
+	<ItemGroup>
+		<EmbeddedResource Include="Resources\LuceneResources.resx">
+			<ExcludeFromManifest>true</ExcludeFromManifest>
+		</EmbeddedResource>
+	</ItemGroup>
+
+</Project>

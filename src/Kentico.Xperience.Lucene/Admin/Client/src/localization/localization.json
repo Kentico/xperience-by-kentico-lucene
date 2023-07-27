@@ -1,0 +1,23 @@
+{
+    "integrations": {
+        "lucene": {
+            "content": {
+                "headlines": {
+                    "main": "Indexed content",
+                    "paths": "Indexed paths",
+                    "properties": "Indexed properties"
+                }
+            },
+            "pathdetail": {
+                "headlines": {
+                    "main": "Path detail",
+                    "path": "Path",
+                    "pagetypes": "Content types"
+                }
+            },
+            "messages": {
+                "norecords": "There are no records to display"
+            }
+        }
+    }
+}
