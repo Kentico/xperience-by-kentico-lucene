@@ -1,0 +1,147 @@
+name: "$(Build.DefinitionName) #$(Build.BuildId)"
+
+trigger:
+  - main
+
+parameters:
+  - name: AgentPoolName
+    displayName: Agent pool name
+    type: string
+    default: Default
+
+  - name: AgentName
+    displayName: Agent name - single char for any
+    type: string
+    default: " "
+
+variables:
+  - name: SIGN_FILE
+    value: true
+
+stages:
+  - stage: Build
+    jobs:
+      - job: Build
+        displayName: Build, Sign, Test & Pack
+
+        pool:
+          name: ${{ parameters.AgentPoolName }}
+          ${{ if ne(length(parameters.AgentName), 1) }}:
+            demands:
+              - Agent.Name -equals ${{ parameters.AgentName }}
+
+        workspace:
+          clean: resources
+
+        variables:
+          - group: 14.0 Authenticode signature parameters
+
+          - name: Configuration
+            value: Release
+
+          - name: ProjectFolder
+            value: src/Kentico.Xperience.Lucene
+
+          - name: ProjectFilePath
+            value: src/Kentico.Xperience.Lucene/Kentico.Xperience.Lucene.csproj
+
+        steps:
+          - task: PowerShell@2
+            displayName: Set Node.js version from package.json
+            inputs:
+              targetType: inline
+              script: |
+                $fileContent = Get-Content -Path './${{ variables.ProjectFolder }}/Admin/Client/package.json' -Raw
+                $jsonObject = ConvertFrom-Json -InputObject $fileContent
+
+                # Get the value of engines.node
+                $enginesNode = $jsonObject.engines.node
+                Write-Host "Required Node version $enginesNode"
+                Write-Host "##vso[task.setvariable variable=PACKAGE_JSON_NODE_VERSION]$enginesNode"
+
+          - task: UseNode@1
+            displayName: "Install Node.js from package.json version"
+            inputs:
+              version: $(PACKAGE_JSON_NODE_VERSION)
+
+          - task: UseDotNet@2
+            displayName: Select dotnet version
+            inputs:
+              packageType: sdk
+              useGlobalJson: true
+
+          - task: DotNetCoreCLI@2
+            displayName: Restore dependencies
+            inputs:
+              command: restore
+              projects: ${{ variables.ProjectFilePath }}
+              feedsToUse: select
+              restoreArguments: --locked-mode
+
+          - task: DotNetCoreCLI@2
+            displayName: Build
+            inputs:
+              command: build
+              projects: ${{ variables.ProjectFilePath }}
+              configuration: ${{ variables.Configuration }}
+              arguments: --no-restore
+
+          - task: DotNetCoreCLI@2
+            displayName: Create NuGet package
+            inputs:
+              command: pack
+              packagesToPack: ${{ variables.ProjectFilePath }}
+              configuration: ${{ variables.Configuration }}
+              packDirectory: $(System.DefaultWorkingDirectory)/packages
+              includesymbols: true
+              nobuild: true
+              versioningScheme: off
+
+          - publish: $(System.DefaultWorkingDirectory)/packages
+            displayName: Publish NuGet package as artifact
+            artifact: artifact
+
+  - ${{ if eq(variables['Build.SourceBranch'], 'refs/heads/main') }}:
+      - stage: PublishNuGetPackages
+        displayName: Publish NuGet packages
+        dependsOn: Build
+
+        jobs:
+          - deployment: PublishNuGetPackages
+            displayName: Publish NuGet packages
+
+            pool:
+              name: ${{ parameters.AgentPoolName }}
+              ${{ if ne(length(parameters.AgentName), 1) }}:
+                demands:
+                  - Agent.Name -equals ${{ parameters.AgentName }}
+
+            workspace:
+              clean: resources
+
+            environment: integrations-release-nuget
+            strategy:
+              runOnce:
+                deploy:
+                  steps:
+                    - checkout: none
+
+                    - download: current
+                      displayName: Download Artifacts
+
+                    - task: NuGetToolInstaller@1
+                      displayName: Install latest nuget.exe
+                      inputs:
+                        versionSpec: ">=5.6"
+                        checkLatest: true
+
+                    - task: NuGetAuthenticate@1
+                      displayName: NuGet Authenticate
+
+                    - task: NuGetCommand@2
+                      displayName: NuGet push
+                      inputs:
+                        command: push
+                        packagesToPush: $(Pipeline.Workspace)/**/*.nupkg
+                        nuGetFeedType: external
+                        publishFeedCredentials: nuget.org

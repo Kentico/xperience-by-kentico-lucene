@@ -1,0 +1,14 @@
+<Project>
+    <Target Name="SignAssemblyWithAuthenticodeSignature" AfterTargets="AfterBuild" Condition="'$(MSBuildProjectFullPath.Contains(&quot;node_modules&quot;))' == 'false' And $(Configuration) == 'Release' And $(SIGN_FILE) != 'false'">
+        <PropertyGroup>
+            <XmlSerializersTargetPath>$(TargetDir)$(TargetName).XmlSerializers.dll</XmlSerializersTargetPath>
+        </PropertyGroup>
+
+        <ItemGroup>
+            <AssemblyToSign Include="$(TargetPath)" />
+            <AssemblyToSign Include="$(XmlSerializersTargetPath)" Condition="Exists('$(XmlSerializersTargetPath)')" />
+        </ItemGroup>
+
+        <SignFile CertificateThumbprint="$(AuthenticodeCertificateThumbprint)" TimestampUrl="http://time.certum.pl" SigningTarget="%(AssemblyToSign.Identity)" />
+    </Target>
+</Project>

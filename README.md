@@ -1,81 +1,61 @@
-[![Contributors][contributors-shield]][contributors-url]
-[![Forks][forks-shield]][forks-url]
-[![Stargazers][stars-shield]][stars-url]
-[![Issues][issues-shield]][issues-url]
-[![MIT License][license-shield]][license-url]
-[![Discord][discussion-shield]][discussion-url]
+# Xperience by Kentico Lucene
 
+[![CI: Build and Test](https://github.com/Kentico/xperience-by-kentico-lucene/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/Kentico/xperience-by-kentico-lucene/actions/workflows/ci.yml)
 
-
-<!-- ABOUT THE PROJECT -->
 ## About The Project
 
-Please put here some general information about your Intergration / App / Solution.
+Helps with indexing and searching data with Lucene .NET.
 
+> Current version is PRE RELEASE !!!
 
-
-<!-- GETTING STARTED -->
 ## Getting Started
-
-This is an example of how you may give instructions on setting up your project locally.
-To get a local copy up and running follow these simple example steps.
 
 ### Prerequisites
 
-This is an example of how to list things you need to use the software and how to install them.
-* npm
-  ```sh
-  npm install npm@latest -g
-  ```
+- Xperience by Kentico >= 26.2.0
 
 ### Installation
 
-_Below is an example of how you can instruct your audience on installing and setting up your app. This template doesn't rely on any external dependencies or services._
+Add the package to your application using the .NET CLI
 
-1. Get a free API Key at ... 
-2. Clone the repo
-   ```sh
-   git clone ...
-   ```
-3. Install
-4. Enter your API ...
+```powershell
+dotnet add package Kentico.Xperience.Lucene
+```
 
+### Add to your application dependencies
 
+```csharp
+builder.Services.AddKentico();
+// ... other registrations
+builder.Services.AddLucene(builder.Configuration, new[]
+{
+     // use your own index definition
+     new LuceneIndex(
+        typeof(KBankNewsSearchModel),
+        new StandardAnalyzer(Lucene.Net.Util.LuceneVersion.LUCENE_48),
+        KBankNewsSearchModel.IndexName,
+        luceneIndexingStrategy: new KBankNewsLuceneIndexingStrategy()
+     )
+});
+```
 
-<!-- USAGE EXAMPLES -->
 ## Usage
 
-Use this space to show useful examples of how a project can be used. Additional screenshots, code examples and demos work well in this space. You may also link to more resources.
-
-_For more examples, please refer to the [Documentation](put URL to documentation here)_
-
-
-
-<!-- CONTRIBUTING -->
 ## Contributing
 
-For Contributing please see  <a href="./CONTRIBUTING.md">`CONTRIBUTING.md`</a> for more information.
+- .NET SDK >= 7.0.109
 
+  - <https://dotnet.microsoft.com/en-us/download/dotnet/7.0>
 
+- Node.js >= 18.12
 
-<!-- LICENSE -->
+  - <https://nodejs.org/en/download>
+  - <https://github.com/coreybutler/nvm-windows>
+
+For Contributing please see [`CONTRIBUTING.md`](./CONTRIBUTING.md) for more information.
+
 ## License
 
 Distributed under the MIT License. See [`LICENSE.md`](./LICENSE.md) for more information.
 
-
-
-<!-- MARKDOWN LINKS & IMAGES -->
-<!-- https://github.com/Kentico/Home/wiki/Checklist-for-publishing-a-new-OS-project#badges-->
-[contributors-shield]: https://img.shields.io/github/contributors/Kentico/kontent-custom-element-samples.svg?style=for-the-badge
-[contributors-url]: https://github.com/Kentico/repo-template/graphs/contributors
-[forks-shield]: https://img.shields.io/github/forks/Kentico/kontent-custom-element-samples.svg?style=for-the-badge
-[forks-url]: https://github.com/Kentico/repo-template/network/members
-[stars-shield]: https://img.shields.io/github/stars/Kentico/kontent-custom-element-samples.svg?style=for-the-badge
-[stars-url]: https://github.com/Kentico/repo-template/stargazers
-[issues-shield]: https://img.shields.io/github/issues/Kentico/kontent-custom-element-samples.svg?style=for-the-badge
-[issues-url]:https://github.com/Kentico/repo-template/issues
-[license-shield]: https://img.shields.io/github/license/Kentico/kontent-custom-element-samples.svg?style=for-the-badge
-[license-url]:https://github.com/Kentico/repo-template/blob/master/LICENSE.md
-[discussion-shield]: https://img.shields.io/discord/821885171984891914?color=%237289DA&label=Kontent%20Discord&logo=discord
-[discussion-url]: https://discord.com/invite/SKCxwPtevJ
+For any security issues see [`SECURITY.md`](./SECURITY.md).
