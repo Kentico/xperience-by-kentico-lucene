@@ -52,10 +52,16 @@ builder.Services.AddLucene(builder.Configuration, new[]
   - <https://nodejs.org/en/download>
   - <https://github.com/coreybutler/nvm-windows>
 
-For Contributing please see [`CONTRIBUTING.md`](./CONTRIBUTING.md) for more information.
+For Contributing please see [`CONTRIBUTING.md`](https://github.com/Kentico/.github/blob/main/CONTRIBUTING.md) for more information.
 
 ## License
 
 Distributed under the MIT License. See [`LICENSE.md`](./LICENSE.md) for more information.
 
-For any security issues see [`SECURITY.md`](./SECURITY.md).
+## Support
+
+This contribution has **Full support by 7-day bug-fix policy**.
+
+See [`SUPPORT.md`](https://github.com/Kentico/.github/blob/main/SUPPORT.md#full-support) for more information.
+
+For any security issues see [`SECURITY.md`](https://github.com/Kentico/.github/blob/main/SECURITY.md).
