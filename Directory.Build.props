@@ -5,7 +5,7 @@
     <Authors>$(Company)</Authors>
     <Copyright>Copyright © $(Company) $([System.DateTime]::Now.Year)</Copyright>
     <Trademark>$(Company)™</Trademark>
-    <VersionPrefix>0.0.1</VersionPrefix>
+    <VersionPrefix>1.0.0</VersionPrefix>
     <VersionSuffix>prerelease-1</VersionSuffix>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
 
@@ -13,7 +13,7 @@
     <PackageReleaseNotes>https://github.com/Kentico/xperience-by-kentico-lucene/releases</PackageReleaseNotes>
     <PackageIcon>logo.png</PackageIcon>
     <PackageReadmeFile>README.md</PackageReadmeFile>
-    <PackageTags>xperience;kentico;aspnetcore;search</PackageTags>
+    <PackageTags>kentico;xperience;mvc;lucene;search</PackageTags>
   </PropertyGroup>
 
   <ItemGroup>
@@ -32,7 +32,6 @@
     <CopyDocumentationFilesFromPackages>true</CopyDocumentationFilesFromPackages>
     <CopyDebugSymbolFilesFromPackages>true</CopyDebugSymbolFilesFromPackages>
     <NoWarn>$(NoWarn);1591</NoWarn>
-    <RootNamespace>Kentico.Xperience.Lucene</RootNamespace>
 
     <EnableDefaultEmbeddedResourceItems>false</EnableDefaultEmbeddedResourceItems>
   </PropertyGroup>
@@ -46,7 +45,7 @@
   </PropertyGroup>
 
   <ItemGroup Label="StaticCodeAnalysis">
-    <PackageReference Include="SonarAnalyzer.CSharp" Version="8.41.0.50478">
+    <PackageReference Include="SonarAnalyzer.CSharp" Version="9.6.0.74858">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>

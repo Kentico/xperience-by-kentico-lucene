@@ -1,38 +1,26 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFramework>net6.0</TargetFramework>
-		<AdminOrgName>kentico</AdminOrgName>
-		<RootNamespace>Kentico.Xperience.Lucene</RootNamespace>
-		<LangVersion>Latest</LangVersion>
-		<EnableDefaultEmbeddedResourceItems>false</EnableDefaultEmbeddedResourceItems>
-		<NoWarn>S1075</NoWarn>
+		<Product>Xperience by Kentico Lucene Search</Product>
+		<Title>$(Product)</Title>
+		<PackageId>Kentico.Xperience.Lucene</PackageId>
+		<Description>Enables the creation of Lucene search indexes and the indexing of Xperience content tree pages using a code-first approach.</Description>
+		<RepositoryUrl>https://github.com/kentico/xperience-by-kentico-lucene</RepositoryUrl>
 	</PropertyGroup>
 
 	<PropertyGroup>
-		<Title>Xperience by Kentico Lucene Search</Title>
-		<PackageId>Kentico.Xperience.Lucene</PackageId>
-		<Version>0.0.1</Version>
-		<Authors>Kentico Software</Authors>
-		<Company>Kentico Software</Company>
-		<PackageIcon>logo.png</PackageIcon>
-		<PackageLicenseExpression>MIT</PackageLicenseExpression>
-		<PackageTags>kentico xperience mvc core lucene search</PackageTags>
-		<Description>Enables the creation of Lucene search indexes and the indexing of Xperience content tree pages using a code-first approach.</Description>
-		<RepositoryUrl>https://github.com/kentico/xperience-by-kentico-lucene</RepositoryUrl>
-		<RepositoryType>git</RepositoryType>
-		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-		<GenerateDocumentationFile>true</GenerateDocumentationFile>
+		<AdminOrgName>kentico</AdminOrgName>
+		<RootNamespace>Kentico.Xperience.Lucene</RootNamespace>
+		<LangVersion>Latest</LangVersion>
+		<NoWarn>$(NoWarn);S1075</NoWarn>
 	</PropertyGroup>
 
 	<ItemGroup>
+		<AssemblyAttribute Include="CMS.AssemblyDiscoverableAttribute">
+		</AssemblyAttribute>
 		<AdminClientPath Include="Admin\Client\dist\**">
 			<ProjectName>xperience-integrations-lucene</ProjectName>
 		</AdminClientPath>
-	</ItemGroup>
-
-	<ItemGroup>
-		<None Include="..\..\images\logo.png" Pack="true" PackagePath="" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -40,14 +28,6 @@
 		<EmbeddedResource Remove="Admin\Client\node_modules\**" />
 		<None Remove="Admin\Client\node_modules\**" />
 	</ItemGroup>
-
-	<PropertyGroup Condition=" $(Configuration) == 'Release' ">
-		<ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
-		<PublishRepositoryUrl>true</PublishRepositoryUrl>
-		<EmbedUntrackedSources>true</EmbedUntrackedSources>
-		<IncludeSymbols>true</IncludeSymbols>
-		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
-	</PropertyGroup>
 
 	<ItemGroup>
 		<PackageReference Include="Kentico.Xperience.Admin" Version="26.2.0" />
@@ -57,7 +37,7 @@
 		<PackageReference Include="Microsoft.AspNetCore.Html.Abstractions" Version="2.2.0" />
 		<PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />
 		<PackageReference Include="Microsoft.AspNetCore.Mvc.ViewFeatures" Version="2.2.0" />
-		<PackageReference Include="System.Configuration.ConfigurationManager" Version="8.0.0-preview.6.23329.7" />
+		<PackageReference Include="System.Configuration.ConfigurationManager" Version="6.0.1" />
 		<PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
