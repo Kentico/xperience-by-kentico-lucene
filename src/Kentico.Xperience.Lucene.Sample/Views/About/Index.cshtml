@@ -1,0 +1,40 @@
+﻿@model DancingGoat.Models.AboutUsViewModel
+
+@{
+    bool DisplayInRight(int sequenceOrder)
+    {
+        return sequenceOrder % 2 != 0;
+    }
+
+    ViewBag.Title = HtmlLocalizer["About us"].Value;
+}
+
+
+<div class="about-page">
+    @for (int i = 0; i < Model.Sections.Count; i++)
+    {
+        var aboutSection = Model.Sections[i];
+        <section class="row text-and-image">
+            <h2 class="col-lg-12">@aboutSection.Heading</h2>
+
+            <div class="col-md-6 col-xl-8 @(DisplayInRight(i) ? "col-md-push-6 col-xl-push-4" : "")">
+                <div class="text-and-image-text @(DisplayInRight(i) ? "text-right" : "")">
+                    @Html.Raw(aboutSection.Text)
+                </div>
+            </div>
+            <div class="col-md-6 col-xl-4 @(DisplayInRight(i) ? "col-md-pull-6 col-xl-pull-8" : "")">
+                @if (!string.IsNullOrEmpty(aboutSection.ImagePath))
+                {
+                    <img src="@Url.Content(aboutSection.ImagePath)" alt="@aboutSection.Heading" title="@aboutSection.Heading" class="img-responsive" loading="lazy" />
+                }
+            </div>
+        </section>
+
+        if (i == 0 && Model.Reference != null)
+        {
+            <partial name="_Reference" model="Model.Reference" />
+        }
+    }
+
+    <vc:media-gallery />
+</div>

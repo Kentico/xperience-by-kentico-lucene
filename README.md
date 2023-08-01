@@ -8,6 +8,8 @@ Helps with indexing and searching data with Lucene .NET.
 
 > Current version is PRE RELEASE !!!
 
+![](./images/dancing-goat-search-results.jpg)
+
 ## Getting Started
 
 ### Prerequisites
@@ -27,7 +29,7 @@ dotnet add package Kentico.Xperience.Lucene
 ```csharp
 builder.Services.AddKentico();
 // ... other registrations
-builder.Services.AddLucene(builder.Configuration, new[]
+builder.Services.AddLucene(new[]
 {
      // use your own index definition
      new LuceneIndex(
@@ -41,6 +43,10 @@ builder.Services.AddLucene(builder.Configuration, new[]
 
 ## Usage
 
+- Review the "Search" functionality in the `src\Kentico.Xperience.Lucene.Sample` Dancing Goat project to see how to implement search.
+- Read the Lucene.NET [introduction](https://lucenenet.apache.org/) or [full documentation](https://lucenenet.apache.org/docs/4.8.0-beta00016/) to explore the core library's APIs and functionality.
+- Explore the [Lucene.NET source on GitHub](https://github.com/apache/lucenenet)
+
 ## Contributing
 
 - .NET SDK >= 7.0.109
@@ -52,7 +58,7 @@ builder.Services.AddLucene(builder.Configuration, new[]
   - <https://nodejs.org/en/download>
   - <https://github.com/coreybutler/nvm-windows>
 
-For Contributing please see [`CONTRIBUTING.md`](https://github.com/Kentico/.github/blob/main/CONTRIBUTING.md) for more information.
+For Contributing please see [`CONTRIBUTING.md`](https://github.com/Kentico/.github/blob/main/CONTRIBUTING.md) for more information and follow the [`CODE_OF_CONDUCT`](https://github.com/Kentico/.github/blob/main/CODE_OF_CONDUCT.md).
 
 ## License
 

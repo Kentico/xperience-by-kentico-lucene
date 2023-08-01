@@ -1,0 +1,51 @@
+﻿@using DancingGoat.InlineEditors
+@using DancingGoat.Widgets
+
+@model BannerWidgetModel
+
+@{
+    string styleAttribute = null;
+    if (!string.IsNullOrEmpty(Model.ImagePath))
+    {
+        styleAttribute = $"style=\"background-image: url('{Url.Content(Model.ImagePath)}');\"";
+    }
+
+    bool editMode = Context.Kentico().PageBuilder().EditMode;
+    bool displayLink = !editMode && !String.IsNullOrEmpty(Model.LinkUrl);
+}
+
+@{
+    async Task RenderBanner()
+    {
+        <section class="banner-section" @Html.Raw(styleAttribute)>
+            <h2 class="banner-heading">@HtmlLocalizer["Roasting <br /> Premium Coffee"]</h2>
+            <div class="banner-text">
+                @if (editMode)
+                {
+                    <partial name="~/Components/InlineEditors/TextEditor/_TextEditor.cshtml"
+                             model="new TextEditorViewModel
+                                    {
+                                        PropertyName = nameof(BannerWidgetProperties.Text),
+                                        Text = Model.Text,
+                                    }" />
+                }
+                else
+                {
+                    @Model.Text
+                }
+            </div>
+        </section>
+    }
+}
+
+
+@if (displayLink)
+{
+    <a title="@Model.LinkTitle" href="@Model.LinkUrl" class="banner-link">
+        @{await RenderBanner();}
+    </a>
+}
+else
+{
+    await RenderBanner();
+}

@@ -1,0 +1,37 @@
+﻿@using DancingGoat.PageTemplates
+
+@model ComponentViewModel
+
+@inject ArticlePageTemplateService Service
+
+@{
+    var templateModel = Service.GetTemplateModel();
+    ViewBag.Title = templateModel.Title;
+}
+
+<div class="article-detail-page">
+    <article class="col-lg-12 article-detail-related-box article-detail-full-width">
+        <div class="row equal-height">
+            @if (!string.IsNullOrEmpty(templateModel.TeaserPath))
+            {
+                <div class="article-detail-image col-lg-6 col-md-6">
+                    <img src="@Url.Content(templateModel.TeaserPath)" alt="@templateModel.Title" title="@templateModel.Title" class="img-responsive" loading="lazy" />
+                </div>
+                <div class="col-lg-1 col-md-1 article-title--padding">
+                </div>
+            }
+            <div class="col-lg-5 col-md-5 article-title--align-middle">
+                <h2>@templateModel.Title</h2>
+                <div class="article-detail-datetime">
+                    @templateModel.PublicationDate.ToString("D")
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="article-detail-content col-lg-9">
+                @Html.Kentico().ResolveUrls(templateModel.Text)
+            </div>
+        </div>
+    </article>
+    <div class="clear"></div>
+</div>

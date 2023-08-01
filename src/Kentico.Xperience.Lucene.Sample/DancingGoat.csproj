@@ -1,0 +1,35 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+  <PropertyGroup>
+    <RootNamespace>DancingGoat</RootNamespace>
+    <Nullable>disable</Nullable>
+    <WarningsAsErrors></WarningsAsErrors>
+    <UserSecretsId>79c858af-5444-4954-8d08-6592a961e82a</UserSecretsId>
+    <SeparatedAdmin Condition="'$(SeparatedAdmin)' == ''">false</SeparatedAdmin>
+    <NoWarn>$(NoWarn);CS1572;CS1573;S2259;S3358;S101;S3925;S4136;S1144;S4487</NoWarn>
+  </PropertyGroup>
+  <ItemGroup>
+    <None Remove="App_Data\CMSModules\WebFarm\webfarm.sync" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="assets\**">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+  </ItemGroup>
+  <!-- Exclude administration parts from the compilation in live-site only deployment  -->
+  <ItemGroup Condition="'$(SeparatedAdmin)' == 'true'">
+    <Compile Remove="AdminComponents\**" />
+  </ItemGroup>
+  <PropertyGroup Condition="'$(SeparatedAdmin)' == 'true'">
+    <DefineConstants>$(DefineConstants);SEPARATED_ADMIN</DefineConstants>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Kentico.Xperience.Lucene\Kentico.Xperience.Lucene.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="kentico.xperience.admin" Version="26.4.0" Condition="'$(SeparatedAdmin)' == 'false'" />
+    <PackageReference Include="kentico.xperience.azurestorage" Version="26.4.0" />
+    <PackageReference Include="kentico.xperience.graphql" Version="26.4.0" />
+    <PackageReference Include="kentico.xperience.imageprocessing" Version="26.4.0" />
+    <PackageReference Include="kentico.xperience.webapp" Version="26.4.0" />
+  </ItemGroup>
+</Project>

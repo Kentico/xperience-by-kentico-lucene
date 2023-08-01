@@ -5,7 +5,9 @@ VisualStudioVersion = 17.5.33516.290
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Kentico.Xperience.Lucene", "src\Kentico.Xperience.Lucene\Kentico.Xperience.Lucene.csproj", "{52F11256-9F81-4FC1-A2EF-37B113A8F242}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kentico.Xperience.Lucene.Examples", "src\Kentico.Xperience.Lucene.Examples\Kentico.Xperience.Lucene.Examples.csproj", "{61CA4DBA-2ECD-4F51-BF8A-140190070A8C}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{A94EE676-9ABE-44EA-BF9E-22004E9D54C9}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DancingGoat", "src\Kentico.Xperience.Lucene.Sample\DancingGoat.csproj", "{F1CA0C86-BC78-491F-A57A-8CF91C2B514B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,13 +19,17 @@ Global
 		{52F11256-9F81-4FC1-A2EF-37B113A8F242}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{52F11256-9F81-4FC1-A2EF-37B113A8F242}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{52F11256-9F81-4FC1-A2EF-37B113A8F242}.Release|Any CPU.Build.0 = Release|Any CPU
-		{61CA4DBA-2ECD-4F51-BF8A-140190070A8C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{61CA4DBA-2ECD-4F51-BF8A-140190070A8C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{61CA4DBA-2ECD-4F51-BF8A-140190070A8C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{61CA4DBA-2ECD-4F51-BF8A-140190070A8C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F1CA0C86-BC78-491F-A57A-8CF91C2B514B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F1CA0C86-BC78-491F-A57A-8CF91C2B514B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F1CA0C86-BC78-491F-A57A-8CF91C2B514B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F1CA0C86-BC78-491F-A57A-8CF91C2B514B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{52F11256-9F81-4FC1-A2EF-37B113A8F242} = {A94EE676-9ABE-44EA-BF9E-22004E9D54C9}
+		{F1CA0C86-BC78-491F-A57A-8CF91C2B514B} = {A94EE676-9ABE-44EA-BF9E-22004E9D54C9}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {1B2A20BC-F57B-4AAE-B1C2-E4DC52EFCAC5}

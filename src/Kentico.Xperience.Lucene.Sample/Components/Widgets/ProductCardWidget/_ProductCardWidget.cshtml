@@ -1,0 +1,32 @@
+﻿@model DancingGoat.Widgets.ProductCardListViewModel
+
+<div class="content-wrapper" style="padding: 0 2.4rem 2em 2.4rem;">
+    @if (@Model.Products.Count() == 0)
+    {
+        <h3 style="text-align: center">Please select a product.</h3>
+    }
+    else
+    {
+        <div class="row" style="display: flex; flex-wrap: wrap;">
+            @foreach (var product in Model.Products)
+            {
+                <div class="col-md-4" style="padding: 0 0.6rem;">
+                    <div class="product-card">
+                        <div style="text-align: center;">
+                            @if (!string.IsNullOrEmpty(@product.ImagePath))
+                            {
+                                <img src="@Url.Content(product.ImagePath)" alt="@product.Heading" title="@product.Heading" loading="lazy" />
+                            }
+                            <h3>@product.Heading</h3>
+
+                            @if (!string.IsNullOrEmpty(product.Text))
+                            {
+                                <p>@Html.Raw(@product.Text)</p>
+                            }
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+</div>

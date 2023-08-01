@@ -1,0 +1,21 @@
+@using DancingGoat.Helpers
+
+<div class="confirmation-page">
+    <div class="title-wrapper">
+        <h1 class="title-tab confirmation-heading"><editable-area area-identifier="area0"
+                                             area-options-allowed-widgets="AreaRestrictionHelper.GetHomePageRestrictions()"
+                                             allow-widget-output-cache="true"
+                                             widget-output-cache-expires-after="TimeSpan.FromMinutes(5)" /></h1>
+    </div>
+    <div class="center-text section-text confirmation-text">
+        <editable-area area-identifier="area1"
+                       area-options-allowed-widgets="AreaRestrictionHelper.GetHomePageRestrictions()"
+                       allow-widget-output-cache="true"
+                       widget-output-cache-expires-after="TimeSpan.FromMinutes(5)" />
+    </div>
+</div>
+
+<editable-area area-identifier="area2"
+               area-options-allowed-widgets="AreaRestrictionHelper.GetHomePageRestrictions()"
+               allow-widget-output-cache="true"
+               widget-output-cache-expires-after="TimeSpan.FromMinutes(5)" />

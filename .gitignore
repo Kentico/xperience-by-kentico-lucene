@@ -365,3 +365,8 @@ segments_2i
 
 # Generated files
 **/Client/dist/*
+
+**/CMSModules/WebFarm/*
+
+# Lucene Search
+**/App_Data/LuceneSearch/*

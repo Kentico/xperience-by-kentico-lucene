@@ -1,0 +1,64 @@
+﻿@model DancingGoat.Models.CafesIndexViewModel
+
+@{
+    ViewBag.Title = HtmlLocalizer["Cafes"].Value;
+}
+
+<div class="cafes-page">
+    <div class="row"><h2>@HtmlLocalizer["Our cafes"]</h2></div>
+    <div class="row">
+        @foreach (var cafe in Model.CompanyCafes)
+        {
+            <div class="col-md-6">
+                <div class="cafe-image-tile cursor-hand js-scroll-to-map" data-address="@cafe.Contact.City,@cafe.Contact.Street">
+                    <div class="cafe-image-tile-image-wrapper">
+                        @if (!string.IsNullOrEmpty(cafe.PhotoPath))
+                        {
+                            <img src="@Url.Content(cafe.PhotoPath)" alt="@cafe.Contact.Name"  title="@cafe.Contact.Name" class="cafe-image-tile-image" loading="lazy" />
+                        }
+                    </div>
+                    <div class="cafe-image-tile-content">
+                        <h3 class="cafe-image-tile-name">@cafe.Contact.Name</h3>
+                        <address class="cafe-tile-address">
+                            <a href="javascript:void(0)" class="cafe-tile-address-anchor">
+                                @cafe.Contact.Street, @cafe.Contact.City
+                                <br />
+                                @cafe.Contact.ZIP, @cafe.Contact.Country
+                            </a>
+                        </address>
+                        <p>@cafe.Contact.Phone</p>
+                        <p>@cafe.Note</p>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+
+    <h2>@HtmlLocalizer["Other places where you can drink our coffee"]</h2>
+    <div class="row">
+        @foreach (var city in Model.PartnerCafes.Keys)
+        {
+            var first = true;
+            foreach (var contact in Model.PartnerCafes[city])
+            {
+                if (first)
+                {
+                    var tokens = new string[] { contact.City, contact.Country };
+                    var address = String.Join(", ", tokens.Where(x => !String.IsNullOrEmpty(x)));
+                    <h3>@address</h3>
+                }
+                <p>
+                    @contact.Name, @contact.Street, @contact.Phone
+                </p>
+                first = false;
+            }
+        }
+    </div>
+
+    <h2 class="map-title">@HtmlLocalizer["Find the nearest cafe"]</h2>
+    <div class="map js-map"></div>
+
+    @section Scripts {
+        <partial name="_GoogleMaps"/>
+    }
+</div>

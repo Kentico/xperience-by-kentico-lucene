@@ -1,0 +1,43 @@
+﻿@using DancingGoat.PageTemplates
+@using DancingGoat.Widgets
+
+@model ComponentViewModel
+
+@inject ArticlePageTemplateService Service
+
+@{
+	var templateModel = Service.GetTemplateModel();
+
+	// The page's content takes 12 points of width which are divided between the sidebar and the article
+	var articleWidth = 9;
+	var sidebardBootstrapWidth = 12 - articleWidth;
+
+	ViewBag.Title = templateModel.Title;
+}
+
+<div class="article-detail-page">
+	<article class="article-detail col-lg-@articleWidth col-md-12 article-detail-related-box">
+		<h2>@templateModel.Title</h2>
+		<div class="article-detail-datetime">
+			@templateModel.PublicationDate.ToString("D")
+		</div>
+		@if (!string.IsNullOrEmpty(templateModel.TeaserPath))
+		{
+			<div class="row">
+				<div class="article-detail-image col-md-push-2 col-md-8">
+					<img src="@Url.Content(templateModel.TeaserPath)" alt="@templateModel.Title" title="@templateModel.Title" class="img-responsive" loading="lazy" />
+				</div>
+			</div>
+		}
+		<div class="row">
+			<div class="article-detail-content">
+				@Html.Kentico().ResolveUrls(templateModel.Text)
+			</div>
+		</div>
+	</article>
+	<div class="col-lg-@sidebardBootstrapWidth col-md-6 col-sm-12">
+		<editable-area area-identifier="sidebar"
+					   area-options-allowed-widgets="new[] { SystemComponentIdentifiers.RICH_TEXT_WIDGET_IDENTIFIER, ComponentIdentifiers.CTA_BUTTON_WIDGET, CafeCardWidgetViewComponent.IDENTIFIER }" />
+	</div>
+	<div class="clear"></div>
+</div>

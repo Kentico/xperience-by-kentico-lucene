@@ -1,0 +1,49 @@
+﻿.media-gallery {
+    margin-top: 2.5rem;
+
+    .cafe-overlay {
+        background-color: rgba(0, 0, 0, 0.4);
+        display: block;
+        height: 100%;
+        position: absolute;
+        width: 100%;
+        z-index: 10;
+
+        .ourcoffee-tile-text {
+            font-size: 1.375rem;
+            font-weight: 700;
+            position: absolute;
+            top: 50%;
+        }
+    }
+
+    .media-item {
+        span {
+            visibility: hidden;
+        }
+
+        &:hover {
+            span {
+                visibility: visible;
+            }
+        }
+
+        &.col-lg-6 {
+            margin-top: -1px;
+        }
+    }
+
+    .ratio-4-3 {
+        width: 100%;
+        position: relative;
+        background: url() 50% 50% no-repeat;
+        background-size: cover;
+        background-clip: content-box;
+
+        &:before {
+            display: block;
+            content: "";
+            padding-top: 75%;
+        }
+    }
+}

@@ -49,6 +49,13 @@
       "problemMatcher": [],
       "label": "npm: start - src/Kentico.Xperience.Lucene/Admin/Client",
       "detail": "webpack serve --mode development"
+    },
+    {
+      "type": "dotnet",
+      "task": "watch DancingGoat",
+      "file": "d:\\dev\\kentico\\community\\xperience-by-kentico-lucene\\src\\Kentico.Xperience.Lucene.Sample\\DancingGoat.csproj",
+      "problemMatcher": ["$msCompile"],
+      "label": "dotnet: watch DancingGoat"
     }
   ]
 }

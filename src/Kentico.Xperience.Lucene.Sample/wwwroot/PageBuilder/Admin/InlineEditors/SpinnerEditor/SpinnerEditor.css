@@ -1,0 +1,72 @@
+.spinner-editor div.inline-editor-btn-group {
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 16px;
+    right: 1em;
+    top: 1em;
+    position: absolute;
+    z-index: 10000;
+    background-color: #262524;
+    border: 1px solid #383838;
+    border-radius: 2px;
+    opacity: 0.8;
+    -webkit-transition: background-color .2s ease-in;
+    transition: background-color .2s ease-in;
+}
+
+.spinner-editor div.inline-editor-btn-group:hover {
+    opacity: 1.0;
+}
+
+.spinner-editor div.inline-editor-btn-group ul {
+    margin: 0;
+    padding: 0;
+}
+
+.spinner-editor div.inline-editor-btn-group li {
+    float: left;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.spinner-editor div.inline-editor-btn-group li:first-child button {
+    border-bottom-left-radius: 2px;
+    border-top-left-radius: 2px;
+}
+
+.spinner-editor div.inline-editor-btn-group li:last-child button {
+    border-bottom-right-radius: 2px;
+    border-top-right-radius: 2px;
+}
+
+.spinner-editor div.inline-editor-btn-group li button {
+    box-sizing: border-box;
+    cursor: pointer;
+    display: block;
+    font-size: 14px;
+    line-height: 1.33;
+    margin: 0;
+    padding: 15px;
+    text-decoration: none;
+    background-color: #262524;
+    border: 0;
+    color: #fff;
+    height: 50px;
+    min-width: 50px;
+    -webkit-transition: background-color .2s ease-in;
+    transition: background-color .2s ease-in;
+}
+
+.spinner-editor div.inline-editor-btn-group li button:hover {
+    background-color: #383838;
+}
+
+.spinner-editor div.inline-editor-btn-group li button:disabled {
+    background-color: #000;
+    color: #fff;
+    cursor: default;
+}
+
+.spinner-editor div.inline-editor-btn-group li button:focus {
+    outline: none;
+}

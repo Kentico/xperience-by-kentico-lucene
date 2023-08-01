@@ -1,0 +1,89 @@
+﻿@using System.Linq;
+
+@using DancingGoat.Helpers
+@using DancingGoat.Widgets
+
+@using CMS.DocumentEngine.Types.DancingGoatCore
+
+@using Kentico.PageBuilder.Web.Mvc
+
+@{
+    ViewData["Title"] = HtmlLocalizer["Home"];
+    var cacheEnabled = !Context.Kentico().Preview().Enabled;
+}
+
+<editable-area area-identifier="area0"
+               area-options-allowed-widgets="AreaRestrictionHelper.GetHomePageRestrictions()"
+               allow-widget-output-cache="true"
+               widget-output-cache-expires-after="TimeSpan.FromMinutes(5)" />
+
+@if (Model.Event != null)
+{
+    <partial name="_Event" model="Model.Event" />
+}
+
+
+<editable-area area-identifier="area1"
+               area-options-allowed-widgets="AreaRestrictionHelper.GetHomePageRestrictions()"
+               allow-widget-output-cache="true"
+               widget-output-cache-expires-after="TimeSpan.FromMinutes(5)" />
+
+<cache enabled="cacheEnabled" expires-after="TimeSpan.FromMinutes(5)" vary-by-culture="true">
+    @foreach (var homeSection in Model.HomeSections)
+    {
+        <div class="row ourstory-section">
+            <div class="title-wrapper">
+                <h1 class="title-tab">@homeSection.Heading</h1>
+            </div>
+            <div class="col-sm-12">
+                <div class="center-text section-text">
+                    @Html.Raw(homeSection.Text)
+                </div>
+            </div>
+
+            @{
+                var text = homeSection.MoreButtonText;
+
+                if ((!string.IsNullOrEmpty(text)))
+                {
+                    <div class="row">
+                        <div class="clear center-text">
+                            <a href="~/about-us" class="btn btn-more">
+                                @text
+                            </a>
+                        </div>
+                    </div>
+                }
+            }
+        </div>
+    }
+    @{
+        var cacheDependencyKeys = new[] { $"nodes|dancinggoatcore|{Home.CLASS_NAME}|all", $"nodes|dancinggoatcore|{HomeSection.CLASS_NAME}|all" };
+    }
+    <cache-dependency enabled="cacheEnabled" cache-keys="cacheDependencyKeys" />
+</cache>
+
+@if (Model.Reference != null)
+{
+    <partial name="_Reference" model="Model.Reference" />
+}
+
+<div class="home-bottom-bg">
+    <div class="about-section">
+        <editable-area area-identifier="area2"
+                        area-options-default-section-identifier="@ComponentIdentifiers.TWO_COLUMN_SECTION"
+                        area-options-allowed-sections="AllowedComponents.NONE"
+                        area-options-allowed-widgets="new[] { SystemComponentIdentifiers.RICH_TEXT_WIDGET_IDENTIFIER }" />
+    </div>
+
+    <div class="row cafe-cards">
+        <div class="title-wrapper">
+            <h1 class="title-tab">@HtmlLocalizer["Taste our coffee"]</h1>
+        </div>
+
+        <editable-area area-identifier="area3"
+                        area-options-default-section-identifier="@ComponentIdentifiers.THREE_COLUMN_SECTION"
+                        area-options-allowed-sections="new [] { ComponentIdentifiers.SINGLE_COLUMN_SECTION, ComponentIdentifiers.THREE_COLUMN_SECTION }"
+                        area-options-allowed-widgets="new[] { CafeCardWidgetViewComponent.IDENTIFIER, ComponentIdentifiers.CTA_BUTTON_WIDGET }" />
+    </div>
+</div>

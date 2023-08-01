@@ -1,0 +1,124 @@
+﻿@using Kentico.Forms.Web.Mvc.Widgets
+@using Kentico.Xperience.Admin.Base.Forms
+@using Microsoft.AspNetCore.Mvc.Localization
+
+@using Kentico.Activities.Web.Mvc
+@using Kentico.OnlineMarketing.Web.Mvc
+
+@using DancingGoat.Helpers
+@using DancingGoat.Widgets
+
+@inject IHtmlLocalizer<SharedResources> HtmlLocalizer
+
+@{
+    var subscriptionformWidgetProperties = new FormWidgetProperties()
+        {
+                SelectedForm = new List<ObjectRelatedItem>() { new ObjectRelatedItem { ObjectCodeName = "DancingGoatSubscription" } }
+        };
+}
+
+<!DOCTYPE html>
+
+<html>
+<head id="head">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta charset="UTF-8" />
+    <link rel="icon" href="~/content/images/favicon.svg" type="image/svg+xml" />
+    <link href="~/Content/Styles/Site.css" rel="stylesheet" type="text/css" />
+    <title>@ViewBag.Title - Dancing Goat</title>
+    @RenderSection("styles", required: false)
+    @Html.Kentico().ActivityLoggingAPI()
+    @Html.Kentico().ActivityLoggingScript()
+
+    <page-builder-styles />
+</head>
+<body class="@ViewData["PageClass"]">
+    <div class="page-wrap">
+        <vc:tracking-consent />
+        <header>
+            <nav class="navigation">
+                <div class="nav-logo">
+                    <div class="logo-wrapper">
+                        <a href="@Url.Kentico().PageUrl(ContentItemIdentifiers.HOME)" class="logo-link">
+                            <img class="logo-image" alt="Dancing Goat" src="~/Content/Images/logo.svg" loading="lazy" />
+                        </a>
+                    </div>
+                </div>
+                <vc:navigation-menu />
+                <ul class="additional-menu">
+                    <li class="dropdown">
+                        <a title="User" class="dropbtn">
+                            @if (User.Identity.IsAuthenticated)
+                            {
+                                <img src="~/Content/Images/default-avatar.png" class="dropdown-desktop-avatar" alt="avatar" />
+                            }
+                            else
+                            {
+                                <svg width="21" height="20" viewBox="0 0 21 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd" clip-rule="evenodd" d="M5.44934 14H15.4493C18.2108 14 20.4493 16.2386 20.4493 19C20.4493 19.5523 20.0016 20 19.4493 20C18.9365 20 18.5138 19.614 18.4561 19.1166L18.4442 18.8237C18.3564 17.3072 17.1421 16.093 15.6256 16.0051L15.4493 16H5.44934C3.79249 16 2.44934 17.3431 2.44934 19C2.44934 19.5523 2.00163 20 1.44934 20C0.897056 20 0.449341 19.5523 0.449341 19C0.449341 16.3112 2.57165 14.1182 5.23245 14.0046L5.44934 14H15.4493H5.44934ZM10.4493 0C13.763 0 16.4493 2.68629 16.4493 6C16.4493 9.31371 13.763 12 10.4493 12C7.13563 12 4.44934 9.31371 4.44934 6C4.44934 2.68629 7.13563 0 10.4493 0ZM10.4493 2C8.2402 2 6.44934 3.79086 6.44934 6C6.44934 8.20914 8.2402 10 10.4493 10C12.6585 10 14.4493 8.20914 14.4493 6C14.4493 3.79086 12.6585 2 10.4493 2Z" fill="currentColor" />
+                                </svg>
+                            }
+                        </a>
+                        <div class="dropdown-content">
+                            @if (User.Identity.IsAuthenticated)
+                            {
+                                <form method="post" asp-controller="Account" asp-action="Logout">
+                                    <input type="submit" value="@HtmlLocalizer["Sign out"]" class="sign-out-button" />
+                                </form>
+                            }
+                            else
+                            {
+                                <a asp-controller="Account" asp-action="Register">@HtmlLocalizer["Register"]</a>
+                                <a asp-controller="Account" asp-action="Login">@HtmlLocalizer["Sign in"]</a>
+                            }
+                        </div>
+                    </li>
+                    <li class="nav-toggle">
+                        <div class="nav-toggle-inner">
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </div>
+                    </li>
+                </ul>
+            </nav>
+        </header>
+        <div class="container">
+            <div class="page-container-inner">
+                @RenderBody()
+
+                <div class="clear"></div>
+            </div>
+        </div>
+    </div>
+    <div class="footer-wrapper">
+        <footer>
+            <div class="footer-container">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-xs-12 col-md-8 col-lg-7 footer-col">
+                            <h5 class="contact-title">@HtmlLocalizer["Contact"]</h5>
+                            <vc:company-address />
+                            <vc:social-links />
+                        </div>
+                        <div class="col-xs-12 col-md-4 col-lg-5 footer-col">
+                            <h5>@HtmlLocalizer["News & Updates"]</h5>
+                            <div class="subscription-form">
+                                @await Html.Kentico().RenderStandaloneWidgetAsync(SystemComponentIdentifiers.FORM_WIDGET_IDENTIFIER, subscriptionformWidgetProperties)
+                            </div>
+                            <div class="copyright">Copyright &copy; @DateTime.Now.Year Dancing Goat. All rights reserved.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <script src="~/Scripts/jquery-3.5.1.min.js"></script>
+    <script src="~/Scripts/mobileMenu.js"></script>
+    <page-builder-scripts />
+
+    @RenderSection("scripts", required: false)
+
+</body>
+</html>
