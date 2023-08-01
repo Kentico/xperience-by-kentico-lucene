@@ -362,3 +362,6 @@ healthchecksdb
 *.del
 *.cfs
 segments_2i
+
+# Generated files
+**/Client/dist/*
