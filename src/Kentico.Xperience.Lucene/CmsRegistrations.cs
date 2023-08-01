@@ -10,8 +10,6 @@ using Kentico.Xperience.Lucene.Admin;
 using Kentico.Xperience.Lucene.Services;
 using Kentico.Xperience.Lucene.Services.Implementations;
 
-[assembly: AssemblyDiscoverable]
-
 // Allows the Lucene test project to read internal members
 [assembly: InternalsVisibleTo("Kentico.Xperience.Lucene.Tests")]
 

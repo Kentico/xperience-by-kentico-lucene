@@ -64,15 +64,16 @@ internal class DefaultLuceneClient : ILuceneClient
 
 
     /// <inheritdoc/>
-    public async Task<ICollection<LuceneIndexStatisticsViewModel>> GetStatistics(CancellationToken cancellationToken) => IndexStore.Instance.GetAllIndexes().Select(i =>
-                                                                                                                                  {
-                                                                                                                                      var statistics = luceneIndexService.UseSearcher(i, s => new LuceneIndexStatisticsViewModel()
-                                                                                                                                      {
-                                                                                                                                          Name = i.IndexName,
-                                                                                                                                          Entries = s.IndexReader.NumDocs,
-                                                                                                                                      });
-                                                                                                                                      return statistics;
-                                                                                                                                  }).ToList();
+    public async Task<ICollection<LuceneIndexStatisticsViewModel>> GetStatistics(CancellationToken cancellationToken) =>
+        IndexStore.Instance.GetAllIndexes().Select(i =>
+        {
+            var statistics = luceneIndexService.UseSearcher(i, s => new LuceneIndexStatisticsViewModel()
+            {
+                Name = i.IndexName,
+                Entries = s.IndexReader.NumDocs,
+            });
+            return statistics;
+        }).ToList();
 
 
     /// <inheritdoc />

@@ -17,7 +17,7 @@ public class KBankNewsLuceneIndexingStrategy : DefaultLuceneIndexingStrategy
         object? result = foundValue;
         if (propertyName == nameof(KBankNewsSearchModel.AllContent))
         {
-            var htmlSanitizer = Service.Resolve<HtmlSanitizer>();
+            var htmlSanitizer = Service.Resolve<WebScraperHtmlSanitizer>();
             result = string.Join(" ", contentFields
                 .Select(f => node.GetStringValue(f, ""))
                 .Select(s => htmlSanitizer.SanitizeHtmlFragment(s))

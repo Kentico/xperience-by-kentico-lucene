@@ -1,12 +1,17 @@
 ﻿using AngleSharp.Dom;
 using AngleSharp.Html.Parser;
+using CMS;
+using CMS.Core;
 using CMS.Helpers;
+using Kentico.Xperience.Lucene.Examples.Utils;
+
+[assembly: RegisterImplementation(typeof(WebScraperHtmlSanitizer), typeof(WebScraperHtmlSanitizer), Lifestyle = Lifestyle.Singleton, Priority = RegistrationPriority.SystemDefault)]
 
 namespace Kentico.Xperience.Lucene.Examples.Utils;
 
-public class HtmlSanitizer
+public class WebScraperHtmlSanitizer
 {
-    public static string SanitizeHtmlFragment(string htmlContent)
+    public virtual string SanitizeHtmlFragment(string htmlContent)
     {
 
         var parser = new HtmlParser();
