@@ -34,7 +34,7 @@ public class LuceneSearchModel
 
 
     /// <summary>
-    /// The absolute live site URL of the indexed page.
+    /// The relative live site URL of the indexed page.
     /// </summary>
     [StringField(true)]
     public string? Url

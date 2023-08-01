@@ -9,14 +9,14 @@ namespace Kentico.Xperience.Lucene.Services.Implementations;
 
 public class DefaultLuceneIndexService : ILuceneIndexService
 {
-    private const LuceneVersion luceneVersion = LuceneVersion.LUCENE_48;
+    private const LuceneVersion LUCENE_VERSION = LuceneVersion.LUCENE_48;
 
     public TResult UseWriter<TResult>(LuceneIndex index, Func<IndexWriter, TResult> useIndexWriter)
     {
         using LuceneDirectory indexDir = FSDirectory.Open(index.IndexPath);
 
         //Create an index writer
-        var indexConfig = new IndexWriterConfig(luceneVersion, index.Analyzer)
+        var indexConfig = new IndexWriterConfig(LUCENE_VERSION, index.Analyzer)
         {
             OpenMode = OpenMode.CREATE_OR_APPEND                             // create/overwrite index
         };

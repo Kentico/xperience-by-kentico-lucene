@@ -2,7 +2,8 @@
 
 public class LuceneSearchResultModel<T>
 {
-    public IEnumerable<T>? Hits { get; set; }
+    public string Query { get; set; } = "";
+    public IEnumerable<T> Hits { get; set; } = new List<T>();
     public int TotalHits { get; set; }
     public int TotalPages { get; set; }
     public int PageSize { get; set; }

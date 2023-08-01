@@ -18,6 +18,7 @@ internal class DefaultLuceneModelGenerator : ILuceneModelGenerator
 {
     private readonly IConversionService conversionService;
     private readonly IEventLogService eventLogService;
+    private readonly IPageUrlRetriever urlRetriever;
     private readonly IMediaFileInfoProvider mediaFileInfoProvider;
     private readonly IMediaFileUrlRetriever mediaFileUrlRetriever;
     private readonly Dictionary<string, string[]> cachedIndexedColumns = new();
@@ -32,11 +33,13 @@ internal class DefaultLuceneModelGenerator : ILuceneModelGenerator
     /// </summary>
     public DefaultLuceneModelGenerator(IConversionService conversionService,
         IEventLogService eventLogService,
+        IPageUrlRetriever urlRetriever,
         IMediaFileInfoProvider mediaFileInfoProvider,
         IMediaFileUrlRetriever mediaFileUrlRetriever)
     {
         this.conversionService = conversionService;
         this.eventLogService = eventLogService;
+        this.urlRetriever = urlRetriever;
         this.mediaFileInfoProvider = mediaFileInfoProvider;
         this.mediaFileUrlRetriever = mediaFileUrlRetriever;
     }
@@ -248,7 +251,7 @@ internal class DefaultLuceneModelGenerator : ILuceneModelGenerator
     /// </summary>
     /// <param name="node">The <see cref="TreeNode"/> to load values from.</param>
     /// <param name="data">The data object based on <see cref="LuceneSearchModel"/>.</param>
-    private static void MapCommonProperties(TreeNode node, LuceneSearchModel data)
+    private void MapCommonProperties(TreeNode node, LuceneSearchModel data)
     {
         data.ObjectID = node.DocumentID.ToString();
         data.ClassName = node.ClassName;
@@ -256,11 +259,11 @@ internal class DefaultLuceneModelGenerator : ILuceneModelGenerator
         string url;
         try
         {
-            url = DocumentURLProvider.GetAbsoluteUrl(node);
+            url = urlRetriever.Retrieve(node).RelativePath;
         }
         catch (Exception)
         {
-            // GetAbsoluteUrl can throw an exception when processing a page update LuceneQueueItem
+            // Retrieve can throw an exception when processing a page update LuceneQueueItem
             // and the page was deleted before the update task has processed. In this case, upsert an
             // empty URL
             url = string.Empty;
