@@ -1,21 +1,20 @@
-﻿namespace Kentico.Xperience.Lucene.Models
+﻿namespace Kentico.Xperience.Lucene.Models;
+
+public class LuceneIndexStatisticsViewModel
 {
-    public class LuceneIndexStatisticsViewModel
-    {
-        //
-        // Summary:
-        //     Index name.
-        public string? Name { get; set; }
+    //
+    // Summary:
+    //     Index name.
+    public string? Name { get; set; }
 
-        //
-        // Summary:
-        //     Date of last update.
-        public DateTime UpdatedAt { get; set; }
+    //
+    // Summary:
+    //     Date of last update.
+    public DateTime UpdatedAt { get; set; }
 
-        //
-        // Summary:
-        //     Number of records contained in the index
-        public int Entries { get; set; }
+    //
+    // Summary:
+    //     Number of records contained in the index
+    public int Entries { get; set; }
 
-    }
 }
