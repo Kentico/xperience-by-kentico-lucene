@@ -6,7 +6,8 @@
     "davidanson.vscode-markdownlint",
     "tintoy.msbuild-project-tools",
     "esbenp.prettier-vscode",
-    "dotjoshjohnson.xml"
+    "dotjoshjohnson.xml",
+    "dbaeumer.vscode-eslint"
   ],
   "unwantedRecommendations": []
 }
