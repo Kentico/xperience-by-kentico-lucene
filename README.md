@@ -2,14 +2,17 @@
 
 [![CI: Build and Test](https://github.com/Kentico/xperience-by-kentico-lucene/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/Kentico/xperience-by-kentico-lucene/actions/workflows/ci.yml)
 
+[![NuGet Package](https://img.shields.io/nuget/v/Kentico.Xperience.Lucene.svg)](https://www.nuget.org/packages/Kentico.Xperience.Lucene)
+
 ## About The Project
 
-Helps with indexing and searching data with Lucene .NET.
+Xperience by Kentico search integration with the latest 4.8 beta version of [Lucene.NET](https://github.com/apache/lucenenet),
+enabling auto-indexing of content in Xperience based on application-local, code-defined search indexes and search results retrieval.
 
 > Current version is PRE RELEASE !!!
 
-![Example search results](./images/dancing-goat-search-results.jpg)
-![Example Xperience admin index viwe](./images/dancing-goat-lucene-index-admin.jpg)
+![Example search results](https://raw.githubusercontent.com/Kentico/xperience-by-kentico-lucene/main/images/dancing-goat-search-results.jpg)
+![Example Xperience admin index viwe](https://raw.githubusercontent.com/Kentico/xperience-by-kentico-lucene/main/images/dancing-goat-lucene-index-admin.jpg)
 
 ## Getting Started
 
