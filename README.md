@@ -8,7 +8,8 @@ Helps with indexing and searching data with Lucene .NET.
 
 > Current version is PRE RELEASE !!!
 
-![](./images/dancing-goat-search-results.jpg)
+![Example search results](./images/dancing-goat-search-results.jpg)
+![Example Xperience admin index viwe](./images/dancing-goat-lucene-index-admin.jpg)
 
 ## Getting Started
 
@@ -24,22 +25,30 @@ Add the package to your application using the .NET CLI
 dotnet add package Kentico.Xperience.Lucene
 ```
 
-### Add to your application dependencies
+### Setup
 
-```csharp
-builder.Services.AddKentico();
-// ... other registrations
-builder.Services.AddLucene(new[]
-{
-     // use your own index definition
-     new LuceneIndex(
-        typeof(KBankNewsSearchModel),
-        new StandardAnalyzer(Lucene.Net.Util.LuceneVersion.LUCENE_48),
-        KBankNewsSearchModel.IndexName,
-        luceneIndexingStrategy: new KBankNewsLuceneIndexingStrategy()
-     )
-});
-```
+1. Define a custom (or multiple) `LuceneSearchModel` implementation to represent the content you want index.
+1. Define a custom `DefaultLuceneIndexingStrategy` implementation to customize how page content/fields are processed for the index.
+1. Add this library to the application services, registering your custom `LuceneSearchModel`.
+
+   ```csharp
+   builder.Services.AddKentico();
+   // ... other registrations
+   builder.Services.AddLucene(new[]
+   {
+       new LuceneIndex(
+           typeof(MySearchModel),
+           new StandardAnalyzer(Lucene.Net.Util.LuceneVersion.LUCENE_48),
+           MySearchModel.IndexName,
+           indexPath: null,
+           new MyCustomIndexingStrategy()),
+   });
+   ```
+
+1. Rebuild the index in Xperience's Administration within the Lucene application added by this library.
+1. Use the `ILuceneIndexService` (via DI) to retrieve the index populated by your custom `LuceneSearchModel`.
+1. Execute a search with a customized Lucene `Query` (like the `MatchAllDocsQuery`) using the ILuceneIndexService.
+1. Return or display the results on your site 👍.
 
 ## Usage
 
