@@ -134,6 +134,7 @@ internal class DefaultLuceneClient : ILuceneClient
     {
         // Clear statistics cache so listing displays updated data after rebuild
         cacheAccessor.Remove(CACHEKEY_STATISTICS);
+        luceneIndexService.ResetIndex(luceneIndex);
 
         var indexedNodes = new List<TreeNode>();
         foreach (var includedPathAttribute in luceneIndex.IncludedPaths)
