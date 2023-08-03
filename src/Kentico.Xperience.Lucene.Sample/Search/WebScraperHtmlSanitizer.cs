@@ -69,6 +69,18 @@ public class WebScraperHtmlSanitizer
                 element.Remove();
             }
 
+            // Removes header
+            foreach (var element in body.QuerySelectorAll("header"))
+            {
+                element.Remove();
+            }
+
+            // Removes footer
+            foreach (var element in body.QuerySelectorAll(".footer-wrapper"))
+            {
+                element.Remove();
+            }
+
             // Gets the text content of the body element
             string textContent = body.TextContent;
 
