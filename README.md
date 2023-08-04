@@ -59,6 +59,19 @@ dotnet add package Kentico.Xperience.Lucene
 - Read the Lucene.NET [introduction](https://lucenenet.apache.org/) or [full documentation](https://lucenenet.apache.org/docs/4.8.0-beta00016/) to explore the core library's APIs and functionality.
 - Explore the [Lucene.NET source on GitHub](https://github.com/apache/lucenenet)
 
+## Sample features
+
+### Trigger rebuild of index via webhook
+Rebuild of index could be triggered by calling `POST` on webhook `/search/rebuild` with body
+```json
+{ 
+    "indexName": "...",
+    "secret": "..."
+}
+```
+
+This could be used to trigger regular reindexing of content via CRON, Windows Task Scheduler or any other external scheduler.
+
 ## Contributing
 
 - .NET SDK >= 7.0.109

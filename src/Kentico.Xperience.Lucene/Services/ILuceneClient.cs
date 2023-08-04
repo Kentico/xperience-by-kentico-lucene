@@ -55,5 +55,5 @@ public interface ILuceneClient
     /// <exception cref="ArgumentNullException" />
     /// <exception cref="OperationCanceledException" />
     /// <exception cref="ObjectDisposedException" />
-    Task Rebuild(string indexName, CancellationToken cancellationToken);
+    Task Rebuild(string indexName, CancellationToken? cancellationToken);
 }
