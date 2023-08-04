@@ -17,17 +17,14 @@ public class DefaultLuceneIndexService : ILuceneIndexService
         //Create an index writer
         var indexConfig = new IndexWriterConfig(LUCENE_VERSION, index.Analyzer)
         {
-            OpenMode = OpenMode.CREATE_OR_APPEND                             // create/overwrite index
+            OpenMode = openMode                             // create/overwrite index
         };
         using var writer = new IndexWriter(indexDir, indexConfig);
 
         return useIndexWriter(writer);
     }
 
-    public void ResetIndex(LuceneIndex index) => UseWriter(index, (IndexWriter writer) => {
-        writer.DeleteAll();
-        return true;
-    }, OpenMode.CREATE);
+    public void ResetIndex(LuceneIndex index) => UseWriter(index, (IndexWriter writer) => true, OpenMode.CREATE);
 
     public TResult UseSearcher<TResult>(LuceneIndex index, Func<IndexSearcher, TResult> useIndexSearcher)
     {
