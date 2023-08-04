@@ -77,7 +77,7 @@ internal class DefaultLuceneClient : ILuceneClient
 
 
     /// <inheritdoc />
-    public Task Rebuild(string indexName, CancellationToken cancellationToken)
+    public Task Rebuild(string indexName, CancellationToken? cancellationToken)
     {
         if (string.IsNullOrEmpty(indexName))
         {
@@ -130,7 +130,7 @@ internal class DefaultLuceneClient : ILuceneClient
     }
 
 
-    private async Task RebuildInternal(LuceneIndex luceneIndex, CancellationToken cancellationToken)
+    private async Task RebuildInternal(LuceneIndex luceneIndex, CancellationToken? cancellationToken)
     {
         // Clear statistics cache so listing displays updated data after rebuild
         cacheAccessor.Remove(CACHEKEY_STATISTICS);
