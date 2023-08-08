@@ -5,7 +5,8 @@
 
 @{
     Dictionary<string, string> GetRouteData(int page) =>
-        new Dictionary<string, string>() { { "searchText", Model.Query }, { "page", page.ToString() } };
+    new Dictionary<string, string>
+        () { { "query", Model.Query }, { "pageSize", Model.PageSize.ToString() }, { "page", page.ToString() } };
 }
 
 <h1>Search</h1>
@@ -24,9 +25,9 @@
                     <div class="form-field">
                         <label class="control-label" asp-for="@Model.Query"></label>
                         <div class="editing-form-control-nested-control">
-                            <input class="form-control" asp-for="@Model.Query">
-                            <input type="hidden" asp-for="@Model.Page" />
-                            <input type="hidden" asp-for="@Model.PageSize" />
+                            <input class="form-control" asp-for="@Model.Query" name="query">
+                            <input type="hidden" asp-for="@Model.PageSize" name="pageSize" />
+                            <input type="hidden" asp-for="@Model.Page" name="page" />
                         </div>
                     </div>
                 </div>
@@ -64,7 +65,7 @@
         @if (Model.Page > 1)
         {
             <li class="PagedList-skipToPrevious">
-                <a asp-controller="Search" asp-all-route-data="GetRouteData(Model.Page - 1)">
+                <a asp-controller="CrawlerSearch" asp-all-route-data="GetRouteData(Model.Page - 1)">
                     @HtmlLocalizer["previous"]
                 </a>
             </li>
@@ -83,7 +84,7 @@
             else
             {
                 <li>
-                    <a asp-controller="Search" asp-all-route-data="GetRouteData(pageNumber)">@pageNumber</a>
+                    <a asp-controller="CrawlerSearch" asp-all-route-data="GetRouteData(pageNumber)">@pageNumber</a>
                 </li>
             }
         }
@@ -91,7 +92,7 @@
         @if (Model.Page < Model.TotalPages)
         {
             <li class="PagedList-skipToNext">
-                <a asp-controller="Search" asp-all-route-data="GetRouteData(Model.Page + 1)">
+                <a asp-controller="CrawlerSearch" asp-all-route-data="GetRouteData(Model.Page + 1)">
                     @HtmlLocalizer["next"]
                 </a>
             </li>
