@@ -129,6 +129,9 @@
   <data name="integrations.lucene.content.columns.facetable" xml:space="preserve">
     <value>Facetable</value>
   </data>
+  <data name="integrations.lucene.content.columns.fieldType" xml:space="preserve">
+    <value>Field type</value>
+  </data>
   <data name="integrations.lucene.content.columns.pagetypes" xml:space="preserve">
     <value>Content types</value>
   </data>
@@ -147,8 +150,29 @@
   <data name="integrations.lucene.content.columns.source" xml:space="preserve">
     <value>Source</value>
   </data>
+  <data name="integrations.lucene.content.columns.stored" xml:space="preserve">
+    <value>Stored</value>
+  </data>
   <data name="integrations.lucene.content.columns.url" xml:space="preserve">
     <value>URL</value>
+  </data>
+  <data name="integrations.lucene.content.fieldType.double" xml:space="preserve">
+    <value>Double</value>
+  </data>
+  <data name="integrations.lucene.content.fieldType.int32" xml:space="preserve">
+    <value>Int32</value>
+  </data>
+  <data name="integrations.lucene.content.fieldType.int64" xml:space="preserve">
+    <value>Int64</value>
+  </data>
+  <data name="integrations.lucene.content.fieldType.single" xml:space="preserve">
+    <value>Single</value>
+  </data>
+  <data name="integrations.lucene.content.fieldType.string" xml:space="preserve">
+    <value>String</value>
+  </data>
+  <data name="integrations.lucene.content.fieldType.text" xml:space="preserve">
+    <value>Text (tokenized string)</value>
   </data>
   <data name="integrations.lucene.content.multipletypes" xml:space="preserve">
     <value>{0} content types</value>

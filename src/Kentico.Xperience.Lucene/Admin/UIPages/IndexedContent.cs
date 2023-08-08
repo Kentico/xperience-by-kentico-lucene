@@ -111,14 +111,13 @@ internal class IndexedContent : Page<IndexedContentPageClientProperties>
         };
 
 
-    private static Row GetProperty(PropertyInfo property)
+    private Row GetProperty(PropertyInfo property)
     {
-        //var isSearchable = Attribute.IsDefined(property, typeof(SearchableAttribute));
-        //var isRetrievable = Attribute.IsDefined(property, typeof(RetrievableAttribute));
         //var isFacetable = Attribute.IsDefined(property, typeof(FacetableAttribute));
-        // TODO: read from attributes
-        bool isSearchable = false;
-        bool isRetrievable = false;
+        var fieldAttribute = property.GetCustomAttributes<BaseFieldAttribute>(false).FirstOrDefault();
+        bool isSearchable = fieldAttribute != null;
+        string fieldType = fieldAttribute != null ? GetFieldType(fieldAttribute) : "-";
+        bool isStored = fieldAttribute?.Store ?? false;
         bool hasSources = Attribute.IsDefined(property, typeof(SourceAttribute));
         bool hasUrls = Attribute.IsDefined(property, typeof(MediaUrlsAttribute));
         return new Row
@@ -142,9 +141,13 @@ internal class IndexedContent : Page<IndexedContentPageClientProperties>
                     Name = NamedComponentCellComponentNames.SIMPLE_STATUS_COMPONENT,
                     ComponentProps = new SimpleStatusNamedComponentCellProps
                     {
-                        IconName = GetIconName(isRetrievable),
-                        IconColor = GetIconColor(isRetrievable)
+                        IconName = GetIconName(isStored),
+                        IconColor = GetIconColor(isStored)
                     }
+                },
+                new StringCell
+                {
+                    Value= fieldType,
                 },
                 //new NamedComponentCell
                 //{
@@ -177,6 +180,37 @@ internal class IndexedContent : Page<IndexedContentPageClientProperties>
         };
     }
 
+    private string GetFieldType(BaseFieldAttribute attribute)
+    {
+        if (attribute is TextFieldAttribute)
+        {
+            return LocalizationService.GetString("integrations.lucene.content.fieldType.text");
+        }
+        else if (attribute is StringFieldAttribute)
+        {
+            return LocalizationService.GetString("integrations.lucene.content.fieldType.string");
+        }
+        else if (attribute is Int32FieldAttribute)
+        {
+            return LocalizationService.GetString("integrations.lucene.content.fieldType.int32");
+        }
+        else if (attribute is Int64FieldAttribute)
+        {
+            return LocalizationService.GetString("integrations.lucene.content.fieldType.int64");
+        }
+        else if (attribute is SingleFieldAttribute)
+        {
+            return LocalizationService.GetString("integrations.lucene.content.fieldType.single");
+        }
+        else if (attribute is DoubleFieldAttribute)
+        {
+            return LocalizationService.GetString("integrations.lucene.content.fieldType.double");
+        }
+        else
+        {
+            return "-";
+        }
+    }
 
     private Column[] GetPropertyColumns() => new Column[] {
             new Column
@@ -191,7 +225,12 @@ internal class IndexedContent : Page<IndexedContentPageClientProperties>
             },
             new Column
             {
-                Caption = LocalizationService.GetString("integrations.lucene.content.columns.retrievable"),
+                Caption = LocalizationService.GetString("integrations.lucene.content.columns.stored"),
+                ContentType = ColumnContentType.Component
+            },
+            new Column
+            {
+                Caption = LocalizationService.GetString("integrations.lucene.content.columns.fieldType"),
                 ContentType = ColumnContentType.Component
             },
             //new Column
