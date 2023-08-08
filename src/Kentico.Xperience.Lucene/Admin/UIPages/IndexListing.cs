@@ -69,9 +69,9 @@ internal class IndexListing : ListingPageBase<ListingConfiguration>
 
         PageConfiguration.ColumnConfigurations
             .AddColumn(nameof(LuceneIndexStatisticsViewModel.Name), LocalizationService.GetString("integrations.lucene.listing.columns.name"), defaultSortDirection: SortTypeEnum.Asc, searchable: true)
-            .AddColumn(nameof(LuceneIndexStatisticsViewModel.Entries), LocalizationService.GetString("integrations.lucene.listing.columns.entries"))
-            //.AddColumn(nameof(LuceneIndexStatisticsViewModel.LastBuildTimes), LocalizationService.GetString("integrations.lucene.listing.columns.buildtime"))
-            .AddColumn(nameof(LuceneIndexStatisticsViewModel.UpdatedAt), LocalizationService.GetString("integrations.lucene.listing.columns.updatedat"));
+            .AddColumn(nameof(LuceneIndexStatisticsViewModel.Entries), LocalizationService.GetString("integrations.lucene.listing.columns.entries"));
+        //.AddColumn(nameof(LuceneIndexStatisticsViewModel.LastBuildTimes), LocalizationService.GetString("integrations.lucene.listing.columns.buildtime"))
+        //.AddColumn(nameof(LuceneIndexStatisticsViewModel.UpdatedAt), LocalizationService.GetString("integrations.lucene.listing.columns.updatedat"));
 
         PageConfiguration.TableActions.AddCommand(LocalizationService.GetString("integrations.lucene.listing.commands.rebuild"), nameof(Rebuild), Icons.RotateRight);
 
@@ -212,10 +212,10 @@ internal class IndexListing : ListingPageBase<ListingConfiguration>
                     //{
                     //    Value = statistics.LastBuildTimes.ToString()
                     //},
-                    new StringCell
-                    {
-                        Value = statistics.UpdatedAt.ToString()
-                    },
+                    //new StringCell
+                    //{
+                    //    Value = statistics.UpdatedAt.ToString()
+                    //},
                     new ActionCell
                     {
                         Actions = new List<Action>
