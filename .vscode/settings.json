@@ -31,7 +31,7 @@
   },
 
   "files.associations": {
-    ".azuredevops/**/*.yml": "azure-pipelines"
+    ".azuredevops/**/*.yaml": "azure-pipelines"
   },
   "dotnet.defaultSolution": "Kentico.Xperience.Lucene.sln",
 

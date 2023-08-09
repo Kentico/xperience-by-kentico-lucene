@@ -7,7 +7,8 @@
     "tintoy.msbuild-project-tools",
     "esbenp.prettier-vscode",
     "dotjoshjohnson.xml",
-    "dbaeumer.vscode-eslint"
+    "dbaeumer.vscode-eslint",
+    "ms-azure-devops.azure-pipelines"
   ],
   "unwantedRecommendations": []
 }

@@ -1,7 +1,11 @@
 name: "$(Build.DefinitionName) #$(Build.BuildId)"
 
 trigger:
-  - main
+  batch: true
+  branches:
+    include:
+      - main
+pr: none # GitHub Actions handle PRs
 
 parameters:
   - name: AgentPoolName
