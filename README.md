@@ -62,11 +62,13 @@ dotnet add package Kentico.Xperience.Lucene
 ## Sample features
 
 ### Trigger rebuild of index via webhook
+
 Rebuild of index could be triggered by calling `POST` on webhook `/search/rebuild` with body
+
 ```json
-{ 
-    "indexName": "...",
-    "secret": "..."
+{
+  "indexName": "...",
+  "secret": "..."
 }
 ```
 
@@ -82,6 +84,19 @@ This could be used to trigger regular reindexing of content via CRON, Windows Ta
 
   - <https://nodejs.org/en/download>
   - <https://github.com/coreybutler/nvm-windows>
+
+### Sample Project
+
+To run the Sample app Admin customization in development mode, add the following to your [User Secrets](https://learn.microsoft.com/en-us/aspnet/core/security/app-secrets?view=aspnetcore-7.0&tabs=windows#secret-manager) for the application.
+
+```json
+"CMSAdminClientModuleSettings": {
+  "kentico-xperience-integrations-lucene": {
+    "Mode": "Proxy",
+    "Port": 3009
+  }
+}
+```
 
 For Contributing please see [`CONTRIBUTING.md`](https://github.com/Kentico/.github/blob/main/CONTRIBUTING.md) for more information and follow the [`CODE_OF_CONDUCT`](https://github.com/Kentico/.github/blob/main/CODE_OF_CONDUCT.md).
 
