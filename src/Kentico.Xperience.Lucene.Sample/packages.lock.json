@@ -2189,8 +2189,8 @@
       "kentico.xperience.lucene": {
         "type": "Project",
         "dependencies": {
-          "Kentico.Xperience.Admin": "[26.2.0, )",
-          "Kentico.Xperience.WebApp": "[26.2.0, )",
+          "Kentico.Xperience.Admin": "[26.4.0, )",
+          "Kentico.Xperience.WebApp": "[26.4.0, )",
           "Lucene.Net": "[4.8.0-beta00016, )",
           "Lucene.Net.Analysis.Common": "[4.8.0-beta00016, )",
           "Microsoft.AspNetCore.Html.Abstractions": "[2.2.0, )",
