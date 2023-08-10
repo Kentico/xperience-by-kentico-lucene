@@ -1,6 +1,5 @@
 using CMS.Core;
 using CMS.DocumentEngine;
-using CMS.Helpers;
 using CMS.Helpers.Caching.Abstractions;
 
 using Kentico.Content.Web.Mvc;
@@ -23,7 +22,6 @@ internal class DefaultLuceneClient : ILuceneClient
     private readonly ICacheAccessor cacheAccessor;
     private readonly IEventLogService eventLogService;
     private readonly IPageRetriever pageRetriever;
-    private readonly IProgressiveCache progressiveCache;
 
     internal const string CACHEKEY_STATISTICS = "Lucene|ListIndices";
 
@@ -34,14 +32,12 @@ internal class DefaultLuceneClient : ILuceneClient
         ICacheAccessor cacheAccessor,
         IEventLogService eventLogService,
         IPageRetriever pageRetriever,
-        IProgressiveCache progressiveCache,
         ILuceneIndexService luceneIndexService,
         ILuceneSearchModelToDocumentMapper luceneSearchModelToDocumentMapper)
     {
         this.cacheAccessor = cacheAccessor;
         this.eventLogService = eventLogService;
         this.pageRetriever = pageRetriever;
-        this.progressiveCache = progressiveCache;
         this.luceneIndexService = luceneIndexService;
         this.luceneSearchModelToDocumentMapper = luceneSearchModelToDocumentMapper;
     }

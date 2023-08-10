@@ -36,8 +36,6 @@ public sealed class IndexStore
             throw new InvalidOperationException($"Attempted to register Lucene index with name '{index.IndexName},' but it is already registered.");
         }
 
-        //AddIncludedPaths(index);
-
         index.Identifier = registeredIndexes.Count + 1;
         registeredIndexes.Add(index);
     }
@@ -94,24 +92,11 @@ public sealed class IndexStore
     /// </summary>
     public IEnumerable<string> GetAllCrawlers() => registeredCrawlers;
 
-
-    //private static void AddIncludedPaths(LuceneIndex index)
-    //{
-    //    var paths = index.LuceneSearchModelType.GetCustomAttributes<IncludedPathAttribute>(false);
-    //    foreach (var path in paths)
-    //    {
-    //        path.Identifier = Guid.NewGuid().ToString();
-    //    }
-
-    //    index.IncludedPaths = paths;
-    //}
-
-
     internal void ClearCrawlers() => registeredCrawlers.Clear();
 
 
     internal void ClearIndexes() => registeredIndexes.Clear();
 
 
-    internal LuceneIndex? GetIndex(int id) => registeredIndexes.FirstOrDefault(i => i.Identifier == id);
+    internal LuceneIndex? GetIndex(int id) => registeredIndexes.Find(i => i.Identifier == id);
 }
