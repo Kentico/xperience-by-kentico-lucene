@@ -113,7 +113,6 @@ internal class IndexedContent : Page<IndexedContentPageClientProperties>
 
     private Row GetProperty(PropertyInfo property)
     {
-        //var isFacetable = Attribute.IsDefined(property, typeof(FacetableAttribute));
         var fieldAttribute = property.GetCustomAttributes<BaseFieldAttribute>(false).FirstOrDefault();
         bool isSearchable = fieldAttribute != null;
         string fieldType = fieldAttribute != null ? GetFieldType(fieldAttribute) : "-";
@@ -149,15 +148,6 @@ internal class IndexedContent : Page<IndexedContentPageClientProperties>
                 {
                     Value= fieldType,
                 },
-                //new NamedComponentCell
-                //{
-                //    Name = NamedComponentCellComponentNames.SIMPLE_STATUS_COMPONENT,
-                //    ComponentProps = new SimpleStatusNamedComponentCellProps
-                //    {
-                //        IconName = GetIconName(isFacetable),
-                //        IconColor = GetIconColor(isFacetable)
-                //    }
-                //},
                 new NamedComponentCell
                 {
                     Name = NamedComponentCellComponentNames.SIMPLE_STATUS_COMPONENT,
@@ -233,11 +223,6 @@ internal class IndexedContent : Page<IndexedContentPageClientProperties>
                 Caption = LocalizationService.GetString("integrations.lucene.content.columns.fieldType"),
                 ContentType = ColumnContentType.Component
             },
-            //new Column
-            //{
-            //    Caption = LocalizationService.GetString("integrations.lucene.content.columns.facetable"),
-            //    ContentType = ColumnContentType.Component
-            //},
             new Column
             {
                 Caption = LocalizationService.GetString("integrations.lucene.content.columns.source"),

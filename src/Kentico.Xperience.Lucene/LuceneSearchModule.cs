@@ -40,7 +40,6 @@ internal class LuceneSearchModule : Module
         WorkflowEvents.Publish.After += HandleWorkflowEvent;
         WorkflowEvents.Archive.Before += HandleWorkflowEvent;
         RequestEvents.RunEndRequestTasks.Execute += (sender, eventArgs) => LuceneQueueWorker.Current.EnsureRunningThread();
-        //RequestEvents.RunEndRequestTasks.Execute += (sender, eventArgs) => LuceneCrawlerQueueWorker.Current.EnsureRunningThread();
     }
 
 
