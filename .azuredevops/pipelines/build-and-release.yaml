@@ -34,9 +34,6 @@ stages:
             demands:
               - Agent.Name -equals ${{ parameters.AgentName }}
 
-        workspace:
-          clean: resources
-
         variables:
           - group: 14.0 Authenticode signature parameters
 
@@ -119,9 +116,6 @@ stages:
               ${{ if ne(length(parameters.AgentName), 1) }}:
                 demands:
                   - Agent.Name -equals ${{ parameters.AgentName }}
-
-            workspace:
-              clean: resources
 
             environment: integrations-release-nuget
             strategy:
