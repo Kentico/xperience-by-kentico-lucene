@@ -133,6 +133,7 @@ stages:
                       displayName: NuGet push
                       inputs:
                         command: push
-                        packagesToPush: $(Pipeline.Workspace)/**/*.nupkg
+                        packagesToPush: $(Pipeline.Workspace)/artifact/*.nupkg
                         nuGetFeedType: external
                         publishFeedCredentials: nuget.org
+                        allowPackageConflicts: true
