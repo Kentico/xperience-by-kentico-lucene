@@ -74,6 +74,10 @@ This could be used to trigger regular reindexing of content via CRON, Windows Ta
 
 ## Contributing
 
+For Contributing please see [`CONTRIBUTING.md`](https://github.com/Kentico/.github/blob/main/CONTRIBUTING.md) for more information and follow the [`CODE_OF_CONDUCT`](https://github.com/Kentico/.github/blob/main/CODE_OF_CONDUCT.md).
+
+### Requirements
+
 - .NET SDK >= 7.0.109
 
   - <https://dotnet.microsoft.com/en-us/download/dotnet/7.0>
@@ -95,8 +99,6 @@ To run the Sample app Admin customization in development mode, add the following
   }
 }
 ```
-
-For Contributing please see [`CONTRIBUTING.md`](https://github.com/Kentico/.github/blob/main/CONTRIBUTING.md) for more information and follow the [`CODE_OF_CONDUCT`](https://github.com/Kentico/.github/blob/main/CODE_OF_CONDUCT.md).
 
 ## License
 
