@@ -120,9 +120,6 @@ stages:
                   steps:
                     - checkout: none
 
-                    - download: current
-                      displayName: Download Artifacts
-
                     - task: NuGetToolInstaller@1
                       displayName: Install latest nuget.exe
                       inputs:
