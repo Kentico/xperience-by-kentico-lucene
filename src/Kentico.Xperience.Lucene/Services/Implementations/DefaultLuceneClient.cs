@@ -1,3 +1,4 @@
+using System.Collections.Concurrent;
 using CMS.Core;
 using CMS.DocumentEngine;
 using CMS.Helpers.Caching.Abstractions;
@@ -119,8 +120,7 @@ internal class DefaultLuceneClient : ILuceneClient
                 // todo use batches
                 writer.DeleteDocuments(booleanQuery);
                 return "OK";
-            });
-
+            }, index.StorageContext.GetLastGeneration(true));
         }
         return 0;
     }
@@ -130,6 +130,7 @@ internal class DefaultLuceneClient : ILuceneClient
     {
         // Clear statistics cache so listing displays updated data after rebuild
         cacheAccessor.Remove(CACHEKEY_STATISTICS);
+        
         luceneIndexService.ResetIndex(luceneIndex);
 
         var indexedNodes = new List<TreeNode>();
@@ -152,9 +153,9 @@ internal class DefaultLuceneClient : ILuceneClient
 
             indexedNodes.AddRange(nodes);
         }
-
-
+        
         indexedNodes.ForEach(node => LuceneQueueWorker.EnqueueLuceneQueueItem(new LuceneQueueItem(node, LuceneTaskType.CREATE, luceneIndex.IndexName)));
+        LuceneQueueWorker.EnqueueIndexPublication(luceneIndex.IndexName);
     }
 
     private async Task<int> UpsertRecordsInternal(IEnumerable<LuceneSearchModel> dataObjects, string indexName)
@@ -177,7 +178,7 @@ internal class DefaultLuceneClient : ILuceneClient
                     count++;
                 }
                 return count;
-            });
+            }, index.StorageContext.GetLastGeneration(true));
         }
         return 0;
     }

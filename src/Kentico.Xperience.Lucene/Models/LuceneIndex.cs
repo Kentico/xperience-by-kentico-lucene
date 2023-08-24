@@ -1,4 +1,5 @@
 ﻿using System.Reflection;
+using System.Text.RegularExpressions;
 using Kentico.Xperience.Lucene.Attributes;
 using Kentico.Xperience.Lucene.Services;
 using Kentico.Xperience.Lucene.Services.Implementations;
@@ -42,9 +43,9 @@ public sealed class LuceneIndex
     }
 
     /// <summary>
-    /// The filesystem path of the Lucene index.
+    /// Index storage context, employs picked storage strategy
     /// </summary>
-    public string IndexPath
+    public IndexStorageContext StorageContext
     {
         get;
     }
@@ -80,7 +81,7 @@ public sealed class LuceneIndex
     /// <param name="luceneIndexingStrategy">Defaults to  <see cref="DefaultLuceneIndexingStrategy"/></param>
     /// <exception cref="ArgumentNullException" />
     /// <exception cref="InvalidOperationException" />
-    public LuceneIndex(Type type, Analyzer analyzer, string indexName, string? indexPath = null, ILuceneIndexingStrategy? luceneIndexingStrategy = null)
+    public LuceneIndex(Type type, Analyzer analyzer, string indexName, string? indexPath = null, ILuceneIndexingStrategy? luceneIndexingStrategy = null, IIndexStorageStrategy? storageStrategy = null)
     {
         if (string.IsNullOrEmpty(indexName))
         {
@@ -100,7 +101,9 @@ public sealed class LuceneIndex
         Analyzer = analyzer ?? throw new ArgumentNullException(nameof(analyzer));
         LuceneSearchModelType = type;
         IndexName = indexName;
-        IndexPath = indexPath ?? Path.Combine(Environment.CurrentDirectory, "App_Data", "LuceneSearch", indexName);
+        string indexStoragePath = indexPath ?? Path.Combine(Environment.CurrentDirectory, "App_Data", "LuceneSearch", indexName);
+
+        StorageContext = new IndexStorageContext(storageStrategy ?? new GenerationStorageStrategy(), indexStoragePath);
         LuceneIndexingStrategy = luceneIndexingStrategy ?? new DefaultLuceneIndexingStrategy();
 
         var paths = type.GetCustomAttributes<IncludedPathAttribute>(false);
