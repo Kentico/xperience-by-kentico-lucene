@@ -1,6 +1,8 @@
 ﻿using CMS.DocumentEngine;
 using Kentico.Xperience.Lucene.Models;
+using Lucene.Net.Documents;
 using Lucene.Net.Facet;
+using Lucene.Net.Index;
 
 namespace Kentico.Xperience.Lucene.Services.Implementations;
 
@@ -20,4 +22,6 @@ public class DefaultLuceneIndexingStrategy : ILuceneIndexingStrategy
 
     /// <inheritdoc />
     public virtual FacetsConfig? FacetsConfigFactory() => null;
+
+    public virtual void OnDocumentAddField(Document document, IIndexableField field) => document.Add(field);
 }

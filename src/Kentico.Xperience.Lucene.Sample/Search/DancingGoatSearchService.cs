@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using Kentico.Xperience.Lucene;
 using Kentico.Xperience.Lucene.Models;
 using Kentico.Xperience.Lucene.Services;
@@ -27,19 +28,30 @@ public class DancingGoatSearchService
         var queryBuilder = new QueryBuilder(index.Analyzer);
 
         var query = string.IsNullOrWhiteSpace(searchText)
-            ? new MatchAllDocsQuery()
+            ? GetDefaultQuery(queryBuilder)
             : GetTermQuery(queryBuilder, searchText);
 
         var result = luceneIndexService.UseSearcher(
             index,
             (searcher) =>
             {
-                var topDocs = searcher.Search(query, MAX_RESULTS,
-                    new Sort(new SortField(
-                        nameof(DancingGoatSearchModel.PublishedDateTicks),
-                        FieldCache.NUMERIC_UTILS_INT64_PARSER,
-                        true)));
-
+                var topDocs = searcher.Search(query, MAX_RESULTS
+                    // uncomment if sort by score is not desirable 
+                    // ,
+                    // new Sort(new SortField(
+                    //     nameof(DancingGoatSearchModel.PublishedDateTicks),
+                    //     FieldCache.NUMERIC_UTILS_INT64_PARSER,
+                    //     true))
+                );
+                foreach (var scoreDoc in topDocs.ScoreDocs
+                             .Skip(offset)
+                             .Take(limit))
+                {
+                    var explanation = searcher.Explain(query, scoreDoc.Doc);
+                    Trace.WriteLine(explanation);
+                }
+                
+                
                 return new LuceneSearchResultModel<DancingGoatSearchModel>()
                 {
                     Query = searchText ?? "",
@@ -73,6 +85,18 @@ public class DancingGoatSearchService
             true);
     }
 
+    private static Query GetDefaultQuery(QueryBuilder queryBuilder)
+    {
+        // decay query, SHALL BE defined in queries where we require scoring by decay
+        var decay = queryBuilder.CreateBooleanQuery("$decay", "q", Occur.SHOULD);
+        decay.Boost = 0.01f;
+        
+        return new BooleanQuery
+        {
+            { decay, Occur.SHOULD }
+        };
+    }
+
     private static Query GetTermQuery(QueryBuilder queryBuilder, string searchText)
     {
         var titlePhrase = queryBuilder.CreatePhraseQuery(nameof(DancingGoatSearchModel.Title), searchText, PHRASE_SLOP);
@@ -85,9 +109,14 @@ public class DancingGoatSearchService
         titleShould.Boost = 0.5f;
         var contentShould = queryBuilder.CreateBooleanQuery(nameof(DancingGoatSearchModel.AllContent), searchText, Occur.SHOULD);
         contentShould.Boost = 0.1f;
+        
+        // decay query, SHALL BE defined in queries where we require scoring by decay
+        var decay = queryBuilder.CreateBooleanQuery("$decay", "q", Occur.SHOULD);
+        decay.Boost = 0.01f;
 
         return new BooleanQuery
         {
+            { decay, Occur.SHOULD },
             { titlePhrase, Occur.SHOULD },
             { summaryPhrase, Occur.SHOULD },
             { contentPhrase, Occur.SHOULD },

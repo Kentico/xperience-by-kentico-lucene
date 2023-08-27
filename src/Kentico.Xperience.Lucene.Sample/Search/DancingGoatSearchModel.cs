@@ -5,6 +5,7 @@ using Kentico.Xperience.Lucene.Attributes;
 using Kentico.Xperience.Lucene.Models;
 using Kentico.Xperience.Lucene.Services.Implementations;
 using Lucene.Net.Documents;
+using Lucene.Net.Index;
 
 namespace DancingGoat.Search;
 
@@ -45,6 +46,9 @@ public class DancingGoatLuceneIndexingStrategy : DefaultLuceneIndexingStrategy
         nameof(Article.ArticleSummary),
         nameof(Article.ArticleText),
     };
+
+    // pick this date as some meaningful start date, if range of dates is too broad (for example historic dates, change decay algorithm instead)
+    private static readonly DateTime decayStartDate = new(2020, 1, 1, 0, 0, 0, DateTimeKind.Unspecified);
 
     public override Task<object> OnIndexingProperty(TreeNode node, string propertyName, string usedColumn, object foundValue)
     {
@@ -90,5 +94,32 @@ public class DancingGoatLuceneIndexingStrategy : DefaultLuceneIndexingStrategy
         return url.StartsWith("~")
             ? url[1..].ToString()
             : url.ToString();
+    }
+
+    public override void OnDocumentAddField(Document document, IIndexableField field)
+    {
+        if (field.Name == nameof(DancingGoatSearchModel.PublishedDateTicks) && field.GetInt64Value() is {} unixTimestampMs)
+        {
+            var dt = new DateTime(DateTools.UnixTimeMillisecondsToTicks(unixTimestampMs), DateTimeKind.Unspecified);
+            
+            // difference from first meaningful date in searched data history
+            var delta = dt.Subtract(new DateTime(decayStartDate.Year, 1, 1, 0, 0, 0, DateTimeKind.Unspecified));
+            
+            // decay defined as years from decay start date
+            float decay = (float)delta.TotalDays / 365f;
+
+            // boosting by in particular year by term occurence 
+            string value = string.Join(" ", Enumerable.Range(1, dt.Month).Select(x=> 'q'));
+            var decayField = new TextField("$decay", value, Field.Store.NO)
+            {
+                Boost = decay
+            };
+            
+            // to avoid showing irrelevant search results, field boosting can be done on existing fields (in that way no additional field is need in index and query) 
+
+            document.Add(decayField);
+        }
+        
+        base.OnDocumentAddField(document, field);
     }
 }
