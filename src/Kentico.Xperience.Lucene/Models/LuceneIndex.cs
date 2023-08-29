@@ -79,6 +79,7 @@ public sealed class LuceneIndex
     /// <param name="indexName">The code name of the Lucene index.</param>
     /// <param name="indexPath">The filesystem Lucene index. Defaults to /App_Data/LuceneSearch/[IndexName]</param>
     /// <param name="luceneIndexingStrategy">Defaults to  <see cref="DefaultLuceneIndexingStrategy"/></param>
+    /// <param name="storageStrategy">Storage strategy defines how index will be stored from directory naming perspective</param>
     /// <exception cref="ArgumentNullException" />
     /// <exception cref="InvalidOperationException" />
     public LuceneIndex(Type type, Analyzer analyzer, string indexName, string? indexPath = null, ILuceneIndexingStrategy? luceneIndexingStrategy = null, IIndexStorageStrategy? storageStrategy = null)
