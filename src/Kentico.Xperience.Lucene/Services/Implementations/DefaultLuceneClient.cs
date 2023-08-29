@@ -163,22 +163,52 @@ internal class DefaultLuceneClient : ILuceneClient
         var index = IndexStore.Instance.GetIndex(indexName);
         if (index != null)
         {
-            return luceneIndexService.UseWriter(index, (writer) =>
+            // indexing facet requires separate index for toxonomy
+            if (index.LuceneIndexingStrategy.FacetsConfigFactory() is { } facetsConfig)
             {
-                int count = 0;
-                foreach (var dataObject in dataObjects)
+                return luceneIndexService.UseIndexAndTaxonomyWriter(index, (writer, taxonomyWriter) =>
                 {
-                    // for now all changes are creates, update to be done later
-                    // delete old document, there is no upsert nor update in Lucene
-                    writer.DeleteDocuments(new Term(nameof(LuceneSearchModel.ObjectID), dataObject.ObjectID));
+                    int count = 0;
+                    foreach (var dataObject in dataObjects)
+                    {
+                        // for now all changes are creates, update to be done later
+                        // delete old document, there is no upsert nor update in Lucene
+                        writer.DeleteDocuments(new Term(nameof(LuceneSearchModel.ObjectID), dataObject.ObjectID));
 
-                    var document = luceneSearchModelToDocumentMapper.MapModelToDocument(index, dataObject);
-                    // add new one
-                    writer.AddDocument(document);
-                    count++;
-                }
-                return count;
-            }, index.StorageContext.GetLastGeneration(true));
+                        var document = luceneSearchModelToDocumentMapper.MapModelToDocument(index, dataObject);
+                        // add new one
+                        writer.AddDocument(facetsConfig.Build(taxonomyWriter, document));
+                        count++;
+
+                        if (count % 1000 == 0)
+                        {
+                            taxonomyWriter.Commit();        
+                        }
+                    }
+                    taxonomyWriter.Commit();
+                    
+                    return count;
+                }, index.StorageContext.GetLastGeneration(true));
+            }
+            else // no facets, only index writer opened
+            {
+                return luceneIndexService.UseWriter(index, (writer) =>
+                {
+                    int count = 0;
+                    foreach (var dataObject in dataObjects)
+                    {
+                        // for now all changes are creates, update to be done later
+                        // delete old document, there is no upsert nor update in Lucene
+                        writer.DeleteDocuments(new Term(nameof(LuceneSearchModel.ObjectID), dataObject.ObjectID));
+
+                        var document = luceneSearchModelToDocumentMapper.MapModelToDocument(index, dataObject);
+                        // add new one
+                        writer.AddDocument(document);
+                        count++;
+                    }
+                    return count;
+                }, index.StorageContext.GetLastGeneration(true));    
+            }
         }
         return 0;
     }

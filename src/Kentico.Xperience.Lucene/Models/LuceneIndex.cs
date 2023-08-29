@@ -82,7 +82,7 @@ public sealed class LuceneIndex
     /// <param name="storageStrategy">Storage strategy defines how index will be stored from directory naming perspective</param>
     /// <exception cref="ArgumentNullException" />
     /// <exception cref="InvalidOperationException" />
-    public LuceneIndex(Type type, Analyzer analyzer, string indexName, string? indexPath = null, ILuceneIndexingStrategy? luceneIndexingStrategy = null, IIndexStorageStrategy? storageStrategy = null)
+    public LuceneIndex(Type type, Analyzer analyzer, string indexName, string? indexPath = null, ILuceneIndexingStrategy? luceneIndexingStrategy = null, IIndexStorageStrategy? storageStrategy = null, IndexRetentionPolicy? retentionPolicy = null)
     {
         if (string.IsNullOrEmpty(indexName))
         {
@@ -103,8 +103,8 @@ public sealed class LuceneIndex
         LuceneSearchModelType = type;
         IndexName = indexName;
         string indexStoragePath = indexPath ?? Path.Combine(Environment.CurrentDirectory, "App_Data", "LuceneSearch", indexName);
-
-        StorageContext = new IndexStorageContext(storageStrategy ?? new GenerationStorageStrategy(), indexStoragePath);
+        retentionPolicy ??= new IndexRetentionPolicy(4);
+        StorageContext = new IndexStorageContext(storageStrategy ?? new GenerationStorageStrategy(), indexStoragePath, retentionPolicy);
         LuceneIndexingStrategy = luceneIndexingStrategy ?? new DefaultLuceneIndexingStrategy();
 
         var paths = type.GetCustomAttributes<IncludedPathAttribute>(false);

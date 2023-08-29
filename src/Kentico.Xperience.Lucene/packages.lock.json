@@ -45,6 +45,16 @@
           "Lucene.Net": "4.8.0-beta00016"
         }
       },
+      "Lucene.Net.Facet": {
+        "type": "Direct",
+        "requested": "[4.8.0-beta00016, )",
+        "resolved": "4.8.0-beta00016",
+        "contentHash": "O1MrRfhb9BMfRQHooyEFrkgNwYbTEbK/AkKhz26sy+xO+zAldJ8YKS/IsydHsE+frklIAWT0jyv0c3Dh9qBXSA==",
+        "dependencies": {
+          "Lucene.Net.Join": "4.8.0-beta00016",
+          "Lucene.Net.Queries": "4.8.0-beta00016"
+        }
+      },
       "Microsoft.AspNetCore.Html.Abstractions": {
         "type": "Direct",
         "requested": "[2.2.0, )",
@@ -192,6 +202,31 @@
           "Newtonsoft.Json": "13.0.3",
           "System.CodeDom": "7.0.0",
           "System.Configuration.ConfigurationManager": "6.0.1"
+        }
+      },
+      "Lucene.Net.Grouping": {
+        "type": "Transitive",
+        "resolved": "4.8.0-beta00016",
+        "contentHash": "y7QSEYfSnz7gEJS30xHsf8P0oMIreGGO08qC+UzKre29IAoUXdLLE2+vUfByGkcPuoGMIpZVBP51P6O647grBg==",
+        "dependencies": {
+          "Lucene.Net": "4.8.0-beta00016",
+          "Lucene.Net.Queries": "4.8.0-beta00016"
+        }
+      },
+      "Lucene.Net.Join": {
+        "type": "Transitive",
+        "resolved": "4.8.0-beta00016",
+        "contentHash": "trUiWhV3QPgW4TNPrEP29AsTXE29ACR5+Vz22xjbPtFTwyXMozl95NELVG5aUVMTqdwyMhJ9Lj82QeoHDnN0jw==",
+        "dependencies": {
+          "Lucene.Net.Grouping": "4.8.0-beta00016"
+        }
+      },
+      "Lucene.Net.Queries": {
+        "type": "Transitive",
+        "resolved": "4.8.0-beta00016",
+        "contentHash": "XBzdMDlan68V2ZlhAlP8Fd+Xx2Le8ec7cEN1kFF45Sipa3Q8L/tilJfwS9VHvMTvGkwPM/yj62eGbfGBgIMR8Q==",
+        "dependencies": {
+          "Lucene.Net": "4.8.0-beta00016"
         }
       },
       "MailKit": {

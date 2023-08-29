@@ -41,6 +41,7 @@
 		<PackageReference Include="Kentico.Xperience.WebApp" Version="26.4.0" />
 		<PackageReference Include="Lucene.Net" Version="4.8.0-beta00016" />
 		<PackageReference Include="Lucene.Net.Analysis.Common" Version="4.8.0-beta00016" />
+		<PackageReference Include="Lucene.Net.Facet" Version="4.8.0-beta00016" />
 		<PackageReference Include="Microsoft.AspNetCore.Html.Abstractions" Version="2.2.0" />
 		<PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />
 		<PackageReference Include="Microsoft.AspNetCore.Mvc.ViewFeatures" Version="2.2.0" />

@@ -1,6 +1,7 @@
 ﻿using CMS.DocumentEngine;
 using Kentico.Xperience.Lucene.Attributes;
 using Kentico.Xperience.Lucene.Models;
+using Lucene.Net.Facet;
 
 namespace Kentico.Xperience.Lucene.Services;
 
@@ -19,6 +20,8 @@ public interface ILuceneIndexingStrategy
     /// or null if no value was found.</param>
     /// <returns>The value that will be indexed in Lucene.</returns>
     Task<object?> OnIndexingProperty(TreeNode node, string propertyName, string usedColumn, object? foundValue);
+    
+    
 
     /// <summary>
     /// Called when indexing a search model. Enables overriding of multiple fields with custom data.
@@ -34,4 +37,7 @@ public interface ILuceneIndexingStrategy
     /// <param name="node">The <see cref="TreeNode"/> currently being indexed.</param>
     /// <returns>bool</returns>
     bool ShouldIndexNode(TreeNode node);
+
+
+    FacetsConfig? FacetsConfigFactory();
 }

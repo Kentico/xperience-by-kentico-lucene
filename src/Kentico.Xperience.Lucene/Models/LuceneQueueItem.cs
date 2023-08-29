@@ -49,7 +49,11 @@ public sealed class LuceneQueueItem
             throw new ArgumentNullException(nameof(indexName));
         }
 
-        Node = node ?? throw new ArgumentNullException(nameof(node));
+        Node = node;
+        if (taskType != LuceneTaskType.PUBLISH_INDEX && node == null)
+        {
+            throw new ArgumentNullException(nameof(node));
+        }
         TaskType = taskType;
         IndexName = indexName;
     }
