@@ -1,4 +1,4 @@
-﻿using CMS.Core;
+using CMS.Core;
 using CMS.DocumentEngine;
 using CMS.WorkflowEngine;
 
@@ -52,8 +52,21 @@ internal class DefaultLuceneTaskProcessor : ILuceneTaskProcessor
                     upsertData.Add(data);
                 }
 
-                successfulOperations += await luceneClient.DeleteRecords(deleteIds, group.Key);
-                successfulOperations += await luceneClient.UpsertRecords(upsertData, group.Key, cancellationToken);
+                if (IndexStore.Instance.GetIndex(group.Key) is { } index)
+                {
+                    successfulOperations += await luceneClient.DeleteRecords(deleteIds, group.Key);
+                    successfulOperations += await luceneClient.UpsertRecords(upsertData, group.Key, cancellationToken);
+                    
+                    if (group.Any(t => t.TaskType == LuceneTaskType.PUBLISH_INDEX))
+                    {
+                        var storage = index.StorageContext.GetNextOrOpenNextGeneration();
+                        index.StorageContext.PublishIndex(storage);
+                    }
+                }
+                else
+                {
+                    eventLogService.LogError(nameof(DefaultLuceneTaskProcessor), nameof(ProcessLuceneTasks), "Index instance not exists");    
+                }
             }
             catch (Exception ex)
             {
