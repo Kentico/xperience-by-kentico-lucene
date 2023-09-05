@@ -259,10 +259,10 @@ internal class DefaultLuceneModelGenerator : ILuceneModelGenerator
         string url;
         try
         {
-            url = urlRetriever.Retrieve(node).RelativePath;
+            url = urlRetriever.Retrieve(node, node.DocumentCulture).RelativePath;
         }
         catch (Exception)
-        {
+        { 
             // Retrieve can throw an exception when processing a page update LuceneQueueItem
             // and the page was deleted before the update task has processed. In this case, upsert an
             // empty URL
