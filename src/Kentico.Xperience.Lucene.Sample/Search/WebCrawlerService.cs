@@ -29,7 +29,7 @@ public class WebCrawlerService
         try
         {
             // use relative path, '/' is stripped to handle base urls which are not domain root
-            string url = urlRetriever.Retrieve(node).RelativePath.TrimStart('~').TrimStart('/');
+            string url = urlRetriever.Retrieve(node, node.DocumentCulture).RelativePath.TrimStart('~').TrimStart('/');
             // urlRetriever.Retrieve(node).AbsolutePath and no BaseAddress could be used as an alternative
             return await CrawlPage(url);
         }
