@@ -1,5 +1,6 @@
 ﻿using CMS.DocumentEngine;
 using Kentico.Xperience.Lucene.Models;
+using Lucene.Net.Facet;
 
 namespace Kentico.Xperience.Lucene.Services.Implementations;
 
@@ -16,4 +17,7 @@ public class DefaultLuceneIndexingStrategy : ILuceneIndexingStrategy
 
     /// <inheritdoc />
     public virtual bool ShouldIndexNode(TreeNode node) => true;
+
+    /// <inheritdoc />
+    public virtual FacetsConfig? FacetsConfigFactory() => null;
 }

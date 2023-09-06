@@ -34,7 +34,7 @@ internal class LuceneQueueWorker : ThreadQueueWorker<LuceneQueueItem, LuceneQueu
     /// <exception cref="InvalidOperationException" />
     public static void EnqueueLuceneQueueItem(LuceneQueueItem queueItem)
     {
-        if (queueItem == null || queueItem.Node == null || string.IsNullOrEmpty(queueItem.IndexName))
+        if (queueItem == null || (queueItem.Node == null && queueItem.TaskType != LuceneTaskType.PUBLISH_INDEX) || string.IsNullOrEmpty(queueItem.IndexName))
         {
             return;
         }

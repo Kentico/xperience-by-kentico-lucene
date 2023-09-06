@@ -24,7 +24,7 @@ using Microsoft.AspNetCore.Localization.Routing;
  The constraint ensures that broken URLs lead to a "404 page not found" page and are not handled by a controller dedicated to the component or 
  to a page handled by the content tree-based router (which would lead to an exception).
  */
-const string CONSTRAINT_FOR_NON_ROUTER_PAGE_CONTROLLERS = "Account|Consent|Subscription|Coffees|Search|CrawlerSearch";
+const string CONSTRAINT_FOR_NON_ROUTER_PAGE_CONTROLLERS = "Account|Consent|Subscription|Coffees|Search|CrawlerSearch|CafeSearch";
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -101,9 +101,17 @@ builder.Services.AddLucene(new[]
         DancingGoatCrawlerSearchModel.IndexName,
         indexPath: null,
         new DancingGoatCrawlerLuceneIndexingStrategy()),
+    new LuceneIndex(
+        typeof(CafeSearchModel),
+        new StandardAnalyzer(Lucene.Net.Util.LuceneVersion.LUCENE_48),
+        CafeSearchModel.IndexName,
+        indexPath: null,
+        new CafeLuceneIndexingStrategy()
+    )
 });
 builder.Services.AddSingleton<WebScraperHtmlSanitizer>();
 builder.Services.AddSingleton<DancingGoatSearchService>();
+builder.Services.AddSingleton<CafeSearchService>();
 builder.Services.AddHttpClient<WebCrawlerService>();
 builder.Services.AddSingleton<DancingGoatCrawlerSearchService>();
 

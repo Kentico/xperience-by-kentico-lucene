@@ -2,6 +2,7 @@
 
 using Kentico.Xperience.Lucene.Attributes;
 using Lucene.Net.Documents;
+using Lucene.Net.Facet;
 
 namespace Kentico.Xperience.Lucene.Models;
 
@@ -67,4 +68,9 @@ public class LuceneSearchModel
     /// <returns>Modified Lucene document.</returns>
     public virtual Task<Document> OnIndexingDocument(TreeNode node, Document document)
     => Task.FromResult(document);
+
+    public virtual IEnumerable<FacetField> OnTaxonomyFieldCreation()
+    {
+        yield break;
+    }
 }

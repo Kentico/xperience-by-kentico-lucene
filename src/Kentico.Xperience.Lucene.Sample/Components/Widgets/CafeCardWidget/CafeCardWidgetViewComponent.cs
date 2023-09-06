@@ -37,7 +37,7 @@ namespace DancingGoat.Widgets
 
         public ViewViewComponentResult Invoke(CafeCardProperties properties)
         {
-            var selectedPage = properties.SelectedCafes.FirstOrDefault();
+            var selectedPage = properties.SelectedCafes?.FirstOrDefault();
             var cafe = (selectedPage != null) ? repository.GetCafeByNodeId(selectedPage.ItemId) : null;
             var cafeModel = CafeCardViewModel.GetViewModel(cafe);
 
