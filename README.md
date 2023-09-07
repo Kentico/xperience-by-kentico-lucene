@@ -57,6 +57,17 @@ dotnet add package Kentico.Xperience.Lucene
 - Read the Lucene.NET [introduction](https://lucenenet.apache.org/) or [full documentation](https://lucenenet.apache.org/docs/4.8.0-beta00016/) to explore the core library's APIs and functionality.
 - Explore the [Lucene.NET source on GitHub](https://github.com/apache/lucenenet)
 
+### Implementing document decay feature (scoring by "freshness", "recency")
+
+1) boosting relevant fields by setting field boost (preferable method, but requires more work)
+2) boosting one field with constant value, that is always present in search query (shown in sample, less desirable method. Downside of this method is that all documents get matched, usable only for scenarios where total number of result is not required)
+3) using sort expression, implementation details can be found in Lucene.NET unit tests, Lucene.NET implementations
+
+Methods 1 and 2 require implementing `DefaultLuceneIndexingStrategy` and overriding `OnDocumentAddField` method.
+In `OnDocumentAddField` match required fields and calculate boost, then apply to desired files as shown in example `DancingGoatLuceneIndexingStrategy.OnDocumentAddField`
+
+> differences too small in boosts will be ignored by Lucene
+
 ## Sample features
 
 ### Trigger rebuild of index via webhook

@@ -1,7 +1,9 @@
 ﻿using CMS.DocumentEngine;
 using Kentico.Xperience.Lucene.Attributes;
 using Kentico.Xperience.Lucene.Models;
+using Lucene.Net.Documents;
 using Lucene.Net.Facet;
+using Lucene.Net.Index;
 
 namespace Kentico.Xperience.Lucene.Services;
 
@@ -38,6 +40,16 @@ public interface ILuceneIndexingStrategy
     /// <returns>bool</returns>
     bool ShouldIndexNode(TreeNode node);
 
-
+    /// <summary>
+    /// When overriden and configuration supplied, indexing will also create taxonomy index for facet search
+    /// </summary>
+    /// <returns></returns>
     FacetsConfig? FacetsConfigFactory();
+    
+    /// <summary>
+    /// Called when field is added to document 
+    /// </summary>
+    /// <param name="document">indexed document</param>
+    /// <param name="field">indexed field</param>
+    void OnDocumentAddField(Document document, IIndexableField field);
 }
