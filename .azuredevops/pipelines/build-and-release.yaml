@@ -42,6 +42,9 @@ stages:
           - name: ProjectFilePath
             value: src/Kentico.Xperience.Lucene/Kentico.Xperience.Lucene.csproj
 
+          - name: ClientPath
+            value: src/Kentico.Xperience.Lucene/Admin/Client
+
         steps:
           - task: PowerShell@2
             displayName: Set Node.js version from package.json
@@ -60,6 +63,18 @@ stages:
             displayName: "Install Node.js from package.json version"
             inputs:
               version: $(PACKAGE_JSON_NODE_VERSION)
+
+          - task: Npm@1
+            displayName: Install client dependencies
+            inputs:
+              workingDir: ${{ variables.ClientPath }}
+
+          - task: Npm@1
+            displayName: Build client
+            inputs:
+              workingDir: ${{ variables.ClientPath }}
+              command: custom
+              customCommand: run build
 
           - task: UseDotNet@2
             displayName: Select dotnet version
