@@ -59,6 +59,7 @@ builder.Services.AddKentico(features =>
 builder.Services.AddDancingGoatServices();
 
 builder.Services.Configure<RouteOptions>(options => options.LowercaseUrls = true);
+builder.Services.Configure<SearchOptions>(builder.Configuration.GetSection("SearchOptions"));
 
 builder.Services.AddLocalization()
     .AddControllersWithViews()

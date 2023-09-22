@@ -45,7 +45,7 @@ public class CafeSearchService
                 var boolQuery = new BooleanQuery();
                 boolQuery.Add(new TermQuery(DrillDownQuery.Term(countryDim.IndexFieldName, "Country", f.Skip(1).ToArray())), Occur.MUST);
                 boolQuery.Add(query, Occur.MUST);
-                drillDownQuery.Add("Country", boolQuery);    
+                drillDownQuery.Add("Country", boolQuery);
             }
         }
 
