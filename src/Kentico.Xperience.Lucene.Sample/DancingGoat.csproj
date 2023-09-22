@@ -26,10 +26,10 @@
     <ProjectReference Include="..\Kentico.Xperience.Lucene\Kentico.Xperience.Lucene.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="kentico.xperience.admin" Version="26.4.0" Condition="'$(SeparatedAdmin)' == 'false'" />
-    <PackageReference Include="kentico.xperience.azurestorage" Version="26.4.0" />
-    <PackageReference Include="kentico.xperience.graphql" Version="26.4.0" />
-    <PackageReference Include="kentico.xperience.imageprocessing" Version="26.4.0" />
-    <PackageReference Include="kentico.xperience.webapp" Version="26.4.0" />
+    <PackageReference Include="kentico.xperience.admin" Condition="'$(SeparatedAdmin)' == 'false'" />
+    <PackageReference Include="kentico.xperience.azurestorage"/>
+    <PackageReference Include="kentico.xperience.graphql"/>
+    <PackageReference Include="kentico.xperience.imageprocessing"/>
+    <PackageReference Include="kentico.xperience.webapp"/>
   </ItemGroup>
 </Project>

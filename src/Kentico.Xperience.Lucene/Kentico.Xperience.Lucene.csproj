@@ -18,9 +18,6 @@
 	<ItemGroup>
 		<AssemblyAttribute Include="CMS.AssemblyDiscoverableAttribute">
 		</AssemblyAttribute>
-		<AdminClientPath Include="Admin\Client\dist\**">
-			<ProjectName>xperience-integrations-lucene</ProjectName>
-		</AdminClientPath>
 	</ItemGroup>
 
 	<ItemGroup>
@@ -34,19 +31,25 @@
 	</Target>
 	<Target Name="NpmBuildClient" BeforeTargets="BeforeBuild" Condition=" '$(Configuration)|$(Platform)' != 'Debug|AnyCPU' ">
 		<Exec Command="npm run build" WorkingDirectory="$(MSBuildProjectDirectory)\Admin\Client" />
+
+		<ItemGroup>
+			<AdminClientPath Include="Admin\Client\dist\**">
+				<ProjectName>xperience-integrations-lucene</ProjectName>
+			</AdminClientPath>
+		</ItemGroup>
 	</Target>
 
 	<ItemGroup>
-		<PackageReference Include="Kentico.Xperience.Admin" Version="26.4.0" />
-		<PackageReference Include="Kentico.Xperience.WebApp" Version="26.4.0" />
-		<PackageReference Include="Lucene.Net" Version="4.8.0-beta00016" />
-		<PackageReference Include="Lucene.Net.Analysis.Common" Version="4.8.0-beta00016" />
-		<PackageReference Include="Lucene.Net.Facet" Version="4.8.0-beta00016" />
-		<PackageReference Include="Microsoft.AspNetCore.Html.Abstractions" Version="2.2.0" />
-		<PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />
-		<PackageReference Include="Microsoft.AspNetCore.Mvc.ViewFeatures" Version="2.2.0" />
-		<PackageReference Include="System.Configuration.ConfigurationManager" Version="6.0.1" />
-		<PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1">
+		<PackageReference Include="Kentico.Xperience.Admin" />
+		<PackageReference Include="Kentico.Xperience.WebApp" />
+		<PackageReference Include="Lucene.Net" />
+		<PackageReference Include="Lucene.Net.Analysis.Common"/>
+		<PackageReference Include="Lucene.Net.Facet"/>
+		<PackageReference Include="Microsoft.AspNetCore.Html.Abstractions" />
+		<PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" />
+		<PackageReference Include="Microsoft.AspNetCore.Mvc.ViewFeatures" />
+		<PackageReference Include="System.Configuration.ConfigurationManager" />
+		<PackageReference Include="Microsoft.SourceLink.GitHub">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
