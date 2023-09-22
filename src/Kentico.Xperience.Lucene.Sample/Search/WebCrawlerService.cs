@@ -2,6 +2,7 @@
 using CMS.DocumentEngine;
 using CMS.Helpers;
 using Kentico.Content.Web.Mvc;
+using Microsoft.Extensions.Options;
 using Microsoft.Net.Http.Headers;
 
 namespace DancingGoat.Search;
@@ -12,14 +13,14 @@ public class WebCrawlerService
     private readonly IEventLogService eventLogService;
     private readonly IAppSettingsService appSettingsService;
 
-    public WebCrawlerService(HttpClient httpClient, IPageUrlRetriever urlRetriever, IEventLogService eventLogService, IAppSettingsService appSettingsService)
+    public WebCrawlerService(HttpClient httpClient, IPageUrlRetriever urlRetriever, IEventLogService eventLogService, IAppSettingsService appSettingsService, IOptions<SearchOptions> options)
     {
         this.appSettingsService = appSettingsService;
         this.httpClient = httpClient;
         // configure the client inside constructor if needed (add custom headers etc.)
         this.httpClient.DefaultRequestHeaders.Add(HeaderNames.UserAgent, "SearchCrawler");
         // get crawler base url from settings or site configuration, make sure that WebCrawlerBaseUrl is correct
-        string baseUrl = ValidationHelper.GetString(appSettingsService["WebCrawlerBaseUrl"], DocumentURLProvider.GetDomainUrl("DancingGoatCore"));
+        string baseUrl = ValidationHelper.GetString(options.Value.WebCrawlerBaseUrl, DocumentURLProvider.GetDomainUrl("DancingGoatCore"));
         this.httpClient.BaseAddress = new Uri(baseUrl);
 
         this.urlRetriever = urlRetriever;

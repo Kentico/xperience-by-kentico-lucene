@@ -32,4 +32,7 @@
     <PackageReference Include="kentico.xperience.imageprocessing" Version="26.4.0" />
     <PackageReference Include="kentico.xperience.webapp" Version="26.4.0" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="App_Data\" />
+  </ItemGroup>
 </Project>
