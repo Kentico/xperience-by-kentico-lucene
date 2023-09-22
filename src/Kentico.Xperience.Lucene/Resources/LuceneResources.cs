@@ -8,4 +8,7 @@ namespace Kentico.Xperience.Lucene.Resources;
 
 internal class LuceneResources
 {
+    public LuceneResources()
+    {
+    }
 }
