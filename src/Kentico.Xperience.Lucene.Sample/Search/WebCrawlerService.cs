@@ -10,14 +10,16 @@ public class WebCrawlerService
     private readonly HttpClient httpClient;
     private readonly IPageUrlRetriever urlRetriever;
     private readonly IEventLogService eventLogService;
+    private readonly IAppSettingsService appSettingsService;
 
-    public WebCrawlerService(HttpClient httpClient, IPageUrlRetriever urlRetriever, IEventLogService eventLogService)
+    public WebCrawlerService(HttpClient httpClient, IPageUrlRetriever urlRetriever, IEventLogService eventLogService, IAppSettingsService appSettingsService)
     {
+        this.appSettingsService = appSettingsService;
         this.httpClient = httpClient;
         // configure the client inside constructor if needed (add custom headers etc.)
         this.httpClient.DefaultRequestHeaders.Add(HeaderNames.UserAgent, "SearchCrawler");
         // get crawler base url from settings or site configuration, make sure that WebCrawlerBaseUrl is correct
-        string baseUrl = ValidationHelper.GetString(Service.Resolve<IAppSettingsService>()["WebCrawlerBaseUrl"], DocumentURLProvider.GetDomainUrl("DancingGoatCore"));
+        string baseUrl = ValidationHelper.GetString(appSettingsService["WebCrawlerBaseUrl"], DocumentURLProvider.GetDomainUrl("DancingGoatCore"));
         this.httpClient.BaseAddress = new Uri(baseUrl);
 
         this.urlRetriever = urlRetriever;
