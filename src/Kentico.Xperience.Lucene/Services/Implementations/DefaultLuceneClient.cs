@@ -1,14 +1,9 @@
-using System.Collections.Concurrent;
-using CMS.Core;
 using CMS.DocumentEngine;
 using CMS.Helpers.Caching.Abstractions;
-
 using Kentico.Content.Web.Mvc;
 using Kentico.Xperience.Lucene.Models;
 using Lucene.Net.Index;
 using Lucene.Net.Search;
-
-
 
 namespace Kentico.Xperience.Lucene.Services;
 
@@ -21,7 +16,6 @@ internal class DefaultLuceneClient : ILuceneClient
     private readonly ILuceneSearchModelToDocumentMapper luceneSearchModelToDocumentMapper;
 
     private readonly ICacheAccessor cacheAccessor;
-    private readonly IEventLogService eventLogService;
     private readonly IPageRetriever pageRetriever;
 
     internal const string CACHEKEY_STATISTICS = "Lucene|ListIndices";
@@ -31,13 +25,11 @@ internal class DefaultLuceneClient : ILuceneClient
     /// </summary>
     public DefaultLuceneClient(
         ICacheAccessor cacheAccessor,
-        IEventLogService eventLogService,
         IPageRetriever pageRetriever,
         ILuceneIndexService luceneIndexService,
         ILuceneSearchModelToDocumentMapper luceneSearchModelToDocumentMapper)
     {
         this.cacheAccessor = cacheAccessor;
-        this.eventLogService = eventLogService;
         this.pageRetriever = pageRetriever;
         this.luceneIndexService = luceneIndexService;
         this.luceneSearchModelToDocumentMapper = luceneSearchModelToDocumentMapper;
@@ -56,21 +48,30 @@ internal class DefaultLuceneClient : ILuceneClient
             return Task.FromResult(0);
         }
 
-        return DeleteRecordsInternal(objectIds, indexName);
+        int result = DeleteRecordsInternal(objectIds, indexName);
+
+        return Task.FromResult(result);
     }
 
 
     /// <inheritdoc/>
-    public async Task<ICollection<LuceneIndexStatisticsViewModel>> GetStatistics(CancellationToken cancellationToken) =>
-        IndexStore.Instance.GetAllIndexes().Select(i =>
-        {
-            var statistics = luceneIndexService.UseSearcher(i, s => new LuceneIndexStatisticsViewModel()
+    public Task<ICollection<LuceneIndexStatisticsViewModel>> GetStatistics(CancellationToken cancellationToken)
+    {
+        var statistics = IndexStore.Instance.GetAllIndexes()
+            .Select(i =>
             {
-                Name = i.IndexName,
-                Entries = s.IndexReader.NumDocs,
-            });
-            return statistics;
-        }).ToList();
+                var statistics = luceneIndexService.UseSearcher(i, s => new LuceneIndexStatisticsViewModel()
+                {
+                    Name = i.IndexName,
+                    Entries = s.IndexReader.NumDocs,
+                });
+                return statistics;
+            })
+            .ToList();
+
+        return Task.FromResult<ICollection<LuceneIndexStatisticsViewModel>>(statistics);
+    }
+
 
 
     /// <inheritdoc />
@@ -101,10 +102,12 @@ internal class DefaultLuceneClient : ILuceneClient
             return Task.FromResult(0);
         }
 
-        return UpsertRecordsInternal(dataObjects, indexName);
+        int result = UpsertRecordsInternal(dataObjects, indexName);
+
+        return Task.FromResult(result);
     }
 
-    private async Task<int> DeleteRecordsInternal(IEnumerable<string> objectIds, string indexName)
+    private int DeleteRecordsInternal(IEnumerable<string> objectIds, string indexName)
     {
         var index = IndexStore.Instance.GetIndex(indexName);
         if (index != null)
@@ -122,15 +125,15 @@ internal class DefaultLuceneClient : ILuceneClient
                 return "OK";
             }, index.StorageContext.GetLastGeneration(true));
         }
+
         return 0;
     }
-
 
     private async Task RebuildInternal(LuceneIndex luceneIndex, CancellationToken? cancellationToken)
     {
         // Clear statistics cache so listing displays updated data after rebuild
         cacheAccessor.Remove(CACHEKEY_STATISTICS);
-        
+
         luceneIndexService.ResetIndex(luceneIndex);
 
         var indexedNodes = new List<TreeNode>();
@@ -153,12 +156,12 @@ internal class DefaultLuceneClient : ILuceneClient
 
             indexedNodes.AddRange(nodes);
         }
-        
+
         indexedNodes.ForEach(node => LuceneQueueWorker.EnqueueLuceneQueueItem(new LuceneQueueItem(node, LuceneTaskType.CREATE, luceneIndex.IndexName)));
         LuceneQueueWorker.EnqueueIndexPublication(luceneIndex.IndexName);
     }
 
-    private async Task<int> UpsertRecordsInternal(IEnumerable<LuceneSearchModel> dataObjects, string indexName)
+    private int UpsertRecordsInternal(IEnumerable<LuceneSearchModel> dataObjects, string indexName)
     {
         var index = IndexStore.Instance.GetIndex(indexName);
         if (index != null)
@@ -182,11 +185,11 @@ internal class DefaultLuceneClient : ILuceneClient
 
                         if (count % 1000 == 0)
                         {
-                            taxonomyWriter.Commit();        
+                            taxonomyWriter.Commit();
                         }
                     }
                     taxonomyWriter.Commit();
-                    
+
                     return count;
                 }, index.StorageContext.GetLastGeneration(true));
             }
@@ -207,9 +210,10 @@ internal class DefaultLuceneClient : ILuceneClient
                         count++;
                     }
                     return count;
-                }, index.StorageContext.GetLastGeneration(true));    
+                }, index.StorageContext.GetLastGeneration(true));
             }
         }
+
         return 0;
     }
 }
