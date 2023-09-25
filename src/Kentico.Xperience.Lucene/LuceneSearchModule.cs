@@ -53,7 +53,7 @@ internal class LuceneSearchModule : Module
             return;
         }
 
-        luceneTaskLogger?.HandleEvent(e.Document, e.CurrentHandler.Name);
+        //luceneTaskLogger?.HandleEvent(e.Document, e.CurrentHandler.Name);
     }
 
 
@@ -67,6 +67,6 @@ internal class LuceneSearchModule : Module
             return;
         }
 
-        luceneTaskLogger?.HandleEvent(e.Node, e.CurrentHandler.Name);
+        //luceneTaskLogger?.HandleEvent(e.Node, e.CurrentHandler.Name);
     }
 }

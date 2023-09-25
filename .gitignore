@@ -140,4 +140,3 @@ segments_2i
 
 # Lucene Search
 **/App_Data/LuceneSearch/*
-/src/Kentico.Xperience.Lucene/Extensions/IWebPageFieldsSourceExtensions.cs

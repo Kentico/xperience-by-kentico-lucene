@@ -43,11 +43,9 @@
 		<PackageReference Include="Kentico.Xperience.Admin" />
 		<PackageReference Include="Kentico.Xperience.WebApp" />
 		<PackageReference Include="Lucene.Net" />
-		<PackageReference Include="Lucene.Net.Analysis.Common"/>
-		<PackageReference Include="Lucene.Net.Facet"/>
-		<PackageReference Include="Microsoft.AspNetCore.Html.Abstractions" />
+		<PackageReference Include="Lucene.Net.Analysis.Common" />
+		<PackageReference Include="Lucene.Net.Facet" />
 		<PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" />
-		<PackageReference Include="Microsoft.AspNetCore.Mvc.ViewFeatures" />
 		<PackageReference Include="System.Configuration.ConfigurationManager" />
 		<PackageReference Include="Microsoft.SourceLink.GitHub">
 			<PrivateAssets>all</PrivateAssets>
@@ -55,10 +53,17 @@
 		</PackageReference>
 	</ItemGroup>
 
-	<ItemGroup>
+	<!--<ItemGroup>
 		<EmbeddedResource Include="Resources\LuceneResources.resx">
 			<ExcludeFromManifest>true</ExcludeFromManifest>
 		</EmbeddedResource>
+	</ItemGroup>-->
+
+	<ItemGroup>
+	  <PackageReference Update="SonarAnalyzer.CSharp">
+	    <PrivateAssets>all</PrivateAssets>
+	    <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+	  </PackageReference>
 	</ItemGroup>
 
 </Project>

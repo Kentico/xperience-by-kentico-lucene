@@ -1,6 +1,6 @@
 ﻿using CMS.Core;
 using CMS.DocumentEngine;
-
+using CMS.Websites;
 using Kentico.Xperience.Lucene.Extensions;
 using Kentico.Xperience.Lucene.Models;
 
@@ -21,24 +21,24 @@ internal class DefaultLuceneTaskLogger : ILuceneTaskLogger
 
 
     /// <inheritdoc />
-    public void HandleEvent(TreeNode node, string eventName)
+    public void HandleEvent(IWebPageFieldsSource webPageItem, string eventName)
     {
-        var taskType = GetTaskType(node, eventName);
+        var taskType = GetTaskType(webPageItem, eventName);
 
         // Check standard indexes
-        if (!node.IsLuceneIndexed())
+        if (!webPageItem.IsLuceneIndexed())
         {
             return;
         }
 
         foreach (string? indexName in IndexStore.Instance.GetAllIndexes().Select(index => index.IndexName))
         {
-            if (!node.IsIndexedByIndex(indexName))
+            if (!webPageItem.IsIndexedByIndex(indexName))
             {
                 continue;
             }
 
-            LogIndexTask(new LuceneQueueItem(node, taskType, indexName));
+            LogIndexTask(new LuceneQueueItem(webPageItem, taskType, indexName));
         }
     }
 
@@ -60,16 +60,11 @@ internal class DefaultLuceneTaskLogger : ILuceneTaskLogger
     }
 
 
-    private static LuceneTaskType GetTaskType(TreeNode node, string eventName)
+    private static LuceneTaskType GetTaskType(IWebPageFieldsSource node, string eventName)
     {
-        if (eventName.Equals(WorkflowEvents.Publish.Name, StringComparison.OrdinalIgnoreCase) && node.WorkflowHistory.Count == 0)
+        if (eventName.Equals(WorkflowEvents.Publish.Name, StringComparison.OrdinalIgnoreCase))
         {
             return LuceneTaskType.CREATE;
-        }
-
-        if (eventName.Equals(WorkflowEvents.Publish.Name, StringComparison.OrdinalIgnoreCase) && node.WorkflowHistory.Count > 0)
-        {
-            return LuceneTaskType.UPDATE;
         }
 
         if (eventName.Equals(DocumentEvents.Delete.Name, StringComparison.OrdinalIgnoreCase) ||

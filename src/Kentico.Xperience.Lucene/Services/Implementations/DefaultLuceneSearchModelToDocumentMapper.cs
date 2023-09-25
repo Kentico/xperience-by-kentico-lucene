@@ -3,7 +3,6 @@ using CMS.Core;
 using Kentico.Xperience.Lucene.Attributes;
 using Kentico.Xperience.Lucene.Models;
 using Lucene.Net.Documents;
-using Lucene.Net.Facet;
 using Lucene.Net.Index;
 using Newtonsoft.Json;
 
@@ -81,11 +80,11 @@ public class DefaultLuceneSearchModelToDocumentMapper : ILuceneSearchModelToDocu
             }
             catch (Exception ex)
             {
-                eventLogService.LogException(nameof(DefaultLuceneSearchModelToDocumentMapper), nameof(MapModelProps), ex, 0, $"Failed to map the model to Lucene Document. Index '{luceneIndex.IndexName}' model '{JsonConvert.SerializeObject(model)}.'");
+                eventLogService.LogException(nameof(DefaultLuceneSearchModelToDocumentMapper), nameof(MapModelProps), ex, $"Failed to map the model to Lucene Document. Index '{luceneIndex.IndexName}' model '{JsonConvert.SerializeObject(model)}.'");
             }
         }
-        
-        
+
+
         foreach (var facetField in model.OnTaxonomyFieldCreation())
         {
             document.Add(facetField);

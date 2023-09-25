@@ -43,6 +43,22 @@ public sealed class LuceneIndex
     }
 
     /// <summary>
+    /// The Name of the WebSiteChannel.
+    /// </summary>
+    public string WebSiteChannelName
+    {
+        get;
+    }
+
+    /// <summary>
+    /// The Language used on the WebSite on the Channel which is indexed.
+    /// </summary>
+    public string Language
+    {
+        get;
+    }
+
+    /// <summary>
     /// Index storage context, employs picked storage strategy
     /// </summary>
     public IndexStorageContext StorageContext
@@ -83,7 +99,7 @@ public sealed class LuceneIndex
     /// <param name="retentionPolicy">Defines retency of stored lucene indexes, behavior might depend on selected IIndexStorageStrategy</param>
     /// <exception cref="ArgumentNullException" />
     /// <exception cref="InvalidOperationException" />
-    public LuceneIndex(Type type, Analyzer analyzer, string indexName, string? indexPath = null, ILuceneIndexingStrategy? luceneIndexingStrategy = null, IIndexStorageStrategy? storageStrategy = null, IndexRetentionPolicy? retentionPolicy = null)
+    public LuceneIndex(Type type, Analyzer analyzer, string indexName, string webSiteChannelName, string language, string? indexPath = null, ILuceneIndexingStrategy? luceneIndexingStrategy = null, IIndexStorageStrategy? storageStrategy = null, IndexRetentionPolicy? retentionPolicy = null)
     {
         if (string.IsNullOrEmpty(indexName))
         {
@@ -103,6 +119,8 @@ public sealed class LuceneIndex
         Analyzer = analyzer ?? throw new ArgumentNullException(nameof(analyzer));
         LuceneSearchModelType = type;
         IndexName = indexName;
+        WebSiteChannelName = webSiteChannelName;
+        Language = language;
         string indexStoragePath = indexPath ?? Path.Combine(Environment.CurrentDirectory, "App_Data", "LuceneSearch", indexName);
         retentionPolicy ??= new IndexRetentionPolicy(4);
         StorageContext = new IndexStorageContext(storageStrategy ?? new GenerationStorageStrategy(), indexStoragePath, retentionPolicy);

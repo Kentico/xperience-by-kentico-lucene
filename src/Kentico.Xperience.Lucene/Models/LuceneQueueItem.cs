@@ -1,4 +1,5 @@
 ﻿using CMS.DocumentEngine;
+using CMS.Websites;
 
 namespace Kentico.Xperience.Lucene.Models;
 
@@ -11,7 +12,7 @@ public sealed class LuceneQueueItem
     /// <summary>
     /// The <see cref="TreeNode"/> that was changed.
     /// </summary>
-    public TreeNode Node
+    public IWebPageFieldsSource WebPageItem
     {
         get;
     }
@@ -42,14 +43,14 @@ public sealed class LuceneQueueItem
     /// <param name="taskType">The type of the Lucene task.</param>
     /// <param name="indexName">The code name of the Lucene index to be updated.</param>
     /// <exception cref="ArgumentNullException" />
-    public LuceneQueueItem(TreeNode node, LuceneTaskType taskType, string indexName)
+    public LuceneQueueItem(IWebPageFieldsSource node, LuceneTaskType taskType, string indexName)
     {
         if (string.IsNullOrEmpty(indexName))
         {
             throw new ArgumentNullException(nameof(indexName));
         }
 
-        Node = node;
+        WebPageItem = node;
         if (taskType != LuceneTaskType.PUBLISH_INDEX && node == null)
         {
             throw new ArgumentNullException(nameof(node));

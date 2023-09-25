@@ -1,5 +1,5 @@
 ﻿using System.Reflection;
-
+using CMS.DataEngine;
 using CMS.DataEngine.Query;
 using CMS.DocumentEngine;
 
@@ -261,8 +261,9 @@ internal class IndexedContent : Page<IndexedContentPageClientProperties>
     {
         if (attribute.ContentTypes == null || !attribute.ContentTypes.Any())
         {
+            var types = DataClassInfoProviderBase<DataClassInfoProvider>.GetClasses().WithObjectType("cms.documenttype");
+
             int allTypes = DocumentTypeHelper.GetDocumentTypeClasses()
-                .OnSite(SiteService.CurrentSite?.SiteID)
                 .GetCount();
             return string.Format(LocalizationService.GetString("integrations.lucene.content.alltypes"), allTypes);
         }

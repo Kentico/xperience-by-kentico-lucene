@@ -1,4 +1,7 @@
 using CMS.Core;
+using CMS.DocumentEngine;
+using CMS.WorkflowEngine;
+
 using Kentico.Xperience.Lucene.Models;
 
 namespace Kentico.Xperience.Lucene.Services;
@@ -8,15 +11,20 @@ internal class DefaultLuceneTaskProcessor : ILuceneTaskProcessor
     private readonly ILuceneClient luceneClient;
     private readonly ILuceneModelGenerator luceneObjectGenerator;
     private readonly IEventLogService eventLogService;
+    private readonly IWorkflowStepInfoProvider workflowStepInfoProvider;
+    private readonly IVersionHistoryInfoProvider versionHistoryInfoProvider;
 
 
-    public DefaultLuceneTaskProcessor(
-        ILuceneClient luceneClient,
+    public DefaultLuceneTaskProcessor(ILuceneClient luceneClient,
         IEventLogService eventLogService,
+        IWorkflowStepInfoProvider workflowStepInfoProvider,
+        IVersionHistoryInfoProvider versionHistoryInfoProvider,
         ILuceneModelGenerator luceneObjectGenerator)
     {
         this.luceneClient = luceneClient;
         this.eventLogService = eventLogService;
+        this.workflowStepInfoProvider = workflowStepInfoProvider;
+        this.versionHistoryInfoProvider = versionHistoryInfoProvider;
         this.luceneObjectGenerator = luceneObjectGenerator;
     }
 
@@ -40,7 +48,7 @@ internal class DefaultLuceneTaskProcessor : ILuceneTaskProcessor
                 var upsertData = new List<LuceneSearchModel>();
                 foreach (var queueItem in updateTasks)
                 {
-                    var data = await luceneObjectGenerator.GetTreeNodeData(queueItem);
+                    var data = await luceneObjectGenerator.GetWebPageItemData(queueItem);
                     upsertData.Add(data);
                 }
 
@@ -69,5 +77,5 @@ internal class DefaultLuceneTaskProcessor : ILuceneTaskProcessor
         return successfulOperations;
     }
 
-    private IEnumerable<string> GetIdsToDelete(IEnumerable<LuceneQueueItem> deleteTasks) => deleteTasks.Select(queueItem => queueItem.Node.DocumentID.ToString());
+    private IEnumerable<string> GetIdsToDelete(IEnumerable<LuceneQueueItem> deleteTasks) => deleteTasks.Select(queueItem => queueItem.WebPageItem.SystemFields.ContentItemID.ToString());
 }

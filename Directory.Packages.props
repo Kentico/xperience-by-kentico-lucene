@@ -15,8 +15,8 @@
     <PackageVersion Include="Microsoft.AspNetCore.Html.Abstractions" Version="2.2.0" />
     <PackageVersion Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />
     <PackageVersion Include="Microsoft.AspNetCore.Mvc.ViewFeatures" Version="2.2.0" />
-    <PackageVersion Include="System.Configuration.ConfigurationManager" Version="6.0.1" />
+    <PackageVersion Include="System.Configuration.ConfigurationManager" Version="8.0.0-rc.1.23419.4" />
     <PackageVersion Include="Microsoft.SourceLink.GitHub" Version="1.1.1" />
-    <PackageVersion Include="SonarAnalyzer.CSharp" Version="9.6.0.74858" />
+    <PackageVersion Include="SonarAnalyzer.CSharp" Version="9.10.0.77988" />
   </ItemGroup>
 </Project>

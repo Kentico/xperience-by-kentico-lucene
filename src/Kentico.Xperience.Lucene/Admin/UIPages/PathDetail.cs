@@ -75,9 +75,10 @@ internal class PathDetail : Page<PathDetailPageClientProperties>
             if (includedContentTypes == null || !includedContentTypes.Any())
             {
                 includedContentTypes = DocumentTypeHelper.GetDocumentTypeClasses()
-                    .OnSite(SiteService.CurrentSite?.SiteID)
+                    //.OnSite(SiteService.CurrentSite?.SiteID)
                     .AsSingleColumn(nameof(DataClassInfo.ClassName))
                     .GetListResult<string>()
+
                     .ToArray();
             }
 
