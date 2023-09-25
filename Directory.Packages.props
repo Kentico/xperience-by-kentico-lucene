@@ -4,8 +4,8 @@
     <CentralPackageVersionOverrideEnabled>false</CentralPackageVersionOverrideEnabled>
   </PropertyGroup>
   <ItemGroup>
-    <PackageVersion Include="Kentico.Xperience.Admin" Version="26.4.0" />
-    <PackageVersion Include="Kentico.Xperience.WebApp" Version="26.4.0" />
+    <PackageVersion Include="Kentico.Xperience.Admin" Version="27.0.0-b251782" />
+    <PackageVersion Include="Kentico.Xperience.WebApp" Version="27.0.0-b251782" />
     <PackageVersion Include="kentico.xperience.azurestorage" Version="26.4.0" />
     <PackageVersion Include="kentico.xperience.graphql" Version="26.4.0" />
     <PackageVersion Include="kentico.xperience.imageprocessing" Version="26.4.0" />

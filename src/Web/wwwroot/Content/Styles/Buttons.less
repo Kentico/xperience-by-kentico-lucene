@@ -1,0 +1,48 @@
+﻿/*# Buttons #*/
+.btn {
+    padding: .5rem 1rem;
+    cursor: pointer;
+    background: #fff;
+    display: inline-block;
+    text-decoration: none;
+    letter-spacing: 2px;
+    line-height: 2.14286;
+    color: @color-white;
+    background-color: @color-darkbrown;
+    text-transform: uppercase;
+    font-size: .875rem;
+    border: none;
+
+    &:hover {
+        background: rgba(39, 34, 25, 0.8);
+    }
+}
+
+.btn-primary {
+    padding: 0.5625rem 1.5rem;
+}
+
+.btn:hover {
+    background: rgba(39, 34, 25, 0.8);
+}
+
+.btn-more {
+    margin: 3.5rem 0;
+    text-transform: uppercase;
+    font-size: .875rem;
+}
+
+.btn-disabled {
+    background-color: @color-gray-100;
+    border-color: @color-gray-90;
+
+    &:hover {
+        background: @color-gray-100;
+    }
+}
+
+@media (min-width: 768px) {
+    .btn-more {
+        padding: 1rem 2.5rem;
+    }
+}

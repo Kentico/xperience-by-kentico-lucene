@@ -1,0 +1,46 @@
+﻿@model DancingGoat.Models.EventViewModel
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="events-section">
+            <div class="title-wrapper">
+                <h1 class="title-tab">@HtmlLocalizer["Events"]</h1>
+            </div>
+            <div class="event-tile">
+                <div class="event-tile-inner row">
+                    <div class="col-md-12 lg-hidden xl-hidden">
+                        <img src="@Model.HeroBannerImageUrl" alt="@Model.HeroBannerShortDescription" title="@Model.Title" class="event-tile-image" loading="lazy">
+                    </div>
+                    <div class="col-md-12 col-lg-6 col-xl-8 event-tile-info">
+                        <div class="event-tile-content">
+                            <h2>
+                                @Model.Title
+                            </h2>
+                            <div class="event-tile-text">
+                                <p class="event-tile-promo-text">
+                                    @Model.PromoText
+                                </p>
+                                <ul class="event-tile-details">
+                                    <li>When: @Model.Date.ToString("g")</li>
+                                    @if (!String.IsNullOrEmpty(Model.Location))
+                                    {
+                                        <li>Where: @Model.Location</li>
+                                    }
+                                    @if (Model.Coffees is not null)
+                                    {
+                                        <li>
+                                            What: @string.Join(", ", @Model.Coffees)
+                                        </li>
+                                    }
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-xl-4 xs-hidden sm-hidden md-hidden">
+                        <img src="@Model.HeroBannerImageUrl" alt="@Model.HeroBannerShortDescription" title="@Model.Title" class="event-tile-image" loading="lazy">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

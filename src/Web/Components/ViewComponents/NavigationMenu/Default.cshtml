@@ -1,0 +1,12 @@
+﻿@using DancingGoat.Models
+
+@model IEnumerable<NavigationItemViewModel>
+
+<ul class="nav-menu">
+    @foreach (var navigationItem in Model)
+    {
+        <li>
+            <a href="@navigationItem.RelativeUrl">@HtmlLocalizer[navigationItem.Caption]</a>
+        </li>
+    }
+</ul>

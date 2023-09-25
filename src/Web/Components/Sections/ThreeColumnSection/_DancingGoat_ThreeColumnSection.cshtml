@@ -1,0 +1,23 @@
+﻿@using DancingGoat.Sections
+
+@model ComponentViewModel<ThreeColumnSectionProperties>
+
+@if (!string.IsNullOrWhiteSpace(Model.Properties.Title))
+{
+    <div class="row">
+        <div class="title-wrapper">
+            <h1 class="title-tab">@Model.Properties.Title</h1>
+        </div>
+    </div>
+}
+<div class="row row--with-cols-padding @Model.Properties.Theme">
+    <div class="col-md-4">
+        <widget-zone allowed-widgets="ZoneRestrictions.GetNarrowZoneRestrictions()" />
+    </div>
+    <div class="col-md-4">
+        <widget-zone allowed-widgets="ZoneRestrictions.GetNarrowZoneRestrictions()" />
+    </div>
+    <div class="col-md-4">
+        <widget-zone allowed-widgets="ZoneRestrictions.GetNarrowZoneRestrictions()" />
+    </div>
+</div>

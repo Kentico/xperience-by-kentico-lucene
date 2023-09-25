@@ -1,0 +1,24 @@
+﻿@using DancingGoat.InlineEditors
+@using DancingGoat.Widgets
+
+@model ComponentViewModel<CTAButtonWidgetProperties>
+
+<div class="clear center-text">
+    @if (Context.Kentico().PageBuilder().EditMode)
+    {
+        <div class="btn btn-more">
+            <partial name="~/Components/InlineEditors/TextEditor/_TextEditor.cshtml"
+                     model="new TextEditorViewModel
+                        {
+                            PropertyName = nameof(CTAButtonWidgetProperties.Text),
+                            Text = Model.Properties.Text,
+                        }" />
+        </div>
+    }
+    else
+    {
+        <a href="@(Model.Properties.LinkUrl ?? "#")" class="btn btn-more" @(Model.Properties.OpenInNewTab ? "target=_blank" : "")>
+            @Model.Properties.Text
+        </a>
+    }
+</div>

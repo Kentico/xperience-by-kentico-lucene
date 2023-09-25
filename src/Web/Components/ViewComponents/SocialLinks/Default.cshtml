@@ -1,0 +1,10 @@
+﻿@model IEnumerable<DancingGoat.Models.SocialLinkViewModel>
+
+<div class="social-links">
+    @foreach (var link in Model)
+    {
+        <a class="followus-link" href="@link.Url" target="_blank">
+            <img src="@Url.Content(link.IconPath)" alt="@link.Title" title="@link.Title" loading="lazy" />
+        </a>
+    }
+</div>

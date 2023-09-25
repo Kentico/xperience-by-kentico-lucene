@@ -1,0 +1,51 @@
+﻿@using DancingGoat.InlineEditors
+@using DancingGoat.Widgets
+
+@model HeroImageWidgetViewModel
+
+@{
+    string styleAttribute = null;
+    if (!string.IsNullOrEmpty(Model.ImagePath))
+    {
+        styleAttribute = $"style=\"background-image: url('{Url.Content(Model.ImagePath)}');\"";
+    }
+}
+
+<section class="hero-image-section @Model.Theme" @Html.Raw(styleAttribute)>
+    <div class="content">
+        <div class="text">
+            @if (Context.Kentico().PageBuilder().EditMode)
+            {
+                <partial name="~/Components/InlineEditors/TextEditor/_TextEditor.cshtml"
+                         model="new TextEditorViewModel
+                                {
+                                    PropertyName = nameof(HeroImageWidgetProperties.Text),
+                                    Text = Model.Text,
+                                }" />
+            }
+            else
+            {
+                @Model.Text
+            }
+        </div>
+        @if (Context.Kentico().PageBuilder().EditMode)
+        {
+            <div class="btn">
+                @{
+                    <partial name="~/Components/InlineEditors/TextEditor/_TextEditor.cshtml"
+                             model="new TextEditorViewModel
+                                {
+                                    PropertyName = nameof(HeroImageWidgetProperties.ButtonText),
+                                    Text = Model.ButtonText,
+                                }" />
+                }
+            </div>
+        }
+        else
+        {
+            <a href="@Model.ButtonTarget" class="btn">
+                @Model.ButtonText
+            </a>
+        }
+    </div>
+</section>
