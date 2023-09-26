@@ -1,4 +1,5 @@
-﻿using Kentico.Xperience.Lucene.Attributes;
+﻿using CMS.Websites;
+using Kentico.Xperience.Lucene.Attributes;
 using Kentico.Xperience.Lucene.Models;
 using Lucene.Net.Documents;
 using Lucene.Net.Facet;

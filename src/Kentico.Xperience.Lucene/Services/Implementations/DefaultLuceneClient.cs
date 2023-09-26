@@ -1,12 +1,22 @@
-using CMS.Core;
 using CMS.Helpers.Caching.Abstractions;
 using Kentico.Xperience.Lucene.Models;
 using Lucene.Net.Index;
 using Lucene.Net.Search;
 using CMS.ContentEngine;
 using CMS.Websites;
+using System.ComponentModel;
 
 namespace Kentico.Xperience.Lucene.Services;
+
+public class Cont : IWebPageFieldsSource
+{
+    public WebPageFields SystemFields { get; }
+
+    public Cont()
+    { 
+        SystemFields = new WebPageFields();
+    }
+}
 
 /// <summary>
 /// Default implementation of <see cref="ILuceneClient"/>.
@@ -15,6 +25,7 @@ internal class DefaultLuceneClient : ILuceneClient
 {
     private readonly ILuceneIndexService luceneIndexService;
     private readonly ILuceneSearchModelToDocumentMapper luceneSearchModelToDocumentMapper;
+    private readonly IWebPageQueryResultMapper mapper;
 
     private readonly IContentQueryExecutor executor;
     private readonly ICacheAccessor cacheAccessor;
@@ -28,12 +39,14 @@ internal class DefaultLuceneClient : ILuceneClient
         ICacheAccessor cacheAccessor,
         ILuceneIndexService luceneIndexService,
         ILuceneSearchModelToDocumentMapper luceneSearchModelToDocumentMapper,
-        IContentQueryExecutor executor)
+        IContentQueryExecutor executor,
+        IWebPageQueryResultMapper mapper)
     {
         this.cacheAccessor = cacheAccessor;
         this.luceneIndexService = luceneIndexService;
         this.luceneSearchModelToDocumentMapper = luceneSearchModelToDocumentMapper;
         this.executor = executor;
+        this.mapper = mapper;   
     }
 
     /// <inheritdoc />
@@ -142,10 +155,12 @@ internal class DefaultLuceneClient : ILuceneClient
 
             queryBuilder.InLanguage(luceneIndex.Language);
 
-            var webPageItems = (await executor.GetWebPageResult(queryBuilder, container => (IWebPageFieldsSource)container, cancellationToken: cancellationToken ?? default))
-                .Where(webPageItem => luceneIndex.LuceneIndexingStrategy.ShouldIndexNode(webPageItem));
+            var webPageItems = (await executor.GetWebPageResult(queryBuilder, container => mapper.Map<WebPageFields>(container), cancellationToken: cancellationToken ?? default));
+                //.Where(webPageItem => luceneIndex.LuceneIndexingStrategy.ShouldIndexNode(webPageItem));
 
-            indexedWebPageItems.AddRange(webPageItems);
+
+
+           //indexedWebPageItems.AddRange(webPageItems);
         }
 
         indexedWebPageItems.ForEach(node => LuceneQueueWorker.EnqueueLuceneQueueItem(new LuceneQueueItem(node, LuceneTaskType.CREATE, luceneIndex.IndexName)));
