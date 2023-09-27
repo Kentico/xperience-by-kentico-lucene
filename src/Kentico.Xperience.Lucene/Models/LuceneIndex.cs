@@ -92,6 +92,8 @@ public sealed class LuceneIndex
     /// <param name="type">The type of the class which extends <see cref="LuceneSearchModel"/>.</param>
     /// <param name="analyzer">Lucene Analyzer instance <see cref="Analyzer"/>.</param>
     /// <param name="indexName">The code name of the Lucene index.</param>
+    /// <param name="webSiteChannelName">The name of the Website Channel where the Index should be applied</param>
+    /// <param name="language">The language used on the Website where the Index should be applied</param>
     /// <param name="indexPath">The filesystem Lucene index. Defaults to /App_Data/LuceneSearch/[IndexName]</param>
     /// <param name="luceneIndexingStrategy">Defaults to  <see cref="DefaultLuceneIndexingStrategy"/></param>
     /// <param name="storageStrategy">Storage strategy defines how index will be stored from directory naming perspective</param>

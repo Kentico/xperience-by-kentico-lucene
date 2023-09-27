@@ -11,9 +11,9 @@ public interface ILuceneTaskLogger
 {
     /// <summary>
     /// Logs an <see cref="LuceneQueueItem"/> for each registered crawler. Then, loops
-    /// through all registered Lucene indexes and logs a task if the passed <paramref name="webPageItem"/> is indexed.
+    /// through all registered Lucene indexes and logs a task if the passed <paramref name="pageContentContainer"/> is indexed.
     /// </summary>
-    /// <param name="webPageItem">The <see cref="IWebPageFieldsSource"/> that triggered the event.</param>
+    /// <param name="pageContentContainer">The <see cref="IWebPageContentQueryDataContainer"/> that triggered the event.</param>
     /// <param name="eventName">The name of the Xperience event that was triggered.</param>
-    void HandleEvent(IWebPageContentQueryDataContainer webPageItem, string eventName);
+    void HandleEvent(IWebPageContentQueryDataContainer pageContentContainer, string eventName);
 }

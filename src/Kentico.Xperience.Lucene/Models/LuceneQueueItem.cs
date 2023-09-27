@@ -1,18 +1,17 @@
-﻿using CMS.DocumentEngine;
-using CMS.Websites;
+﻿using CMS.Websites;
 
 namespace Kentico.Xperience.Lucene.Models;
 
 /// <summary>
 /// A queued item to be processed by <see cref="LuceneQueueWorker"/> which
-/// represents a recent change made to an indexed <see cref="TreeNode"/>.
+/// represents a recent change made to an indexed <see cref="IWebPageContentQueryDataContainer"/> which is a representation of a WebPageItem.
 /// </summary>
 public sealed class LuceneQueueItem
 {
     /// <summary>
-    /// The <see cref="TreeNode"/> that was changed.
+    /// The <see cref="IWebPageContentQueryDataContainer"/> that was changed.
     /// </summary>
-    public IWebPageContentQueryDataContainer Container
+    public IWebPageContentQueryDataContainer PageContentContainer
     {
         get;
     }
@@ -35,6 +34,9 @@ public sealed class LuceneQueueItem
         get;
     }
 
+    /// <summary>
+    /// The language where the index is applied.
+    /// </summary>
     public string Language
     {
         get;
@@ -43,21 +45,22 @@ public sealed class LuceneQueueItem
     /// <summary>
     /// Initializes a new instance of the <see cref="LuceneQueueItem"/> class.
     /// </summary>
-    /// <param name="container">The <see cref="TreeNode"/> that was changed.</param>
+    /// <param name="pageContentContainer">The <see cref="IWebPageContentQueryDataContainer"/> that was changed.</param>
     /// <param name="taskType">The type of the Lucene task.</param>
     /// <param name="indexName">The code name of the Lucene index to be updated.</param>
+    /// <param name="language">The language where the Index is applied.</param>
     /// <exception cref="ArgumentNullException" />
-    public LuceneQueueItem(IWebPageContentQueryDataContainer container, LuceneTaskType taskType, string indexName, string language)
+    public LuceneQueueItem(IWebPageContentQueryDataContainer pageContentContainer, LuceneTaskType taskType, string indexName, string language)
     {
         if (string.IsNullOrEmpty(indexName))
         {
             throw new ArgumentNullException(nameof(indexName));
         }
 
-        Container = container;
-        if (taskType != LuceneTaskType.PUBLISH_INDEX && container == null)
+        PageContentContainer = pageContentContainer;
+        if (taskType != LuceneTaskType.PUBLISH_INDEX && pageContentContainer == null)
         {
-            throw new ArgumentNullException(nameof(container));
+            throw new ArgumentNullException(nameof(pageContentContainer));
         }
         TaskType = taskType;
         IndexName = indexName;

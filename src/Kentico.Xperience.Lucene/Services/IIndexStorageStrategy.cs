@@ -21,6 +21,7 @@ public class IndexStorageContext
 
     public IndexStorageModel GetPublishedIndex()
     {
+        
         var published = storageStrategy
             .GetExistingIndexes(indexStoragePathRoot)
             .Where(x => x.IsPublished)

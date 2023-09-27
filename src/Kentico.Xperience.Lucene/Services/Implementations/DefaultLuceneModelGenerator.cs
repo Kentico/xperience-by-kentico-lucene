@@ -53,21 +53,21 @@ internal class DefaultLuceneModelGenerator : ILuceneModelGenerator
         var data = Activator.CreateInstance(luceneIndex.LuceneSearchModelType) as LuceneSearchModel ?? throw new Exception($"Faild to create instance of {luceneIndex.LuceneSearchModelType}");
 
         await MapChangedProperties(luceneIndex, queueItem, data!, queueItem.Language);
-        await MapCommonProperties(queueItem.Container, data!, queueItem.Language);
-        data = await luceneIndex.LuceneIndexingStrategy.OnIndexingNode(queueItem.Container, data);
+        await MapCommonProperties(queueItem.PageContentContainer, data!, queueItem.Language);
+        data = await luceneIndex.LuceneIndexingStrategy.OnIndexingNode(queueItem.PageContentContainer, data);
         return data;
     }
 
     /// <summary>
-    /// Converts the assets from the <paramref name="webPageItem"/>'s value into absolute URLs.
+    /// Converts the assets from the <paramref name="pageContentContainer"/>'s value into absolute URLs.
     /// </summary>
     /// <remarks>Logs an error if the definition of the <paramref name="columnName"/> can't
     /// be found.</remarks>
-    /// <param name="webPageItem">The <see cref="IWebPageFieldsSource"/> the value was loaded from.</param>
+    /// <param name="pageContentContainer">The <see cref="IWebPageContentQueryDataContainer"/> the value was loaded from.</param>
     /// <param name="nodeValue">The original value of the column.</param>
     /// <param name="columnName">The name of the column the value was loaded from.</param>
     /// <returns>An list of absolute URLs, or an empty list.</returns>
-    private IEnumerable<string> GetAssetUrlsForColumn(IWebPageContentQueryDataContainer webPageItem, object nodeValue, string columnName)
+    private IEnumerable<string> GetAssetUrlsForColumn(IWebPageContentQueryDataContainer pageContentContainer, object nodeValue, string columnName)
     {
         string strValue = conversionService.GetString(nodeValue, string.Empty);
         if (string.IsNullOrEmpty(strValue))
@@ -76,12 +76,12 @@ internal class DefaultLuceneModelGenerator : ILuceneModelGenerator
         }
 
         // Ensure field is Asset type
-        var dataClassInfo = DataClassInfoProvider.GetDataClassInfo(webPageItem.GetType().Name, false);
+        var dataClassInfo = DataClassInfoProvider.GetDataClassInfo(pageContentContainer.GetType().Name, false);
         var formInfo = new FormInfo(dataClassInfo.ClassFormDefinition);
         var field = formInfo.GetFormField(columnName);
         if (field == null)
         {
-            eventLogService.LogError(nameof(DefaultLuceneModelGenerator), nameof(GetAssetUrlsForColumn), $"Unable to load field definition for content type '{webPageItem.GetType().Name}' column name '{columnName}.'");
+            eventLogService.LogError(nameof(DefaultLuceneModelGenerator), nameof(GetAssetUrlsForColumn), $"Unable to load field definition for content type '{pageContentContainer.GetType().Name}' column name '{columnName}.'");
             return Enumerable.Empty<string>();
         }
 
@@ -142,20 +142,20 @@ internal class DefaultLuceneModelGenerator : ILuceneModelGenerator
 
 
     /// <summary>
-    /// Gets the <paramref name="webPageItem"/> value using the <paramref name="property"/>
+    /// Gets the <paramref name="pageContentContainer"/> value using the <paramref name="property"/>
     /// name, or the property's <see cref="SourceAttribute"/> if specified.
     /// </summary>
-    /// <param name="webPageItem">The <see cref="IWebPageFieldsSource"/> to load a value from.</param>
+    /// <param name="pageContentContainer">The <see cref="IWebPageContentQueryDataContainer"/> to load a value from.</param>
     /// <param name="property">The Lucene search model property.</param>
     /// <param name="indexingStrategy">The indexing strategy.</param>
     /// <param name="columnsToUpdate">A list of columns to retrieve values for. Columns not present
     /// in this list will return <c>null</c>.</param>
-    private async Task<object?> GetWebPageItemValue(IWebPageContentQueryDataContainer webPageItem, PropertyInfo property, ILuceneIndexingStrategy indexingStrategy, IEnumerable<string> columnsToUpdate, string language)
+    private async Task<object?> GetWebPageItemValue(IWebPageContentQueryDataContainer pageContentContainer, PropertyInfo property, ILuceneIndexingStrategy indexingStrategy, IEnumerable<string> columnsToUpdate, string language)
     {
         object? webPageItemValue = null;
         string usedColumn = property.Name;
 
-        var properties = webPageItem.GetType().GetProperties();
+        var properties = pageContentContainer.GetType().GetProperties();
 
         if (Attribute.IsDefined(property, typeof(SourceAttribute)))
         {
@@ -169,7 +169,7 @@ internal class DefaultLuceneModelGenerator : ILuceneModelGenerator
                     continue;
                 }
 
-                prop.GetValue(webPageItem);
+                prop.GetValue(pageContentContainer);
 
                 if (webPageItemValue != null)
                 {
@@ -186,16 +186,16 @@ internal class DefaultLuceneModelGenerator : ILuceneModelGenerator
             }
 
             var prop = properties.FirstOrDefault(x => x.Name == property.Name);
-            webPageItemValue = prop?.GetValue(webPageItem);
+            webPageItemValue = prop?.GetValue(pageContentContainer);
         }
 
         // Convert node value to URLs if necessary
         if (webPageItemValue != null && Attribute.IsDefined(property, typeof(MediaUrlsAttribute)))
         {
-            webPageItemValue = GetAssetUrlsForColumn(webPageItem, webPageItemValue, usedColumn);
+            webPageItemValue = GetAssetUrlsForColumn(pageContentContainer, webPageItemValue, usedColumn);
         }
 
-        webPageItemValue = await indexingStrategy.OnIndexingProperty(webPageItem, property.Name, usedColumn, webPageItemValue, language);
+        webPageItemValue = await indexingStrategy.OnIndexingProperty(pageContentContainer, property.Name, usedColumn, webPageItemValue, language);
 
         return webPageItemValue;
     }
@@ -203,7 +203,7 @@ internal class DefaultLuceneModelGenerator : ILuceneModelGenerator
 
     /// <summary>
     /// Adds values to the <paramref name="data"/> by retriving the indexed columns of the index
-    /// and getting values from the <see cref="LuceneQueueItem.Container"/>.
+    /// and getting values from the <see cref="LuceneQueueItem.PageContentContainer"/>.
     /// </summary>
     private async Task MapChangedProperties(LuceneIndex luceneIndex, LuceneQueueItem queueItem, LuceneSearchModel data, string language)
     {
@@ -217,7 +217,7 @@ internal class DefaultLuceneModelGenerator : ILuceneModelGenerator
         var properties = luceneIndex.LuceneSearchModelType.GetProperties(BindingFlags.Public | BindingFlags.Instance);
         foreach (var prop in properties)
         {
-            object? nodeValue = await GetWebPageItemValue(queueItem.Container, prop, luceneIndex.LuceneIndexingStrategy, columnsToUpdate, language);
+            object? nodeValue = await GetWebPageItemValue(queueItem.PageContentContainer, prop, luceneIndex.LuceneIndexingStrategy, columnsToUpdate, language);
             if (nodeValue == null)
             {
                 continue;
@@ -259,17 +259,18 @@ internal class DefaultLuceneModelGenerator : ILuceneModelGenerator
     /// Sets values in the <paramref name="data"/> object using the common search model properties
     /// located within the <see cref="LuceneSearchModel"/> class.
     /// </summary>
-    /// <param name="webPageItem">The <see cref="IWebPageFieldsSource"/> to load values from.</param>
+    /// <param name="pageContentContainer">The <see cref="IWebPageContentQueryDataContainer"/> to load values from.</param>
     /// <param name="data">The data object based on <see cref="LuceneSearchModel"/>.</param>
-    private async Task MapCommonProperties(IWebPageContentQueryDataContainer webPageItem, LuceneSearchModel data, string languageName)
+    /// <param name="languageName">The language on the WebSite which is indexed.</param>
+    private async Task MapCommonProperties(IWebPageContentQueryDataContainer pageContentContainer, LuceneSearchModel data, string languageName)
     {
-        data.ObjectID = webPageItem.ContentItemID.ToString();
-        data.ClassName = webPageItem.ContentItemName;
+        data.ObjectID = pageContentContainer.ContentItemID.ToString();
+        data.ClassName = pageContentContainer.ContentItemName;
 
         string url;
         try
         {
-            url = (await urlRetriever.Retrieve(webPageItem.WebPageItemID, languageName)).RelativePath;
+            url = (await urlRetriever.Retrieve(pageContentContainer.WebPageItemID, languageName)).RelativePath;
         }
         catch (Exception)
         {

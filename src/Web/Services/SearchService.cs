@@ -57,43 +57,29 @@ public class SearchService
 
         //    combinedQuery.Add(drillDownQuery, Occur.MUST);
         //}
+        
+        var result = luceneIndexService.UseSearcher(
+            index,
+            (searcher) =>
+            {
+                var topDocs = searcher.Search(query, MAX_RESULTS);
 
-        var result = luceneIndexService.UseSearcherWithFacets(
-           index,
-           query, 20,
-           (searcher, facets) =>
-           {
-               //var sortOptions = GetSortOption(sortBy);
-
-               TopDocs topDocs;
-
-               //if (sortOptions != null)
-               //{
-               //    topDocs = searcher.Search(combinedQuery, MAX_RESULTS
-               //        , new Sort(sortOptions));
-               //}
-               //else
-               //{
-                   topDocs = searcher.Search(combinedQuery, MAX_RESULTS);
-               //}
-
-               return new LuceneSearchResultModel<GlobalSearchResultModel>
-               {
-                   Query = searchText ?? "",
-                   Page = page,
-                   PageSize = pageSize,
-                   TotalPages = topDocs.TotalHits <= 0 ? 0 : ((topDocs.TotalHits - 1) / pageSize) + 1,
-                   TotalHits = topDocs.TotalHits,
-                   Hits = topDocs.ScoreDocs
-                       .Skip(offset)
-                       .Take(limit)
-                       .Select(d => MapToResultItem(searcher.Doc(d.Doc)))
-                       .ToList(),
-                   Facet = facet,
-                   Facets = facets?.GetTopChildren(10, "", new string[] {  })?.LabelValues.ToArray(),
-               };
-           }
-        );
+                return new LuceneSearchResultModel<GlobalSearchResultModel>()
+                {
+                    Query = searchText ?? "",
+                    Page = page,
+                    PageSize = pageSize,
+                    TotalPages = topDocs.TotalHits <= 0 ? 0 : ((topDocs.TotalHits - 1) / pageSize) + 1,
+                    TotalHits = topDocs.TotalHits,
+                    Hits = topDocs.ScoreDocs
+                        .Skip(offset)
+                        .Take(limit)
+                        .Select(d => MapToResultItem(searcher.Doc(d.Doc)))
+                        .ToList(),
+                };
+            }
+            );
+     
 
         return result;
     }

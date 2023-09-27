@@ -77,5 +77,5 @@ internal class DefaultLuceneTaskProcessor : ILuceneTaskProcessor
         return successfulOperations;
     }
 
-    private IEnumerable<string> GetIdsToDelete(IEnumerable<LuceneQueueItem> deleteTasks) => deleteTasks.Select(queueItem => queueItem.Container.ContentItemID.ToString());
+    private IEnumerable<string> GetIdsToDelete(IEnumerable<LuceneQueueItem> deleteTasks) => deleteTasks.Select(queueItem => queueItem.PageContentContainer.ContentItemID.ToString());
 }

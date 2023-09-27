@@ -8,7 +8,7 @@ namespace Kentico.Xperience.Lucene.Extensions;
 /// <summary>
 /// Lucene extension methods for the <see cref="IWebPageFieldsSource"/> class.
 /// </summary>
-internal static class IWebPageFieldsSourceExtensions
+internal static class IWebPageContentQueryDataContainerExtensions
 {
     /// <summary>
     /// Returns true if the node is included in any registered Lucene index.
@@ -48,7 +48,7 @@ internal static class IWebPageFieldsSourceExtensions
         var luceneIndex = IndexStore.Instance.GetIndex(indexName);
         if (luceneIndex == null)
         {
-            Service.Resolve<IEventLogService>().LogError(nameof(IWebPageFieldsSourceExtensions), nameof(IsIndexedByIndex), $"Error loading registered Lucene index '{indexName}.'");
+            Service.Resolve<IEventLogService>().LogError(nameof(IWebPageContentQueryDataContainerExtensions), nameof(IsIndexedByIndex), $"Error loading registered Lucene index '{indexName}.'");
             return false;
         }
 

@@ -12,13 +12,13 @@ namespace Kentico.Xperience.Lucene.Services.Implementations;
 public class DefaultLuceneIndexingStrategy : ILuceneIndexingStrategy
 {
     /// <inheritdoc />
-    public virtual Task<object?> OnIndexingProperty(IWebPageContentQueryDataContainer webPageItem, string propertyName, string usedColumn, object? foundValue, string language) => Task.FromResult(foundValue);
+    public virtual Task<object?> OnIndexingProperty(IWebPageContentQueryDataContainer pageContentContainer, string propertyName, string usedColumn, object? foundValue, string language) => Task.FromResult(foundValue);
 
     /// <inheritdoc />
-    public virtual Task<LuceneSearchModel> OnIndexingNode(IWebPageContentQueryDataContainer webPageItem, LuceneSearchModel model) => Task.FromResult(model);
+    public virtual Task<LuceneSearchModel> OnIndexingNode(IWebPageContentQueryDataContainer pageContentContainer, LuceneSearchModel model) => Task.FromResult(model);
 
     /// <inheritdoc />
-    public virtual bool ShouldIndexNode(IWebPageContentQueryDataContainer webPageItem) => true;
+    public virtual bool ShouldIndexNode(IWebPageContentQueryDataContainer pageContentContainer) => true;
 
     /// <inheritdoc />
     public virtual FacetsConfig? FacetsConfigFactory() => null;

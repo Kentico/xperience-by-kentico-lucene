@@ -20,24 +20,24 @@ internal class DefaultLuceneTaskLogger : ILuceneTaskLogger
 
 
     /// <inheritdoc />
-    public void HandleEvent(IWebPageContentQueryDataContainer webPageItem, string eventName)
+    public void HandleEvent(IWebPageContentQueryDataContainer pageContentContainer, string eventName)
     {
-        var taskType = GetTaskType(webPageItem, eventName);
+        var taskType = GetTaskType(pageContentContainer, eventName);
 
-        if (!webPageItem.IsLuceneIndexed())
+        if (!pageContentContainer.IsLuceneIndexed())
         {
             return;
         }
 
         foreach (string? indexName in IndexStore.Instance.GetAllIndexes().Select(index => index.IndexName))
         {
-            if (!webPageItem.IsIndexedByIndex(indexName))
+            if (!pageContentContainer.IsIndexedByIndex(indexName))
             {
                 continue;
             }
 
             var luceneIndex = IndexStore.Instance.GetIndex(indexName);
-            LogIndexTask(new LuceneQueueItem(webPageItem, taskType, indexName, luceneIndex!.Language));
+            LogIndexTask(new LuceneQueueItem(pageContentContainer, taskType, indexName, luceneIndex!.Language));
         }
     }
 

@@ -4,7 +4,6 @@ using Lucene.Net.Index;
 using Lucene.Net.Search;
 using CMS.ContentEngine;
 using CMS.Websites;
-using System.ComponentModel;
 
 namespace Kentico.Xperience.Lucene.Services;
 
@@ -16,7 +15,6 @@ internal class DefaultLuceneClient : ILuceneClient
 {
     private readonly ILuceneIndexService luceneIndexService;
     private readonly ILuceneSearchModelToDocumentMapper luceneSearchModelToDocumentMapper;
-    private readonly IWebPageQueryResultMapper mapper;
 
     private readonly IContentQueryExecutor executor;
     private readonly ICacheAccessor cacheAccessor;
@@ -30,14 +28,13 @@ internal class DefaultLuceneClient : ILuceneClient
         ICacheAccessor cacheAccessor,
         ILuceneIndexService luceneIndexService,
         ILuceneSearchModelToDocumentMapper luceneSearchModelToDocumentMapper,
-        IContentQueryExecutor executor,
-        IWebPageQueryResultMapper mapper)
+        IContentQueryExecutor executor
+        )
     {
         this.cacheAccessor = cacheAccessor;
         this.luceneIndexService = luceneIndexService;
         this.luceneSearchModelToDocumentMapper = luceneSearchModelToDocumentMapper;
         this.executor = executor;
-        this.mapper = mapper;   
     }
 
     /// <inheritdoc />
@@ -137,7 +134,6 @@ internal class DefaultLuceneClient : ILuceneClient
 
             if (includedPathAttribute.ContentTypes != null && includedPathAttribute.ContentTypes.Length > 0)
             {
-
                 foreach (var contentType in includedPathAttribute.ContentTypes)
                 {
                     queryBuilder.ForContentType(contentType, config => config.WithLinkedItems(1).ForWebsite(luceneIndex.WebSiteChannelName, includeUrlPath: true));

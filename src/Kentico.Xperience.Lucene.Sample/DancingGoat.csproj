@@ -29,4 +29,7 @@
     <PackageReference Include="kentico.xperience.imageprocessing" />
     <PackageReference Include="kentico.xperience.webapp" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="App_Data\" />
+  </ItemGroup>
 </Project>
