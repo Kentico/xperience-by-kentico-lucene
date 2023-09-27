@@ -52,9 +52,9 @@ internal class DefaultLuceneModelGenerator : ILuceneModelGenerator
 
         var data = Activator.CreateInstance(luceneIndex.LuceneSearchModelType) as LuceneSearchModel ?? throw new Exception($"Faild to create instance of {luceneIndex.LuceneSearchModelType}");
 
-        await MapChangedProperties(luceneIndex, queueItem, data!);
-        await MapCommonProperties(queueItem.WebPageItem, data!);
-        data = await luceneIndex.LuceneIndexingStrategy.OnIndexingNode(queueItem.WebPageItem, data);
+        await MapChangedProperties(luceneIndex, queueItem, data!, queueItem.Language);
+        await MapCommonProperties(queueItem.Container, data!, queueItem.Language);
+        data = await luceneIndex.LuceneIndexingStrategy.OnIndexingNode(queueItem.Container, data);
         return data;
     }
 
@@ -67,7 +67,7 @@ internal class DefaultLuceneModelGenerator : ILuceneModelGenerator
     /// <param name="nodeValue">The original value of the column.</param>
     /// <param name="columnName">The name of the column the value was loaded from.</param>
     /// <returns>An list of absolute URLs, or an empty list.</returns>
-    private IEnumerable<string> GetAssetUrlsForColumn(IWebPageFieldsSource webPageItem, object nodeValue, string columnName)
+    private IEnumerable<string> GetAssetUrlsForColumn(IWebPageContentQueryDataContainer webPageItem, object nodeValue, string columnName)
     {
         string strValue = conversionService.GetString(nodeValue, string.Empty);
         if (string.IsNullOrEmpty(strValue))
@@ -150,7 +150,7 @@ internal class DefaultLuceneModelGenerator : ILuceneModelGenerator
     /// <param name="indexingStrategy">The indexing strategy.</param>
     /// <param name="columnsToUpdate">A list of columns to retrieve values for. Columns not present
     /// in this list will return <c>null</c>.</param>
-    private async Task<object?> GetWebPageItemValue(IWebPageFieldsSource webPageItem, PropertyInfo property, ILuceneIndexingStrategy indexingStrategy, IEnumerable<string> columnsToUpdate)
+    private async Task<object?> GetWebPageItemValue(IWebPageContentQueryDataContainer webPageItem, PropertyInfo property, ILuceneIndexingStrategy indexingStrategy, IEnumerable<string> columnsToUpdate, string language)
     {
         object? webPageItemValue = null;
         string usedColumn = property.Name;
@@ -195,7 +195,7 @@ internal class DefaultLuceneModelGenerator : ILuceneModelGenerator
             webPageItemValue = GetAssetUrlsForColumn(webPageItem, webPageItemValue, usedColumn);
         }
 
-        webPageItemValue = await indexingStrategy.OnIndexingProperty(webPageItem, property.Name, usedColumn, webPageItemValue);
+        webPageItemValue = await indexingStrategy.OnIndexingProperty(webPageItem, property.Name, usedColumn, webPageItemValue, language);
 
         return webPageItemValue;
     }
@@ -203,9 +203,9 @@ internal class DefaultLuceneModelGenerator : ILuceneModelGenerator
 
     /// <summary>
     /// Adds values to the <paramref name="data"/> by retriving the indexed columns of the index
-    /// and getting values from the <see cref="LuceneQueueItem.WebPageItem"/>.
+    /// and getting values from the <see cref="LuceneQueueItem.Container"/>.
     /// </summary>
-    private async Task MapChangedProperties(LuceneIndex luceneIndex, LuceneQueueItem queueItem, LuceneSearchModel data)
+    private async Task MapChangedProperties(LuceneIndex luceneIndex, LuceneQueueItem queueItem, LuceneSearchModel data, string language)
     {
         var columnsToUpdate = new List<string>();
         string[] indexedColumns = GetIndexedColumnNames(luceneIndex);
@@ -217,7 +217,7 @@ internal class DefaultLuceneModelGenerator : ILuceneModelGenerator
         var properties = luceneIndex.LuceneSearchModelType.GetProperties(BindingFlags.Public | BindingFlags.Instance);
         foreach (var prop in properties)
         {
-            object? nodeValue = await GetWebPageItemValue(queueItem.WebPageItem, prop, luceneIndex.LuceneIndexingStrategy, columnsToUpdate);
+            object? nodeValue = await GetWebPageItemValue(queueItem.Container, prop, luceneIndex.LuceneIndexingStrategy, columnsToUpdate, language);
             if (nodeValue == null)
             {
                 continue;
@@ -255,22 +255,21 @@ internal class DefaultLuceneModelGenerator : ILuceneModelGenerator
         }
     }
 
-
     /// <summary>
     /// Sets values in the <paramref name="data"/> object using the common search model properties
     /// located within the <see cref="LuceneSearchModel"/> class.
     /// </summary>
     /// <param name="webPageItem">The <see cref="IWebPageFieldsSource"/> to load values from.</param>
     /// <param name="data">The data object based on <see cref="LuceneSearchModel"/>.</param>
-    private async Task MapCommonProperties(IWebPageFieldsSource webPageItem, LuceneSearchModel data)
+    private async Task MapCommonProperties(IWebPageContentQueryDataContainer webPageItem, LuceneSearchModel data, string languageName)
     {
-        data.ObjectID = webPageItem.SystemFields.ContentItemID.ToString();
-        data.ClassName = webPageItem.SystemFields.ContentItemName;
+        data.ObjectID = webPageItem.ContentItemID.ToString();
+        data.ClassName = webPageItem.ContentItemName;
 
         string url;
         try
         {
-            url = (await urlRetriever.Retrieve(webPageItem)).RelativePath;
+            url = (await urlRetriever.Retrieve(webPageItem.WebPageItemID, languageName)).RelativePath;
         }
         catch (Exception)
         {

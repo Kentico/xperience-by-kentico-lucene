@@ -12,7 +12,7 @@ public sealed class LuceneQueueItem
     /// <summary>
     /// The <see cref="TreeNode"/> that was changed.
     /// </summary>
-    public IWebPageFieldsSource WebPageItem
+    public IWebPageContentQueryDataContainer Container
     {
         get;
     }
@@ -35,27 +35,32 @@ public sealed class LuceneQueueItem
         get;
     }
 
+    public string Language
+    {
+        get;
+    }
 
     /// <summary>
     /// Initializes a new instance of the <see cref="LuceneQueueItem"/> class.
     /// </summary>
-    /// <param name="node">The <see cref="TreeNode"/> that was changed.</param>
+    /// <param name="container">The <see cref="TreeNode"/> that was changed.</param>
     /// <param name="taskType">The type of the Lucene task.</param>
     /// <param name="indexName">The code name of the Lucene index to be updated.</param>
     /// <exception cref="ArgumentNullException" />
-    public LuceneQueueItem(IWebPageFieldsSource node, LuceneTaskType taskType, string indexName)
+    public LuceneQueueItem(IWebPageContentQueryDataContainer container, LuceneTaskType taskType, string indexName, string language)
     {
         if (string.IsNullOrEmpty(indexName))
         {
             throw new ArgumentNullException(nameof(indexName));
         }
 
-        WebPageItem = node;
-        if (taskType != LuceneTaskType.PUBLISH_INDEX && node == null)
+        Container = container;
+        if (taskType != LuceneTaskType.PUBLISH_INDEX && container == null)
         {
-            throw new ArgumentNullException(nameof(node));
+            throw new ArgumentNullException(nameof(container));
         }
         TaskType = taskType;
         IndexName = indexName;
+        Language = language;
     }
 }

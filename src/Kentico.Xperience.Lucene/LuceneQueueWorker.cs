@@ -33,7 +33,7 @@ internal class LuceneQueueWorker : ThreadQueueWorker<LuceneQueueItem, LuceneQueu
     /// <exception cref="InvalidOperationException" />
     public static void EnqueueLuceneQueueItem(LuceneQueueItem queueItem)
     {
-        if (queueItem == null || (queueItem.WebPageItem == null && queueItem.TaskType != LuceneTaskType.PUBLISH_INDEX) || string.IsNullOrEmpty(queueItem.IndexName))
+        if (queueItem == null || (queueItem.Container == null && queueItem.TaskType != LuceneTaskType.PUBLISH_INDEX) || string.IsNullOrEmpty(queueItem.IndexName))
         {
             return;
         }
@@ -51,8 +51,8 @@ internal class LuceneQueueWorker : ThreadQueueWorker<LuceneQueueItem, LuceneQueu
         Current.Enqueue(queueItem, false);
     }
 
-    public static void EnqueueIndexPublication(string indexName)
-        => EnqueueLuceneQueueItem(new LuceneQueueItem(null!, LuceneTaskType.PUBLISH_INDEX, indexName));
+    public static void EnqueueIndexPublication(string indexName, string language)
+        => EnqueueLuceneQueueItem(new LuceneQueueItem(null!, LuceneTaskType.PUBLISH_INDEX, indexName, language));
 
 
     /// <inheritdoc />

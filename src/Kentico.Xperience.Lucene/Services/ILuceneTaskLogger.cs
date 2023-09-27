@@ -15,5 +15,5 @@ public interface ILuceneTaskLogger
     /// </summary>
     /// <param name="webPageItem">The <see cref="IWebPageFieldsSource"/> that triggered the event.</param>
     /// <param name="eventName">The name of the Xperience event that was triggered.</param>
-    void HandleEvent(IWebPageFieldsSource webPageItem, string eventName);
+    void HandleEvent(IWebPageContentQueryDataContainer webPageItem, string eventName);
 }

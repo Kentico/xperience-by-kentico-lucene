@@ -21,7 +21,7 @@ public interface ILuceneIndexingStrategy
     /// <param name="foundValue">The value of the property that was found in the <paramref name="webPageItem"/>,
     /// or null if no value was found.</param>
     /// <returns>The value that will be indexed in Lucene.</returns>
-    Task<object?> OnIndexingProperty(IWebPageFieldsSource webPageItem, string propertyName, string usedColumn, object? foundValue);
+    Task<object?> OnIndexingProperty(IWebPageContentQueryDataContainer webPageItem, string propertyName, string usedColumn, object? foundValue, string language);
 
 
 
@@ -31,14 +31,14 @@ public interface ILuceneIndexingStrategy
     /// <param name="webPageItem">The <see cref="IWebPageFieldsSource"/> currently being indexed.</param>
     /// <param name="model">The resulting search data <see cref="LuceneSearchModel"/> to be modified. The model could be changed during the process.</param>
     /// <returns>Modified Lucene document.</returns>
-    Task<LuceneSearchModel> OnIndexingNode(IWebPageFieldsSource webPageItem, LuceneSearchModel model);
+    Task<LuceneSearchModel> OnIndexingNode(IWebPageContentQueryDataContainer webPageItem, LuceneSearchModel model);
 
     /// <summary>
     /// Called when indexing a search model. Could be used to disable indexing of documents that match the scope, but should not be indexed e.g. error pages.
     /// </summary>
     /// <param name="webPageItem">The <see cref="IWebPageFieldsSource"/> currently being indexed.</param>
     /// <returns>bool</returns>
-    bool ShouldIndexNode(IWebPageFieldsSource webPageItem);
+    bool ShouldIndexNode(IWebPageContentQueryDataContainer webPageItem);
 
     /// <summary>
     /// When overriden and configuration supplied, indexing will also create taxonomy index for facet search

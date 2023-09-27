@@ -1,6 +1,7 @@
 using System;
 
 using DancingGoat;
+using DancingGoat.Extensions;
 using DancingGoat.Models;
 
 using Kentico.Activities.Web.Mvc;
@@ -46,17 +47,7 @@ builder.Services.AddKentico(features =>
     features.UseActivityTracking();
 });
 
-//builder.Services.AddLucene(new[]
-//{
-//    new LuceneIndex(
-//        typeof(GlobalSearchModel),
-//        new StandardAnalyzer(Lucene.Net.Util.LuceneVersion.LUCENE_48),
-//        GlobalSearchModel.IndexName,
-//        "",
-//        "en-US",
-//        indexPath: null,
-//        new GlobalSearchModelIndexingStrategy()),
-//});
+builder.Services.AddLuceneSearchServices();
 
 builder.Services.Configure<RouteOptions>(options => options.LowercaseUrls = true);
 

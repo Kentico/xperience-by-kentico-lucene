@@ -173,28 +173,6 @@
           "System.IdentityModel.Tokens.Jwt": "6.31.0"
         }
       },
-      "Kentico.Xperience.Core": {
-        "type": "Transitive",
-        "resolved": "27.0.0-b251782",
-        "contentHash": "BTx/9FwhgYGKmWVbjOo07Zcem6Haulw5Hn1p4A3gUN3HB88Beb0ww2d/F0UE6OkE0wovmuMLHt9TPV4DtB7iNQ==",
-        "dependencies": {
-          "AngleSharp": "0.17.1",
-          "MailKit": "4.2.0",
-          "Microsoft.Data.SqlClient": "5.1.1",
-          "Microsoft.Extensions.Caching.Memory": "6.0.1",
-          "Microsoft.Extensions.Configuration": "6.0.1",
-          "Microsoft.Extensions.Configuration.Binder": "6.0.0",
-          "Microsoft.Extensions.DependencyInjection": "6.0.1",
-          "Microsoft.Extensions.FileProviders.Physical": "6.0.0",
-          "Microsoft.Extensions.Hosting.Abstractions": "6.0.0",
-          "Microsoft.Extensions.Localization": "6.0.22",
-          "Microsoft.Extensions.Options.ConfigurationExtensions": "6.0.0",
-          "Mono.Cecil": "0.11.5",
-          "Newtonsoft.Json": "13.0.3",
-          "System.CodeDom": "7.0.0",
-          "System.Configuration.ConfigurationManager": "6.0.1"
-        }
-      },
       "Lucene.Net.Grouping": {
         "type": "Transitive",
         "resolved": "4.8.0-beta00016",
@@ -709,6 +687,29 @@
         "type": "Transitive",
         "resolved": "4.5.4",
         "contentHash": "zteT+G8xuGu6mS+mzDzYXbzS7rd3K6Fjb9RiZlYlJPam2/hU7JCBZBVEcywNuR+oZ1ncTvc/cq0faRr3P01OVg=="
+      },
+      "Kentico.Xperience.Core": {
+        "type": "CentralTransitive",
+        "requested": "[27.0.0-b251782, )",
+        "resolved": "27.0.0-b251782",
+        "contentHash": "BTx/9FwhgYGKmWVbjOo07Zcem6Haulw5Hn1p4A3gUN3HB88Beb0ww2d/F0UE6OkE0wovmuMLHt9TPV4DtB7iNQ==",
+        "dependencies": {
+          "AngleSharp": "0.17.1",
+          "MailKit": "4.2.0",
+          "Microsoft.Data.SqlClient": "5.1.1",
+          "Microsoft.Extensions.Caching.Memory": "6.0.1",
+          "Microsoft.Extensions.Configuration": "6.0.1",
+          "Microsoft.Extensions.Configuration.Binder": "6.0.0",
+          "Microsoft.Extensions.DependencyInjection": "6.0.1",
+          "Microsoft.Extensions.FileProviders.Physical": "6.0.0",
+          "Microsoft.Extensions.Hosting.Abstractions": "6.0.0",
+          "Microsoft.Extensions.Localization": "6.0.22",
+          "Microsoft.Extensions.Options.ConfigurationExtensions": "6.0.0",
+          "Mono.Cecil": "0.11.5",
+          "Newtonsoft.Json": "13.0.3",
+          "System.CodeDom": "7.0.0",
+          "System.Configuration.ConfigurationManager": "6.0.1"
+        }
       }
     }
   }

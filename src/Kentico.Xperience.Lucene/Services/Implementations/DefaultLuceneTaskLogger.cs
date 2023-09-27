@@ -1,8 +1,8 @@
 ﻿using CMS.Core;
 using CMS.DocumentEngine;
 using CMS.Websites;
-using Kentico.Xperience.Lucene.Extensions;
 using Kentico.Xperience.Lucene.Models;
+using Kentico.Xperience.Lucene.Extensions;
 
 namespace Kentico.Xperience.Lucene.Services;
 
@@ -13,7 +13,6 @@ internal class DefaultLuceneTaskLogger : ILuceneTaskLogger
 {
     private readonly IEventLogService eventLogService;
 
-
     /// <summary>
     /// Initializes a new instance of the <see cref="DefaultLuceneTaskLogger"/> class.
     /// </summary>
@@ -21,11 +20,10 @@ internal class DefaultLuceneTaskLogger : ILuceneTaskLogger
 
 
     /// <inheritdoc />
-    public void HandleEvent(IWebPageFieldsSource webPageItem, string eventName)
+    public void HandleEvent(IWebPageContentQueryDataContainer webPageItem, string eventName)
     {
         var taskType = GetTaskType(webPageItem, eventName);
 
-        // Check standard indexes
         if (!webPageItem.IsLuceneIndexed())
         {
             return;
@@ -38,7 +36,8 @@ internal class DefaultLuceneTaskLogger : ILuceneTaskLogger
                 continue;
             }
 
-            LogIndexTask(new LuceneQueueItem(webPageItem, taskType, indexName));
+            var luceneIndex = IndexStore.Instance.GetIndex(indexName);
+            LogIndexTask(new LuceneQueueItem(webPageItem, taskType, indexName, luceneIndex!.Language));
         }
     }
 
@@ -60,11 +59,19 @@ internal class DefaultLuceneTaskLogger : ILuceneTaskLogger
     }
 
 
-    private static LuceneTaskType GetTaskType(IWebPageFieldsSource node, string eventName)
+    private static LuceneTaskType GetTaskType(IWebPageContentQueryDataContainer node, string eventName)
     {
+        //TODO if (eventName.Equals(WorkflowEvents.Publish.Name, StringComparison.OrdinalIgnoreCase) && node.WorkflowHistory.Count == 0)
+        //This should be the create condition, but we do not have WorkFlowhistory
+
         if (eventName.Equals(WorkflowEvents.Publish.Name, StringComparison.OrdinalIgnoreCase))
         {
             return LuceneTaskType.CREATE;
+        }
+
+        if (eventName.Equals(WorkflowEvents.Publish.Name, StringComparison.OrdinalIgnoreCase))
+        {
+            return LuceneTaskType.UPDATE;
         }
 
         if (eventName.Equals(DocumentEvents.Delete.Name, StringComparison.OrdinalIgnoreCase) ||

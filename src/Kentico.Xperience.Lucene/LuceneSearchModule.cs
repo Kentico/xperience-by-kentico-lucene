@@ -60,7 +60,7 @@ internal class LuceneSearchModule : Module
     /// <summary>
     /// Called when a page is deleted. Logs an Lucene task to be processed later.
     /// </summary>
-    private void HandleDocumentEvent(object? sender, DocumentEventArgs e)
+    private void HandleDocumentEvent(object? sender, CMSEventArgs e)
     {
         if (IndexingDisabled)
         {

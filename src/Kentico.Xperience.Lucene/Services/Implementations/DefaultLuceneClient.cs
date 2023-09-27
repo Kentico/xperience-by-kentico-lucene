@@ -8,15 +8,6 @@ using System.ComponentModel;
 
 namespace Kentico.Xperience.Lucene.Services;
 
-public class Cont : IWebPageFieldsSource
-{
-    public WebPageFields SystemFields { get; }
-
-    public Cont()
-    { 
-        SystemFields = new WebPageFields();
-    }
-}
 
 /// <summary>
 /// Default implementation of <see cref="ILuceneClient"/>.
@@ -139,7 +130,7 @@ internal class DefaultLuceneClient : ILuceneClient
 
         luceneIndexService.ResetIndex(luceneIndex);
 
-        var indexedWebPageItems = new List<IWebPageFieldsSource>();
+        var indexedWebPageItems = new List<IWebPageContentQueryDataContainer>();
         foreach (var includedPathAttribute in luceneIndex.IncludedPaths)
         {
             var queryBuilder = new ContentItemQueryBuilder();
@@ -155,16 +146,14 @@ internal class DefaultLuceneClient : ILuceneClient
 
             queryBuilder.InLanguage(luceneIndex.Language);
 
-            var webPageItems = (await executor.GetWebPageResult(queryBuilder, container => mapper.Map<WebPageFields>(container), cancellationToken: cancellationToken ?? default));
-                //.Where(webPageItem => luceneIndex.LuceneIndexingStrategy.ShouldIndexNode(webPageItem));
+            var webPageItems = (await executor.GetWebPageResult(queryBuilder, container => container, cancellationToken: cancellationToken ?? default))
+                .Where(webPageItem => luceneIndex.LuceneIndexingStrategy.ShouldIndexNode(webPageItem));
 
-
-
-           //indexedWebPageItems.AddRange(webPageItems);
+            indexedWebPageItems.AddRange(webPageItems);
         }
 
-        indexedWebPageItems.ForEach(node => LuceneQueueWorker.EnqueueLuceneQueueItem(new LuceneQueueItem(node, LuceneTaskType.CREATE, luceneIndex.IndexName)));
-        LuceneQueueWorker.EnqueueIndexPublication(luceneIndex.IndexName);
+        indexedWebPageItems.ForEach(container => LuceneQueueWorker.EnqueueLuceneQueueItem(new LuceneQueueItem(container, LuceneTaskType.CREATE, luceneIndex.IndexName, luceneIndex.Language)));
+        LuceneQueueWorker.EnqueueIndexPublication(luceneIndex.IndexName, luceneIndex.Language);
     }
 
     private async Task<int> UpsertRecordsInternal(IEnumerable<LuceneSearchModel> dataObjects, string indexName)

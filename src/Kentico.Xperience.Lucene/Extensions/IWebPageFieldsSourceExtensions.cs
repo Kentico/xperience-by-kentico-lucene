@@ -15,7 +15,7 @@ internal static class IWebPageFieldsSourceExtensions
     /// </summary>
     /// <param name="webPageItem">The <see cref="IWebPageFieldsSource"/> to check for indexing.</param>
     /// <exception cref="ArgumentNullException" />
-    public static bool IsLuceneIndexed(this IWebPageFieldsSource webPageItem)
+    public static bool IsLuceneIndexed(this IWebPageContentQueryDataContainer webPageItem)
     {
         if (webPageItem == null)
         {
@@ -34,7 +34,7 @@ internal static class IWebPageFieldsSourceExtensions
     /// <param name="webPageItem">The node to check for indexing.</param>
     /// <param name="indexName">The Lucene index code name.</param>
     /// <exception cref="ArgumentNullException" />
-    public static bool IsIndexedByIndex(this IWebPageFieldsSource webPageItem, string indexName)
+    public static bool IsIndexedByIndex(this IWebPageContentQueryDataContainer webPageItem, string indexName)
     {
         if (string.IsNullOrEmpty(indexName))
         {
@@ -63,13 +63,13 @@ internal static class IWebPageFieldsSourceExtensions
             if (includedPathAttribute.AliasPath.EndsWith("/%"))
             {
                 string? pathToMatch = TreePathUtils.EnsureSingleNodePath(includedPathAttribute.AliasPath);
-                var pathsOnPath = TreePathUtils.GetNodeAliasPathsOnPath(webPageItem.SystemFields.WebPageItemTreePath, true, false).ToHashSet();
+                var pathsOnPath = TreePathUtils.GetNodeAliasPathsOnPath(webPageItem.WebPageItemTreePath, true, false).ToHashSet();
 
                 return pathsOnPath.Contains(pathToMatch) && matchesContentType;
             }
             else
             {
-                return webPageItem.SystemFields.WebPageItemTreePath.Equals(includedPathAttribute.AliasPath, StringComparison.OrdinalIgnoreCase) && matchesContentType;
+                return webPageItem.WebPageItemTreePath.Equals(includedPathAttribute.AliasPath, StringComparison.OrdinalIgnoreCase) && matchesContentType;
             }
         });
     }

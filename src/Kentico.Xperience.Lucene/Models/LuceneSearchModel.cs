@@ -45,6 +45,9 @@ public class LuceneSearchModel
     }
 
 
+    public static string Language { get; set; } = "";
+
+
     /// <summary>
     /// Called when indexing a search model property. Does not trigger when indexing the
     /// properties specified by <see cref="LuceneSearchModel"/> base class.
