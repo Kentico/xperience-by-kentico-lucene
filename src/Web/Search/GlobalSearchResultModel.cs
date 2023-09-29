@@ -1,4 +1,4 @@
-﻿namespace DancingGoat.Models
+﻿namespace DancingGoat.Search
 {
     public class GlobalSearchResultModel
     {

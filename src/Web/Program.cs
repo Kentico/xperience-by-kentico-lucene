@@ -1,7 +1,6 @@
 using System;
 
 using DancingGoat;
-using DancingGoat.Extensions;
 using DancingGoat.Models;
 
 using Kentico.Activities.Web.Mvc;
@@ -24,6 +23,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 using System.Threading.Tasks;
 using System.ComponentModel;
+using DancingGoat.Search;
 
 var builder = WebApplication.CreateBuilder(args);
 

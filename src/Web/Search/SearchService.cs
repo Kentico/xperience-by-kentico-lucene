@@ -1,16 +1,12 @@
-using DancingGoat.Models;
 using Kentico.Xperience.Lucene;
 using Kentico.Xperience.Lucene.Models;
 using Kentico.Xperience.Lucene.Services;
 using Lucene.Net.Analysis.Standard;
 using Lucene.Net.Documents;
-using Lucene.Net.Facet;
 using Lucene.Net.Search;
 using Lucene.Net.Util;
-using System;
-using System.Linq;
 
-namespace DancingGoat;
+namespace DancingGoat.Search;
 
 public class SearchService
 {
@@ -21,9 +17,9 @@ public class SearchService
 
     public SearchService(ILuceneIndexService luceneIndexService) => this.luceneIndexService = luceneIndexService;
 
-    public LuceneSearchResultModel<GlobalSearchResultModel> GlobalSearch(string searchText, int pageSize = 20, int page = 1, string facet = null, string sortBy = null)
+    public LuceneSearchResultModel<GlobalSearchResultModel> GlobalSearch(string searchText, int pageSize = 20, int page = 1)
     {
-        var index = IndexStore.Instance.GetIndex(GlobalSearchModel.IndexName) ?? throw new Exception($"Index {GlobalSearchModel.IndexName} was not found!!!");
+        var index = IndexStore.Instance.GetIndex(DancingGoatSearchModel.IndexName) ?? throw new Exception($"Index {DancingGoatSearchModel.IndexName} was not found!!!");
         pageSize = Math.Max(1, pageSize);
         page = Math.Max(1, page);
 
@@ -44,20 +40,6 @@ public class SearchService
 
         combinedQuery.Add(query, Occur.MUST);
 
-        //if (facet != null)
-        //{
-        //    var drillDownQuery = new DrillDownQuery(indexingStrategy.FacetsConfigFactory());
-
-        //    string[] subFacets = facet.Split(';', StringSplitOptions.RemoveEmptyEntries);
-
-        //    foreach (var subFacet in subFacets)
-        //    {
-        //        drillDownQuery.Add(indexingStrategy.FacetDimension, subFacet);
-        //    }
-
-        //    combinedQuery.Add(drillDownQuery, Occur.MUST);
-        //}
-        
         var result = luceneIndexService.UseSearcher(
             index,
             (searcher) =>
@@ -69,7 +51,7 @@ public class SearchService
                     Query = searchText ?? "",
                     Page = page,
                     PageSize = pageSize,
-                    TotalPages = topDocs.TotalHits <= 0 ? 0 : ((topDocs.TotalHits - 1) / pageSize) + 1,
+                    TotalPages = topDocs.TotalHits <= 0 ? 0 : (topDocs.TotalHits - 1) / pageSize + 1,
                     TotalHits = topDocs.TotalHits,
                     Hits = topDocs.ScoreDocs
                         .Skip(offset)
@@ -79,7 +61,7 @@ public class SearchService
                 };
             }
             );
-     
+
 
         return result;
     }
@@ -90,10 +72,10 @@ public class SearchService
 
         if (!string.IsNullOrWhiteSpace(searchText))
         {
-            booleanQuery = AddToTermQuery(booleanQuery, queryBuilder.CreatePhraseQuery(nameof(GlobalSearchModel.Title), searchText, PHRASE_SLOP), 5);
-            booleanQuery = AddToTermQuery(booleanQuery, queryBuilder.CreatePhraseQuery(nameof(GlobalSearchModel.CrawlerContent), searchText, PHRASE_SLOP), 1);
-            booleanQuery = AddToTermQuery(booleanQuery, queryBuilder.CreateBooleanQuery(nameof(GlobalSearchModel.Title), searchText, Occur.SHOULD), 0.5f);
-            booleanQuery = AddToTermQuery(booleanQuery, queryBuilder.CreateBooleanQuery(nameof(GlobalSearchModel.CrawlerContent), searchText, Occur.SHOULD), 0.1f);
+            booleanQuery = AddToTermQuery(booleanQuery, queryBuilder.CreatePhraseQuery(nameof(DancingGoatSearchModel.Title), searchText, PHRASE_SLOP), 5);
+            booleanQuery = AddToTermQuery(booleanQuery, queryBuilder.CreatePhraseQuery(nameof(DancingGoatSearchModel.CrawlerContent), searchText, PHRASE_SLOP), 1);
+            booleanQuery = AddToTermQuery(booleanQuery, queryBuilder.CreateBooleanQuery(nameof(DancingGoatSearchModel.Title), searchText, Occur.SHOULD), 0.5f);
+            booleanQuery = AddToTermQuery(booleanQuery, queryBuilder.CreateBooleanQuery(nameof(DancingGoatSearchModel.CrawlerContent), searchText, Occur.SHOULD), 0.1f);
 
             if (booleanQuery.GetClauses().Count() > 0)
             {
@@ -107,32 +89,17 @@ public class SearchService
     private static BooleanQuery AddToTermQuery(BooleanQuery query, Query textQueryPart, float boost)
     {
         if (textQueryPart != null)
-        { 
+        {
             textQueryPart.Boost = boost;
             query.Add(textQueryPart, Occur.SHOULD);
         }
         return query;
     }
 
-    //private SortField GetSortOption(string sortBy = null)
-    //{
-    //    switch (sortBy)
-    //    {
-    //        case "a-z":
-    //            return new SortField(nameof(GlobalSearchModel.SortableTitle), SortFieldType.STRING, false);
-    //        case "z-a":
-    //            return new SortField(nameof(GlobalSearchModel.SortableTitle), SortFieldType.STRING, true);
-    //        case "date":
-    //            return new SortField(nameof(GlobalSearchModel.PublishedDateTicks), FieldCache.NUMERIC_UTILS_INT64_PARSER, true);
-    //        default:
-    //            return null;
-    //    }
-    //}
-
     private GlobalSearchResultModel MapToResultItem(Document doc) => new()
     {
-        Title = doc.Get(nameof(GlobalSearchModel.Title)),
-        Url = doc.Get(nameof(GlobalSearchModel.Url)),
-        ContentType = doc.Get(nameof(GlobalSearchModel.ClassName)),
+        Title = doc.Get(nameof(DancingGoatSearchModel.Title)),
+        Url = doc.Get(nameof(DancingGoatSearchModel.Url)),
+        ContentType = doc.Get(nameof(DancingGoatSearchModel.ClassName)),
     };
 }

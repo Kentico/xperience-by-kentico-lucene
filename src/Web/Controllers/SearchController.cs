@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using DancingGoat.Search;
+using Microsoft.AspNetCore.Mvc;
 
 namespace DancingGoat.Controllers
 {
@@ -12,9 +13,9 @@ namespace DancingGoat.Controllers
         }
 
         [Route("search")]
-        public IActionResult Index(string query, int pageSize = 10, int page = 1, string facet = null, string sortBy = null)
+        public IActionResult Index(string query, int pageSize = 10, int page = 1)
         {
-            var results = searchService.GlobalSearch(query, pageSize, page, facet, sortBy);
+            var results = searchService.GlobalSearch(query, pageSize, page);
 
             return new JsonResult(results);
         }

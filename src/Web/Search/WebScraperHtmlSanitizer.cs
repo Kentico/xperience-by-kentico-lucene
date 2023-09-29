@@ -3,7 +3,7 @@ using AngleSharp.Html.Parser;
 using CMS.Helpers;
 using System.Linq;
 
-namespace DancingGoat
+namespace DancingGoat.Search
 {
     public class WebScraperHtmlSanitizer
     {

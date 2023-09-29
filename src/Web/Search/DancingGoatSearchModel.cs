@@ -1,16 +1,16 @@
 ﻿using CMS.Core;
 using CMS.Websites;
+using DancingGoat.Models;
 using Kentico.Xperience.Lucene.Attributes;
 using Kentico.Xperience.Lucene.Models;
 using Kentico.Xperience.Lucene.Services.Implementations;
-using System.Threading.Tasks;
 
-namespace DancingGoat.Models;
+namespace DancingGoat.Search;
 
 [IncludedPath("/%", ContentTypes = new string[] { ArticlePage.CONTENT_TYPE_NAME })]
-public class GlobalSearchModel : LuceneSearchModel
+public class DancingGoatSearchModel : LuceneSearchModel
 {
-    public const string IndexName = "Global";
+    public const string IndexName = "DancingGoatSearch";
 
     [TextField(true)]
     [Source(new string[] { nameof(IWebPageFieldsSource.SystemFields.ContentItemName) })]
@@ -22,15 +22,15 @@ public class GlobalSearchModel : LuceneSearchModel
 
 public class GlobalSearchModelIndexingStrategy : DefaultLuceneIndexingStrategy
 {
-    public override async Task<object?> OnIndexingProperty(IWebPageContentQueryDataContainer webPageItem, string propertyName, string usedColumn, object? foundValue, string language)
+    public override async Task<object?> OnIndexingProperty(IWebPageContentQueryDataContainer pageContentContainer, string propertyName, string usedColumn, object? foundValue, string language)
     {
         object result = foundValue;
 
-        if (propertyName == nameof(GlobalSearchModel.CrawlerContent))
+        if (propertyName == nameof(DancingGoatSearchModel.CrawlerContent))
         {
             var htmlSanitizer = Service.Resolve<WebScraperHtmlSanitizer>();
             var webCrawler = Service.Resolve<WebCrawlerService>();
-            string content = await webCrawler.CrawlNode(webPageItem, language);
+            string content = await webCrawler.CrawlNode(pageContentContainer, language);
             return htmlSanitizer.SanitizeHtmlDocument(content);
         }
 

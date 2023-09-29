@@ -1,9 +1,7 @@
-﻿using DancingGoat.Models;
-using Kentico.Xperience.Lucene.Models;
+﻿using Kentico.Xperience.Lucene.Models;
 using Lucene.Net.Analysis.Standard;
-using Microsoft.Extensions.DependencyInjection;
 
-namespace DancingGoat.Extensions;
+namespace DancingGoat.Search;
 
 public static class ServiceCollectionExtensions
 {
@@ -14,15 +12,25 @@ public static class ServiceCollectionExtensions
         services.AddLucene(new[]
         {
             new LuceneIndex(
-                typeof(GlobalSearchModel),
+                typeof(DancingGoatSearchModel),
                 new StandardAnalyzer(Lucene.Net.Util.LuceneVersion.LUCENE_48),
-                GlobalSearchModel.IndexName,
+                DancingGoatSearchModel.IndexName,
                 "DancingGoatPages",
                 "en",
                 indexPath: null,
                 new GlobalSearchModelIndexingStrategy()),
+
+            new LuceneIndex(
+                typeof(ArticleSearchModel),
+                new StandardAnalyzer(Lucene.Net.Util.LuceneVersion.LUCENE_48),
+                ArticleSearchModel.IndexName,
+                "DancingGoatPages",
+                "en",
+                indexPath: null,
+                new ArticleLuceneIndexingStrategy()),
         });
 
+        services.AddSingleton<ArticleSearchService>();
         services.AddSingleton<WebScraperHtmlSanitizer>();
         services.AddHttpClient<WebCrawlerService>();
         services.AddSingleton<SearchService>();

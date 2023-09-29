@@ -7,7 +7,7 @@ using CMS.Helpers;
 using CMS.Websites;
 using Kentico.Content.Web.Mvc;
 
-namespace DancingGoat
+namespace DancingGoat.Search
 {
     public class WebCrawlerService
     {
@@ -25,7 +25,7 @@ namespace DancingGoat
             string baseUrl = ValidationHelper.GetString(Service.Resolve<IAppSettingsService>()["WebCrawlerBaseUrl"], "");
             this.httpClient.BaseAddress = new Uri(baseUrl);
             this.eventLogService = eventLogService;
-            this.webPageUrlRetriever = webPageUrlRetriever; 
+            this.webPageUrlRetriever = webPageUrlRetriever;
         }
 
         public async Task<string> CrawlNode(IWebPageContentQueryDataContainer container, string languageName)
@@ -44,10 +44,12 @@ namespace DancingGoat
 
         public async Task<string> CrawlPage(string url)
         {
-            try { 
+            try
+            {
                 var response = await httpClient.GetAsync(url);
                 return await response.Content.ReadAsStringAsync();
-            } catch (Exception ex)
+            }
+            catch (Exception ex)
             {
                 eventLogService.LogException(nameof(WebCrawlerService), nameof(CrawlPage), ex, $"Url: {url}");
             }
