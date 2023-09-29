@@ -1,24 +1,35 @@
 # Xperience by Kentico Lucene
 
-[![CI: Build and Test](https://github.com/Kentico/xperience-by-kentico-lucene/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/Kentico/xperience-by-kentico-lucene/actions/workflows/ci.yml)
+[![CI: Build and Test](https://github.com/Kentico/xperience-by-kentico-lucene/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/Kentico/xperience-by-kentico-lucene/actions/workflows/ci.yml) [![NuGet Package](https://img.shields.io/nuget/v/Kentico.Xperience.Lucene.svg)](https://www.nuget.org/packages/Kentico.Xperience.Lucene)
 
-[![NuGet Package](https://img.shields.io/nuget/v/Kentico.Xperience.Lucene.svg)](https://www.nuget.org/packages/Kentico.Xperience.Lucene)
-
-## About The Project
+## Description
 
 Xperience by Kentico search integration with the latest 4.8 beta version of [Lucene.NET](https://github.com/apache/lucenenet),
 enabling auto-indexing of content in Xperience based on application-local, code-defined search indexes and search results retrieval.
 
-![Example search results](https://raw.githubusercontent.com/Kentico/xperience-by-kentico-lucene/main/images/dancing-goat-search-results.jpg)
-![Example Xperience admin index viwe](https://raw.githubusercontent.com/Kentico/xperience-by-kentico-lucene/main/images/dancing-goat-lucene-index-admin.jpg)
+## Screenshots
 
-## Getting Started
+<a href="https://raw.githubusercontent.com/Kentico/xperience-by-kentico-lucene/main/images/dancing-goat-search-results.jpg">
+  <img src="https://raw.githubusercontent.com/Kentico/xperience-by-kentico-lucene/main/images/dancing-goat-search-results.jpg" width="600" alt="Example search results">
+</a>
 
-### Prerequisites
+<a href="https://raw.githubusercontent.com/Kentico/xperience-by-kentico-lucene/main/images/dancing-goat-lucene-index-admin.jpg">
+  <img src="https://raw.githubusercontent.com/Kentico/xperience-by-kentico-lucene/main/images/dancing-goat-lucene-index-admin.jpg" width="600" alt="Example Xperience admin index view">
+</a>
 
-- Xperience by Kentico >= 26.2.0
+## Dependencies
 
-### Installation
+- [ASP.NET Core 6.0](https://dotnet.microsoft.com/en-us/download)
+- [Xperience by Kentico](https://docs.xperience.io/xp/changelog)
+
+### Library Support
+
+| Xperience Version   | Library Version   |
+| ------------------- | ----------------- |
+| >= 26.2.0, < 27.0.0 | 2.x               |
+| >= 27.0.0           | Not yet supported |
+
+## Package Installation
 
 Add the package to your application using the .NET CLI
 
@@ -26,20 +37,25 @@ Add the package to your application using the .NET CLI
 dotnet add package Kentico.Xperience.Lucene
 ```
 
-### Setup
+## Quick Start
 
 1. Define a custom (or multiple) `LuceneSearchModel` implementation to represent the content you want index.
 1. Define a custom `DefaultLuceneIndexingStrategy` implementation to customize how page content/fields are processed for the index.
-1. Add this library to the application services, registering your custom `LuceneSearchModel`.
+1. Add this library to the application services, registering your custom `LuceneSearchModel`, using `builder.Services.AddLucene()`
 
    ```csharp
-   builder.Services.AddKentico();
-   // ... other registrations
+   // Program.cs
+
+   var builder = WebApplication.CreateBuilder(args);
+
+   // ...
+
    builder.Services.AddLucene(new[]
    {
        new LuceneIndex(
            typeof(MySearchModel),
-           new StandardAnalyzer(Lucene.Net.Util.LuceneVersion.LUCENE_48),
+           new StandardAnalyzer(
+              Lucene.Net.Util.LuceneVersion.LUCENE_48),
            MySearchModel.IndexName,
            indexPath: null,
            new MyCustomIndexingStrategy()),
@@ -48,68 +64,18 @@ dotnet add package Kentico.Xperience.Lucene
 
 1. Rebuild the index in Xperience's Administration within the Lucene application added by this library.
 1. Use the `ILuceneIndexService` (via DI) to retrieve the index populated by your custom `LuceneSearchModel`.
-1. Execute a search with a customized Lucene `Query` (like the `MatchAllDocsQuery`) using the ILuceneIndexService.
-1. Return or display the results on your site 👍.
+1. Execute a search with a customized Lucene `Query` (like the `MatchAllDocsQuery`) using the `ILuceneIndexService`.
+1. Display the results on your site with a Razor View 👍.
 
-## Usage
+## Full Instructions
 
-- Review the "Search" functionality in the `src\Kentico.Xperience.Lucene.Sample` Dancing Goat project to see how to implement search.
-- Read the Lucene.NET [introduction](https://lucenenet.apache.org/) or [full documentation](https://lucenenet.apache.org/docs/4.8.0-beta00016/) to explore the core library's APIs and functionality.
-- Explore the [Lucene.NET source on GitHub](https://github.com/apache/lucenenet)
-
-### Implementing document decay feature (scoring by "freshness", "recency")
-
-1) boosting relevant fields by setting field boost (preferable method, but requires more work)
-2) boosting one field with constant value, that is always present in search query (shown in sample, less desirable method. Downside of this method is that all documents get matched, usable only for scenarios where total number of result is not required)
-3) using sort expression, implementation details can be found in Lucene.NET unit tests, Lucene.NET implementations
-
-Methods 1 and 2 require implementing `DefaultLuceneIndexingStrategy` and overriding `OnDocumentAddField` method.
-In `OnDocumentAddField` match required fields and calculate boost, then apply to desired files as shown in example `DancingGoatLuceneIndexingStrategy.OnDocumentAddField`
-
-> differences too small in boosts will be ignored by Lucene
-
-## Sample features
-
-### Trigger rebuild of index via webhook
-
-Rebuild of index could be triggered by calling `POST` on webhook `/search/rebuild` with body
-
-```json
-{
-  "indexName": "...",
-  "secret": "..."
-}
-```
-
-This could be used to trigger regular reindexing of content via CRON, Windows Task Scheduler or any other external scheduler.
+View the [Usage Guide](./docs/Usage-Guide.md) for more detailed instructions.
 
 ## Contributing
 
-For Contributing please see [`CONTRIBUTING.md`](https://github.com/Kentico/.github/blob/main/CONTRIBUTING.md) for more information and follow the [`CODE_OF_CONDUCT`](https://github.com/Kentico/.github/blob/main/CODE_OF_CONDUCT.md).
+To see the guidelines for Contributing to Kentico open source software, please see [`CONTRIBUTING.md`](https://github.com/Kentico/.github/blob/main/CONTRIBUTING.md) for more information and follow the [`CODE_OF_CONDUCT`](https://github.com/Kentico/.github/blob/main/CODE_OF_CONDUCT.md).
 
-### Requirements
-
-- .NET SDK >= 7.0.109
-
-  - <https://dotnet.microsoft.com/en-us/download/dotnet/7.0>
-
-- Node.js >= 18.12
-
-  - <https://nodejs.org/en/download>
-  - <https://github.com/coreybutler/nvm-windows>
-
-### Sample Project
-
-To run the Sample app Admin customization in development mode, add the following to your [User Secrets](https://learn.microsoft.com/en-us/aspnet/core/security/app-secrets?view=aspnetcore-7.0&tabs=windows#secret-manager) for the application.
-
-```json
-"CMSAdminClientModuleSettings": {
-  "kentico-xperience-integrations-lucene": {
-    "Mode": "Proxy",
-    "Port": 3009
-  }
-}
-```
+Instructions and technical details for contributing to **this** product can be found in [Contributing Setup](./docs/Contributing-Setup.md).
 
 ## License
 
@@ -120,5 +86,7 @@ Distributed under the MIT License. See [`LICENSE.md`](./LICENSE.md) for more inf
 This contribution has **Full support by 7-day bug-fix policy**.
 
 See [`SUPPORT.md`](https://github.com/Kentico/.github/blob/main/SUPPORT.md#full-support) for more information.
+
+## Security
 
 For any security issues see [`SECURITY.md`](https://github.com/Kentico/.github/blob/main/SECURITY.md).
