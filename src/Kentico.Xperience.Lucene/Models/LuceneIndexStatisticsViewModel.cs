@@ -1,4 +1,6 @@
-﻿namespace Kentico.Xperience.Lucene.Models;
+﻿using System;
+
+namespace Kentico.Xperience.Lucene.Models;
 
 public class LuceneIndexStatisticsViewModel
 {

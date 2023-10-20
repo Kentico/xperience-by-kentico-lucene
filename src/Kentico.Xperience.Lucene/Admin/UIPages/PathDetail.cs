@@ -1,10 +1,13 @@
 ﻿using CMS.Core;
 using CMS.DataEngine;
-using CMS.DocumentEngine;
 
 using Kentico.Xperience.Admin.Base;
 using Kentico.Xperience.Lucene.Attributes;
 using Kentico.Xperience.Lucene.Models;
+using System;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Kentico.Xperience.Lucene.Admin;
 
@@ -72,17 +75,17 @@ internal class PathDetail : Page<PathDetailPageClientProperties>
         try
         {
             string[]? includedContentTypes = pathToDisplay?.ContentTypes;
-            if (includedContentTypes == null || !includedContentTypes.Any())
-            {
-                includedContentTypes = DocumentTypeHelper.GetDocumentTypeClasses()
-                    //.OnSite(SiteService.CurrentSite?.SiteID)
-                    .AsSingleColumn(nameof(DataClassInfo.ClassName))
-                    .GetListResult<string>()
+            //if (includedContentTypes == null || !includedContentTypes.Any())
+            //{
+            //    includedContentTypes = DocumentTypeHelper.GetDocumentTypeClasses()
+            //        //.OnSite(SiteService.CurrentSite?.SiteID)
+            //        .AsSingleColumn(nameof(DataClassInfo.ClassName))
+            //        .GetListResult<string>()
 
-                    .ToArray();
-            }
+            //        .ToArray();
+            //}
 
-            var rows = includedContentTypes.Select(type => new Row
+            var rows = includedContentTypes?.Select(type => new Row
             {
                 Cells = new Cell[] {
                 new StringCell
@@ -94,7 +97,7 @@ internal class PathDetail : Page<PathDetailPageClientProperties>
             .Chunk(args.PageSize)
             .ElementAtOrDefault(args.CurrentPage - 1);
 
-            return Task.FromResult(ResponseFrom(new LoadDataResult() { Rows = rows, TotalCount = includedContentTypes.Length }));
+            return Task.FromResult(ResponseFrom(new LoadDataResult() { Rows = rows, TotalCount = includedContentTypes?.Length ?? 0 }));
         }
         catch (Exception ex)
         {

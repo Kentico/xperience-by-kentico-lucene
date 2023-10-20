@@ -13,11 +13,6 @@ public enum LuceneTaskType
     UNKNOWN,
 
     /// <summary>
-    /// A task for a page which was published for the first time.
-    /// </summary>
-    CREATE,
-
-    /// <summary>
     /// A task for a page which was previously published.
     /// </summary>
     UPDATE,

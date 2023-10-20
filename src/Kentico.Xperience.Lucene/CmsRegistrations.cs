@@ -18,7 +18,7 @@ using Kentico.Xperience.Lucene.Services.Implementations;
 [assembly: RegisterModule(typeof(LuceneAdminModule))]
 
 // UI applications
-[assembly: UIApplication(LuceneApplication.IDENTIFIER, typeof(LuceneApplication), "lucene", "{$integrations.lucene.applicationname$}", BaseApplicationCategories.DEVELOPMENT, Icons.Magnifier, TemplateNames.SECTION_LAYOUT)]
+[assembly: UIApplication(LuceneApplication.IDENTIFIER, typeof(LuceneApplication), "lucene", "Search", BaseApplicationCategories.DEVELOPMENT, Icons.Magnifier, TemplateNames.SECTION_LAYOUT)]
 
 // Admin UI pages
 [assembly: UIPage(typeof(LuceneApplication), "Indexes", typeof(IndexListing), "{$integrations.lucene.listing$}", TemplateNames.LISTING, UIPageOrder.First)]

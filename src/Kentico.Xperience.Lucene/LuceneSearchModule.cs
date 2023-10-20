@@ -1,9 +1,10 @@
 using CMS.Base;
 using CMS.Core;
 using CMS.DataEngine;
-using CMS.DocumentEngine;
-
+using CMS.Websites;
+using Kentico.Xperience.Lucene.Models;
 using Kentico.Xperience.Lucene.Services;
+using System.Threading.Tasks;
 
 namespace Kentico.Xperience.Lucene;
 
@@ -36,37 +37,36 @@ internal class LuceneSearchModule : Module
         appSettingsService = Service.Resolve<IAppSettingsService>();
         conversionService = Service.Resolve<IConversionService>();
 
-        DocumentEvents.Delete.Before += HandleDocumentEvent;
-        WorkflowEvents.Publish.After += HandleWorkflowEvent;
-        WorkflowEvents.Archive.Before += HandleWorkflowEvent;
+        WebPageEvents.Publish.Execute += HandleEvent;
+        WebPageEvents.Delete.Execute += HandleEvent;
         RequestEvents.RunEndRequestTasks.Execute += (sender, eventArgs) => LuceneQueueWorker.Current.EnsureRunningThread();
     }
 
-
-    /// <summary>
-    /// Called when a page is published or archived. Logs an Lucene task to be processed later.
-    /// </summary>
-    private void HandleWorkflowEvent(object? sender, WorkflowEventArgs e)
+    private void Delete_Execute(object sender, DeleteWebPageEventArgs e)
     {
-        if (IndexingDisabled)
-        {
-            return;
-        }
-
-        //luceneTaskLogger?.HandleEvent(e.Document, e.CurrentHandler.Name);
+        throw new System.NotImplementedException();
     }
 
-
     /// <summary>
-    /// Called when a page is deleted. Logs an Lucene task to be processed later.
+    /// Called when a page is published. Logs an Lucene task to be processed later.
     /// </summary>
-    private void HandleDocumentEvent(object? sender, CMSEventArgs e)
+    private void HandleEvent(object? sender, CMSEventArgs e)
     {
         if (IndexingDisabled)
         {
             return;
         }
+        WebPageEventArgsBase publishedEvent = (WebPageEventArgsBase) e;
+        var indexedItemModel = new IndexedItemModel
+        {
+            LanguageName = publishedEvent.ContentLanguageName,
+            TypeName = publishedEvent.ContentTypeName,
+            ChannelName = publishedEvent.WebsiteChannelName,
+            WebPageItemGuid = publishedEvent.Guid,
+            WebPageItemTreePath = publishedEvent.TreePath,
+        };
 
-        //luceneTaskLogger?.HandleEvent(e.Node, e.CurrentHandler.Name);
+        var task = luceneTaskLogger?.HandleEvent(indexedItemModel, e.CurrentHandler.Name);
+        task?.Wait();
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Kentico.Xperience.Admin.Base;
+using System.Collections.Generic;
 
 namespace Kentico.Xperience.Lucene.Admin;
 

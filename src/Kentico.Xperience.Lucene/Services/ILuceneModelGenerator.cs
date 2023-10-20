@@ -1,6 +1,6 @@
-﻿using CMS.DocumentEngine;
-
+﻿
 using Kentico.Xperience.Lucene.Models;
+using System.Threading.Tasks;
 
 namespace Kentico.Xperience.Lucene.Services;
 
@@ -12,7 +12,7 @@ public interface ILuceneModelGenerator
 {
     /// <summary>
     /// Creates an anonymous object with the indexed column names of the and their values loaded from the passed
-    /// <see cref="LuceneQueueItem.PageContentContainer"/>.
+    /// <see cref="LuceneQueueItem.IndexedItemModel"/>.
     /// </summary>
     /// <param name="queueItem">The queue item to process.</param>
     /// <returns>The anonymous data that will be passed to Lucene.</returns>

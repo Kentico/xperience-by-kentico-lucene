@@ -1,4 +1,5 @@
 ﻿using System.Reflection;
+using CMS.IO;
 using Kentico.Xperience.Lucene.Attributes;
 using Kentico.Xperience.Lucene.Services;
 using Kentico.Xperience.Lucene.Services.Implementations;
@@ -122,7 +123,7 @@ public sealed class LuceneIndex
         IndexName = indexName;
         WebSiteChannelName = webSiteChannelName;
         Language = language;
-        string indexStoragePath = indexPath ?? Path.Combine(Environment.CurrentDirectory, "App_Data", "LuceneSearch", indexName);
+        string indexStoragePath = indexPath ?? CMS.IO.Path.Combine(Environment.CurrentDirectory, "App_Data", "LuceneSearch", indexName);
         retentionPolicy ??= new IndexRetentionPolicy(4);
         StorageContext = new IndexStorageContext(storageStrategy ?? new GenerationStorageStrategy(), indexStoragePath, retentionPolicy);
         LuceneIndexingStrategy = luceneIndexingStrategy ?? new DefaultLuceneIndexingStrategy();

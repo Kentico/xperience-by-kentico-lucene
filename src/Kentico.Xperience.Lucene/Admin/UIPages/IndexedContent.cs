@@ -1,7 +1,9 @@
-﻿using System.Reflection;
+﻿using System;
+using System.Linq;
+using System.Reflection;
+using System.Threading.Tasks;
 using CMS.DataEngine;
 using CMS.DataEngine.Query;
-using CMS.DocumentEngine;
 
 using Kentico.Xperience.Admin.Base;
 using Kentico.Xperience.Lucene.Attributes;
@@ -263,16 +265,16 @@ internal class IndexedContent : Page<IndexedContentPageClientProperties>
         {
             var types = DataClassInfoProviderBase<DataClassInfoProvider>.GetClasses().WithObjectType("cms.documenttype");
 
-            int allTypes = DocumentTypeHelper.GetDocumentTypeClasses()
-                .GetCount();
-            return string.Format(LocalizationService.GetString("integrations.lucene.content.alltypes"), allTypes);
+            //int allTypes = DocumentTypeHelper.GetDocumentTypeClasses()
+            //    .GetCount();
+            //return string.Format(LocalizationService.GetString("integrations.lucene.content.alltypes"), allTypes);
         }
         else if (attribute.ContentTypes.Length == 1)
         {
             return LocalizationService.GetString("integrations.lucene.content.singletype");
         }
 
-        return string.Format(LocalizationService.GetString("integrations.lucene.content.multipletypes"), attribute.ContentTypes.Length);
+        return string.Format(LocalizationService.GetString("integrations.lucene.content.multipletypes"), attribute.ContentTypes?.Length);
     }
 
 

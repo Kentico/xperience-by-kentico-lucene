@@ -20,12 +20,6 @@
 		</AssemblyAttribute>
 	</ItemGroup>
 
-	<ItemGroup>
-		<Compile Remove="Admin\Client\node_modules\**" />
-		<EmbeddedResource Remove="Admin\Client\node_modules\**" />
-		<None Remove="Admin\Client\node_modules\**" />
-	</ItemGroup>
-
 	<Target Name="NpmInstall" BeforeTargets="NpmBuildClient" Condition=" '$(Configuration)|$(Platform)' != 'Debug|AnyCPU' ">
 		<Exec Command="npm ci --no-audit --no-fund" WorkingDirectory="$(MSBuildProjectDirectory)\Admin\Client" />
 	</Target>
@@ -38,6 +32,9 @@
 			</AdminClientPath>
 		</ItemGroup>
 	</Target>
+	<ItemGroup>
+	  <EmbeddedResource Include="Resources\LuceneResources.resx" />
+	</ItemGroup>
 
 	<ItemGroup>
 		<PackageReference Include="Kentico.Xperience.Admin" />
@@ -45,20 +42,13 @@
 		<PackageReference Include="Lucene.Net" />
 		<PackageReference Include="Lucene.Net.Analysis.Common" />
 		<PackageReference Include="Lucene.Net.Facet" />
-		<PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" />
 		<PackageReference Include="System.Configuration.ConfigurationManager" />
 		<PackageReference Include="Microsoft.SourceLink.GitHub">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
 	</ItemGroup>
-
-	<!--<ItemGroup>
-		<EmbeddedResource Include="Resources\LuceneResources.resx">
-			<ExcludeFromManifest>true</ExcludeFromManifest>
-		</EmbeddedResource>
-	</ItemGroup>-->
-
+	
 	<ItemGroup>
 	  <PackageReference Update="SonarAnalyzer.CSharp">
 	    <PrivateAssets>all</PrivateAssets>

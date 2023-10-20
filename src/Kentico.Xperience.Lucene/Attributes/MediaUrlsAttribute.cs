@@ -1,4 +1,6 @@
-﻿namespace Kentico.Xperience.Lucene.Attributes;
+﻿using System;
+
+namespace Kentico.Xperience.Lucene.Attributes;
 
 /// <summary>
 /// A property attribute used for fields with the "Media files" data type. Converts

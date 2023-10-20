@@ -1,4 +1,7 @@
 ﻿using Kentico.Xperience.Lucene.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Kentico.Xperience.Lucene;
 

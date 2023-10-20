@@ -8,6 +8,10 @@ using Kentico.Content.Web.Mvc;
 using Kentico.Xperience.Lucene.Attributes;
 using Kentico.Xperience.Lucene.Models;
 using CMS.Websites;
+using System.Threading.Tasks;
+using System.Collections.Generic;
+using System;
+using System.Linq;
 
 namespace Kentico.Xperience.Lucene.Services;
 
@@ -52,9 +56,9 @@ internal class DefaultLuceneModelGenerator : ILuceneModelGenerator
 
         var data = Activator.CreateInstance(luceneIndex.LuceneSearchModelType) as LuceneSearchModel ?? throw new Exception($"Faild to create instance of {luceneIndex.LuceneSearchModelType}");
 
-        await MapChangedProperties(luceneIndex, queueItem, data!, queueItem.Language);
-        await MapCommonProperties(queueItem.PageContentContainer, data!, queueItem.Language);
-        data = await luceneIndex.LuceneIndexingStrategy.OnIndexingNode(queueItem.PageContentContainer, data);
+        //await MapChangedProperties(luceneIndex, queueItem, data!, queueItem.Language);
+        await MapCommonProperties(queueItem.IndexedItemModel, data!, queueItem.Language);
+        data = await luceneIndex.LuceneIndexingStrategy.OnIndexingNode(queueItem.IndexedItemModel, data);
         return data;
     }
 
@@ -195,7 +199,7 @@ internal class DefaultLuceneModelGenerator : ILuceneModelGenerator
             webPageItemValue = GetAssetUrlsForColumn(pageContentContainer, webPageItemValue, usedColumn);
         }
 
-        webPageItemValue = await indexingStrategy.OnIndexingProperty(pageContentContainer, property.Name, usedColumn, webPageItemValue, language);
+        //webPageItemValue = await indexingStrategy.OnIndexingProperty(pageContentContainer, property.Name, usedColumn, webPageItemValue, language);
 
         return webPageItemValue;
     }
@@ -203,13 +207,13 @@ internal class DefaultLuceneModelGenerator : ILuceneModelGenerator
 
     /// <summary>
     /// Adds values to the <paramref name="data"/> by retriving the indexed columns of the index
-    /// and getting values from the <see cref="LuceneQueueItem.PageContentContainer"/>.
+    /// and getting values from the <see cref="LuceneQueueItem.IndexedItemModel"/>.
     /// </summary>
     private async Task MapChangedProperties(LuceneIndex luceneIndex, LuceneQueueItem queueItem, LuceneSearchModel data, string language)
     {
         var columnsToUpdate = new List<string>();
         string[] indexedColumns = GetIndexedColumnNames(luceneIndex);
-        if (queueItem.TaskType is LuceneTaskType.CREATE or LuceneTaskType.UPDATE)
+        if (queueItem.TaskType is LuceneTaskType.UPDATE)
         {
             columnsToUpdate.AddRange(indexedColumns);
         }
@@ -217,41 +221,41 @@ internal class DefaultLuceneModelGenerator : ILuceneModelGenerator
         var properties = luceneIndex.LuceneSearchModelType.GetProperties(BindingFlags.Public | BindingFlags.Instance);
         foreach (var prop in properties)
         {
-            object? nodeValue = await GetWebPageItemValue(queueItem.PageContentContainer, prop, luceneIndex.LuceneIndexingStrategy, columnsToUpdate, language);
-            if (nodeValue == null)
-            {
-                continue;
-            }
+            //object? nodeValue = await GetWebPageItemValue(queueItem.IndexedItemModel, prop, luceneIndex.LuceneIndexingStrategy, columnsToUpdate, language);
+            //if (nodeValue == null)
+            //{
+            //    continue;
+            //}
 
-            // TODO: map based on PropertyType
-            if (Attribute.IsDefined(prop, typeof(TextFieldAttribute)))
-            {
-                prop.SetValue(data, nodeValue.ToString());
-            }
-            else if (Attribute.IsDefined(prop, typeof(StringFieldAttribute)))
-            {
-                prop.SetValue(data, nodeValue.ToString());
-            }
-            else if (Attribute.IsDefined(prop, typeof(Int32FieldAttribute)))
-            {
-                prop.SetValue(data, (int)nodeValue);
-            }
-            else if (Attribute.IsDefined(prop, typeof(Int64FieldAttribute)))
-            {
-                prop.SetValue(data, (long)nodeValue);
-            }
-            else if (Attribute.IsDefined(prop, typeof(SingleFieldAttribute)))
-            {
-                prop.SetValue(data, (float)nodeValue);
-            }
-            else if (Attribute.IsDefined(prop, typeof(DoubleFieldAttribute)))
-            {
-                prop.SetValue(data, (double)nodeValue);
-            }
-            else
-            {
-                // TODO: log some warning or implement default to text field
-            }
+            //// TODO: map based on PropertyType
+            //if (Attribute.IsDefined(prop, typeof(TextFieldAttribute)))
+            //{
+            //    prop.SetValue(data, nodeValue.ToString());
+            //}
+            //else if (Attribute.IsDefined(prop, typeof(StringFieldAttribute)))
+            //{
+            //    prop.SetValue(data, nodeValue.ToString());
+            //}
+            //else if (Attribute.IsDefined(prop, typeof(Int32FieldAttribute)))
+            //{
+            //    prop.SetValue(data, (int)nodeValue);
+            //}
+            //else if (Attribute.IsDefined(prop, typeof(Int64FieldAttribute)))
+            //{
+            //    prop.SetValue(data, (long)nodeValue);
+            //}
+            //else if (Attribute.IsDefined(prop, typeof(SingleFieldAttribute)))
+            //{
+            //    prop.SetValue(data, (float)nodeValue);
+            //}
+            //else if (Attribute.IsDefined(prop, typeof(DoubleFieldAttribute)))
+            //{
+            //    prop.SetValue(data, (double)nodeValue);
+            //}
+            //else
+            //{
+            //    // TODO: log some warning or implement default to text field
+            //}
         }
     }
 
@@ -262,15 +266,15 @@ internal class DefaultLuceneModelGenerator : ILuceneModelGenerator
     /// <param name="pageContentContainer">The <see cref="IWebPageContentQueryDataContainer"/> to load values from.</param>
     /// <param name="data">The data object based on <see cref="LuceneSearchModel"/>.</param>
     /// <param name="languageName">The language on the WebSite which is indexed.</param>
-    private async Task MapCommonProperties(IWebPageContentQueryDataContainer pageContentContainer, LuceneSearchModel data, string languageName)
+    private async Task MapCommonProperties(IndexedItemModel lucenePageItem, LuceneSearchModel data, string languageName)
     {
-        data.ObjectID = pageContentContainer.ContentItemID.ToString();
-        data.ClassName = pageContentContainer.ContentItemName;
+        data.ClassName = lucenePageItem.TypeName;
+        data.ObjectID = lucenePageItem.WebPageItemGuid.ToString();
 
         string url;
         try
         {
-            url = (await urlRetriever.Retrieve(pageContentContainer.WebPageItemID, languageName)).RelativePath;
+            url = (await urlRetriever.Retrieve(lucenePageItem.WebPageItemGuid, languageName)).RelativePath;
         }
         catch (Exception)
         {

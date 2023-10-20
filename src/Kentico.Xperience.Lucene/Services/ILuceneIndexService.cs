@@ -3,6 +3,7 @@ using Lucene.Net.Facet;
 using Lucene.Net.Facet.Taxonomy;
 using Lucene.Net.Index;
 using Lucene.Net.Search;
+using System;
 
 namespace Kentico.Xperience.Lucene.Services;
 

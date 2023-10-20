@@ -8,7 +8,7 @@ using Kentico.Content.Web.Mvc;
 
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ViewComponents;
-
+using CMS.Websites;
 
 namespace DancingGoat.ViewComponents
 {

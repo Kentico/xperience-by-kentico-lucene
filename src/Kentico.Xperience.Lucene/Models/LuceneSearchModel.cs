@@ -2,6 +2,8 @@
 using Kentico.Xperience.Lucene.Attributes;
 using Lucene.Net.Documents;
 using Lucene.Net.Facet;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Kentico.Xperience.Lucene.Models;
 

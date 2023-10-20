@@ -1,5 +1,7 @@
 ﻿using Kentico.Xperience.Admin.Base;
 using Kentico.Xperience.Lucene.Models;
+using System;
+using System.Threading.Tasks;
 
 namespace Kentico.Xperience.Lucene.Admin;
 

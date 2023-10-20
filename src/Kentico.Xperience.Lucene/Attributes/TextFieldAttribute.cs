@@ -1,4 +1,6 @@
-﻿namespace Kentico.Xperience.Lucene.Attributes;
+﻿using System;
+
+namespace Kentico.Xperience.Lucene.Attributes;
 
 /// <summary>
 /// A property attribute which specifies the LuceneIndex field type. 

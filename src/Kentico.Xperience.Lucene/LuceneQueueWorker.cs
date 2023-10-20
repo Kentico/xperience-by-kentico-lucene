@@ -2,6 +2,9 @@ using CMS.Base;
 using CMS.Core;
 using Kentico.Xperience.Lucene.Models;
 using Kentico.Xperience.Lucene.Services;
+using System;
+using System.Collections.Generic;
+using System.Threading;
 
 namespace Kentico.Xperience.Lucene;
 
@@ -33,7 +36,7 @@ internal class LuceneQueueWorker : ThreadQueueWorker<LuceneQueueItem, LuceneQueu
     /// <exception cref="InvalidOperationException" />
     public static void EnqueueLuceneQueueItem(LuceneQueueItem queueItem)
     {
-        if (queueItem == null || (queueItem.PageContentContainer == null && queueItem.TaskType != LuceneTaskType.PUBLISH_INDEX) || string.IsNullOrEmpty(queueItem.IndexName))
+        if (queueItem == null || (queueItem.IndexedItemModel == null && queueItem.TaskType != LuceneTaskType.PUBLISH_INDEX) || string.IsNullOrEmpty(queueItem.IndexName))
         {
             return;
         }

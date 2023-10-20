@@ -4,12 +4,12 @@
     <CentralPackageVersionOverrideEnabled>false</CentralPackageVersionOverrideEnabled>
   </PropertyGroup>
   <ItemGroup>
-    <PackageVersion Include="Kentico.Xperience.Admin" Version="27.0.0-b251782" />
-    <PackageVersion Include="Kentico.Xperience.Core" Version="27.0.0-b251782" />
-    <PackageVersion Include="Kentico.Xperience.WebApp" Version="27.0.0-b251782" />
-    <PackageVersion Include="kentico.xperience.azurestorage" Version="27.0.0-b251782" />
+    <PackageVersion Include="Kentico.Xperience.Admin" Version="27.0.1" />
+    <PackageVersion Include="Kentico.Xperience.Core" Version="27.0.1" />
+    <PackageVersion Include="Kentico.Xperience.WebApp" Version="27.0.1" />
+    <PackageVersion Include="kentico.xperience.azurestorage" Version="27.0.1" />
     <PackageVersion Include="kentico.xperience.graphql" Version="26.4.0" />
-    <PackageVersion Include="kentico.xperience.imageprocessing" Version="27.0.0-b251782" />
+    <PackageVersion Include="kentico.xperience.imageprocessing" Version="27.0.1" />
     <PackageVersion Include="Lucene.Net" Version="4.8.0-beta00016" />
     <PackageVersion Include="Lucene.Net.Analysis.Common" Version="4.8.0-beta00016" />
     <PackageVersion Include="Lucene.Net.Facet" Version="4.8.0-beta00016" />

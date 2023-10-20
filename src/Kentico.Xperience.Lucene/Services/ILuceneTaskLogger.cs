@@ -1,5 +1,6 @@
 ﻿using CMS.Websites;
 using Kentico.Xperience.Lucene.Models;
+using System.Threading.Tasks;
 
 namespace Kentico.Xperience.Lucene.Services;
 
@@ -15,5 +16,5 @@ public interface ILuceneTaskLogger
     /// </summary>
     /// <param name="pageContentContainer">The <see cref="IWebPageContentQueryDataContainer"/> that triggered the event.</param>
     /// <param name="eventName">The name of the Xperience event that was triggered.</param>
-    void HandleEvent(IWebPageContentQueryDataContainer pageContentContainer, string eventName);
+    Task HandleEvent(IndexedItemModel indexedModel, string eventName);
 }

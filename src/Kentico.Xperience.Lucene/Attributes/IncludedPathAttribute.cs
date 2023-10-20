@@ -1,4 +1,6 @@
-﻿namespace Kentico.Xperience.Lucene.Attributes;
+﻿using System;
+
+namespace Kentico.Xperience.Lucene.Attributes;
 
 /// <summary>
 /// A class attribute applied to an Lucene search model indicating that the specified path, content

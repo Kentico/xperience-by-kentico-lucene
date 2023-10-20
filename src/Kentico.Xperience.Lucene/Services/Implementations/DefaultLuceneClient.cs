@@ -4,6 +4,11 @@ using Lucene.Net.Index;
 using Lucene.Net.Search;
 using CMS.ContentEngine;
 using CMS.Websites;
+using System.Threading.Tasks;
+using System.Collections.Generic;
+using System.Threading;
+using System;
+using System.Linq;
 
 namespace Kentico.Xperience.Lucene.Services;
 
@@ -127,7 +132,7 @@ internal class DefaultLuceneClient : ILuceneClient
 
         luceneIndexService.ResetIndex(luceneIndex);
 
-        var indexedWebPageItems = new List<IWebPageContentQueryDataContainer>();
+        var indexedItems = new List<IndexedItemModel>();
         foreach (var includedPathAttribute in luceneIndex.IncludedPaths)
         {
             var queryBuilder = new ContentItemQueryBuilder();
@@ -136,19 +141,32 @@ internal class DefaultLuceneClient : ILuceneClient
             {
                 foreach (var contentType in includedPathAttribute.ContentTypes)
                 {
-                    queryBuilder.ForContentType(contentType, config => config.WithLinkedItems(1).ForWebsite(luceneIndex.WebSiteChannelName, includeUrlPath: true));
+                    queryBuilder.ForContentType(contentType, config => config/*.WithLinkedItems(1)*/.ForWebsite(luceneIndex.WebSiteChannelName, includeUrlPath: true));
                 }
             }
 
             queryBuilder.InLanguage(luceneIndex.Language);
 
             var webPageItems = (await executor.GetWebPageResult(queryBuilder, container => container, cancellationToken: cancellationToken ?? default))
-                .Where(webPageItem => luceneIndex.LuceneIndexingStrategy.ShouldIndexNode(webPageItem));
+                .Select(x => new IndexedItemModel()
+                {
+                    LanguageName = luceneIndex.Language,
+                    TypeName = x.ContentTypeName,
+                    ChannelName = luceneIndex.WebSiteChannelName,
+                    WebPageItemGuid = x.WebPageItemGUID,
+                    WebPageItemTreePath = x.WebPageItemTreePath
+                });
 
-            indexedWebPageItems.AddRange(webPageItems);
+            foreach (var item in webPageItems)
+            {
+                if (await luceneIndex.LuceneIndexingStrategy.ShouldIndexNode(item))
+                { 
+                    indexedItems.Add(item);
+                }
+            }
         }
 
-        indexedWebPageItems.ForEach(container => LuceneQueueWorker.EnqueueLuceneQueueItem(new LuceneQueueItem(container, LuceneTaskType.CREATE, luceneIndex.IndexName, luceneIndex.Language)));
+        indexedItems.ForEach(item => LuceneQueueWorker.EnqueueLuceneQueueItem(new LuceneQueueItem(item, LuceneTaskType.UPDATE, luceneIndex.IndexName, luceneIndex.Language)));
         LuceneQueueWorker.EnqueueIndexPublication(luceneIndex.IndexName, luceneIndex.Language);
     }
 

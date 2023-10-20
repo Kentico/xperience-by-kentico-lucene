@@ -7,8 +7,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Kentico.Xperience.Lucene", 
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{A94EE676-9ABE-44EA-BF9E-22004E9D54C9}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DancingGoat", "src\Kentico.Xperience.Lucene.Sample\DancingGoat.csproj", "{F1CA0C86-BC78-491F-A57A-8CF91C2B514B}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DancingGoatKentico27", "src\Web\DancingGoatKentico27.csproj", "{1A9573D6-A0F4-4C2E-8AB2-0C0BD15FBF66}"
 EndProject
 Global
@@ -21,10 +19,6 @@ Global
 		{52F11256-9F81-4FC1-A2EF-37B113A8F242}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{52F11256-9F81-4FC1-A2EF-37B113A8F242}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{52F11256-9F81-4FC1-A2EF-37B113A8F242}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F1CA0C86-BC78-491F-A57A-8CF91C2B514B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F1CA0C86-BC78-491F-A57A-8CF91C2B514B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F1CA0C86-BC78-491F-A57A-8CF91C2B514B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F1CA0C86-BC78-491F-A57A-8CF91C2B514B}.Release|Any CPU.Build.0 = Release|Any CPU
 		{1A9573D6-A0F4-4C2E-8AB2-0C0BD15FBF66}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{1A9573D6-A0F4-4C2E-8AB2-0C0BD15FBF66}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1A9573D6-A0F4-4C2E-8AB2-0C0BD15FBF66}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -35,7 +29,6 @@ Global
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{52F11256-9F81-4FC1-A2EF-37B113A8F242} = {A94EE676-9ABE-44EA-BF9E-22004E9D54C9}
-		{F1CA0C86-BC78-491F-A57A-8CF91C2B514B} = {A94EE676-9ABE-44EA-BF9E-22004E9D54C9}
 		{1A9573D6-A0F4-4C2E-8AB2-0C0BD15FBF66} = {A94EE676-9ABE-44EA-BF9E-22004E9D54C9}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution

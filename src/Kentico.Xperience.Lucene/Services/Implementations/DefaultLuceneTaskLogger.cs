@@ -1,8 +1,10 @@
 ﻿using CMS.Core;
-using CMS.DocumentEngine;
 using CMS.Websites;
 using Kentico.Xperience.Lucene.Models;
 using Kentico.Xperience.Lucene.Extensions;
+using System;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Kentico.Xperience.Lucene.Services;
 
@@ -20,24 +22,24 @@ internal class DefaultLuceneTaskLogger : ILuceneTaskLogger
 
 
     /// <inheritdoc />
-    public void HandleEvent(IWebPageContentQueryDataContainer pageContentContainer, string eventName)
+    public async Task HandleEvent(IndexedItemModel indexedItem, string eventName)
     {
-        var taskType = GetTaskType(pageContentContainer, eventName);
+        var taskType = GetTaskType(eventName);
 
-        if (!pageContentContainer.IsLuceneIndexed())
+        if (!await indexedItem.IsLuceneIndexed(eventName))
         {
             return;
         }
 
         foreach (string? indexName in IndexStore.Instance.GetAllIndexes().Select(index => index.IndexName))
         {
-            if (!pageContentContainer.IsIndexedByIndex(indexName))
+            if (!await indexedItem.IsIndexedByIndex(indexName, eventName))
             {
                 continue;
             }
 
             var luceneIndex = IndexStore.Instance.GetIndex(indexName);
-            LogIndexTask(new LuceneQueueItem(pageContentContainer, taskType, indexName, luceneIndex!.Language));
+            LogIndexTask(new LuceneQueueItem(indexedItem, taskType, indexName, luceneIndex!.Language));
         }
     }
 
@@ -59,23 +61,15 @@ internal class DefaultLuceneTaskLogger : ILuceneTaskLogger
     }
 
 
-    private static LuceneTaskType GetTaskType(IWebPageContentQueryDataContainer node, string eventName)
+    private static LuceneTaskType GetTaskType(string eventName)
     {
-        //TODO if (eventName.Equals(WorkflowEvents.Publish.Name, StringComparison.OrdinalIgnoreCase) && node.WorkflowHistory.Count == 0)
-        //This should be the create condition, but we do not have WorkFlowhistory
-
-        if (eventName.Equals(WorkflowEvents.Publish.Name, StringComparison.OrdinalIgnoreCase))
-        {
-            return LuceneTaskType.CREATE;
-        }
-
-        if (eventName.Equals(WorkflowEvents.Publish.Name, StringComparison.OrdinalIgnoreCase))
+        if (eventName.Equals(WebPageEvents.Publish.Name, StringComparison.OrdinalIgnoreCase))
         {
             return LuceneTaskType.UPDATE;
         }
 
-        if (eventName.Equals(DocumentEvents.Delete.Name, StringComparison.OrdinalIgnoreCase) ||
-            eventName.Equals(WorkflowEvents.Archive.Name, StringComparison.OrdinalIgnoreCase))
+        if (eventName.Equals(WebPageEvents.Delete.Name, StringComparison.OrdinalIgnoreCase) || 
+            eventName.Equals(WebPageEvents.Archive.Name, StringComparison.OrdinalIgnoreCase))
         {
             return LuceneTaskType.DELETE;
         }
