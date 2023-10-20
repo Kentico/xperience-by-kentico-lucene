@@ -22,8 +22,8 @@ public interface ILuceneIndexingStrategy
     /// or null if no value was found.</param>
     /// <returns>The value that will be indexed in Lucene.</returns>
     Task<object?> OnIndexingProperty(TreeNode node, string propertyName, string usedColumn, object? foundValue);
-    
-    
+
+
 
     /// <summary>
     /// Called when indexing a search model. Enables overriding of multiple fields with custom data.
@@ -45,7 +45,7 @@ public interface ILuceneIndexingStrategy
     /// </summary>
     /// <returns></returns>
     FacetsConfig? FacetsConfigFactory();
-    
+
     /// <summary>
     /// Called when field is added to document 
     /// </summary>

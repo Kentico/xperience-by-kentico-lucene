@@ -1,6 +1,5 @@
 using CMS.Base;
 using CMS.Core;
-using CMS.DocumentEngine;
 using Kentico.Xperience.Lucene.Models;
 using Kentico.Xperience.Lucene.Services;
 
@@ -52,7 +51,7 @@ internal class LuceneQueueWorker : ThreadQueueWorker<LuceneQueueItem, LuceneQueu
         Current.Enqueue(queueItem, false);
     }
 
-    public static void EnqueueIndexPublication(string indexName) 
+    public static void EnqueueIndexPublication(string indexName)
         => EnqueueLuceneQueueItem(new LuceneQueueItem(null!, LuceneTaskType.PUBLISH_INDEX, indexName));
 
 

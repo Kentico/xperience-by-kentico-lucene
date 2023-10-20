@@ -98,28 +98,28 @@ public class DancingGoatLuceneIndexingStrategy : DefaultLuceneIndexingStrategy
 
     public override void OnDocumentAddField(Document document, IIndexableField field)
     {
-        if (field.Name == nameof(DancingGoatSearchModel.PublishedDateTicks) && field.GetInt64Value() is {} unixTimestampMs)
+        if (field.Name == nameof(DancingGoatSearchModel.PublishedDateTicks) && field.GetInt64Value() is { } unixTimestampMs)
         {
             var dt = new DateTime(DateTools.UnixTimeMillisecondsToTicks(unixTimestampMs), DateTimeKind.Unspecified);
-            
+
             // difference from first meaningful date in searched data history
             var delta = dt.Subtract(new DateTime(decayStartDate.Year, 1, 1, 0, 0, 0, DateTimeKind.Unspecified));
-            
+
             // decay defined as years from decay start date
             float decay = (float)delta.TotalDays / 365f;
 
             // boosting by in particular year by term occurence 
-            string value = string.Join(" ", Enumerable.Range(1, dt.Month).Select(x=> 'q'));
+            string value = string.Join(" ", Enumerable.Range(1, dt.Month).Select(x => 'q'));
             var decayField = new TextField("$decay", value, Field.Store.NO)
             {
                 Boost = decay
             };
-            
+
             // to avoid showing irrelevant search results, field boosting can be done on existing fields (in that way no additional field is need in index and query) 
 
             document.Add(decayField);
         }
-        
+
         base.OnDocumentAddField(document, field);
     }
 }

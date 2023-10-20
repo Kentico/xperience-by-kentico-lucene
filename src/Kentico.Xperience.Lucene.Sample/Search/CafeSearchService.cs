@@ -42,9 +42,11 @@ public class CafeSearchService
             if (f.Length >= 2)
             {
                 var countryDim = config?.GetDimConfig("Country");
-                var boolQuery = new BooleanQuery();
-                boolQuery.Add(new TermQuery(DrillDownQuery.Term(countryDim.IndexFieldName, "Country", f.Skip(1).ToArray())), Occur.MUST);
-                boolQuery.Add(query, Occur.MUST);
+                var boolQuery = new BooleanQuery
+                {
+                    { new TermQuery(DrillDownQuery.Term(countryDim.IndexFieldName, "Country", f.Skip(1).ToArray())), Occur.MUST },
+                    { query, Occur.MUST }
+                };
                 drillDownQuery.Add("Country", boolQuery);
             }
         }
@@ -77,7 +79,7 @@ public class CafeSearchService
                 };
             }
         );
-        
+
         return result;
     }
 

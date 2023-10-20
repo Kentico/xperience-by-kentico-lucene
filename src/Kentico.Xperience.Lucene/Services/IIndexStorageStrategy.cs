@@ -29,7 +29,7 @@ public class IndexStorageContext
         if (published == null)
         {
             string indexPath = storageStrategy.FormatPath(indexStoragePathRoot, 1, false);
-            string taxonomyPath = storageStrategy.FormatTaxonomyPath(indexStoragePathRoot,  1, false);
+            string taxonomyPath = storageStrategy.FormatTaxonomyPath(indexStoragePathRoot, 1, false);
             published = new IndexStorageModel(indexPath, taxonomyPath, 1, true);
         }
 
@@ -51,7 +51,7 @@ public class IndexStorageContext
             case var (_, _, generation, published):
                 int nextGeneration = published ? generation + 1 : generation;
                 string indexPath = storageStrategy.FormatPath(indexStoragePathRoot, nextGeneration, false);
-                string taxonomyPath = storageStrategy.FormatTaxonomyPath(indexStoragePathRoot,  nextGeneration, false);
+                string taxonomyPath = storageStrategy.FormatTaxonomyPath(indexStoragePathRoot, nextGeneration, false);
                 newIndex = new IndexStorageModel(indexPath, taxonomyPath, nextGeneration, false);
                 break;
             default:
@@ -70,7 +70,7 @@ public class IndexStorageContext
         if (model == null)
         {
             string indexPath = storageStrategy.FormatPath(indexStoragePathRoot, 1, defaultPublished);
-            string taxonomyPath = storageStrategy.FormatTaxonomyPath(indexStoragePathRoot,  1, defaultPublished);
+            string taxonomyPath = storageStrategy.FormatTaxonomyPath(indexStoragePathRoot, 1, defaultPublished);
             model = new IndexStorageModel(indexPath, taxonomyPath, 1, defaultPublished);
         }
         return model;
@@ -119,9 +119,9 @@ public class IndexStorageContext
             .GetExistingIndexes(indexStoragePathRoot)
             .OrderByDescending(s => s.Generation)
             .ToArray();
-        
+
         Trace.WriteLine($"C={ordered.Length}", $"IndexStorageContext.EnforceRetentionPolicy");
-        
+
         for (int i = 0; i < ordered.Length; i++)
         {
             var current = ordered[i];
@@ -166,7 +166,7 @@ public interface IIndexStorageStrategy
 public class GenerationStorageStrategy : IIndexStorageStrategy
 {
     private const string IndexDeletionDirectoryName = ".trash";
-    
+
     public IEnumerable<IndexStorageModel> GetExistingIndexes(string indexStoragePath)
     {
         if (!Directory.Exists(indexStoragePath))
@@ -179,18 +179,18 @@ public class GenerationStorageStrategy : IIndexStorageStrategy
             .Where(x => x.Success)
             .GroupBy(x => x.Result?.Generation ?? -1);
 
-        
-         foreach (var result in grouped)
-         {
-             var indexDir = result.FirstOrDefault(x => string.IsNullOrWhiteSpace(x.Result?.TaxonomyName));
-             var taxonomyDir = result.FirstOrDefault(x => !string.IsNullOrWhiteSpace(x.Result?.TaxonomyName));
 
-             if (indexDir is { Success: true, Result: var (indexPath, generation, published, _) })
-             {
-                 string taxonomyPath = taxonomyDir?.Result?.Path ?? FormatTaxonomyPath(indexStoragePath, generation, false);
-                 yield return new IndexStorageModel(indexPath, taxonomyPath, generation, published);    
-             }
-         }
+        foreach (var result in grouped)
+        {
+            var indexDir = result.FirstOrDefault(x => string.IsNullOrWhiteSpace(x.Result?.TaxonomyName));
+            var taxonomyDir = result.FirstOrDefault(x => !string.IsNullOrWhiteSpace(x.Result?.TaxonomyName));
+
+            if (indexDir is { Success: true, Result: var (indexPath, generation, published, _) })
+            {
+                string taxonomyPath = taxonomyDir?.Result?.Path ?? FormatTaxonomyPath(indexStoragePath, generation, false);
+                yield return new IndexStorageModel(indexPath, taxonomyPath, generation, published);
+            }
+        }
     }
 
     public string FormatPath(string indexRoot, int generation, bool isPublished) => Path.Combine(indexRoot, $"i-g{generation:0000000}-p_{isPublished}");
@@ -201,11 +201,11 @@ public class GenerationStorageStrategy : IIndexStorageStrategy
         string root = Path.Combine(storage.Path, "..");
         var published = storage with
         {
-            IsPublished = true, 
+            IsPublished = true,
             Path = FormatPath(root, storage.Generation, true),
             TaxonomyPath = FormatTaxonomyPath(root, storage.Generation, true)
         };
-        
+
         Directory.Move(storage.Path, published.Path);
 
         if (Directory.Exists(storage.TaxonomyPath))
@@ -220,7 +220,7 @@ public class GenerationStorageStrategy : IIndexStorageStrategy
 
         string delBase = Path.Combine(path, $@"..\{IndexDeletionDirectoryName}");
         Directory.CreateDirectory(delBase);
-        
+
         string delPath = Path.Combine(path, $@"..\{IndexDeletionDirectoryName}\{generation:0000000}");
         try
         {
@@ -246,7 +246,7 @@ public class GenerationStorageStrategy : IIndexStorageStrategy
             {
                 // fail, directory is possibly locked by reader
                 Trace.WriteLine($"OP={taxonomyPath} NP={delPathTaxon}: {ioex}", $"GenerationStorageStrategy.ScheduleRemoval");
-            
+
                 // restore index
                 Directory.Move(delPath, path);
                 return false;
@@ -296,7 +296,7 @@ public class GenerationStorageStrategy : IIndexStorageStrategy
         catch (IOException)
         {
             // directory might be destroyed or inaccessible
-            
+
             return false;
         }
 
@@ -333,7 +333,7 @@ public class GenerationStorageStrategy : IIndexStorageStrategy
                         {
                             taxonomyName = taxonomy;
                         }
-                        
+
                         if (int.TryParse(gen, out int generation) && bool.TryParse(pub, out bool published))
                         {
                             return new IndexStorageModelParsingResult(true, new IndexStorageModelParseResult(directoryPath, generation, published, taxonomyName));

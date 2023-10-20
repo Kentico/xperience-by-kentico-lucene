@@ -17,31 +17,31 @@ public class DefaultLuceneIndexService : ILuceneIndexService
     public T UseIndexAndTaxonomyWriter<T>(LuceneIndex index, Func<IndexWriter, ITaxonomyWriter, T> useIndexWriter, IndexStorageModel storage, OpenMode openMode = OpenMode.CREATE_OR_APPEND)
     {
         using LuceneDirectory indexDir = FSDirectory.Open(storage.Path);
-        
+
         //Create an index writer
         var indexConfig = new IndexWriterConfig(LUCENE_VERSION, index.Analyzer)
         {
             OpenMode = openMode // create/overwrite index
         };
         using var writer = new IndexWriter(indexDir, indexConfig);
-        
+
         using LuceneDirectory taxonomyDir = FSDirectory.Open(storage.TaxonomyPath);
         using var taxonomyWriter = new DirectoryTaxonomyWriter(taxonomyDir);
-        
+
         return useIndexWriter(writer, taxonomyWriter);
     }
 
     public TResult UseWriter<TResult>(LuceneIndex index, Func<IndexWriter, TResult> useIndexWriter, IndexStorageModel storage, OpenMode openMode = OpenMode.CREATE_OR_APPEND)
     {
         using LuceneDirectory indexDir = FSDirectory.Open(storage.Path);
-        
+
         //Create an index writer
         var indexConfig = new IndexWriterConfig(LUCENE_VERSION, index.Analyzer)
         {
             OpenMode = openMode // create/overwrite index
         };
         using var writer = new IndexWriter(indexDir, indexConfig);
-        
+
         return useIndexWriter(writer);
     }
 
@@ -89,7 +89,7 @@ public class DefaultLuceneIndexService : ILuceneIndexService
         var searcher = new IndexSearcher(reader);
 
         using var taxonomyDir = FSDirectory.Open(storage.TaxonomyPath);
-        
+
         using var taxonomyReader = new DirectoryTaxonomyReader(taxonomyDir);
         var facetsCollector = new FacetsCollector();
         IDictionary<string, Facets> facetsMap = new Dictionary<string, Facets>();
@@ -98,10 +98,10 @@ public class DefaultLuceneIndexService : ILuceneIndexService
         OrdinalsReader ordinalsReader = new DocValuesOrdinalsReader(FacetsConfig.DEFAULT_INDEX_FIELD_NAME);
         var facetCounts = new TaxonomyFacetCounts(ordinalsReader, taxonomyReader, config, facetsCollector);
         var facets = new MultiFacets(facetsMap, facetCounts);
-        
+
         var results = useIndexSearcher(searcher, facets);
-        
+
         return results;
-        
+
     }
 }
