@@ -42,6 +42,16 @@ public class DancingGoatLuceneIndexingStrategy : DefaultLuceneIndexingStrategy
 }
 ```
 
+This indexing strategy allows you to hook into the indexing process by overriding the following methods of the `DefaultLuceneIndexingStrategy`:
+
+- `OnIndexingProperty`
+- `OnIndexingNode`
+- `OnDocumentAddField`
+- `FacetsConfigFactory`
+- `ShouldIndexNode`
+
+> For more details, review the `DancingGoatLuceneIndexingStrategy` in the sample project.
+
 ### Register the Search Index
 
 Add this library to the application services, registering your custom `LuceneSearchModel`.
@@ -57,14 +67,17 @@ builder.Services.AddLucene(new[]
         typeof(MySearchModel),
         new StandardAnalyzer(Lucene.Net.Util.LuceneVersion.LUCENE_48),
         MySearchModel.IndexName,
-        indexPath: null,
-        new MyCustomIndexingStrategy()),
+        luceneIndexingStrategy: new MyCustomIndexingStrategy()),
 });
 ```
 
+You can add as many indexes as you want. Each index can have a different set of fields or store data for different [Content Types](https://docs.xperience.io/xp26/developers-and-admins/development/content-types).
+
 ### Rebuild the Search Index
 
-Rebuild the index in Xperience's Administration within the Lucene application added by this library.
+The index will initially be empty until you create or modify some content.
+
+To index all existing content, rebuild the index in Xperience's Administration within the Search application added by this library.
 
 ### Retrieve Content
 
@@ -115,9 +128,11 @@ var results = luceneIndexService.UseSearcher(index, (searcher) =>
 }
 ```
 
+> For a more advanced example, see the `CafeSearchService` in the sample project.
+
 ### Display Results
 
-Finally, display the search results in a Razor View.
+Finally, display the strongly typed search results in a Razor View.
 
 ```xml
 @foreach (var item in Model.Hits)
@@ -133,16 +148,21 @@ Finally, display the search results in a Razor View.
 }
 ```
 
-### Implementing document decay feature (scoring by "freshness", "recency")
+### Implementing document decay
 
-1. Boosting relevant fields by setting field boost (preferable method, but requires more work)
-2. Boosting one field with constant value, that is always present in search query (shown in sample, less desirable method. Downside of this method is that all documents get matched, usable only for scenarios where total number of result is not required)
-3. Using sort expression, implementation details can be found in Lucene.NET unit tests, Lucene.NET implementations
+You can score indexed items by "freshness" or "recency" using several techniques, each with different tradeoffs.
+
+1. Boost relevant fields by setting field boost (preferable method, but requires more work).
+2. Boost one field with constant value, that is always present in search query (shown in sample, less desirable method.
+
+   The Downside of this method is that all documents get matched, usable only for scenarios where total number of result is not required).
+
+3. Use a sort expression. Implementation details can be found in Lucene.NET unit tests, Lucene.NET implementations
 
 Methods 1 and 2 require implementing `DefaultLuceneIndexingStrategy` and overriding `OnDocumentAddField` method.
 In `OnDocumentAddField` match required fields and calculate boost, then apply to desired files as shown in example `DancingGoatLuceneIndexingStrategy.OnDocumentAddField`
 
-> differences too small in boosts will be ignored by Lucene
+> Small differences in boosts will be ignored by Lucene.
 
 ### Sample features
 

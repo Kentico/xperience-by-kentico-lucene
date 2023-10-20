@@ -18,6 +18,17 @@
       "label": "dotnet: build"
     },
     {
+      "type": "shell",
+      "command": "dotnet",
+      "args": ["format"],
+      "problemMatcher": ["$msCompile"],
+      "group": "none",
+      "options": {
+        "cwd": "${workspaceFolder}/src/Kentico.Xperience.Lucene/"
+      },
+      "label": "dotnet: format"
+    },
+    {
       "type": "dotnet",
       "task": "clean",
       "problemMatcher": ["$msCompile"],
