@@ -3,19 +3,16 @@ using CMS.Websites;
 using CMS.Websites.Internal;
 using Kentico.Xperience.Lucene.Attributes;
 using Kentico.Xperience.Lucene.Models;
-using System;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Kentico.Xperience.Lucene.Extensions;
 
 /// <summary>
 /// Lucene extension methods for the <see cref="IndexedItemModel"/> class.
 /// </summary>
-internal static class IWebPageContentQueryDataContainerExtensions
+internal static class IndexItemModelExtensions
 {
     /// <summary>
-    /// Returns true if the node is included in any registered Lucene index.
+    /// Returns true if the indexedItem is included in any registered Lucene index.
     /// </summary>
     /// <param name="indexedItem">The <see cref="IndexedItemModel"/> to check for indexing.</param>
     /// <exception cref="ArgumentNullException" />
@@ -39,49 +36,49 @@ internal static class IWebPageContentQueryDataContainerExtensions
 
 
     /// <summary>
-    /// Returns true if the node is included in the Lucene index's allowed
+    /// Returns true if the indexedItem is included in the Lucene index's allowed
     /// paths as set by the <see cref="IncludedPathAttribute"/>.
     /// </summary>
     /// <remarks>Logs an error if the search model cannot be found.</remarks>
-    /// <param name="indexedItemModel">The node to check for indexing.</param>
+    /// <param name="indexedItem">The indexedItem to check for indexing.</param>
     /// <param name="indexName">The Lucene index code name.</param>
     /// <exception cref="ArgumentNullException" />
-    public static async Task<bool> IsIndexedByIndex(this IndexedItemModel indexedItemModel, string indexName, string eventName)
+    public static async Task<bool> IsIndexedByIndex(this IndexedItemModel indexedItem, string indexName, string eventName)
     {
         if (string.IsNullOrEmpty(indexName))
         {
             throw new ArgumentNullException(nameof(indexName));
         }
-        if (indexedItemModel == null)
+        if (indexedItem == null)
         {
-            throw new ArgumentNullException(nameof(indexedItemModel));
+            throw new ArgumentNullException(nameof(indexedItem));
         }
 
         var luceneIndex = IndexStore.Instance.GetIndex(indexName);
         if (luceneIndex == null)
         {
-            Service.Resolve<IEventLogService>().LogError(nameof(IWebPageContentQueryDataContainerExtensions), nameof(IsIndexedByIndex), $"Error loading registered Lucene index '{indexName}.'");
+            Service.Resolve<IEventLogService>().LogError(nameof(IndexItemModelExtensions), nameof(IsIndexedByIndex), $"Error loading registered Lucene index '{indexName}.'");
             return false;
         }
 
-        if (!await luceneIndex.LuceneIndexingStrategy.ShouldIndexNode(indexedItemModel) && eventName != WebPageEvents.Delete.Name)
+        if (!await luceneIndex.LuceneIndexingStrategy.ShouldIndexNode(indexedItem) && eventName != WebPageEvents.Delete.Name)
         {
             return false;
         }
 
         return luceneIndex.IncludedPaths.Any(includedPathAttribute =>
         {
-            bool matchesContentType = includedPathAttribute.ContentTypes == null || includedPathAttribute.ContentTypes.Length == 0 || includedPathAttribute.ContentTypes.Contains(indexedItemModel.TypeName);
+            bool matchesContentType = includedPathAttribute.ContentTypes == null || includedPathAttribute.ContentTypes.Length == 0 || includedPathAttribute.ContentTypes.Contains(indexedItem.TypeName);
             if (includedPathAttribute.AliasPath.EndsWith("/"))
             {
                 string? pathToMatch = includedPathAttribute.AliasPath;
-                var pathsOnPath = TreePathUtils.GetTreePathsOnPath(indexedItemModel.WebPageItemTreePath, true, false).ToHashSet();
+                var pathsOnPath = TreePathUtils.GetTreePathsOnPath(indexedItem.WebPageItemTreePath, true, false).ToHashSet();
 
                 return pathsOnPath.Contains(pathToMatch) && matchesContentType;
             }
             else
             {
-                return indexedItemModel.WebPageItemTreePath.Equals(includedPathAttribute.AliasPath, StringComparison.OrdinalIgnoreCase) && matchesContentType;
+                return indexedItem.WebPageItemTreePath.Equals(includedPathAttribute.AliasPath, StringComparison.OrdinalIgnoreCase) && matchesContentType;
             }
         });
     }

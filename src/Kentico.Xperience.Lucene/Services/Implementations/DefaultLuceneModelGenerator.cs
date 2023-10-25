@@ -1,17 +1,11 @@
-﻿using System.Reflection;
-using CMS.Core;
+﻿using CMS.Core;
 using CMS.DataEngine;
 using CMS.FormEngine;
 using CMS.MediaLibrary;
 
 using Kentico.Content.Web.Mvc;
-using Kentico.Xperience.Lucene.Attributes;
 using Kentico.Xperience.Lucene.Models;
 using CMS.Websites;
-using System.Threading.Tasks;
-using System.Collections.Generic;
-using System;
-using System.Linq;
 
 namespace Kentico.Xperience.Lucene.Services;
 
@@ -103,160 +97,6 @@ internal class DefaultLuceneModelGenerator : ILuceneModelGenerator
         var mediaFiles = mediaFileInfoProvider.Get().ForAssets(assets);
 
         return mediaFiles.Select(file => mediaFileUrlRetriever.Retrieve(file).RelativePath);
-    }
-
-
-    /// <summary>
-    /// Gets the names of all database columns which are indexed by the passed index,
-    /// minus those listed in <see cref="ignoredPropertiesForTrackingChanges"/>.
-    /// </summary>
-    /// <param name="luceneIndex">The index to load columns for.</param>
-    /// <returns>The database columns that are indexed.</returns>
-    private string[] GetIndexedColumnNames(LuceneIndex luceneIndex)
-    {
-        if (cachedIndexedColumns.TryGetValue(luceneIndex.IndexName, out string[]? value))
-        {
-            return value;
-        }
-
-        // Don't include properties with SourceAttribute at first, check the sources and add to list after
-        var indexedColumnNames = luceneIndex.LuceneSearchModelType.GetProperties(BindingFlags.Public | BindingFlags.Instance)
-            .Where(prop => !Attribute.IsDefined(prop, typeof(SourceAttribute))).Select(prop => prop.Name).ToList();
-        var propertiesWithSourceAttribute = luceneIndex.LuceneSearchModelType.GetProperties(BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly)
-            .Where(prop => Attribute.IsDefined(prop, typeof(SourceAttribute)));
-        foreach (var property in propertiesWithSourceAttribute)
-        {
-            var sourceAttribute = property.GetCustomAttributes<SourceAttribute>(false).FirstOrDefault();
-            if (sourceAttribute == null)
-            {
-                continue;
-            }
-
-            indexedColumnNames.AddRange(sourceAttribute.Sources);
-        }
-
-        // Remove column names from LuceneSearchModel that aren't database columns
-        indexedColumnNames.RemoveAll(col => ignoredPropertiesForTrackingChanges.Contains(col));
-
-        string[] indexedColumns = indexedColumnNames.ToArray();
-        cachedIndexedColumns.Add(luceneIndex.IndexName, indexedColumns);
-
-        return indexedColumns;
-    }
-
-
-    /// <summary>
-    /// Gets the <paramref name="pageContentContainer"/> value using the <paramref name="property"/>
-    /// name, or the property's <see cref="SourceAttribute"/> if specified.
-    /// </summary>
-    /// <param name="pageContentContainer">The <see cref="IWebPageContentQueryDataContainer"/> to load a value from.</param>
-    /// <param name="property">The Lucene search model property.</param>
-    /// <param name="indexingStrategy">The indexing strategy.</param>
-    /// <param name="columnsToUpdate">A list of columns to retrieve values for. Columns not present
-    /// in this list will return <c>null</c>.</param>
-    private async Task<object?> GetWebPageItemValue(IWebPageContentQueryDataContainer pageContentContainer, PropertyInfo property, ILuceneIndexingStrategy indexingStrategy, IEnumerable<string> columnsToUpdate, string language)
-    {
-        object? webPageItemValue = null;
-        string usedColumn = property.Name;
-
-        var properties = pageContentContainer.GetType().GetProperties();
-
-        if (Attribute.IsDefined(property, typeof(SourceAttribute)))
-        {
-            // Property uses SourceAttribute, loop through column names until a non-null value is found
-            var sourceAttribute = property.GetCustomAttributes<SourceAttribute>(false).FirstOrDefault();
-            foreach (string? source in sourceAttribute!.Sources.Where(s => columnsToUpdate.Contains(s)))
-            {
-                var prop = properties.FirstOrDefault(x => x.Name == source);
-                if (prop == null)
-                {
-                    continue;
-                }
-
-                prop.GetValue(pageContentContainer);
-
-                if (webPageItemValue != null)
-                {
-                    usedColumn = source;
-                    break;
-                }
-            }
-        }
-        else
-        {
-            if (!columnsToUpdate.Contains(property.Name))
-            {
-                return null;
-            }
-
-            var prop = properties.FirstOrDefault(x => x.Name == property.Name);
-            webPageItemValue = prop?.GetValue(pageContentContainer);
-        }
-
-        // Convert node value to URLs if necessary
-        if (webPageItemValue != null && Attribute.IsDefined(property, typeof(MediaUrlsAttribute)))
-        {
-            webPageItemValue = GetAssetUrlsForColumn(pageContentContainer, webPageItemValue, usedColumn);
-        }
-
-        //webPageItemValue = await indexingStrategy.OnIndexingProperty(pageContentContainer, property.Name, usedColumn, webPageItemValue, language);
-
-        return webPageItemValue;
-    }
-
-
-    /// <summary>
-    /// Adds values to the <paramref name="data"/> by retriving the indexed columns of the index
-    /// and getting values from the <see cref="LuceneQueueItem.IndexedItemModel"/>.
-    /// </summary>
-    private async Task MapChangedProperties(LuceneIndex luceneIndex, LuceneQueueItem queueItem, LuceneSearchModel data, string language)
-    {
-        var columnsToUpdate = new List<string>();
-        string[] indexedColumns = GetIndexedColumnNames(luceneIndex);
-        if (queueItem.TaskType is LuceneTaskType.UPDATE)
-        {
-            columnsToUpdate.AddRange(indexedColumns);
-        }
-
-        var properties = luceneIndex.LuceneSearchModelType.GetProperties(BindingFlags.Public | BindingFlags.Instance);
-        foreach (var prop in properties)
-        {
-            //object? nodeValue = await GetWebPageItemValue(queueItem.IndexedItemModel, prop, luceneIndex.LuceneIndexingStrategy, columnsToUpdate, language);
-            //if (nodeValue == null)
-            //{
-            //    continue;
-            //}
-
-            //// TODO: map based on PropertyType
-            //if (Attribute.IsDefined(prop, typeof(TextFieldAttribute)))
-            //{
-            //    prop.SetValue(data, nodeValue.ToString());
-            //}
-            //else if (Attribute.IsDefined(prop, typeof(StringFieldAttribute)))
-            //{
-            //    prop.SetValue(data, nodeValue.ToString());
-            //}
-            //else if (Attribute.IsDefined(prop, typeof(Int32FieldAttribute)))
-            //{
-            //    prop.SetValue(data, (int)nodeValue);
-            //}
-            //else if (Attribute.IsDefined(prop, typeof(Int64FieldAttribute)))
-            //{
-            //    prop.SetValue(data, (long)nodeValue);
-            //}
-            //else if (Attribute.IsDefined(prop, typeof(SingleFieldAttribute)))
-            //{
-            //    prop.SetValue(data, (float)nodeValue);
-            //}
-            //else if (Attribute.IsDefined(prop, typeof(DoubleFieldAttribute)))
-            //{
-            //    prop.SetValue(data, (double)nodeValue);
-            //}
-            //else
-            //{
-            //    // TODO: log some warning or implement default to text field
-            //}
-        }
     }
 
     /// <summary>

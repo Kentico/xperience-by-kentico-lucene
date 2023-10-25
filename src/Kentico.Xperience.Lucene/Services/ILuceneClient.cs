@@ -1,7 +1,4 @@
 using Kentico.Xperience.Lucene.Models;
-using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace Kentico.Xperience.Lucene.Services;
 

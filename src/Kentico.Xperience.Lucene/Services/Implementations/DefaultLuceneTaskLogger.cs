@@ -2,9 +2,6 @@
 using CMS.Websites;
 using Kentico.Xperience.Lucene.Models;
 using Kentico.Xperience.Lucene.Extensions;
-using System;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Kentico.Xperience.Lucene.Services;
 
@@ -68,7 +65,7 @@ internal class DefaultLuceneTaskLogger : ILuceneTaskLogger
             return LuceneTaskType.UPDATE;
         }
 
-        if (eventName.Equals(WebPageEvents.Delete.Name, StringComparison.OrdinalIgnoreCase) || 
+        if (eventName.Equals(WebPageEvents.Delete.Name, StringComparison.OrdinalIgnoreCase) ||
             eventName.Equals(WebPageEvents.Archive.Name, StringComparison.OrdinalIgnoreCase))
         {
             return LuceneTaskType.DELETE;

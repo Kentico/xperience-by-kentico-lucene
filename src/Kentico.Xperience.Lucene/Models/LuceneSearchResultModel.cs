@@ -1,5 +1,4 @@
 ﻿using Lucene.Net.Facet;
-using System.Collections.Generic;
 
 namespace Kentico.Xperience.Lucene.Models;
 

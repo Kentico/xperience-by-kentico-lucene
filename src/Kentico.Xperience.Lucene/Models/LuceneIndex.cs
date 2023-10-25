@@ -1,5 +1,4 @@
 ﻿using System.Reflection;
-using CMS.IO;
 using Kentico.Xperience.Lucene.Attributes;
 using Kentico.Xperience.Lucene.Services;
 using Kentico.Xperience.Lucene.Services.Implementations;

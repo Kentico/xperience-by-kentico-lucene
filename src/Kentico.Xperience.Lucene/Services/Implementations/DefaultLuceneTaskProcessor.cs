@@ -2,11 +2,6 @@ using CMS.AutomationEngine.Internal;
 using CMS.Core;
 
 using Kentico.Xperience.Lucene.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace Kentico.Xperience.Lucene.Services;
 

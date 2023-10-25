@@ -1,11 +1,9 @@
-﻿
-using Kentico.Xperience.Lucene.Models;
-using System.Threading.Tasks;
+﻿using Kentico.Xperience.Lucene.Models;
 
 namespace Kentico.Xperience.Lucene.Services;
 
 /// <summary>
-/// Generates <see cref="LuceneSearchModel"/>s from Xperience <see cref="TreeNode"/>s
+/// Generates <see cref="LuceneSearchModel"/>s
 /// for upserting into Lucene.
 /// </summary>
 public interface ILuceneModelGenerator

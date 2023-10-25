@@ -1,5 +1,4 @@
-﻿using CMS.DocumentEngine;
-using DancingGoat.Models;
+﻿using DancingGoat.Models;
 using Kentico.Xperience.Lucene.Attributes;
 using Kentico.Xperience.Lucene.Models;
 using Kentico.Xperience.Lucene.Services.Implementations;
@@ -24,17 +23,6 @@ public class ArticleSearchModel : LuceneSearchModel
     
     [TextField(true)]
     public string CafeZipCode { get; set; }
-
-    public override IEnumerable<FacetField> OnTaxonomyFieldCreation()
-    {
-        string[] countries = CafeCountry?.Split(',', StringSplitOptions.RemoveEmptyEntries).Select(country => country.Trim()).ToArray() ?? Array.Empty<string>();
-        yield return countries switch
-        {
-            { Length: >= 2 } => new FacetField("Country", countries[0], countries[1]),
-            { Length: 1 } => new FacetField("Country", countries[0], "no state"),
-            _ => new FacetField("Country", "no country", "no state")
-        };
-    }
 }
 
 

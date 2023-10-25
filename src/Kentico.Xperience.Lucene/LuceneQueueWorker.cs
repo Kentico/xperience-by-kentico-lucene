@@ -2,9 +2,6 @@ using CMS.Base;
 using CMS.Core;
 using Kentico.Xperience.Lucene.Models;
 using Kentico.Xperience.Lucene.Services;
-using System;
-using System.Collections.Generic;
-using System.Threading;
 
 namespace Kentico.Xperience.Lucene;
 

@@ -4,7 +4,6 @@ using CMS.DataEngine;
 using CMS.Websites;
 using Kentico.Xperience.Lucene.Models;
 using Kentico.Xperience.Lucene.Services;
-using System.Threading.Tasks;
 
 namespace Kentico.Xperience.Lucene;
 

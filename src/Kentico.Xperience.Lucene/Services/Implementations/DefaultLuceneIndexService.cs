@@ -6,8 +6,6 @@ using Lucene.Net.Index;
 using Lucene.Net.Search;
 using Lucene.Net.Store;
 using Lucene.Net.Util;
-using System;
-using System.Collections.Generic;
 using LuceneDirectory = Lucene.Net.Store.Directory;
 
 namespace Kentico.Xperience.Lucene.Services.Implementations;

@@ -1,6 +1,4 @@
-﻿using CMS.Websites;
-using Kentico.Xperience.Lucene.Models;
-using System.Threading.Tasks;
+﻿using Kentico.Xperience.Lucene.Models;
 
 namespace Kentico.Xperience.Lucene.Services;
 
@@ -12,9 +10,9 @@ public interface ILuceneTaskLogger
 {
     /// <summary>
     /// Logs an <see cref="LuceneQueueItem"/> for each registered crawler. Then, loops
-    /// through all registered Lucene indexes and logs a task if the passed <paramref name="pageContentContainer"/> is indexed.
+    /// through all registered Lucene indexes and logs a task if the passed <paramref name="IndexedItemModel"/> is indexed.
     /// </summary>
-    /// <param name="pageContentContainer">The <see cref="IWebPageContentQueryDataContainer"/> that triggered the event.</param>
+    /// <param name="indexedItem">The <see cref="IndexedItemModel"/> that triggered the event.</param>
     /// <param name="eventName">The name of the Xperience event that was triggered.</param>
-    Task HandleEvent(IndexedItemModel indexedModel, string eventName);
+    Task HandleEvent(IndexedItemModel indexedItem, string eventName);
 }
