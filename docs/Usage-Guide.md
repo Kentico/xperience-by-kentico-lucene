@@ -50,7 +50,7 @@ This indexing strategy allows you to hook into the indexing process by overridin
 - `FacetsConfigFactory`
 - `ShouldIndexNode`
 
-> For more details, review the `DancingGoatLuceneIndexingStrategy` in the sample project.
+> For more details, review the `DancingGoatLuceneIndexingStrategy` in the example project.
 
 ### Register the Search Index
 
@@ -128,7 +128,7 @@ var results = luceneIndexService.UseSearcher(index, (searcher) =>
 }
 ```
 
-> For a more advanced example, see the `CafeSearchService` in the sample project.
+> For a more advanced example, see the `CafeSearchService` in the example project.
 
 ### Display Results
 
@@ -153,7 +153,7 @@ Finally, display the strongly typed search results in a Razor View.
 You can score indexed items by "freshness" or "recency" using several techniques, each with different tradeoffs.
 
 1. Boost relevant fields by setting field boost (preferable method, but requires more work).
-2. Boost one field with constant value, that is always present in search query (shown in sample, less desirable method.
+2. Boost one field with constant value, that is always present in search query (shown in the example project, less desirable method.
 
    The Downside of this method is that all documents get matched, usable only for scenarios where total number of result is not required).
 
@@ -181,6 +181,6 @@ This could be used to trigger regular reindexing of content via CRON, Windows Ta
 
 ## Additional Resources
 
-- Review the "Search" functionality in the `src\Kentico.Xperience.Lucene.Sample` Dancing Goat project to see how to implement search.
+- Review the "Search" functionality in the `examples/DancingGoat` Dancing Goat project to see how to implement search.
 - Read the Lucene.NET [introduction](https://lucenenet.apache.org/) or [full documentation](https://lucenenet.apache.org/docs/4.8.0-beta00016/) to explore the core library's APIs and functionality.
 - Explore the [Lucene.NET source on GitHub](https://github.com/apache/lucenenet)

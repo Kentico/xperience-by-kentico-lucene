@@ -69,7 +69,7 @@
         "watch",
         "run",
         "--project",
-        "${workspaceFolder}/src/Kentico.Xperience.Lucene.Sample/DancingGoat.csproj"
+        "${workspaceFolder}/examples/DancingGoat/DancingGoat.csproj"
       ],
       "options": {
         "env": {
