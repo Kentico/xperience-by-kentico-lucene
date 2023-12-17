@@ -1,0 +1,57 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net6.0</TargetFramework>
+		<Product>Xperience by Kentico Lucene Search</Product>
+		<Title>$(Product)</Title>
+		<PackageId>Kentico.Xperience.Lucene</PackageId>
+		<Description>Enables the creation of Lucene search indexes and the indexing of Xperience content tree pages using a code-first approach.</Description>
+		<RepositoryUrl>https://github.com/kentico/xperience-by-kentico-lucene</RepositoryUrl>
+	</PropertyGroup>
+
+	<PropertyGroup>
+		<AdminOrgName>kentico</AdminOrgName>
+		<RootNamespace>Kentico.Xperience.Lucene</RootNamespace>
+		<LangVersion>Latest</LangVersion>
+		<NoWarn>$(NoWarn);S1075</NoWarn>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<AssemblyAttribute Include="CMS.AssemblyDiscoverableAttribute">
+		</AssemblyAttribute>
+	</ItemGroup>
+
+	<ItemGroup>
+		<Compile Remove="Admin\Client\node_modules\**" />
+		<EmbeddedResource Remove="Admin\Client\node_modules\**" />
+		<None Remove="Admin\Client\node_modules\**" />
+	</ItemGroup>
+
+	<Target Name="NpmInstall" BeforeTargets="NpmBuildClient" Condition=" '$(Configuration)|$(Platform)' != 'Debug|AnyCPU' ">
+		<Exec Command="npm ci --no-audit --no-fund" WorkingDirectory="$(MSBuildProjectDirectory)\Admin\Client" />
+	</Target>
+	<Target Name="NpmBuildClient" BeforeTargets="BeforeBuild" Condition=" '$(Configuration)|$(Platform)' != 'Debug|AnyCPU' ">
+		<Exec Command="npm run build" WorkingDirectory="$(MSBuildProjectDirectory)\Admin\Client" />
+
+		<ItemGroup>
+			<AdminClientPath Include="Admin\Client\dist\**">
+				<ProjectName>xperience-integrations-lucene</ProjectName>
+			</AdminClientPath>
+		</ItemGroup>
+	</Target>
+
+	<ItemGroup>
+		<PackageReference Include="Kentico.Xperience.Admin" Version="28.1.0" />
+		<PackageReference Include="Kentico.Xperience.WebApp" Version="28.1.0" />
+		<PackageReference Include="Lucene.Net" Version="4.8.0-beta00016" />
+		<PackageReference Include="Lucene.Net.Analysis.Common" Version="4.8.0-beta00016" />
+		<PackageReference Include="Lucene.Net.Facet" Version="4.8.0-beta00016" />
+		<PackageReference Include="Microsoft.AspNetCore.Mvc.ViewFeatures" Version="2.2.0" />
+		<PackageReference Include="System.Configuration.ConfigurationManager" Version="8.0.0" />
+		<PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+	</ItemGroup>
+
+</Project>
