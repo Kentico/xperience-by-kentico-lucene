@@ -197,14 +197,14 @@ namespace Kentico.Xperience.Lucene
 
             contentType.ClassName = ContenttypeitemInfo.OBJECT_TYPE;
             contentType.ClassTableName = ContenttypeitemInfo.OBJECT_TYPE.Replace(".", "_");
-            contentType.ClassDisplayName = "Lucene Content Type Item";
+            contentType.ClassDisplayName = "Lucene Type Item";
             contentType.ClassType = ClassType.OTHER;
 
             var formInfo = FormHelper.GetBasicFormDefinition(nameof(ContenttypeitemInfo.LuceneContentTypeItemId));
 
             var formItem = new FormFieldInfo
             {
-                Name = "ContentTypeName",
+                Name = "TypeName",
                 AllowEmpty = false,
                 Visible = true,
                 Precision = 0,

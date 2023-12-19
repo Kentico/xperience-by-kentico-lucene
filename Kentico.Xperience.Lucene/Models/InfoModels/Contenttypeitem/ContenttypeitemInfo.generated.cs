@@ -28,7 +28,7 @@ namespace CMS
         /// Type information.
         /// </summary>
 #warning "You will need to configure the type info."
-        public static readonly ObjectTypeInfo TYPEINFO = new ObjectTypeInfo(typeof(ContenttypeitemInfoProvider), OBJECT_TYPE, "lucene.contenttypeitem", "LuceneContentTypeItemId", null, null, "ContentTypeName", null, null, null, null)
+        public static readonly ObjectTypeInfo TYPEINFO = new ObjectTypeInfo(typeof(ContenttypeitemInfoProvider), OBJECT_TYPE, "lucene.contenttypeitem", "LuceneContentTypeItemId", null, null, null, null, null, null, null)
         {
             TouchCacheDependencies = true,
             DependsOn = new List<ObjectDependency>()
