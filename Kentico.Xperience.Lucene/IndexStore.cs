@@ -97,7 +97,7 @@ public sealed class IndexStore
     {
         if (string.IsNullOrEmpty(indexName))
         {
-            throw new ArgumentNullException(nameof(indexName));
+            return null;
         }
 
         return registeredIndexes.SingleOrDefault(i => i.IndexName.Equals(indexName, StringComparison.OrdinalIgnoreCase));
