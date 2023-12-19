@@ -28,7 +28,7 @@ internal class IndexListing : ListingPageBase<ListingConfiguration>
         {
             mPageConfiguration ??= new ListingConfiguration()
             {
-                Caption = LocalizationService.GetString("integrations.lucene.listing.caption"),
+                Caption = LocalizationService.GetString("List of indexes"),
                 ColumnConfigurations = new List<ColumnConfiguration>(),
                 TableActions = new List<ActionConfiguration>(),
                 HeaderActions = new List<ActionConfiguration>(),
@@ -59,8 +59,8 @@ internal class IndexListing : ListingPageBase<ListingConfiguration>
             {
                 new CalloutConfiguration
                 {
-                    Headline = LocalizationService.GetString("integrations.lucene.listing.noindexes.headline"),
-                    Content = LocalizationService.GetString("integrations.lucene.listing.noindexes.description"),
+                    Headline = "No indexes",
+                    Content = "No Lucene indexes registered. See <a target='_blank' href='https://github.com/Kentico/kentico-xperience-lucene'>our instructions</a> to read more about creating and registering Lucene indexes.",
                     ContentAsHtml = true,
                     Type = CalloutType.FriendlyWarning,
                     Placement = CalloutPlacement.OnDesk
@@ -71,10 +71,10 @@ internal class IndexListing : ListingPageBase<ListingConfiguration>
         PageConfiguration.HeaderActions.AddLink<EditIndex>("Create", parameters: "-1");
 
         PageConfiguration.ColumnConfigurations
-            .AddColumn(nameof(LuceneIndexStatisticsViewModel.Name), LocalizationService.GetString("integrations.lucene.listing.columns.name"), defaultSortDirection: SortTypeEnum.Asc, searchable: true)
-            .AddColumn(nameof(LuceneIndexStatisticsViewModel.Entries), LocalizationService.GetString("integrations.lucene.listing.columns.entries"));
+            .AddColumn(nameof(LuceneIndexStatisticsViewModel.Name), "Name", defaultSortDirection: SortTypeEnum.Asc, searchable: true)
+            .AddColumn(nameof(LuceneIndexStatisticsViewModel.Entries), LocalizationService.GetString("Indexed items"));
 
-        PageConfiguration.TableActions.AddCommand(LocalizationService.GetString("integrations.lucene.listing.commands.rebuild"), nameof(Rebuild), Icons.RotateRight);
+        PageConfiguration.TableActions.AddCommand(LocalizationService.GetString("Build index"), nameof(Rebuild), Icons.RotateRight);
         PageConfiguration.TableActions.AddCommand("Edit", nameof(Edit));
         PageConfiguration.TableActions.AddCommand("Delete", nameof(Delete));
         return base.ConfigurePage();
@@ -103,19 +103,19 @@ internal class IndexListing : ListingPageBase<ListingConfiguration>
         if (index == null)
         {
             return ResponseFrom(result)
-                .AddErrorMessage(string.Format(LocalizationService.GetString("integrations.lucene.error.noindex"), id));
+                .AddErrorMessage(string.Format("Error loading Lucene index with identifier {0}.", id));
         }
         try
         {
             await luceneClient.Rebuild(index.IndexName, cancellationToken);
             return ResponseFrom(result)
-                .AddSuccessMessage(LocalizationService.GetString("integrations.lucene.listing.messages.rebuilding"));
+                .AddSuccessMessage("Indexing in progress. Visit your Lucene dashboard for details about the indexing process.");
         }
         catch (Exception ex)
         {
             EventLogService.LogException(nameof(IndexListing), nameof(Rebuild), ex);
             return ResponseFrom(result)
-                .AddErrorMessage(string.Format(LocalizationService.GetString("integrations.lucene.listing.messages.rebuilderror"), index.IndexName));
+               .AddErrorMessage(string.Format("Errors occurred while rebuilding the '{0}' index. Please check the Event Log for more details.", index.IndexName));
         }
     }
 
@@ -230,8 +230,8 @@ internal class IndexListing : ListingPageBase<ListingConfiguration>
                         {
                             new Action(ActionType.Command)
                             {
-                                Title = LocalizationService.GetString("integrations.lucene.listing.commands.rebuild"),
-                                Label = LocalizationService.GetString("integrations.lucene.listing.commands.rebuild"),
+                                Title = "Build index",
+                                Label = "Build index",
                                 Icon = Icons.RotateRight,
                                 Parameter = nameof(Rebuild)
                             },

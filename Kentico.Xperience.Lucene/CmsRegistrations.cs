@@ -24,9 +24,6 @@ using Kentico.Xperience.Lucene.Services.Implementations;
 
 // Admin UI pages
 [assembly: UIPage(typeof(LuceneApplication), "Indexes", typeof(IndexListing), "{$integrations.lucene.listing$}", TemplateNames.LISTING, UIPageOrder.First)]
-[assembly: UIPage(typeof(IndexListing), "View", typeof(ViewIndexSection), "{$integrations.lucene.section.viewindex$}", TemplateNames.SECTION_LAYOUT, UIPageOrder.NoOrder)]
-[assembly: UIPage(typeof(ViewIndexSection), "Content", typeof(IndexedContent), "{$integrations.lucene.content$}", "@kentico/xperience-integrations-lucene/IndexedContent", UIPageOrder.First)]
-[assembly: UIPage(typeof(IndexedContent), PageParameterConstants.PARAMETERIZED_SLUG, typeof(PathDetail), "{$integrations.lucene.pathdetail$}", "@kentico/xperience-integrations-lucene/PathDetail", UIPageOrder.First)]
 [assembly: UIPage(typeof(IndexListing), PageParameterConstants.PARAMETERIZED_SLUG, typeof(EditIndex), "Edit index", TemplateNames.EDIT, UIPageOrder.First)]
 
 [assembly: RegisterFormComponent(nameof(ListComponent), typeof(ListComponent), "Custom List component")]

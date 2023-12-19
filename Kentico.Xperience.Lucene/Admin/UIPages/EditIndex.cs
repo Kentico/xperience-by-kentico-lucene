@@ -123,7 +123,7 @@ public class EditIndex : ModelEditPage<LuceneConfigurationModel>
             }
             else
             {
-                response.AddErrorMessage(string.Format("Index creating filed."));
+                response.AddErrorMessage(string.Format("Index creating failed."));
             }
 
             return response;
