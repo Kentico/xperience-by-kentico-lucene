@@ -2,7 +2,6 @@
 
 using CMS;
 using CMS.Core;
-using Kentico.PageBuilder.Web.Mvc;
 using Kentico.Xperience.Admin.Base;
 using Kentico.Xperience.Admin.Base.Forms;
 using Kentico.Xperience.Admin.Base.UIPages;

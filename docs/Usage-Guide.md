@@ -447,7 +447,7 @@ public class SearchService
 
     public SearchService(ILuceneIndexService luceneIndexService) => this.luceneIndexService = luceneIndexService;
 
-    public GlobalSearchResultViewModel<GlobalSearchResultModel> GlobalSearch(string indexName, string searchText, int pageSize = 20, int page = 1, string facet = null, string sortBy = null)
+    public GlobalSearchResultModel GlobalSearch(string indexName, string searchText, int pageSize = 20, int page = 1, string facet = null, string sortBy = null)
     {
         var index = IndexStore.Instance.GetIndex(indexName) ?? throw new Exception($"Index {indexName} was not found!!!");
         pageSize = Math.Max(1, pageSize);
@@ -514,7 +514,7 @@ public class SearchService
                    topDocs = searcher.Search(combinedQuery, MAX_RESULTS);
                }
 
-               return new GlobalSearchResultViewModel<GlobalSearchResultModel>
+               return new GlobalSearchResultModel
                {
                    Query = searchText ?? "",
                    Page = page,
