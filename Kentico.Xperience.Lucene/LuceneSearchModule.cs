@@ -4,10 +4,6 @@ using CMS.Core;
 using CMS.Websites;
 using Kentico.Xperience.Lucene.Models;
 using Kentico.Xperience.Lucene.Services;
-using Lucene.Net.Analysis.Standard;
-using Lucene.Net.Util;
-using System;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace Kentico.Xperience.Lucene;
@@ -20,7 +16,6 @@ internal class LuceneSearchModule : CMS.DataEngine.Module
     private ILuceneTaskLogger? luceneTaskLogger;
     private IAppSettingsService? appSettingsService;
     private IConversionService? conversionService;
-    private ILuceneIndexingStrategy luceneIndexingStrategy;
     private const string APP_SETTINGS_KEY_INDEXING_DISABLED = "LuceneSearchDisableIndexing";
 
     private bool IndexingDisabled => conversionService?.GetBoolean(appSettingsService?[APP_SETTINGS_KEY_INDEXING_DISABLED], false) ?? false;
@@ -40,19 +35,12 @@ internal class LuceneSearchModule : CMS.DataEngine.Module
         conversionService = Service.Resolve<IConversionService>();
 
         AddRegisteredIndices().Wait();
-        
-        
         WebPageEvents.Publish.Execute += HandleEvent;
         WebPageEvents.Delete.Execute += HandleEvent;
         ContentItemEvents.Publish.Execute += HandleContentItemEvent;
         ContentItemEvents.Delete.Execute += HandleContentItemEvent;
 
         RequestEvents.RunEndRequestTasks.Execute += (sender, eventArgs) => LuceneQueueWorker.Current.EnsureRunningThread();
-    }
-
-    private void Delete_Execute(object sender, DeleteWebPageEventArgs e)
-    {
-        throw new System.NotImplementedException();
     }
 
     /// <summary>
@@ -64,7 +52,7 @@ internal class LuceneSearchModule : CMS.DataEngine.Module
         {
             return;
         }
-        WebPageEventArgsBase publishedEvent = (WebPageEventArgsBase)e;
+        var publishedEvent = (WebPageEventArgsBase)e;
         var indexedItemModel = new IndexedItemModel
         {
             LanguageCode = publishedEvent.ContentLanguageName,
@@ -84,7 +72,7 @@ internal class LuceneSearchModule : CMS.DataEngine.Module
         {
             return;
         }
-        ContentItemEventArgsBase publishedEvent = (ContentItemEventArgsBase)e;
+        var publishedEvent = (ContentItemEventArgsBase)e;
 
         var indexedContentItemModel = new IndexedContentItemModel
         {

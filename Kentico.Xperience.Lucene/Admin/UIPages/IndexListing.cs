@@ -2,7 +2,6 @@
 using Kentico.Xperience.Admin.Base;
 using Kentico.Xperience.Lucene.Models;
 using Kentico.Xperience.Lucene.Services;
-using Kentico.Xperience.Lucene.Services.Implementations;
 using System;
 using System.Collections.Generic;
 using System.Linq;

@@ -82,6 +82,12 @@
           "Microsoft.SourceLink.Common": "1.1.1"
         }
       },
+      "SonarAnalyzer.CSharp": {
+        "type": "Direct",
+        "requested": "(, )",
+        "resolved": "1.10.0",
+        "contentHash": "yBo5PMNdth4FhSvgj1yjqH/gNdgZAf69E28gT6/koW2jrBX0GpJybXUFuKgV0PM4VjhvtuJSlqdC8tO2Ci69VA=="
+      },
       "System.Configuration.ConfigurationManager": {
         "type": "Direct",
         "requested": "[8.0.0-rc.2.23479.6, )",
