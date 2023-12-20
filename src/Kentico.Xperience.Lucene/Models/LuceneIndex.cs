@@ -12,7 +12,7 @@ public class IncludedPath
     /// <summary>
     /// The node alias pattern that will be used to match pages in the content tree for indexing.
     /// </summary>
-    /// <remarks>For example, "/Blogs/Products/%" will index all pages under the "Products" page.</remarks>
+    /// <remarks>For example, "/Blogs/Products/" will index all pages under the "Products" page.</remarks>
     public string AliasPath
     {
         get;
@@ -21,7 +21,6 @@ public class IncludedPath
 
     /// <summary>
     /// A list of content types under the specified <see cref="AliasPath"/> that will be indexed.
-    /// If empty, all content types are indexed.
     /// </summary>
     public string[]? ContentTypes
     {
@@ -108,9 +107,6 @@ public sealed class LuceneIndex
         set;
     }
 
-
-    /// <summary>
-    /// </summary>
     internal IEnumerable<IncludedPath> IncludedPaths
     {
         get;
@@ -121,7 +117,6 @@ public sealed class LuceneIndex
     /// <summary>
     /// Initializes a new <see cref="LuceneIndex"/>.
     /// </summary>
-    /// <param name="type">The type of the class which extends <see cref="LuceneSearchModel"/>.</param>
     /// <param name="analyzer">Lucene Analyzer instance <see cref="Analyzer"/>.</param>
     /// <param name="indexName">The code name of the Lucene index.</param>
     /// <param name="webSiteChannelName">The name of the Website Channel where the Index should be applied</param>

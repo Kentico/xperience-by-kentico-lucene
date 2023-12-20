@@ -41,7 +41,6 @@ public sealed class LuceneQueueItem
     /// <param name="indexedItem">The <see cref="Models.IndexedItemModel"/> that was changed.</param>
     /// <param name="taskType">The type of the Lucene task.</param>
     /// <param name="indexName">The code name of the Lucene index to be updated.</param>
-    /// <param name="language">The language where the Index is applied.</param>
     /// <exception cref="ArgumentNullException" />
     public LuceneQueueItem(IndexedItemModel indexedItem, LuceneTaskType taskType, string indexName)
     {

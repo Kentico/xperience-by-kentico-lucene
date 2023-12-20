@@ -41,17 +41,18 @@
 	</Target>
 
 	<ItemGroup>
-		<PackageReference Include="Kentico.Xperience.Admin" Version="28.0.0" />
-		<PackageReference Include="Kentico.Xperience.WebApp" Version="28.0.0" />
-		<PackageReference Include="Lucene.Net" Version="4.8.0-beta00016" />
-		<PackageReference Include="Lucene.Net.Analysis.Common" Version="4.8.0-beta00016" />
-		<PackageReference Include="Lucene.Net.Facet" Version="4.8.0-beta00016" />
-		<PackageReference Include="Microsoft.AspNetCore.Mvc.ViewFeatures" Version="2.2.0" />
-		<PackageReference Include="System.Configuration.ConfigurationManager" Version="8.0.0-rc.2.23479.6" />
-		<PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1">
+		<PackageReference Include="Kentico.Xperience.Admin" />
+		<PackageReference Include="Kentico.Xperience.WebApp" />
+		<PackageReference Include="Lucene.Net" />
+		<PackageReference Include="Lucene.Net.Analysis.Common"/>
+		<PackageReference Include="Lucene.Net.Facet"/>
+		<PackageReference Include="Microsoft.AspNetCore.Html.Abstractions" />
+		<PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" />
+		<PackageReference Include="Microsoft.AspNetCore.Mvc.ViewFeatures" />
+		<PackageReference Include="System.Configuration.ConfigurationManager" />
+		<PackageReference Include="Microsoft.SourceLink.GitHub">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
 	</ItemGroup>
-
 </Project>
