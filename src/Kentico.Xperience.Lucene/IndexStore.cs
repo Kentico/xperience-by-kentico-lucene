@@ -1,10 +1,8 @@
 ﻿using Kentico.Xperience.Lucene.Models;
 using Kentico.Xperience.Lucene.Services;
+using Kentico.Xperience.Lucene.Services.Implementations;
 using Lucene.Net.Analysis.Standard;
 using Lucene.Net.Util;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace Kentico.Xperience.Lucene;
 
@@ -14,8 +12,8 @@ namespace Kentico.Xperience.Lucene;
 public sealed class IndexStore
 {
     private static readonly Lazy<IndexStore> mInstance = new();
-    private readonly List<LuceneIndex> registeredIndexes = new();
-    private readonly HashSet<string> registeredCrawlers = new();
+    private readonly List<LuceneIndex> registeredIndexes = [];
+    private readonly HashSet<string> registeredCrawlers = [];
 
 
     /// <summary>
@@ -50,15 +48,17 @@ public sealed class IndexStore
         registeredIndexes.Clear();
         foreach (var index in models)
         {
+            index.StrategyName ??= "";
+
             Instance.AddIndex(new LuceneIndex(
                 new StandardAnalyzer(LuceneVersion.LUCENE_48),
-                index.IndexName,
-                index.ChannelName,
-                index.LanguageNames.ToList(),
+                index.IndexName ?? "",
+                index.ChannelName ?? "",
+                index.LanguageNames?.ToList() ?? [],
                 index.Id,
-                index.Paths ?? new List<IncludedPath>(),
+                index.Paths ?? [],
                 indexPath: null,
-                luceneIndexingStrategy: (ILuceneIndexingStrategy)Activator.CreateInstance(StrategyStorage.Strategies[index.StrategyName])
+                luceneIndexingStrategy: (ILuceneIndexingStrategy)(Activator.CreateInstance(StrategyStorage.Strategies[index.StrategyName]) ?? new DefaultLuceneIndexingStrategy())
             ));
         }
     }

@@ -1,8 +1,6 @@
 ﻿using Kentico.Xperience.Lucene.Models;
 using Lucene.Net.Documents;
 using Lucene.Net.Facet;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace Kentico.Xperience.Lucene.Services.Implementations;
 
@@ -12,13 +10,13 @@ namespace Kentico.Xperience.Lucene.Services.Implementations;
 public class DefaultLuceneIndexingStrategy : ILuceneIndexingStrategy
 {
     /// <inheritdoc />
-    public virtual Task<Document?> MapToLuceneDocumentOrNull(IndexedItemModel lucenePageItem) => Task.FromResult(new Document());
+    public virtual Task<Document?> MapToLuceneDocumentOrNull(IndexedItemModel lucenePageItem) => Task.FromResult<Document?>(new());
 
     /// <inheritdoc />
-    public virtual FacetsConfig FacetsConfigFactory() => null;
+    public virtual FacetsConfig? FacetsConfigFactory() => null;
 
     public virtual async Task<IEnumerable<IndexedItemModel>> FindItemsToReindex(IndexedItemModel changedItem) => await Task.FromResult(new List<IndexedItemModel>() { changedItem });
 
-    public virtual async Task<IEnumerable<IndexedItemModel>> FindItemsToReindex(IndexedContentItemModel changedItem) => await Task.FromResult( new List<IndexedItemModel>());
+    public virtual async Task<IEnumerable<IndexedItemModel>> FindItemsToReindex(IndexedContentItemModel changedItem) => await Task.FromResult(new List<IndexedItemModel>());
 }
 

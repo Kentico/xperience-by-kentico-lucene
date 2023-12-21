@@ -39,20 +39,24 @@ internal class DefaultLuceneTaskLogger : ILuceneTaskLogger
 
             var luceneIndex = IndexStore.Instance.GetIndex(indexName);
 
-            var toReindex = await luceneIndex.LuceneIndexingStrategy.FindItemsToReindex(indexedItem);
-            if (toReindex is not null)
+            if (luceneIndex is not null)
             {
-                foreach (var item in toReindex)
+                var toReindex = await luceneIndex.LuceneIndexingStrategy.FindItemsToReindex(indexedItem);
+
+                if (toReindex is not null)
                 {
-                    if (item.WebPageItemGuid == indexedItem.WebPageItemGuid)
+                    foreach (var item in toReindex)
                     {
-                        if (taskType == LuceneTaskType.DELETE)
+                        if (item.WebPageItemGuid == indexedItem.WebPageItemGuid)
                         {
-                            LogIndexTask(new LuceneQueueItem(item, LuceneTaskType.DELETE, indexName));
-                        }
-                        else
-                        {
-                            LogIndexTask(new LuceneQueueItem(item, LuceneTaskType.UPDATE, indexName));
+                            if (taskType == LuceneTaskType.DELETE)
+                            {
+                                LogIndexTask(new LuceneQueueItem(item, LuceneTaskType.DELETE, indexName));
+                            }
+                            else
+                            {
+                                LogIndexTask(new LuceneQueueItem(item, LuceneTaskType.UPDATE, indexName));
+                            }
                         }
                     }
                 }
@@ -75,13 +79,15 @@ internal class DefaultLuceneTaskLogger : ILuceneTaskLogger
             }
 
             var luceneIndex = IndexStore.Instance.GetIndex(indexName);
-
-            var toReindex = await luceneIndex.LuceneIndexingStrategy.FindItemsToReindex(indexedItem);
-            if (toReindex is not null)
+            if (luceneIndex is not null)
             {
-                foreach (var item in toReindex)
+                var toReindex = await luceneIndex.LuceneIndexingStrategy.FindItemsToReindex(indexedItem);
+                if (toReindex is not null)
                 {
-                    LogIndexTask(new LuceneQueueItem(item, LuceneTaskType.UPDATE, indexName));
+                    foreach (var item in toReindex)
+                    {
+                        LogIndexTask(new LuceneQueueItem(item, LuceneTaskType.UPDATE, indexName));
+                    }
                 }
             }
         }
@@ -110,7 +116,7 @@ internal class DefaultLuceneTaskLogger : ILuceneTaskLogger
             return LuceneTaskType.UPDATE;
         }
 
-        if (eventName.Equals(WebPageEvents.Delete.Name, StringComparison.OrdinalIgnoreCase) || 
+        if (eventName.Equals(WebPageEvents.Delete.Name, StringComparison.OrdinalIgnoreCase) ||
             eventName.Equals(WebPageEvents.Archive.Name, StringComparison.OrdinalIgnoreCase))
         {
             return LuceneTaskType.DELETE;

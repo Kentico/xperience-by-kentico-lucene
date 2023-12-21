@@ -4,7 +4,6 @@ using CMS.Core;
 using CMS.Websites;
 using Kentico.Xperience.Lucene.Models;
 using Kentico.Xperience.Lucene.Services;
-using System.Threading.Tasks;
 
 namespace Kentico.Xperience.Lucene;
 
@@ -63,7 +62,7 @@ internal class LuceneSearchModule : CMS.DataEngine.Module
         };
 
         var task = luceneTaskLogger?.HandleEvent(indexedItemModel, e.CurrentHandler.Name);
-        task.Wait();
+        task?.Wait();
     }
 
     private void HandleContentItemEvent(object? sender, CMSEventArgs e)
@@ -83,7 +82,7 @@ internal class LuceneSearchModule : CMS.DataEngine.Module
 
         var task = luceneTaskLogger?.HandleContentItemEvent(indexedContentItemModel, e.CurrentHandler.Name);
 
-        task.Wait();
+        task?.Wait();
     }
 
     public static async Task AddRegisteredIndices()

@@ -5,18 +5,13 @@ using CMS.Websites;
 using Kentico.Xperience.Lucene.Models;
 using Lucene.Net.Documents;
 using Lucene.Net.Documents.Extensions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace Kentico.Xperience.Lucene.Services;
 
 internal class LuceneBatchResult
 {
     internal int SuccessfulOperations { get; set; } = 0;
-    internal HashSet<LuceneIndex> PublishedIndices { get; set; } = new HashSet<LuceneIndex>();
+    internal HashSet<LuceneIndex> PublishedIndices { get; set; } = [];
 }
 
 internal class DefaultLuceneTaskProcessor : ILuceneTaskProcessor
@@ -85,11 +80,11 @@ internal class DefaultLuceneTaskProcessor : ILuceneTaskProcessor
                         upsertData.Add(document);
                     }
                     else
-                    { 
-                        deleteTasks.Add(queueItem); 
+                    {
+                        deleteTasks.Add(queueItem);
                     }
                 }
-                deleteIds.AddRange(GetIdsToDelete(deleteTasks));
+                deleteIds.AddRange(GetIdsToDelete(deleteTasks ?? []).Where(x => x is not null).Select(x => x ?? ""));
                 if (IndexStore.Instance.GetIndex(group.Key) is { } index)
                 {
                     previousBatchResults.SuccessfulOperations += await luceneClient.DeleteRecords(deleteIds, group.Key);
@@ -99,7 +94,7 @@ internal class DefaultLuceneTaskProcessor : ILuceneTaskProcessor
                     {
                         if (!previousBatchResults.PublishedIndices.Any(x => x.IndexName == index.IndexName))
                         {
-                            previousBatchResults.PublishedIndices.Add(index);   
+                            previousBatchResults.PublishedIndices.Add(index);
                         }
                     }
                 }
@@ -115,10 +110,10 @@ internal class DefaultLuceneTaskProcessor : ILuceneTaskProcessor
         }
     }
 
-    private IEnumerable<string> GetIdsToDelete(IEnumerable<LuceneQueueItem> deleteTasks) => deleteTasks.Select(queueItem => queueItem.IndexedItemModel.WebPageItemGuid.ToString());
+    private IEnumerable<string?> GetIdsToDelete(IEnumerable<LuceneQueueItem> deleteTasks) => deleteTasks.Select(queueItem => queueItem.IndexedItemModel.WebPageItemGuid.ToString());
 
     /// <inheritdoc/>
-    public async Task<Document> GetDocument(LuceneQueueItem queueItem)
+    public async Task<Document?> GetDocument(LuceneQueueItem queueItem)
     {
         var luceneIndex = IndexStore.Instance.GetIndex(queueItem.IndexName) ?? throw new Exception($"LuceneIndex {queueItem.IndexName} not found!");
 
@@ -134,30 +129,25 @@ internal class DefaultLuceneTaskProcessor : ILuceneTaskProcessor
         return data;
     }
 
-    /// <summary>
-    /// Sets values in the <paramref name="data"/> object using the common search model properties
-    /// located within the <see cref="LuceneSearchModel"/> class.
-    /// </summary>
-    /// <param name="pageContentContainer">The <see cref="IWebPageContentQueryDataContainer"/> to load values from.</param>
-    /// <param name="data">The data object based on <see cref="LuceneSearchModel"/>.</param>
-    /// <param name="languageName">The language on the WebSite which is indexed.</param>
     private async Task AddBaseProperties(IndexedItemModel lucenePageItem, Document document)
     {
         document.AddStringField(nameof(IndexedItemModel.ClassName), lucenePageItem.ClassName, Field.Store.YES);
         document.AddStringField(nameof(IndexedItemModel.WebPageItemGuid), lucenePageItem.WebPageItemGuid.ToString(), Field.Store.YES);
         document.AddStringField(nameof(IndexedItemModel.LanguageCode), lucenePageItem.LanguageCode, Field.Store.YES);
 
-        string url;
+        string url = string.Empty;
         try
         {
-            url = (await urlRetriever.Retrieve(lucenePageItem.WebPageItemGuid, lucenePageItem.LanguageCode)).RelativePath;
+            if (lucenePageItem.WebPageItemGuid is not null && lucenePageItem.LanguageCode is not null)
+            {
+                url = (await urlRetriever.Retrieve(lucenePageItem.WebPageItemGuid.Value, lucenePageItem.LanguageCode)).RelativePath;
+            }
         }
         catch (Exception)
         {
             // Retrieve can throw an exception when processing a page update LuceneQueueItem
             // and the page was deleted before the update task has processed. In this case, upsert an
             // empty URL
-            url = string.Empty;
         }
 
         document.AddStringField(URL_NAME, url, Field.Store.YES);

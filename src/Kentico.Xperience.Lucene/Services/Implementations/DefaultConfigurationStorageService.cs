@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using CMS;
 using CMS.DataEngine;
 using System.Text;
-using System.Security.Cryptography.Xml;
 
 namespace Kentico.Xperience.Lucene.Services.Implementations
 {
@@ -45,42 +44,51 @@ namespace Kentico.Xperience.Lucene.Services.Implementations
 
             configuration.Id = newInfo.LuceneIndexItemId;
 
-            foreach (var language in configuration.LanguageNames)
+            if (configuration.LanguageNames is not null)
             {
-                var languageInfo = new IndexedlanguageInfo()
+                foreach (string? language in configuration.LanguageNames)
                 {
-                    languageCode = language,
-                    LuceneIndexItemId = newInfo.LuceneIndexItemId
-                };
-
-                languageProvider.Set(languageInfo);
-            }
-
-            foreach (var path in configuration.Paths)
-            {
-                var pathInfo = new IncludedpathitemInfo()
-                {
-                    AliasPath = path.AliasPath,
-                    LuceneIndexItemId = newInfo.LuceneIndexItemId
-                };
-                pathProvider.Set(pathInfo);
-
-                foreach (var contentType in path.ContentTypes)
-                {
-                    var contentInfo = new ContenttypeitemInfo()
+                    var languageInfo = new IndexedlanguageInfo()
                     {
-                        ContentTypeName = contentType,
-                        LuceneIncludedPathItemId = pathInfo.LuceneIncludedPathItemId,
+                        languageCode = language,
                         LuceneIndexItemId = newInfo.LuceneIndexItemId
                     };
-                    contentPathProvider.Set(contentInfo);
+
+                    languageProvider.Set(languageInfo);
+                }
+            }
+
+            if (configuration.Paths is not null)
+            {
+                foreach (var path in configuration.Paths)
+                {
+                    var pathInfo = new IncludedpathitemInfo()
+                    {
+                        AliasPath = path.AliasPath,
+                        LuceneIndexItemId = newInfo.LuceneIndexItemId
+                    };
+                    pathProvider.Set(pathInfo);
+
+                    if (path.ContentTypes is not null)
+                    {
+                        foreach (string? contentType in path.ContentTypes)
+                        {
+                            var contentInfo = new ContenttypeitemInfo()
+                            {
+                                ContentTypeName = contentType,
+                                LuceneIncludedPathItemId = pathInfo.LuceneIncludedPathItemId,
+                                LuceneIndexItemId = newInfo.LuceneIndexItemId
+                            };
+                            contentPathProvider.Set(contentInfo);
+                        }
+                    }
                 }
             }
 
             return true;
         }
 
-        public async Task<LuceneConfigurationModel> GetIndexDataOrNull(int indexId)
+        public Task<LuceneConfigurationModel?> GetIndexDataOrNull(int indexId)
         {
             var pathProvider = IncludedpathitemInfoProvider.ProviderObject;
             var contentPathProvider = ContenttypeitemInfoProvider.ProviderObject;
@@ -90,13 +98,13 @@ namespace Kentico.Xperience.Lucene.Services.Implementations
             var indexInfo = indexProvider.Get().WithID(indexId).FirstOrDefault();
             if (indexInfo == default)
             {
-                return null;
+                return Task.FromResult<LuceneConfigurationModel?>(default);
             }
 
             var paths = pathProvider.Get().WhereEquals(nameof(IncludedpathitemInfo.LuceneIndexItemId), indexInfo.LuceneIndexItemId).ToList();
             var contentTypes = contentPathProvider.Get().WhereEquals(nameof(IncludedpathitemInfo.LuceneIndexItemId), indexInfo.LuceneIndexItemId).ToList();
 
-            var index = new LuceneConfigurationModel()
+            return Task.FromResult<LuceneConfigurationModel?>(new LuceneConfigurationModel()
             {
                 ChannelName = indexInfo.ChannelName,
                 IndexName = indexInfo.IndexName,
@@ -105,19 +113,14 @@ namespace Kentico.Xperience.Lucene.Services.Implementations
                 Id = indexInfo.LuceneIndexItemId,
                 StrategyName = indexInfo.StrategyName,
                 Paths = paths.Select(x => new IncludedPath(x.AliasPath)
-                { 
+                {
                     Identifier = x.LuceneIncludedPathItemId.ToString(),
                     ContentTypes = contentTypes.Where(y => x.LuceneIncludedPathItemId == y.LuceneIncludedPathItemId).Select(y => y.ContentTypeName).ToArray()
                 }).ToList()
-            };
-
-            return index;
+            });
         }
 
-        public async Task<List<string>> GetExistingIndexNames()
-        {
-            return IndexitemInfoProvider.ProviderObject.Get().Select(x => x.IndexName).ToList();
-        }
+        public async Task<List<string>> GetExistingIndexNames() => IndexitemInfoProvider.ProviderObject.Get().Select(x => x.IndexName).ToList();
 
         public async Task<IEnumerable<LuceneConfigurationModel>> GetAllIndexData()
         {
@@ -129,7 +132,7 @@ namespace Kentico.Xperience.Lucene.Services.Implementations
             var indexInfos = indexProvider.Get().ToList();
             if (indexInfos == default)
             {
-                return null;
+                return [];
             }
 
             var paths = pathProvider.Get().ToList();
@@ -145,7 +148,7 @@ namespace Kentico.Xperience.Lucene.Services.Implementations
                 Id = x.LuceneIndexItemId,
                 StrategyName = x.StrategyName,
                 Paths = paths.Where(y => y.LuceneIndexItemId == x.LuceneIndexItemId).Select(y => new IncludedPath(y.AliasPath)
-                { 
+                {
                     Identifier = y.LuceneIncludedPathItemId.ToString(),
                     ContentTypes = contentTypes.Where(z => z.LuceneIncludedPathItemId == y.LuceneIncludedPathItemId).Select(z => z.ContentTypeName).ToArray()
                 }).ToList()
@@ -159,9 +162,9 @@ namespace Kentico.Xperience.Lucene.Services.Implementations
             var indexProvider = IndexitemInfoProvider.ProviderObject;
             var languageProvider = IndexedlanguageInfoProvider.ProviderObject;
 
-            configuration.IndexName = RemoveWhitespacesUsingStringBuilder(configuration.IndexName);
+            configuration.IndexName = RemoveWhitespacesUsingStringBuilder(configuration.IndexName ?? "");
 
-            var indexInfo = indexProvider.Get().WhereEquals(nameof(IndexitemInfo.IndexName),configuration.IndexName).FirstOrDefault();
+            var indexInfo = indexProvider.Get().WhereEquals(nameof(IndexitemInfo.IndexName), configuration.IndexName).FirstOrDefault();
 
             if (indexInfo == default)
             {
@@ -178,35 +181,44 @@ namespace Kentico.Xperience.Lucene.Services.Implementations
 
             indexProvider.Set(indexInfo);
 
-            foreach (var language in configuration.LanguageNames)
+            if (configuration.LanguageNames is not null)
             {
-                var languageInfo = new IndexedlanguageInfo()
+                foreach (string? language in configuration.LanguageNames)
                 {
-                    languageCode = language,
-                    LuceneIndexItemId = indexInfo.LuceneIndexItemId
-                };
-
-                languageProvider.Set(languageInfo);
-            }
-
-            foreach (var path in configuration.Paths)
-            {
-                var pathInfo = new IncludedpathitemInfo()
-                {
-                    AliasPath = path.AliasPath,
-                    LuceneIndexItemId = indexInfo.LuceneIndexItemId
-                };
-                pathProvider.Set(pathInfo);
-
-                foreach (var contentType in path.ContentTypes)
-                {
-                    var contentInfo = new ContenttypeitemInfo()
+                    var languageInfo = new IndexedlanguageInfo()
                     {
-                        ContentTypeName = contentType,
-                        LuceneIncludedPathItemId = pathInfo.LuceneIncludedPathItemId,
+                        languageCode = language,
                         LuceneIndexItemId = indexInfo.LuceneIndexItemId
                     };
-                    contentPathProvider.Set(contentInfo);
+
+                    languageProvider.Set(languageInfo);
+                }
+            }
+
+            if (configuration.Paths is not null)
+            {
+                foreach (var path in configuration.Paths)
+                {
+                    var pathInfo = new IncludedpathitemInfo()
+                    {
+                        AliasPath = path.AliasPath,
+                        LuceneIndexItemId = indexInfo.LuceneIndexItemId
+                    };
+                    pathProvider.Set(pathInfo);
+
+                    if (path.ContentTypes != null)
+                    {
+                        foreach (string? contentType in path.ContentTypes)
+                        {
+                            var contentInfo = new ContenttypeitemInfo()
+                            {
+                                ContentTypeName = contentType,
+                                LuceneIncludedPathItemId = pathInfo.LuceneIncludedPathItemId,
+                                LuceneIndexItemId = indexInfo.LuceneIndexItemId
+                            };
+                            contentPathProvider.Set(contentInfo);
+                        }
+                    }
                 }
             }
 
@@ -234,12 +246,10 @@ namespace Kentico.Xperience.Lucene.Services.Implementations
             var contentPathProvider = ContenttypeitemInfoProvider.ProviderObject;
             var indexProvider = IndexitemInfoProvider.ProviderObject;
             var languageProvider = IndexedlanguageInfoProvider.ProviderObject;
-            
             indexProvider.BulkDelete(new WhereCondition($"{nameof(IndexitemInfo.LuceneIndexItemId)} = {configuration.Id}"));
             pathProvider.BulkDelete(new WhereCondition($"{nameof(IncludedpathitemInfo.LuceneIndexItemId)} = {configuration.Id}"));
             languageProvider.BulkDelete(new WhereCondition($"{nameof(IndexedlanguageInfo.LuceneIndexItemId)} = {configuration.Id}"));
             contentPathProvider.BulkDelete(new WhereCondition($"{nameof(ContenttypeitemInfo.LuceneIndexItemId)} = {configuration.Id}"));
-            
             return true;
         }
     }

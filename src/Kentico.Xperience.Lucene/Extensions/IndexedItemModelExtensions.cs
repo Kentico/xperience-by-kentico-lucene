@@ -92,6 +92,10 @@ internal static class IndexedItemModelExtensions
             }
             else
             {
+                if (indexedItemModel.WebPageItemTreePath is null)
+                {
+                    return false;
+                }
                 return indexedItemModel.WebPageItemTreePath.Equals(includedPathAttribute.AliasPath, StringComparison.OrdinalIgnoreCase) && matchesContentType;
             }
         });

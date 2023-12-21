@@ -2,17 +2,13 @@
 using CMS.DataEngine;
 using Kentico.Xperience.Admin.Base.FormAnnotations;
 using Kentico.Xperience.Admin.Base.Forms;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace Kentico.Xperience.Lucene.Admin.Providers;
 
 public class LanguageOptionsProvider : IGeneralSelectorDataProvider
 {
     private readonly IInfoProvider<ContentLanguageInfo> contentLanguageInfoProvider;
-    private static IEnumerable<ObjectSelectorListItem<string>> items;
+    private static IEnumerable<ObjectSelectorListItem<string>> items = [];
 
     public LanguageOptionsProvider(IInfoProvider<ContentLanguageInfo> contentLanguageInfoProvider) => this.contentLanguageInfoProvider = contentLanguageInfoProvider;
 
@@ -61,7 +57,7 @@ public class LanguageOptionsProvider : IGeneralSelectorDataProvider
         var selectedItems = new List<ObjectSelectorListItem<string>>();
         if (selectedValues is not null)
         {
-            foreach (var value in selectedValues)
+            foreach (string? value in selectedValues)
             {
                 var item = items.FirstOrDefault(x => x.Value == value);
 

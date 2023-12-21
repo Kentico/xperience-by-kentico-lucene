@@ -2,13 +2,10 @@
 using Kentico.Xperience.Admin.Base.Forms;
 using Kentico.Xperience.Lucene.Models;
 using Kentico.Xperience.Lucene.Services;
+using Kentico.Xperience.Lucene.Services.Implementations;
 using Lucene.Net.Analysis.Standard;
 using Lucene.Net.Util;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace Kentico.Xperience.Lucene.Admin;
 
@@ -26,6 +23,7 @@ public class EditIndex : ModelEditPage<LuceneConfigurationModel>
                  IConfigurationStorageService storageService)
         : base(formItemCollectionProvider, formDataBinder)
     {
+        model = new();
         this.storageService = storageService;
     }
 
@@ -41,11 +39,7 @@ public class EditIndex : ModelEditPage<LuceneConfigurationModel>
                 }
                 else
                 {
-                    model = storageService.GetIndexDataOrNull(IndexIdentifier).Result;
-                    if (model == null)
-                    {
-                        model = new LuceneConfigurationModel();
-                    }
+                    model = storageService.GetIndexDataOrNull(IndexIdentifier).Result ?? new LuceneConfigurationModel();
                 }
             }
             return model;
@@ -66,7 +60,7 @@ public class EditIndex : ModelEditPage<LuceneConfigurationModel>
 
     protected override async Task<ICommandResponse> ProcessFormData(LuceneConfigurationModel model, ICollection<IFormItem> formItems)
     {
-        model.IndexName = RemoveWhitespacesUsingStringBuilder(model.IndexName);
+        model.IndexName = RemoveWhitespacesUsingStringBuilder(model.IndexName ?? "");
 
         if ((await storageService.GetExistingIndexNames()).Any(x => x == model.IndexName))
         {
@@ -110,16 +104,18 @@ public class EditIndex : ModelEditPage<LuceneConfigurationModel>
             {
                 response.AddSuccessMessage("Index created");
 
+                model.StrategyName ??= "";
+
                 IndexStore.Instance.AddIndex(new LuceneIndex(
                     new StandardAnalyzer(LuceneVersion.LUCENE_48),
-                    model.IndexName,
-                    model.ChannelName,
-                    model.LanguageNames.ToList(),
+                    model.IndexName ?? "",
+                    model.ChannelName ?? "",
+                    model.LanguageNames?.ToList() ?? [],
                     model.Id,
-                    model.Paths ?? new List<IncludedPath>(),
+                    model.Paths ?? [],
                     indexPath: null,
-                    luceneIndexingStrategy: (ILuceneIndexingStrategy)Activator.CreateInstance(StrategyStorage.Strategies[model.StrategyName])
-                ));
+                    luceneIndexingStrategy: (ILuceneIndexingStrategy)(Activator.CreateInstance(StrategyStorage.Strategies[model.StrategyName]) ?? new DefaultLuceneIndexingStrategy()
+                )));
             }
             else
             {
