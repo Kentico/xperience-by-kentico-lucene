@@ -2,11 +2,6 @@
 using Kentico.Xperience.Admin.Base;
 using Kentico.Xperience.Lucene.Models;
 using Kentico.Xperience.Lucene.Services;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 using Action = Kentico.Xperience.Admin.Base.Action;
 
 namespace Kentico.Xperience.Lucene.Admin;
@@ -27,7 +22,7 @@ internal class IndexListing : ListingPageBase<ListingConfiguration>
         {
             mPageConfiguration ??= new ListingConfiguration()
             {
-                Caption = LocalizationService.GetString("List of indexes"),
+                Caption = LocalizationService.GetString("List of indices"),
                 ColumnConfigurations = new List<ColumnConfiguration>(),
                 TableActions = new List<ActionConfiguration>(),
                 HeaderActions = new List<ActionConfiguration>(),

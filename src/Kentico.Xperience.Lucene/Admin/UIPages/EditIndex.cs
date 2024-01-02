@@ -62,7 +62,7 @@ public class EditIndex : ModelEditPage<LuceneConfigurationModel>
     {
         model.IndexName = RemoveWhitespacesUsingStringBuilder(model.IndexName ?? "");
 
-        if ((await storageService.GetExistingIndexNames()).Any(x => x == model.IndexName))
+        if ((await storageService.GetIndexIds()).Any(x => x == model.Id))
         {
             bool edited = await storageService.TryEditIndex(model);
 
@@ -74,7 +74,7 @@ public class EditIndex : ModelEditPage<LuceneConfigurationModel>
             {
                 response.AddSuccessMessage("Index edited");
 
-                await LuceneSearchModule.AddRegisteredIndices();
+                LuceneSearchModule.AddRegisteredIndices();
             }
             else
             {

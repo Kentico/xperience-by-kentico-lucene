@@ -22,7 +22,7 @@ using Kentico.Xperience.Lucene.Services.Implementations;
 [assembly: UIApplication(LuceneApplication.IDENTIFIER, typeof(LuceneApplication), "lucene", "Search", BaseApplicationCategories.DEVELOPMENT, Icons.Magnifier, TemplateNames.SECTION_LAYOUT)]
 
 // Admin UI pages
-[assembly: UIPage(typeof(LuceneApplication), "Indexes", typeof(IndexListing), "{$integrations.lucene.listing$}", TemplateNames.LISTING, UIPageOrder.First)]
+[assembly: UIPage(typeof(LuceneApplication), "Indexes", typeof(IndexListing), "List of registered Lucene indices", TemplateNames.LISTING, UIPageOrder.First)]
 [assembly: UIPage(typeof(IndexListing), PageParameterConstants.PARAMETERIZED_SLUG, typeof(EditIndex), "Edit index", TemplateNames.EDIT, UIPageOrder.First)]
 
 [assembly: RegisterFormComponent(nameof(ListComponent), typeof(ListComponent), "Custom List component")]

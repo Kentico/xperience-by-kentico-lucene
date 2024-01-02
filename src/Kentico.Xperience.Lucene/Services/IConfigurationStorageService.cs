@@ -10,5 +10,6 @@ public interface IConfigurationStorageService
     Task<bool> TryDeleteIndex(int id);
     Task<LuceneConfigurationModel?> GetIndexDataOrNull(int indexId);
     Task<List<string>> GetExistingIndexNames();
+    Task<List<int>> GetIndexIds();
     Task<IEnumerable<LuceneConfigurationModel>> GetAllIndexData();
 }

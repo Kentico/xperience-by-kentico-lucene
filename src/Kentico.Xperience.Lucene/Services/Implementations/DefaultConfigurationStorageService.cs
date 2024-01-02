@@ -1,256 +1,254 @@
 ﻿using Kentico.Xperience.Lucene.Models;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Collections.Generic;
 using CMS;
 using CMS.DataEngine;
 using System.Text;
 
-namespace Kentico.Xperience.Lucene.Services.Implementations
+namespace Kentico.Xperience.Lucene.Services.Implementations;
+
+public class DefaultConfigurationStorageService : IConfigurationStorageService
 {
-    public class DefaultConfigurationStorageService : IConfigurationStorageService
+    private static string RemoveWhitespacesUsingStringBuilder(string source)
     {
-        private static string RemoveWhitespacesUsingStringBuilder(string source)
+        var builder = new StringBuilder(source.Length);
+        for (int i = 0; i < source.Length; i++)
         {
-            var builder = new StringBuilder(source.Length);
-            for (int i = 0; i < source.Length; i++)
-            {
-                char c = source[i];
-                if (!char.IsWhiteSpace(c))
-                    builder.Append(c);
-            }
-            return source.Length == builder.Length ? source : builder.ToString();
+            char c = source[i];
+            if (!char.IsWhiteSpace(c))
+                builder.Append(c);
         }
-        public async Task<bool> TryCreateIndex(LuceneConfigurationModel configuration)
+        return source.Length == builder.Length ? source : builder.ToString();
+    }
+    public async Task<bool> TryCreateIndex(LuceneConfigurationModel configuration)
+    {
+        var indexProvider = IndexitemInfoProvider.ProviderObject;
+        var pathProvider = IncludedpathitemInfoProvider.ProviderObject;
+        var contentPathProvider = ContenttypeitemInfoProvider.ProviderObject;
+        var languageProvider = IndexedlanguageInfoProvider.ProviderObject;
+
+        if (indexProvider.Get().WhereEquals(nameof(IndexitemInfo.IndexName), configuration.IndexName).FirstOrDefault() != default)
         {
-            var indexProvider = IndexitemInfoProvider.ProviderObject;
-            var pathProvider = IncludedpathitemInfoProvider.ProviderObject;
-            var contentPathProvider = ContenttypeitemInfoProvider.ProviderObject;
-            var languageProvider = IndexedlanguageInfoProvider.ProviderObject;
+            return false;
+        }
 
-            if (indexProvider.Get().WhereEquals(nameof(IndexitemInfo.IndexName), configuration.IndexName).FirstOrDefault() != default)
+        var newInfo = new IndexitemInfo()
+        {
+            IndexName = configuration.IndexName,
+            ChannelName = configuration.ChannelName,
+            StrategyName = configuration.StrategyName
+        };
+
+        indexProvider.Set(newInfo);
+
+        configuration.Id = newInfo.LuceneIndexItemId;
+
+        if (configuration.LanguageNames is not null)
+        {
+            foreach (string? language in configuration.LanguageNames)
             {
-                return false;
-            }
-
-            var newInfo = new IndexitemInfo()
-            {
-                IndexName = configuration.IndexName,
-                ChannelName = configuration.ChannelName,
-                StrategyName = configuration.StrategyName
-            };
-
-            indexProvider.Set(newInfo);
-
-            configuration.Id = newInfo.LuceneIndexItemId;
-
-            if (configuration.LanguageNames is not null)
-            {
-                foreach (string? language in configuration.LanguageNames)
+                var languageInfo = new IndexedlanguageInfo()
                 {
-                    var languageInfo = new IndexedlanguageInfo()
-                    {
-                        languageCode = language,
-                        LuceneIndexItemId = newInfo.LuceneIndexItemId
-                    };
+                    languageCode = language,
+                    LuceneIndexItemId = newInfo.LuceneIndexItemId
+                };
 
-                    languageProvider.Set(languageInfo);
-                }
+                languageProvider.Set(languageInfo);
             }
+        }
 
-            if (configuration.Paths is not null)
+        if (configuration.Paths is not null)
+        {
+            foreach (var path in configuration.Paths)
             {
-                foreach (var path in configuration.Paths)
+                var pathInfo = new IncludedpathitemInfo()
                 {
-                    var pathInfo = new IncludedpathitemInfo()
-                    {
-                        AliasPath = path.AliasPath,
-                        LuceneIndexItemId = newInfo.LuceneIndexItemId
-                    };
-                    pathProvider.Set(pathInfo);
+                    AliasPath = path.AliasPath,
+                    LuceneIndexItemId = newInfo.LuceneIndexItemId
+                };
+                pathProvider.Set(pathInfo);
 
-                    if (path.ContentTypes is not null)
+                if (path.ContentTypes is not null)
+                {
+                    foreach (string? contentType in path.ContentTypes)
                     {
-                        foreach (string? contentType in path.ContentTypes)
+                        var contentInfo = new ContenttypeitemInfo()
                         {
-                            var contentInfo = new ContenttypeitemInfo()
-                            {
-                                ContentTypeName = contentType,
-                                LuceneIncludedPathItemId = pathInfo.LuceneIncludedPathItemId,
-                                LuceneIndexItemId = newInfo.LuceneIndexItemId
-                            };
-                            contentPathProvider.Set(contentInfo);
-                        }
+                            ContentTypeName = contentType,
+                            LuceneIncludedPathItemId = pathInfo.LuceneIncludedPathItemId,
+                            LuceneIndexItemId = newInfo.LuceneIndexItemId
+                        };
+                        contentPathProvider.Set(contentInfo);
                     }
                 }
             }
-
-            return true;
         }
 
-        public Task<LuceneConfigurationModel?> GetIndexDataOrNull(int indexId)
+        return true;
+    }
+
+    public Task<LuceneConfigurationModel?> GetIndexDataOrNull(int indexId)
+    {
+        var pathProvider = IncludedpathitemInfoProvider.ProviderObject;
+        var contentPathProvider = ContenttypeitemInfoProvider.ProviderObject;
+        var indexProvider = IndexitemInfoProvider.ProviderObject;
+        var languageProvider = IndexedlanguageInfoProvider.ProviderObject;
+
+        var indexInfo = indexProvider.Get().WithID(indexId).FirstOrDefault();
+        if (indexInfo == default)
         {
-            var pathProvider = IncludedpathitemInfoProvider.ProviderObject;
-            var contentPathProvider = ContenttypeitemInfoProvider.ProviderObject;
-            var indexProvider = IndexitemInfoProvider.ProviderObject;
-            var languageProvider = IndexedlanguageInfoProvider.ProviderObject;
-
-            var indexInfo = indexProvider.Get().WithID(indexId).FirstOrDefault();
-            if (indexInfo == default)
-            {
-                return Task.FromResult<LuceneConfigurationModel?>(default);
-            }
-
-            var paths = pathProvider.Get().WhereEquals(nameof(IncludedpathitemInfo.LuceneIndexItemId), indexInfo.LuceneIndexItemId).ToList();
-            var contentTypes = contentPathProvider.Get().WhereEquals(nameof(IncludedpathitemInfo.LuceneIndexItemId), indexInfo.LuceneIndexItemId).ToList();
-
-            return Task.FromResult<LuceneConfigurationModel?>(new LuceneConfigurationModel()
-            {
-                ChannelName = indexInfo.ChannelName,
-                IndexName = indexInfo.IndexName,
-                LanguageNames = languageProvider.Get().WhereEquals(nameof(IndexedlanguageInfo.LuceneIndexItemId), indexInfo.LuceneIndexItemId).Select(x => x.languageCode).ToList(),
-                RebuildHook = indexInfo.RebuildHook,
-                Id = indexInfo.LuceneIndexItemId,
-                StrategyName = indexInfo.StrategyName,
-                Paths = paths.Select(x => new IncludedPath(x.AliasPath)
-                {
-                    Identifier = x.LuceneIncludedPathItemId.ToString(),
-                    ContentTypes = contentTypes.Where(y => x.LuceneIncludedPathItemId == y.LuceneIncludedPathItemId).Select(y => y.ContentTypeName).ToArray()
-                }).ToList()
-            });
+            return Task.FromResult<LuceneConfigurationModel?>(default);
         }
 
-        public async Task<List<string>> GetExistingIndexNames() => IndexitemInfoProvider.ProviderObject.Get().Select(x => x.IndexName).ToList();
+        var paths = pathProvider.Get().WhereEquals(nameof(IncludedpathitemInfo.LuceneIndexItemId), indexInfo.LuceneIndexItemId).ToList();
+        var contentTypes = contentPathProvider.Get().WhereEquals(nameof(IncludedpathitemInfo.LuceneIndexItemId), indexInfo.LuceneIndexItemId).ToList();
 
-        public async Task<IEnumerable<LuceneConfigurationModel>> GetAllIndexData()
+        return Task.FromResult<LuceneConfigurationModel?>(new LuceneConfigurationModel()
         {
-            var pathProvider = IncludedpathitemInfoProvider.ProviderObject;
-            var contentPathProvider = ContenttypeitemInfoProvider.ProviderObject;
-            var indexProvider = IndexitemInfoProvider.ProviderObject;
-            var languageProvider = IndexedlanguageInfoProvider.ProviderObject;
-
-            var indexInfos = indexProvider.Get().ToList();
-            if (indexInfos == default)
+            ChannelName = indexInfo.ChannelName,
+            IndexName = indexInfo.IndexName,
+            LanguageNames = languageProvider.Get().WhereEquals(nameof(IndexedlanguageInfo.LuceneIndexItemId), indexInfo.LuceneIndexItemId).Select(x => x.languageCode).ToList(),
+            RebuildHook = indexInfo.RebuildHook,
+            Id = indexInfo.LuceneIndexItemId,
+            StrategyName = indexInfo.StrategyName,
+            Paths = paths.Select(x => new IncludedPath(x.AliasPath)
             {
-                return [];
-            }
+                Identifier = x.LuceneIncludedPathItemId.ToString(),
+                ContentTypes = contentTypes.Where(y => x.LuceneIncludedPathItemId == y.LuceneIncludedPathItemId).Select(y => y.ContentTypeName).ToArray()
+            }).ToList()
+        });
+    }
 
-            var paths = pathProvider.Get().ToList();
-            var contentTypes = contentPathProvider.Get().ToList();
-            var languages = languageProvider.Get().ToList();
+    public async Task<List<string>> GetExistingIndexNames() => IndexitemInfoProvider.ProviderObject.Get().Select(x => x.IndexName).ToList();
 
-            return indexInfos.Select(x => new LuceneConfigurationModel
-            {
-                ChannelName = x.ChannelName,
-                IndexName = x.IndexName,
-                LanguageNames = languages.Where(y => y.LuceneIndexItemId == x.LuceneIndexItemId).Select(y => y.languageCode).ToList(),
-                RebuildHook = x.RebuildHook,
-                Id = x.LuceneIndexItemId,
-                StrategyName = x.StrategyName,
-                Paths = paths.Where(y => y.LuceneIndexItemId == x.LuceneIndexItemId).Select(y => new IncludedPath(y.AliasPath)
-                {
-                    Identifier = y.LuceneIncludedPathItemId.ToString(),
-                    ContentTypes = contentTypes.Where(z => z.LuceneIncludedPathItemId == y.LuceneIncludedPathItemId).Select(z => z.ContentTypeName).ToArray()
-                }).ToList()
-            });
+    public async Task<List<int>> GetIndexIds() => IndexitemInfoProvider.ProviderObject.Get().Select(x => x.LuceneIndexItemId).ToList();
+
+    public async Task<IEnumerable<LuceneConfigurationModel>> GetAllIndexData()
+    {
+        var pathProvider = IncludedpathitemInfoProvider.ProviderObject;
+        var contentPathProvider = ContenttypeitemInfoProvider.ProviderObject;
+        var indexProvider = IndexitemInfoProvider.ProviderObject;
+        var languageProvider = IndexedlanguageInfoProvider.ProviderObject;
+
+        var indexInfos = indexProvider.Get().ToList();
+        if (indexInfos == default)
+        {
+            return [];
         }
 
-        public async Task<bool> TryEditIndex(LuceneConfigurationModel configuration)
+        var paths = pathProvider.Get().ToList();
+        var contentTypes = contentPathProvider.Get().ToList();
+        var languages = languageProvider.Get().ToList();
+
+        return indexInfos.Select(x => new LuceneConfigurationModel
         {
-            var pathProvider = IncludedpathitemInfoProvider.ProviderObject;
-            var contentPathProvider = ContenttypeitemInfoProvider.ProviderObject;
-            var indexProvider = IndexitemInfoProvider.ProviderObject;
-            var languageProvider = IndexedlanguageInfoProvider.ProviderObject;
-
-            configuration.IndexName = RemoveWhitespacesUsingStringBuilder(configuration.IndexName ?? "");
-
-            var indexInfo = indexProvider.Get().WhereEquals(nameof(IndexitemInfo.IndexName), configuration.IndexName).FirstOrDefault();
-
-            if (indexInfo == default)
+            ChannelName = x.ChannelName,
+            IndexName = x.IndexName,
+            LanguageNames = languages.Where(y => y.LuceneIndexItemId == x.LuceneIndexItemId).Select(y => y.languageCode).ToList(),
+            RebuildHook = x.RebuildHook,
+            Id = x.LuceneIndexItemId,
+            StrategyName = x.StrategyName,
+            Paths = paths.Where(y => y.LuceneIndexItemId == x.LuceneIndexItemId).Select(y => new IncludedPath(y.AliasPath)
             {
-                return false;
-            }
+                Identifier = y.LuceneIncludedPathItemId.ToString(),
+                ContentTypes = contentTypes.Where(z => z.LuceneIncludedPathItemId == y.LuceneIncludedPathItemId).Select(z => z.ContentTypeName).ToArray()
+            }).ToList()
+        });
+    }
 
-            pathProvider.BulkDelete(new WhereCondition($"{nameof(IncludedpathitemInfo.LuceneIndexItemId)} = {configuration.Id}"));
-            languageProvider.BulkDelete(new WhereCondition($"{nameof(IndexedlanguageInfo.LuceneIndexItemId)} = {configuration.Id}"));
-            contentPathProvider.BulkDelete(new WhereCondition($"{nameof(ContenttypeitemInfo.LuceneIndexItemId)} = {configuration.Id}"));
+    public async Task<bool> TryEditIndex(LuceneConfigurationModel configuration)
+    {
+        var pathProvider = IncludedpathitemInfoProvider.ProviderObject;
+        var contentPathProvider = ContenttypeitemInfoProvider.ProviderObject;
+        var indexProvider = IndexitemInfoProvider.ProviderObject;
+        var languageProvider = IndexedlanguageInfoProvider.ProviderObject;
 
-            indexInfo.ChannelName = configuration.IndexName;
-            indexInfo.StrategyName = configuration.StrategyName;
-            indexInfo.ChannelName = configuration.ChannelName;
+        configuration.IndexName = RemoveWhitespacesUsingStringBuilder(configuration.IndexName ?? "");
 
-            indexProvider.Set(indexInfo);
+        var indexInfo = indexProvider.Get().WhereEquals(nameof(IndexitemInfo.IndexName), configuration.IndexName).FirstOrDefault();
 
-            if (configuration.LanguageNames is not null)
+        if (indexInfo == default)
+        {
+            return false;
+        }
+
+        pathProvider.BulkDelete(new WhereCondition($"{nameof(IncludedpathitemInfo.LuceneIndexItemId)} = {configuration.Id}"));
+        languageProvider.BulkDelete(new WhereCondition($"{nameof(IndexedlanguageInfo.LuceneIndexItemId)} = {configuration.Id}"));
+        contentPathProvider.BulkDelete(new WhereCondition($"{nameof(ContenttypeitemInfo.LuceneIndexItemId)} = {configuration.Id}"));
+
+        indexInfo.ChannelName = configuration.IndexName;
+        indexInfo.StrategyName = configuration.StrategyName;
+        indexInfo.ChannelName = configuration.ChannelName;
+
+        indexProvider.Set(indexInfo);
+
+        if (configuration.LanguageNames is not null)
+        {
+            foreach (string? language in configuration.LanguageNames)
             {
-                foreach (string? language in configuration.LanguageNames)
+                var languageInfo = new IndexedlanguageInfo()
                 {
-                    var languageInfo = new IndexedlanguageInfo()
-                    {
-                        languageCode = language,
-                        LuceneIndexItemId = indexInfo.LuceneIndexItemId
-                    };
+                    languageCode = language,
+                    LuceneIndexItemId = indexInfo.LuceneIndexItemId
+                };
 
-                    languageProvider.Set(languageInfo);
-                }
+                languageProvider.Set(languageInfo);
             }
+        }
 
-            if (configuration.Paths is not null)
+        if (configuration.Paths is not null)
+        {
+            foreach (var path in configuration.Paths)
             {
-                foreach (var path in configuration.Paths)
+                var pathInfo = new IncludedpathitemInfo()
                 {
-                    var pathInfo = new IncludedpathitemInfo()
-                    {
-                        AliasPath = path.AliasPath,
-                        LuceneIndexItemId = indexInfo.LuceneIndexItemId
-                    };
-                    pathProvider.Set(pathInfo);
+                    AliasPath = path.AliasPath,
+                    LuceneIndexItemId = indexInfo.LuceneIndexItemId
+                };
+                pathProvider.Set(pathInfo);
 
-                    if (path.ContentTypes != null)
+                if (path.ContentTypes != null)
+                {
+                    foreach (string? contentType in path.ContentTypes)
                     {
-                        foreach (string? contentType in path.ContentTypes)
+                        var contentInfo = new ContenttypeitemInfo()
                         {
-                            var contentInfo = new ContenttypeitemInfo()
-                            {
-                                ContentTypeName = contentType,
-                                LuceneIncludedPathItemId = pathInfo.LuceneIncludedPathItemId,
-                                LuceneIndexItemId = indexInfo.LuceneIndexItemId
-                            };
-                            contentPathProvider.Set(contentInfo);
-                        }
+                            ContentTypeName = contentType,
+                            LuceneIncludedPathItemId = pathInfo.LuceneIncludedPathItemId,
+                            LuceneIndexItemId = indexInfo.LuceneIndexItemId
+                        };
+                        contentPathProvider.Set(contentInfo);
                     }
                 }
             }
-
-            return true;
         }
 
-        public async Task<bool> TryDeleteIndex(int id)
-        {
-            var pathProvider = IncludedpathitemInfoProvider.ProviderObject;
-            var contentPathProvider = ContenttypeitemInfoProvider.ProviderObject;
-            var indexProvider = IndexitemInfoProvider.ProviderObject;
-            var languageProvider = IndexedlanguageInfoProvider.ProviderObject;
+        return true;
+    }
 
-            indexProvider.BulkDelete(new WhereCondition($"{nameof(IndexitemInfo.LuceneIndexItemId)} = {id}"));
-            pathProvider.BulkDelete(new WhereCondition($"{nameof(IncludedpathitemInfo.LuceneIndexItemId)} = {id}"));
-            languageProvider.BulkDelete(new WhereCondition($"{nameof(IndexedlanguageInfo.LuceneIndexItemId)} = {id}"));
-            contentPathProvider.BulkDelete(new WhereCondition($"{nameof(ContenttypeitemInfo.LuceneIndexItemId)} = {id}"));
+    public async Task<bool> TryDeleteIndex(int id)
+    {
+        var pathProvider = IncludedpathitemInfoProvider.ProviderObject;
+        var contentPathProvider = ContenttypeitemInfoProvider.ProviderObject;
+        var indexProvider = IndexitemInfoProvider.ProviderObject;
+        var languageProvider = IndexedlanguageInfoProvider.ProviderObject;
 
-            return true;
-        }
+        indexProvider.BulkDelete(new WhereCondition($"{nameof(IndexitemInfo.LuceneIndexItemId)} = {id}"));
+        pathProvider.BulkDelete(new WhereCondition($"{nameof(IncludedpathitemInfo.LuceneIndexItemId)} = {id}"));
+        languageProvider.BulkDelete(new WhereCondition($"{nameof(IndexedlanguageInfo.LuceneIndexItemId)} = {id}"));
+        contentPathProvider.BulkDelete(new WhereCondition($"{nameof(ContenttypeitemInfo.LuceneIndexItemId)} = {id}"));
 
-        public async Task<bool> TryDeleteIndex(LuceneConfigurationModel configuration)
-        {
-            var pathProvider = IncludedpathitemInfoProvider.ProviderObject;
-            var contentPathProvider = ContenttypeitemInfoProvider.ProviderObject;
-            var indexProvider = IndexitemInfoProvider.ProviderObject;
-            var languageProvider = IndexedlanguageInfoProvider.ProviderObject;
-            indexProvider.BulkDelete(new WhereCondition($"{nameof(IndexitemInfo.LuceneIndexItemId)} = {configuration.Id}"));
-            pathProvider.BulkDelete(new WhereCondition($"{nameof(IncludedpathitemInfo.LuceneIndexItemId)} = {configuration.Id}"));
-            languageProvider.BulkDelete(new WhereCondition($"{nameof(IndexedlanguageInfo.LuceneIndexItemId)} = {configuration.Id}"));
-            contentPathProvider.BulkDelete(new WhereCondition($"{nameof(ContenttypeitemInfo.LuceneIndexItemId)} = {configuration.Id}"));
-            return true;
-        }
+        return true;
+    }
+
+    public async Task<bool> TryDeleteIndex(LuceneConfigurationModel configuration)
+    {
+        var pathProvider = IncludedpathitemInfoProvider.ProviderObject;
+        var contentPathProvider = ContenttypeitemInfoProvider.ProviderObject;
+        var indexProvider = IndexitemInfoProvider.ProviderObject;
+        var languageProvider = IndexedlanguageInfoProvider.ProviderObject;
+        indexProvider.BulkDelete(new WhereCondition($"{nameof(IndexitemInfo.LuceneIndexItemId)} = {configuration.Id}"));
+        pathProvider.BulkDelete(new WhereCondition($"{nameof(IncludedpathitemInfo.LuceneIndexItemId)} = {configuration.Id}"));
+        languageProvider.BulkDelete(new WhereCondition($"{nameof(IndexedlanguageInfo.LuceneIndexItemId)} = {configuration.Id}"));
+        contentPathProvider.BulkDelete(new WhereCondition($"{nameof(ContenttypeitemInfo.LuceneIndexItemId)} = {configuration.Id}"));
+        return true;
     }
 }

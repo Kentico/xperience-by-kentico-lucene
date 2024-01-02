@@ -13,14 +13,11 @@ public sealed class IndexStore
 {
     private static readonly Lazy<IndexStore> mInstance = new();
     private readonly List<LuceneIndex> registeredIndexes = [];
-    private readonly HashSet<string> registeredCrawlers = [];
-
 
     /// <summary>
     /// Gets current instance of the <see cref="IndexStore"/> class.
     /// </summary>
     public static IndexStore Instance => mInstance.Value;
-
 
     /// <summary>
     /// Adds an index to the store.
@@ -63,29 +60,6 @@ public sealed class IndexStore
         }
     }
 
-
-    /// <summary>
-    /// Adds a crawler to the store.
-    /// </summary>
-    /// <param name="crawlerId">The ID of the crawler to add.</param>
-    /// <exception cref="ArgumentNullException" />
-    /// <exception cref="InvalidOperationException" />
-    public void AddCrawler(string crawlerId)
-    {
-        if (string.IsNullOrEmpty(crawlerId))
-        {
-            throw new ArgumentNullException(crawlerId);
-        }
-
-        if (registeredCrawlers.Any(id => id.Equals(crawlerId, StringComparison.OrdinalIgnoreCase)))
-        {
-            throw new InvalidOperationException($"Attempted to register Lucene crawler with ID '{crawlerId},' but it is already registered.");
-        }
-
-        registeredCrawlers.Add(crawlerId);
-    }
-
-
     /// <summary>
     /// Gets a registered <see cref="LuceneIndex"/> with the specified <paramref name="indexName"/>,
     /// or <c>null</c>.
@@ -110,16 +84,7 @@ public sealed class IndexStore
     public IEnumerable<LuceneIndex> GetAllIndices() => registeredIndexes;
 
 
-    /// <summary>
-    /// Gets all registered crawlers.
-    /// </summary>
-    public IEnumerable<string> GetAllCrawlers() => registeredCrawlers;
-
-    internal void ClearCrawlers() => registeredCrawlers.Clear();
-
-
     internal void ClearIndexes() => registeredIndexes.Clear();
-
 
     internal LuceneIndex? GetIndex(int id) => registeredIndexes.Find(i => i.Identifier == id);
 }

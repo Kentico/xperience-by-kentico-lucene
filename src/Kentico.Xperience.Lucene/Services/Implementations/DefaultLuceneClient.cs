@@ -4,11 +4,6 @@ using Lucene.Net.Index;
 using Lucene.Net.Search;
 using CMS.ContentEngine;
 using CMS.Websites;
-using System.Threading.Tasks;
-using System.Collections.Generic;
-using System.Threading;
-using System;
-using System.Linq;
 using Lucene.Net.Documents;
 
 namespace Kentico.Xperience.Lucene.Services;
