@@ -5,7 +5,7 @@
 ### Create a custom Indexing Strategy
 
 Define a custom `DefaultLuceneIndexingStrategy` implementation to customize how page or content items are processed for the index.
-The method is given a `IndexedItemModel` which is a unique representation of any item used on a web page. Every item specified in the admin ui is rebuilt. In the UI you need to specify one or more language, channel name, indexingStrategy and paths with content types. This strategy than evaluates all web page items specified in the administration. 
+The method is given a `IndexedItemModel` which is a unique representation of any item used on a web page. Every item specified in the admin ui is rebuilt. In the UI you need to specify one or more language, channel name, indexingStrategy and paths with content types. This strategy than evaluates all web page items specified in the administration.
 
 Let's say we specified `ArticlePage` in the admin ui.
 Now we implement how we want to save ArticlePage document in our strategy.
@@ -25,7 +25,7 @@ public class ExampleSearchIndexingStrategy : DefaultLuceneIndexingStrategy
 
         string sortableTitle = "";
         string title = "";
-        
+
         if (indexedModel.ClassName == ArticlePage.CONTENT_TYPE_NAME)
         {
             var page = await GetPage<ArticlePage>(indexedModel.WebPageItemGuid, indexedModel.ChannelName, indexedModel.LanguageCode, ArticlePage.CONTENT_TYPE_NAME);
@@ -84,7 +84,7 @@ public class ExampleSearchIndexingStrategy : DefaultLuceneIndexingStrategy
 
         string sortableTitle = "";
         string title = "";
-        
+
         if (indexedModel.ClassName == ArticlePage.CONTENT_TYPE_NAME)
         {
             var page = await GetPage<ArticlePage>(indexedModel.WebPageItemGuid, indexedModel.ChannelName, indexedModel.LanguageCode, ArticlePage.CONTENT_TYPE_NAME);
@@ -164,7 +164,7 @@ public class ExampleSearchIndexingStrategy : DefaultLuceneIndexingStrategy
         string sortableTitle = "";
         string title = "";
         string contentType = "";
-        
+
         if (indexedModel.ClassName == ArticlePage.CONTENT_TYPE_NAME)
         {
             var page = await GetPage<ArticlePage>(indexedModel.WebPageItemGuid, indexedModel.ChannelName, indexedModel.LanguageCode, ArticlePage.CONTENT_TYPE_NAME);
@@ -255,17 +255,17 @@ public class ExampleSearchIndexingStrategy : DefaultLuceneIndexingStrategy
                             .ForWebsite(INDEXED_WEBSITECHANNEL_NAME, includeUrlPath: true)
                             .Where(x => x.WhereEquals(nameof(ArticlePage.SystemFields.ContentItemCommonDataVersionStatus), VersionStatus.Published)))
                 .InLanguage(changedItem.LanguageCode);
-            
+
             var result = await executor.GetWebPageResult(query, container => mapper.Map<ArticlePage>(container), null,
             cancellationToken: default);
 
             foreach (var articlePage in result)
             {
-                if (articlePage.ArticlePageArticle.Any(x => x.SystemFields.ContentItemGUID == changedItem.ContentItemGuid) || 
+                if (articlePage.ArticlePageArticle.Any(x => x.SystemFields.ContentItemGUID == changedItem.ContentItemGuid) ||
                     articlePage.ArticlePageArticle.IsNullOrEmpty())
                 {
                     reindexedItems.Add(new IndexedItemModel
-                    { 
+                    {
                         ChannelName = INDEXED_WEBSITECHANNEL_NAME,
                         ClassName = ArticlePage.CONTENT_TYPE_NAME,
                         LanguageCode = changedItem.LanguageCode,
@@ -287,7 +287,7 @@ public class ExampleSearchIndexingStrategy : DefaultLuceneIndexingStrategy
         string sortableTitle = "";
         string title = "";
         string contentType = "";
-        
+
         if (indexedModel.ClassName == ArticlePage.CONTENT_TYPE_NAME)
         {
             var page = await GetPage<ArticlePage>(indexedModel.WebPageItemGuid, indexedModel.ChannelName, indexedModel.LanguageCode, ArticlePage.CONTENT_TYPE_NAME);
@@ -326,10 +326,9 @@ public class ExampleSearchIndexingStrategy : DefaultLuceneIndexingStrategy
 }
 ```
 
+You can also Extend this to index content of the page. This implementation is up to you, however we provide a general example which can be used in any app:
 
-You can also Extend this to index content of the page. This implementation is up to you, however we provide a general example which can be used in any app: 
-
-Create a `WebCrawlerService` your baseUrl needs to mathc your site baseUrl. We retrieve this url from the appSettings.json in the  
+Create a `WebCrawlerService` your baseUrl needs to mathc your site baseUrl. We retrieve this url from the appSettings.json in the
 
 ```csharp
 tring baseUrl = ValidationHelper.GetString(Service.Resolve<IAppSettingsService>()["WebCrawlerBaseUrl"], "");
@@ -385,10 +384,9 @@ public class WebCrawlerService
 }
 ```
 
-
-
 Create a sanitizer Service
-``` csharp
+
+```csharp
 
 public class WebScraperHtmlSanitizer
 {
@@ -497,12 +495,12 @@ public class WebScraperHtmlSanitizer
 
 Register these services in the startup and retrieve them in your strategy:
 
-``` csharp
+```csharp
   services.AddSingleton<WebScraperHtmlSanitizer>();
   services.AddHttpClient<WebCrawlerService>();
 ```
 
-``` csharp
+```csharp
 private async Task<string> GetPageContent(IndexedItemModel indexedModel)
 {
     var htmlSanitizer = Service.Resolve<WebScraperHtmlSanitizer>();
@@ -513,17 +511,15 @@ private async Task<string> GetPageContent(IndexedItemModel indexedModel)
 }
 ```
 
-Now you can easily add data to your document to use in the search. In the `MapToLuceneDocumentOrNull` method 
+Now you can easily add data to your document to use in the search. In the `MapToLuceneDocumentOrNull` method
 
-``` csharp
+```csharp
 crawlerContent = await GetPageContent(indexedModel);
 // ...
 document.Add(new TextField(CRAWLER_CONTENT_FIELD_NAME, crawlerContent, Field.Store.NO));
 ```
 
-To retrieve the data specify a Service which uses the Lucene `Query`. Example : 
-
-
+To retrieve the data specify a Service which uses the Lucene `Query`. Example :
 
 This indexing strategy allows you to hook into the indexing process by overriding the following methods of the `DefaultLuceneIndexingStrategy`:
 
@@ -682,7 +678,7 @@ public class SearchService
     private static BooleanQuery AddToTermQuery(BooleanQuery query, Query textQueryPart, float boost)
     {
         if (textQueryPart != null)
-        { 
+        {
             textQueryPart.Boost = boost;
             query.Add(textQueryPart, Occur.SHOULD);
         }
@@ -713,6 +709,7 @@ public class SearchService
 ```
 
 ### Minimal changes
+
 All you need to do to index more types is adding implementation for PageItems into this strategy. One strategy can implement all possible page types. Later on there is no need for a programmer to change the code as admin in the administration can chose which paths, languages, channels and content types are used in a specific page. There can be multiple search sites implemented using only one strategy - example usage is a typical website search. Search in a q and a site etc ...
 
 ### Display Results
