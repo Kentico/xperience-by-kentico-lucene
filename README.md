@@ -4,8 +4,15 @@
 
 ## Description
 
-Xperience v28 by Kentico search integration with the latest 4.8 beta version of [Lucene.NET](https://github.com/apache/lucenenet),
+Xperience by Kentico search integration with the latest 4.8 beta version of [Lucene.NET](https://github.com/apache/lucenenet),
 enabling auto-indexing of content in Xperience based on application-local, code-defined search indexes and search results retrieval.
+
+## Library Version Matrix
+
+| Xperience Version   | Library Version |
+| ------------------- | --------------- |
+| >= 28.0.0           | 3.x             |
+| >= 26.2.0, < 27.0.0 | 2.x             |
 
 ## Dependencies
 
