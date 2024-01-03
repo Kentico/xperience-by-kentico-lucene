@@ -203,6 +203,129 @@ public class ExampleSearchIndexingStrategy : DefaultLuceneIndexingStrategy
 }
 ```
 
+You can reindex web page items after a change in any reusable content item. We provide a `FindItemsToReindex(IndexedContentItemModel changedItem)` method which returns empty list but can be overriden to return a web page item specified by the consumer of the api. These items are then reindexed in the same way as web page items. Here is an example:
+
+```csharp
+public class ExampleSearchIndexingStrategy : DefaultLuceneIndexingStrategy
+{
+    public string FacetDimension { get; set; } = "ContentType";
+    public static string SORTABLE_TITLE_FIELD_NAME = "SortableTitle";
+
+    private async Task<T> GetPage<T>(Guid id, string channelName, string languageName, string contentTypeName) where T : IWebPageFieldsSource, new()
+    {
+        var mapper = Service.Resolve<IWebPageQueryResultMapper>();
+        var executor = Service.Resolve<IContentQueryExecutor>();
+        var query = new ContentItemQueryBuilder()
+            .ForContentType(contentTypeName,
+                config =>
+                    config
+                        .WithLinkedItems(4)
+                        .ForWebsite(channelName, includeUrlPath: true)
+                        .Where(where => where.WhereEquals(nameof(IWebPageContentQueryDataContainer.WebPageItemGUID), id))
+                        .TopN(1))
+            .InLanguage(languageName);
+        var result = await executor.GetWebPageResult(query, container => mapper.Map<T>(container), null,
+        cancellationToken: default);
+
+        return result.FirstOrDefault();
+    }
+
+    public override FacetsConfig FacetsConfigFactory()
+    {
+        var facetConfig = new FacetsConfig();
+
+        facetConfig.SetMultiValued(FacetDimension, true);
+
+        return facetConfig;
+    }
+
+    public override async Task<IEnumerable<IndexedItemModel>> FindItemsToReindex(IndexedContentItemModel changedItem)
+    {
+        var reindexedItems = new List<IndexedItemModel>();
+
+        if (changedItem.ClassName == Article.CONTENT_TYPE_NAME)
+        {
+            var mapper = Service.Resolve<IWebPageQueryResultMapper>();
+            var executor = Service.Resolve<IContentQueryExecutor>();
+            var query = new ContentItemQueryBuilder()
+                .ForContentType(ArticlePage.CONTENT_TYPE_NAME,
+                    config =>
+                        config
+                            .WithLinkedItems(4)
+                            .ForWebsite(INDEXED_WEBSITECHANNEL_NAME, includeUrlPath: true)
+                            .Where(x => x.WhereEquals(nameof(ArticlePage.SystemFields.ContentItemCommonDataVersionStatus), VersionStatus.Published)))
+                .InLanguage(changedItem.LanguageCode);
+            
+            var result = await executor.GetWebPageResult(query, container => mapper.Map<ArticlePage>(container), null,
+            cancellationToken: default);
+
+            foreach (var articlePage in result)
+            {
+                if (articlePage.ArticlePageArticle.Any(x => x.SystemFields.ContentItemGUID == changedItem.ContentItemGuid) || 
+                    articlePage.ArticlePageArticle.IsNullOrEmpty())
+                {
+                    reindexedItems.Add(new IndexedItemModel
+                    { 
+                        ChannelName = INDEXED_WEBSITECHANNEL_NAME,
+                        ClassName = ArticlePage.CONTENT_TYPE_NAME,
+                        LanguageCode = changedItem.LanguageCode,
+                        WebPageItemGuid = articlePage.SystemFields.WebPageItemGUID,
+                        WebPageItemTreePath = articlePage.SystemFields.WebPageItemTreePath
+                    });
+                }
+            }
+        }
+
+        return reindexedItems;
+    }
+
+
+    public override async Task<Document?> MapToLuceneDocumentOrNull(IndexedItemModel indexedModel)
+    {
+        var document = new Document();
+
+        string sortableTitle = "";
+        string title = "";
+        string contentType = "";
+        
+        if (indexedModel.ClassName == ArticlePage.CONTENT_TYPE_NAME)
+        {
+            var page = await GetPage<ArticlePage>(indexedModel.WebPageItemGuid, indexedModel.ChannelName, indexedModel.LanguageCode, ArticlePage.CONTENT_TYPE_NAME);
+            contentType = "news";
+
+            if (page != default)
+            {
+                var article = page.ArticlePageArticle.FirstOrDefault();
+
+                if (article == null)
+                {
+                    return null;
+                }
+            }
+            else
+            {
+                return null;
+            }
+
+            if (page != default)
+            {
+                var article = page.ArticlePageArticle.FirstOrDefault();
+
+                sortableTitle = title = article?.ArticleTitle ?? "";
+            }
+        }
+
+        document.Add(new FacetField(FacetDimension, contentType));
+
+        document.Add(new TextField(nameof(GlobalSearchResultModel.Title), title, Field.Store.YES));
+        document.Add(new StringField(SORTABLE_TITLE_FIELD_NAME, sortableTitle, Field.Store.YES));
+        document.Add(new TextField(nameof(GlobalSearchResultModel.ContentType), contentType, Field.Store.YES));
+
+        return document;
+    }
+}
+```
+
 
 You can also Extend this to index content of the page. This implementation is up to you, however we provide a general example which can be used in any app: 
 
@@ -622,24 +745,3 @@ You can score indexed items by "freshness" or "recency" using several techniques
 3. Use a sort expression. Implementation details can be found in Lucene.NET unit tests, Lucene.NET implementations
 
 > Small differences in boosts will be ignored by Lucene.
-
-### Sample features
-
-#### Trigger rebuild of index via webhook
-
-Rebuild of index could be triggered by calling `POST` on webhook `/search/rebuild` with body
-
-```json
-{
-  "indexName": "...",
-  "secret": "..."
-}
-```
-
-This could be used to trigger regular reindexing of content via CRON, Windows Task Scheduler or any other external scheduler.
-
-## Additional Resources
-
-- Review the "Search" functionality in the `examples/DancingGoat` Dancing Goat project to see how to implement search.
-- Read the Lucene.NET [introduction](https://lucenenet.apache.org/) or [full documentation](https://lucenenet.apache.org/docs/4.8.0-beta00016/) to explore the core library's APIs and functionality.
-- Explore the [Lucene.NET source on GitHub](https://github.com/apache/lucenenet)
