@@ -70,3 +70,9 @@ See [`SUPPORT.md`](https://github.com/Kentico/.github/blob/main/SUPPORT.md#full-
 ## Security
 
 For any security issues see [Kentico's `SECURITY.md`](https://github.com/Kentico/.github/blob/main/SECURITY.md).
+
+## Next steps
+
+- [Usage Guide](Usage-Guide.md)
+
+We will soon provide further examples.
