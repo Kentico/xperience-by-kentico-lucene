@@ -202,7 +202,7 @@ public class LuceneModuleInstaller
 
         var formItem = new FormFieldInfo
         {
-            Name = "TypeName",
+            Name = nameof(ContenttypeitemInfo.ContentTypeName),
             AllowEmpty = false,
             Visible = true,
             Precision = 0,

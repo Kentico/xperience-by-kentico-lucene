@@ -12,7 +12,7 @@ public class LuceneConfigurationModel
     [TextInputComponent(Label = "Index Name", Order = 1)]
     public string? IndexName { get; set; }
 
-    [GeneralSelectorComponent(dataProviderType: typeof(LanguageOptionsProvider) ,Label = "Indexed Languages", Order = 2)]
+    [GeneralSelectorComponent(dataProviderType: typeof(LanguageOptionsProvider), Label = "Indexed Languages", Order = 2)]
     public IEnumerable<string>? LanguageNames { get; set; }
 
     [DropDownComponent(Label = "Channel Name", DataProviderType = typeof(ChannelOptionsProvider), Order = 3)]

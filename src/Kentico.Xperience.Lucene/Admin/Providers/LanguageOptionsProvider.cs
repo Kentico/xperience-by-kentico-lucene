@@ -8,7 +8,7 @@ namespace Kentico.Xperience.Lucene.Admin.Providers;
 public class LanguageOptionsProvider : IGeneralSelectorDataProvider
 {
     private readonly IInfoProvider<ContentLanguageInfo> contentLanguageInfoProvider;
-    private static IEnumerable<ObjectSelectorListItem<string>> items = [];
+    private static IEnumerable<ObjectSelectorListItem<string>>? items = null;
 
     public LanguageOptionsProvider(IInfoProvider<ContentLanguageInfo> contentLanguageInfoProvider) => this.contentLanguageInfoProvider = contentLanguageInfoProvider;
 

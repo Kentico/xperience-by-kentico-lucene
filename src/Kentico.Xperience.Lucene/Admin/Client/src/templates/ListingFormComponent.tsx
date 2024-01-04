@@ -50,12 +50,14 @@ export const ListingFormComponent = (props: ListComponentClientProperties): JSX.
     const getPossibleContentTypeItems = (): string => {
         let msg = "Included Content Types(";
 
-        props.possibleItems.forEach(x => {
-            msg += x + ", ";
-        });
+        for (let i = 0; i < props.possibleItems.length - 1; i++){
+            msg += props.possibleItems[i] + ", ";
+        }
 
-        msg += ")";
-
+        if (props.possibleItems.length > 0) {
+            msg += props.possibleItems[props.possibleItems.length - 1];
+        }
+        msg += ') - Separate by new line';
         return msg;
     }
 

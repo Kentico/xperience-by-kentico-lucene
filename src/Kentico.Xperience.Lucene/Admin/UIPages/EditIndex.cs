@@ -15,7 +15,7 @@ public class EditIndex : ModelEditPage<LuceneConfigurationModel>
     public int IndexIdentifier { get; set; }
 
 
-    private LuceneConfigurationModel model;
+    private LuceneConfigurationModel? model;
     private readonly IConfigurationStorageService storageService;
 
     public EditIndex(Xperience.Admin.Base.Forms.Internal.IFormItemCollectionProvider formItemCollectionProvider,
@@ -23,7 +23,7 @@ public class EditIndex : ModelEditPage<LuceneConfigurationModel>
                  IConfigurationStorageService storageService)
         : base(formItemCollectionProvider, formDataBinder)
     {
-        model = new();
+        model = null;
         this.storageService = storageService;
     }
 
