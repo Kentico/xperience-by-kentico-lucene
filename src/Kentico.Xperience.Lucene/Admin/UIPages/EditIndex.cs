@@ -104,9 +104,9 @@ public class EditIndex : ModelEditPage<LuceneConfigurationModel>
                     new StandardAnalyzer(LuceneVersion.LUCENE_48),
                     model.IndexName ?? "",
                     model.ChannelName ?? "",
-                    model.LanguageNames?.ToList() ?? [],
+                    model.LanguageNames?.ToList() ?? new(),
                     model.Id,
-                    model.Paths ?? [],
+                    model.Paths ?? new(),
                     indexPath: null,
                     luceneIndexingStrategy: (ILuceneIndexingStrategy)(Activator.CreateInstance(StrategyStorage.Strategies[model.StrategyName]) ?? new DefaultLuceneIndexingStrategy()
                 )));

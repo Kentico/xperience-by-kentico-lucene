@@ -10,7 +10,7 @@ namespace Kentico.Xperience.Lucene.Services;
 internal class LuceneBatchResult
 {
     internal int SuccessfulOperations { get; set; } = 0;
-    internal HashSet<LuceneIndex> PublishedIndices { get; set; } = [];
+    internal HashSet<LuceneIndex> PublishedIndices { get; set; } = new();
 }
 
 internal class DefaultLuceneTaskProcessor : ILuceneTaskProcessor
@@ -79,7 +79,7 @@ internal class DefaultLuceneTaskProcessor : ILuceneTaskProcessor
                         deleteTasks.Add(queueItem);
                     }
                 }
-                deleteIds.AddRange(GetIdsToDelete(deleteTasks ?? []).Where(x => x is not null).Select(x => x ?? ""));
+                deleteIds.AddRange(GetIdsToDelete(deleteTasks ?? new List<LuceneQueueItem>()).Where(x => x is not null).Select(x => x ?? ""));
                 if (IndexStore.Instance.GetIndex(group.Key) is { } index)
                 {
                     previousBatchResults.SuccessfulOperations += await luceneClient.DeleteRecords(deleteIds, group.Key);

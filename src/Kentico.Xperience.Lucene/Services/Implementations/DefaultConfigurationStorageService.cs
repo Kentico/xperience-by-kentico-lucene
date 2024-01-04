@@ -134,7 +134,7 @@ public class DefaultConfigurationStorageService : IConfigurationStorageService
         var indexInfos = indexProvider.Get().ToList();
         if (indexInfos == default)
         {
-            return [];
+            return new List<LuceneConfigurationModel>();
         }
 
         var paths = pathProvider.Get().ToList();

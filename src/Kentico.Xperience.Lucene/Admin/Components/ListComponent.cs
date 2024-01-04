@@ -28,7 +28,7 @@ public class ListComponent : FormComponent<ListComponentProperties, ListComponen
 
     public override string ClientComponentName => "@kentico/xperience-integrations-lucene/Listing";
 
-    public override List<IncludedPath> GetValue() => Value ?? [];
+    public override List<IncludedPath> GetValue() => Value ?? new();
     public override void SetValue(List<IncludedPath> value) => Value = value;
 
     [FormComponentCommand]
@@ -80,7 +80,7 @@ public class ListComponent : FormComponent<ListComponentProperties, ListComponen
             .Columns(nameof(DataClassInfo.ClassName))
             .GetEnumerableTypedResultAsync();
 
-        properties.Value = Value ?? [];
+        properties.Value = Value ?? new();
         properties.PossibleItems = allWebsiteContentTypes.Select(x => x.ClassName).ToList();
 
         await base.ConfigureClientProperties(properties);

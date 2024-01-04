@@ -50,15 +50,17 @@ internal class IndexListing : ListingPageBase<ListingConfiguration>
         if (!IndexStore.Instance.GetAllIndices().Any())
         {
             PageConfiguration.Callouts =
-            [
-                new() {
+            new()
+            {
+                new()
+                {
                     Headline = "No indexes",
                     Content = "No Lucene indexes registered. See <a target='_blank' href='https://github.com/Kentico/kentico-xperience-lucene'>our instructions</a> to read more about creating and registering Lucene indexes.",
                     ContentAsHtml = true,
                     Type = CalloutType.FriendlyWarning,
                     Placement = CalloutPlacement.OnDesk
                 }
-            ];
+            };
         }
 
         PageConfiguration.HeaderActions.AddLink<EditIndex>("Create", parameters: "-1");

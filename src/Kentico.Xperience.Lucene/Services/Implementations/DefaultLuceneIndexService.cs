@@ -92,7 +92,7 @@ public class DefaultLuceneIndexService : ILuceneIndexService
 
         using var taxonomyReader = new DirectoryTaxonomyReader(taxonomyDir);
         var facetsCollector = new FacetsCollector();
-        Dictionary<string, Facets> facetsMap = [];
+        Dictionary<string, Facets> facetsMap = new();
         FacetsCollector.Search(searcher, query, n, facetsCollector);
         var config = index.LuceneIndexingStrategy.FacetsConfigFactory();
         OrdinalsReader ordinalsReader = new DocValuesOrdinalsReader(FacetsConfig.DEFAULT_INDEX_FIELD_NAME);

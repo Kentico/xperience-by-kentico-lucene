@@ -12,7 +12,7 @@ namespace Kentico.Xperience.Lucene;
 public sealed class IndexStore
 {
     private static readonly Lazy<IndexStore> mInstance = new();
-    private readonly List<LuceneIndex> registeredIndexes = [];
+    private readonly List<LuceneIndex> registeredIndexes = new();
 
     /// <summary>
     /// Gets current instance of the <see cref="IndexStore"/> class.
@@ -51,9 +51,9 @@ public sealed class IndexStore
                 new StandardAnalyzer(LuceneVersion.LUCENE_48),
                 index.IndexName ?? "",
                 index.ChannelName ?? "",
-                index.LanguageNames?.ToList() ?? [],
+                index.LanguageNames?.ToList() ?? new(),
                 index.Id,
-                index.Paths ?? [],
+                index.Paths ?? new(),
                 indexPath: null,
                 luceneIndexingStrategy: (ILuceneIndexingStrategy)(Activator.CreateInstance(StrategyStorage.Strategies[index.StrategyName]) ?? new DefaultLuceneIndexingStrategy())
             ));
