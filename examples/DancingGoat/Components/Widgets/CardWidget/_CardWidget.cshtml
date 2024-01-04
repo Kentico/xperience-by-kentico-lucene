@@ -1,0 +1,32 @@
+﻿@using DancingGoat.InlineEditors
+@using DancingGoat.Widgets
+
+@model DancingGoat.Widgets.CardWidgetViewModel
+
+@{
+    string styleAttribute = null;
+    if (!string.IsNullOrEmpty(Model.ImagePath))
+    {
+        styleAttribute = $"style=\"background-image: url('{Url.Content(Model.ImagePath)}');\"";
+    }
+}
+
+<div class="card-body">
+    <section class="card-section" @Html.Raw(styleAttribute)>
+        <div class="card-text">
+            @if (Context.Kentico().PageBuilder().EditMode)
+            {
+                <partial name="~/Components/InlineEditors/TextEditor/_TextEditor.cshtml"
+                         model="new TextEditorViewModel
+                                {
+                                    PropertyName = nameof(CardWidgetProperties.Text),
+                                    Text = Model.Text,
+                                }" />
+            }
+            else
+            {
+                @Model.Text
+            }
+        </div>
+    </section>
+</div>

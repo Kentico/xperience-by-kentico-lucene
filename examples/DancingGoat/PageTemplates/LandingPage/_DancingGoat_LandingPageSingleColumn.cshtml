@@ -1,0 +1,34 @@
+﻿@using DancingGoat.PageTemplates
+@using DancingGoat.Helpers
+
+@model ComponentViewModel<LandingPageSingleColumnProperties>
+
+@{
+    Layout = "~/Views/Shared/_LandingPageLayout.cshtml";
+    ViewBag.Title = HtmlLocalizer["Landing page"].Value;
+}
+
+<div>
+    <header class="header">
+        <div class="@Model.Properties.HeaderColorCssClass @(Model.Properties.ShowLogo ? "" : "stripe")">
+            @if (Model.Properties.ShowLogo)
+            {
+                <div class="header-row">
+                    <div class="container">
+                        <div class="logo-wrapper">
+                            <img class="logo-image" alt="Dancing Goat" src="~/Content/Images/logo.svg" loading="lazy" />
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </header>
+    <div class="container content-wrapper top">
+        <editable-area area-identifier="top"
+                       area-options-allowed-widgets="@AreaRestrictionHelper.GetLandingPageRestrictions()" />
+    </div>
+    <div class="container content-wrapper bottom" id="bottom-area">
+        <editable-area area-identifier="botton"
+                       area-options-allowed-widgets="new[] { SystemComponentIdentifiers.RICH_TEXT_WIDGET_IDENTIFIER, SystemComponentIdentifiers.FORM_WIDGET_IDENTIFIER }" />
+    </div>
+</div>

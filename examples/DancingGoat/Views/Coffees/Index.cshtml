@@ -1,0 +1,42 @@
+﻿@model IEnumerable<DancingGoat.Models.CoffeeViewModel>
+
+@{
+    ViewData["PageClass"] = "inverted";
+    ViewBag.Title = HtmlLocalizer["Coffees"].Value;
+}
+
+<div class="coffees-page">
+    <h2>Our coffes</h2>
+    @if (Model.Any())
+    {
+        <div class="row-fluid">
+            <div class="col-md-10 col-lg-9">
+                <div class="row">
+                    @foreach (var coffee in Model)
+                    {
+                        <div class="col-xs-12 col-md-6 col-lg-4 product-tile-wrapper ">
+                            <div class="product-tile">
+                                <a href="@coffee.Url" class="">
+                                    <h2 class="product-heading">@coffee.Name</h2>
+                                    @if (!string.IsNullOrEmpty(coffee.ImagePath))
+                                    {
+                                                    <img class="product-tile-image" src="@Url.Content(coffee.ImagePath)" alt="@coffee.Name" title="@coffee.Name" loading="lazy"/>
+                                    }
+
+                                </a>
+                            </div>
+                        </div>
+
+                    }
+                </div>
+            </div>
+            <aside class="col-md-2 col-lg-3">
+            </aside>
+
+        </div>
+    }
+    else
+    {
+        <span class="ContentLabel">@HtmlLocalizer["No coffee available."]</span>
+    }
+</div>

@@ -1,0 +1,37 @@
+﻿@using Kentico.Activities.Web.Mvc
+@using Kentico.OnlineMarketing.Web.Mvc
+
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+
+<html>
+<head id="head">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta charset="UTF-8" />
+    <link rel="icon" href="~/content/images/favicon.svg" type="image/svg+xml" />
+    <link href="~/Content/Styles/Landing-page.css" rel="stylesheet" type="text/css" />
+    <title>@ViewBag.Title - Dancing Goat</title>
+    <page-builder-styles />
+    @Html.Kentico().ActivityLoggingAPI()
+    @Html.Kentico().ActivityLoggingScript()
+</head>
+<body>
+    <div class="page-wrap">
+        <vc:tracking-consent />
+        @RenderBody()
+    </div>
+    <div class="footer-wrapper">
+        <footer>
+            <div class="footer-container">
+                <div class="container">
+                    Copyright &copy; @DateTime.Now.Year Dancing Goat. All rights reserved.
+                </div>
+            </div>
+        </footer>
+    </div>
+    <script src="~/Scripts/jquery-3.5.1.min.js"></script>
+    <page-builder-scripts />
+</body>
+</html>

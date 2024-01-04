@@ -1,0 +1,34 @@
+﻿.ktc-admin-ui ul.persona-selector-dialog {
+    margin: 0;
+    padding: 0;
+}
+
+.ktc-admin-ui ul.persona-selector-dialog li {
+    list-style: none;
+    padding: 0 8px;
+}
+
+.ktc-admin-ui ul.persona-selector-dialog li:hover {
+    background-color: #d0e8ed;
+}
+
+.ktc-admin-ui ul.persona-selector-dialog li .line-wrapper {
+	padding: 5px 0;
+    width: 100%;
+    cursor: pointer;
+}
+
+.ktc-admin-ui ul.persona-selector-dialog .ktc-radio {
+    position: absolute;
+    left: 16px;
+}
+
+.ktc-admin-ui ul.persona-selector-dialog .persona-details {
+    margin-left: 28px;
+}
+
+.ktc-admin-ui .persona-selector-dialog.no-personas {
+    color: red;
+    margin: 0 8px;
+    display: inline-block;
+}

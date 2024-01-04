@@ -1,0 +1,57 @@
+﻿@model DancingGoat.Models.PrivacyViewModel
+
+@{
+    ViewData["PageClass"] = "inverted no-bg";
+    ViewBag.Title = HtmlLocalizer["Privacy"].Value;
+}
+
+<div class="container">
+    @if (Model.DemoDisabled)
+    {
+        <text>
+            <h2>@HtmlLocalizer["Data protection (GDPR) demo must be enabled."]</h2>
+            <span>
+                @HtmlLocalizer["You can enable data protection demo data in the administration interface (Configuration -> Sample data generator)."]
+            </span>
+        </text>
+    }
+    else
+    {
+        <h2>@HtmlLocalizer["Your agreed consents"]</h2>
+
+        if (Model.ShowSavedMessage)
+        {
+            <span class="info-label">@HtmlLocalizer["Consent revocation was successful."]</span>
+        }
+        else if (Model.ShowErrorMessage)
+        {
+            <span class="error-label">@HtmlLocalizer["Consent revocation was not successful."]</span>
+        }
+
+        if (Model.Constents.Any())
+        {
+            <form asp-action="Revoke" asp-controller="Privacy" asp-antiforgery="true">
+                @foreach (var consent in Model.Constents)
+                {
+                    <div class="consent-item">
+                        <div class="row">
+                            <div class="col-md-10">
+                                <h3 class="consent-heading">@consent.Title</h3>
+                            </div>
+                            <div class="col-md-2">
+                                <button type="submit" name="consentName" value="@consent.Name" class="btn btn-primary">@HtmlLocalizer["Revoke"]</button>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <p>@consent.Text</p>
+                        </div>
+                    </div>
+                }
+            </form>
+        }
+        else
+        {
+            <span>@HtmlLocalizer["There are currently no consents agreed by you."]</span>
+        }
+    }
+</div>

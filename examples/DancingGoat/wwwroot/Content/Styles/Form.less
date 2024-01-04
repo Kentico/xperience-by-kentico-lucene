@@ -1,0 +1,126 @@
+﻿/*# Form */
+@import "./variables.less";
+
+div.contact-us-form {
+    .form-field {
+        margin-bottom: .8rem;
+    }
+
+    .form-field-label {
+        margin-bottom: .3rem;
+    }
+
+    .form-field-label-required:after {
+        content: "*";
+        color: #B4594A;
+    }
+
+    .input-style {
+        padding: .4rem;
+        width: 60%;
+    }
+
+    .editing-form-control-nested-control input,
+    .editing-form-control-nested-control textarea {
+        .input-style();
+    }
+
+    .editing-form-control-nested-control textarea {
+        width: 100%;
+        height: 6rem;
+    }
+
+    .field-validation-error {
+        font-weight: bold;
+        color: #D12127;
+    }
+
+    input[type="submit"] {
+        -webkit-appearance: button;
+        cursor: pointer;
+        padding: .6rem 2rem;
+        cursor: pointer;
+        color: @color-white;
+        background-color: @color-darkbrown;
+        border: none;
+        display: inline-block;
+        text-decoration: none;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        font-size: .875rem;
+
+        &:hover {
+            background: rgba(39, 34, 25, 0.8);
+        }
+    }
+
+    .ktc-file-component-wrapper {
+        .ktc-uploader-text {
+            max-width: ~"calc(100% - 26px)";
+            text-overflow: ellipsis;
+            overflow: hidden;
+            vertical-align: bottom;
+            white-space: nowrap;
+            display: inline-block;
+        }
+
+        .ktc-uploader-icon-button {
+            font-family: @icon-font-name;
+            font-size: @base-unit * 1.25;
+            position: absolute;
+            right: 8px;
+            color: @color-gray-80;
+            line-height: 24px;
+        }
+
+        .ktc-uploader-icon-button[data-icon="select"]::before {
+            content: @icon-arrow-up-line;
+            cursor: pointer;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(359deg);
+            }
+        }
+
+        .ktc-uploader-icon-button[data-icon="loading"]::before {
+            content: @icon-spinner;
+            display: inline-block;
+            animation: spin 1.2s infinite linear;
+        }
+
+        .ktc-uploader-icon-button[data-icon="remove"] {
+            cursor: pointer;
+
+            &::before {
+                content: @icon-bin;
+            }
+        }
+
+        .ktc-uploader-replacement {
+            display: none;
+        }
+
+        .ktc-uploader-text-button {
+            display: none;
+        }
+
+        input[type="file"] {
+            display: none;
+        }
+
+        label {
+            .form-field();
+            .input-style();
+            display: inline-block;
+            border: 1px solid #BEBEBE;
+            position: relative;
+            cursor: pointer;
+        }
+    }
+}

@@ -1,0 +1,24 @@
+﻿@model DancingGoat.Models.CoffeeViewModel
+@{
+    ViewData["PageClass"] = "inverted";
+    ViewBag.Title = Model.Name;
+}
+
+<div class="coffee-detail-page">
+    <section class="row-fluid">
+        <h2 class="col-lg-12">@Model.Name</h2>
+        <div class="col-lg-7 col-md-6">
+            @if (!string.IsNullOrEmpty(Model.ImagePath))
+            {
+                <figure class="image">
+                    <img class="product-tile-image" src="@Url.Content(Model.ImagePath)" alt="@Model.Name" title="@Model.Name" loading="lazy" />
+                </figure>
+            }
+            <div>
+                @Html.Raw(@Model.Description)
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-5 col-md-offset-1 col-lg-offset-1">
+        </div>
+    </section>
+</div>

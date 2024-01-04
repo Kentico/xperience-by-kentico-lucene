@@ -1,0 +1,19 @@
+﻿@model DancingGoat.Models.ReferenceViewModel
+
+<section class="row reference">
+    <div class="title-wrapper">
+        <h1 class="title-tab">@HtmlLocalizer["Reference"]</h1>
+    </div>
+    <div class="col-sm-12 full-height">
+        <div class="col-md-5 col-lg-3 sm-hidden">
+            <img src="@Url.Content(Model.ImagePath)" alt="@Model.ImageShortDescription" title="@Model.Name" class="image-responsive" loading="lazy" />
+        </div>
+        <div class="col-sm-12 col-md-7 col-lg-9 quote">
+            <div class="text"><span>&ldquo;</span>@Html.Raw(Model.Text)<span>&rdquo;</span></div>
+            <div class="name-and-description">
+                <div class="name">@Html.Raw(Model.Name)</div>
+                <div class="description">@Html.Raw(Model.Description)</div>
+            </div>
+        </div>
+    </div>
+</section>

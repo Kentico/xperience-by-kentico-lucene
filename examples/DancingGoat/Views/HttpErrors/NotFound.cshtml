@@ -1,0 +1,29 @@
+﻿@{
+    ViewBag.Title = HtmlLocalizer["Oops! Page not found..."].Value;
+    ViewData["PageClass"] = "inverted";
+}
+
+<div class="row">
+    <div class="not-found">
+        <div class="col-md-5 col-lg-4 col-lg-offset-1 sm-hidden xs-hidden">
+            <img class="img-responsive" alt="Page not found" src="~/Content/Images/404.jpg" loading="lazy">
+        </div>
+        <div class="col-md-7 col-lg-6">
+            <div class="not-found-content">
+                <h2 class="">
+                    @HtmlLocalizer["Oops! Page not found..."]
+                </h2>
+                <p>@HtmlLocalizer["We are really sorry, something has gone wrong. It seems that page you requested doesn't exist."]</p>
+                <p>
+                    @HtmlLocalizer["Head back to {0} using the navigation or {1}.",
+                           Html.Raw($"<a href=\"{Url.Kentico().PageUrl(ContentItemIdentifiers.HOME)}\">{HtmlLocalizer["homepage"].Value}</a>"),
+                           Html.Raw($"<a href=\"{Url.Kentico().PageUrl(ContentItemIdentifiers.CONTACTS)}\">{HtmlLocalizer["contact us"].Value}</a>")]
+                </p>
+                <a href="@Url.Kentico().PageUrl(ContentItemIdentifiers.HOME)" class="btn btn-secondary">
+                    @HtmlLocalizer["Back to homepage"]
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+

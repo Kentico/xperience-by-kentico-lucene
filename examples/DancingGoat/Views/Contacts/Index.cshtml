@@ -1,0 +1,59 @@
+﻿@model DancingGoat.Models.ContactsIndexViewModel
+
+@{
+    ViewBag.Title = HtmlLocalizer["Contacts"].Value;    
+}
+
+@section scripts {
+    <partial name="_GoogleMaps" />
+}
+
+<div class="contacts-page">
+    <div class="col-md-12">
+        <div class="col-md-6">
+            <h2 class="contact-title">@HtmlLocalizer["Roastery"]</h2>
+            <ul class="contact-info">
+                <li>@Model.CompanyContact.Phone</li>
+                <li>
+                    <email address="@Model.CompanyContact.Email" />
+                </li>
+                <li>
+                    <a href="javascript:void(0)" data-address="@Model.CompanyContact.City, @Model.CompanyContact.Street" class="js-scroll-to-map">
+                        @Model.CompanyContact.Street @Model.CompanyContact.City,<br />
+                        @Model.CompanyContact.ZIP, @Model.CompanyContact.Country<br />
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+        <div class="col-md-6">
+            <div id="message-form" class="contact-us-form">
+                <editable-area area-identifier="ContactUs" area-options-allowed-widgets="new[] { SystemComponentIdentifiers.FORM_WIDGET_IDENTIFIER }" />
+            </div>
+        </div>
+    </div>
+
+    <div class="row"><h2>@HtmlLocalizer["Our cafes"]</h2></div>
+    <div class="row">
+        @foreach (var cafe in @Model.CompanyCafes)
+        {
+            <div class="col-md-6 col-lg-3">
+                <div class="cafe-tile cursor-hand js-scroll-to-map" data-address="@cafe.City, @cafe.Street">
+                    <div class="cafe-tile-content">
+                        <h3 class="cafe-tile-name">@cafe.Name</h3>
+                        <address class="cafe-tile-address">
+                            <a href="javascript:void(0)" class="cafe-tile-address-anchor">
+                                @cafe.Street, @cafe.City<br />
+                                @cafe.ZIP, @cafe.Country
+                            </a>
+                        </address>
+                        <p class="cafe-tile-phone">@cafe.Phone</p>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+
+    <h2 class="map-title">@HtmlLocalizer["Drop in"]</h2>
+    <div class="map js-map"></div>
+</div>
