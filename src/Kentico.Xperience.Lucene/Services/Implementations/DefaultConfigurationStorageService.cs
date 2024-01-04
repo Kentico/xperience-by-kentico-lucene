@@ -94,6 +94,7 @@ public class DefaultConfigurationStorageService : IConfigurationStorageService
         var indexProvider = IndexitemInfoProvider.ProviderObject;
         var languageProvider = IndexedlanguageInfoProvider.ProviderObject;
 
+
         var indexInfo = indexProvider.Get().WithID(indexId).FirstOrDefault();
         if (indexInfo == default)
         {
@@ -213,7 +214,7 @@ public class DefaultConfigurationStorageService : IConfigurationStorageService
                     {
                         var contentInfo = new ContenttypeitemInfo()
                         {
-                            ContentTypeName = contentType,
+                            ContentTypeName = contentType ?? "",
                             LuceneIncludedPathItemId = pathInfo.LuceneIncludedPathItemId,
                             LuceneIndexItemId = indexInfo.LuceneIndexItemId
                         };
