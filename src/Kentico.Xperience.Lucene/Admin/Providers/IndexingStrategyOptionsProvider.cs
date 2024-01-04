@@ -1,7 +1,4 @@
 ﻿using Kentico.Xperience.Admin.Base.FormAnnotations;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Kentico.Xperience.Lucene.Admin.Providers;
 

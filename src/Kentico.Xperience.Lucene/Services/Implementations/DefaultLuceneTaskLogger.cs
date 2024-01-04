@@ -1,10 +1,7 @@
 ﻿using CMS.Core;
 using CMS.Websites;
-using Kentico.Xperience.Lucene.Models;
 using Kentico.Xperience.Lucene.Extensions;
-using System;
-using System.Linq;
-using System.Threading.Tasks;
+using Kentico.Xperience.Lucene.Models;
 
 namespace Kentico.Xperience.Lucene.Services;
 
@@ -21,18 +18,18 @@ internal class DefaultLuceneTaskLogger : ILuceneTaskLogger
     public DefaultLuceneTaskLogger(IEventLogService eventLogService) => this.eventLogService = eventLogService;
 
     /// <inheritdoc />
-    public async Task HandleEvent(IndexedItemModel indexedItem, string eventName)
+    public async Task HandleEvent(IndexedItemModel indexedModel, string eventName)
     {
         var taskType = GetTaskType(eventName);
 
-        if (!indexedItem.IsLuceneIndexed(eventName))
+        if (!indexedModel.IsLuceneIndexed(eventName))
         {
             return;
         }
 
         foreach (string? indexName in IndexStore.Instance.GetAllIndices().Select(index => index.IndexName))
         {
-            if (!indexedItem.IsIndexedByIndex(indexName, eventName))
+            if (!indexedModel.IsIndexedByIndex(indexName, eventName))
             {
                 continue;
             }
@@ -41,13 +38,13 @@ internal class DefaultLuceneTaskLogger : ILuceneTaskLogger
 
             if (luceneIndex is not null)
             {
-                var toReindex = await luceneIndex.LuceneIndexingStrategy.FindItemsToReindex(indexedItem);
+                var toReindex = await luceneIndex.LuceneIndexingStrategy.FindItemsToReindex(indexedModel);
 
                 if (toReindex is not null)
                 {
                     foreach (var item in toReindex)
                     {
-                        if (item.WebPageItemGuid == indexedItem.WebPageItemGuid)
+                        if (item.WebPageItemGuid == indexedModel.WebPageItemGuid)
                         {
                             if (taskType == LuceneTaskType.DELETE)
                             {

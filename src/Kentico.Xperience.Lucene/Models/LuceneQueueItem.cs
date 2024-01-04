@@ -1,7 +1,4 @@
-﻿using CMS.Websites;
-using System;
-
-namespace Kentico.Xperience.Lucene.Models;
+﻿namespace Kentico.Xperience.Lucene.Models;
 
 /// <summary>
 /// A queued item to be processed by <see cref="LuceneQueueWorker"/> which

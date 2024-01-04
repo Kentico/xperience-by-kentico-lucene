@@ -1,7 +1,4 @@
 ﻿using Kentico.Xperience.Lucene.Models;
-using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace Kentico.Xperience.Lucene.Services;
 
@@ -18,7 +15,7 @@ public interface ILuceneTaskProcessor
     /// <param name="queueItems">The items to process.</param>
     /// <param name="cancellationToken">The cancellation token for the task.</param>
     /// <returns>The number of items processed.</returns>
-    
+
     int ProcessLuceneTasks(IEnumerable<LuceneQueueItem> queueItems, CancellationToken cancellationToken, int maximumBatchSize = 100);
 
 }

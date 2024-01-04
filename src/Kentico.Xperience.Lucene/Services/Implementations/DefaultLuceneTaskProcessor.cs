@@ -1,4 +1,3 @@
-using CMS.AutomationEngine.Internal;
 using CMS.Base;
 using CMS.Core;
 using CMS.Websites;
@@ -19,23 +18,19 @@ internal class DefaultLuceneTaskProcessor : ILuceneTaskProcessor
     internal const string URL_NAME = "Url";
 
     private readonly IWebPageUrlRetriever urlRetriever;
-
     private readonly ILuceneClient luceneClient;
     private readonly IEventLogService eventLogService;
-    private readonly IWorkflowStepInfoProvider workflowStepInfoProvider;
 
 
-    public DefaultLuceneTaskProcessor(ILuceneClient luceneClient,
+    public DefaultLuceneTaskProcessor(
+        ILuceneClient luceneClient,
         IEventLogService eventLogService,
-        IWorkflowStepInfoProvider workflowStepInfoProvider,
         IWebPageUrlRetriever urlRetriever)
     {
         this.luceneClient = luceneClient;
         this.eventLogService = eventLogService;
-        this.workflowStepInfoProvider = workflowStepInfoProvider;
         this.urlRetriever = urlRetriever;
     }
-
 
     /// <inheritdoc />
     public int ProcessLuceneTasks(IEnumerable<LuceneQueueItem> queueItems, CancellationToken cancellationToken, int maximumBatchSize = 100)
@@ -90,12 +85,9 @@ internal class DefaultLuceneTaskProcessor : ILuceneTaskProcessor
                     previousBatchResults.SuccessfulOperations += await luceneClient.DeleteRecords(deleteIds, group.Key);
                     previousBatchResults.SuccessfulOperations += await luceneClient.UpsertRecords(upsertData, group.Key, cancellationToken);
 
-                    if (group.Any(t => t.TaskType == LuceneTaskType.PUBLISH_INDEX))
+                    if (group.Any(t => t.TaskType == LuceneTaskType.PUBLISH_INDEX) && !previousBatchResults.PublishedIndices.Any(x => x.IndexName == index.IndexName))
                     {
-                        if (!previousBatchResults.PublishedIndices.Any(x => x.IndexName == index.IndexName))
-                        {
-                            previousBatchResults.PublishedIndices.Add(index);
-                        }
+                        previousBatchResults.PublishedIndices.Add(index);
                     }
                 }
                 else
@@ -110,7 +102,7 @@ internal class DefaultLuceneTaskProcessor : ILuceneTaskProcessor
         }
     }
 
-    private IEnumerable<string?> GetIdsToDelete(IEnumerable<LuceneQueueItem> deleteTasks) => deleteTasks.Select(queueItem => queueItem.IndexedItemModel.WebPageItemGuid.ToString());
+    private static IEnumerable<string?> GetIdsToDelete(IEnumerable<LuceneQueueItem> deleteTasks) => deleteTasks.Select(queueItem => queueItem.IndexedItemModel.WebPageItemGuid.ToString());
 
     /// <inheritdoc/>
     public async Task<Document?> GetDocument(LuceneQueueItem queueItem)

@@ -1,6 +1,4 @@
-﻿using CMS.Websites;
-using Kentico.Xperience.Lucene.Models;
-using System.Threading.Tasks;
+﻿using Kentico.Xperience.Lucene.Models;
 
 namespace Kentico.Xperience.Lucene.Services;
 

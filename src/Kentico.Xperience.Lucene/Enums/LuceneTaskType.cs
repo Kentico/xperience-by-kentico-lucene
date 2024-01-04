@@ -16,7 +16,7 @@ public enum LuceneTaskType
     /// A task for a page which should be removed from the index.
     /// </summary>
     DELETE,
-    
+
     /// <summary>
     /// Task marks the end of indexed items, index is published after this task occurs
     /// </summary>

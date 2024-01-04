@@ -1,11 +1,11 @@
-﻿using Kentico.Xperience.Admin.Base;
+﻿using System.Text;
+using Kentico.Xperience.Admin.Base;
 using Kentico.Xperience.Admin.Base.Forms;
 using Kentico.Xperience.Lucene.Models;
 using Kentico.Xperience.Lucene.Services;
 using Kentico.Xperience.Lucene.Services.Implementations;
 using Lucene.Net.Analysis.Standard;
 using Lucene.Net.Util;
-using System.Text;
 
 namespace Kentico.Xperience.Lucene.Admin;
 
@@ -31,17 +31,9 @@ public class EditIndex : ModelEditPage<LuceneConfigurationModel>
     {
         get
         {
-            if (model == null)
-            {
-                if (IndexIdentifier == -1)
-                {
-                    model = new LuceneConfigurationModel();
-                }
-                else
-                {
-                    model = storageService.GetIndexDataOrNull(IndexIdentifier).Result ?? new LuceneConfigurationModel();
-                }
-            }
+            model ??= IndexIdentifier == -1
+                ? new LuceneConfigurationModel()
+                : storageService.GetIndexDataOrNull(IndexIdentifier).Result ?? new LuceneConfigurationModel();
             return model;
         }
     }
@@ -53,7 +45,9 @@ public class EditIndex : ModelEditPage<LuceneConfigurationModel>
         {
             char c = source[i];
             if (!char.IsWhiteSpace(c))
+            {
                 builder.Append(c);
+            }
         }
         return source.Length == builder.Length ? source : builder.ToString();
     }
@@ -62,7 +56,7 @@ public class EditIndex : ModelEditPage<LuceneConfigurationModel>
     {
         model.IndexName = RemoveWhitespacesUsingStringBuilder(model.IndexName ?? "");
 
-        if ((await storageService.GetIndexIds()).Any(x => x == model.Id))
+        if ((await storageService.GetIndexIds()).Exists(x => x == model.Id))
         {
             bool edited = await storageService.TryEditIndex(model);
 
@@ -74,11 +68,11 @@ public class EditIndex : ModelEditPage<LuceneConfigurationModel>
             {
                 response.AddSuccessMessage("Index edited");
 
-                LuceneSearchModule.AddRegisteredIndices();
+                await LuceneSearchModule.AddRegisteredIndices();
             }
             else
             {
-                response.AddErrorMessage(string.Format("Editing failed."));
+                response.AddErrorMessage("Editing failed.");
             }
 
             return response;
@@ -88,7 +82,7 @@ public class EditIndex : ModelEditPage<LuceneConfigurationModel>
             bool created;
             if (string.IsNullOrWhiteSpace(model.IndexName))
             {
-                Response().AddErrorMessage(string.Format("Invalid Index Name"));
+                Response().AddErrorMessage("Invalid Index Name");
                 created = false;
             }
             else
@@ -119,7 +113,7 @@ public class EditIndex : ModelEditPage<LuceneConfigurationModel>
             }
             else
             {
-                response.AddErrorMessage(string.Format("Index creating failed."));
+                response.AddErrorMessage("Index creating failed.");
             }
 
             return response;

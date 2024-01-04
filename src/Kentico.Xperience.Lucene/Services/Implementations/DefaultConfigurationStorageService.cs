@@ -1,7 +1,7 @@
-﻿using Kentico.Xperience.Lucene.Models;
+﻿using System.Text;
 using CMS;
 using CMS.DataEngine;
-using System.Text;
+using Kentico.Xperience.Lucene.Models;
 
 namespace Kentico.Xperience.Lucene.Services.Implementations;
 
@@ -14,7 +14,9 @@ public class DefaultConfigurationStorageService : IConfigurationStorageService
         {
             char c = source[i];
             if (!char.IsWhiteSpace(c))
+            {
                 builder.Append(c);
+            }
         }
         return source.Length == builder.Length ? source : builder.ToString();
     }

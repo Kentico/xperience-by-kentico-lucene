@@ -12,7 +12,6 @@
 	<PropertyGroup>
 		<AdminOrgName>kentico</AdminOrgName>
 		<RootNamespace>Kentico.Xperience.Lucene</RootNamespace>
-		<LangVersion>Latest</LangVersion>
 		<NoWarn>$(NoWarn);S1075</NoWarn>
 	</PropertyGroup>
 

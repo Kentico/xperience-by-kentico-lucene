@@ -1,7 +1,7 @@
-﻿using CMS.Base;
+﻿using CMS;
+using CMS.Base;
 using CMS.DataEngine;
 using CMS.FormEngine;
-using CMS;
 
 namespace Kentico.Xperience.Lucene;
 
@@ -27,7 +27,9 @@ public class LuceneModuleInstaller
     {
         var luceneItemInfo = DataClassInfoProvider.GetDataClassInfo(IndexitemInfo.OBJECT_TYPE);
         if (luceneItemInfo is not null)
+        {
             return;
+        }
 
         luceneItemInfo = DataClassInfo.New(IndexitemInfo.OBJECT_TYPE);
 
@@ -97,7 +99,9 @@ public class LuceneModuleInstaller
         var pathItem = DataClassInfoProvider.GetDataClassInfo(IncludedpathitemInfo.OBJECT_TYPE);
 
         if (pathItem is not null)
+        {
             return;
+        }
 
         pathItem = DataClassInfo.New(IncludedpathitemInfo.OBJECT_TYPE);
 
@@ -144,7 +148,9 @@ public class LuceneModuleInstaller
         var language = DataClassInfoProvider.GetDataClassInfo(languageInfoName);
 
         if (language is not null)
+        {
             return;
+        }
 
         language = DataClassInfo.New();
 
@@ -189,7 +195,9 @@ public class LuceneModuleInstaller
         var contentType = DataClassInfoProvider.GetDataClassInfo(ContenttypeitemInfo.OBJECT_TYPE);
 
         if (contentType is not null)
+        {
             return;
+        }
 
         contentType = DataClassInfo.New();
 
@@ -230,7 +238,7 @@ public class LuceneModuleInstaller
             Name = nameof(IndexitemInfo.LuceneIndexItemId),
             AllowEmpty = false,
             Visible = true,
-            DataType= "integer",
+            DataType = "integer",
             ReferenceToObjectType = nameof(IndexitemInfo),
             ReferenceType = ObjectDependencyEnum.Required
         };

@@ -1,18 +1,19 @@
-﻿using Kentico.Xperience.Admin.Base.FormAnnotations;
-using Kentico.Xperience.Admin.Base.Forms;
+﻿using CMS.DataEngine;
 using Kentico.Xperience.Admin.Base;
+using Kentico.Xperience.Admin.Base.FormAnnotations;
+using Kentico.Xperience.Admin.Base.Forms;
 using Kentico.Xperience.Lucene.Models;
-using CMS.DataEngine;
 
 namespace Kentico.Xperience.Lucene.Admin.Components;
 
+#pragma warning disable S2094 // intentionally empty class
 public class ListComponentProperties : FormComponentProperties
 {
 }
+#pragma warning restore
 
 public class ListComponentClientProperties : FormComponentClientProperties<List<IncludedPath>>
 {
-    public IEnumerable<IncludedPath>? Value { get; set; }
     public List<string>? PossibleItems { get; set; }
 }
 
@@ -31,21 +32,21 @@ public class ListComponent : FormComponent<ListComponentProperties, ListComponen
     public override void SetValue(List<IncludedPath> value) => Value = value;
 
     [FormComponentCommand]
-    public async Task<ICommandResponse<RowActionResult>> DeletePath(string path)
+    public Task<ICommandResponse<RowActionResult>> DeletePath(string path)
     {
-        var toRemove = Value?.FirstOrDefault(x => x.AliasPath == path);
+        var toRemove = Value?.Find(x => Equals(x.AliasPath == path, StringComparison.OrdinalIgnoreCase));
         if (toRemove != null)
         {
             Value?.Remove(toRemove);
-            return ResponseFrom(new RowActionResult(false));
+            return Task.FromResult(ResponseFrom(new RowActionResult(false)));
         }
-        return ResponseFrom(new RowActionResult(false));
+        return Task.FromResult(ResponseFrom(new RowActionResult(false)));
     }
 
     [FormComponentCommand]
-    public async Task<ICommandResponse<RowActionResult>> SavePath(IncludedPath path)
+    public Task<ICommandResponse<RowActionResult>> SavePath(IncludedPath path)
     {
-        var value = Value?.SingleOrDefault(x => x.AliasPath == path.AliasPath);
+        var value = Value?.SingleOrDefault(x => Equals(x.AliasPath == path.AliasPath, StringComparison.OrdinalIgnoreCase));
 
         if (value is not null)
         {
@@ -54,35 +55,34 @@ public class ListComponent : FormComponent<ListComponentProperties, ListComponen
 
         Value?.Add(path);
 
-        return ResponseFrom(new RowActionResult(false));
+        return Task.FromResult(ResponseFrom(new RowActionResult(false)));
     }
 
     [FormComponentCommand]
-    public async Task<ICommandResponse<RowActionResult>> AddPath(string path)
+    public Task<ICommandResponse<RowActionResult>> AddPath(string path)
     {
-        if (Value?.Any(x => x.AliasPath == path) ?? false)
+        if (Value?.Exists(x => x.AliasPath == path) ?? false)
         {
-            return ResponseFrom(new RowActionResult(false));
+            return Task.FromResult(ResponseFrom(new RowActionResult(false)));
         }
         else
         {
             Value?.Add(new IncludedPath(path));
-            return ResponseFrom(new RowActionResult(false));
+            return Task.FromResult(ResponseFrom(new RowActionResult(false)));
         }
     }
 
-    protected override Task ConfigureClientProperties(ListComponentClientProperties properties)
+    protected override async Task ConfigureClientProperties(ListComponentClientProperties properties)
     {
-        var allPageItems = DataClassInfoProvider
+        var allWebsiteContentTypes = await DataClassInfoProvider
             .GetClasses()
             .WhereEquals(nameof(DataClassInfo.ClassContentTypeType), "Website")
-            .ToList()
-            .Select(x => x.ClassName)
-            .ToList();
+            .Columns(nameof(DataClassInfo.ClassName))
+            .GetEnumerableTypedResultAsync();
 
-        properties.Value = Value;
-        properties.PossibleItems = allPageItems;
+        properties.Value = Value ?? [];
+        properties.PossibleItems = allWebsiteContentTypes.Select(x => x.ClassName).ToList();
 
-        return base.ConfigureClientProperties(properties);
+        await base.ConfigureClientProperties(properties);
     }
 }

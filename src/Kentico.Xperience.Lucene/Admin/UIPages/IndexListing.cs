@@ -49,17 +49,16 @@ internal class IndexListing : ListingPageBase<ListingConfiguration>
     {
         if (!IndexStore.Instance.GetAllIndices().Any())
         {
-            PageConfiguration.Callouts = new List<CalloutConfiguration>
-            {
-                new CalloutConfiguration
-                {
+            PageConfiguration.Callouts =
+            [
+                new() {
                     Headline = "No indexes",
                     Content = "No Lucene indexes registered. See <a target='_blank' href='https://github.com/Kentico/kentico-xperience-lucene'>our instructions</a> to read more about creating and registering Lucene indexes.",
                     ContentAsHtml = true,
                     Type = CalloutType.FriendlyWarning,
                     Placement = CalloutPlacement.OnDesk
                 }
-            };
+            ];
         }
 
         PageConfiguration.HeaderActions.AddLink<EditIndex>("Create", parameters: "-1");
@@ -114,16 +113,13 @@ internal class IndexListing : ListingPageBase<ListingConfiguration>
     }
 
     [PageCommand]
-    public async Task<INavigateResponse> Edit(int id, CancellationToken cancellationToken)
-    {
-        return await Task.FromResult(NavigateTo(pageUrlGenerator.GenerateUrl<EditIndex>(id.ToString())));
-    }
+    public async Task<INavigateResponse> Edit(int id, CancellationToken cancellationToken) => await Task.FromResult(NavigateTo(pageUrlGenerator.GenerateUrl<EditIndex>(id.ToString())));
 
     [PageCommand]
     public async Task<ICommandResponse> Delete(int id, CancellationToken cancellationToken)
     {
         var storageService = Service.Resolve<IConfigurationStorageService>();
-        var res = await storageService.TryDeleteIndex(id);
+        bool res = await storageService.TryDeleteIndex(id);
         if (res)
         {
             var indices = await storageService.GetAllIndexData();
@@ -204,7 +200,7 @@ internal class IndexListing : ListingPageBase<ListingConfiguration>
             : new Row
             {
                 Identifier = luceneIndex.Identifier,
-                Action = new Xperience.Admin.Base.Action(ActionType.Command)
+                Action = new Action(ActionType.Command)
                 {
                     Parameter = nameof(RowClick)
                 },
@@ -222,21 +218,21 @@ internal class IndexListing : ListingPageBase<ListingConfiguration>
                     {
                         Actions = new List<Action>
                         {
-                            new Action(ActionType.Command)
+                            new(ActionType.Command)
                             {
                                 Title = "Build index",
                                 Label = "Build index",
                                 Icon = Icons.RotateRight,
                                 Parameter = nameof(Rebuild)
                             },
-                            new Action(ActionType.Command)
+                            new(ActionType.Command)
                             {
                                 Title = "Edit",
                                 Label = "Edit",
                                 Parameter = nameof(Edit),
                                 Icon = Icons.Edit
                             },
-                            new Action(ActionType.Command)
+                            new(ActionType.Command)
                             {
                                 Title = "Delete",
                                 Label = "Delete",

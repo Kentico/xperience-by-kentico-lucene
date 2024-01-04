@@ -1,5 +1,4 @@
-﻿using CMS.IO;
-using Kentico.Xperience.Lucene.Services;
+﻿using Kentico.Xperience.Lucene.Services;
 using Kentico.Xperience.Lucene.Services.Implementations;
 using Lucene.Net.Analysis;
 

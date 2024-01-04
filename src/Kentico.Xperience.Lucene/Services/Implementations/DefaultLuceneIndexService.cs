@@ -6,8 +6,6 @@ using Lucene.Net.Index;
 using Lucene.Net.Search;
 using Lucene.Net.Store;
 using Lucene.Net.Util;
-using System;
-using System.Collections.Generic;
 using LuceneDirectory = Lucene.Net.Store.Directory;
 
 namespace Kentico.Xperience.Lucene.Services.Implementations;
@@ -94,7 +92,7 @@ public class DefaultLuceneIndexService : ILuceneIndexService
 
         using var taxonomyReader = new DirectoryTaxonomyReader(taxonomyDir);
         var facetsCollector = new FacetsCollector();
-        Dictionary<string, Facets> facetsMap = new Dictionary<string, Facets>();
+        Dictionary<string, Facets> facetsMap = [];
         FacetsCollector.Search(searcher, query, n, facetsCollector);
         var config = index.LuceneIndexingStrategy.FacetsConfigFactory();
         OrdinalsReader ordinalsReader = new DocValuesOrdinalsReader(FacetsConfig.DEFAULT_INDEX_FIELD_NAME);

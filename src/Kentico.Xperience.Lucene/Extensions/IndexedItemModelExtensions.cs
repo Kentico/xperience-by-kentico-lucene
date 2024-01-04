@@ -1,10 +1,6 @@
 ﻿using CMS.Core;
-using CMS.Websites;
 using CMS.Websites.Internal;
 using Kentico.Xperience.Lucene.Models;
-using System;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Kentico.Xperience.Lucene.Extensions;
 
@@ -17,6 +13,7 @@ internal static class IndexedItemModelExtensions
     /// Returns true if the node is included in any registered Lucene index.
     /// </summary>
     /// <param name="indexedItem">The <see cref="IndexedItemModel"/> to check for indexing.</param>
+    /// <param name="eventName"></param>
     /// <exception cref="ArgumentNullException" />
     public static bool IsLuceneIndexed(this IndexedItemModel indexedItem, string eventName)
     {
@@ -83,7 +80,7 @@ internal static class IndexedItemModelExtensions
         return luceneIndex.IncludedPaths.Any(includedPathAttribute =>
         {
             bool matchesContentType = includedPathAttribute.ContentTypes == null || includedPathAttribute.ContentTypes.Length == 0 || includedPathAttribute.ContentTypes.Contains(indexedItemModel.ClassName);
-            if (includedPathAttribute.AliasPath.EndsWith("/"))
+            if (includedPathAttribute.AliasPath.EndsWith('/'))
             {
                 string? pathToMatch = includedPathAttribute.AliasPath;
                 var pathsOnPath = TreePathUtils.GetTreePathsOnPath(indexedItemModel.WebPageItemTreePath, true, false).ToHashSet();
@@ -126,7 +123,7 @@ internal static class IndexedItemModelExtensions
             return false;
         }
 
-        if (luceneIndex.LanguageCodes.Any(x => x == indexedItemModel.LanguageCode))
+        if (luceneIndex.LanguageCodes.Exists(x => x == indexedItemModel.LanguageCode))
         {
             return true;
         }
