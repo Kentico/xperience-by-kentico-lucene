@@ -13,16 +13,6 @@ public enum LuceneTaskType
     UNKNOWN,
 
     /// <summary>
-    /// A task for a page which was published for the first time.
-    /// </summary>
-    CREATE,
-
-    /// <summary>
-    /// A task for a page which was previously published.
-    /// </summary>
-    UPDATE,
-
-    /// <summary>
     /// A task for a page which should be removed from the index.
     /// </summary>
     DELETE,
@@ -31,4 +21,6 @@ public enum LuceneTaskType
     /// Task marks the end of indexed items, index is published after this task occurs
     /// </summary>
     PUBLISH_INDEX,
+
+    UPDATE
 }

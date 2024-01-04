@@ -18,17 +18,6 @@
       "label": "dotnet: build"
     },
     {
-      "type": "shell",
-      "command": "dotnet",
-      "args": ["format"],
-      "problemMatcher": ["$msCompile"],
-      "group": "none",
-      "options": {
-        "cwd": "${workspaceFolder}/src/Kentico.Xperience.Lucene/"
-      },
-      "label": "dotnet: format"
-    },
-    {
       "type": "dotnet",
       "task": "clean",
       "problemMatcher": ["$msCompile"],
@@ -61,22 +50,5 @@
       "label": "npm: start - src/Kentico.Xperience.Lucene/Admin/Client",
       "detail": "webpack serve --mode development"
     },
-    {
-      "label": "dotnet: watch DancingGoat",
-      "command": "dotnet",
-      "type": "process",
-      "args": [
-        "watch",
-        "run",
-        "--project",
-        "${workspaceFolder}/examples/DancingGoat/DancingGoat.csproj"
-      ],
-      "options": {
-        "env": {
-          "DOTNET_WATCH_RESTART_ON_RUDE_EDIT": "true"
-        }
-      },
-      "problemMatcher": "$msCompile"
-    }
   ]
 }

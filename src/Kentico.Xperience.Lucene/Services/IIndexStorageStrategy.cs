@@ -21,8 +21,9 @@ public class IndexStorageContext
 
     public IndexStorageModel GetPublishedIndex()
     {
+
         var published = storageStrategy
-            .GetExistingIndexes(indexStoragePathRoot)
+            .GetExistingIndices(indexStoragePathRoot)
             .Where(x => x.IsPublished)
             .MaxBy(x => x.Generation);
 
@@ -42,7 +43,7 @@ public class IndexStorageContext
     public IndexStorageModel GetNextGeneration()
     {
         var lastIndex = storageStrategy
-            .GetExistingIndexes(indexStoragePathRoot)
+            .GetExistingIndices(indexStoragePathRoot)
             .MaxBy(x => x.Generation);
 
         IndexStorageModel? newIndex;
@@ -65,7 +66,7 @@ public class IndexStorageContext
     public IndexStorageModel GetLastGeneration(bool defaultPublished)
     {
         var model = storageStrategy
-            .GetExistingIndexes(indexStoragePathRoot)
+            .GetExistingIndices(indexStoragePathRoot)
             .MaxBy(x => x.Generation);
         if (model == null)
         {
@@ -84,7 +85,7 @@ public class IndexStorageContext
     public IndexStorageModel GetNextOrOpenNextGeneration()
     {
         var lastIndex = storageStrategy
-            .GetExistingIndexes(indexStoragePathRoot)
+            .GetExistingIndices(indexStoragePathRoot)
             .MaxBy(x => x.Generation);
 
         switch (lastIndex)
@@ -116,7 +117,7 @@ public class IndexStorageContext
         int kept = retentionPolicy.NumberOfKeptPublishedGenerations;
 
         var ordered = storageStrategy
-            .GetExistingIndexes(indexStoragePathRoot)
+            .GetExistingIndices(indexStoragePathRoot)
             .OrderByDescending(s => s.Generation)
             .ToArray();
 
@@ -155,7 +156,7 @@ public record IndexStorageModel(string Path, string TaxonomyPath, int Generation
 
 public interface IIndexStorageStrategy
 {
-    IEnumerable<IndexStorageModel> GetExistingIndexes(string indexStoragePath);
+    IEnumerable<IndexStorageModel> GetExistingIndices(string indexStoragePath);
     string FormatPath(string indexRoot, int generation, bool isPublished);
     string FormatTaxonomyPath(string indexRoot, int generation, bool isPublished);
     void PublishIndex(IndexStorageModel storage);
@@ -167,7 +168,7 @@ public class GenerationStorageStrategy : IIndexStorageStrategy
 {
     private const string IndexDeletionDirectoryName = ".trash";
 
-    public IEnumerable<IndexStorageModel> GetExistingIndexes(string indexStoragePath)
+    public IEnumerable<IndexStorageModel> GetExistingIndices(string indexStoragePath)
     {
         if (!Directory.Exists(indexStoragePath))
         {

@@ -1,4 +1,8 @@
 ﻿using Kentico.Xperience.Lucene.Models;
+using Kentico.Xperience.Lucene.Services;
+using Kentico.Xperience.Lucene.Services.Implementations;
+using Lucene.Net.Analysis.Standard;
+using Lucene.Net.Util;
 
 namespace Kentico.Xperience.Lucene;
 
@@ -9,14 +13,11 @@ public sealed class IndexStore
 {
     private static readonly Lazy<IndexStore> mInstance = new();
     private readonly List<LuceneIndex> registeredIndexes = new();
-    private readonly HashSet<string> registeredCrawlers = new();
-
 
     /// <summary>
     /// Gets current instance of the <see cref="IndexStore"/> class.
     /// </summary>
     public static IndexStore Instance => mInstance.Value;
-
 
     /// <summary>
     /// Adds an index to the store.
@@ -36,32 +37,28 @@ public sealed class IndexStore
             throw new InvalidOperationException($"Attempted to register Lucene index with name '{index.IndexName},' but it is already registered.");
         }
 
-        index.Identifier = registeredIndexes.Count + 1;
         registeredIndexes.Add(index);
     }
 
-
-    /// <summary>
-    /// Adds a crawler to the store.
-    /// </summary>
-    /// <param name="crawlerId">The ID of the crawler to add.</param>
-    /// <exception cref="ArgumentNullException" />
-    /// <exception cref="InvalidOperationException" />
-    public void AddCrawler(string crawlerId)
+    public void AddIndices(IEnumerable<LuceneConfigurationModel> models)
     {
-        if (string.IsNullOrEmpty(crawlerId))
+        registeredIndexes.Clear();
+        foreach (var index in models)
         {
-            throw new ArgumentNullException(crawlerId);
-        }
+            index.StrategyName ??= "";
 
-        if (registeredCrawlers.Any(id => id.Equals(crawlerId, StringComparison.OrdinalIgnoreCase)))
-        {
-            throw new InvalidOperationException($"Attempted to register Lucene crawler with ID '{crawlerId},' but it is already registered.");
+            Instance.AddIndex(new LuceneIndex(
+                new StandardAnalyzer(LuceneVersion.LUCENE_48),
+                index.IndexName ?? "",
+                index.ChannelName ?? "",
+                index.LanguageNames?.ToList() ?? new(),
+                index.Id,
+                index.Paths ?? new(),
+                indexPath: null,
+                luceneIndexingStrategy: (ILuceneIndexingStrategy)(Activator.CreateInstance(StrategyStorage.Strategies[index.StrategyName]) ?? new DefaultLuceneIndexingStrategy())
+            ));
         }
-
-        registeredCrawlers.Add(crawlerId);
     }
-
 
     /// <summary>
     /// Gets a registered <see cref="LuceneIndex"/> with the specified <paramref name="indexName"/>,
@@ -74,7 +71,7 @@ public sealed class IndexStore
     {
         if (string.IsNullOrEmpty(indexName))
         {
-            throw new ArgumentNullException(nameof(indexName));
+            return null;
         }
 
         return registeredIndexes.SingleOrDefault(i => i.IndexName.Equals(indexName, StringComparison.OrdinalIgnoreCase));
@@ -84,19 +81,10 @@ public sealed class IndexStore
     /// <summary>
     /// Gets all registered indexes.
     /// </summary>
-    public IEnumerable<LuceneIndex> GetAllIndexes() => registeredIndexes;
-
-
-    /// <summary>
-    /// Gets all registered crawlers.
-    /// </summary>
-    public IEnumerable<string> GetAllCrawlers() => registeredCrawlers;
-
-    internal void ClearCrawlers() => registeredCrawlers.Clear();
+    public IEnumerable<LuceneIndex> GetAllIndices() => registeredIndexes;
 
 
     internal void ClearIndexes() => registeredIndexes.Clear();
-
 
     internal LuceneIndex? GetIndex(int id) => registeredIndexes.Find(i => i.Identifier == id);
 }

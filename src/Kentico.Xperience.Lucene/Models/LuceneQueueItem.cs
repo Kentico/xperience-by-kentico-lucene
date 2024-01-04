@@ -1,17 +1,15 @@
-﻿using CMS.DocumentEngine;
-
-namespace Kentico.Xperience.Lucene.Models;
+﻿namespace Kentico.Xperience.Lucene.Models;
 
 /// <summary>
 /// A queued item to be processed by <see cref="LuceneQueueWorker"/> which
-/// represents a recent change made to an indexed <see cref="TreeNode"/>.
+/// represents a recent change made to an indexed <see cref="IndexedItemModel"/> which is a representation of a WebPageItem.
 /// </summary>
 public sealed class LuceneQueueItem
 {
     /// <summary>
-    /// The <see cref="TreeNode"/> that was changed.
+    /// The <see cref="IndexedItemModel"/> that was changed.
     /// </summary>
-    public TreeNode Node
+    public IndexedItemModel IndexedItemModel
     {
         get;
     }
@@ -34,25 +32,24 @@ public sealed class LuceneQueueItem
         get;
     }
 
-
     /// <summary>
     /// Initializes a new instance of the <see cref="LuceneQueueItem"/> class.
     /// </summary>
-    /// <param name="node">The <see cref="TreeNode"/> that was changed.</param>
+    /// <param name="indexedItem">The <see cref="Models.IndexedItemModel"/> that was changed.</param>
     /// <param name="taskType">The type of the Lucene task.</param>
     /// <param name="indexName">The code name of the Lucene index to be updated.</param>
     /// <exception cref="ArgumentNullException" />
-    public LuceneQueueItem(TreeNode node, LuceneTaskType taskType, string indexName)
+    public LuceneQueueItem(IndexedItemModel indexedItem, LuceneTaskType taskType, string indexName)
     {
         if (string.IsNullOrEmpty(indexName))
         {
             throw new ArgumentNullException(nameof(indexName));
         }
 
-        Node = node;
-        if (taskType != LuceneTaskType.PUBLISH_INDEX && node == null)
+        IndexedItemModel = indexedItem;
+        if (taskType != LuceneTaskType.PUBLISH_INDEX && indexedItem == null)
         {
-            throw new ArgumentNullException(nameof(node));
+            throw new ArgumentNullException(nameof(indexedItem));
         }
         TaskType = taskType;
         IndexName = indexName;

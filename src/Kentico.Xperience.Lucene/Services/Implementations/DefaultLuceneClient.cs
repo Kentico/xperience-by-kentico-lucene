@@ -1,7 +1,8 @@
-using CMS.DocumentEngine;
+using CMS.ContentEngine;
 using CMS.Helpers.Caching.Abstractions;
-using Kentico.Content.Web.Mvc;
+using CMS.Websites;
 using Kentico.Xperience.Lucene.Models;
+using Lucene.Net.Documents;
 using Lucene.Net.Index;
 using Lucene.Net.Search;
 
@@ -13,10 +14,9 @@ namespace Kentico.Xperience.Lucene.Services;
 internal class DefaultLuceneClient : ILuceneClient
 {
     private readonly ILuceneIndexService luceneIndexService;
-    private readonly ILuceneSearchModelToDocumentMapper luceneSearchModelToDocumentMapper;
 
+    private readonly IContentQueryExecutor executor;
     private readonly ICacheAccessor cacheAccessor;
-    private readonly IPageRetriever pageRetriever;
 
     internal const string CACHEKEY_STATISTICS = "Lucene|ListIndices";
 
@@ -25,54 +25,47 @@ internal class DefaultLuceneClient : ILuceneClient
     /// </summary>
     public DefaultLuceneClient(
         ICacheAccessor cacheAccessor,
-        IPageRetriever pageRetriever,
         ILuceneIndexService luceneIndexService,
-        ILuceneSearchModelToDocumentMapper luceneSearchModelToDocumentMapper)
+        IContentQueryExecutor executor
+        )
     {
         this.cacheAccessor = cacheAccessor;
-        this.pageRetriever = pageRetriever;
         this.luceneIndexService = luceneIndexService;
-        this.luceneSearchModelToDocumentMapper = luceneSearchModelToDocumentMapper;
+        this.executor = executor;
     }
 
     /// <inheritdoc />
-    public Task<int> DeleteRecords(IEnumerable<string> objectIds, string indexName)
+    public Task<int> DeleteRecords(IEnumerable<string> webPageItemGuids, string indexName)
     {
         if (string.IsNullOrEmpty(indexName))
         {
             throw new ArgumentNullException(nameof(indexName));
         }
 
-        if (objectIds == null || !objectIds.Any())
+        if (webPageItemGuids == null || !webPageItemGuids.Any())
         {
             return Task.FromResult(0);
         }
 
-        int result = DeleteRecordsInternal(objectIds, indexName);
-
-        return Task.FromResult(result);
+        return DeleteRecordsInternal(webPageItemGuids, indexName);
     }
 
 
     /// <inheritdoc/>
     public Task<ICollection<LuceneIndexStatisticsViewModel>> GetStatistics(CancellationToken cancellationToken)
     {
-        var statistics = IndexStore.Instance.GetAllIndexes()
-            .Select(i =>
+        var stats = IndexStore.Instance.GetAllIndices().Select(i =>
+        {
+            var statistics = luceneIndexService.UseSearcher(i, s => new LuceneIndexStatisticsViewModel()
             {
-                var statistics = luceneIndexService.UseSearcher(i, s => new LuceneIndexStatisticsViewModel()
-                {
-                    Name = i.IndexName,
-                    Entries = s.IndexReader.NumDocs,
-                });
-                return statistics;
-            })
-            .ToList();
+                Name = i.IndexName,
+                Entries = s.IndexReader.NumDocs,
+            });
+            return statistics;
+        }).ToList();
 
-        return Task.FromResult<ICollection<LuceneIndexStatisticsViewModel>>(statistics);
+        return Task.FromResult<ICollection<LuceneIndexStatisticsViewModel>>(stats);
     }
-
-
 
     /// <inheritdoc />
     public Task Rebuild(string indexName, CancellationToken? cancellationToken)
@@ -90,24 +83,22 @@ internal class DefaultLuceneClient : ILuceneClient
 
 
     /// <inheritdoc />
-    public Task<int> UpsertRecords(IEnumerable<LuceneSearchModel> dataObjects, string indexName, CancellationToken cancellationToken)
+    public Task<int> UpsertRecords(IEnumerable<Document> documents, string indexName, CancellationToken cancellationToken)
     {
         if (string.IsNullOrEmpty(indexName))
         {
             throw new ArgumentNullException(nameof(indexName));
         }
 
-        if (dataObjects == null || !dataObjects.Any())
+        if (documents == null || !documents.Any())
         {
             return Task.FromResult(0);
         }
 
-        int result = UpsertRecordsInternal(dataObjects, indexName);
-
-        return Task.FromResult(result);
+        return UpsertRecordsInternal(documents, indexName);
     }
 
-    private int DeleteRecordsInternal(IEnumerable<string> objectIds, string indexName)
+    private Task<int> DeleteRecordsInternal(IEnumerable<string> webPageItemGuids, string indexName)
     {
         var index = IndexStore.Instance.GetIndex(indexName);
         if (index != null)
@@ -115,19 +106,19 @@ internal class DefaultLuceneClient : ILuceneClient
             luceneIndexService.UseWriter(index, (writer) =>
             {
                 var booleanQuery = new BooleanQuery();
-                foreach (string objectId in objectIds)
+                foreach (string guid in webPageItemGuids)
                 {
-                    var termQuery = new TermQuery(new Term(nameof(LuceneSearchModel.ObjectID), objectId));
+                    var termQuery = new TermQuery(new Term(nameof(IndexedItemModel.WebPageItemGuid), guid));
                     booleanQuery.Add(termQuery, Occur.SHOULD); // Match any of the object IDs
                 }
-                // todo use batches
+                // TODO use batches
                 writer.DeleteDocuments(booleanQuery);
                 return "OK";
             }, index.StorageContext.GetLastGeneration(true));
         }
-
-        return 0;
+        return Task.FromResult(0);
     }
+
 
     private async Task RebuildInternal(LuceneIndex luceneIndex, CancellationToken? cancellationToken)
     {
@@ -136,32 +127,43 @@ internal class DefaultLuceneClient : ILuceneClient
 
         luceneIndexService.ResetIndex(luceneIndex);
 
-        var indexedNodes = new List<TreeNode>();
+        var indexedItems = new List<IndexedItemModel>();
         foreach (var includedPathAttribute in luceneIndex.IncludedPaths)
         {
-            var nodes = (await pageRetriever.RetrieveMultipleAsync(q =>
+            foreach (string language in luceneIndex.LanguageCodes)
             {
+                var queryBuilder = new ContentItemQueryBuilder();
+
                 if (includedPathAttribute.ContentTypes != null && includedPathAttribute.ContentTypes.Length > 0)
                 {
-                    q.Types(includedPathAttribute.ContentTypes);
+                    foreach (string contentType in includedPathAttribute.ContentTypes)
+                    {
+                        queryBuilder.ForContentType(contentType, config => config.WithLinkedItems(1).ForWebsite(luceneIndex.WebSiteChannelName, includeUrlPath: true));
+                    }
                 }
+                queryBuilder.InLanguage(language);
 
-                q.Path(includedPathAttribute.AliasPath)
-                    .PublishedVersion()
-                    .WithCoupledColumns();
+                var webPageItems = (await executor.GetWebPageResult(queryBuilder, container => container, cancellationToken: cancellationToken ?? default))
+                    .Select(x => new IndexedItemModel()
+                    {
+                        LanguageCode = language,
+                        ClassName = x.ContentTypeName,
+                        ChannelName = luceneIndex.WebSiteChannelName,
+                        WebPageItemGuid = x.WebPageItemGUID,
+                        WebPageItemTreePath = x.WebPageItemTreePath
+                    });
 
-                q.AllCultures();
-            }, cancellationToken: cancellationToken))
-            .Where(node => luceneIndex.LuceneIndexingStrategy.ShouldIndexNode(node));
-
-            indexedNodes.AddRange(nodes);
+                foreach (var item in webPageItems)
+                {
+                    indexedItems.Add(item);
+                }
+            }
         }
 
-        indexedNodes.ForEach(node => LuceneQueueWorker.EnqueueLuceneQueueItem(new LuceneQueueItem(node, LuceneTaskType.CREATE, luceneIndex.IndexName)));
-        LuceneQueueWorker.EnqueueIndexPublication(luceneIndex.IndexName);
+        indexedItems.ForEach(item => LuceneQueueWorker.EnqueueLuceneQueueItem(new LuceneQueueItem(item, LuceneTaskType.PUBLISH_INDEX, luceneIndex.IndexName)));
     }
 
-    private int UpsertRecordsInternal(IEnumerable<LuceneSearchModel> dataObjects, string indexName)
+    private Task<int> UpsertRecordsInternal(IEnumerable<Document> documents, string indexName)
     {
         var index = IndexStore.Instance.GetIndex(indexName);
         if (index != null)
@@ -169,20 +171,26 @@ internal class DefaultLuceneClient : ILuceneClient
             // indexing facet requires separate index for toxonomy
             if (index.LuceneIndexingStrategy.FacetsConfigFactory() is { } facetsConfig)
             {
-                return luceneIndexService.UseIndexAndTaxonomyWriter(index, (writer, taxonomyWriter) =>
+                int result = luceneIndexService.UseIndexAndTaxonomyWriter(index, (writer, taxonomyWriter) =>
                 {
                     int count = 0;
-                    foreach (var dataObject in dataObjects)
+                    foreach (var document in documents)
                     {
                         // for now all changes are creates, update to be done later
                         // delete old document, there is no upsert nor update in Lucene
-                        writer.DeleteDocuments(new Term(nameof(LuceneSearchModel.ObjectID), dataObject.ObjectID));
 
-                        var document = luceneSearchModelToDocumentMapper.MapModelToDocument(index, dataObject);
+                        string? id = document.Get(nameof(IndexedItemModel.WebPageItemGuid));
+                        if (id is not null)
+                        {
+                            writer.DeleteDocuments(new Term(nameof(IndexedItemModel.WebPageItemGuid), id));
+                        }
+
                         // add new one
-                        writer.AddDocument(facetsConfig.Build(taxonomyWriter, document));
-                        count++;
-
+                        if (document is not null)
+                        {
+                            writer.AddDocument(facetsConfig.Build(taxonomyWriter, document));
+                            count++;
+                        }
                         if (count % 1000 == 0)
                         {
                             taxonomyWriter.Commit();
@@ -192,28 +200,36 @@ internal class DefaultLuceneClient : ILuceneClient
 
                     return count;
                 }, index.StorageContext.GetLastGeneration(true));
+
+                return Task.FromResult(result);
             }
             else // no facets, only index writer opened
             {
-                return luceneIndexService.UseWriter(index, (writer) =>
+                int result = luceneIndexService.UseWriter(index, (writer) =>
                 {
                     int count = 0;
-                    foreach (var dataObject in dataObjects)
+                    foreach (var document in documents)
                     {
-                        // for now all changes are creates, update to be done later
-                        // delete old document, there is no upsert nor update in Lucene
-                        writer.DeleteDocuments(new Term(nameof(LuceneSearchModel.ObjectID), dataObject.ObjectID));
-
-                        var document = luceneSearchModelToDocumentMapper.MapModelToDocument(index, dataObject);
+                        var bytes = document.GetBinaryValue(nameof(IndexedItemModel.WebPageItemGuid));
+                        if (bytes is not null)
+                        {
+                            // for now all changes are creates, update to be done later
+                            // delete old document, there is no upsert nor update in Lucene
+                            writer.DeleteDocuments(new Term(nameof(IndexedItemModel.WebPageItemGuid), bytes));
+                        }
                         // add new one
-                        writer.AddDocument(document);
-                        count++;
+                        if (document is not null)
+                        {
+                            writer.AddDocument(document);
+                            count++;
+                        }
                     }
                     return count;
                 }, index.StorageContext.GetLastGeneration(true));
+
+                return Task.FromResult(result);
             }
         }
-
-        return 0;
+        return Task.FromResult(0);
     }
 }

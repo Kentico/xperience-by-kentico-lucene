@@ -36,17 +36,17 @@ export const IndexedContentTemplate = ({
   propertyColumns,
   propertyRows,
 }: IndexedContentPageProps): JSX.Element => {
-  const { execute: showPathDetail } = usePageCommand<void, PathDetailArguments>(
+   usePageCommand<void, PathDetailArguments>(
     Commands.ShowPathDetail,
   );
 
-  const pathClicked = (index: number): void => {
-    // Send path identifier to back-end
-    const row = pathRows[index];
-    if (row !== undefined) {
-      showPathDetail({ identifier: row.identifier }).catch(() => {});
-    }
-  };
+  // const pathClicked = (index: number): void => {
+  //  // Send path identifier to back-end
+  //  const row = pathRows[index];
+  //  if (row !== undefined) {
+  //    showPathDetail({ identifier: row.identifier }).catch(() => {});
+  //  }
+  // };
 
   return (
     <RoutingContentPlaceholder>
@@ -61,7 +61,7 @@ export const IndexedContentTemplate = ({
           <Table
             columns={pathColumns}
             rows={pathRows}
-            onRowClick={pathClicked}
+         
           />
         </Box>
         <Box>

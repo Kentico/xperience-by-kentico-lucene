@@ -1,6 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
+		<TargetFramework>net6.0</TargetFramework>
 		<Product>Xperience by Kentico Lucene Search</Product>
 		<Title>$(Product)</Title>
 		<PackageId>Kentico.Xperience.Lucene</PackageId>
@@ -11,7 +12,6 @@
 	<PropertyGroup>
 		<AdminOrgName>kentico</AdminOrgName>
 		<RootNamespace>Kentico.Xperience.Lucene</RootNamespace>
-		<LangVersion>Latest</LangVersion>
 		<NoWarn>$(NoWarn);S1075</NoWarn>
 	</PropertyGroup>
 
@@ -54,11 +54,4 @@
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
 	</ItemGroup>
-
-	<ItemGroup>
-		<EmbeddedResource Include="Resources\LuceneResources.resx">
-			<ExcludeFromManifest>true</ExcludeFromManifest>
-		</EmbeddedResource>
-	</ItemGroup>
-
 </Project>

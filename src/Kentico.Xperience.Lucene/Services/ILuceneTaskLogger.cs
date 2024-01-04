@@ -1,6 +1,4 @@
-﻿using CMS.DocumentEngine;
-
-using Kentico.Xperience.Lucene.Models;
+﻿using Kentico.Xperience.Lucene.Models;
 
 namespace Kentico.Xperience.Lucene.Services;
 
@@ -12,9 +10,11 @@ public interface ILuceneTaskLogger
 {
     /// <summary>
     /// Logs an <see cref="LuceneQueueItem"/> for each registered crawler. Then, loops
-    /// through all registered Lucene indexes and logs a task if the passed <paramref name="node"/> is indexed.
+    /// through all registered Lucene indexes and logs a task if the passed <paramref name="indexedModel"/> is indexed.
     /// </summary>
-    /// <param name="node">The <see cref="TreeNode"/> that triggered the event.</param>
+    /// <param name="indexedModel">The <see cref="IndexedItemModel"/> that triggered the event.</param>
     /// <param name="eventName">The name of the Xperience event that was triggered.</param>
-    void HandleEvent(TreeNode node, string eventName);
+    Task HandleEvent(IndexedItemModel indexedModel, string eventName);
+
+    Task HandleContentItemEvent(IndexedContentItemModel indexedItem, string eventName);
 }

@@ -1,9 +1,7 @@
 ﻿using CMS.Core;
-
 using Kentico.Xperience.Admin.Base;
 using Kentico.Xperience.Lucene.Models;
 using Kentico.Xperience.Lucene.Services;
-
 using Action = Kentico.Xperience.Admin.Base.Action;
 
 namespace Kentico.Xperience.Lucene.Admin;
@@ -17,7 +15,6 @@ internal class IndexListing : ListingPageBase<ListingConfiguration>
     private readonly IPageUrlGenerator pageUrlGenerator;
     private ListingConfiguration? mPageConfiguration;
 
-
     /// <inheritdoc/>
     public override ListingConfiguration PageConfiguration
     {
@@ -25,7 +22,7 @@ internal class IndexListing : ListingPageBase<ListingConfiguration>
         {
             mPageConfiguration ??= new ListingConfiguration()
             {
-                Caption = LocalizationService.GetString("integrations.lucene.listing.caption"),
+                Caption = LocalizationService.GetString("List of indices"),
                 ColumnConfigurations = new List<ColumnConfiguration>(),
                 TableActions = new List<ActionConfiguration>(),
                 HeaderActions = new List<ActionConfiguration>(),
@@ -38,7 +35,6 @@ internal class IndexListing : ListingPageBase<ListingConfiguration>
         set => mPageConfiguration = value;
     }
 
-
     /// <summary>
     /// Initializes a new instance of the <see cref="IndexListing"/> class.
     /// </summary>
@@ -48,18 +44,18 @@ internal class IndexListing : ListingPageBase<ListingConfiguration>
         this.pageUrlGenerator = pageUrlGenerator;
     }
 
-
     /// <inheritdoc/>
     public override Task ConfigurePage()
     {
-        if (!IndexStore.Instance.GetAllIndexes().Any())
+        if (!IndexStore.Instance.GetAllIndices().Any())
         {
-            PageConfiguration.Callouts = new List<CalloutConfiguration>
+            PageConfiguration.Callouts =
+            new()
             {
-                new CalloutConfiguration
+                new()
                 {
-                    Headline = LocalizationService.GetString("integrations.lucene.listing.noindexes.headline"),
-                    Content = LocalizationService.GetString("integrations.lucene.listing.noindexes.description"),
+                    Headline = "No indexes",
+                    Content = "No Lucene indexes registered. See <a target='_blank' href='https://github.com/Kentico/kentico-xperience-lucene'>our instructions</a> to read more about creating and registering Lucene indexes.",
                     ContentAsHtml = true,
                     Type = CalloutType.FriendlyWarning,
                     Placement = CalloutPlacement.OnDesk
@@ -67,15 +63,17 @@ internal class IndexListing : ListingPageBase<ListingConfiguration>
             };
         }
 
+        PageConfiguration.HeaderActions.AddLink<EditIndex>("Create", parameters: "-1");
+
         PageConfiguration.ColumnConfigurations
-            .AddColumn(nameof(LuceneIndexStatisticsViewModel.Name), LocalizationService.GetString("integrations.lucene.listing.columns.name"), defaultSortDirection: SortTypeEnum.Asc, searchable: true)
-            .AddColumn(nameof(LuceneIndexStatisticsViewModel.Entries), LocalizationService.GetString("integrations.lucene.listing.columns.entries"));
+            .AddColumn(nameof(LuceneIndexStatisticsViewModel.Name), "Name", defaultSortDirection: SortTypeEnum.Asc, searchable: true)
+            .AddColumn(nameof(LuceneIndexStatisticsViewModel.Entries), LocalizationService.GetString("Indexed items"));
 
-        PageConfiguration.TableActions.AddCommand(LocalizationService.GetString("integrations.lucene.listing.commands.rebuild"), nameof(Rebuild), Icons.RotateRight);
-
+        PageConfiguration.TableActions.AddCommand(LocalizationService.GetString("Build index"), nameof(Rebuild), Icons.RotateRight);
+        PageConfiguration.TableActions.AddCommand("Edit", nameof(Edit));
+        PageConfiguration.TableActions.AddCommand("Delete", nameof(Delete));
         return base.ConfigurePage();
     }
-
 
     /// <summary>
     /// A page command which displays details about an index.
@@ -83,9 +81,8 @@ internal class IndexListing : ListingPageBase<ListingConfiguration>
     /// <param name="id">The ID of the row that was clicked, which corresponds with the internal
     /// <see cref="LuceneIndex.Identifier"/> to display.</param>
     [PageCommand]
-    public Task<INavigateResponse> RowClick(int id)
-    => Task.FromResult(NavigateTo(pageUrlGenerator.GenerateUrl(typeof(IndexedContent), id.ToString())));
-
+    public async Task<INavigateResponse> RowClick(int id)
+        => await Task.FromResult(NavigateTo(pageUrlGenerator.GenerateUrl<EditIndex>(id.ToString())));
 
     /// <summary>
     /// A page command which rebuilds an Lucene index.
@@ -101,24 +98,38 @@ internal class IndexListing : ListingPageBase<ListingConfiguration>
         if (index == null)
         {
             return ResponseFrom(result)
-                .AddErrorMessage(string.Format(LocalizationService.GetString("integrations.lucene.error.noindex"), id));
+                .AddErrorMessage(string.Format("Error loading Lucene index with identifier {0}.", id));
         }
-
         try
         {
             await luceneClient.Rebuild(index.IndexName, cancellationToken);
             return ResponseFrom(result)
-                .AddSuccessMessage(LocalizationService.GetString("integrations.lucene.listing.messages.rebuilding"));
+                .AddSuccessMessage("Indexing in progress. Visit your Lucene dashboard for details about the indexing process.");
         }
         catch (Exception ex)
         {
             EventLogService.LogException(nameof(IndexListing), nameof(Rebuild), ex);
             return ResponseFrom(result)
-                .AddErrorMessage(string.Format(LocalizationService.GetString("integrations.lucene.listing.messages.rebuilderror"), index.IndexName));
+               .AddErrorMessage(string.Format("Errors occurred while rebuilding the '{0}' index. Please check the Event Log for more details.", index.IndexName));
         }
-
     }
 
+    [PageCommand]
+    public async Task<INavigateResponse> Edit(int id, CancellationToken cancellationToken) => await Task.FromResult(NavigateTo(pageUrlGenerator.GenerateUrl<EditIndex>(id.ToString())));
+
+    [PageCommand]
+    public async Task<ICommandResponse> Delete(int id, CancellationToken cancellationToken)
+    {
+        var storageService = Service.Resolve<IConfigurationStorageService>();
+        bool res = await storageService.TryDeleteIndex(id);
+        if (res)
+        {
+            var indices = await storageService.GetAllIndexData();
+
+            IndexStore.Instance.AddIndices(indices);
+        }
+        return await Task.FromResult(NavigateTo(pageUrlGenerator.GenerateUrl<IndexListing>()));
+    }
 
     /// <inheritdoc/>
     protected override async Task<LoadDataResult> LoadData(LoadDataSettings settings, CancellationToken cancellationToken)
@@ -132,7 +143,7 @@ internal class IndexListing : ListingPageBase<ListingConfiguration>
 
             // Remove statistics for indexes that are not registered in this instance
             var filteredStatistics = statistics.Where(stat =>
-                IndexStore.Instance.GetAllIndexes().Any(index => index.IndexName.Equals(stat.Name, StringComparison.OrdinalIgnoreCase)));
+                IndexStore.Instance.GetAllIndices().Any(index => index.IndexName.Equals(stat.Name, StringComparison.OrdinalIgnoreCase)));
 
             var searchedStatistics = DoSearch(filteredStatistics, settings.SearchTerm);
             var orderedStatistics = SortStatistics(searchedStatistics, settings);
@@ -158,7 +169,7 @@ internal class IndexListing : ListingPageBase<ListingConfiguration>
 
     private static void AddMissingStatistics(ref ICollection<LuceneIndexStatisticsViewModel> statistics)
     {
-        foreach (string indexName in IndexStore.Instance.GetAllIndexes().Select(i => i.IndexName))
+        foreach (string indexName in IndexStore.Instance.GetAllIndices().Select(i => i.IndexName))
         {
             if (!statistics.Any(stat => stat.Name?.Equals(indexName, StringComparison.OrdinalIgnoreCase) ?? false))
             {
@@ -209,12 +220,26 @@ internal class IndexListing : ListingPageBase<ListingConfiguration>
                     {
                         Actions = new List<Action>
                         {
-                            new Action(ActionType.Command)
+                            new(ActionType.Command)
                             {
-                                Title = LocalizationService.GetString("integrations.lucene.listing.commands.rebuild"),
-                                Label = LocalizationService.GetString("integrations.lucene.listing.commands.rebuild"),
+                                Title = "Build index",
+                                Label = "Build index",
                                 Icon = Icons.RotateRight,
                                 Parameter = nameof(Rebuild)
+                            },
+                            new(ActionType.Command)
+                            {
+                                Title = "Edit",
+                                Label = "Edit",
+                                Parameter = nameof(Edit),
+                                Icon = Icons.Edit
+                            },
+                            new(ActionType.Command)
+                            {
+                                Title = "Delete",
+                                Label = "Delete",
+                                Parameter = nameof(Delete),
+                                Icon = Icons.Bin
                             }
                         }
                     }

@@ -33,7 +33,7 @@ internal class LuceneQueueWorker : ThreadQueueWorker<LuceneQueueItem, LuceneQueu
     /// <exception cref="InvalidOperationException" />
     public static void EnqueueLuceneQueueItem(LuceneQueueItem queueItem)
     {
-        if (queueItem == null || (queueItem.Node == null && queueItem.TaskType != LuceneTaskType.PUBLISH_INDEX) || string.IsNullOrEmpty(queueItem.IndexName))
+        if (queueItem == null || (queueItem.IndexedItemModel == null && queueItem.TaskType != LuceneTaskType.PUBLISH_INDEX) || string.IsNullOrEmpty(queueItem.IndexName))
         {
             return;
         }
@@ -51,9 +51,6 @@ internal class LuceneQueueWorker : ThreadQueueWorker<LuceneQueueItem, LuceneQueu
         Current.Enqueue(queueItem, false);
     }
 
-    public static void EnqueueIndexPublication(string indexName)
-        => EnqueueLuceneQueueItem(new LuceneQueueItem(null!, LuceneTaskType.PUBLISH_INDEX, indexName));
-
 
     /// <inheritdoc />
     protected override void Finish() => RunProcess();
@@ -67,6 +64,6 @@ internal class LuceneQueueWorker : ThreadQueueWorker<LuceneQueueItem, LuceneQueu
 
     /// <inheritdoc />
     protected override int ProcessItems(IEnumerable<LuceneQueueItem> items) =>
-         luceneTaskProcessor.ProcessLuceneTasks(items, CancellationToken.None).ConfigureAwait(false).GetAwaiter().GetResult();
+         luceneTaskProcessor.ProcessLuceneTasks(items, CancellationToken.None);
 
 }

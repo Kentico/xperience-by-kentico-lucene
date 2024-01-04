@@ -1,8 +1,6 @@
-﻿using CMS.DocumentEngine;
-using Kentico.Xperience.Lucene.Models;
+﻿using Kentico.Xperience.Lucene.Models;
 using Lucene.Net.Documents;
 using Lucene.Net.Facet;
-using Lucene.Net.Index;
 
 namespace Kentico.Xperience.Lucene.Services.Implementations;
 
@@ -12,16 +10,13 @@ namespace Kentico.Xperience.Lucene.Services.Implementations;
 public class DefaultLuceneIndexingStrategy : ILuceneIndexingStrategy
 {
     /// <inheritdoc />
-    public virtual Task<object?> OnIndexingProperty(TreeNode node, string propertyName, string usedColumn, object? foundValue) => Task.FromResult(foundValue);
-
-    /// <inheritdoc />
-    public virtual Task<LuceneSearchModel> OnIndexingNode(TreeNode node, LuceneSearchModel model) => Task.FromResult(model);
-
-    /// <inheritdoc />
-    public virtual bool ShouldIndexNode(TreeNode node) => true;
+    public virtual Task<Document?> MapToLuceneDocumentOrNull(IndexedItemModel lucenePageItem) => Task.FromResult<Document?>(new());
 
     /// <inheritdoc />
     public virtual FacetsConfig? FacetsConfigFactory() => null;
 
-    public virtual void OnDocumentAddField(Document document, IIndexableField field) => document.Add(field);
+    public virtual async Task<IEnumerable<IndexedItemModel>> FindItemsToReindex(IndexedItemModel changedItem) => await Task.FromResult(new List<IndexedItemModel>() { changedItem });
+
+    public virtual async Task<IEnumerable<IndexedItemModel>> FindItemsToReindex(IndexedContentItemModel changedItem) => await Task.FromResult(new List<IndexedItemModel>());
 }
+

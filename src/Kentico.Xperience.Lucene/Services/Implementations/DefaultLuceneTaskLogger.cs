@@ -1,6 +1,5 @@
 ﻿using CMS.Core;
-using CMS.DocumentEngine;
-
+using CMS.Websites;
 using Kentico.Xperience.Lucene.Extensions;
 using Kentico.Xperience.Lucene.Models;
 
@@ -13,35 +12,83 @@ internal class DefaultLuceneTaskLogger : ILuceneTaskLogger
 {
     private readonly IEventLogService eventLogService;
 
-
     /// <summary>
     /// Initializes a new instance of the <see cref="DefaultLuceneTaskLogger"/> class.
     /// </summary>
     public DefaultLuceneTaskLogger(IEventLogService eventLogService) => this.eventLogService = eventLogService;
 
-
     /// <inheritdoc />
-    public void HandleEvent(TreeNode node, string eventName)
+    public async Task HandleEvent(IndexedItemModel indexedModel, string eventName)
     {
-        var taskType = GetTaskType(node, eventName);
+        var taskType = GetTaskType(eventName);
 
-        // Check standard indexes
-        if (!node.IsLuceneIndexed())
+        if (!indexedModel.IsLuceneIndexed(eventName))
         {
             return;
         }
 
-        foreach (string? indexName in IndexStore.Instance.GetAllIndexes().Select(index => index.IndexName))
+        foreach (string? indexName in IndexStore.Instance.GetAllIndices().Select(index => index.IndexName))
         {
-            if (!node.IsIndexedByIndex(indexName))
+            if (!indexedModel.IsIndexedByIndex(indexName, eventName))
             {
                 continue;
             }
 
-            LogIndexTask(new LuceneQueueItem(node, taskType, indexName));
+            var luceneIndex = IndexStore.Instance.GetIndex(indexName);
+
+            if (luceneIndex is not null)
+            {
+                var toReindex = await luceneIndex.LuceneIndexingStrategy.FindItemsToReindex(indexedModel);
+
+                if (toReindex is not null)
+                {
+                    foreach (var item in toReindex)
+                    {
+                        if (item.WebPageItemGuid == indexedModel.WebPageItemGuid)
+                        {
+                            if (taskType == LuceneTaskType.DELETE)
+                            {
+                                LogIndexTask(new LuceneQueueItem(item, LuceneTaskType.DELETE, indexName));
+                            }
+                            else
+                            {
+                                LogIndexTask(new LuceneQueueItem(item, LuceneTaskType.UPDATE, indexName));
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
 
+    public async Task HandleContentItemEvent(IndexedContentItemModel indexedItem, string eventName)
+    {
+        if (!indexedItem.IsLuceneIndexed(eventName))
+        {
+            return;
+        }
+
+        foreach (string? indexName in IndexStore.Instance.GetAllIndices().Select(index => index.IndexName))
+        {
+            if (!indexedItem.IsIndexedByIndex(indexName, eventName))
+            {
+                continue;
+            }
+
+            var luceneIndex = IndexStore.Instance.GetIndex(indexName);
+            if (luceneIndex is not null)
+            {
+                var toReindex = await luceneIndex.LuceneIndexingStrategy.FindItemsToReindex(indexedItem);
+                if (toReindex is not null)
+                {
+                    foreach (var item in toReindex)
+                    {
+                        LogIndexTask(new LuceneQueueItem(item, LuceneTaskType.UPDATE, indexName));
+                    }
+                }
+            }
+        }
+    }
 
     /// <summary>
     /// Logs a single <see cref="LuceneQueueItem"/>.
@@ -59,21 +106,15 @@ internal class DefaultLuceneTaskLogger : ILuceneTaskLogger
         }
     }
 
-
-    private static LuceneTaskType GetTaskType(TreeNode node, string eventName)
+    private static LuceneTaskType GetTaskType(string eventName)
     {
-        if (eventName.Equals(WorkflowEvents.Publish.Name, StringComparison.OrdinalIgnoreCase) && node.WorkflowHistory.Count == 0)
-        {
-            return LuceneTaskType.CREATE;
-        }
-
-        if (eventName.Equals(WorkflowEvents.Publish.Name, StringComparison.OrdinalIgnoreCase) && node.WorkflowHistory.Count > 0)
+        if (eventName.Equals(WebPageEvents.Publish.Name, StringComparison.OrdinalIgnoreCase))
         {
             return LuceneTaskType.UPDATE;
         }
 
-        if (eventName.Equals(DocumentEvents.Delete.Name, StringComparison.OrdinalIgnoreCase) ||
-            eventName.Equals(WorkflowEvents.Archive.Name, StringComparison.OrdinalIgnoreCase))
+        if (eventName.Equals(WebPageEvents.Delete.Name, StringComparison.OrdinalIgnoreCase) ||
+            eventName.Equals(WebPageEvents.Archive.Name, StringComparison.OrdinalIgnoreCase))
         {
             return LuceneTaskType.DELETE;
         }

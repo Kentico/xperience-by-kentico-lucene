@@ -1,5 +1,6 @@
 ﻿using Kentico.Xperience.Lucene;
-using Kentico.Xperience.Lucene.Models;
+using Kentico.Xperience.Lucene.Services;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace Microsoft.Extensions.DependencyInjection;
 
@@ -8,17 +9,16 @@ namespace Microsoft.Extensions.DependencyInjection;
 /// </summary>
 public static class LuceneStartupExtensions
 {
-    /// <summary>
-    /// Registers the provided <paramref name="indexes"/> with the <see cref="IndexStore"/>.
-    /// </summary>
-    /// <param name="services">The service collection.</param>
-    /// <param name="indexes">The Lucene indexes to register.</param>
-    public static IServiceCollection AddLucene(this IServiceCollection services, LuceneIndex[] indexes)
+    public static IServiceCollection AddLucene(this IServiceCollection serviceCollection)
     {
-        ArgumentNullException.ThrowIfNull(indexes);
+        serviceCollection.TryAddSingleton<LuceneModuleInstaller>();
 
-        Array.ForEach(indexes, IndexStore.Instance.AddIndex);
+        return serviceCollection;
+    }
 
-        return services;
+    public static IServiceCollection RegisterStrategy<TStrategy>(this IServiceCollection serviceCollection, string strategyName) where TStrategy : ILuceneIndexingStrategy, new()
+    {
+        StrategyStorage.AddStrategy<TStrategy>(strategyName);
+        return serviceCollection;
     }
 }
