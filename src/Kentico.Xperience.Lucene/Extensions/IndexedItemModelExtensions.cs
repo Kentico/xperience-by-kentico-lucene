@@ -13,9 +13,10 @@ internal static class IndexedItemModelExtensions
     /// Returns true if the node is included in any registered Lucene index.
     /// </summary>
     /// <param name="indexedItem">The <see cref="IndexedItemModel"/> to check for indexing.</param>
+    /// <param name="log"></param>
     /// <param name="eventName"></param>
     /// <exception cref="ArgumentNullException" />
-    public static bool IsLuceneIndexed(this IndexedItemModel indexedItem, string eventName)
+    public static bool IsLuceneIndexed(this IndexedItemModel indexedItem, IEventLogService log, string eventName)
     {
         if (indexedItem == null)
         {
@@ -24,7 +25,7 @@ internal static class IndexedItemModelExtensions
 
         foreach (var index in IndexStore.Instance.GetAllIndices())
         {
-            if (indexedItem.IsIndexedByIndex(index.IndexName, eventName))
+            if (indexedItem.IsIndexedByIndex(log, index.IndexName, eventName))
             {
                 return true;
             }
@@ -33,7 +34,7 @@ internal static class IndexedItemModelExtensions
         return false;
     }
 
-    public static bool IsLuceneIndexed(this IndexedContentItemModel indexedItem, string eventName)
+    public static bool IsLuceneIndexed(this IndexedContentItemModel indexedItem, IEventLogService log, string eventName)
     {
         if (indexedItem == null)
         {
@@ -42,7 +43,7 @@ internal static class IndexedItemModelExtensions
 
         foreach (var index in IndexStore.Instance.GetAllIndices())
         {
-            if (indexedItem.IsIndexedByIndex(index.IndexName, eventName))
+            if (indexedItem.IsIndexedByIndex(log, index.IndexName, eventName))
             {
                 return true;
             }
@@ -57,9 +58,11 @@ internal static class IndexedItemModelExtensions
     /// </summary>
     /// <remarks>Logs an error if the search model cannot be found.</remarks>
     /// <param name="indexedItemModel">The node to check for indexing.</param>
+    /// <param name="log"></param>
     /// <param name="indexName">The Lucene index code name.</param>
+    /// <param name="eventName"></param>
     /// <exception cref="ArgumentNullException" />
-    public static bool IsIndexedByIndex(this IndexedItemModel indexedItemModel, string indexName, string eventName)
+    public static bool IsIndexedByIndex(this IndexedItemModel indexedItemModel, IEventLogService log, string indexName, string eventName)
     {
         if (string.IsNullOrEmpty(indexName))
         {
@@ -73,7 +76,7 @@ internal static class IndexedItemModelExtensions
         var luceneIndex = IndexStore.Instance.GetIndex(indexName);
         if (luceneIndex == null)
         {
-            Service.Resolve<IEventLogService>().LogError(nameof(IndexedItemModelExtensions), nameof(IsIndexedByIndex), $"Error loading registered Lucene index '{indexName}.'");
+            log.LogError(nameof(IndexedItemModelExtensions), nameof(IsIndexedByIndex), $"Error loading registered Lucene index '{indexName}' for event [{eventName}].");
             return false;
         }
 
@@ -103,9 +106,11 @@ internal static class IndexedItemModelExtensions
     /// </summary>
     /// <remarks>Logs an error if the search model cannot be found.</remarks>
     /// <param name="indexedItemModel">The node to check for indexing.</param>
+    /// <param name="log"></param>
     /// <param name="indexName">The Lucene index code name.</param>
+    /// <param name="eventName"></param>
     /// <exception cref="ArgumentNullException" />
-    public static bool IsIndexedByIndex(this IndexedContentItemModel indexedItemModel, string indexName, string eventName)
+    public static bool IsIndexedByIndex(this IndexedContentItemModel indexedItemModel, IEventLogService log, string indexName, string eventName)
     {
         if (string.IsNullOrEmpty(indexName))
         {
@@ -119,7 +124,7 @@ internal static class IndexedItemModelExtensions
         var luceneIndex = IndexStore.Instance.GetIndex(indexName);
         if (luceneIndex == null)
         {
-            Service.Resolve<IEventLogService>().LogError(nameof(IndexedItemModelExtensions), nameof(IsIndexedByIndex), $"Error loading registered Lucene index '{indexName}.'");
+            log.LogError(nameof(IndexedItemModelExtensions), nameof(IsIndexedByIndex), $"Error loading registered Lucene index '{indexName}' for event [{eventName}].");
             return false;
         }
 

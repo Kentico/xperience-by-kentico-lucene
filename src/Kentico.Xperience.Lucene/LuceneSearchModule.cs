@@ -1,16 +1,18 @@
 using CMS.Base;
 using CMS.ContentEngine;
 using CMS.Core;
+using CMS.DataEngine;
 using CMS.Websites;
 using Kentico.Xperience.Lucene.Models;
 using Kentico.Xperience.Lucene.Services;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Kentico.Xperience.Lucene;
 
 /// <summary>
 /// Initializes page event handlers, and ensures the thread queue workers for processing Lucene tasks.
 /// </summary>
-internal class LuceneSearchModule : CMS.DataEngine.Module
+internal class LuceneSearchModule : Module
 {
     private ILuceneTaskLogger? luceneTaskLogger;
     private IAppSettingsService? appSettingsService;
@@ -25,13 +27,15 @@ internal class LuceneSearchModule : CMS.DataEngine.Module
     }
 
     /// <inheritdoc/>
-    protected override void OnInit()
+    protected override void OnInit(ModuleInitParameters parameters)
     {
         base.OnInit();
-        Service.Resolve<LuceneModuleInstaller>().Install();
-        luceneTaskLogger = Service.Resolve<ILuceneTaskLogger>();
-        appSettingsService = Service.Resolve<IAppSettingsService>();
-        conversionService = Service.Resolve<IConversionService>();
+        var services = parameters.Services;
+
+        services.GetRequiredService<LuceneModuleInstaller>().Install();
+        luceneTaskLogger = services.GetRequiredService<ILuceneTaskLogger>();
+        appSettingsService = services.GetRequiredService<IAppSettingsService>();
+        conversionService = services.GetRequiredService<IConversionService>();
 
         AddRegisteredIndices().Wait();
         WebPageEvents.Publish.Execute += HandleEvent;
@@ -77,7 +81,8 @@ internal class LuceneSearchModule : CMS.DataEngine.Module
         {
             LanguageCode = publishedEvent.ContentLanguageName,
             ClassName = publishedEvent.ContentTypeName,
-            ContentItemGuid = publishedEvent.Guid
+            ContentItemGuid = publishedEvent.Guid,
+            ContentItemID = publishedEvent.ID,
         };
 
         var task = luceneTaskLogger?.HandleContentItemEvent(indexedContentItemModel, e.CurrentHandler.Name);

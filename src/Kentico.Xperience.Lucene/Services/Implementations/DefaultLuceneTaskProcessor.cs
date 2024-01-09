@@ -4,6 +4,7 @@ using CMS.Websites;
 using Kentico.Xperience.Lucene.Models;
 using Lucene.Net.Documents;
 using Lucene.Net.Documents.Extensions;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Kentico.Xperience.Lucene.Services;
 
@@ -18,6 +19,7 @@ internal class DefaultLuceneTaskProcessor : ILuceneTaskProcessor
     internal const string URL_NAME = "Url";
 
     private readonly IWebPageUrlRetriever urlRetriever;
+    private readonly IServiceProvider serviceProvider;
     private readonly ILuceneClient luceneClient;
     private readonly IEventLogService eventLogService;
 
@@ -25,11 +27,13 @@ internal class DefaultLuceneTaskProcessor : ILuceneTaskProcessor
     public DefaultLuceneTaskProcessor(
         ILuceneClient luceneClient,
         IEventLogService eventLogService,
-        IWebPageUrlRetriever urlRetriever)
+        IWebPageUrlRetriever urlRetriever,
+        IServiceProvider serviceProvider)
     {
         this.luceneClient = luceneClient;
         this.eventLogService = eventLogService;
         this.urlRetriever = urlRetriever;
+        this.serviceProvider = serviceProvider;
     }
 
     /// <inheritdoc />
@@ -109,7 +113,9 @@ internal class DefaultLuceneTaskProcessor : ILuceneTaskProcessor
     {
         var luceneIndex = IndexStore.Instance.GetIndex(queueItem.IndexName) ?? throw new Exception($"LuceneIndex {queueItem.IndexName} not found!");
 
-        var data = await luceneIndex.LuceneIndexingStrategy.MapToLuceneDocumentOrNull(queueItem.IndexedItemModel);
+        var strategy = serviceProvider.GetRequiredStrategy(luceneIndex);
+
+        var data = await strategy!.MapToLuceneDocumentOrNull(queueItem.IndexedItemModel);
 
         if (data is null)
         {

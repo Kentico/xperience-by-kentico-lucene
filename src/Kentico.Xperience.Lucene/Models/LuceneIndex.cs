@@ -56,7 +56,7 @@ public sealed class LuceneIndex
     /// <summary>
     /// The type of the class which extends <see cref="ILuceneIndexingStrategy"/>.
     /// </summary>
-    public ILuceneIndexingStrategy LuceneIndexingStrategy
+    public Type LuceneIndexingStrategyType
     {
         get;
     }
@@ -118,13 +118,15 @@ public sealed class LuceneIndex
     /// <param name="indexName">The code name of the Lucene index.</param>
     /// <param name="webSiteChannelName">The name of the Website Channel where the Index should be applied</param>
     /// <param name="languageCodes">The language used on the Website where the Index should be applied</param>
+    /// <param name="identifier"></param>
+    /// <param name="paths"></param>
     /// <param name="indexPath">The filesystem Lucene index. Defaults to /App_Data/LuceneSearch/[IndexName]</param>
-    /// <param name="luceneIndexingStrategy">Defaults to  <see cref="DefaultLuceneIndexingStrategy"/></param>
+    /// <param name="luceneIndexingStrategyType">Defaults to  <see cref="DefaultLuceneIndexingStrategy"/></param>
     /// <param name="storageStrategy">Storage strategy defines how index will be stored from directory naming perspective</param>
     /// <param name="retentionPolicy">Defines retency of stored lucene indexes, behavior might depend on selected IIndexStorageStrategy</param>
     /// <exception cref="ArgumentNullException" />
     /// <exception cref="InvalidOperationException" />
-    public LuceneIndex(Analyzer analyzer, string indexName, string webSiteChannelName, List<string> languageCodes, int identifier, IEnumerable<IncludedPath> paths, string? indexPath = null, ILuceneIndexingStrategy? luceneIndexingStrategy = null, IIndexStorageStrategy? storageStrategy = null, IndexRetentionPolicy? retentionPolicy = null)
+    public LuceneIndex(Analyzer analyzer, string indexName, string webSiteChannelName, List<string> languageCodes, int identifier, IEnumerable<IncludedPath> paths, string? indexPath = null, Type? luceneIndexingStrategyType = null, IIndexStorageStrategy? storageStrategy = null, IndexRetentionPolicy? retentionPolicy = null)
     {
         if (string.IsNullOrEmpty(indexName))
         {
@@ -139,7 +141,7 @@ public sealed class LuceneIndex
         string indexStoragePath = indexPath ?? CMS.IO.Path.Combine(Environment.CurrentDirectory, "App_Data", "LuceneSearch", indexName);
         retentionPolicy ??= new IndexRetentionPolicy(4);
         StorageContext = new IndexStorageContext(storageStrategy ?? new GenerationStorageStrategy(), indexStoragePath, retentionPolicy);
-        LuceneIndexingStrategy = luceneIndexingStrategy ?? new DefaultLuceneIndexingStrategy();
+        LuceneIndexingStrategyType = luceneIndexingStrategyType ?? typeof(DefaultLuceneIndexingStrategy);
 
 
         IncludedPaths = paths;

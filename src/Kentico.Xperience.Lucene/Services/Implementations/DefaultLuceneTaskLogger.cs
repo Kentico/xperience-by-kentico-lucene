@@ -2,6 +2,7 @@
 using CMS.Websites;
 using Kentico.Xperience.Lucene.Extensions;
 using Kentico.Xperience.Lucene.Models;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Kentico.Xperience.Lucene.Services;
 
@@ -11,25 +12,30 @@ namespace Kentico.Xperience.Lucene.Services;
 internal class DefaultLuceneTaskLogger : ILuceneTaskLogger
 {
     private readonly IEventLogService eventLogService;
+    private readonly IServiceProvider serviceProvider;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="DefaultLuceneTaskLogger"/> class.
     /// </summary>
-    public DefaultLuceneTaskLogger(IEventLogService eventLogService) => this.eventLogService = eventLogService;
+    public DefaultLuceneTaskLogger(IEventLogService eventLogService, IServiceProvider serviceProvider)
+    {
+        this.eventLogService = eventLogService;
+        this.serviceProvider = serviceProvider;
+    }
 
     /// <inheritdoc />
     public async Task HandleEvent(IndexedItemModel indexedModel, string eventName)
     {
         var taskType = GetTaskType(eventName);
 
-        if (!indexedModel.IsLuceneIndexed(eventName))
+        if (!indexedModel.IsLuceneIndexed(eventLogService, eventName))
         {
             return;
         }
 
         foreach (string? indexName in IndexStore.Instance.GetAllIndices().Select(index => index.IndexName))
         {
-            if (!indexedModel.IsIndexedByIndex(indexName, eventName))
+            if (!indexedModel.IsIndexedByIndex(eventLogService, indexName, eventName))
             {
                 continue;
             }
@@ -38,7 +44,8 @@ internal class DefaultLuceneTaskLogger : ILuceneTaskLogger
 
             if (luceneIndex is not null)
             {
-                var toReindex = await luceneIndex.LuceneIndexingStrategy.FindItemsToReindex(indexedModel);
+                var strategy = serviceProvider.GetRequiredStrategy(luceneIndex);
+                var toReindex = await strategy!.FindItemsToReindex(indexedModel);
 
                 if (toReindex is not null)
                 {
@@ -63,14 +70,14 @@ internal class DefaultLuceneTaskLogger : ILuceneTaskLogger
 
     public async Task HandleContentItemEvent(IndexedContentItemModel indexedItem, string eventName)
     {
-        if (!indexedItem.IsLuceneIndexed(eventName))
+        if (!indexedItem.IsLuceneIndexed(eventLogService, eventName))
         {
             return;
         }
 
         foreach (string? indexName in IndexStore.Instance.GetAllIndices().Select(index => index.IndexName))
         {
-            if (!indexedItem.IsIndexedByIndex(indexName, eventName))
+            if (!indexedItem.IsIndexedByIndex(eventLogService, indexName, eventName))
             {
                 continue;
             }
@@ -78,7 +85,8 @@ internal class DefaultLuceneTaskLogger : ILuceneTaskLogger
             var luceneIndex = IndexStore.Instance.GetIndex(indexName);
             if (luceneIndex is not null)
             {
-                var toReindex = await luceneIndex.LuceneIndexingStrategy.FindItemsToReindex(indexedItem);
+                var strategy = serviceProvider.GetRequiredStrategy(luceneIndex);
+                var toReindex = await strategy!.FindItemsToReindex(indexedItem);
                 if (toReindex is not null)
                 {
                     foreach (var item in toReindex)

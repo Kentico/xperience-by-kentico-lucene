@@ -13,5 +13,6 @@ public class IndexedContentItemModel
 {
     public string? LanguageCode { get; set; }
     public string? ClassName { get; set; }
+    public int ContentItemID { get; set; }
     public Guid ContentItemGuid { get; set; }
 }

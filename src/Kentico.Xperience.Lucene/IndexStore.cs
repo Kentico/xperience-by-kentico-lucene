@@ -1,5 +1,4 @@
 ﻿using Kentico.Xperience.Lucene.Models;
-using Kentico.Xperience.Lucene.Services;
 using Kentico.Xperience.Lucene.Services.Implementations;
 using Lucene.Net.Analysis.Standard;
 using Lucene.Net.Util;
@@ -55,7 +54,7 @@ public sealed class IndexStore
                 index.Id,
                 index.Paths ?? new(),
                 indexPath: null,
-                luceneIndexingStrategy: (ILuceneIndexingStrategy)(Activator.CreateInstance(StrategyStorage.Strategies[index.StrategyName]) ?? new DefaultLuceneIndexingStrategy())
+                luceneIndexingStrategyType: StrategyStorage.Strategies[index.StrategyName] ?? typeof(DefaultLuceneIndexingStrategy)
             ));
         }
     }
@@ -75,6 +74,23 @@ public sealed class IndexStore
         }
 
         return registeredIndexes.SingleOrDefault(i => i.IndexName.Equals(indexName, StringComparison.OrdinalIgnoreCase));
+    }
+
+    /// <summary>
+    /// Gets a registered <see cref="LuceneIndex"/> with the specified <paramref name="indexName"/>. If no index is found, a <see cref="InvalidOperationException" /> is thrown.
+    /// </summary>
+    /// <param name="indexName">The name of the index to retrieve.</param>
+    /// <exception cref="ArgumentNullException" />
+    /// <exception cref="InvalidOperationException" />
+    public LuceneIndex GetRequiredIndex(string indexName)
+    {
+        if (string.IsNullOrEmpty(indexName))
+        {
+            throw new ArgumentException("Value must not be null or empty");
+        }
+
+        return registeredIndexes.SingleOrDefault(i => i.IndexName.Equals(indexName, StringComparison.OrdinalIgnoreCase))
+            ?? throw new InvalidOperationException($"The index '{indexName}' is not registered.");
     }
 
 
