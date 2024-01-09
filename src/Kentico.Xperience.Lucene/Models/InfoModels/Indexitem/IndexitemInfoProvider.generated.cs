@@ -1,6 +1,6 @@
 using CMS.DataEngine;
 
-namespace CMS
+namespace Kentico.Xperience.Lucene.Models
 {
     /// <summary>
     /// Class providing <see cref="IndexitemInfo"/> management.

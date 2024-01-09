@@ -6,11 +6,11 @@ using System.Collections.Generic;
 using CMS;
 using CMS.DataEngine;
 using CMS.Helpers;
-using CMS;
+using Kentico.Xperience.Lucene.Models;
 
 [assembly: RegisterObjectType(typeof(IncludedpathitemInfo), IncludedpathitemInfo.OBJECT_TYPE)]
 
-namespace CMS
+namespace Kentico.Xperience.Lucene.Models
 {
     /// <summary>
     /// Data container class for <see cref="IncludedpathitemInfo"/>.

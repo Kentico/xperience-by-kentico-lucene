@@ -1,16 +1,15 @@
-using System;
 using System.Data;
 using System.Runtime.Serialization;
-using System.Collections.Generic;
 
 using CMS;
 using CMS.DataEngine;
 using CMS.Helpers;
-using CMS;
+
+using Kentico.Xperience.Lucene.Models;
 
 [assembly: RegisterObjectType(typeof(ContenttypeitemInfo), ContenttypeitemInfo.OBJECT_TYPE)]
 
-namespace CMS
+namespace Kentico.Xperience.Lucene.Models
 {
     /// <summary>
     /// Data container class for <see cref="ContenttypeitemInfo"/>.
