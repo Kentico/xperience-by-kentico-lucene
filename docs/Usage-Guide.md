@@ -528,7 +528,7 @@ This indexing strategy allows you to hook into the indexing process by overridin
 - `FindItemsToReindex(IndexedItemModel changedItem)`
 - `FindItemsToReindex(IndexedContentItemModel changedItem)`
 
-FindItemsToReindex let you specify wether after a Content Item or any PageItem other than which you have specified in the admin ui should also be reindexed.
+`FindItemsToReindex` let you specify whether after a Content item or any Web page item other than which you have specified in the admin ui should also be reindexed.
 This does not need to be implemented. Default implementation reindexes PageItem when it is directly changed. However advanced user could specify that a page item should be reindexed after a widget or any other item used in the page item is edited.
 
 You can add as many indexes as you want. Each index can have a different set of fields or store data for different [Content Types](https://docs.xperience.io/xp26/developers-and-admins/development/content-types).

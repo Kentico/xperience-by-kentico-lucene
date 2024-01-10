@@ -14,6 +14,7 @@ public interface ILuceneTaskProcessor
     /// </summary>
     /// <param name="queueItems">The items to process.</param>
     /// <param name="cancellationToken">The cancellation token for the task.</param>
+    /// <param name="maximumBatchSize"></param>
     /// <returns>The number of items processed.</returns>
 
     int ProcessLuceneTasks(IEnumerable<LuceneQueueItem> queueItems, CancellationToken cancellationToken, int maximumBatchSize = 100);

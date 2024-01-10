@@ -98,41 +98,44 @@ stages:
             displayName: Publish NuGet package as artifact
             artifact: artifact
 
-  - stage: PublishNuGetPackages
-    displayName: Publish NuGet packages
-    dependsOn: Build
-
-    jobs:
-      - deployment: PublishNuGetPackages
+  - ${{ if eq(variables['Build.SourceBranch'], 'refs/heads/main') }}:
+      - stage: PublishNuGetPackages
         displayName: Publish NuGet packages
+        dependsOn: Build
 
-        pool:
-          name: ${{ parameters.AgentPoolName }}
-          ${{ if ne(length(parameters.AgentName), 1) }}:
-            demands:
-              - Agent.Name -equals ${{ parameters.AgentName }}
+        jobs:
+          - deployment: PublishNuGetPackages
+            displayName: Publish NuGet packages
 
-        environment: integrations-release-nuget
-        strategy:
-          runOnce:
-            deploy:
-              steps:
-                - checkout: none
+            pool:
+              name: ${{ parameters.AgentPoolName }}
+              ${{ if ne(length(parameters.AgentName), 1) }}:
+                demands:
+                  - Agent.Name -equals ${{ parameters.AgentName }}
 
-                - task: NuGetToolInstaller@1
-                  displayName: Install latest nuget.exe
-                  inputs:
-                    versionSpec: ">=5.6"
-                    checkLatest: true
+            environment: integrations-release-nuget
+            workspace:
+              clean: all
+            strategy:
+              runOnce:
+                deploy:
+                  steps:
+                    - checkout: none
 
-                - task: NuGetAuthenticate@1
-                  displayName: NuGet Authenticate
+                    - task: NuGetToolInstaller@1
+                      displayName: Install latest nuget.exe
+                      inputs:
+                        versionSpec: ">=5.6"
+                        checkLatest: true
 
-                - task: NuGetCommand@2
-                  displayName: NuGet push
-                  inputs:
-                    command: push
-                    packagesToPush: $(Pipeline.Workspace)/artifact/*.nupkg
-                    nuGetFeedType: external
-                    publishFeedCredentials: nuget.org
-                    allowPackageConflicts: true
+                    - task: NuGetAuthenticate@1
+                      displayName: NuGet Authenticate
+
+                    - task: NuGetCommand@2
+                      displayName: NuGet push
+                      inputs:
+                        command: push
+                        packagesToPush: $(Pipeline.Workspace)/artifact/*.nupkg
+                        nuGetFeedType: external
+                        publishFeedCredentials: nuget.org
+                        allowPackageConflicts: true

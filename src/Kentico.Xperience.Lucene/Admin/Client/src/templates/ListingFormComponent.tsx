@@ -1,7 +1,15 @@
 import { type FormComponentProps } from '@kentico/xperience-admin-base';
 import {
+    type ActionCell,
+    Button,
+    ButtonType,
     CellType,
     ColumnContentType,
+    DropDownSelectMenu,
+    Input,
+    MenuItem,
+    Select,
+    SelectMenu,
     Stack,
     type StringCell,
     Table,
@@ -9,15 +17,7 @@ import {
     type TableCell,
     type TableColumn,
     type TableRow,
-    type ActionCell,
     TextArea,
-    Input,
-    Button,
-    ButtonType,
-    SelectMenu,
-    Select,
-    DropDownSelectMenu,
-    MenuItem,
 } from '@kentico/xperience-admin-components';
 import React, { Component, ReactNode, useEffect, useState } from 'react';
 
@@ -43,15 +43,15 @@ export const ListingFormComponent = (props: ListComponentClientProperties): JSX.
     const [rows, setRows] = useState<TableRow[]>([]);
     const [showPathEdit, setShowPathEdit] = useState<boolean>(false);
     const [contentTypesValue, setContentTypesValue] = useState<string>('');
-    const [path, setPath] = useState<string>("");
-    const [editedIdentifier, setEditedIdentifier] = useState<string>("");
+    const [path, setPath] = useState<string>('');
+    const [editedIdentifier, setEditedIdentifier] = useState<string>('');
     const [showAddNewPath, setShowAddNewPath] = useState<boolean>(true);
 
     const getPossibleContentTypeItems = (): string => {
-        let msg = "Included Content Types(";
+        let msg = 'Included Content Types(';
 
         for (let i = 0; i < props.possibleItems.length - 1; i++){
-            msg += props.possibleItems[i] + ", ";
+            msg += props.possibleItems[i] + ', ';
         }
 
         if (props.possibleItems.length > 0) {
@@ -158,7 +158,7 @@ export const ListingFormComponent = (props: ListComponentClientProperties): JSX.
         return columns;
     }
     const showContentItems = (identifier: unknown): void => {
-        var rowIndex = -1;
+        let rowIndex = -1;
         for (let i = 0; i < rows.length; i++) {
             if (rows[i].identifier as string === identifier as string) {
                 rowIndex = i;
@@ -172,10 +172,10 @@ export const ListingFormComponent = (props: ListComponentClientProperties): JSX.
             setEditedIdentifier((row.cells[0] as StringCell).value);
         }
         else {
-            setEditedIdentifier("");
+            setEditedIdentifier('');
         }
 
-        var contentTypes = props.value.find((x) => {
+        const contentTypes = props.value.find((x) => {
             return x.aliasPath === identifier
         })?.contentTypes;
 
@@ -196,9 +196,9 @@ export const ListingFormComponent = (props: ListComponentClientProperties): JSX.
     };
     const savePath = (): void => {
         const contentTypesSplit = contentTypesValue.split('\n').filter(x => {
-            return x !== "" && x != "" && x != null && x != undefined;
+            return x !== '' && x != '' && x != null && x != undefined;
         });
-        if (editedIdentifier === "") {
+        if (editedIdentifier === '') {
             if (!rows.some(x => {
                 return x.identifier === path;
             })) {
@@ -247,12 +247,12 @@ export const ListingFormComponent = (props: ListComponentClientProperties): JSX.
                 alert('Invalid edit');
             }
 
-            const pathInPropsDefined = pathInProps as IncludedPath;
+            const pathInPropsDefined = pathInProps!;
             pathInPropsDefined.aliasPath = path;
             pathInPropsDefined.contentTypes = contentTypesSplit;
         }
 
-        setEditedIdentifier("");
+        setEditedIdentifier('');
         setShowPathEdit(false);
         setShowAddNewPath(true);
     }
@@ -274,16 +274,16 @@ export const ListingFormComponent = (props: ListComponentClientProperties): JSX.
             {showPathEdit && (
                 <div>
                     <br></br>
-                    <Input label='Path' value={path} onChange={handleInputChange} />
+                    <Input label="Path" value={path} onChange={handleInputChange} />
                     <br></br>
                     <TextArea label={getPossibleContentTypeItems()} value={contentTypesValue} onChange={handleTextareaChange} />
                     <br></br>
-                    <Button type={ButtonType.Button} label='Save Path' onClick={savePath}></Button>
+                    <Button type={ButtonType.Button} label="Save Path" onClick={savePath}></Button>
                 </div>
             )}
             <br></br>
             {showAddNewPath && (
-                <Button type={ButtonType.Button} label='Add new path' onClick={addNewPath}></Button>
+                <Button type={ButtonType.Button} label="Add new path" onClick={addNewPath}></Button>
             )}
         </Stack>
     );

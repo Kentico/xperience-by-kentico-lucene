@@ -108,8 +108,8 @@ public class EditIndex : ModelEditPage<LuceneConfigurationModel>
                     model.Id,
                     model.Paths ?? new(),
                     indexPath: null,
-                    luceneIndexingStrategy: (ILuceneIndexingStrategy)(Activator.CreateInstance(StrategyStorage.Strategies[model.StrategyName]) ?? new DefaultLuceneIndexingStrategy()
-                )));
+                    luceneIndexingStrategyType: StrategyStorage.Strategies[model.StrategyName] ?? typeof(DefaultLuceneIndexingStrategy)
+                ));
             }
             else
             {

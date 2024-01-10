@@ -10,7 +10,6 @@ public interface ILuceneIndexingStrategy
     /// Called when indexing a search model. Enables overriding of multiple fields with custom data.
     /// </summary>
     /// <param name="lucenePageItem">The <see cref="IndexedItemModel"/> currently being indexed.</param>
-    /// <param name="model">The resulting search data <see cref="LuceneSearchModel"/> to be modified. The model could be changed during the process.</param>
     /// <returns>Modified Lucene document.</returns>
     Task<Document?> MapToLuceneDocumentOrNull(IndexedItemModel lucenePageItem);
 

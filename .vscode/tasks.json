@@ -5,24 +5,54 @@
       "type": "npm",
       "script": "install",
       "path": "src/Kentico.Xperience.Lucene/Admin/Client",
-      "group": "clean",
+      "group": "build",
       "problemMatcher": [],
       "label": "npm: install - src/Kentico.Xperience.Lucene/Admin/Client",
       "detail": "install dependencies from package"
     },
     {
-      "type": "dotnet",
-      "task": "build",
-      "problemMatcher": ["$msCompile"],
-      "group": "build",
-      "label": "dotnet: build"
+      "label": ".NET: build (Solution)",
+      "command": "dotnet",
+      "type": "process",
+      "args": [
+        "build",
+        "/property:GenerateFullPaths=true",
+        "/consoleloggerparameters:NoSummary"
+      ],
+      "problemMatcher": "$msCompile"
     },
     {
-      "type": "dotnet",
-      "task": "clean",
-      "problemMatcher": ["$msCompile"],
-      "group": "clean",
-      "label": "dotnet: clean"
+      "label": ".NET: rebuild (Solution)",
+      "command": "dotnet",
+      "type": "process",
+      "args": [
+        "build",
+        "--no-incremental",
+        "/property:GenerateFullPaths=true",
+        "/consoleloggerparameters:NoSummary"
+      ],
+      "problemMatcher": "$msCompile"
+    },
+    {
+      "label": ".NET: clean (Solution)",
+      "command": "dotnet",
+      "type": "process",
+      "args": [
+        "clean",
+        "/property:GenerateFullPaths=true",
+        "/consoleloggerparameters:NoSummary"
+      ],
+      "problemMatcher": "$msCompile"
+    },
+    {
+      "label": ".NET: format (Lucene)",
+      "command": "dotnet",
+      "type": "process",
+      "args": ["format", "Kentico.Xperience.Lucene.csproj"],
+      "problemMatcher": "$msCompile",
+      "options": {
+        "cwd": "${workspaceFolder}/src/Kentico.Xperience.Lucene"
+      }
     },
     {
       "type": "npm",
@@ -49,6 +79,6 @@
       "problemMatcher": [],
       "label": "npm: start - src/Kentico.Xperience.Lucene/Admin/Client",
       "detail": "webpack serve --mode development"
-    },
+    }
   ]
 }

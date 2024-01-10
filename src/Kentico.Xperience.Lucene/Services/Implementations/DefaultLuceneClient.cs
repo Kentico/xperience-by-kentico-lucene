@@ -5,6 +5,7 @@ using Kentico.Xperience.Lucene.Models;
 using Lucene.Net.Documents;
 using Lucene.Net.Index;
 using Lucene.Net.Search;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Kentico.Xperience.Lucene.Services;
 
@@ -16,6 +17,7 @@ internal class DefaultLuceneClient : ILuceneClient
     private readonly ILuceneIndexService luceneIndexService;
 
     private readonly IContentQueryExecutor executor;
+    private readonly IServiceProvider serviceProvider;
     private readonly ICacheAccessor cacheAccessor;
 
     internal const string CACHEKEY_STATISTICS = "Lucene|ListIndices";
@@ -26,12 +28,14 @@ internal class DefaultLuceneClient : ILuceneClient
     public DefaultLuceneClient(
         ICacheAccessor cacheAccessor,
         ILuceneIndexService luceneIndexService,
-        IContentQueryExecutor executor
+        IContentQueryExecutor executor,
+        IServiceProvider serviceProvider
         )
     {
         this.cacheAccessor = cacheAccessor;
         this.luceneIndexService = luceneIndexService;
         this.executor = executor;
+        this.serviceProvider = serviceProvider;
     }
 
     /// <inheritdoc />
@@ -75,10 +79,8 @@ internal class DefaultLuceneClient : ILuceneClient
             throw new ArgumentNullException(nameof(indexName));
         }
 
-        var luceneIndex = IndexStore.Instance.GetIndex(indexName);
-        return luceneIndex == null
-            ? throw new InvalidOperationException($"The index '{indexName}' is not registered.")
-            : RebuildInternal(luceneIndex, cancellationToken);
+        var luceneIndex = IndexStore.Instance.GetRequiredIndex(indexName);
+        return RebuildInternal(luceneIndex, cancellationToken);
     }
 
 
@@ -168,8 +170,9 @@ internal class DefaultLuceneClient : ILuceneClient
         var index = IndexStore.Instance.GetIndex(indexName);
         if (index != null)
         {
+            var strategy = serviceProvider.GetRequiredStrategy(index);
             // indexing facet requires separate index for toxonomy
-            if (index.LuceneIndexingStrategy.FacetsConfigFactory() is { } facetsConfig)
+            if (strategy.FacetsConfigFactory() is { } facetsConfig)
             {
                 int result = luceneIndexService.UseIndexAndTaxonomyWriter(index, (writer, taxonomyWriter) =>
                 {

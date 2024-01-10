@@ -6,13 +6,17 @@ using Lucene.Net.Index;
 using Lucene.Net.Search;
 using Lucene.Net.Store;
 using Lucene.Net.Util;
+using Microsoft.Extensions.DependencyInjection;
 using LuceneDirectory = Lucene.Net.Store.Directory;
 
 namespace Kentico.Xperience.Lucene.Services.Implementations;
 
 public class DefaultLuceneIndexService : ILuceneIndexService
 {
+    public DefaultLuceneIndexService(IServiceProvider serviceProvider) => this.serviceProvider = serviceProvider;
+
     private const LuceneVersion LUCENE_VERSION = LuceneVersion.LUCENE_48;
+    private readonly IServiceProvider serviceProvider;
 
     public T UseIndexAndTaxonomyWriter<T>(LuceneIndex index, Func<IndexWriter, ITaxonomyWriter, T> useIndexWriter, IndexStorageModel storage, OpenMode openMode = OpenMode.CREATE_OR_APPEND)
     {
@@ -94,7 +98,8 @@ public class DefaultLuceneIndexService : ILuceneIndexService
         var facetsCollector = new FacetsCollector();
         Dictionary<string, Facets> facetsMap = new();
         FacetsCollector.Search(searcher, query, n, facetsCollector);
-        var config = index.LuceneIndexingStrategy.FacetsConfigFactory();
+        var strategy = serviceProvider.GetRequiredStrategy(index);
+        var config = strategy?.FacetsConfigFactory() ?? new FacetsConfig();
         OrdinalsReader ordinalsReader = new DocValuesOrdinalsReader(FacetsConfig.DEFAULT_INDEX_FIELD_NAME);
         var facetCounts = new TaxonomyFacetCounts(ordinalsReader, taxonomyReader, config, facetsCollector);
         var facets = new MultiFacets(facetsMap, facetCounts);

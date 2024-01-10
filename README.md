@@ -11,7 +11,7 @@ enabling auto-indexing of content in Xperience based on application-local, code-
 
 | Xperience Version   | Library Version |
 | ------------------- | --------------- |
-| >= 28.0.0           | 3.x             |
+| >= 28.1.0           | 3.x             |
 | >= 26.2.0, < 27.0.0 | 2.x             |
 
 ## Dependencies
@@ -34,9 +34,17 @@ dotnet add package Kentico.Xperience.Lucene
 
    ```csharp
    // Program.cs
-    services.AddLucene();
 
-    services.RegisterStrategy<GlobalSearchIndexingStrategy>("DefaultStrategy");
+   // Registers all services and uses default indexing behavior (no data is indexed)
+   services.AddLucene();
+
+   // or
+
+   // Registers all services and enables custom indexing behavior
+   services.AddLucene(builder =>
+      builder
+         .RegisterStrategy<GlobalSearchIndexingStrategy>("DefaultStrategy")
+         .RegisterStrategy<ArticlesSearchIndexingStrategy>("ArticlesStrategy"));
    ```
 
 3. Create an index in Xperience's Administration within the Search application added by this library.
@@ -48,6 +56,13 @@ dotnet add package Kentico.Xperience.Lucene
 ## Full Instructions
 
 View the [Usage Guide](./docs/Usage-Guide.md) for more detailed instructions.
+
+## Projects
+
+| Project                      | Description                                            |
+| ---------------------------- | ------------------------------------------------------ |
+| src/Kentico.Xperience.Lucene | Xperience by Kentico Lucene integration library        |
+| examples/DancingGoat         | Example project to showcase basic search functionality |
 
 ## Contributing
 
