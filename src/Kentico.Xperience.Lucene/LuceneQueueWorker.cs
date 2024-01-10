@@ -1,9 +1,7 @@
 using CMS.Base;
 using CMS.Core;
-using Kentico.Xperience.Lucene.Models;
-using Kentico.Xperience.Lucene.Services;
 
-namespace Kentico.Xperience.Lucene;
+namespace Kentico.Xperience.Lucene.Indexing;
 
 /// <summary>
 /// Thread worker which enqueues recently updated or deleted nodes indexed
@@ -43,7 +41,7 @@ internal class LuceneQueueWorker : ThreadQueueWorker<LuceneQueueItem, LuceneQueu
             return;
         }
 
-        if (IndexStore.Instance.GetIndex(queueItem.IndexName) == null)
+        if (LuceneIndexStore.Instance.GetIndex(queueItem.IndexName) == null)
         {
             throw new InvalidOperationException($"Attempted to log task for Lucene index '{queueItem.IndexName},' but it is not registered.");
         }

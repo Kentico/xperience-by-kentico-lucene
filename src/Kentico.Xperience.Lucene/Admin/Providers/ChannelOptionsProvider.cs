@@ -2,7 +2,7 @@
 using CMS.DataEngine;
 using Kentico.Xperience.Admin.Base.FormAnnotations;
 
-namespace Kentico.Xperience.Lucene.Admin.Providers;
+namespace Kentico.Xperience.Lucene.Admin;
 
 public class ChannelOptionsProvider : IDropDownOptionsProvider
 {

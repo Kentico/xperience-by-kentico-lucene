@@ -1,6 +1,7 @@
 ﻿using Kentico.Xperience.Admin.Base.FormAnnotations;
+using Kentico.Xperience.Lucene.Indexing;
 
-namespace Kentico.Xperience.Lucene.Admin.Providers;
+namespace Kentico.Xperience.Lucene.Admin;
 
 internal class IndexingStrategyOptionsProvider : IDropDownOptionsProvider
 {

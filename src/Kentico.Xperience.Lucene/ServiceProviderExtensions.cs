@@ -1,5 +1,4 @@
-using Kentico.Xperience.Lucene.Models;
-using Kentico.Xperience.Lucene.Services;
+using Kentico.Xperience.Lucene.Indexing;
 
 namespace Microsoft.Extensions.DependencyInjection;
 

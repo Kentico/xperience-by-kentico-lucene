@@ -2,7 +2,7 @@
 using Kentico.Xperience.Admin.Base;
 using Kentico.Xperience.Admin.Base.FormAnnotations;
 using Kentico.Xperience.Admin.Base.Forms;
-using Kentico.Xperience.Lucene.Admin.Components;
+using Kentico.Xperience.Lucene.Admin;
 using Kentico.Xperience.Lucene.Models;
 
 [assembly: RegisterFormComponent(
@@ -10,7 +10,7 @@ using Kentico.Xperience.Lucene.Models;
     componentType: typeof(LuceneIndexConfigurationComponent),
     name: "Lucene Search Index Configuration")]
 
-namespace Kentico.Xperience.Lucene.Admin.Components;
+namespace Kentico.Xperience.Lucene.Admin;
 
 #pragma warning disable S2094 // intentionally empty class
 public class LuceneIndexConfigurationComponentProperties : FormComponentProperties
@@ -18,7 +18,7 @@ public class LuceneIndexConfigurationComponentProperties : FormComponentProperti
 }
 #pragma warning restore
 
-public class LuceneIndexConfigurationComponentClientProperties : FormComponentClientProperties<List<IncludedPath>>
+public class LuceneIndexConfigurationComponentClientProperties : FormComponentClientProperties<List<LuceneIndexIncludedPath>>
 {
     public List<string>? PossibleItems { get; set; }
 }
@@ -28,16 +28,16 @@ public sealed class LuceneIndexConfigurationComponentAttribute : FormComponentAt
 }
 
 [ComponentAttribute(typeof(LuceneIndexConfigurationComponentAttribute))]
-public class LuceneIndexConfigurationComponent : FormComponent<LuceneIndexConfigurationComponentProperties, LuceneIndexConfigurationComponentClientProperties, List<IncludedPath>>
+public class LuceneIndexConfigurationComponent : FormComponent<LuceneIndexConfigurationComponentProperties, LuceneIndexConfigurationComponentClientProperties, List<LuceneIndexIncludedPath>>
 {
     public const string IDENTIFIER = "kentico.xperience-integrations-lucene.lucene-index-configuration";
 
-    internal List<IncludedPath>? Value { get; set; }
+    internal List<LuceneIndexIncludedPath>? Value { get; set; }
 
     public override string ClientComponentName => "@kentico/xperience-integrations-lucene/LuceneIndexConfiguration";
 
-    public override List<IncludedPath> GetValue() => Value ?? new();
-    public override void SetValue(List<IncludedPath> value) => Value = value;
+    public override List<LuceneIndexIncludedPath> GetValue() => Value ?? new();
+    public override void SetValue(List<LuceneIndexIncludedPath> value) => Value = value;
 
     [FormComponentCommand]
     public Task<ICommandResponse<RowActionResult>> DeletePath(string path)
@@ -52,7 +52,7 @@ public class LuceneIndexConfigurationComponent : FormComponent<LuceneIndexConfig
     }
 
     [FormComponentCommand]
-    public Task<ICommandResponse<RowActionResult>> SavePath(IncludedPath path)
+    public Task<ICommandResponse<RowActionResult>> SavePath(LuceneIndexIncludedPath path)
     {
         var value = Value?.SingleOrDefault(x => Equals(x.AliasPath == path.AliasPath, StringComparison.OrdinalIgnoreCase));
 
@@ -75,7 +75,7 @@ public class LuceneIndexConfigurationComponent : FormComponent<LuceneIndexConfig
         }
         else
         {
-            Value?.Add(new IncludedPath(path));
+            Value?.Add(new LuceneIndexIncludedPath(path));
             return Task.FromResult(ResponseFrom(new RowActionResult(false)));
         }
     }

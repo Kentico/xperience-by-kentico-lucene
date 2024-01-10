@@ -3,7 +3,7 @@ using CMS.DataEngine;
 using Kentico.Xperience.Admin.Base.FormAnnotations;
 using Kentico.Xperience.Admin.Base.Forms;
 
-namespace Kentico.Xperience.Lucene.Admin.Providers;
+namespace Kentico.Xperience.Lucene.Admin;
 
 internal class LanguageOptionsProvider : IGeneralSelectorDataProvider
 {

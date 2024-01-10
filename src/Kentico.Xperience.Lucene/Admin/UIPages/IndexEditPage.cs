@@ -2,8 +2,7 @@
 using Kentico.Xperience.Admin.Base;
 using Kentico.Xperience.Admin.Base.Forms;
 using Kentico.Xperience.Lucene.Admin;
-using Kentico.Xperience.Lucene.Models;
-using Kentico.Xperience.Lucene.Services;
+using Kentico.Xperience.Lucene.Indexing;
 using Lucene.Net.Analysis.Standard;
 using Lucene.Net.Util;
 
@@ -24,11 +23,11 @@ internal class IndexEditPage : ModelEditPage<LuceneConfigurationModel>
 
 
     private LuceneConfigurationModel? model;
-    private readonly IConfigurationStorageService storageService;
+    private readonly ILuceneConfigurationStorageService storageService;
 
     public IndexEditPage(Xperience.Admin.Base.Forms.Internal.IFormItemCollectionProvider formItemCollectionProvider,
                  IFormDataBinder formDataBinder,
-                 IConfigurationStorageService storageService)
+                 ILuceneConfigurationStorageService storageService)
         : base(formItemCollectionProvider, formDataBinder)
     {
         model = null;
@@ -108,7 +107,7 @@ internal class IndexEditPage : ModelEditPage<LuceneConfigurationModel>
 
                 model.StrategyName ??= "";
 
-                IndexStore.Instance.AddIndex(new LuceneIndex(
+                LuceneIndexStore.Instance.AddIndex(new LuceneIndex(
                     new StandardAnalyzer(LuceneVersion.LUCENE_48),
                     model.IndexName ?? "",
                     model.ChannelName ?? "",

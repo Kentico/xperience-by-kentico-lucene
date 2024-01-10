@@ -1,12 +1,11 @@
 ﻿using CMS.Core;
 using Kentico.Xperience.Admin.Base;
 using Kentico.Xperience.Lucene.Admin;
-using Kentico.Xperience.Lucene.Models;
-using Kentico.Xperience.Lucene.Services;
+using Kentico.Xperience.Lucene.Indexing;
 using Action = Kentico.Xperience.Admin.Base.Action;
 
 [assembly: UIPage(
-   parentType: typeof(LuceneApplication),
+   parentType: typeof(LuceneApplicationPage),
    slug: "indexes",
    uiPageType: typeof(IndexListingPage),
    name: "List of registered Lucene indices",
@@ -22,7 +21,7 @@ internal class IndexListingPage : ListingPageBase<ListingConfiguration>
 {
     private readonly ILuceneClient luceneClient;
     private readonly IPageUrlGenerator pageUrlGenerator;
-    private readonly IConfigurationStorageService configurationStorageService;
+    private readonly ILuceneConfigurationStorageService configurationStorageService;
     private ListingConfiguration? mPageConfiguration;
 
     /// <inheritdoc/>
@@ -48,7 +47,7 @@ internal class IndexListingPage : ListingPageBase<ListingConfiguration>
     /// <summary>
     /// Initializes a new instance of the <see cref="IndexListingPage"/> class.
     /// </summary>
-    public IndexListingPage(ILuceneClient luceneClient, IPageUrlGenerator pageUrlGenerator, IConfigurationStorageService configurationStorageService)
+    public IndexListingPage(ILuceneClient luceneClient, IPageUrlGenerator pageUrlGenerator, ILuceneConfigurationStorageService configurationStorageService)
     {
         this.luceneClient = luceneClient;
         this.pageUrlGenerator = pageUrlGenerator;
@@ -58,7 +57,7 @@ internal class IndexListingPage : ListingPageBase<ListingConfiguration>
     /// <inheritdoc/>
     public override Task ConfigurePage()
     {
-        if (!IndexStore.Instance.GetAllIndices().Any())
+        if (!LuceneIndexStore.Instance.GetAllIndices().Any())
         {
             PageConfiguration.Callouts =
             new()
@@ -105,7 +104,7 @@ internal class IndexListingPage : ListingPageBase<ListingConfiguration>
     public async Task<ICommandResponse<RowActionResult>> Rebuild(int id, CancellationToken cancellationToken)
     {
         var result = new RowActionResult(false);
-        var index = IndexStore.Instance.GetIndex(id);
+        var index = LuceneIndexStore.Instance.GetIndex(id);
         if (index == null)
         {
             return ResponseFrom(result)
@@ -136,7 +135,7 @@ internal class IndexListingPage : ListingPageBase<ListingConfiguration>
         {
             var indices = configurationStorageService.GetAllIndexData();
 
-            IndexStore.Instance.AddIndices(indices);
+            LuceneIndexStore.Instance.AddIndices(indices);
         }
         var response = NavigateTo(pageUrlGenerator.GenerateUrl<IndexListingPage>());
 
@@ -155,7 +154,7 @@ internal class IndexListingPage : ListingPageBase<ListingConfiguration>
 
             // Remove statistics for indexes that are not registered in this instance
             var filteredStatistics = statistics.Where(stat =>
-                IndexStore.Instance.GetAllIndices().Any(index => index.IndexName.Equals(stat.Name, StringComparison.OrdinalIgnoreCase)));
+                LuceneIndexStore.Instance.GetAllIndices().Any(index => index.IndexName.Equals(stat.Name, StringComparison.OrdinalIgnoreCase)));
 
             var searchedStatistics = DoSearch(filteredStatistics, settings.SearchTerm);
             var orderedStatistics = SortStatistics(searchedStatistics, settings);
@@ -181,7 +180,7 @@ internal class IndexListingPage : ListingPageBase<ListingConfiguration>
 
     private static void AddMissingStatistics(ref ICollection<LuceneIndexStatisticsViewModel> statistics)
     {
-        foreach (string indexName in IndexStore.Instance.GetAllIndices().Select(i => i.IndexName))
+        foreach (string indexName in LuceneIndexStore.Instance.GetAllIndices().Select(i => i.IndexName))
         {
             if (!statistics.Any(stat => stat.Name?.Equals(indexName, StringComparison.OrdinalIgnoreCase) ?? false))
             {
@@ -208,7 +207,7 @@ internal class IndexListingPage : ListingPageBase<ListingConfiguration>
 
     private Row GetRow(LuceneIndexStatisticsViewModel statistics)
     {
-        var luceneIndex = statistics.Name != null ? IndexStore.Instance.GetIndex(statistics.Name) : null;
+        var luceneIndex = statistics.Name != null ? LuceneIndexStore.Instance.GetIndex(statistics.Name) : null;
         return luceneIndex == null
             ? throw new InvalidOperationException($"Unable to retrieve Lucene index with name '{statistics.Name}.'")
             : new Row

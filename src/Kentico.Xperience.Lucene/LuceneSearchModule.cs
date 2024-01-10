@@ -5,8 +5,8 @@ using CMS.Core;
 using CMS.DataEngine;
 using CMS.Websites;
 using Kentico.Xperience.Lucene;
-using Kentico.Xperience.Lucene.Models;
-using Kentico.Xperience.Lucene.Services;
+using Kentico.Xperience.Lucene.Admin;
+using Kentico.Xperience.Lucene.Indexing;
 using Microsoft.Extensions.DependencyInjection;
 
 [assembly: RegisterModule(typeof(LuceneSearchModule))]
@@ -101,9 +101,9 @@ internal class LuceneSearchModule : Module
 
     public static void AddRegisteredIndices()
     {
-        var configurationStorageService = Service.Resolve<IConfigurationStorageService>();
+        var configurationStorageService = Service.Resolve<ILuceneConfigurationStorageService>();
         var indices = configurationStorageService.GetAllIndexData();
 
-        IndexStore.Instance.AddIndices(indices);
+        LuceneIndexStore.Instance.AddIndices(indices);
     }
 }

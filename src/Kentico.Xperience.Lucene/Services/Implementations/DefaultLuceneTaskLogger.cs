@@ -1,10 +1,8 @@
 ﻿using CMS.Core;
 using CMS.Websites;
-using Kentico.Xperience.Lucene.Extensions;
-using Kentico.Xperience.Lucene.Models;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Kentico.Xperience.Lucene.Services;
+namespace Kentico.Xperience.Lucene.Indexing;
 
 /// <summary>
 /// Default implementation of <see cref="ILuceneTaskLogger"/>.
@@ -28,7 +26,7 @@ internal class DefaultLuceneTaskLogger : ILuceneTaskLogger
     {
         var taskType = GetTaskType(eventName);
 
-        foreach (var luceneIndex in IndexStore.Instance.GetAllIndices())
+        foreach (var luceneIndex in LuceneIndexStore.Instance.GetAllIndices())
         {
             if (!webpageItem.IsIndexedByIndex(eventLogService, luceneIndex.IndexName, eventName))
             {
@@ -60,7 +58,7 @@ internal class DefaultLuceneTaskLogger : ILuceneTaskLogger
 
     public async Task HandleReusableItemEvent(IndexEventReusableItemModel reusableItem, string eventName)
     {
-        foreach (var luceneIndex in IndexStore.Instance.GetAllIndices())
+        foreach (var luceneIndex in LuceneIndexStore.Instance.GetAllIndices())
         {
             if (!reusableItem.IsIndexedByIndex(eventLogService, luceneIndex.IndexName, eventName))
             {
