@@ -33,7 +33,7 @@ public class EditIndex : ModelEditPage<LuceneConfigurationModel>
         {
             model ??= IndexIdentifier == -1
                 ? new LuceneConfigurationModel()
-                : storageService.GetIndexDataOrNull(IndexIdentifier).Result ?? new LuceneConfigurationModel();
+                : storageService.GetIndexDataOrNull(IndexIdentifier) ?? new LuceneConfigurationModel();
             return model;
         }
     }
@@ -52,13 +52,13 @@ public class EditIndex : ModelEditPage<LuceneConfigurationModel>
         return source.Length == builder.Length ? source : builder.ToString();
     }
 
-    protected override async Task<ICommandResponse> ProcessFormData(LuceneConfigurationModel model, ICollection<IFormItem> formItems)
+    protected override Task<ICommandResponse> ProcessFormData(LuceneConfigurationModel model, ICollection<IFormItem> formItems)
     {
         model.IndexName = RemoveWhitespacesUsingStringBuilder(model.IndexName ?? "");
 
-        if ((await storageService.GetIndexIds()).Exists(x => x == model.Id))
+        if (storageService.GetIndexIds().Exists(x => x == model.Id))
         {
-            bool edited = await storageService.TryEditIndex(model);
+            bool edited = storageService.TryEditIndex(model);
 
             var response = ResponseFrom(new FormSubmissionResult(edited
                                                             ? FormSubmissionStatus.ValidationSuccess
@@ -68,14 +68,14 @@ public class EditIndex : ModelEditPage<LuceneConfigurationModel>
             {
                 response.AddSuccessMessage("Index edited");
 
-                await LuceneSearchModule.AddRegisteredIndices();
+                LuceneSearchModule.AddRegisteredIndices();
             }
             else
             {
                 response.AddErrorMessage("Editing failed.");
             }
 
-            return response;
+            return Task.FromResult<ICommandResponse>(response);
         }
         else
         {
@@ -87,7 +87,7 @@ public class EditIndex : ModelEditPage<LuceneConfigurationModel>
             }
             else
             {
-                created = await storageService.TryCreateIndex(model);
+                created = storageService.TryCreateIndex(model);
             }
 
             var response = ResponseFrom(new FormSubmissionResult(created
@@ -116,7 +116,7 @@ public class EditIndex : ModelEditPage<LuceneConfigurationModel>
                 response.AddErrorMessage("Index creating failed.");
             }
 
-            return response;
+            return Task.FromResult<ICommandResponse>(response);
         }
     }
 }

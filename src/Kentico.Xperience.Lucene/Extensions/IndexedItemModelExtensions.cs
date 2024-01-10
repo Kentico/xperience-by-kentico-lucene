@@ -34,24 +34,6 @@ internal static class IndexedItemModelExtensions
         return false;
     }
 
-    public static bool IsLuceneIndexed(this IndexedContentItemModel indexedItem, IEventLogService log, string eventName)
-    {
-        if (indexedItem == null)
-        {
-            throw new ArgumentNullException(nameof(indexedItem));
-        }
-
-        foreach (var index in IndexStore.Instance.GetAllIndices())
-        {
-            if (indexedItem.IsIndexedByIndex(log, index.IndexName, eventName))
-            {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
 
     /// <summary>
     /// Returns true if the node is included in the Lucene index's allowed
@@ -82,7 +64,7 @@ internal static class IndexedItemModelExtensions
 
         return luceneIndex.IncludedPaths.Any(includedPathAttribute =>
         {
-            bool matchesContentType = includedPathAttribute.ContentTypes == null || includedPathAttribute.ContentTypes.Length == 0 || includedPathAttribute.ContentTypes.Contains(indexedItemModel.ClassName);
+            bool matchesContentType = includedPathAttribute.ContentTypes == null || includedPathAttribute.ContentTypes.Length == 0 || includedPathAttribute.ContentTypes.Contains(indexedItemModel.ContentTypeName);
             if (includedPathAttribute.AliasPath.EndsWith('/'))
             {
                 string? pathToMatch = includedPathAttribute.AliasPath;
@@ -128,7 +110,7 @@ internal static class IndexedItemModelExtensions
             return false;
         }
 
-        if (luceneIndex.LanguageCodes.Exists(x => x == indexedItemModel.LanguageCode))
+        if (luceneIndex.LanguageNames.Exists(x => x == indexedItemModel.LanguageName))
         {
             return true;
         }

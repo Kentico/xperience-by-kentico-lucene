@@ -3,9 +3,9 @@ using CMS.DataEngine;
 namespace Kentico.Xperience.Lucene.Models
 {
     /// <summary>
-    /// Declares members for <see cref="IndexitemInfo"/> management.
+    /// Declares members for <see cref="IndexItemInfo"/> management.
     /// </summary>
-    public partial interface IIndexitemInfoProvider : IInfoProvider<IndexitemInfo>, IInfoByIdProvider<IndexitemInfo>, IInfoByNameProvider<IndexitemInfo>
+    public partial interface IIndexItemInfoProvider : IInfoProvider<IndexItemInfo>, IInfoByIdProvider<IndexItemInfo>, IInfoByNameProvider<IndexItemInfo>
     {
     }
 }

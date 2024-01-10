@@ -121,14 +121,14 @@ internal class IndexListing : ListingPageBase<ListingConfiguration>
     public async Task<ICommandResponse> Delete(int id, CancellationToken cancellationToken)
     {
         var storageService = Service.Resolve<IConfigurationStorageService>();
-        bool res = await storageService.TryDeleteIndex(id);
+        bool res = storageService.TryDeleteIndex(id);
         if (res)
         {
-            var indices = await storageService.GetAllIndexData();
+            var indices = storageService.GetAllIndexData();
 
             IndexStore.Instance.AddIndices(indices);
         }
-        return await Task.FromResult(NavigateTo(pageUrlGenerator.GenerateUrl<IndexListing>()));
+        return NavigateTo(pageUrlGenerator.GenerateUrl<IndexListing>());
     }
 
     /// <inheritdoc/>

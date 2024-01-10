@@ -6,15 +6,15 @@ using CMS.DataEngine;
 using CMS.Helpers;
 using Kentico.Xperience.Lucene.Models;
 
-[assembly: RegisterObjectType(typeof(IndexitemInfo), IndexitemInfo.OBJECT_TYPE)]
+[assembly: RegisterObjectType(typeof(IndexItemInfo), IndexItemInfo.OBJECT_TYPE)]
 
 namespace Kentico.Xperience.Lucene.Models
 {
     /// <summary>
-    /// Data container class for <see cref="IndexitemInfo"/>.
+    /// Data container class for <see cref="IndexItemInfo"/>.
     /// </summary>
     [Serializable]
-    public partial class IndexitemInfo : AbstractInfo<IndexitemInfo, IIndexitemInfoProvider>
+    public partial class IndexItemInfo : AbstractInfo<IndexItemInfo, IIndexItemInfoProvider>
     {
         /// <summary>
         /// Object type.
@@ -25,8 +25,7 @@ namespace Kentico.Xperience.Lucene.Models
         /// <summary>
         /// Type information.
         /// </summary>
-#warning "You will need to configure the type info."
-        public static readonly ObjectTypeInfo TYPEINFO = new ObjectTypeInfo(typeof(IndexitemInfoProvider), OBJECT_TYPE, "lucene.indexitem", "LuceneIndexItemId", null, null, "IndexName", null, null, null, null)
+        public static readonly ObjectTypeInfo TYPEINFO = new(typeof(IndexItemInfoProvider), OBJECT_TYPE, "lucene.indexitem", "LuceneIndexItemId", null, null, "IndexName", null, null, null, null)
         {
             TouchCacheDependencies = true,
         };
@@ -110,26 +109,26 @@ namespace Kentico.Xperience.Lucene.Models
         /// </summary>
         /// <param name="info">Serialization info.</param>
         /// <param name="context">Streaming context.</param>
-        protected IndexitemInfo(SerializationInfo info, StreamingContext context)
+        protected IndexItemInfo(SerializationInfo info, StreamingContext context)
             : base(info, context)
         {
         }
 
 
         /// <summary>
-        /// Creates an empty instance of the <see cref="IndexitemInfo"/> class.
+        /// Creates an empty instance of the <see cref="IndexItemInfo"/> class.
         /// </summary>
-        public IndexitemInfo()
+        public IndexItemInfo()
             : base(TYPEINFO)
         {
         }
 
 
         /// <summary>
-        /// Creates a new instances of the <see cref="IndexitemInfo"/> class from the given <see cref="DataRow"/>.
+        /// Creates a new instances of the <see cref="IndexItemInfo"/> class from the given <see cref="DataRow"/>.
         /// </summary>
         /// <param name="dr">DataRow with the object data.</param>
-        public IndexitemInfo(DataRow dr)
+        public IndexItemInfo(DataRow dr)
             : base(TYPEINFO, dr)
         {
         }

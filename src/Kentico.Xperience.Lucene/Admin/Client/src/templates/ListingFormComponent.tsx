@@ -48,7 +48,6 @@ export const ListingFormComponent = (props: ListComponentClientProperties): JSX.
     const [showAddNewPath, setShowAddNewPath] = useState<boolean>(true);
 
     const getPossibleContentTypeItems = (): string => {
-        let msg = 'Included Content Types(';
 
         for (let i = 0; i < props.possibleItems.length - 1; i++){
             msg += props.possibleItems[i] + ', ';
@@ -57,7 +56,6 @@ export const ListingFormComponent = (props: ListComponentClientProperties): JSX.
         if (props.possibleItems.length > 0) {
             msg += props.possibleItems[props.possibleItems.length - 1];
         }
-        msg += ') - Separate by new line';
         return msg;
     }
 
@@ -274,9 +272,30 @@ export const ListingFormComponent = (props: ListComponentClientProperties): JSX.
             {showPathEdit && (
                 <div>
                     <br></br>
-                    <Input label="Path" value={path} onChange={handleInputChange} />
+                    <Input label="Included Path" value={path} onChange={handleInputChange} />
                     <br></br>
-                    <TextArea label={getPossibleContentTypeItems()} value={contentTypesValue} onChange={handleTextareaChange} />
+                    <div class="label-wrapper___AcszK">
+                        <label class="label___WET63">
+                            Available content types:
+                        </label>
+                    </div>
+                        <ul>
+                            {props.possibleItems.map((x) =>
+                                <label class="label___WET63">
+                                    <li key={x}>
+                                        <span>{x}</span>
+                                    </li>
+                                </label>
+                            )}
+                        </ul>
+                    <br></br>
+                    <TextArea label="Included ContentType Items" value={contentTypesValue} onChange={handleTextareaChange} />
+                    <br></br>
+                    <div class="label-wrapper___AcszK">
+                        <label class="label___WET63">
+                            <span>Separate each content type with a new line</span>
+                        </label>
+                    </div>
                     <br></br>
                     <Button type={ButtonType.Button} label="Save Path" onClick={savePath}></Button>
                 </div>

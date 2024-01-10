@@ -27,7 +27,6 @@ public partial class ContentTypeItemInfo : AbstractInfo<ContentTypeItemInfo, ICo
     /// <summary>
     /// Type information.
     /// </summary>
-#warning "You will need to configure the type info."
     public static readonly ObjectTypeInfo TYPEINFO = new(typeof(ContentTypeItemInfoProvider), OBJECT_TYPE, "lucene.contenttypeitem", "LuceneContentTypeItemId", null, null, null, null, null, null, null)
     {
         TouchCacheDependencies = true,

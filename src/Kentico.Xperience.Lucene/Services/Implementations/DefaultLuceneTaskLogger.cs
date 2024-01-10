@@ -70,11 +70,6 @@ internal class DefaultLuceneTaskLogger : ILuceneTaskLogger
 
     public async Task HandleContentItemEvent(IndexedContentItemModel indexedItem, string eventName)
     {
-        if (!indexedItem.IsLuceneIndexed(eventLogService, eventName))
-        {
-            return;
-        }
-
         foreach (string? indexName in IndexStore.Instance.GetAllIndices().Select(index => index.IndexName))
         {
             if (!indexedItem.IsIndexedByIndex(eventLogService, indexName, eventName))

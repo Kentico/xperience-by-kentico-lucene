@@ -3,16 +3,16 @@ using CMS.DataEngine;
 namespace Kentico.Xperience.Lucene.Models
 {
     /// <summary>
-    /// Class providing <see cref="IndexitemInfo"/> management.
+    /// Class providing <see cref="IndexItemInfo"/> management.
     /// </summary>
-    [ProviderInterface(typeof(IIndexitemInfoProvider))]
-    public partial class IndexitemInfoProvider : AbstractInfoProvider<IndexitemInfo, IndexitemInfoProvider>, IIndexitemInfoProvider
+    [ProviderInterface(typeof(IIndexItemInfoProvider))]
+    public partial class IndexItemInfoProvider : AbstractInfoProvider<IndexItemInfo, IndexItemInfoProvider>, IIndexItemInfoProvider
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="IndexitemInfoProvider"/> class.
+        /// Initializes a new instance of the <see cref="IndexItemInfoProvider"/> class.
         /// </summary>
-        public IndexitemInfoProvider()
-            : base(IndexitemInfo.TYPEINFO)
+        public IndexItemInfoProvider()
+            : base(IndexItemInfo.TYPEINFO)
         {
         }
     }

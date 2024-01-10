@@ -4,12 +4,13 @@ namespace Kentico.Xperience.Lucene.Services;
 
 public interface IConfigurationStorageService
 {
-    Task<bool> TryEditIndex(LuceneConfigurationModel configuration);
-    Task<bool> TryCreateIndex(LuceneConfigurationModel configuration);
-    Task<bool> TryDeleteIndex(LuceneConfigurationModel configuration);
-    Task<bool> TryDeleteIndex(int id);
-    Task<LuceneConfigurationModel?> GetIndexDataOrNull(int indexId);
-    Task<List<string>> GetExistingIndexNames();
-    Task<List<int>> GetIndexIds();
-    Task<IEnumerable<LuceneConfigurationModel>> GetAllIndexData();
+    bool TryCreateIndex(LuceneConfigurationModel configuration);
+
+    bool TryEditIndex(LuceneConfigurationModel configuration);
+    bool TryDeleteIndex(LuceneConfigurationModel configuration);
+    bool TryDeleteIndex(int id);
+    LuceneConfigurationModel? GetIndexDataOrNull(int indexId);
+    List<string> GetExistingIndexNames();
+    List<int> GetIndexIds();
+    IEnumerable<LuceneConfigurationModel> GetAllIndexData();
 }

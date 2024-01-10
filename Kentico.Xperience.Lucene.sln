@@ -19,6 +19,15 @@ Global
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
+	Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "build", "build", "{5EEC7187-23EF-4CEF-86F2-2D49CD71BBC6}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+		Directory.Build.props = Directory.Build.props
+		Directory.build.targets = Directory.build.targets
+		Directory.Packages.props = Directory.Packages.props
+		global.json = global.json
+		nuget.config = nuget.config
+	EndProjectSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B830F0B2-0768-406D-B926-320FBD6EB266}
 	EndGlobalSection

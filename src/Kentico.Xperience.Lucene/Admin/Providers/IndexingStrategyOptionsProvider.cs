@@ -2,7 +2,7 @@
 
 namespace Kentico.Xperience.Lucene.Admin.Providers;
 
-public class IndexingStrategyOptionsProvider : IDropDownOptionsProvider
+internal class IndexingStrategyOptionsProvider : IDropDownOptionsProvider
 {
     public Task<IEnumerable<DropDownOptionItem>> GetOptionItems() =>
         Task.FromResult(StrategyStorage.Strategies.Keys.Select(x => new DropDownOptionItem()

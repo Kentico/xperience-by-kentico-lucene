@@ -113,7 +113,6 @@ internal class DefaultLuceneClient : ILuceneClient
                     var termQuery = new TermQuery(new Term(nameof(IndexedItemModel.WebPageItemGuid), guid));
                     booleanQuery.Add(termQuery, Occur.SHOULD); // Match any of the object IDs
                 }
-                // TODO use batches
                 writer.DeleteDocuments(booleanQuery);
                 return "OK";
             }, index.StorageContext.GetLastGeneration(true));
@@ -132,7 +131,7 @@ internal class DefaultLuceneClient : ILuceneClient
         var indexedItems = new List<IndexedItemModel>();
         foreach (var includedPathAttribute in luceneIndex.IncludedPaths)
         {
-            foreach (string language in luceneIndex.LanguageCodes)
+            foreach (string language in luceneIndex.LanguageNames)
             {
                 var queryBuilder = new ContentItemQueryBuilder();
 
@@ -146,13 +145,16 @@ internal class DefaultLuceneClient : ILuceneClient
                 queryBuilder.InLanguage(language);
 
                 var webPageItems = (await executor.GetWebPageResult(queryBuilder, container => container, cancellationToken: cancellationToken ?? default))
-                    .Select(x => new IndexedItemModel()
+                    .Select(x => new IndexedItemModel(language, x.ContentTypeName, luceneIndex.WebSiteChannelName, x.WebPageItemGUID, x.WebPageItemTreePath)
                     {
-                        LanguageCode = language,
-                        ClassName = x.ContentTypeName,
-                        ChannelName = luceneIndex.WebSiteChannelName,
-                        WebPageItemGuid = x.WebPageItemGUID,
-                        WebPageItemTreePath = x.WebPageItemTreePath
+                        ID = x.WebPageItemID,
+                        ParentID = x.WebPageItemParentID,
+                        Name = x.WebPageItemName,
+                        Order = x.WebPageItemOrder,
+                        IsSecured = x.ContentItemIsSecured,
+                        WebsiteChannelID = x.WebPageItemWebsiteChannelID,
+                        ContentTypeID = x.ContentItemContentTypeID,
+                        ContentLanguageID = x.ContentItemCommonDataContentLanguageID
                     });
 
                 foreach (var item in webPageItems)

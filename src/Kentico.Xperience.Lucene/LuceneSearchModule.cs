@@ -37,7 +37,7 @@ internal class LuceneSearchModule : Module
         appSettingsService = services.GetRequiredService<IAppSettingsService>();
         conversionService = services.GetRequiredService<IConversionService>();
 
-        AddRegisteredIndices().Wait();
+        AddRegisteredIndices();
         WebPageEvents.Publish.Execute += HandleEvent;
         WebPageEvents.Delete.Execute += HandleEvent;
         ContentItemEvents.Publish.Execute += HandleContentItemEvent;
@@ -56,17 +56,24 @@ internal class LuceneSearchModule : Module
             return;
         }
         var publishedEvent = (WebPageEventArgsBase)e;
-        var indexedItemModel = new IndexedItemModel
+        var indexedItemModel = new IndexedItemModel(publishedEvent.ContentLanguageName,
+            publishedEvent.ContentTypeName,
+            publishedEvent.WebsiteChannelName,
+            publishedEvent.Guid,
+            publishedEvent.TreePath)
         {
-            LanguageCode = publishedEvent.ContentLanguageName,
-            ClassName = publishedEvent.ContentTypeName,
-            ChannelName = publishedEvent.WebsiteChannelName,
-            WebPageItemGuid = publishedEvent.Guid,
-            WebPageItemTreePath = publishedEvent.TreePath,
+            ID = publishedEvent.ID,
+            ParentID = publishedEvent.ParentID,
+            Name = publishedEvent.Name,
+            Order = publishedEvent.Order,
+            DisplayName = publishedEvent.DisplayName,
+            IsSecured = publishedEvent.IsSecured,
+            WebsiteChannelID = publishedEvent.WebsiteChannelID,
+            ContentTypeID = publishedEvent.ContentTypeID,
+            ContentLanguageID = publishedEvent.ContentLanguageID
         };
 
-        var task = luceneTaskLogger?.HandleEvent(indexedItemModel, e.CurrentHandler.Name);
-        task?.Wait();
+        luceneTaskLogger?.HandleEvent(indexedItemModel, e.CurrentHandler.Name).GetAwaiter().GetResult();
     }
 
     private void HandleContentItemEvent(object? sender, CMSEventArgs e)
@@ -77,23 +84,22 @@ internal class LuceneSearchModule : Module
         }
         var publishedEvent = (ContentItemEventArgsBase)e;
 
-        var indexedContentItemModel = new IndexedContentItemModel
+        var indexedContentItemModel = new IndexedContentItemModel(publishedEvent.ContentLanguageName, publishedEvent.ContentTypeName, publishedEvent.ID, publishedEvent.Guid) 
         {
-            LanguageCode = publishedEvent.ContentLanguageName,
-            ClassName = publishedEvent.ContentTypeName,
-            ContentItemGuid = publishedEvent.Guid,
-            ContentItemID = publishedEvent.ID,
+            Name = publishedEvent.Name,
+            DisplayName = publishedEvent.DisplayName,
+            IsSecured = publishedEvent.IsSecured,
+            ContentTypeID = publishedEvent.ContentTypeID,
+            ContentLanguageID = publishedEvent.ContentLanguageID,
         };
 
-        var task = luceneTaskLogger?.HandleContentItemEvent(indexedContentItemModel, e.CurrentHandler.Name);
-
-        task?.Wait();
+        luceneTaskLogger?.HandleContentItemEvent(indexedContentItemModel, e.CurrentHandler.Name).GetAwaiter().GetResult();
     }
 
-    public static async Task AddRegisteredIndices()
+    public static void AddRegisteredIndices()
     {
         var configurationStorageService = Service.Resolve<IConfigurationStorageService>();
-        var indices = await configurationStorageService.GetAllIndexData();
+        var indices = configurationStorageService.GetAllIndexData();
 
         IndexStore.Instance.AddIndices(indices);
     }

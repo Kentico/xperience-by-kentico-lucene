@@ -39,15 +39,7 @@ export const IndexedContentTemplate = ({
    usePageCommand<void, PathDetailArguments>(
     Commands.ShowPathDetail,
   );
-
-  // const pathClicked = (index: number): void => {
-  //  // Send path identifier to back-end
-  //  const row = pathRows[index];
-  //  if (row !== undefined) {
-  //    showPathDetail({ identifier: row.identifier }).catch(() => {});
-  //  }
-  // };
-
+  
   return (
     <RoutingContentPlaceholder>
       <Stack spacing={Spacing.XXL}>

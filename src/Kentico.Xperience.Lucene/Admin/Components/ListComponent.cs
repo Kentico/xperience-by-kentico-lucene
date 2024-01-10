@@ -24,7 +24,7 @@ public sealed class ListComponentAttribute : FormComponentAttribute
 [ComponentAttribute(typeof(ListComponentAttribute))]
 public class ListComponent : FormComponent<ListComponentProperties, ListComponentClientProperties, List<IncludedPath>>
 {
-    public List<IncludedPath>? Value { get; set; }
+    internal List<IncludedPath>? Value { get; set; }
 
     public override string ClientComponentName => "@kentico/xperience-integrations-lucene/Listing";
 

@@ -9,6 +9,6 @@
             <AssemblyToSign Include="$(XmlSerializersTargetPath)" Condition="Exists('$(XmlSerializersTargetPath)')" />
         </ItemGroup>
 
-        <SignFile CertificateThumbprint="$(AuthenticodeCertificateThumbprint)" TimestampUrl="http://time.certum.pl" SigningTarget="%(AssemblyToSign.Identity)" />
+        <!--<SignFile CertificateThumbprint="$(AuthenticodeCertificateThumbprint)" TimestampUrl="http://time.certum.pl" SigningTarget="%(AssemblyToSign.Identity)" />-->
     </Target>
 </Project>

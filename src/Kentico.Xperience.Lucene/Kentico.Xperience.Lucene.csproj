@@ -1,7 +1,5 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
 	<PropertyGroup>
-		<TargetFramework>net6.0</TargetFramework>
 		<Product>Xperience by Kentico Lucene Search</Product>
 		<Title>$(Product)</Title>
 		<PackageId>Kentico.Xperience.Lucene</PackageId>
@@ -49,8 +47,8 @@
 		<PackageReference Include="Kentico.Xperience.Admin" />
 		<PackageReference Include="Kentico.Xperience.WebApp" />
 		<PackageReference Include="Lucene.Net" />
-		<PackageReference Include="Lucene.Net.Analysis.Common"/>
-		<PackageReference Include="Lucene.Net.Facet"/>
+		<PackageReference Include="Lucene.Net.Analysis.Common" />
+		<PackageReference Include="Lucene.Net.Facet" />
 		<PackageReference Include="Microsoft.AspNetCore.Html.Abstractions" />
 		<PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" />
 		<PackageReference Include="Microsoft.AspNetCore.Mvc.ViewFeatures" />

@@ -61,6 +61,35 @@ public class ExampleSearchIndexingStrategy : DefaultLuceneIndexingStrategy
 }
 ```
 
+Some base properties are added to the document by default. I.E. All of these are mapped in static class `BaseProperties` and can be used to retrieve a value
+from the document as any other document field.
+
+The implicitly added fields are as follows: 
+
+``` csharp
+
+ public const string CLASS_NAME = "ClassName";
+ public const string WEB_PAGE_ITEM_GUID = "WebPageItemGuid";
+ public const string LANGUAGE_NAME = "LanguageName";
+ public const string URL = "url";
+
+```
+
+The `url` field is a relative path by default. You can change this by adding this field in the `MapToLuceneDocumentOrNull` method. I.E.
+
+```csharp
+public override async Task<Document?> MapToLuceneDocumentOrNull(IndexedItemModel indexedModel)
+{
+    //...
+
+    var document = new Document();
+
+    document.AddStringField(BaseProperties.URL, url, Field.Store.YES);
+
+    //...
+}
+```
+
 We can also specify a facet dimension. Which is later used in your code if you want to create faceted search.
 
 ```csharp

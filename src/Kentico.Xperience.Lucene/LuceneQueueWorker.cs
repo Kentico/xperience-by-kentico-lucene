@@ -64,6 +64,6 @@ internal class LuceneQueueWorker : ThreadQueueWorker<LuceneQueueItem, LuceneQueu
 
     /// <inheritdoc />
     protected override int ProcessItems(IEnumerable<LuceneQueueItem> items) =>
-         luceneTaskProcessor.ProcessLuceneTasks(items, CancellationToken.None);
+         luceneTaskProcessor.ProcessLuceneTasks(items, CancellationToken.None).GetAwaiter().GetResult();
 
 }

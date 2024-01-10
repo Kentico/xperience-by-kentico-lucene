@@ -1,7 +1,5 @@
-using System;
 using System.Data;
 using System.Runtime.Serialization;
-using System.Collections.Generic;
 
 using CMS;
 using CMS.DataEngine;
@@ -9,15 +7,15 @@ using CMS.Helpers;
 
 using Kentico.Xperience.Lucene.Models;
 
-[assembly: RegisterObjectType(typeof(IndexedlanguageInfo), IndexedlanguageInfo.OBJECT_TYPE)]
+[assembly: RegisterObjectType(typeof(IndexedLanguageInfo), IndexedLanguageInfo.OBJECT_TYPE)]
 
 namespace Kentico.Xperience.Lucene.Models
 {
     /// <summary>
-    /// Data container class for <see cref="IndexedlanguageInfo"/>.
+    /// Data container class for <see cref="IndexedLanguageInfo"/>.
     /// </summary>
     [Serializable]
-    public partial class IndexedlanguageInfo : AbstractInfo<IndexedlanguageInfo, IIndexedlanguageInfoProvider>
+    public partial class IndexedLanguageInfo : AbstractInfo<IndexedLanguageInfo, IIndexedLanguageInfoProvider>
     {
         /// <summary>
         /// Object type.
@@ -28,13 +26,12 @@ namespace Kentico.Xperience.Lucene.Models
         /// <summary>
         /// Type information.
         /// </summary>
-#warning "You will need to configure the type info."
-        public static readonly ObjectTypeInfo TYPEINFO = new ObjectTypeInfo(typeof(IndexedlanguageInfoProvider), OBJECT_TYPE, "lucene.indexedlanguage", "IndexedLanguageId", null, null, null, null, null, null, null)
+        public static readonly ObjectTypeInfo TYPEINFO = new(typeof(IndexedLanguageInfoProvider), OBJECT_TYPE, "lucene.indexedlanguage", "IndexedLanguageId", null, null, null, null, null, null, null)
         {
             TouchCacheDependencies = true,
             DependsOn = new List<ObjectDependency>()
             {
-                new ObjectDependency("LuceneIndexItemId", "IndexitemInfo", ObjectDependencyEnum.Required),
+                new("LuceneIndexItemId", "IndexitemInfo", ObjectDependencyEnum.Required),
             },
         };
 
@@ -54,10 +51,10 @@ namespace Kentico.Xperience.Lucene.Models
         /// Code.
         /// </summary>
         [DatabaseField]
-        public virtual string languageCode
+        public virtual string LanguageCode
         {
-            get => ValidationHelper.GetString(GetValue(nameof(languageCode)), String.Empty);
-            set => SetValue(nameof(languageCode), value);
+            get => ValidationHelper.GetString(GetValue(nameof(LanguageCode)), String.Empty);
+            set => SetValue(nameof(LanguageCode), value);
         }
 
 
@@ -95,26 +92,26 @@ namespace Kentico.Xperience.Lucene.Models
         /// </summary>
         /// <param name="info">Serialization info.</param>
         /// <param name="context">Streaming context.</param>
-        protected IndexedlanguageInfo(SerializationInfo info, StreamingContext context)
+        protected IndexedLanguageInfo(SerializationInfo info, StreamingContext context)
             : base(info, context)
         {
         }
 
 
         /// <summary>
-        /// Creates an empty instance of the <see cref="IndexedlanguageInfo"/> class.
+        /// Creates an empty instance of the <see cref="IndexedLanguageInfo"/> class.
         /// </summary>
-        public IndexedlanguageInfo()
+        public IndexedLanguageInfo()
             : base(TYPEINFO)
         {
         }
 
 
         /// <summary>
-        /// Creates a new instances of the <see cref="IndexedlanguageInfo"/> class from the given <see cref="DataRow"/>.
+        /// Creates a new instances of the <see cref="IndexedLanguageInfo"/> class from the given <see cref="DataRow"/>.
         /// </summary>
         /// <param name="dr">DataRow with the object data.</param>
-        public IndexedlanguageInfo(DataRow dr)
+        public IndexedLanguageInfo(DataRow dr)
             : base(TYPEINFO, dr)
         {
         }

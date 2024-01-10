@@ -3,9 +3,9 @@ using CMS.DataEngine;
 namespace Kentico.Xperience.Lucene.Models
 {
     /// <summary>
-    /// Declares members for <see cref="IncludedpathitemInfo"/> management.
+    /// Declares members for <see cref="IncludedPathItemInfo"/> management.
     /// </summary>
-    public partial interface IIncludedpathitemInfoProvider : IInfoProvider<IncludedpathitemInfo>, IInfoByIdProvider<IncludedpathitemInfo>
+    public partial interface IIncludedPathItemInfoProvider : IInfoProvider<IncludedPathItemInfo>, IInfoByIdProvider<IncludedPathItemInfo>
     {
     }
 }

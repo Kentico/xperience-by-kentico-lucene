@@ -5,6 +5,7 @@ using Kentico.Xperience.Lucene.Models;
 using Lucene.Net.Documents;
 using Lucene.Net.Documents.Extensions;
 using Microsoft.Extensions.DependencyInjection;
+using Kentico.Xperience.Lucene.Constants;
 
 namespace Kentico.Xperience.Lucene.Services;
 
@@ -14,10 +15,9 @@ internal class LuceneBatchResult
     internal HashSet<LuceneIndex> PublishedIndices { get; set; } = new();
 }
 
+
 internal class DefaultLuceneTaskProcessor : ILuceneTaskProcessor
 {
-    internal const string URL_NAME = "Url";
-
     private readonly IWebPageUrlRetriever urlRetriever;
     private readonly IServiceProvider serviceProvider;
     private readonly ILuceneClient luceneClient;
@@ -37,7 +37,7 @@ internal class DefaultLuceneTaskProcessor : ILuceneTaskProcessor
     }
 
     /// <inheritdoc />
-    public int ProcessLuceneTasks(IEnumerable<LuceneQueueItem> queueItems, CancellationToken cancellationToken, int maximumBatchSize = 100)
+    public async Task<int> ProcessLuceneTasks(IEnumerable<LuceneQueueItem> queueItems, CancellationToken cancellationToken, int maximumBatchSize = 100)
     {
         LuceneBatchResult batchResults = new();
 
@@ -45,7 +45,7 @@ internal class DefaultLuceneTaskProcessor : ILuceneTaskProcessor
 
         foreach (var batch in batches)
         {
-            ProcessLuceneBatch(batch, cancellationToken, batchResults).Wait();
+            await ProcessLuceneBatch(batch, cancellationToken, batchResults);
         }
 
         foreach (var index in batchResults.PublishedIndices)
@@ -129,25 +129,25 @@ internal class DefaultLuceneTaskProcessor : ILuceneTaskProcessor
 
     private async Task AddBaseProperties(IndexedItemModel lucenePageItem, Document document)
     {
-        document.AddStringField(nameof(IndexedItemModel.ClassName), lucenePageItem.ClassName, Field.Store.YES);
-        document.AddStringField(nameof(IndexedItemModel.WebPageItemGuid), lucenePageItem.WebPageItemGuid.ToString(), Field.Store.YES);
-        document.AddStringField(nameof(IndexedItemModel.LanguageCode), lucenePageItem.LanguageCode, Field.Store.YES);
+        document.AddStringField(BaseProperties.CLASS_NAME, lucenePageItem.ContentTypeName, Field.Store.YES);
+        document.AddStringField(BaseProperties.WEB_PAGE_ITEM_GUID, lucenePageItem.WebPageItemGuid.ToString(), Field.Store.YES);
+        document.AddStringField(BaseProperties.LANGUAGE_NAME, lucenePageItem.LanguageName, Field.Store.YES);
 
-        string url = string.Empty;
-        try
+        if (!document.Any(x => x.Name == BaseProperties.URL))
         {
-            if (lucenePageItem.WebPageItemGuid is not null && lucenePageItem.LanguageCode is not null)
+            string url = string.Empty;
+            try
             {
-                url = (await urlRetriever.Retrieve(lucenePageItem.WebPageItemGuid.Value, lucenePageItem.LanguageCode)).RelativePath;
+                url = (await urlRetriever.Retrieve(lucenePageItem.WebPageItemGuid, lucenePageItem.LanguageName)).RelativePath;
             }
-        }
-        catch (Exception)
-        {
-            // Retrieve can throw an exception when processing a page update LuceneQueueItem
-            // and the page was deleted before the update task has processed. In this case, upsert an
-            // empty URL
-        }
+            catch (Exception)
+            {
+                // Retrieve can throw an exception when processing a page update LuceneQueueItem
+                // and the page was deleted before the update task has processed. In this case, upsert an
+                // empty URL
+            }
 
-        document.AddStringField(URL_NAME, url, Field.Store.YES);
+            document.AddStringField(BaseProperties.URL, url, Field.Store.YES);
+        }
     }
 }

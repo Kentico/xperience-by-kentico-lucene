@@ -5,10 +5,9 @@ using Kentico.Xperience.Admin.Base.Forms;
 
 namespace Kentico.Xperience.Lucene.Admin.Providers;
 
-public class LanguageOptionsProvider : IGeneralSelectorDataProvider
+internal class LanguageOptionsProvider : IGeneralSelectorDataProvider
 {
     private readonly IInfoProvider<ContentLanguageInfo> contentLanguageInfoProvider;
-    private static IEnumerable<ObjectSelectorListItem<string>>? items = null;
 
     public LanguageOptionsProvider(IInfoProvider<ContentLanguageInfo> contentLanguageInfoProvider) => this.contentLanguageInfoProvider = contentLanguageInfoProvider;
 
@@ -26,7 +25,7 @@ public class LanguageOptionsProvider : IGeneralSelectorDataProvider
         itemQuery.Page(pageIndex, 20);
 
         // Retrieves the users and converts them into ObjectSelectorListItem<string> options
-        items = (await itemQuery.GetEnumerableTypedResultAsync()).Select(x => new ObjectSelectorListItem<string>()
+        var items = (await itemQuery.GetEnumerableTypedResultAsync()).Select(x => new ObjectSelectorListItem<string>()
         {
             Value = x.ContentLanguageName,
             Text = x.ContentLanguageDisplayName,
@@ -43,17 +42,14 @@ public class LanguageOptionsProvider : IGeneralSelectorDataProvider
     // Returns ObjectSelectorListItem<string> options for all item values that are currently selected
     public async Task<IEnumerable<ObjectSelectorListItem<string>>> GetSelectedItemsAsync(IEnumerable<string> selectedValues, CancellationToken cancellationToken)
     {
-        if (items == null)
+        var itemQuery = contentLanguageInfoProvider.Get().Page(0, 20);
+        var items = (await itemQuery.GetEnumerableTypedResultAsync()).Select(x => new ObjectSelectorListItem<string>()
         {
-            var itemQuery = contentLanguageInfoProvider.Get().Page(0, 20);
-            items = (await itemQuery.GetEnumerableTypedResultAsync()).Select(x => new ObjectSelectorListItem<string>()
-            {
-                Value = x.ContentLanguageName,
-                Text = x.ContentLanguageDisplayName,
-                IsValid = true
-            });
+            Value = x.ContentLanguageName,
+            Text = x.ContentLanguageDisplayName,
+            IsValid = true
+        });
 
-        }
         var selectedItems = new List<ObjectSelectorListItem<string>>();
         if (selectedValues is not null)
         {

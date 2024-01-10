@@ -8,15 +8,15 @@ using CMS.DataEngine;
 using CMS.Helpers;
 using Kentico.Xperience.Lucene.Models;
 
-[assembly: RegisterObjectType(typeof(IncludedpathitemInfo), IncludedpathitemInfo.OBJECT_TYPE)]
+[assembly: RegisterObjectType(typeof(IncludedPathItemInfo), IncludedPathItemInfo.OBJECT_TYPE)]
 
 namespace Kentico.Xperience.Lucene.Models
 {
     /// <summary>
-    /// Data container class for <see cref="IncludedpathitemInfo"/>.
+    /// Data container class for <see cref="IncludedPathItemInfo"/>.
     /// </summary>
     [Serializable]
-    public partial class IncludedpathitemInfo : AbstractInfo<IncludedpathitemInfo, IIncludedpathitemInfoProvider>
+    public partial class IncludedPathItemInfo : AbstractInfo<IncludedPathItemInfo, IIncludedPathItemInfoProvider>
     {
         /// <summary>
         /// Object type.
@@ -27,13 +27,12 @@ namespace Kentico.Xperience.Lucene.Models
         /// <summary>
         /// Type information.
         /// </summary>
-#warning "You will need to configure the type info."
-        public static readonly ObjectTypeInfo TYPEINFO = new ObjectTypeInfo(typeof(IncludedpathitemInfoProvider), OBJECT_TYPE, "lucene.includedpathitem", "LuceneIncludedPathItemId", null, null, null, null, null, null, null)
+        public static readonly ObjectTypeInfo TYPEINFO = new(typeof(IncludedPathItemInfoProvider), OBJECT_TYPE, "lucene.includedpathitem", "LuceneIncludedPathItemId", null, null, null, null, null, null, null)
         {
             TouchCacheDependencies = true,
             DependsOn = new List<ObjectDependency>()
             {
-                new ObjectDependency("LuceneIndexItemId", "IndexitemInfo", ObjectDependencyEnum.Required),
+                new("LuceneIndexItemId", "IndexItemInfo", ObjectDependencyEnum.Required),
             },
         };
 
@@ -94,26 +93,26 @@ namespace Kentico.Xperience.Lucene.Models
         /// </summary>
         /// <param name="info">Serialization info.</param>
         /// <param name="context">Streaming context.</param>
-        protected IncludedpathitemInfo(SerializationInfo info, StreamingContext context)
+        protected IncludedPathItemInfo(SerializationInfo info, StreamingContext context)
             : base(info, context)
         {
         }
 
 
         /// <summary>
-        /// Creates an empty instance of the <see cref="IncludedpathitemInfo"/> class.
+        /// Creates an empty instance of the <see cref="IncludedPathItemInfo"/> class.
         /// </summary>
-        public IncludedpathitemInfo()
+        public IncludedPathItemInfo()
             : base(TYPEINFO)
         {
         }
 
 
         /// <summary>
-        /// Creates a new instances of the <see cref="IncludedpathitemInfo"/> class from the given <see cref="DataRow"/>.
+        /// Creates a new instances of the <see cref="IncludedPathItemInfo"/> class from the given <see cref="DataRow"/>.
         /// </summary>
         /// <param name="dr">DataRow with the object data.</param>
-        public IncludedpathitemInfo(DataRow dr)
+        public IncludedPathItemInfo(DataRow dr)
             : base(TYPEINFO, dr)
         {
         }
