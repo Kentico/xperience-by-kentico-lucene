@@ -13,6 +13,7 @@ internal class IndexListing : ListingPageBase<ListingConfiguration>
 {
     private readonly ILuceneClient luceneClient;
     private readonly IPageUrlGenerator pageUrlGenerator;
+    private readonly IConfigurationStorageService configurationStorageService;
     private ListingConfiguration? mPageConfiguration;
 
     /// <inheritdoc/>
@@ -38,10 +39,11 @@ internal class IndexListing : ListingPageBase<ListingConfiguration>
     /// <summary>
     /// Initializes a new instance of the <see cref="IndexListing"/> class.
     /// </summary>
-    public IndexListing(ILuceneClient luceneClient, IPageUrlGenerator pageUrlGenerator)
+    public IndexListing(ILuceneClient luceneClient, IPageUrlGenerator pageUrlGenerator, IConfigurationStorageService configurationStorageService)
     {
         this.luceneClient = luceneClient;
         this.pageUrlGenerator = pageUrlGenerator;
+        this.configurationStorageService = configurationStorageService;
     }
 
     /// <inheritdoc/>
@@ -115,20 +117,21 @@ internal class IndexListing : ListingPageBase<ListingConfiguration>
     }
 
     [PageCommand]
-    public async Task<INavigateResponse> Edit(int id, CancellationToken cancellationToken) => await Task.FromResult(NavigateTo(pageUrlGenerator.GenerateUrl<EditIndex>(id.ToString())));
+    public Task<INavigateResponse> Edit(int id, CancellationToken cancellationToken) => Task.FromResult(NavigateTo(pageUrlGenerator.GenerateUrl<EditIndex>(id.ToString())));
 
     [PageCommand]
-    public async Task<ICommandResponse> Delete(int id, CancellationToken cancellationToken)
+    public Task<ICommandResponse> Delete(int id, CancellationToken cancellationToken)
     {
-        var storageService = Service.Resolve<IConfigurationStorageService>();
-        bool res = storageService.TryDeleteIndex(id);
+        bool res = configurationStorageService.TryDeleteIndex(id);
         if (res)
         {
-            var indices = storageService.GetAllIndexData();
+            var indices = configurationStorageService.GetAllIndexData();
 
             IndexStore.Instance.AddIndices(indices);
         }
-        return NavigateTo(pageUrlGenerator.GenerateUrl<IndexListing>());
+        var response = NavigateTo(pageUrlGenerator.GenerateUrl<IndexListing>());
+
+        return Task.FromResult<ICommandResponse>(response);
     }
 
     /// <inheritdoc/>
