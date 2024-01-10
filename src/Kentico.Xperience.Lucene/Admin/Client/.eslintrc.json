@@ -15,9 +15,9 @@
     "sourceType": "module",
     "parser": "babel-eslint"
   },
-  "plugins": [ "react" ],
+  "plugins": ["react"],
   "rules": {
-    "@typescript-eslint/no-invalid-void-type": [ "off" ],
+    "@typescript-eslint/no-invalid-void-type": ["off"],
     "quotes": [
       "warn",
       "single",
@@ -25,8 +25,8 @@
         "avoidEscape": true
       }
     ],
-    "jsx-quotes": [ "warn", "prefer-double" ],
-    "eqeqeq": [ "warn", "always" ],
+    "jsx-quotes": ["warn", "prefer-double"],
+    "eqeqeq": ["warn", "always"],
     "no-var": "warn",
     "no-unused-vars": "off",
     "no-console": "warn",
@@ -34,14 +34,14 @@
     "@typescript-eslint/no-unused-vars": [
       "warn",
       {
-        "args": "after-used"
+        "args": "after-used",
+        "argsIgnorePattern": "^_",
+        "varsIgnorePattern": "^_",
+        "caughtErrorsIgnorePattern": "^_"
       }
     ],
     "import/first": "warn",
-    "sort-imports": [
-      "warn",
-      { "ignoreDeclarationSort": true }
-    ],
+    "sort-imports": ["warn", { "ignoreDeclarationSort": true }],
     "import/order": [
       "warn",
       {
@@ -69,7 +69,7 @@
     ],
     "import/no-default-export": "warn",
     "import/no-duplicates": "warn",
-    "react/prefer-es6-class": [ "warn", "always" ],
+    "react/prefer-es6-class": ["warn", "always"],
     "react/jsx-uses-react": "off",
     "react/react-in-jsx-scope": "off",
     "@typescript-eslint/no-explicit-any": "warn",
@@ -78,7 +78,7 @@
       "warn",
       {
         "selector": "default",
-        "format": [ "PascalCase" ],
+        "format": ["PascalCase"],
         "filter": {
           "regex": "^((data|aria|xp|invalid|--[a-z]+)[-].+)|[0-9]+$",
           "match": false
@@ -86,11 +86,11 @@
       },
       {
         "selector": "variable",
-        "format": [ "PascalCase", "camelCase" ]
+        "format": ["PascalCase", "camelCase"]
       },
       {
         "selector": "variable",
-        "format": [ "UPPER_CASE" ],
+        "format": ["UPPER_CASE"],
         "filter": {
           "regex": "^__[A-Za-z_]+__$",
           "match": true
@@ -100,20 +100,20 @@
       },
       {
         "selector": "function",
-        "format": [ "camelCase" ]
+        "format": ["camelCase"]
       },
       {
         "selector": "parameter",
-        "format": [ "camelCase" ],
+        "format": ["camelCase"],
         "leadingUnderscore": "allow"
       },
       {
         "selector": "enum",
-        "format": [ "PascalCase" ]
+        "format": ["PascalCase"]
       },
       {
         "selector": "objectLiteralProperty",
-        "format": [ "camelCase", "PascalCase" ],
+        "format": ["camelCase", "PascalCase"],
         "filter": {
           "regex": "^((data|aria|xp|invalid|--[a-z]+)[-].+)|[0-9]+$",
           "match": false
@@ -121,11 +121,11 @@
       },
       {
         "selector": "objectLiteralMethod",
-        "format": [ "camelCase" ]
+        "format": ["camelCase"]
       },
       {
         "selector": "typeProperty",
-        "format": [ "camelCase" ],
+        "format": ["camelCase"],
         "filter": {
           "regex": "^(data)[-].+$",
           "match": false
@@ -133,19 +133,19 @@
       },
       {
         "selector": "typeLike",
-        "format": [ "PascalCase" ]
+        "format": ["PascalCase"]
       },
       {
         "selector": "classMethod",
-        "format": [ "camelCase" ]
+        "format": ["camelCase"]
       },
       {
         "selector": "classProperty",
-        "format": [ "camelCase" ]
+        "format": ["camelCase"]
       },
       {
         "selector": "interface",
-        "format": [ "PascalCase" ],
+        "format": ["PascalCase"],
         "custom": {
           "regex": "^I[A-Z]",
           "match": false

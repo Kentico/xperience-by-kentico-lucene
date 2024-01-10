@@ -13,7 +13,7 @@ import {
   type TableRow,
 } from '@kentico/xperience-admin-components';
 import React from 'react';
-import localization from '../localization/localization.json';
+import Localization from '../localization/localization.json';
 
 interface IndexedContentPageProps {
   readonly pathColumns: TableColumn[];
@@ -36,29 +36,23 @@ export const IndexedContentTemplate = ({
   propertyColumns,
   propertyRows,
 }: IndexedContentPageProps): JSX.Element => {
-   usePageCommand<void, PathDetailArguments>(
-    Commands.ShowPathDetail,
-  );
-  
+  usePageCommand<void, PathDetailArguments>(Commands.ShowPathDetail);
+
   return (
     <RoutingContentPlaceholder>
       <Stack spacing={Spacing.XXL}>
         <Headline size={HeadlineSize.M}>
-          {localization.integrations.lucene.content.headlines.main}
+          {Localization.integrations.lucene.content.headlines.main}
         </Headline>
         <Box>
           <Headline size={HeadlineSize.S}>
-            {localization.integrations.lucene.content.headlines.paths}
+            {Localization.integrations.lucene.content.headlines.paths}
           </Headline>
-          <Table
-            columns={pathColumns}
-            rows={pathRows}
-         
-          />
+          <Table columns={pathColumns} rows={pathRows} />
         </Box>
         <Box>
           <Headline size={HeadlineSize.S}>
-            {localization.integrations.lucene.content.headlines.properties}
+            {Localization.integrations.lucene.content.headlines.properties}
           </Headline>
           <Table columns={propertyColumns} rows={propertyRows} />
         </Box>

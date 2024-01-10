@@ -2,31 +2,39 @@
 using Kentico.Xperience.Admin.Base;
 using Kentico.Xperience.Admin.Base.FormAnnotations;
 using Kentico.Xperience.Admin.Base.Forms;
+using Kentico.Xperience.Lucene.Admin.Components;
 using Kentico.Xperience.Lucene.Models;
+
+[assembly: RegisterFormComponent(
+    identifier: LuceneIndexConfigurationComponent.IDENTIFIER,
+    componentType: typeof(LuceneIndexConfigurationComponent),
+    name: "Lucene Search Index Configuration")]
 
 namespace Kentico.Xperience.Lucene.Admin.Components;
 
 #pragma warning disable S2094 // intentionally empty class
-public class ListComponentProperties : FormComponentProperties
+public class LuceneIndexConfigurationComponentProperties : FormComponentProperties
 {
 }
 #pragma warning restore
 
-public class ListComponentClientProperties : FormComponentClientProperties<List<IncludedPath>>
+public class LuceneIndexConfigurationComponentClientProperties : FormComponentClientProperties<List<IncludedPath>>
 {
     public List<string>? PossibleItems { get; set; }
 }
 
-public sealed class ListComponentAttribute : FormComponentAttribute
+public sealed class LuceneIndexConfigurationComponentAttribute : FormComponentAttribute
 {
 }
 
-[ComponentAttribute(typeof(ListComponentAttribute))]
-public class ListComponent : FormComponent<ListComponentProperties, ListComponentClientProperties, List<IncludedPath>>
+[ComponentAttribute(typeof(LuceneIndexConfigurationComponentAttribute))]
+public class LuceneIndexConfigurationComponent : FormComponent<LuceneIndexConfigurationComponentProperties, LuceneIndexConfigurationComponentClientProperties, List<IncludedPath>>
 {
+    public const string IDENTIFIER = "kentico.xperience-integrations-lucene.lucene-index-configuration";
+
     internal List<IncludedPath>? Value { get; set; }
 
-    public override string ClientComponentName => "@kentico/xperience-integrations-lucene/Listing";
+    public override string ClientComponentName => "@kentico/xperience-integrations-lucene/LuceneIndexConfiguration";
 
     public override List<IncludedPath> GetValue() => Value ?? new();
     public override void SetValue(List<IncludedPath> value) => Value = value;
@@ -72,7 +80,7 @@ public class ListComponent : FormComponent<ListComponentProperties, ListComponen
         }
     }
 
-    protected override async Task ConfigureClientProperties(ListComponentClientProperties properties)
+    protected override async Task ConfigureClientProperties(LuceneIndexConfigurationComponentClientProperties properties)
     {
         var allWebsiteContentTypes = await DataClassInfoProvider
             .GetClasses()

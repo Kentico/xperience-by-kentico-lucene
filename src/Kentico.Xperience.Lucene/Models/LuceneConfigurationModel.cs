@@ -24,6 +24,6 @@ public class LuceneConfigurationModel
     [TextInputComponent(Label = "Rebuild Hook")]
     public string? RebuildHook { get; set; }
 
-    [ListComponent(Label = "Included Paths")]
+    [LuceneIndexConfigurationComponent(Label = "Included Paths")]
     public List<IncludedPath>? Paths { get; set; }
 }

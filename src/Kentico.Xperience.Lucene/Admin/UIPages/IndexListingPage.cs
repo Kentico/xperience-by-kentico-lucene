@@ -1,15 +1,24 @@
 ﻿using CMS.Core;
 using Kentico.Xperience.Admin.Base;
+using Kentico.Xperience.Lucene.Admin;
 using Kentico.Xperience.Lucene.Models;
 using Kentico.Xperience.Lucene.Services;
 using Action = Kentico.Xperience.Admin.Base.Action;
+
+[assembly: UIPage(
+   parentType: typeof(LuceneApplication),
+   slug: "indexes",
+   uiPageType: typeof(IndexListingPage),
+   name: "List of registered Lucene indices",
+   templateName: TemplateNames.LISTING,
+   order: UIPageOrder.First)]
 
 namespace Kentico.Xperience.Lucene.Admin;
 
 /// <summary>
 /// An admin UI page that displays statistics about the registered Lucene indexes.
 /// </summary>
-internal class IndexListing : ListingPageBase<ListingConfiguration>
+internal class IndexListingPage : ListingPageBase<ListingConfiguration>
 {
     private readonly ILuceneClient luceneClient;
     private readonly IPageUrlGenerator pageUrlGenerator;
@@ -37,9 +46,9 @@ internal class IndexListing : ListingPageBase<ListingConfiguration>
     }
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="IndexListing"/> class.
+    /// Initializes a new instance of the <see cref="IndexListingPage"/> class.
     /// </summary>
-    public IndexListing(ILuceneClient luceneClient, IPageUrlGenerator pageUrlGenerator, IConfigurationStorageService configurationStorageService)
+    public IndexListingPage(ILuceneClient luceneClient, IPageUrlGenerator pageUrlGenerator, IConfigurationStorageService configurationStorageService)
     {
         this.luceneClient = luceneClient;
         this.pageUrlGenerator = pageUrlGenerator;
@@ -65,7 +74,7 @@ internal class IndexListing : ListingPageBase<ListingConfiguration>
             };
         }
 
-        PageConfiguration.HeaderActions.AddLink<EditIndex>("Create", parameters: "-1");
+        PageConfiguration.HeaderActions.AddLink<IndexEditPage>("Create", parameters: "-1");
 
         PageConfiguration.ColumnConfigurations
             .AddColumn(nameof(LuceneIndexStatisticsViewModel.Name), "Name", defaultSortDirection: SortTypeEnum.Asc, searchable: true)
@@ -84,7 +93,7 @@ internal class IndexListing : ListingPageBase<ListingConfiguration>
     /// <see cref="LuceneIndex.Identifier"/> to display.</param>
     [PageCommand]
     public async Task<INavigateResponse> RowClick(int id)
-        => await Task.FromResult(NavigateTo(pageUrlGenerator.GenerateUrl<EditIndex>(id.ToString())));
+        => await Task.FromResult(NavigateTo(pageUrlGenerator.GenerateUrl<IndexEditPage>(id.ToString())));
 
     /// <summary>
     /// A page command which rebuilds an Lucene index.
@@ -110,17 +119,17 @@ internal class IndexListing : ListingPageBase<ListingConfiguration>
         }
         catch (Exception ex)
         {
-            EventLogService.LogException(nameof(IndexListing), nameof(Rebuild), ex);
+            EventLogService.LogException(nameof(IndexListingPage), nameof(Rebuild), ex);
             return ResponseFrom(result)
                .AddErrorMessage(string.Format("Errors occurred while rebuilding the '{0}' index. Please check the Event Log for more details.", index.IndexName));
         }
     }
 
     [PageCommand]
-    public Task<INavigateResponse> Edit(int id, CancellationToken cancellationToken) => Task.FromResult(NavigateTo(pageUrlGenerator.GenerateUrl<EditIndex>(id.ToString())));
+    public Task<INavigateResponse> Edit(int id, CancellationToken _) => Task.FromResult(NavigateTo(pageUrlGenerator.GenerateUrl<IndexEditPage>(id.ToString())));
 
     [PageCommand]
-    public Task<ICommandResponse> Delete(int id, CancellationToken cancellationToken)
+    public Task<ICommandResponse> Delete(int id, CancellationToken _)
     {
         bool res = configurationStorageService.TryDeleteIndex(id);
         if (res)
@@ -129,7 +138,7 @@ internal class IndexListing : ListingPageBase<ListingConfiguration>
 
             IndexStore.Instance.AddIndices(indices);
         }
-        var response = NavigateTo(pageUrlGenerator.GenerateUrl<IndexListing>());
+        var response = NavigateTo(pageUrlGenerator.GenerateUrl<IndexListingPage>());
 
         return Task.FromResult<ICommandResponse>(response);
     }
@@ -160,7 +169,7 @@ internal class IndexListing : ListingPageBase<ListingConfiguration>
         }
         catch (Exception ex)
         {
-            EventLogService.LogException(nameof(IndexListing), nameof(LoadData), ex);
+            EventLogService.LogException(nameof(IndexListingPage), nameof(LoadData), ex);
             return new LoadDataResult
             {
                 Rows = Enumerable.Empty<Row>(),

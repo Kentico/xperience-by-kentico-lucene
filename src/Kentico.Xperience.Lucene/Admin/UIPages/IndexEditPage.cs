@@ -1,15 +1,24 @@
 ﻿using System.Text;
 using Kentico.Xperience.Admin.Base;
 using Kentico.Xperience.Admin.Base.Forms;
+using Kentico.Xperience.Lucene.Admin;
 using Kentico.Xperience.Lucene.Models;
 using Kentico.Xperience.Lucene.Services;
 using Kentico.Xperience.Lucene.Services.Implementations;
 using Lucene.Net.Analysis.Standard;
 using Lucene.Net.Util;
 
+[assembly: UIPage(
+   parentType: typeof(IndexListingPage),
+   slug: PageParameterConstants.PARAMETERIZED_SLUG,
+   uiPageType: typeof(IndexEditPage),
+   name: "Edit index",
+   templateName: TemplateNames.EDIT,
+   order: UIPageOrder.First)]
+
 namespace Kentico.Xperience.Lucene.Admin;
 
-public class EditIndex : ModelEditPage<LuceneConfigurationModel>
+internal class IndexEditPage : ModelEditPage<LuceneConfigurationModel>
 {
     [PageParameter(typeof(IntPageModelBinder))]
     public int IndexIdentifier { get; set; }
@@ -18,7 +27,7 @@ public class EditIndex : ModelEditPage<LuceneConfigurationModel>
     private LuceneConfigurationModel? model;
     private readonly IConfigurationStorageService storageService;
 
-    public EditIndex(Xperience.Admin.Base.Forms.Internal.IFormItemCollectionProvider formItemCollectionProvider,
+    public IndexEditPage(Xperience.Admin.Base.Forms.Internal.IFormItemCollectionProvider formItemCollectionProvider,
                  IFormDataBinder formDataBinder,
                  IConfigurationStorageService storageService)
         : base(formItemCollectionProvider, formDataBinder)

@@ -1,7 +1,9 @@
-﻿using Kentico.Xperience.Lucene;
+﻿using System.Runtime.CompilerServices;
+using Kentico.Xperience.Lucene;
 using Kentico.Xperience.Lucene.Services;
 using Kentico.Xperience.Lucene.Services.Implementations;
-using Microsoft.Extensions.DependencyInjection.Extensions;
+
+[assembly: InternalsVisibleTo("Kentico.Xperience.Lucene.Tests")]
 
 namespace Microsoft.Extensions.DependencyInjection;
 
@@ -14,7 +16,13 @@ public static class LuceneStartupExtensions
     /// <returns></returns>
     public static IServiceCollection AddLucene(this IServiceCollection serviceCollection)
     {
-        serviceCollection.TryAddSingleton<LuceneModuleInstaller>();
+        serviceCollection
+            .AddSingleton<LuceneModuleInstaller>()
+            .AddSingleton<ILuceneClient, DefaultLuceneClient>()
+            .AddSingleton<ILuceneTaskLogger, DefaultLuceneTaskLogger>()
+            .AddSingleton<ILuceneTaskProcessor, DefaultLuceneTaskProcessor>()
+            .AddSingleton<IConfigurationStorageService, DefaultConfigurationStorageService>()
+            .AddSingleton<ILuceneIndexService, DefaultLuceneIndexService>();
 
         return serviceCollection;
     }

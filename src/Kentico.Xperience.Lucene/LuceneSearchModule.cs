@@ -1,11 +1,15 @@
+using CMS;
 using CMS.Base;
 using CMS.ContentEngine;
 using CMS.Core;
 using CMS.DataEngine;
 using CMS.Websites;
+using Kentico.Xperience.Lucene;
 using Kentico.Xperience.Lucene.Models;
 using Kentico.Xperience.Lucene.Services;
 using Microsoft.Extensions.DependencyInjection;
+
+[assembly: RegisterModule(typeof(LuceneSearchModule))]
 
 namespace Kentico.Xperience.Lucene;
 
