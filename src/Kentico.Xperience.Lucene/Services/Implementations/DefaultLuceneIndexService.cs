@@ -9,7 +9,7 @@ using Lucene.Net.Util;
 using Microsoft.Extensions.DependencyInjection;
 using LuceneDirectory = Lucene.Net.Store.Directory;
 
-namespace Kentico.Xperience.Lucene.Services.Implementations;
+namespace Kentico.Xperience.Lucene.Services;
 
 public class DefaultLuceneIndexService : ILuceneIndexService
 {

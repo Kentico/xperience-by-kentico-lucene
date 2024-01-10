@@ -1,7 +1,6 @@
 ﻿using System.Runtime.CompilerServices;
 using Kentico.Xperience.Lucene;
 using Kentico.Xperience.Lucene.Services;
-using Kentico.Xperience.Lucene.Services.Implementations;
 
 [assembly: InternalsVisibleTo("Kentico.Xperience.Lucene.Tests")]
 

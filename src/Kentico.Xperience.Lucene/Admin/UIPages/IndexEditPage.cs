@@ -4,7 +4,6 @@ using Kentico.Xperience.Admin.Base.Forms;
 using Kentico.Xperience.Lucene.Admin;
 using Kentico.Xperience.Lucene.Models;
 using Kentico.Xperience.Lucene.Services;
-using Kentico.Xperience.Lucene.Services.Implementations;
 using Lucene.Net.Analysis.Standard;
 using Lucene.Net.Util;
 

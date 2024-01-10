@@ -2,7 +2,7 @@
 using CMS.DataEngine;
 using Kentico.Xperience.Lucene.Models;
 
-namespace Kentico.Xperience.Lucene.Services.Implementations;
+namespace Kentico.Xperience.Lucene.Services;
 
 public class DefaultConfigurationStorageService : IConfigurationStorageService
 {

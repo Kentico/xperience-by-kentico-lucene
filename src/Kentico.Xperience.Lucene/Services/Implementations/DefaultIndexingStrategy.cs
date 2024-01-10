@@ -2,7 +2,7 @@
 using Lucene.Net.Documents;
 using Lucene.Net.Facet;
 
-namespace Kentico.Xperience.Lucene.Services.Implementations;
+namespace Kentico.Xperience.Lucene.Services;
 
 /// <summary>
 /// Default indexing startegy just implements the methods but does not change the data.

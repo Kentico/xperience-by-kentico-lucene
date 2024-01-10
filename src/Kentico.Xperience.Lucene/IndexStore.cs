@@ -1,5 +1,5 @@
 ﻿using Kentico.Xperience.Lucene.Models;
-using Kentico.Xperience.Lucene.Services.Implementations;
+using Kentico.Xperience.Lucene.Services;
 using Lucene.Net.Analysis.Standard;
 using Lucene.Net.Util;
 

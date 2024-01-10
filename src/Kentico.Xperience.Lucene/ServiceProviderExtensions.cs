@@ -1,6 +1,5 @@
 using Kentico.Xperience.Lucene.Models;
 using Kentico.Xperience.Lucene.Services;
-using Kentico.Xperience.Lucene.Services.Implementations;
 
 namespace Microsoft.Extensions.DependencyInjection;
 
