@@ -274,14 +274,14 @@ export const ListingFormComponent = (props: ListComponentClientProperties): JSX.
                     <br></br>
                     <Input label="Included Path" value={path} onChange={handleInputChange} />
                     <br></br>
-                    <div class="label-wrapper___AcszK">
-                        <label class="label___WET63">
+                    <div className="label-wrapper___AcszK">
+                        <label className="label___WET63">
                             Available content types:
                         </label>
                     </div>
                         <ul>
-                            {props.possibleItems.map((x) =>
-                                <label class="label___WET63">
+                        {props.possibleItems.map((x) =>
+                            <label key={x} className="label___WET63">
                                     <li key={x}>
                                         <span>{x}</span>
                                     </li>
@@ -291,8 +291,8 @@ export const ListingFormComponent = (props: ListComponentClientProperties): JSX.
                     <br></br>
                     <TextArea label="Included ContentType Items" value={contentTypesValue} onChange={handleTextareaChange} />
                     <br></br>
-                    <div class="label-wrapper___AcszK">
-                        <label class="label___WET63">
+                    <div className="label-wrapper___AcszK">
+                        <label className="label___WET63">
                             <span>Separate each content type with a new line</span>
                         </label>
                     </div>
