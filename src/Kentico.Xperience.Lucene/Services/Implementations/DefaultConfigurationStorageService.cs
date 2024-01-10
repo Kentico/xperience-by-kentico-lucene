@@ -24,7 +24,7 @@ public class DefaultConfigurationStorageService : IConfigurationStorageService
     {
         var indexProvider = IndexitemInfoProvider.ProviderObject;
         var pathProvider = IncludedpathitemInfoProvider.ProviderObject;
-        var contentPathProvider = ContenttypeitemInfoProvider.ProviderObject;
+        var contentPathProvider = ContentTypeItemInfoProvider.ProviderObject;
         var languageProvider = IndexedlanguageInfoProvider.ProviderObject;
 
         if (indexProvider.Get().WhereEquals(nameof(IndexitemInfo.IndexName), configuration.IndexName).FirstOrDefault() != default)
@@ -72,7 +72,7 @@ public class DefaultConfigurationStorageService : IConfigurationStorageService
                 {
                     foreach (string? contentType in path.ContentTypes)
                     {
-                        var contentInfo = new ContenttypeitemInfo()
+                        var contentInfo = new ContentTypeItemInfo()
                         {
                             ContentTypeName = contentType,
                             LuceneIncludedPathItemId = pathInfo.LuceneIncludedPathItemId,
@@ -90,7 +90,7 @@ public class DefaultConfigurationStorageService : IConfigurationStorageService
     public Task<LuceneConfigurationModel?> GetIndexDataOrNull(int indexId)
     {
         var pathProvider = IncludedpathitemInfoProvider.ProviderObject;
-        var contentPathProvider = ContenttypeitemInfoProvider.ProviderObject;
+        var contentPathProvider = ContentTypeItemInfoProvider.ProviderObject;
         var indexProvider = IndexitemInfoProvider.ProviderObject;
         var languageProvider = IndexedlanguageInfoProvider.ProviderObject;
 
@@ -127,7 +127,7 @@ public class DefaultConfigurationStorageService : IConfigurationStorageService
     public async Task<IEnumerable<LuceneConfigurationModel>> GetAllIndexData()
     {
         var pathProvider = IncludedpathitemInfoProvider.ProviderObject;
-        var contentPathProvider = ContenttypeitemInfoProvider.ProviderObject;
+        var contentPathProvider = ContentTypeItemInfoProvider.ProviderObject;
         var indexProvider = IndexitemInfoProvider.ProviderObject;
         var languageProvider = IndexedlanguageInfoProvider.ProviderObject;
 
@@ -160,7 +160,7 @@ public class DefaultConfigurationStorageService : IConfigurationStorageService
     public async Task<bool> TryEditIndex(LuceneConfigurationModel configuration)
     {
         var pathProvider = IncludedpathitemInfoProvider.ProviderObject;
-        var contentPathProvider = ContenttypeitemInfoProvider.ProviderObject;
+        var contentPathProvider = ContentTypeItemInfoProvider.ProviderObject;
         var indexProvider = IndexitemInfoProvider.ProviderObject;
         var languageProvider = IndexedlanguageInfoProvider.ProviderObject;
 
@@ -175,7 +175,7 @@ public class DefaultConfigurationStorageService : IConfigurationStorageService
 
         pathProvider.BulkDelete(new WhereCondition($"{nameof(IncludedpathitemInfo.LuceneIndexItemId)} = {configuration.Id}"));
         languageProvider.BulkDelete(new WhereCondition($"{nameof(IndexedlanguageInfo.LuceneIndexItemId)} = {configuration.Id}"));
-        contentPathProvider.BulkDelete(new WhereCondition($"{nameof(ContenttypeitemInfo.LuceneIndexItemId)} = {configuration.Id}"));
+        contentPathProvider.BulkDelete(new WhereCondition($"{nameof(ContentTypeItemInfo.LuceneIndexItemId)} = {configuration.Id}"));
 
         indexInfo.ChannelName = configuration.IndexName;
         indexInfo.StrategyName = configuration.StrategyName;
@@ -212,7 +212,7 @@ public class DefaultConfigurationStorageService : IConfigurationStorageService
                 {
                     foreach (string? contentType in path.ContentTypes)
                     {
-                        var contentInfo = new ContenttypeitemInfo()
+                        var contentInfo = new ContentTypeItemInfo()
                         {
                             ContentTypeName = contentType ?? "",
                             LuceneIncludedPathItemId = pathInfo.LuceneIncludedPathItemId,
@@ -230,14 +230,14 @@ public class DefaultConfigurationStorageService : IConfigurationStorageService
     public async Task<bool> TryDeleteIndex(int id)
     {
         var pathProvider = IncludedpathitemInfoProvider.ProviderObject;
-        var contentPathProvider = ContenttypeitemInfoProvider.ProviderObject;
+        var contentPathProvider = ContentTypeItemInfoProvider.ProviderObject;
         var indexProvider = IndexitemInfoProvider.ProviderObject;
         var languageProvider = IndexedlanguageInfoProvider.ProviderObject;
 
         indexProvider.BulkDelete(new WhereCondition($"{nameof(IndexitemInfo.LuceneIndexItemId)} = {id}"));
         pathProvider.BulkDelete(new WhereCondition($"{nameof(IncludedpathitemInfo.LuceneIndexItemId)} = {id}"));
         languageProvider.BulkDelete(new WhereCondition($"{nameof(IndexedlanguageInfo.LuceneIndexItemId)} = {id}"));
-        contentPathProvider.BulkDelete(new WhereCondition($"{nameof(ContenttypeitemInfo.LuceneIndexItemId)} = {id}"));
+        contentPathProvider.BulkDelete(new WhereCondition($"{nameof(ContentTypeItemInfo.LuceneIndexItemId)} = {id}"));
 
         return true;
     }
@@ -245,13 +245,13 @@ public class DefaultConfigurationStorageService : IConfigurationStorageService
     public async Task<bool> TryDeleteIndex(LuceneConfigurationModel configuration)
     {
         var pathProvider = IncludedpathitemInfoProvider.ProviderObject;
-        var contentPathProvider = ContenttypeitemInfoProvider.ProviderObject;
+        var contentPathProvider = ContentTypeItemInfoProvider.ProviderObject;
         var indexProvider = IndexitemInfoProvider.ProviderObject;
         var languageProvider = IndexedlanguageInfoProvider.ProviderObject;
         indexProvider.BulkDelete(new WhereCondition($"{nameof(IndexitemInfo.LuceneIndexItemId)} = {configuration.Id}"));
         pathProvider.BulkDelete(new WhereCondition($"{nameof(IncludedpathitemInfo.LuceneIndexItemId)} = {configuration.Id}"));
         languageProvider.BulkDelete(new WhereCondition($"{nameof(IndexedlanguageInfo.LuceneIndexItemId)} = {configuration.Id}"));
-        contentPathProvider.BulkDelete(new WhereCondition($"{nameof(ContenttypeitemInfo.LuceneIndexItemId)} = {configuration.Id}"));
+        contentPathProvider.BulkDelete(new WhereCondition($"{nameof(ContentTypeItemInfo.LuceneIndexItemId)} = {configuration.Id}"));
         return true;
     }
 }
