@@ -3,32 +3,57 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.8.34322.80
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Kentico.Xperience.Lucene", "src\Kentico.Xperience.Lucene\Kentico.Xperience.Lucene.csproj", "{DDF715F2-B6DE-4FC2-9B9A-DB4F632DDEAD}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{0D915C08-6113-4ECF-BC23-1D315BA4C0A5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kentico.Xperience.Lucene", "src\Kentico.Xperience.Lucene\Kentico.Xperience.Lucene.csproj", "{1B7E6E21-7FC4-4D8C-ADD3-5783B3690761}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{EB35FFC8-6DD4-4EDF-8DB9-D9EFBCB9B6C8}"
+	ProjectSection(SolutionItems) = preProject
+		.gitignore = .gitignore
+		.markdownlint.json = .markdownlint.json
+		README.md = README.md
+		LICENSE.md = LICENSE.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "build", "build", "{DB735FC0-4688-4BD7-80E8-D6FE53FF603B}"
+	ProjectSection(SolutionItems) = preProject
+		Directory.Build.props = Directory.Build.props
+		Directory.build.targets = Directory.build.targets
+		Directory.Packages.props = Directory.Packages.props
+		nuget.config = nuget.config
+		global.json = global.json
+		.editorconfig = .editorconfig
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "examples", "examples", "{ED12C822-C44B-4AEF-B4CF-E3238C1CAFE4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
 		Release|Any CPU = Release|Any CPU
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{DDF715F2-B6DE-4FC2-9B9A-DB4F632DDEAD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{DDF715F2-B6DE-4FC2-9B9A-DB4F632DDEAD}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{DDF715F2-B6DE-4FC2-9B9A-DB4F632DDEAD}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{DDF715F2-B6DE-4FC2-9B9A-DB4F632DDEAD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1B7E6E21-7FC4-4D8C-ADD3-5783B3690761}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1B7E6E21-7FC4-4D8C-ADD3-5783B3690761}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1B7E6E21-7FC4-4D8C-ADD3-5783B3690761}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{1B7E6E21-7FC4-4D8C-ADD3-5783B3690761}.Debug|x64.Build.0 = Debug|Any CPU
+		{1B7E6E21-7FC4-4D8C-ADD3-5783B3690761}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{1B7E6E21-7FC4-4D8C-ADD3-5783B3690761}.Debug|x86.Build.0 = Debug|Any CPU
+		{1B7E6E21-7FC4-4D8C-ADD3-5783B3690761}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1B7E6E21-7FC4-4D8C-ADD3-5783B3690761}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1B7E6E21-7FC4-4D8C-ADD3-5783B3690761}.Release|x64.ActiveCfg = Release|Any CPU
+		{1B7E6E21-7FC4-4D8C-ADD3-5783B3690761}.Release|x64.Build.0 = Release|Any CPU
+		{1B7E6E21-7FC4-4D8C-ADD3-5783B3690761}.Release|x86.ActiveCfg = Release|Any CPU
+		{1B7E6E21-7FC4-4D8C-ADD3-5783B3690761}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
-	Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "build", "build", "{5EEC7187-23EF-4CEF-86F2-2D49CD71BBC6}"
-	ProjectSection(SolutionItems) = preProject
-		.editorconfig = .editorconfig
-		Directory.Build.props = Directory.Build.props
-		Directory.build.targets = Directory.build.targets
-		Directory.Packages.props = Directory.Packages.props
-		global.json = global.json
-		nuget.config = nuget.config
-	EndProjectSection
-	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {B830F0B2-0768-406D-B926-320FBD6EB266}
+	GlobalSection(NestedProjects) = preSolution
+		{1B7E6E21-7FC4-4D8C-ADD3-5783B3690761} = {0D915C08-6113-4ECF-BC23-1D315BA4C0A5}
 	EndGlobalSection
 EndGlobal
