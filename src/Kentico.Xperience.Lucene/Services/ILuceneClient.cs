@@ -11,7 +11,7 @@ public interface ILuceneClient
     /// <summary>
     /// Removes records from the Lucene index.
     /// </summary>
-    /// <param name="webPageItemGuids">The Lucene internal IDs of the records to delete.</param>
+    /// <param name="itemGuids">The Lucene internal IDs of the records to delete.</param>
     /// <param name="indexName">The index containing the objects to delete.</param>
     /// 
     /// <exception cref="ArgumentNullException" />
@@ -19,7 +19,7 @@ public interface ILuceneClient
     /// <exception cref="ObjectDisposedException" />
     /// <exception cref="OverflowException" />
     /// <returns>The number of records deleted.</returns>
-    Task<int> DeleteRecords(IEnumerable<string> webPageItemGuids, string indexName);
+    Task<int> DeleteRecords(IEnumerable<string> itemGuids, string indexName);
 
     /// <summary>
     /// Gets the indices of the Lucene application with basic statistics.

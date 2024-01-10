@@ -2,14 +2,14 @@
 
 /// <summary>
 /// A queued item to be processed by <see cref="LuceneQueueWorker"/> which
-/// represents a recent change made to an indexed <see cref="IndexedItemModel"/> which is a representation of a WebPageItem.
+/// represents a recent change made to an indexed <see cref="ItemToIndex"/> which is a representation of a <see cref="IIndexEventItemModel"/>.
 /// </summary>
 public sealed class LuceneQueueItem
 {
     /// <summary>
-    /// The <see cref="IndexedItemModel"/> that was changed.
+    /// The <see cref="ItemToIndex"/> that was changed.
     /// </summary>
-    public IndexedItemModel IndexedItemModel
+    public IIndexEventItemModel ItemToIndex
     {
         get;
     }
@@ -35,21 +35,21 @@ public sealed class LuceneQueueItem
     /// <summary>
     /// Initializes a new instance of the <see cref="LuceneQueueItem"/> class.
     /// </summary>
-    /// <param name="indexedItem">The <see cref="Models.IndexedItemModel"/> that was changed.</param>
+    /// <param name="itemToIndex">The <see cref="IIndexEventItemModel"/> that was changed.</param>
     /// <param name="taskType">The type of the Lucene task.</param>
     /// <param name="indexName">The code name of the Lucene index to be updated.</param>
     /// <exception cref="ArgumentNullException" />
-    public LuceneQueueItem(IndexedItemModel indexedItem, LuceneTaskType taskType, string indexName)
+    public LuceneQueueItem(IIndexEventItemModel itemToIndex, LuceneTaskType taskType, string indexName)
     {
         if (string.IsNullOrEmpty(indexName))
         {
             throw new ArgumentNullException(nameof(indexName));
         }
 
-        IndexedItemModel = indexedItem;
-        if (taskType != LuceneTaskType.PUBLISH_INDEX && indexedItem == null)
+        ItemToIndex = itemToIndex;
+        if (taskType != LuceneTaskType.PUBLISH_INDEX && itemToIndex == null)
         {
-            throw new ArgumentNullException(nameof(indexedItem));
+            throw new ArgumentNullException(nameof(itemToIndex));
         }
         TaskType = taskType;
         IndexName = indexName;

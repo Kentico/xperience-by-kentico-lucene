@@ -24,43 +24,33 @@ internal class DefaultLuceneTaskLogger : ILuceneTaskLogger
     }
 
     /// <inheritdoc />
-    public async Task HandleEvent(IndexedItemModel indexedModel, string eventName)
+    public async Task HandleEvent(IndexEventWebPageItemModel webpageItem, string eventName)
     {
         var taskType = GetTaskType(eventName);
 
-        if (!indexedModel.IsLuceneIndexed(eventLogService, eventName))
+        foreach (var luceneIndex in IndexStore.Instance.GetAllIndices())
         {
-            return;
-        }
-
-        foreach (string? indexName in IndexStore.Instance.GetAllIndices().Select(index => index.IndexName))
-        {
-            if (!indexedModel.IsIndexedByIndex(eventLogService, indexName, eventName))
+            if (!webpageItem.IsIndexedByIndex(eventLogService, luceneIndex.IndexName, eventName))
             {
                 continue;
             }
 
-            var luceneIndex = IndexStore.Instance.GetIndex(indexName);
+            var strategy = serviceProvider.GetRequiredStrategy(luceneIndex);
+            var toReindex = await strategy.FindItemsToReindex(webpageItem);
 
-            if (luceneIndex is not null)
+            if (toReindex is not null)
             {
-                var strategy = serviceProvider.GetRequiredStrategy(luceneIndex);
-                var toReindex = await strategy!.FindItemsToReindex(indexedModel);
-
-                if (toReindex is not null)
+                foreach (var item in toReindex)
                 {
-                    foreach (var item in toReindex)
+                    if (item.ItemGuid == webpageItem.ItemGuid)
                     {
-                        if (item.WebPageItemGuid == indexedModel.WebPageItemGuid)
+                        if (taskType == LuceneTaskType.DELETE)
                         {
-                            if (taskType == LuceneTaskType.DELETE)
-                            {
-                                LogIndexTask(new LuceneQueueItem(item, LuceneTaskType.DELETE, indexName));
-                            }
-                            else
-                            {
-                                LogIndexTask(new LuceneQueueItem(item, LuceneTaskType.UPDATE, indexName));
-                            }
+                            LogIndexTask(new LuceneQueueItem(item, LuceneTaskType.DELETE, luceneIndex.IndexName));
+                        }
+                        else
+                        {
+                            LogIndexTask(new LuceneQueueItem(item, LuceneTaskType.UPDATE, luceneIndex.IndexName));
                         }
                     }
                 }
@@ -68,26 +58,23 @@ internal class DefaultLuceneTaskLogger : ILuceneTaskLogger
         }
     }
 
-    public async Task HandleContentItemEvent(IndexedContentItemModel indexedItem, string eventName)
+    public async Task HandleReusableItemEvent(IndexEventReusableItemModel reusableItem, string eventName)
     {
-        foreach (string? indexName in IndexStore.Instance.GetAllIndices().Select(index => index.IndexName))
+        foreach (var luceneIndex in IndexStore.Instance.GetAllIndices())
         {
-            if (!indexedItem.IsIndexedByIndex(eventLogService, indexName, eventName))
+            if (!reusableItem.IsIndexedByIndex(eventLogService, luceneIndex.IndexName, eventName))
             {
                 continue;
             }
 
-            var luceneIndex = IndexStore.Instance.GetIndex(indexName);
-            if (luceneIndex is not null)
+            var strategy = serviceProvider.GetRequiredStrategy(luceneIndex);
+            var toReindex = await strategy.FindItemsToReindex(reusableItem);
+
+            if (toReindex is not null)
             {
-                var strategy = serviceProvider.GetRequiredStrategy(luceneIndex);
-                var toReindex = await strategy!.FindItemsToReindex(indexedItem);
-                if (toReindex is not null)
+                foreach (var item in toReindex)
                 {
-                    foreach (var item in toReindex)
-                    {
-                        LogIndexTask(new LuceneQueueItem(item, LuceneTaskType.UPDATE, indexName));
-                    }
+                    LogIndexTask(new LuceneQueueItem(item, LuceneTaskType.UPDATE, luceneIndex.IndexName));
                 }
             }
         }

@@ -55,49 +55,48 @@ internal class LuceneSearchModule : Module
     /// </summary>
     private void HandleEvent(object? sender, CMSEventArgs e)
     {
-        if (IndexingDisabled)
+        if (IndexingDisabled || e is not WebPageEventArgsBase publishedEvent)
         {
             return;
         }
-        var publishedEvent = (WebPageEventArgsBase)e;
-        var indexedItemModel = new IndexedItemModel(publishedEvent.ContentLanguageName,
-            publishedEvent.ContentTypeName,
-            publishedEvent.WebsiteChannelName,
+
+        var indexedItemModel = new IndexEventWebPageItemModel(
+            publishedEvent.ID,
             publishedEvent.Guid,
-            publishedEvent.TreePath)
-        {
-            ID = publishedEvent.ID,
-            ParentID = publishedEvent.ParentID,
-            Name = publishedEvent.Name,
-            Order = publishedEvent.Order,
-            DisplayName = publishedEvent.DisplayName,
-            IsSecured = publishedEvent.IsSecured,
-            WebsiteChannelID = publishedEvent.WebsiteChannelID,
-            ContentTypeID = publishedEvent.ContentTypeID,
-            ContentLanguageID = publishedEvent.ContentLanguageID
-        };
+            publishedEvent.ContentLanguageName,
+            publishedEvent.ContentTypeName,
+            publishedEvent.Name,
+            publishedEvent.IsSecured,
+            publishedEvent.ContentTypeID,
+            publishedEvent.ContentLanguageID,
+            publishedEvent.WebsiteChannelName,
+            publishedEvent.TreePath,
+            publishedEvent.ParentID,
+            publishedEvent.Order)
+        { };
 
         luceneTaskLogger?.HandleEvent(indexedItemModel, e.CurrentHandler.Name).GetAwaiter().GetResult();
     }
 
     private void HandleContentItemEvent(object? sender, CMSEventArgs e)
     {
-        if (IndexingDisabled)
+        if (IndexingDisabled || e is not ContentItemEventArgsBase publishedEvent)
         {
             return;
         }
-        var publishedEvent = (ContentItemEventArgsBase)e;
 
-        var indexedContentItemModel = new IndexedContentItemModel(publishedEvent.ContentLanguageName, publishedEvent.ContentTypeName, publishedEvent.ID, publishedEvent.Guid) 
-        {
-            Name = publishedEvent.Name,
-            DisplayName = publishedEvent.DisplayName,
-            IsSecured = publishedEvent.IsSecured,
-            ContentTypeID = publishedEvent.ContentTypeID,
-            ContentLanguageID = publishedEvent.ContentLanguageID,
-        };
+        var indexedContentItemModel = new IndexEventReusableItemModel(
+            publishedEvent.ID,
+            publishedEvent.Guid,
+            publishedEvent.ContentLanguageName,
+            publishedEvent.ContentTypeName,
+            publishedEvent.Name,
+            publishedEvent.IsSecured,
+            publishedEvent.ContentTypeID,
+            publishedEvent.ContentLanguageID
+        );
 
-        luceneTaskLogger?.HandleContentItemEvent(indexedContentItemModel, e.CurrentHandler.Name).GetAwaiter().GetResult();
+        luceneTaskLogger?.HandleReusableItemEvent(indexedContentItemModel, e.CurrentHandler.Name).GetAwaiter().GetResult();
     }
 
     public static void AddRegisteredIndices()

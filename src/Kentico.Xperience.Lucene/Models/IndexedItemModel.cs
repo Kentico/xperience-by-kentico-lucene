@@ -1,55 +1,125 @@
-﻿namespace Kentico.Xperience.Lucene.Models;
+﻿using CMS.ContentEngine;
+using CMS.Websites;
 
-public class IndexedItemModel
+namespace Kentico.Xperience.Lucene.Models;
+
+/// <summary>
+/// Abstraction of differnt types of events from content modifications
+/// </summary>
+public interface IIndexEventItemModel
 {
+    /// <summary>
+    /// The identifier of the item
+    /// </summary>
+    int ItemID { get; set; }
+    Guid ItemGuid { get; set; }
+    string LanguageName { get; set; }
+    string ContentTypeName { get; set; }
+    string Name { get; set; }
+    bool IsSecured { get; set; }
+    int ContentTypeID { get; set; }
+    int ContentLanguageID { get; set; }
+}
+
+/// <summary>
+/// Represents a modification to a web page
+/// </summary>
+public class IndexEventWebPageItemModel : IIndexEventItemModel
+{
+    /// <summary>
+    /// The <see cref="WebPageFields.WebPageItemID"/> 
+    /// </summary>
+    public int ItemID { get; set; }
+    /// <summary>
+    /// The <see cref="WebPageFields.WebPageItemGUID"/>
+    /// </summary>
+    public Guid ItemGuid { get; set; }
     public string LanguageName { get; set; }
     public string ContentTypeName { get; set; }
-    public string ChannelName { get; set; }
-    public Guid WebPageItemGuid { get; set; }
+    /// <summary>
+    /// The <see cref="WebPageFields.WebPageItemName"/>
+    /// </summary>
+    public string Name { get; set; }
+    public bool IsSecured { get; set; }
+    public int ContentTypeID { get; set; }
+    public int ContentLanguageID { get; set; }
+
+    public string WebsiteChannelName { get; set; }
     public string WebPageItemTreePath { get; set; }
+    public int ParentID { get; set; }
+    public int Order { get; set; }
 
-    public int? ID { get; set; }
-    public int? ParentID { get; set; }
-    public string? Name { get; set; }
-    public int? Order { get; set; }
-    public string? DisplayName { get; set; }
-    public bool? IsSecured { get; set; }
-    public int? WebsiteChannelID { get; set; }
-    public int? ContentTypeID { get; set; }
-    public int? ContentLanguageID { get; set; }
-
-    public IndexedItemModel(string languageName,
+    public IndexEventWebPageItemModel(
+        int itemID,
+        Guid itemGuid,
+        string languageName,
         string contentTypeName,
-        string channelName,
-        Guid webPageItemGuid,
-        string webPageItemTreePath)
+        string name,
+        bool isSecured,
+        int contentTypeID,
+        int contentLanguageID,
+        string websiteChannelName,
+        string webPageItemTreePath,
+        int parentID,
+        int order
+    )
     {
+        ItemID = itemID;
+        ItemGuid = itemGuid;
         LanguageName = languageName;
         ContentTypeName = contentTypeName;
-        ChannelName = channelName;
-        WebPageItemGuid = webPageItemGuid;
+        WebsiteChannelName = websiteChannelName;
         WebPageItemTreePath = webPageItemTreePath;
+        ParentID = parentID;
+        Order = order;
+        Name = name;
+        IsSecured = isSecured;
+        ContentTypeID = contentTypeID;
+        ContentLanguageID = contentLanguageID;
     }
 }
 
-public class IndexedContentItemModel
+/// <summary>
+/// Represents a modification to a reusable content item
+/// </summary>
+public class IndexEventReusableItemModel : IIndexEventItemModel
 {
+    /// <summary>
+    /// The <see cref="ContentItemFields.ContentItemID"/>
+    /// </summary>
+    public int ItemID { get; set; }
+    /// <summary>
+    /// The <see cref="ContentItemFields.ContentItemGUID"/>
+    /// </summary>
+    public Guid ItemGuid { get; set; }
     public string LanguageName { get; set; }
     public string ContentTypeName { get; set; }
-    public int ContentItemID { get; set; }
-    public Guid ContentItemGuid { get; set; }
+    /// <summary>
+    /// The <see cref="ContentItemFields.ContentItemName"/>
+    /// </summary>
+    public string Name { get; set; }
+    public bool IsSecured { get; set; }
+    public int ContentTypeID { get; set; }
+    public int ContentLanguageID { get; set; }
 
-    public string? Name { get; set; }
-    public string? DisplayName { get; set; }
-    public bool? IsSecured { get; set; }
-    public int ContentTypeID { get; init; }
-    public int? ContentLanguageID { get; set; }
-
-    public IndexedContentItemModel(string languageName, string contentTypeName, int contentItemID, Guid contentItemGuid)
+    public IndexEventReusableItemModel(
+        int itemID,
+        Guid itemGuid,
+        string languageName,
+        string contentTypeName,
+        string name,
+        bool isSecured,
+        int contentTypeID,
+        int contentLanguageID
+    )
     {
+        ItemID = itemID;
+        ItemGuid = itemGuid;
         LanguageName = languageName;
         ContentTypeName = contentTypeName;
-        ContentItemID = contentItemID;
-        ContentItemGuid = contentItemGuid;
+        Name = name;
+        IsSecured = isSecured;
+        ContentTypeID = contentTypeID;
+        ContentLanguageID = contentLanguageID;
     }
 }

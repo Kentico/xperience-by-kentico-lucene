@@ -9,9 +9,9 @@ public interface ILuceneIndexingStrategy
     /// <summary>
     /// Called when indexing a search model. Enables overriding of multiple fields with custom data.
     /// </summary>
-    /// <param name="lucenePageItem">The <see cref="IndexedItemModel"/> currently being indexed.</param>
+    /// <param name="item">The <see cref="IIndexEventItemModel"/> currently being indexed.</param>
     /// <returns>Modified Lucene document.</returns>
-    Task<Document?> MapToLuceneDocumentOrNull(IndexedItemModel lucenePageItem);
+    Task<Document?> MapToLuceneDocumentOrNull(IIndexEventItemModel item);
 
     /// <summary>
     /// When overriden and configuration supplied, indexing will also create taxonomy index for facet search
@@ -19,7 +19,7 @@ public interface ILuceneIndexingStrategy
     /// <returns></returns>
     FacetsConfig? FacetsConfigFactory();
 
-    Task<IEnumerable<IndexedItemModel>> FindItemsToReindex(IndexedItemModel changedItem);
+    Task<IEnumerable<IIndexEventItemModel>> FindItemsToReindex(IndexEventWebPageItemModel changedItem);
 
-    Task<IEnumerable<IndexedItemModel>> FindItemsToReindex(IndexedContentItemModel changedItem);
+    Task<IEnumerable<IIndexEventItemModel>> FindItemsToReindex(IndexEventReusableItemModel changedItem);
 }

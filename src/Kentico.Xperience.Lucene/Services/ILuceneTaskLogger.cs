@@ -10,11 +10,11 @@ public interface ILuceneTaskLogger
 {
     /// <summary>
     /// Logs an <see cref="LuceneQueueItem"/> for each registered crawler. Then, loops
-    /// through all registered Lucene indexes and logs a task if the passed <paramref name="indexedModel"/> is indexed.
+    /// through all registered Lucene indexes and logs a task if the passed <paramref name="webpageItem"/> is indexed.
     /// </summary>
-    /// <param name="indexedModel">The <see cref="IndexedItemModel"/> that triggered the event.</param>
+    /// <param name="webpageItem">The <see cref="IndexEventWebPageItemModel"/> that triggered the event.</param>
     /// <param name="eventName">The name of the Xperience event that was triggered.</param>
-    Task HandleEvent(IndexedItemModel indexedModel, string eventName);
+    Task HandleEvent(IndexEventWebPageItemModel webpageItem, string eventName);
 
-    Task HandleContentItemEvent(IndexedContentItemModel indexedItem, string eventName);
+    Task HandleReusableItemEvent(IndexEventReusableItemModel reusableItem, string eventName);
 }
