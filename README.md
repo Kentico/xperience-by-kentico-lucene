@@ -49,8 +49,8 @@ dotnet add package Kentico.Xperience.Lucene
 
 3. Create an index in Xperience's Administration within the Search application added by this library.
 4. Rebuild the index in Xperience's Administration within the Search application added by this library.
-5. Use the `ILuceneIndexService` (via DI) to retrieve the index populated by your custom `LuceneSearchModel`.
-6. Execute a search with a customized Lucene `Query` (like the `MatchAllDocsQuery`) using the `ILuceneIndexService`.
+5. Use the `ILuceneSearchService` (via DI) to retrieve the index populated by your custom `ILuceneIndexingStrategy`.
+6. Execute a search with a customized Lucene `Query` (like the `MatchAllDocsQuery`) using the `ILuceneSearchService`.
 7. Display the results on your site with a Razor View 👍.
 
 ## Full Instructions
@@ -85,9 +85,3 @@ See [`SUPPORT.md`](https://github.com/Kentico/.github/blob/main/SUPPORT.md#full-
 ## Security
 
 For any security issues see [Kentico's `SECURITY.md`](https://github.com/Kentico/.github/blob/main/SECURITY.md).
-
-## Next steps
-
-- [Usage Guide](Usage-Guide.md)
-
-We will soon provide further examples.

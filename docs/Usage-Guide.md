@@ -1,11 +1,20 @@
 # Usage Guide
 
-## Detailed Setup
+This library supports using Lucene.NET to index both unstructured and high structured, interrelated content in an Xperience by Kentico solution. This indexed content can then be programmatically queried and displayed in a website channel.
 
-### Create a custom Indexing Strategy
+Below are the steps to integrate the library into your solution.
 
-Define a custom `DefaultLuceneIndexingStrategy` implementation to customize how page or content items are processed for the index.
-The method is given a `IndexedItemModel` which is a unique representation of any item used on a web page. Every item specified in the admin ui is rebuilt. In the UI you need to specify one or more language, channel name, indexingStrategy and paths with content types. This strategy than evaluates all web page items specified in the administration.
+## Create a custom Indexing Strategy
+
+Define a custom `DefaultLuceneIndexingStrategy` implementation to customize how page or content items are processed for indexing.
+
+Your custom implemention of `DefaultLuceneIndexingStrategy` can use dependency injection to define services and configuration used for gathering the content to be indexed. `DefaultLuceneIndexingStrategy` implements `ILuceneIndexingStrategy` and will be [registered as a transient](https://learn.microsoft.com/en-us/dotnet/core/extensions/dependency-injection#transient) in the DI container.
+
+## Specify a mapping process
+
+Override the `Task<Document?> MapToLuceneDocumentOrNull(IIndexEventItemModel item)` method and define a process for mapping custom fields of each content item event provided.
+
+The method is given an `IIndexEventItemModel` which is a abstraction of any item being processed for indexing, which includes both `IndexEventWebPageItemModel` for web page items and `IndexEventReusableItemModel` for reusable content items. Every item specified in the admin ui is rebuilt. In the UI you need to specify one or more language, channel name, indexingStrategy and paths with content types. This strategy than evaluates all web page items specified in the administration.
 
 Let's say we specified `ArticlePage` in the admin ui.
 Now we implement how we want to save ArticlePage document in our strategy.
@@ -19,38 +28,40 @@ public class ExampleSearchIndexingStrategy : DefaultLuceneIndexingStrategy
 {
     public static string SORTABLE_TITLE_FIELD_NAME = "SortableTitle";
 
-    public override async Task<Document?> MapToLuceneDocumentOrNull(IndexedItemModel indexedModel)
+    public override async Task<Document?> MapToLuceneDocumentOrNull(IIndexEventItemModel item)
     {
         var document = new Document();
 
         string sortableTitle = "";
         string title = "";
 
-        if (indexedModel.ClassName == ArticlePage.CONTENT_TYPE_NAME)
+        // IIndexEventItemModel could be a reusable content item or a web page item, so we use
+        // pattern matching to get access to the web page item specific type and fields
+        if (item is IndexEventWebPageItemModel webpageItem &&
+            string.Equals(indexedModel.ContentTypeName, ArticlePage.CONTENT_TYPE_NAME, StringComparison.OrdinalIgnorecase))
         {
-            var page = await GetPage<ArticlePage>(indexedModel.WebPageItemGuid, indexedModel.ChannelName, indexedModel.LanguageCode, ArticlePage.CONTENT_TYPE_NAME);
-            contentType = "news";
+            // The implementation of GetPage<T>() is detailed below
+            var page = await GetPage<ArticlePage>(
+                webpageItem.ItemGuid,
+                webpageItem.WebsiteChannelName,
+                webpageItem.LanguageName,
+                ArticlePage.CONTENT_TYPE_NAME);
 
-            if (page != default)
-            {
-                var article = page.ArticlePageArticle.FirstOrDefault();
-
-                if (article == null)
-                {
-                    return null;
-                }
-            }
-            else
+            if (page is null)
             {
                 return null;
             }
 
-            if (page != default)
-            {
-                var article = page.ArticlePageArticle.FirstOrDefault();
+            var article = page.ArticlePageArticle.FirstOrDefault();
 
-                sortableTitle = title = article?.ArticleTitle ?? "";
+            if (article == null)
+            {
+                return null;
             }
+
+            var article = page.ArticlePageArticle.FirstOrDefault();
+
+            sortableTitle = title = article?.ArticleTitle ?? "";
         }
 
         document.Add(new TextField(nameof(GlobalSearchResultModel.Title), title, Field.Store.YES));
@@ -61,132 +72,67 @@ public class ExampleSearchIndexingStrategy : DefaultLuceneIndexingStrategy
 }
 ```
 
-Some base properties are added to the document by default. I.E. All of these are mapped in static class `BaseProperties` and can be used to retrieve a value
-from the document as any other document field.
-
-The implicitly added fields are as follows: 
-
-``` csharp
-
- public const string CLASS_NAME = "ClassName";
- public const string WEB_PAGE_ITEM_GUID = "WebPageItemGuid";
- public const string LANGUAGE_NAME = "LanguageName";
- public const string URL = "url";
-
-```
-
-The `url` field is a relative path by default. You can change this by adding this field in the `MapToLuceneDocumentOrNull` method. I.E.
+Some properties of the `IIndexEventItemModel` are added to the document by default by the library and these can be found in the `BaseDocumentProperties` class.
+These can be retrieved from any indexed document. by the value of the constants in that class.
 
 ```csharp
-public override async Task<Document?> MapToLuceneDocumentOrNull(IndexedItemModel indexedModel)
+// BaseDocumentProperties.cs
+
+public static class BaseDocumentProperties
+{
+    // View source code for full list
+    public const string ID = "ID";
+    public const string CONTENT_TYPE_NAME = "ContentTypeName";
+    // ...
+    public const string URL = "Url";
+}
+```
+
+The `Url` field is a relative path by default. You can change this by adding this field manually in the `MapToLuceneDocumentOrNull` method.
+
+```csharp
+public override async Task<Document?> MapToLuceneDocumentOrNull(IIndexEventItemModel item)
 {
     //...
 
     var document = new Document();
 
-    document.AddStringField(BaseProperties.URL, url, Field.Store.YES);
+    // retrieve an absolute URL
+    if (item is IndexEventWebPageItemModel webpageItem &&
+        string.Equals(indexedModel.ContentTypeName, ArticlePage.CONTENT_TYPE_NAME, StringComparison.OrdinalIgnorecase))
+    {
+        string url = string.Empty;
+        try
+        {
+            url = (await urlRetriever.Retrieve(
+                webpageItem.WebPageItemTreePath,
+                webpageItem.WebsiteChannelName,
+                webpageItem.LanguageName)).AbsolutePath;
+        }
+        catch (Exception)
+        {
+            // Retrieve can throw an exception when processing a page update LuceneQueueItem
+            // and the page was deleted before the update task has processed. In this case, upsert an
+            // empty URL
+        }
+
+        document.AddStringField(BaseDocumentProperties.URL, url, Field.Store.YES);
+    }
 
     //...
 }
 ```
 
-We can also specify a facet dimension. Which is later used in your code if you want to create faceted search.
+## Add facets
+
+We can also specify a facet dimension. Which is used in your index querying code if you want to create a faceted search experience.
 
 ```csharp
 public class ExampleSearchIndexingStrategy : DefaultLuceneIndexingStrategy
 {
     public string FacetDimension { get; set; } = "ContentType";
-    public static string SORTABLE_TITLE_FIELD_NAME = "SortableTitle";
 
-    public override FacetsConfig FacetsConfigFactory()
-    {
-        var facetConfig = new FacetsConfig();
-
-        facetConfig.SetMultiValued(FacetDimension, true);
-
-        return facetConfig;
-    }
-
-    public override async Task<Document?> MapToLuceneDocumentOrNull(IndexedItemModel indexedModel)
-    {
-        var document = new Document();
-
-        string sortableTitle = "";
-        string title = "";
-
-        if (indexedModel.ClassName == ArticlePage.CONTENT_TYPE_NAME)
-        {
-            var page = await GetPage<ArticlePage>(indexedModel.WebPageItemGuid, indexedModel.ChannelName, indexedModel.LanguageCode, ArticlePage.CONTENT_TYPE_NAME);
-
-            if (page != default)
-            {
-                var article = page.ArticlePageArticle.FirstOrDefault();
-
-                if (article == null)
-                {
-                    return null;
-                }
-            }
-            else
-            {
-                return null;
-            }
-
-            if (page != default)
-            {
-                var article = page.ArticlePageArticle.FirstOrDefault();
-
-                sortableTitle = title = article?.ArticleTitle ?? "";
-            }
-        }
-
-        document.Add(new FacetField(FacetDimension, contentType));
-
-        document.Add(new TextField(nameof(GlobalSearchResultModel.Title), title, Field.Store.YES));
-        document.Add(new StringField(SORTABLE_TITLE_FIELD_NAME, sortableTitle, Field.Store.YES));
-
-        return document;
-    }
-}
-```
-
-It is up to your implementation how do you want to retrieve information about the page, however article page or any webpageitem could be retrieved using `GetPage<T>` method. Where you specify that you want to retrieve `ArticlePage` item in the provided language on the channel using provided id and content type.
-
-```csharp
-public class ExampleSearchIndexingStrategy : DefaultLuceneIndexingStrategy
-{
-    public string FacetDimension { get; set; } = "ContentType";
-    public static string SORTABLE_TITLE_FIELD_NAME = "SortableTitle";
-
-    private async Task<T> GetPage<T>(Guid id, string channelName, string languageName, string contentTypeName) where T : IWebPageFieldsSource, new()
-    {
-        var mapper = Service.Resolve<IWebPageQueryResultMapper>();
-        var executor = Service.Resolve<IContentQueryExecutor>();
-        var query = new ContentItemQueryBuilder()
-            .ForContentType(contentTypeName,
-                config =>
-                    config
-                        .WithLinkedItems(4)
-                        .ForWebsite(channelName, includeUrlPath: true)
-                        .Where(where => where.WhereEquals(nameof(IWebPageContentQueryDataContainer.WebPageItemGUID), id))
-                        .TopN(1))
-            .InLanguage(languageName);
-        var result = await executor.GetWebPageResult(query, container => mapper.Map<T>(container), null,
-        cancellationToken: default);
-
-        return result.FirstOrDefault();
-    }
-
-    public override FacetsConfig FacetsConfigFactory()
-    {
-        var facetConfig = new FacetsConfig();
-
-        facetConfig.SetMultiValued(FacetDimension, true);
-
-        return facetConfig;
-    }
-
-    public override async Task<Document?> MapToLuceneDocumentOrNull(IndexedItemModel indexedModel)
+    public override async Task<Document?> MapToLuceneDocumentOrNull(IIndexEventItemModel item)
     {
         var document = new Document();
 
@@ -194,69 +140,22 @@ public class ExampleSearchIndexingStrategy : DefaultLuceneIndexingStrategy
         string title = "";
         string contentType = "";
 
-        if (indexedModel.ClassName == ArticlePage.CONTENT_TYPE_NAME)
+        if (item is IndexEventWebPageItemModel webpageItem &&
+            string.Equals(indexedModel.ContentTypeName, ArticlePage.CONTENT_TYPE_NAME, StringComparison.OrdinalIgnorecase))
         {
-            var page = await GetPage<ArticlePage>(indexedModel.WebPageItemGuid, indexedModel.ChannelName, indexedModel.LanguageCode, ArticlePage.CONTENT_TYPE_NAME);
+            // Same as the first example
+            // ...
+
             contentType = "news";
-
-            if (page != default)
-            {
-                var article = page.ArticlePageArticle.FirstOrDefault();
-
-                if (article == null)
-                {
-                    return null;
-                }
-            }
-            else
-            {
-                return null;
-            }
-
-            if (page != default)
-            {
-                var article = page.ArticlePageArticle.FirstOrDefault();
-
-                sortableTitle = title = article?.ArticleTitle ?? "";
-            }
         }
 
+        // Add the facet value as a facet field
         document.Add(new FacetField(FacetDimension, contentType));
 
-        document.Add(new TextField(nameof(GlobalSearchResultModel.Title), title, Field.Store.YES));
-        document.Add(new StringField(SORTABLE_TITLE_FIELD_NAME, sortableTitle, Field.Store.YES));
-        document.Add(new TextField(nameof(GlobalSearchResultModel.ContentType), contentType, Field.Store.YES));
+        // Set other fields
+        // ...
 
         return document;
-    }
-}
-```
-
-You can reindex web page items after a change in any reusable content item. We provide a `FindItemsToReindex(IndexedContentItemModel changedItem)` method which returns empty list but can be overriden to return a web page item specified by the consumer of the api. These items are then reindexed in the same way as web page items. Here is an example:
-
-```csharp
-public class ExampleSearchIndexingStrategy : DefaultLuceneIndexingStrategy
-{
-    public string FacetDimension { get; set; } = "ContentType";
-    public static string SORTABLE_TITLE_FIELD_NAME = "SortableTitle";
-
-    private async Task<T> GetPage<T>(Guid id, string channelName, string languageName, string contentTypeName) where T : IWebPageFieldsSource, new()
-    {
-        var mapper = Service.Resolve<IWebPageQueryResultMapper>();
-        var executor = Service.Resolve<IContentQueryExecutor>();
-        var query = new ContentItemQueryBuilder()
-            .ForContentType(contentTypeName,
-                config =>
-                    config
-                        .WithLinkedItems(4)
-                        .ForWebsite(channelName, includeUrlPath: true)
-                        .Where(where => where.WhereEquals(nameof(IWebPageContentQueryDataContainer.WebPageItemGUID), id))
-                        .TopN(1))
-            .InLanguage(languageName);
-        var result = await executor.GetWebPageResult(query, container => mapper.Map<T>(container), null,
-        cancellationToken: default);
-
-        return result.FirstOrDefault();
     }
 
     public override FacetsConfig FacetsConfigFactory()
@@ -267,451 +166,313 @@ public class ExampleSearchIndexingStrategy : DefaultLuceneIndexingStrategy
 
         return facetConfig;
     }
+}
+```
 
-    public override async Task<IEnumerable<IndexedItemModel>> FindItemsToReindex(IndexedContentItemModel changedItem)
+## Data retrieval during indexing
+
+It is up to your implementation how do you want to retrieve the content or data to be indexed, however any web page item could be retrieved using a generic `GetPage<T>` method. In the example below, you specify that you want to retrieve `ArticlePage` item in the provided language on the channel using provided id and content type.
+
+```csharp
+public class ExampleSearchIndexingStrategy : DefaultLuceneIndexingStrategy
+{
+    // Other fields defined in previous examples
+    // ...
+
+    private readonly IWebPageQueryResultMapper webPageMapper;
+    private readonly IContentQueryExecutor queryExecutor;
+
+    public ExampleSearchIndexingStrategy(
+        IWebPageQueryResultMapper webPageMapper,
+        IContentQueryExecutor queryExecutor,
+    )
     {
-        var reindexedItems = new List<IndexedItemModel>();
+        this.webPageMapper = webPageMapper;
+        this.queryExecutor = queryExecutor;
+    }
 
-        if (changedItem.ClassName == Article.CONTENT_TYPE_NAME)
+    public override async Task<Document?> MapToLuceneDocumentOrNull(IIndexEventItemModel item)
+    {
+        // Implementation detailed in previous examples, including GetPage<T> call
+        // ...
+    }
+
+    public override FacetsConfig FacetsConfigFactory()
+    {
+        // Same as examples above
+        // ...
+    }
+
+    private async Task<T?> GetPage<T>(Guid id, string channelName, string languageName, string contentTypeName)
+        where T : IWebPageFieldsSource, new()
+    {
+        var query = new ContentItemQueryBuilder()
+            .ForContentType(contentTypeName,
+                config =>
+                    config
+                        .WithLinkedItems(4) // You could parameterize this if you want to optimize specific database queries
+                        .ForWebsite(channelName)
+                        .Where(where => where.WhereEquals(nameof(WebPageFields.WebPageItemGUID), id))
+                        .TopN(1))
+            .InLanguage(languageName);
+
+        var result = await queryExecutor.GetWebPageResult(query, webPageMapper.Map<T>);
+
+        return result.FirstOrDefault();
+    }
+}
+```
+
+## Keeping indexed related content up to date
+
+If an indexed web page item has relationships to other web page items or reusable content items, and updates to those items should trigger
+a reindex of the original web page item, you can override the `Task<IEnumerable<IIndexEventItemModel>> FindItemsToReindex(IndexEventWebPageItemModel changedItem)` or `Task<IEnumerable<IIndexEventItemModel>> FindItemsToReindex(IndexEventReusableItemModel changedItem)` methods which both return the items that should be indexed based on the incoming item being changed.
+
+In our example an `ArticlePage` web page item has a `ArticlePageArticle` field which represents a reference to related reusable content items that contain the full article content. We include content from the reusable item in our indexed web page, so changes to the reusable item should result in the index being updated for the web page item.
+
+All items returned from either `FindItemsToReindex` method will be passed to `Task<Document?> MapToLuceneDocumentOrNull(IIndexEventItemModel item)` for indexing.
+
+```csharp
+public class ExampleSearchIndexingStrategy : DefaultLuceneIndexingStrategy
+{
+    // Other fields defined in previous examples
+    // ...
+
+    public const string INDEXED_WEBSITECHANNEL_NAME = "mywebsitechannel";
+
+    private readonly IWebPageQueryResultMapper webPageMapper;
+    private readonly IContentQueryExecutor queryExecutor;
+
+    public ExampleSearchIndexingStrategy(
+        IWebPageQueryResultMapper webPageMapper,
+        IContentQueryExecutor queryExecutor,
+    )
+    {
+        this.webPageMapper = webPageMapper;
+        this.queryExecutor = queryExecutor;
+    }
+
+    public override async Task<Document?> MapToLuceneDocumentOrNull(IIndexEventItemModel item)
+    {
+        // Implementation detailed in previous examples, including GetPage<T> call
+        // ...
+    }
+
+    public override async Task<IEnumerable<IIndexEventItemModel>> FindItemsToReindex(IndexEventReusableItemModel changedItem)
+    {
+        var reindexedItems = new List<IIndexEventItemModel>();
+
+        if (string.Equals(indexedModel.ContentTypeName, Article.CONTENT_TYPE_NAME, StringComparison.OrdinalIgnorecase))
         {
-            var mapper = Service.Resolve<IWebPageQueryResultMapper>();
-            var executor = Service.Resolve<IContentQueryExecutor>();
             var query = new ContentItemQueryBuilder()
                 .ForContentType(ArticlePage.CONTENT_TYPE_NAME,
                     config =>
                         config
                             .WithLinkedItems(4)
-                            .ForWebsite(INDEXED_WEBSITECHANNEL_NAME, includeUrlPath: true)
-                            .Where(x => x.WhereEquals(nameof(ArticlePage.SystemFields.ContentItemCommonDataVersionStatus), VersionStatus.Published)))
-                .InLanguage(changedItem.LanguageCode);
 
-            var result = await executor.GetWebPageResult(query, container => mapper.Map<ArticlePage>(container), null,
-            cancellationToken: default);
+                            // Because the changedItem is a reusable content item, we don't have a website channel name to use here
+                            // so we use a hardcoded channel name.
+                            //
+                            // This will be resolved with an upcoming Xperience by Kentico feature
+                            // https://roadmap.kentico.com/c/193-new-api-cross-content-type-querying
+                            .ForWebsite(INDEXED_WEBSITECHANNEL_NAME)
+
+                            // Retrieves all ArticlePages that link to the Article through the ArticlePage.ArticlePageArticle field
+                            .Linking(nameof(ArticlePage.ArticlePageArticle), new[] { changedItem.ItemID }))
+                .InLanguage(changedItem.LanguageName);
+
+            var result = await queryExecutor.GetWebPageResult(query, webPageMapper.Map<ArticlePage>);
 
             foreach (var articlePage in result)
             {
-                if (articlePage.ArticlePageArticle.Any(x => x.SystemFields.ContentItemGUID == changedItem.ContentItemGuid) ||
-                    articlePage.ArticlePageArticle.IsNullOrEmpty())
-                {
-                    reindexedItems.Add(new IndexedItemModel
-                    {
-                        ChannelName = INDEXED_WEBSITECHANNEL_NAME,
-                        ClassName = ArticlePage.CONTENT_TYPE_NAME,
-                        LanguageCode = changedItem.LanguageCode,
-                        WebPageItemGuid = articlePage.SystemFields.WebPageItemGUID,
-                        WebPageItemTreePath = articlePage.SystemFields.WebPageItemTreePath
-                    });
-                }
+                // This will be a IIndexEventItemModel passed to our MapToLuceneDocumentOrNull method above
+                reindexable.Add(new IndexEventWebPageItemModel(
+                    page.SystemFields.WebPageItemID,
+                    page.SystemFields.WebPageItemGUID,
+                    changedItem.LanguageName,
+                    ArticlePage.CONTENT_TYPE_NAME,
+                    page.SystemFields.WebPageItemName,
+                    page.SystemFields.ContentItemIsSecured,
+                    page.SystemFields.ContentItemContentTypeID,
+                    page.SystemFields.ContentItemCommonDataContentLanguageID,
+                    INDEXED_WEBSITECHANNEL_NAME,
+                    page.SystemFields.WebPageItemTreePath,
+                    page.SystemFields.WebPageItemParentID,
+                    page.SystemFields.WebPageItemOrder));
             }
         }
 
         return reindexedItems;
     }
 
-
-    public override async Task<Document?> MapToLuceneDocumentOrNull(IndexedItemModel indexedModel)
+    public override FacetsConfig FacetsConfigFactory()
     {
-        var document = new Document();
+        // Same as examples above
+        // ...
+    }
 
-        string sortableTitle = "";
-        string title = "";
-        string contentType = "";
-
-        if (indexedModel.ClassName == ArticlePage.CONTENT_TYPE_NAME)
-        {
-            var page = await GetPage<ArticlePage>(indexedModel.WebPageItemGuid, indexedModel.ChannelName, indexedModel.LanguageCode, ArticlePage.CONTENT_TYPE_NAME);
-            contentType = "news";
-
-            if (page != default)
-            {
-                var article = page.ArticlePageArticle.FirstOrDefault();
-
-                if (article == null)
-                {
-                    return null;
-                }
-            }
-            else
-            {
-                return null;
-            }
-
-            if (page != default)
-            {
-                var article = page.ArticlePageArticle.FirstOrDefault();
-
-                sortableTitle = title = article?.ArticleTitle ?? "";
-            }
-        }
-
-        document.Add(new FacetField(FacetDimension, contentType));
-
-        document.Add(new TextField(nameof(GlobalSearchResultModel.Title), title, Field.Store.YES));
-        document.Add(new StringField(SORTABLE_TITLE_FIELD_NAME, sortableTitle, Field.Store.YES));
-        document.Add(new TextField(nameof(GlobalSearchResultModel.ContentType), contentType, Field.Store.YES));
-
-        return document;
+    private async Task<T?> GetPage<T>(Guid id, string channelName, string languageName, string contentTypeName)
+        where T : IWebPageFieldsSource, new()
+    {
+        // Same as examples above
+        // ...
     }
 }
 ```
 
-You can also Extend this to index content of the page. This implementation is up to you, however we provide a general example which can be used in any app:
+Note that we are not preparing the Lucene `Document` in `FindItemsToReindex`, but instead are generating a collection of
+additional items that will need reindexing based on the modification of a related `IIndexEventItemModel`.
 
-Create a `WebCrawlerService` your baseUrl needs to mathc your site baseUrl. We retrieve this url from the appSettings.json in the
+## Register the custom strategy and other dependencies in DI
 
-```csharp
-tring baseUrl = ValidationHelper.GetString(Service.Resolve<IAppSettingsService>()["WebCrawlerBaseUrl"], "");
-```
-
-```csharp
-public class WebCrawlerService
-{
-    private readonly HttpClient httpClient;
-    private readonly IEventLogService eventLogService;
-    private readonly IWebPageUrlRetriever webPageUrlRetriever;
-
-    public WebCrawlerService(HttpClient httpClient,
-        IEventLogService eventLogService,
-        IWebPageUrlRetriever webPageUrlRetriever)
-    {
-        this.httpClient = httpClient;
-        this.httpClient.DefaultRequestHeaders.Add(HeaderNames.UserAgent, "SearchCrawler");
-        string baseUrl = ValidationHelper.GetString(Service.Resolve<IAppSettingsService>()["WebCrawlerBaseUrl"], "");
-        this.httpClient.BaseAddress = new Uri(baseUrl);
-        this.eventLogService = eventLogService;
-        this.webPageUrlRetriever = webPageUrlRetriever;
-    }
-
-    public async Task<string> CrawlNode(IndexedItemModel itemModel)
-    {
-        try
-        {
-            //TODO MilaHlavac: improve url parts concatenation for aplications hosted on non root path
-            var url = (await webPageUrlRetriever.Retrieve(itemModel.WebPageItemGuid, itemModel.LanguageCode)).RelativePath.TrimStart('~').TrimStart('/');
-            return await CrawlPage(url);
-        }
-        catch (Exception ex)
-        {
-            eventLogService.LogException(nameof(WebCrawlerService), nameof(CrawlNode), ex, $"WebPageItemTreePath: {itemModel.WebPageItemTreePath}");
-        }
-        return "";
-    }
-
-    public async Task<string> CrawlPage(string url)
-    {
-        try
-        {
-            var response = await httpClient.GetAsync(url);
-            return await response.Content.ReadAsStringAsync();
-        }
-        catch (Exception ex)
-        {
-            eventLogService.LogException(nameof(WebCrawlerService), nameof(CrawlPage), ex, $"Url: {url}");
-        }
-        return "";
-    }
-}
-```
-
-Create a sanitizer Service
+Add this library to the application services, registering your custom `DefaultLuceneIndexingStrategy` and Lucene
 
 ```csharp
+// Program.cs
 
-public class WebScraperHtmlSanitizer
-{
-    public virtual string SanitizeHtmlFragment(string htmlContent)
-    {
+// Registers all services and uses default indexing behavior (no custom data will be indexed)
+services.AddLucene();
 
-        var parser = new HtmlParser();
-        // null is relevant parameter
-        var nodes = parser.ParseFragment(htmlContent, null);
+// or
 
-        // Removes script tags
-        foreach (var element in nodes.QuerySelectorAll("script"))
-        {
-            element.Remove();
-        }
-
-        // Removes script tags
-        foreach (var element in nodes.QuerySelectorAll("style"))
-        {
-            element.Remove();
-        }
-
-        // Removes elements marked with the default Xperience exclusion attribute
-        foreach (var element in nodes.QuerySelectorAll($"*[{"data-ktc-search-exclude"}]"))
-        {
-            element.Remove();
-        }
-
-        // Gets the text content of the body element
-        string textContent = string.Join(" ", nodes.Select(n => n.TextContent));
-
-        // Normalizes and trims whitespace characters
-        textContent = HTMLHelper.RegexHtmlToTextWhiteSpace.Replace(textContent, " ");
-        textContent = textContent.Trim();
-
-        return textContent;
-    }
-
-    public virtual string SanitizeHtmlDocument(string htmlContent)
-    {
-        if (!string.IsNullOrWhiteSpace(htmlContent))
-        {
-            var parser = new HtmlParser();
-            var doc = parser.ParseDocument(htmlContent);
-            var body = doc.Body;
-            if (body != null)
-            {
-
-                // Removes script tags
-                foreach (var element in body.QuerySelectorAll("script"))
-                {
-                    element.Remove();
-                }
-
-                // Removes script tags
-                foreach (var element in body.QuerySelectorAll("style"))
-                {
-                    element.Remove();
-                }
-
-                // Removes elements marked with the default Xperience exclusion attribute
-                foreach (var element in body.QuerySelectorAll($"*[{"data-ktc-search-exclude"}]"))
-                {
-                    element.Remove();
-                }
-
-                // Removes header
-                foreach (var element in body.QuerySelectorAll("header"))
-                {
-                    element.Remove();
-                }
-
-                // Removes breadcrumbs
-                foreach (var element in body.QuerySelectorAll(".breadcrumb"))
-                {
-                    element.Remove();
-                }
-
-                // Removes footer
-                foreach (var element in body.QuerySelectorAll("footer"))
-                {
-                    element.Remove();
-                }
-
-                // Gets the text content of the body element
-                string textContent = body.TextContent;
-
-                // Normalizes and trims whitespace characters
-                textContent = HTMLHelper.RegexHtmlToTextWhiteSpace.Replace(textContent, " ");
-                textContent = textContent.Trim();
-
-                var title = doc.Head.QuerySelector("title")?.TextContent;
-                var description = doc.Head.QuerySelector("meta[name='description']")?.GetAttribute("content");
-
-                return string.Join(" ",
-                    new string[] { title, description, textContent }.Where(i => !string.IsNullOrWhiteSpace(i))
-                    );
-            }
-        }
-
-        return string.Empty;
-    }
-}
-
+// Registers all services and enables custom indexing behavior
+services.AddLucene(builder =>
+    builder
+        .RegisterStrategy<ExampleSearchIndexingStrategy>("ExampleStrategy"));
 ```
 
-Register these services in the startup and retrieve them in your strategy:
+## Indexing web page content
 
-```csharp
-  services.AddSingleton<WebScraperHtmlSanitizer>();
-  services.AddHttpClient<WebCrawlerService>();
-```
+See [Scraping web page content](Scraping-web-page-content.md)
 
-```csharp
-private async Task<string> GetPageContent(IndexedItemModel indexedModel)
-{
-    var htmlSanitizer = Service.Resolve<WebScraperHtmlSanitizer>();
-    var webCrawler = Service.Resolve<WebCrawlerService>();
+## Search index querying
 
-    string content = await webCrawler.CrawlNode(indexedModel);
-    return htmlSanitizer.SanitizeHtmlDocument(content);
-}
-```
-
-Now you can easily add data to your document to use in the search. In the `MapToLuceneDocumentOrNull` method
-
-```csharp
-crawlerContent = await GetPageContent(indexedModel);
-// ...
-document.Add(new TextField(CRAWLER_CONTENT_FIELD_NAME, crawlerContent, Field.Store.NO));
-```
-
-To retrieve the data specify a Service which uses the Lucene `Query`. Example :
-
-This indexing strategy allows you to hook into the indexing process by overriding the following methods of the `DefaultLuceneIndexingStrategy`:
-
-- `MapToLuceneDocumentOrNull`
-- `FacetsConfigFactory`
-- `FindItemsToReindex(IndexedItemModel changedItem)`
-- `FindItemsToReindex(IndexedContentItemModel changedItem)`
-
-`FindItemsToReindex` let you specify whether after a Content item or any Web page item other than which you have specified in the admin ui should also be reindexed.
-This does not need to be implemented. Default implementation reindexes PageItem when it is directly changed. However advanced user could specify that a page item should be reindexed after a widget or any other item used in the page item is edited.
-
-You can add as many indexes as you want. Each index can have a different set of fields or store data for different [Content Types](https://docs.xperience.io/xp26/developers-and-admins/development/content-types).
+> Note: this part of the documentation is still a work-in-progress and will be updated with an example Dancing Goat project
 
 ### Rebuild the Search Index
 
-The index will initially be empty until you create or modify some content.
+Each index will initially be empty after creation until you create or modify some content.
 
 To index all existing content, rebuild the index in Xperience's Administration within the Search application added by this library.
 
-Then, execute a search with a customized Lucene `Query` (like the `MatchAllDocsQuery`) using the ILuceneIndexService.
+### Create a search result model
 
 ```csharp
-// ...
-
 public class GlobalSearchResultModel
 {
-    public string Title { get; set; }
-    public string ContentType { get; set; }
-    public string Url { get; set; }
+    public string Title { get; set; } = "";
+    public string ContentType { get; set; } = "";
+    public string Url { get; set; } = "";
 
-    public static List<string> PossibleFacets { get; set; } = new List<string> {
-    "other",
-    "news",
-    "product",
+    public static List<string> PossibleFacets { get; set; } = new List<string>
+    {
+        "other",
+        "news",
+        "product",
     };
 }
+```
 
+### Create a search service
+
+Execute a search with a customized Lucene `Query` (like the `MatchAllDocsQuery`) using the ILuceneSearchService.
+
+```csharp
 public class SearchService
 {
     private const int PHRASE_SLOP = 3;
     private const int MAX_RESULTS = 1000;
 
-    private readonly ILuceneIndexService luceneIndexService;
+    private readonly ILuceneSearchService luceneSearchService;
+    private readonly ExampleSearchIndexingStrategy strategy;
 
-    public SearchService(ILuceneIndexService luceneIndexService) => this.luceneIndexService = luceneIndexService;
-
-    public GlobalSearchResultModel GlobalSearch(string indexName, string searchText, int pageSize = 20, int page = 1, string facet = null, string sortBy = null)
+    public SearchService(
+        ILuceneSearchService luceneSearchService,
+        ExampleSearchIndexingStrategy strategy)
     {
-        var index = IndexStore.Instance.GetIndex(indexName) ?? throw new Exception($"Index {indexName} was not found!!!");
-        pageSize = Math.Max(1, pageSize);
-        page = Math.Max(1, page);
+        this.luceneSearchService = luceneSearchService;
+        this.strategy = strategy;
+    }
 
-        int offset = pageSize * (page - 1);
-        int limit = pageSize;
+    public GlobalSearchResultModel GlobalSearch(
+        string indexName,
+        string searchText,
+        int pageSize = 20,
+        int page = 1,
+        string? facet = null,
+        string? sortBy = null)
+    {
+        var index = LuceneIndexStore.Instance.GetRequiredIndex(indexName);
+        var query = GetTermQuery(searchText, facet, sortBy);
 
-        var analyzer = new StandardAnalyzer(LuceneVersion.LUCENE_48);
-
-        var queryBuilder = new QueryBuilder(analyzer);
-        //var queryBuilder = new QueryBuilder(index.Analyzer);
-
-        var query = string.IsNullOrWhiteSpace(searchText)
-            ? new MatchAllDocsQuery()
-            : GetTermQuery(queryBuilder, searchText);
-
-        var indexingStrategy = new ExampleSearchIndexingStrategy();
-        //var chosenFacetCategories = new List<string>();
-        var chosenSubFacets = new List<string>();
-
-        var combinedQuery = new BooleanQuery();
-
-        combinedQuery.Add(query, Occur.MUST);
+        var combinedQuery = new BooleanQuery
+        {
+            { query, Occur.MUST }
+        };
 
         if (facet != null)
         {
-            var drillDownQuery = new DrillDownQuery(indexingStrategy.FacetsConfigFactory());
+            var drillDownQuery = new DrillDownQuery(strategy.FacetsConfigFactory());
 
             string[] subFacets = facet.Split(';', StringSplitOptions.RemoveEmptyEntries);
 
-            foreach (var subFacet in subFacets)
+            foreach (string subFacet in subFacets)
             {
-                var categoryAndSpecific = subFacet.Split('-', StringSplitOptions.RemoveEmptyEntries);
-
-                chosenSubFacets.Add(subFacet);
-
-            }
-
-            foreach (var chosen in chosenSubFacets)
-            {
-                drillDownQuery.Add(indexingStrategy.FacetDimension, chosen);
+                drillDownQuery.Add(nameof(BlogSearchModel.Taxonomy), subFacet);
             }
 
             combinedQuery.Add(drillDownQuery, Occur.MUST);
         }
 
-        var result = luceneIndexService.UseSearcherWithFacets(
+        var result = luceneSearchService.UseSearcherWithFacets(
            index,
            query, 20,
            (searcher, facets) =>
            {
-               var sortOptions = GetSortOption(sortBy);
+                var sortOptions = GetSortOption(sortBy);
 
-               TopDocs topDocs;
+                TopDocs topDocs;
 
-               if (sortOptions != null)
-               {
-                   topDocs = searcher.Search(combinedQuery, MAX_RESULTS
-                       , new Sort(sortOptions));
-               }
-               else
-               {
-                   topDocs = searcher.Search(combinedQuery, MAX_RESULTS);
-               }
+                if (sortOptions != null)
+                {
+                    topDocs = searcher.Search(combinedQuery, MAX_RESULTS, new Sort(sortOptions));
+                }
+                else
+                {
+                    topDocs = searcher.Search(combinedQuery, MAX_RESULTS);
+                }
 
-               return new GlobalSearchResultModel
-               {
-                   Query = searchText ?? "",
-                   Page = page,
-                   PageSize = pageSize,
-                   TotalPages = topDocs.TotalHits <= 0 ? 0 : ((topDocs.TotalHits - 1) / pageSize) + 1,
-                   TotalHits = topDocs.TotalHits,
-                   Hits = topDocs.ScoreDocs
-                       .Skip(offset)
-                       .Take(limit)
-                       .Select(d => MapToResultItem(searcher.Doc(d.Doc)))
-                       .ToList(),
-                   Facet = facet,
-                   Facets = facets?.GetTopChildren(10, indexingStrategy.FacetDimension, new string[] { })?.LabelValues.ToArray(),
-                   SortBy = sortBy
-               };
-           }
+                pageSize = Math.Max(1, pageSize);
+                page = Math.Max(1, page);
+
+                int offset = pageSize * (page - 1);
+                int limit = pageSize;
+
+                return new GlobalSearchResultModel
+                {
+                    Query = searchText ?? "",
+                    Page = page,
+                    PageSize = pageSize,
+                    TotalPages = topDocs.TotalHits <= 0 ? 0 : ((topDocs.TotalHits - 1) / pageSize) + 1,
+                    TotalHits = topDocs.TotalHits,
+                    Hits = topDocs.ScoreDocs
+                        .Skip(offset)
+                        .Take(limit)
+                        .Select(d => MapToResultItem(searcher.Doc(d.Doc)))
+                        .ToList(),
+                    Facet = facet,
+                    Facets = facets?.GetTopChildren(10, indexingStrategy.FacetDimension, new string[] { })?.LabelValues.ToArray(),
+                    SortBy = sortBy
+                };
+            }
         );
 
         return result;
     }
 
-    private static Query GetTermQuery(QueryBuilder queryBuilder, string searchText)
+    private static Query GetTermQuery(string searchText, string? facet, string? sortBy)
     {
-        var booleanQuery = new BooleanQuery();
-
-        if (!string.IsNullOrWhiteSpace(searchText))
-        {
-            booleanQuery = AddToTermQuery(booleanQuery, queryBuilder.CreatePhraseQuery(nameof(GlobalSearchResultModel.Title), searchText, PHRASE_SLOP), 5);
-            booleanQuery = AddToTermQuery(booleanQuery, queryBuilder.CreatePhraseQuery(ExampleSearchIndexingStrategy.CRAWLER_CONTENT_FIELD_NAME, searchText, PHRASE_SLOP), 1);
-            booleanQuery = AddToTermQuery(booleanQuery, queryBuilder.CreateBooleanQuery(nameof(GlobalSearchResultModel.Title), searchText, Occur.SHOULD), 0.5f);
-            booleanQuery = AddToTermQuery(booleanQuery, queryBuilder.CreateBooleanQuery(ExampleSearchIndexingStrategy.CRAWLER_CONTENT_FIELD_NAME, searchText, Occur.SHOULD), 0.1f);
-
-            if (booleanQuery.GetClauses().Count() > 0)
-            {
-                return booleanQuery;
-            }
-        }
-
-        return new MatchAllDocsQuery();
-    }
-
-    private static BooleanQuery AddToTermQuery(BooleanQuery query, Query textQueryPart, float boost)
-    {
-        if (textQueryPart != null)
-        {
-            textQueryPart.Boost = boost;
-            query.Add(textQueryPart, Occur.SHOULD);
-        }
-        return query;
+        // TODO - query building example
     }
 
     private SortField GetSortOption(string sortBy = null)
@@ -734,32 +495,13 @@ public class SearchService
         ContentType = doc.Get(nameof(GlobalSearchResultModel.ContentType)),
     };
 }
-
 ```
-
-### Minimal changes
-
-All you need to do to index more types is adding implementation for PageItems into this strategy. One strategy can implement all possible page types. Later on there is no need for a programmer to change the code as admin in the administration can chose which paths, languages, channels and content types are used in a specific page. There can be multiple search sites implemented using only one strategy - example usage is a typical website search. Search in a q and a site etc ...
 
 ### Display Results
 
-Finally, display the strongly typed search results in a Razor View.
+... TODO
 
-```xml
-@foreach (var item in Model.Hits)
-{
-    <div class="row search-tile">
-        <div class="col-md-8 col-lg-9 search-tile-content">
-            <h3 class="h4 search-tile-title">
-                <a href="@item.Url">@item.Title</a>
-            </h3>
-            <div class="search-tile-subtitle">@item.PublishedDate</div>
-        </div>
-    </div>
-}
-```
-
-### Implementing document decay
+## Implementing document decay
 
 You can score indexed items by "freshness" or "recency" using several techniques, each with different tradeoffs.
 
