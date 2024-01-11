@@ -6,11 +6,11 @@ using CMS;
 using CMS.DataEngine;
 using CMS.Helpers;
 
-using Kentico.Xperience.Lucene.Models;
+using Kentico.Xperience.Lucene.Admin;
 
 [assembly: RegisterObjectType(typeof(LuceneContentTypeItemInfo), LuceneContentTypeItemInfo.OBJECT_TYPE)]
 
-namespace Kentico.Xperience.Lucene.Models;
+namespace Kentico.Xperience.Lucene.Admin;
 
 /// <summary>
 /// Data container class for <see cref="LuceneContentTypeItemInfo"/>.
@@ -27,13 +27,13 @@ public partial class LuceneContentTypeItemInfo : AbstractInfo<LuceneContentTypeI
     /// <summary>
     /// Type information.
     /// </summary>
-    public static readonly ObjectTypeInfo TYPEINFO = new(typeof(LuceneContentTypeItemInfoProvider), OBJECT_TYPE, "lucene.LuceneContentTypeItem", "LuceneContentTypeItemId", null, null, null, null, null, null, null)
+    public static readonly ObjectTypeInfo TYPEINFO = new(typeof(LuceneContentTypeItemInfoProvider), OBJECT_TYPE, "Lucene.LuceneContentTypeItem", nameof(LuceneContentTypeItemId), null, null, null, null, null, null, null)
     {
         TouchCacheDependencies = true,
         DependsOn = new List<ObjectDependency>()
         {
-            new("LuceneContentTypeItemIncludedPathItemId", "LuceneIncludedPathItemInfo", ObjectDependencyEnum.Required),
-            new("LuceneContentTypeItemIndexItemId", "LuceneIndexItemInfo", ObjectDependencyEnum.Required),
+            new(nameof(LuceneContentTypeItemIncludedPathItemId), LuceneIncludedPathItemInfo.OBJECT_TYPE, ObjectDependencyEnum.Required),
+            new(nameof(LuceneContentTypeItemIndexItemId), LuceneIndexItemInfo.OBJECT_TYPE, ObjectDependencyEnum.Required),
         },
     };
 

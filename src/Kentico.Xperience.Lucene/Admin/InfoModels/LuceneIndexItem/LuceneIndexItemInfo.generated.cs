@@ -4,11 +4,11 @@ using System.Runtime.Serialization;
 using CMS;
 using CMS.DataEngine;
 using CMS.Helpers;
-using Kentico.Xperience.Lucene.Models;
+using Kentico.Xperience.Lucene.Admin;
 
 [assembly: RegisterObjectType(typeof(LuceneIndexItemInfo), LuceneIndexItemInfo.OBJECT_TYPE)]
 
-namespace Kentico.Xperience.Lucene.Models
+namespace Kentico.Xperience.Lucene.Admin
 {
     /// <summary>
     /// Data container class for <see cref="LuceneIndexItemInfo"/>.
@@ -25,7 +25,7 @@ namespace Kentico.Xperience.Lucene.Models
         /// <summary>
         /// Type information.
         /// </summary>
-        public static readonly ObjectTypeInfo TYPEINFO = new(typeof(LuceneIndexItemInfoProvider), OBJECT_TYPE, "lucene.LuceneIndexItem", "LuceneIndexItemId", null, null, "LuceneIndexItemIndexName", null, null, null, null)
+        public static readonly ObjectTypeInfo TYPEINFO = new(typeof(LuceneIndexItemInfoProvider), OBJECT_TYPE, "Lucene.LuceneIndexItem", nameof(LuceneIndexItemId), null, null, nameof(LuceneIndexItemIndexName), null, null, null, null)
         {
             TouchCacheDependencies = true,
         };

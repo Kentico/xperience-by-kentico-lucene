@@ -6,11 +6,11 @@ using System.Collections.Generic;
 using CMS;
 using CMS.DataEngine;
 using CMS.Helpers;
-using Kentico.Xperience.Lucene.Models;
+using Kentico.Xperience.Lucene.Admin;
 
 [assembly: RegisterObjectType(typeof(LuceneIncludedPathItemInfo), LuceneIncludedPathItemInfo.OBJECT_TYPE)]
 
-namespace Kentico.Xperience.Lucene.Models
+namespace Kentico.Xperience.Lucene.Admin
 {
     /// <summary>
     /// Data container class for <see cref="LuceneIncludedPathItemInfo"/>.
@@ -27,12 +27,12 @@ namespace Kentico.Xperience.Lucene.Models
         /// <summary>
         /// Type information.
         /// </summary>
-        public static readonly ObjectTypeInfo TYPEINFO = new(typeof(LuceneIncludedPathItemInfoProvider), OBJECT_TYPE, "lucene.luceneincludedpathitem", "LuceneIncludedPathItemId", null, null, null, null, null, null, null)
+        public static readonly ObjectTypeInfo TYPEINFO = new(typeof(LuceneIncludedPathItemInfoProvider), OBJECT_TYPE, "Lucene.LuceneIncludedPathItem", nameof(LuceneIncludedPathItemId), null, null, null, null, null, null, null)
         {
             TouchCacheDependencies = true,
             DependsOn = new List<ObjectDependency>()
             {
-                new("LuceneIncludedPathIndexItemId", "LuceneIndexItemInfo", ObjectDependencyEnum.Required),
+                new(nameof(LuceneIncludedPathItemIndexItemId), LuceneIndexItemInfo.OBJECT_TYPE, ObjectDependencyEnum.Required),
             },
         };
 
@@ -52,10 +52,10 @@ namespace Kentico.Xperience.Lucene.Models
         /// Alias path.
         /// </summary>
         [DatabaseField]
-        public virtual string LuceneIncludedPathAliasPath
+        public virtual string LuceneIncludedPathItemAliasPath
         {
-            get => ValidationHelper.GetString(GetValue(nameof(LuceneIncludedPathAliasPath)), String.Empty);
-            set => SetValue(nameof(LuceneIncludedPathAliasPath), value);
+            get => ValidationHelper.GetString(GetValue(nameof(LuceneIncludedPathItemAliasPath)), String.Empty);
+            set => SetValue(nameof(LuceneIncludedPathItemAliasPath), value);
         }
 
 
@@ -63,10 +63,10 @@ namespace Kentico.Xperience.Lucene.Models
         /// Lucene index item id.
         /// </summary>
         [DatabaseField]
-        public virtual int LuceneIncludedPathIndexItemId
+        public virtual int LuceneIncludedPathItemIndexItemId
         {
-            get => ValidationHelper.GetInteger(GetValue(nameof(LuceneIncludedPathIndexItemId)), 0);
-            set => SetValue(nameof(LuceneIncludedPathIndexItemId), value);
+            get => ValidationHelper.GetInteger(GetValue(nameof(LuceneIncludedPathItemIndexItemId)), 0);
+            set => SetValue(nameof(LuceneIncludedPathItemIndexItemId), value);
         }
 
 

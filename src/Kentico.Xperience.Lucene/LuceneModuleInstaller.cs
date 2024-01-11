@@ -1,7 +1,7 @@
 ﻿using CMS.Base;
 using CMS.DataEngine;
 using CMS.FormEngine;
-using Kentico.Xperience.Lucene.Models;
+using Kentico.Xperience.Lucene.Admin;
 
 namespace Kentico.Xperience.Lucene;
 
@@ -33,8 +33,8 @@ public class LuceneModuleInstaller
 
         luceneItemInfo = DataClassInfo.New(LuceneIndexItemInfo.OBJECT_TYPE);
 
-        luceneItemInfo.ClassName = LuceneIndexItemInfo.OBJECT_TYPE;
-        luceneItemInfo.ClassTableName = LuceneIndexItemInfo.OBJECT_TYPE.Replace(".", "_");
+        luceneItemInfo.ClassName = LuceneIndexItemInfo.TYPEINFO.ObjectClassName;
+        luceneItemInfo.ClassTableName = LuceneIndexItemInfo.TYPEINFO.ObjectClassName.Replace(".", "_");
         luceneItemInfo.ClassDisplayName = "Lucene Index Item";
         luceneItemInfo.ClassType = ClassType.OTHER;
 
@@ -105,8 +105,8 @@ public class LuceneModuleInstaller
 
         pathItem = DataClassInfo.New(LuceneIncludedPathItemInfo.OBJECT_TYPE);
 
-        pathItem.ClassName = LuceneIncludedPathItemInfo.OBJECT_TYPE;
-        pathItem.ClassTableName = LuceneIncludedPathItemInfo.OBJECT_TYPE.Replace(".", "_");
+        pathItem.ClassName = LuceneIncludedPathItemInfo.TYPEINFO.ObjectClassName;
+        pathItem.ClassTableName = LuceneIncludedPathItemInfo.TYPEINFO.ObjectClassName.Replace(".", "_");
         pathItem.ClassDisplayName = "Lucene Path Item";
         pathItem.ClassType = ClassType.OTHER;
 
@@ -114,7 +114,7 @@ public class LuceneModuleInstaller
 
         var formItem = new FormFieldInfo
         {
-            Name = nameof(LuceneIncludedPathItemInfo.LuceneIncludedPathAliasPath),
+            Name = nameof(LuceneIncludedPathItemInfo.LuceneIncludedPathItemAliasPath),
             AllowEmpty = false,
             Visible = true,
             Precision = 0,
@@ -126,7 +126,7 @@ public class LuceneModuleInstaller
 
         formItem = new FormFieldInfo
         {
-            Name = nameof(LuceneIncludedPathItemInfo.LuceneIncludedPathIndexItemId),
+            Name = nameof(LuceneIncludedPathItemInfo.LuceneIncludedPathItemIndexItemId),
             AllowEmpty = false,
             Visible = true,
             DataType = "integer",
@@ -143,9 +143,8 @@ public class LuceneModuleInstaller
 
     private void InstallLuceneLanguageInfo()
     {
-        string languageInfoName = LuceneIndexedLanguageInfo.OBJECT_TYPE;
-        string idName = nameof(LuceneIndexedLanguageInfo.LuceneIndexedLanguageId);
-        var language = DataClassInfoProvider.GetDataClassInfo(languageInfoName);
+        string idName = nameof(LuceneIndexLanguageItemInfo.LuceneIndexLanguageItemID);
+        var language = DataClassInfoProvider.GetDataClassInfo(LuceneIndexLanguageItemInfo.OBJECT_TYPE);
 
         if (language is not null)
         {
@@ -154,8 +153,8 @@ public class LuceneModuleInstaller
 
         language = DataClassInfo.New();
 
-        language.ClassName = languageInfoName;
-        language.ClassTableName = languageInfoName.Replace(".", "_");
+        language.ClassName = LuceneIndexLanguageItemInfo.TYPEINFO.ObjectClassName;
+        language.ClassTableName = LuceneIndexLanguageItemInfo.TYPEINFO.ObjectClassName.Replace(".", "_");
         language.ClassDisplayName = "Lucene Indexed Language Item";
         language.ClassType = ClassType.OTHER;
 
@@ -163,7 +162,7 @@ public class LuceneModuleInstaller
 
         var formItem = new FormFieldInfo
         {
-            Name = nameof(LuceneIndexedLanguageInfo.LuceneIndexedLanguageName),
+            Name = nameof(LuceneIndexLanguageItemInfo.LuceneIndexLanguageItemName),
             AllowEmpty = false,
             Visible = true,
             Precision = 0,
@@ -175,7 +174,7 @@ public class LuceneModuleInstaller
 
         formItem = new FormFieldInfo
         {
-            Name = nameof(LuceneIndexedLanguageInfo.LuceneIndexedLanguageIndexItemId),
+            Name = nameof(LuceneIndexLanguageItemInfo.LuceneIndexLanguageItemIndexItemId),
             AllowEmpty = false,
             Visible = true,
             DataType = "integer",
@@ -201,8 +200,8 @@ public class LuceneModuleInstaller
 
         contentType = DataClassInfo.New();
 
-        contentType.ClassName = LuceneContentTypeItemInfo.OBJECT_TYPE;
-        contentType.ClassTableName = LuceneContentTypeItemInfo.OBJECT_TYPE.Replace(".", "_");
+        contentType.ClassName = LuceneContentTypeItemInfo.TYPEINFO.ObjectClassName;
+        contentType.ClassTableName = LuceneContentTypeItemInfo.TYPEINFO.ObjectClassName.Replace(".", "_");
         contentType.ClassDisplayName = "Lucene Type Item";
         contentType.ClassType = ClassType.OTHER;
 

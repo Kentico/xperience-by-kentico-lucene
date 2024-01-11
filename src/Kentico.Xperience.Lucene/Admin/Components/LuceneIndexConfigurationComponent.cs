@@ -3,7 +3,6 @@ using Kentico.Xperience.Admin.Base;
 using Kentico.Xperience.Admin.Base.FormAnnotations;
 using Kentico.Xperience.Admin.Base.Forms;
 using Kentico.Xperience.Lucene.Admin;
-using Kentico.Xperience.Lucene.Models;
 
 [assembly: RegisterFormComponent(
     identifier: LuceneIndexConfigurationComponent.IDENTIFIER,

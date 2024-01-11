@@ -1,5 +1,4 @@
-﻿using Kentico.Xperience.Lucene.Models;
-using Lucene.Net.Facet.Taxonomy;
+﻿using Lucene.Net.Facet.Taxonomy;
 using Lucene.Net.Facet.Taxonomy.Directory;
 using Lucene.Net.Index;
 using Lucene.Net.Store;

@@ -1,6 +1,6 @@
 using CMS.DataEngine;
 
-namespace Kentico.Xperience.Lucene.Models
+namespace Kentico.Xperience.Lucene.Admin
 {
     /// <summary>
     /// Class providing <see cref="LuceneIncludedPathItemInfo"/> management.
