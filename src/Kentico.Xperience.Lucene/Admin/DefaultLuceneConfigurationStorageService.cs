@@ -107,7 +107,7 @@ public class DefaultLuceneConfigurationStorageService : ILuceneConfigurationStor
         }
 
         var paths = pathProvider.Get().WhereEquals(nameof(LuceneIncludedPathItemInfo.LuceneIncludedPathItemIndexItemId), indexInfo.LuceneIndexItemId).ToList();
-        var contentTypes = contentTypeProvider.Get().WhereEquals(nameof(LuceneIncludedPathItemInfo.LuceneIncludedPathItemIndexItemId), indexInfo.LuceneIndexItemId).ToList();
+        var contentTypes = contentTypeProvider.Get().WhereEquals(nameof(LuceneContentTypeItemInfo.LuceneContentTypeItemIndexItemId), indexInfo.LuceneIndexItemId).ToList();
 
         return new LuceneConfigurationModel()
         {
@@ -173,7 +173,7 @@ public class DefaultLuceneConfigurationStorageService : ILuceneConfigurationStor
 
         pathProvider.BulkDelete(new WhereCondition($"{nameof(LuceneIncludedPathItemInfo.LuceneIncludedPathItemIndexItemId)} = {configuration.Id}"));
         languageProvider.BulkDelete(new WhereCondition($"{nameof(LuceneIndexLanguageItemInfo.LuceneIndexLanguageItemIndexItemId)} = {configuration.Id}"));
-        indexProvider.BulkDelete(new WhereCondition($"{nameof(LuceneContentTypeItemInfo.LuceneContentTypeItemIndexItemId)} = {configuration.Id}"));
+        contentTypeProvider.BulkDelete(new WhereCondition($"{nameof(LuceneContentTypeItemInfo.LuceneContentTypeItemIndexItemId)} = {configuration.Id}"));
 
         indexInfo.LuceneIndexItemChannelName = configuration.IndexName;
         indexInfo.LuceneIndexItemStrategyName = configuration.StrategyName ?? "";
