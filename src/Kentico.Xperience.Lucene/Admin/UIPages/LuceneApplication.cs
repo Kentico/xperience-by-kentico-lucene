@@ -18,6 +18,7 @@ namespace Kentico.Xperience.Lucene.Admin;
 /// The root application page for the Lucene integration.
 /// </summary>
 [UIPermission(SystemPermissions.VIEW)]
+[UIPermission(LuceneIndexPermissions.REBUILD, "Rebuild")]
 internal class LuceneApplicationPage : ApplicationPage
 {
     public const string IDENTIFIER = "Kentico.Xperience.Integrations.Lucene";

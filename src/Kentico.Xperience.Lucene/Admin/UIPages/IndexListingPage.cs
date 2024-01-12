@@ -1,4 +1,5 @@
 ﻿using CMS.Core;
+using CMS.Membership;
 using Kentico.Xperience.Admin.Base;
 using Kentico.Xperience.Lucene.Admin;
 using Kentico.Xperience.Lucene.Indexing;
@@ -17,11 +18,13 @@ namespace Kentico.Xperience.Lucene.Admin;
 /// <summary>
 /// An admin UI page that displays statistics about the registered Lucene indexes.
 /// </summary>
+[UIEvaluatePermission(SystemPermissions.VIEW)]
 internal class IndexListingPage : ListingPageBase<ListingConfiguration>
 {
     private readonly ILuceneClient luceneClient;
     private readonly IPageUrlGenerator pageUrlGenerator;
     private readonly ILuceneConfigurationStorageService configurationStorageService;
+    private readonly IUIPermissionEvaluator permissionEvaluator;
     private ListingConfiguration? mPageConfiguration;
 
     /// <inheritdoc/>
@@ -47,15 +50,20 @@ internal class IndexListingPage : ListingPageBase<ListingConfiguration>
     /// <summary>
     /// Initializes a new instance of the <see cref="IndexListingPage"/> class.
     /// </summary>
-    public IndexListingPage(ILuceneClient luceneClient, IPageUrlGenerator pageUrlGenerator, ILuceneConfigurationStorageService configurationStorageService)
+    public IndexListingPage(
+        ILuceneClient luceneClient,
+        IPageUrlGenerator pageUrlGenerator,
+        ILuceneConfigurationStorageService configurationStorageService,
+        IUIPermissionEvaluator permissionEvaluator)
     {
         this.luceneClient = luceneClient;
         this.pageUrlGenerator = pageUrlGenerator;
         this.configurationStorageService = configurationStorageService;
+        this.permissionEvaluator = permissionEvaluator;
     }
 
     /// <inheritdoc/>
-    public override Task ConfigurePage()
+    public override async Task ConfigurePage()
     {
         if (!LuceneIndexStore.Instance.GetAllIndices().Any())
         {
@@ -73,16 +81,28 @@ internal class IndexListingPage : ListingPageBase<ListingConfiguration>
             };
         }
 
-        PageConfiguration.HeaderActions.AddLink<IndexEditPage>("Create", parameters: "-1");
-
         PageConfiguration.ColumnConfigurations
             .AddColumn(nameof(LuceneIndexStatisticsViewModel.Name), "Name", defaultSortDirection: SortTypeEnum.Asc, searchable: true)
             .AddColumn(nameof(LuceneIndexStatisticsViewModel.Entries), LocalizationService.GetString("Indexed items"));
 
-        PageConfiguration.TableActions.AddCommand(LocalizationService.GetString("Build index"), nameof(Rebuild), Icons.RotateRight);
-        PageConfiguration.TableActions.AddCommand("Edit", nameof(Edit));
-        PageConfiguration.TableActions.AddCommand("Delete", nameof(Delete));
-        return base.ConfigurePage();
+        if ((await permissionEvaluator.Evaluate(SystemPermissions.CREATE)).Succeeded)
+        {
+            PageConfiguration.HeaderActions.AddLink<IndexEditPage>("Create", parameters: "-1");
+        }
+        if ((await permissionEvaluator.Evaluate(LuceneIndexPermissions.REBUILD)).Succeeded)
+        {
+            PageConfiguration.TableActions.AddCommand(LocalizationService.GetString("Build index"), nameof(Rebuild), Icons.RotateRight);
+        }
+        if ((await permissionEvaluator.Evaluate(SystemPermissions.UPDATE)).Succeeded)
+        {
+            PageConfiguration.TableActions.AddCommand("Edit", nameof(Edit));
+        }
+        if ((await permissionEvaluator.Evaluate(SystemPermissions.DELETE)).Succeeded)
+        {
+            PageConfiguration.TableActions.AddCommand("Delete", nameof(Delete));
+        }
+
+        await base.ConfigurePage();
     }
 
     /// <summary>
@@ -90,7 +110,7 @@ internal class IndexListingPage : ListingPageBase<ListingConfiguration>
     /// </summary>
     /// <param name="id">The ID of the row that was clicked, which corresponds with the internal
     /// <see cref="LuceneIndex.Identifier"/> to display.</param>
-    [PageCommand]
+    [PageCommand(Permission = SystemPermissions.UPDATE)]
     public async Task<INavigateResponse> RowClick(int id)
         => await Task.FromResult(NavigateTo(pageUrlGenerator.GenerateUrl<IndexEditPage>(id.ToString())));
 
@@ -100,7 +120,7 @@ internal class IndexListingPage : ListingPageBase<ListingConfiguration>
     /// <param name="id">The ID of the row whose action was performed, which corresponds with the internal
     /// <see cref="LuceneIndex.Identifier"/> to rebuild.</param>
     /// <param name="cancellationToken">The cancellation token for the action.</param>
-    [PageCommand]
+    [PageCommand(Permission = LuceneIndexPermissions.REBUILD)]
     public async Task<ICommandResponse<RowActionResult>> Rebuild(int id, CancellationToken cancellationToken)
     {
         var result = new RowActionResult(false);
@@ -124,10 +144,10 @@ internal class IndexListingPage : ListingPageBase<ListingConfiguration>
         }
     }
 
-    [PageCommand]
+    [PageCommand(Permission = SystemPermissions.UPDATE)]
     public Task<INavigateResponse> Edit(int id, CancellationToken _) => Task.FromResult(NavigateTo(pageUrlGenerator.GenerateUrl<IndexEditPage>(id.ToString())));
 
-    [PageCommand]
+    [PageCommand(Permission = SystemPermissions.DELETE)]
     public Task<ICommandResponse> Delete(int id, CancellationToken _)
     {
         bool res = configurationStorageService.TryDeleteIndex(id);
