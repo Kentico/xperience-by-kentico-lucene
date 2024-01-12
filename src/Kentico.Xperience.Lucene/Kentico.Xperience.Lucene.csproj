@@ -3,7 +3,7 @@
 		<Product>Xperience by Kentico Lucene Search</Product>
 		<Title>$(Product)</Title>
 		<PackageId>Kentico.Xperience.Lucene</PackageId>
-		<Description>Enables the creation of Lucene search indexes and the indexing of Xperience content tree pages using a code-first approach.</Description>
+		<Description>Enables the creation of Lucene search indexes and the indexing of Xperience website channel pages and reusable content items.</Description>
 		<RepositoryUrl>https://github.com/kentico/xperience-by-kentico-lucene</RepositoryUrl>
 	</PropertyGroup>
 
@@ -12,7 +12,7 @@
 		<RootNamespace>Kentico.Xperience.Lucene</RootNamespace>
 		<NoWarn>$(NoWarn);S1075</NoWarn>
 
-		<!-- Required to prevent type conflicts with CSharpFunctionalExtensions types -->
+		<!-- Required to prevent type conflicts with existing types -->
 		<HotChocolateImplicitUsings>disable</HotChocolateImplicitUsings>
 	</PropertyGroup>
 
