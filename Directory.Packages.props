@@ -6,19 +6,15 @@
     <DisableImplicitNuGetFallbackFolder>true</DisableImplicitNuGetFallbackFolder>
   </PropertyGroup>
   <ItemGroup>
-    <PackageVersion Include="Kentico.Xperience.Admin" Version="26.4.0" />
-    <PackageVersion Include="Kentico.Xperience.WebApp" Version="26.4.0" />
-    <PackageVersion Include="kentico.xperience.azurestorage" Version="26.4.0" />
-    <PackageVersion Include="kentico.xperience.graphql" Version="26.4.0" />
-    <PackageVersion Include="kentico.xperience.imageprocessing" Version="26.4.0" />
+    <PackageVersion Include="Kentico.Xperience.Admin" Version="28.0.0" />
+    <PackageVersion Include="Kentico.Xperience.WebApp" Version="28.0.0" />
     <PackageVersion Include="Lucene.Net" Version="4.8.0-beta00016" />
     <PackageVersion Include="Lucene.Net.Analysis.Common" Version="4.8.0-beta00016" />
     <PackageVersion Include="Lucene.Net.Facet" Version="4.8.0-beta00016" />
     <PackageVersion Include="Microsoft.AspNetCore.Html.Abstractions" Version="2.2.0" />
     <PackageVersion Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />
     <PackageVersion Include="Microsoft.AspNetCore.Mvc.ViewFeatures" Version="2.2.0" />
-    <PackageVersion Include="System.Configuration.ConfigurationManager" Version="6.0.1" />
-    <PackageVersion Include="Microsoft.SourceLink.GitHub" Version="1.1.1" />
+    <PackageVersion Include="Microsoft.SourceLink.GitHub" Version="8.0.0" />
     <PackageVersion Include="SonarAnalyzer.CSharp" Version="9.6.0.74858" />
   </ItemGroup>
 </Project>

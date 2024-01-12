@@ -1,5 +1,4 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
 	<PropertyGroup>
 		<Product>Xperience by Kentico Lucene Search</Product>
 		<Title>$(Product)</Title>
@@ -11,19 +10,24 @@
 	<PropertyGroup>
 		<AdminOrgName>kentico</AdminOrgName>
 		<RootNamespace>Kentico.Xperience.Lucene</RootNamespace>
-		<LangVersion>Latest</LangVersion>
 		<NoWarn>$(NoWarn);S1075</NoWarn>
+
+		<!-- Required to prevent type conflicts with CSharpFunctionalExtensions types -->
+		<HotChocolateImplicitUsings>disable</HotChocolateImplicitUsings>
 	</PropertyGroup>
 
 	<ItemGroup>
 		<AssemblyAttribute Include="CMS.AssemblyDiscoverableAttribute">
 		</AssemblyAttribute>
-	</ItemGroup>
 
-	<ItemGroup>
 		<Compile Remove="Admin\Client\node_modules\**" />
 		<EmbeddedResource Remove="Admin\Client\node_modules\**" />
 		<None Remove="Admin\Client\node_modules\**" />
+
+		<!-- Requires that npm run build or npm run build:dev was executed _before_ the .NET build -->
+		<AdminClientPath Include="Admin\Client\dist\**" Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+			<ProjectName>xperience-integrations-lucene</ProjectName>
+		</AdminClientPath>
 	</ItemGroup>
 
 	<Target Name="NpmInstall" BeforeTargets="NpmBuildClient" Condition=" '$(Configuration)|$(Platform)' != 'Debug|AnyCPU' ">
@@ -43,22 +47,14 @@
 		<PackageReference Include="Kentico.Xperience.Admin" />
 		<PackageReference Include="Kentico.Xperience.WebApp" />
 		<PackageReference Include="Lucene.Net" />
-		<PackageReference Include="Lucene.Net.Analysis.Common"/>
-		<PackageReference Include="Lucene.Net.Facet"/>
+		<PackageReference Include="Lucene.Net.Analysis.Common" />
+		<PackageReference Include="Lucene.Net.Facet" />
 		<PackageReference Include="Microsoft.AspNetCore.Html.Abstractions" />
 		<PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" />
 		<PackageReference Include="Microsoft.AspNetCore.Mvc.ViewFeatures" />
-		<PackageReference Include="System.Configuration.ConfigurationManager" />
 		<PackageReference Include="Microsoft.SourceLink.GitHub">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
 	</ItemGroup>
-
-	<ItemGroup>
-		<EmbeddedResource Include="Resources\LuceneResources.resx">
-			<ExcludeFromManifest>true</ExcludeFromManifest>
-		</EmbeddedResource>
-	</ItemGroup>
-
 </Project>

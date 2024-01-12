@@ -114,6 +114,8 @@ stages:
                   - Agent.Name -equals ${{ parameters.AgentName }}
 
             environment: integrations-release-nuget
+            workspace:
+              clean: all
             strategy:
               runOnce:
                 deploy:

@@ -12,7 +12,7 @@ import {
   type TableRow,
 } from '@kentico/xperience-admin-components';
 import React, { useState } from 'react';
-import localization from '../localization/localization.json';
+import Localization from '../localization/localization.json';
 
 const ListingCommands = {
   LoadData: 'LoadData',
@@ -107,17 +107,17 @@ export const PathDetailTemplate = ({
   return (
     <Stack spacing={Spacing.XL}>
       <Headline size={HeadlineSize.L}>
-        {localization.integrations.lucene.pathdetail.headlines.main}
+        {Localization.integrations.lucene.pathdetail.headlines.main}
       </Headline>
       <Box>
         <Headline size={HeadlineSize.S}>
-          {localization.integrations.lucene.pathdetail.headlines.path}
+          {Localization.integrations.lucene.pathdetail.headlines.path}
         </Headline>
         <span>{aliasPath}</span>
       </Box>
       <Box>
         <Headline size={HeadlineSize.S}>
-          {localization.integrations.lucene.pathdetail.headlines.pagetypes}
+          {Localization.integrations.lucene.pathdetail.headlines.pagetypes}
         </Headline>
         {tableData.totalCount > 0 ? (
           <Table
@@ -127,7 +127,7 @@ export const PathDetailTemplate = ({
             rows={prepareRows(tableData.rows)}
           />
         ) : (
-          <p>{localization.integrations.lucene.messages.norecords}</p>
+          <p>{Localization.integrations.lucene.messages.norecords}</p>
         )}
       </Box>
 

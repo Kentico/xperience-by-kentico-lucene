@@ -1,9 +1,7 @@
 using CMS.Base;
 using CMS.Core;
-using Kentico.Xperience.Lucene.Models;
-using Kentico.Xperience.Lucene.Services;
 
-namespace Kentico.Xperience.Lucene;
+namespace Kentico.Xperience.Lucene.Indexing;
 
 /// <summary>
 /// Thread worker which enqueues recently updated or deleted nodes indexed
@@ -33,7 +31,7 @@ internal class LuceneQueueWorker : ThreadQueueWorker<LuceneQueueItem, LuceneQueu
     /// <exception cref="InvalidOperationException" />
     public static void EnqueueLuceneQueueItem(LuceneQueueItem queueItem)
     {
-        if (queueItem == null || (queueItem.Node == null && queueItem.TaskType != LuceneTaskType.PUBLISH_INDEX) || string.IsNullOrEmpty(queueItem.IndexName))
+        if (queueItem == null || (queueItem.ItemToIndex == null && queueItem.TaskType != LuceneTaskType.PUBLISH_INDEX) || string.IsNullOrEmpty(queueItem.IndexName))
         {
             return;
         }
@@ -43,16 +41,13 @@ internal class LuceneQueueWorker : ThreadQueueWorker<LuceneQueueItem, LuceneQueu
             return;
         }
 
-        if (IndexStore.Instance.GetIndex(queueItem.IndexName) == null)
+        if (LuceneIndexStore.Instance.GetIndex(queueItem.IndexName) == null)
         {
             throw new InvalidOperationException($"Attempted to log task for Lucene index '{queueItem.IndexName},' but it is not registered.");
         }
 
         Current.Enqueue(queueItem, false);
     }
-
-    public static void EnqueueIndexPublication(string indexName)
-        => EnqueueLuceneQueueItem(new LuceneQueueItem(null!, LuceneTaskType.PUBLISH_INDEX, indexName));
 
 
     /// <inheritdoc />
@@ -67,6 +62,6 @@ internal class LuceneQueueWorker : ThreadQueueWorker<LuceneQueueItem, LuceneQueu
 
     /// <inheritdoc />
     protected override int ProcessItems(IEnumerable<LuceneQueueItem> items) =>
-         luceneTaskProcessor.ProcessLuceneTasks(items, CancellationToken.None).ConfigureAwait(false).GetAwaiter().GetResult();
+         luceneTaskProcessor.ProcessLuceneTasks(items, CancellationToken.None).GetAwaiter().GetResult();
 
 }

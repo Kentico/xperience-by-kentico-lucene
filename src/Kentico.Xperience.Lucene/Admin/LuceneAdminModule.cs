@@ -1,4 +1,8 @@
-﻿using Kentico.Xperience.Admin.Base;
+﻿using CMS;
+using Kentico.Xperience.Admin.Base;
+using Kentico.Xperience.Lucene.Admin;
+
+[assembly: RegisterModule(typeof(LuceneAdminModule))]
 
 namespace Kentico.Xperience.Lucene.Admin;
 

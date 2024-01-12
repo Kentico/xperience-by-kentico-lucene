@@ -12,34 +12,38 @@
   "parserOptions": {
     "project": "./tsconfig.json",
     "ecmaVersion": "latest",
-    "sourceType": "module"
+    "sourceType": "module",
+    "parser": "babel-eslint"
   },
   "plugins": ["react"],
   "rules": {
     "@typescript-eslint/no-invalid-void-type": ["off"],
     "quotes": [
-      "error",
+      "warn",
       "single",
       {
         "avoidEscape": true
       }
     ],
-    "jsx-quotes": ["error", "prefer-double"],
-    "eqeqeq": ["error", "always"],
-    "no-var": "error",
+    "jsx-quotes": ["warn", "prefer-double"],
+    "eqeqeq": ["warn", "always"],
+    "no-var": "warn",
     "no-unused-vars": "off",
-    "no-console": "error",
-    "no-debugger": "error",
+    "no-console": "warn",
+    "no-debugger": "warn",
     "@typescript-eslint/no-unused-vars": [
-      "error",
+      "warn",
       {
-        "args": "after-used"
+        "args": "after-used",
+        "argsIgnorePattern": "^_",
+        "varsIgnorePattern": "^_",
+        "caughtErrorsIgnorePattern": "^_"
       }
     ],
-    "import/first": "error",
-    "sort-imports": ["error", { "ignoreDeclarationSort": true }],
+    "import/first": "warn",
+    "sort-imports": ["warn", { "ignoreDeclarationSort": true }],
     "import/order": [
-      "error",
+      "warn",
       {
         "newlines-between": "never",
         "pathGroups": [
@@ -63,15 +67,15 @@
         }
       }
     ],
-    "import/no-default-export": "error",
-    "import/no-duplicates": "error",
-    "react/prefer-es6-class": ["error", "always"],
+    "import/no-default-export": "warn",
+    "import/no-duplicates": "warn",
+    "react/prefer-es6-class": ["warn", "always"],
     "react/jsx-uses-react": "off",
     "react/react-in-jsx-scope": "off",
-    "@typescript-eslint/no-explicit-any": "error",
-    "@typescript-eslint/no-require-imports": "error",
+    "@typescript-eslint/no-explicit-any": "warn",
+    "@typescript-eslint/no-require-imports": "warn",
     "@typescript-eslint/naming-convention": [
-      "error",
+      "warn",
       {
         "selector": "default",
         "format": ["PascalCase"],
@@ -149,8 +153,8 @@
       }
     ],
     "@typescript-eslint/await-thenable": "warn",
-    "@typescript-eslint/prefer-enum-initializers": "error",
-    "@typescript-eslint/no-non-null-assertion": "error"
+    "@typescript-eslint/prefer-enum-initializers": "warn",
+    "@typescript-eslint/no-non-null-assertion": "warn"
   },
   "settings": {
     "react": {

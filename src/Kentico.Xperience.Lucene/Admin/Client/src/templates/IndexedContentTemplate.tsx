@@ -13,7 +13,7 @@ import {
   type TableRow,
 } from '@kentico/xperience-admin-components';
 import React from 'react';
-import localization from '../localization/localization.json';
+import Localization from '../localization/localization.json';
 
 interface IndexedContentPageProps {
   readonly pathColumns: TableColumn[];
@@ -36,37 +36,23 @@ export const IndexedContentTemplate = ({
   propertyColumns,
   propertyRows,
 }: IndexedContentPageProps): JSX.Element => {
-  const { execute: showPathDetail } = usePageCommand<void, PathDetailArguments>(
-    Commands.ShowPathDetail,
-  );
-
-  const pathClicked = (index: number): void => {
-    // Send path identifier to back-end
-    const row = pathRows[index];
-    if (row !== undefined) {
-      showPathDetail({ identifier: row.identifier }).catch(() => {});
-    }
-  };
+  usePageCommand<void, PathDetailArguments>(Commands.ShowPathDetail);
 
   return (
     <RoutingContentPlaceholder>
       <Stack spacing={Spacing.XXL}>
         <Headline size={HeadlineSize.M}>
-          {localization.integrations.lucene.content.headlines.main}
+          {Localization.integrations.lucene.content.headlines.main}
         </Headline>
         <Box>
           <Headline size={HeadlineSize.S}>
-            {localization.integrations.lucene.content.headlines.paths}
+            {Localization.integrations.lucene.content.headlines.paths}
           </Headline>
-          <Table
-            columns={pathColumns}
-            rows={pathRows}
-            onRowClick={pathClicked}
-          />
+          <Table columns={pathColumns} rows={pathRows} />
         </Box>
         <Box>
           <Headline size={HeadlineSize.S}>
-            {localization.integrations.lucene.content.headlines.properties}
+            {Localization.integrations.lucene.content.headlines.properties}
           </Headline>
           <Table columns={propertyColumns} rows={propertyRows} />
         </Box>

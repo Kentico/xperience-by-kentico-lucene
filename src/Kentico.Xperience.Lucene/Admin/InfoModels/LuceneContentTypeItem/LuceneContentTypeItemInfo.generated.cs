@@ -1,0 +1,131 @@
+
+using System.Data;
+using System.Runtime.Serialization;
+
+using CMS;
+using CMS.DataEngine;
+using CMS.Helpers;
+
+using Kentico.Xperience.Lucene.Admin;
+
+[assembly: RegisterObjectType(typeof(LuceneContentTypeItemInfo), LuceneContentTypeItemInfo.OBJECT_TYPE)]
+
+namespace Kentico.Xperience.Lucene.Admin;
+
+/// <summary>
+/// Data container class for <see cref="LuceneContentTypeItemInfo"/>.
+/// </summary>
+[Serializable]
+public partial class LuceneContentTypeItemInfo : AbstractInfo<LuceneContentTypeItemInfo, ILuceneContentTypeItemInfoProvider>
+{
+    /// <summary>
+    /// Object type.
+    /// </summary>
+    public const string OBJECT_TYPE = "lucene.lucenecontenttypeitem";
+
+
+    /// <summary>
+    /// Type information.
+    /// </summary>
+    public static readonly ObjectTypeInfo TYPEINFO = new(typeof(LuceneContentTypeItemInfoProvider), OBJECT_TYPE, "Lucene.LuceneContentTypeItem", nameof(LuceneContentTypeItemId), null, null, null, null, null, null, null)
+    {
+        TouchCacheDependencies = true,
+        DependsOn = new List<ObjectDependency>()
+        {
+            new(nameof(LuceneContentTypeItemIncludedPathItemId), LuceneIncludedPathItemInfo.OBJECT_TYPE, ObjectDependencyEnum.Required),
+            new(nameof(LuceneContentTypeItemIndexItemId), LuceneIndexItemInfo.OBJECT_TYPE, ObjectDependencyEnum.Required),
+        },
+    };
+
+
+    /// <summary>
+    /// Lucene content type item id.
+    /// </summary>
+    [DatabaseField]
+    public virtual int LuceneContentTypeItemId
+    {
+        get => ValidationHelper.GetInteger(GetValue(nameof(LuceneContentTypeItemId)), 0);
+        set => SetValue(nameof(LuceneContentTypeItemId), value);
+    }
+
+
+    /// <summary>
+    /// Content type name.
+    /// </summary>
+    [DatabaseField]
+    public virtual string LuceneContentTypeItemContentTypeName
+    {
+        get => ValidationHelper.GetString(GetValue(nameof(LuceneContentTypeItemContentTypeName)), String.Empty);
+        set => SetValue(nameof(LuceneContentTypeItemContentTypeName), value);
+    }
+
+
+    /// <summary>
+    /// Lucene included path item id.
+    /// </summary>
+    [DatabaseField]
+    public virtual int LuceneContentTypeItemIncludedPathItemId
+    {
+        get => ValidationHelper.GetInteger(GetValue(nameof(LuceneContentTypeItemIncludedPathItemId)), 0);
+        set => SetValue(nameof(LuceneContentTypeItemIncludedPathItemId), value);
+    }
+
+
+    /// <summary>
+    /// Lucene index item id.
+    /// </summary>
+    [DatabaseField]
+    public virtual int LuceneContentTypeItemIndexItemId
+    {
+        get => ValidationHelper.GetInteger(GetValue(nameof(LuceneContentTypeItemIndexItemId)), 0);
+        set => SetValue(nameof(LuceneContentTypeItemIndexItemId), value);
+    }
+
+
+    /// <summary>
+    /// Deletes the object using appropriate provider.
+    /// </summary>
+    protected override void DeleteObject()
+    {
+        Provider.Delete(this);
+    }
+
+
+    /// <summary>
+    /// Updates the object using appropriate provider.
+    /// </summary>
+    protected override void SetObject()
+    {
+        Provider.Set(this);
+    }
+
+
+    /// <summary>
+    /// Constructor for de-serialization.
+    /// </summary>
+    /// <param name="info">Serialization info.</param>
+    /// <param name="context">Streaming context.</param>
+    protected LuceneContentTypeItemInfo(SerializationInfo info, StreamingContext context)
+        : base(info, context)
+    {
+    }
+
+
+    /// <summary>
+    /// Creates an empty instance of the <see cref="LuceneContentTypeItemInfo"/> class.
+    /// </summary>
+    public LuceneContentTypeItemInfo()
+        : base(TYPEINFO)
+    {
+    }
+
+
+    /// <summary>
+    /// Creates a new instances of the <see cref="LuceneContentTypeItemInfo"/> class from the given <see cref="DataRow"/>.
+    /// </summary>
+    /// <param name="dr">DataRow with the object data.</param>
+    public LuceneContentTypeItemInfo(DataRow dr)
+        : base(TYPEINFO, dr)
+    {
+    }
+}
