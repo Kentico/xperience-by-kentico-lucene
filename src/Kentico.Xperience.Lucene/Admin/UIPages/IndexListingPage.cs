@@ -11,7 +11,7 @@ using Action = Kentico.Xperience.Admin.Base.Action;
    uiPageType: typeof(IndexListingPage),
    name: "List of registered Lucene indices",
    templateName: TemplateNames.LISTING,
-   order: UIPageOrder.First)]
+   order: UIPageOrder.NoOrder)]
 
 namespace Kentico.Xperience.Lucene.Admin;
 
@@ -85,24 +85,134 @@ internal class IndexListingPage : ListingPageBase<ListingConfiguration>
             .AddColumn(nameof(LuceneIndexStatisticsViewModel.Name), "Name", defaultSortDirection: SortTypeEnum.Asc, searchable: true)
             .AddColumn(nameof(LuceneIndexStatisticsViewModel.Entries), LocalizationService.GetString("Indexed items"));
 
-        if ((await permissionEvaluator.Evaluate(SystemPermissions.CREATE)).Succeeded)
-        {
-            PageConfiguration.HeaderActions.AddLink<IndexEditPage>("Create", parameters: "-1");
-        }
-        if ((await permissionEvaluator.Evaluate(LuceneIndexPermissions.REBUILD)).Succeeded)
+        var permissions = await GetUIPermissions();
+
+        if (permissions.Rebuild)
         {
             PageConfiguration.TableActions.AddCommand(LocalizationService.GetString("Build index"), nameof(Rebuild), Icons.RotateRight);
         }
-        if ((await permissionEvaluator.Evaluate(SystemPermissions.UPDATE)).Succeeded)
+        if (permissions.Update)
         {
             PageConfiguration.TableActions.AddCommand("Edit", nameof(Edit));
         }
-        if ((await permissionEvaluator.Evaluate(SystemPermissions.DELETE)).Succeeded)
+        if (permissions.Delete)
         {
             PageConfiguration.TableActions.AddCommand("Delete", nameof(Delete));
         }
+        if (permissions.Create)
+        {
+            PageConfiguration.HeaderActions.AddLink<IndexCreatePage>("Create");
+        }
 
         await base.ConfigurePage();
+    }
+
+    /// <inheritdoc/>
+    protected override async Task<LoadDataResult> LoadData(LoadDataSettings settings, CancellationToken cancellationToken)
+    {
+        var permissions = await GetUIPermissions();
+
+        try
+        {
+            var statistics = await luceneClient.GetStatistics(cancellationToken);
+
+            // Add statistics for indexes that are registered but not created in Lucene
+            AddMissingStatistics(ref statistics);
+
+            // Remove statistics for indexes that are not registered in this instance
+            var filteredStatistics = statistics.Where(stat =>
+                LuceneIndexStore.Instance.GetAllIndices().Any(index => index.IndexName.Equals(stat.Name, StringComparison.OrdinalIgnoreCase)));
+
+            var searchedStatistics = DoSearch(filteredStatistics, settings.SearchTerm);
+            var orderedStatistics = SortStatistics(searchedStatistics, settings);
+            var rows = orderedStatistics.Select(stat => GetRow(stat, permissions));
+
+            return new LoadDataResult
+            {
+                Rows = rows,
+                TotalCount = rows.Count()
+            };
+        }
+        catch (Exception ex)
+        {
+            EventLogService.LogException(nameof(IndexListingPage), nameof(LoadData), ex);
+            return new LoadDataResult
+            {
+                Rows = Enumerable.Empty<Row>(),
+                TotalCount = 0
+            };
+        }
+    }
+
+    private Row GetRow(LuceneIndexStatisticsViewModel statistics, UIPermissions permissions)
+    {
+        if (statistics.Name is null || LuceneIndexStore.Instance.GetIndex(statistics.Name) is not LuceneIndex index)
+        {
+            throw new InvalidOperationException($"Unable to retrieve Lucene index with name '{statistics.Name}.'");
+        }
+
+        var row = new Row
+        {
+            Identifier = index.Identifier,
+            Cells = new List<Cell>
+            {
+                new StringCell
+                {
+                    Value = statistics.Name
+                },
+                new StringCell
+                {
+                    Value = statistics.Entries.ToString()
+                },
+            }
+        };
+
+        var actions = new List<Action>();
+
+        if (permissions.Update)
+        {
+            row.Action = new Action(ActionType.Command)
+            {
+                Parameter = nameof(RowClick)
+            };
+            actions.Add(new(ActionType.Command)
+            {
+                Title = "Edit",
+                Label = "Edit",
+                Parameter = nameof(Edit),
+                Icon = Icons.Edit
+            });
+        }
+        if (permissions.Rebuild)
+        {
+            string label = statistics.Entries == 0
+                ? "Build index"
+                : "Re-build index";
+
+            actions.Add(new(ActionType.Command)
+            {
+                Title = label,
+                Label = label,
+                Icon = Icons.RotateRight,
+                Parameter = nameof(Rebuild)
+            });
+        }
+        if (permissions.Delete)
+        {
+            actions.Add(new(ActionType.Command)
+            {
+                Title = "Delete",
+                Label = "Delete",
+                Parameter = nameof(Delete),
+                Icon = Icons.Bin
+            });
+        }
+        row.Cells.Add(new ActionCell
+        {
+            Actions = actions
+        });
+
+        return row;
     }
 
     /// <summary>
@@ -111,8 +221,8 @@ internal class IndexListingPage : ListingPageBase<ListingConfiguration>
     /// <param name="id">The ID of the row that was clicked, which corresponds with the internal
     /// <see cref="LuceneIndex.Identifier"/> to display.</param>
     [PageCommand(Permission = SystemPermissions.UPDATE)]
-    public async Task<INavigateResponse> RowClick(int id)
-        => await Task.FromResult(NavigateTo(pageUrlGenerator.GenerateUrl<IndexEditPage>(id.ToString())));
+    public async Task<INavigateResponse> RowClick(int id) =>
+        await Task.FromResult(NavigateTo(pageUrlGenerator.GenerateUrl<IndexEditPage>(id.ToString())));
 
     /// <summary>
     /// A page command which rebuilds an Lucene index.
@@ -145,7 +255,8 @@ internal class IndexListingPage : ListingPageBase<ListingConfiguration>
     }
 
     [PageCommand(Permission = SystemPermissions.UPDATE)]
-    public Task<INavigateResponse> Edit(int id, CancellationToken _) => Task.FromResult(NavigateTo(pageUrlGenerator.GenerateUrl<IndexEditPage>(id.ToString())));
+    public Task<INavigateResponse> Edit(int id, CancellationToken _) =>
+        Task.FromResult(NavigateTo(pageUrlGenerator.GenerateUrl<IndexEditPage>(id.ToString())));
 
     [PageCommand(Permission = SystemPermissions.DELETE)]
     public Task<ICommandResponse> Delete(int id, CancellationToken _)
@@ -161,42 +272,6 @@ internal class IndexListingPage : ListingPageBase<ListingConfiguration>
 
         return Task.FromResult<ICommandResponse>(response);
     }
-
-    /// <inheritdoc/>
-    protected override async Task<LoadDataResult> LoadData(LoadDataSettings settings, CancellationToken cancellationToken)
-    {
-        try
-        {
-            var statistics = await luceneClient.GetStatistics(cancellationToken);
-
-            // Add statistics for indexes that are registered but not created in Lucene
-            AddMissingStatistics(ref statistics);
-
-            // Remove statistics for indexes that are not registered in this instance
-            var filteredStatistics = statistics.Where(stat =>
-                LuceneIndexStore.Instance.GetAllIndices().Any(index => index.IndexName.Equals(stat.Name, StringComparison.OrdinalIgnoreCase)));
-
-            var searchedStatistics = DoSearch(filteredStatistics, settings.SearchTerm);
-            var orderedStatistics = SortStatistics(searchedStatistics, settings);
-            var rows = orderedStatistics.Select(stat => GetRow(stat));
-
-            return new LoadDataResult
-            {
-                Rows = rows,
-                TotalCount = rows.Count()
-            };
-        }
-        catch (Exception ex)
-        {
-            EventLogService.LogException(nameof(IndexListingPage), nameof(LoadData), ex);
-            return new LoadDataResult
-            {
-                Rows = Enumerable.Empty<Row>(),
-                TotalCount = 0
-            };
-        }
-    }
-
 
     private static void AddMissingStatistics(ref ICollection<LuceneIndexStatisticsViewModel> statistics)
     {
@@ -214,7 +289,6 @@ internal class IndexListingPage : ListingPageBase<ListingConfiguration>
         }
     }
 
-
     private static IEnumerable<LuceneIndexStatisticsViewModel> DoSearch(IEnumerable<LuceneIndexStatisticsViewModel> statistics, string searchTerm)
     {
         if (string.IsNullOrEmpty(searchTerm))
@@ -225,59 +299,6 @@ internal class IndexListingPage : ListingPageBase<ListingConfiguration>
         return statistics.Where(stat => stat.Name?.Contains(searchTerm, StringComparison.OrdinalIgnoreCase) ?? false);
     }
 
-    private Row GetRow(LuceneIndexStatisticsViewModel statistics)
-    {
-        var luceneIndex = statistics.Name != null ? LuceneIndexStore.Instance.GetIndex(statistics.Name) : null;
-        return luceneIndex == null
-            ? throw new InvalidOperationException($"Unable to retrieve Lucene index with name '{statistics.Name}.'")
-            : new Row
-            {
-                Identifier = luceneIndex.Identifier,
-                Action = new Action(ActionType.Command)
-                {
-                    Parameter = nameof(RowClick)
-                },
-                Cells = new List<Cell>
-                {
-                    new StringCell
-                    {
-                        Value = statistics.Name
-                    },
-                    new StringCell
-                    {
-                        Value = statistics.Entries.ToString()
-                    },
-                    new ActionCell
-                    {
-                        Actions = new List<Action>
-                        {
-                            new(ActionType.Command)
-                            {
-                                Title = "Build index",
-                                Label = "Build index",
-                                Icon = Icons.RotateRight,
-                                Parameter = nameof(Rebuild)
-                            },
-                            new(ActionType.Command)
-                            {
-                                Title = "Edit",
-                                Label = "Edit",
-                                Parameter = nameof(Edit),
-                                Icon = Icons.Edit
-                            },
-                            new(ActionType.Command)
-                            {
-                                Title = "Delete",
-                                Label = "Delete",
-                                Parameter = nameof(Delete),
-                                Icon = Icons.Bin
-                            }
-                        }
-                    }
-                }
-            };
-    }
-
     private static IEnumerable<LuceneIndexStatisticsViewModel> SortStatistics(IEnumerable<LuceneIndexStatisticsViewModel> statistics, LoadDataSettings settings)
     {
         if (string.IsNullOrEmpty(settings.SortBy))
@@ -285,8 +306,31 @@ internal class IndexListingPage : ListingPageBase<ListingConfiguration>
             return statistics;
         }
 
-        return settings.SortType == SortTypeEnum.Desc ?
-         statistics.OrderByDescending(stat => stat.GetType().GetProperty(settings.SortBy)?.GetValue(stat, null))
-         : statistics.OrderBy(stat => stat.GetType().GetProperty(settings.SortBy)?.GetValue(stat, null));
+        return settings.SortType == SortTypeEnum.Desc
+            ? statistics.OrderByDescending(stat => stat.GetType().GetProperty(settings.SortBy)?.GetValue(stat, null))
+            : statistics.OrderBy(stat => stat.GetType().GetProperty(settings.SortBy)?.GetValue(stat, null));
     }
+
+    private async Task<UIPermissions> GetUIPermissions()
+    {
+        var permissions = new UIPermissions
+        {
+            Create = (await permissionEvaluator.Evaluate(SystemPermissions.CREATE)).Succeeded,
+            Delete = (await permissionEvaluator.Evaluate(SystemPermissions.DELETE)).Succeeded,
+            Update = (await permissionEvaluator.Evaluate(SystemPermissions.UPDATE)).Succeeded,
+            Rebuild = (await permissionEvaluator.Evaluate(LuceneIndexPermissions.REBUILD)).Succeeded,
+            View = (await permissionEvaluator.Evaluate(SystemPermissions.VIEW)).Succeeded
+        };
+
+        return permissions;
+    }
+}
+
+internal record struct UIPermissions
+{
+    public bool View { get; set; }
+    public bool Update { get; set; }
+    public bool Delete { get; set; }
+    public bool Rebuild { get; set; }
+    public bool Create { get; set; }
 }

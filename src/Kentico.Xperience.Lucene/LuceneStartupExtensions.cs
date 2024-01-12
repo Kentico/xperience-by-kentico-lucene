@@ -23,7 +23,8 @@ public static class LuceneStartupExtensions
             .AddSingleton<ILuceneTaskProcessor, DefaultLuceneTaskProcessor>()
             .AddSingleton<ILuceneConfigurationStorageService, DefaultLuceneConfigurationStorageService>()
             .AddSingleton<ILuceneIndexService, DefaultLuceneIndexService>()
-            .AddSingleton<ILuceneSearchService, DefaultLuceneSearchService>();
+            .AddSingleton<ILuceneSearchService, DefaultLuceneSearchService>()
+            .AddTransient<DefaultLuceneIndexingStrategy>();
 
         return serviceCollection;
     }
@@ -42,6 +43,11 @@ public static class LuceneStartupExtensions
         var builder = new LuceneBuilder(serviceCollection);
 
         configure(builder);
+
+        if (builder.IncludeDefaultStrategy)
+        {
+            serviceCollection.AddTransient<DefaultLuceneIndexingStrategy>();
+        }
 
         return serviceCollection;
     }
@@ -64,6 +70,8 @@ public interface ILuceneBuilder
 internal class LuceneBuilder : ILuceneBuilder
 {
     private readonly IServiceCollection serviceCollection;
+
+    public bool IncludeDefaultStrategy { get; set; } = true;
 
     public LuceneBuilder(IServiceCollection serviceCollection) => this.serviceCollection = serviceCollection;
 

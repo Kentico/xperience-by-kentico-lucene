@@ -38,7 +38,10 @@ public class DefaultLuceneConfigurationStorageService : ILuceneConfigurationStor
     }
     public bool TryCreateIndex(LuceneConfigurationModel configuration)
     {
-        if (indexProvider.Get().WhereEquals(nameof(LuceneIndexItemInfo.LuceneIndexItemIndexName), configuration.IndexName).FirstOrDefault() != default)
+        if (indexProvider.Get()
+            .WhereEquals(nameof(LuceneIndexItemInfo.LuceneIndexItemIndexName), configuration.IndexName)
+            .TopN(1)
+            .FirstOrDefault() is not null)
         {
             return false;
         }
@@ -47,7 +50,8 @@ public class DefaultLuceneConfigurationStorageService : ILuceneConfigurationStor
         {
             LuceneIndexItemIndexName = configuration.IndexName ?? "",
             LuceneIndexItemChannelName = configuration.ChannelName ?? "",
-            LuceneIndexItemStrategyName = configuration.StrategyName ?? ""
+            LuceneIndexItemStrategyName = configuration.StrategyName ?? "",
+            LuceneIndexItemRebuildHook = configuration.RebuildHook ?? ""
         };
 
         indexProvider.Set(newInfo);
@@ -164,9 +168,12 @@ public class DefaultLuceneConfigurationStorageService : ILuceneConfigurationStor
     {
         configuration.IndexName = RemoveWhitespacesUsingStringBuilder(configuration.IndexName ?? "");
 
-        var indexInfo = indexProvider.Get().WhereEquals(nameof(LuceneIndexItemInfo.LuceneIndexItemIndexName), configuration.IndexName).FirstOrDefault();
+        var indexInfo = indexProvider.Get()
+            .WhereEquals(nameof(LuceneIndexItemInfo.LuceneIndexItemIndexName), configuration.IndexName)
+            .TopN(1)
+            .FirstOrDefault();
 
-        if (indexInfo == default)
+        if (indexInfo is null)
         {
             return false;
         }
