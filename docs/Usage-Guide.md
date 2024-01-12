@@ -345,6 +345,10 @@ services.AddLucene(builder =>
 
 See [Scraping web page content](Scraping-web-page-content.md)
 
+## Managing search indexes
+
+See [Managing search indexes](Managing-Indexes.md)
+
 ## Search index querying
 
 > Note: this part of the documentation is still a work-in-progress and will be updated with an example Dancing Goat project
@@ -513,3 +517,21 @@ You can score indexed items by "freshness" or "recency" using several techniques
 3. Use a sort expression. Implementation details can be found in Lucene.NET unit tests, Lucene.NET implementations
 
 > Small differences in boosts will be ignored by Lucene.
+
+## Integration database modifications
+
+This integration programmatically inserts custom module classes and their configuration into the Xperience solution on startup (see `LuceneModuleInstaller.cs`).
+
+To remove this configuration and remove the added database tables, run the following SQL _after_ removing the NuGet package from the solution:
+
+```sql
+drop table lucene_lucenecontenttypeitem
+drop table lucene_luceneincludedpathitem
+drop table lucene_luceneindexedlanguage
+drop table lucene_luceneindexitem
+
+delete
+FROM [dbo].[CMS_Class] where ClassName like 'lucene%'
+```
+
+> Note: there is currently no way to migrate index configuration in the database between versions of this integration in the case that the database schema includes breaking changes. This feature could be added in a future update.
