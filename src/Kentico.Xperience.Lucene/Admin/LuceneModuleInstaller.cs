@@ -1,6 +1,6 @@
-﻿using CMS.Base;
-using CMS.DataEngine;
+﻿using CMS.DataEngine;
 using CMS.FormEngine;
+using CMS.Modules;
 
 namespace Kentico.Xperience.Lucene.Admin;
 
@@ -8,21 +8,29 @@ internal class LuceneModuleInstaller
 {
     public void Install()
     {
-        using (new CMSActionContext { ContinuousIntegrationAllowObjectSerialization = false })
+        var resource = ResourceInfo.Provider.Get("Kentico.Xperience.Lucene");
+
+        if (resource is not null)
         {
-            InstallModuleClasses();
+            return;
         }
+
+        resource = new ResourceInfo
+        {
+            ResourceDisplayName = "Kentico Xperience Lucene",
+            ResourceDescription = "Kentico Xperience Lucene custom data",
+            ResourceIsInDevelopment = false,
+            ResourceName = "Kentico.Xperience.Lucene"
+        };
+        resource.Insert();
+
+        InstallLuceneItemInfo(resource);
+        InstallLuceneLanguageInfo(resource);
+        InstallLuceneIndexPathItemInfo(resource);
+        InstallLuceneContentTypeItemInfo(resource);
     }
 
-    private void InstallModuleClasses()
-    {
-        InstallLuceneItemInfo();
-        InstallLuceneLanguageInfo();
-        InstallLuceneIndexPathItemInfo();
-        InstallLuceneContentTypeItemInfo();
-    }
-
-    private static void InstallLuceneItemInfo()
+    private static void InstallLuceneItemInfo(ResourceInfo resource)
     {
         var luceneItemInfo = DataClassInfoProvider.GetDataClassInfo(LuceneIndexItemInfo.OBJECT_TYPE);
         if (luceneItemInfo is not null)
@@ -36,10 +44,22 @@ internal class LuceneModuleInstaller
         luceneItemInfo.ClassTableName = LuceneIndexItemInfo.TYPEINFO.ObjectClassName.Replace(".", "_");
         luceneItemInfo.ClassDisplayName = "Lucene Index Item";
         luceneItemInfo.ClassType = ClassType.OTHER;
+        luceneItemInfo.ClassResourceID = resource.ResourceID;
 
         var formInfo = FormHelper.GetBasicFormDefinition(nameof(LuceneIndexItemInfo.LuceneIndexItemId));
 
         var formItem = new FormFieldInfo
+        {
+            Name = nameof(LuceneIndexItemInfo.LuceneIndexItemGuid),
+            AllowEmpty = false,
+            Visible = true,
+            Precision = 0,
+            DataType = "guid",
+            Enabled = true
+        };
+        formInfo.AddFormItem(formItem);
+
+        formItem = new FormFieldInfo
         {
             Name = nameof(LuceneIndexItemInfo.LuceneIndexItemIndexName),
             AllowEmpty = false,
@@ -93,7 +113,7 @@ internal class LuceneModuleInstaller
         DataClassInfoProvider.SetDataClassInfo(luceneItemInfo);
     }
 
-    private void InstallLuceneIndexPathItemInfo()
+    private void InstallLuceneIndexPathItemInfo(ResourceInfo resource)
     {
         var pathItem = DataClassInfoProvider.GetDataClassInfo(LuceneIncludedPathItemInfo.OBJECT_TYPE);
 
@@ -108,10 +128,22 @@ internal class LuceneModuleInstaller
         pathItem.ClassTableName = LuceneIncludedPathItemInfo.TYPEINFO.ObjectClassName.Replace(".", "_");
         pathItem.ClassDisplayName = "Lucene Path Item";
         pathItem.ClassType = ClassType.OTHER;
+        pathItem.ClassResourceID = resource.ResourceID;
 
         var formInfo = FormHelper.GetBasicFormDefinition(nameof(LuceneIncludedPathItemInfo.LuceneIncludedPathItemId));
 
         var formItem = new FormFieldInfo
+        {
+            Name = nameof(LuceneIncludedPathItemInfo.LuceneIncludedPathItemGuid),
+            AllowEmpty = false,
+            Visible = true,
+            Precision = 0,
+            DataType = "guid",
+            Enabled = true,
+        };
+        formInfo.AddFormItem(formItem);
+
+        formItem = new FormFieldInfo
         {
             Name = nameof(LuceneIncludedPathItemInfo.LuceneIncludedPathItemAliasPath),
             AllowEmpty = false,
@@ -128,8 +160,9 @@ internal class LuceneModuleInstaller
             Name = nameof(LuceneIncludedPathItemInfo.LuceneIncludedPathItemIndexItemId),
             AllowEmpty = false,
             Visible = true,
+            Precision = 0,
             DataType = "integer",
-            ReferenceToObjectType = nameof(LuceneIndexItemInfo),
+            ReferenceToObjectType = LuceneIndexItemInfo.OBJECT_TYPE,
             ReferenceType = ObjectDependencyEnum.Required
         };
 
@@ -140,7 +173,7 @@ internal class LuceneModuleInstaller
         DataClassInfoProvider.SetDataClassInfo(pathItem);
     }
 
-    private void InstallLuceneLanguageInfo()
+    private void InstallLuceneLanguageInfo(ResourceInfo resource)
     {
         string idName = nameof(LuceneIndexLanguageItemInfo.LuceneIndexLanguageItemID);
         var language = DataClassInfoProvider.GetDataClassInfo(LuceneIndexLanguageItemInfo.OBJECT_TYPE);
@@ -156,6 +189,7 @@ internal class LuceneModuleInstaller
         language.ClassTableName = LuceneIndexLanguageItemInfo.TYPEINFO.ObjectClassName.Replace(".", "_");
         language.ClassDisplayName = "Lucene Indexed Language Item";
         language.ClassType = ClassType.OTHER;
+        language.ClassResourceID = resource.ResourceID;
 
         var formInfo = FormHelper.GetBasicFormDefinition(idName);
 
@@ -173,11 +207,24 @@ internal class LuceneModuleInstaller
 
         formItem = new FormFieldInfo
         {
+            Name = nameof(LuceneIndexLanguageItemInfo.LuceneIndexLanguageItemGuid),
+            AllowEmpty = false,
+            Visible = true,
+            Precision = 0,
+            DataType = "guid",
+            Enabled = true
+        };
+
+        formInfo.AddFormItem(formItem);
+
+        formItem = new FormFieldInfo
+        {
             Name = nameof(LuceneIndexLanguageItemInfo.LuceneIndexLanguageItemIndexItemId),
             AllowEmpty = false,
             Visible = true,
+            Precision = 0,
             DataType = "integer",
-            ReferenceToObjectType = nameof(LuceneIndexItemInfo),
+            ReferenceToObjectType = LuceneIndexItemInfo.OBJECT_TYPE,
             ReferenceType = ObjectDependencyEnum.Required,
         };
 
@@ -188,7 +235,7 @@ internal class LuceneModuleInstaller
         DataClassInfoProvider.SetDataClassInfo(language);
     }
 
-    private void InstallLuceneContentTypeItemInfo()
+    private void InstallLuceneContentTypeItemInfo(ResourceInfo resource)
     {
         var contentType = DataClassInfoProvider.GetDataClassInfo(LuceneContentTypeItemInfo.OBJECT_TYPE);
 
@@ -203,6 +250,7 @@ internal class LuceneModuleInstaller
         contentType.ClassTableName = LuceneContentTypeItemInfo.TYPEINFO.ObjectClassName.Replace(".", "_");
         contentType.ClassDisplayName = "Lucene Type Item";
         contentType.ClassType = ClassType.OTHER;
+        contentType.ClassResourceID = resource.ResourceID;
 
         var formInfo = FormHelper.GetBasicFormDefinition(nameof(LuceneContentTypeItemInfo.LuceneContentTypeItemId));
 
@@ -224,9 +272,22 @@ internal class LuceneModuleInstaller
             Name = nameof(LuceneContentTypeItemInfo.LuceneContentTypeItemIncludedPathItemId),
             AllowEmpty = false,
             Visible = true,
+            Precision = 0,
             DataType = "integer",
-            ReferenceToObjectType = nameof(LuceneIncludedPathItemInfo),
+            ReferenceToObjectType = LuceneIncludedPathItemInfo.OBJECT_TYPE,
             ReferenceType = ObjectDependencyEnum.Required,
+        };
+
+        formInfo.AddFormItem(formItem);
+
+        formItem = new FormFieldInfo
+        {
+            Name = nameof(LuceneContentTypeItemInfo.LuceneContentTypeItemGuid),
+            Enabled = true,
+            AllowEmpty = false,
+            Visible = true,
+            Precision = 0,
+            DataType = "guid",
         };
 
         formInfo.AddFormItem(formItem);
@@ -236,8 +297,9 @@ internal class LuceneModuleInstaller
             Name = nameof(LuceneContentTypeItemInfo.LuceneContentTypeItemIndexItemId),
             AllowEmpty = false,
             Visible = true,
+            Precision = 0,
             DataType = "integer",
-            ReferenceToObjectType = nameof(LuceneIndexItemInfo),
+            ReferenceToObjectType = LuceneIndexItemInfo.OBJECT_TYPE,
             ReferenceType = ObjectDependencyEnum.Required
         };
 

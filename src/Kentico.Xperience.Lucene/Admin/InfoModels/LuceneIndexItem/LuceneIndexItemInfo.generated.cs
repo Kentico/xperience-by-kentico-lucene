@@ -25,9 +25,13 @@ namespace Kentico.Xperience.Lucene.Admin
         /// <summary>
         /// Type information.
         /// </summary>
-        public static readonly ObjectTypeInfo TYPEINFO = new(typeof(LuceneIndexItemInfoProvider), OBJECT_TYPE, "Lucene.LuceneIndexItem", nameof(LuceneIndexItemId), null, null, nameof(LuceneIndexItemIndexName), null, null, null, null)
+        public static readonly ObjectTypeInfo TYPEINFO = new(typeof(LuceneIndexItemInfoProvider), OBJECT_TYPE, "Lucene.LuceneIndexItem", nameof(LuceneIndexItemId), null, nameof(LuceneIndexItemGuid), nameof(LuceneIndexItemIndexName), null, null, null, null)
         {
             TouchCacheDependencies = true,
+            ContinuousIntegrationSettings =
+            {
+                Enabled = true,
+            },
         };
 
 
@@ -39,6 +43,17 @@ namespace Kentico.Xperience.Lucene.Admin
         {
             get => ValidationHelper.GetInteger(GetValue(nameof(LuceneIndexItemId)), 0);
             set => SetValue(nameof(LuceneIndexItemId), value);
+        }
+
+
+        /// <summary>
+        /// Lucene index item Guid.
+        /// </summary>
+        [DatabaseField]
+        public virtual Guid LuceneIndexItemGuid
+        {
+            get => ValidationHelper.GetGuid(GetValue(nameof(LuceneIndexItemGuid)), default);
+            set => SetValue(nameof(LuceneIndexItemGuid), value);
         }
 
 

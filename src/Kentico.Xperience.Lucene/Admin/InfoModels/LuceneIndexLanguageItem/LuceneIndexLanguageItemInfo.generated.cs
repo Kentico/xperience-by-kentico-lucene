@@ -26,13 +26,17 @@ namespace Kentico.Xperience.Lucene.Admin
         /// <summary>
         /// Type information.
         /// </summary>
-        public static readonly ObjectTypeInfo TYPEINFO = new(typeof(LuceneIndexedLanguageInfoProvider), OBJECT_TYPE, "Lucene.LuceneIndexLanguageItem", nameof(LuceneIndexLanguageItemID), null, null, null, null, null, null, null)
+        public static readonly ObjectTypeInfo TYPEINFO = new(typeof(LuceneIndexedLanguageInfoProvider), OBJECT_TYPE, "Lucene.LuceneIndexLanguageItem", nameof(LuceneIndexLanguageItemID), null, nameof(LuceneIndexLanguageItemGuid), null, null, null, null, null)
         {
             TouchCacheDependencies = true,
             DependsOn = new List<ObjectDependency>()
             {
                 new(nameof(LuceneIndexLanguageItemIndexItemId), LuceneIndexItemInfo.OBJECT_TYPE, ObjectDependencyEnum.Required),
             },
+            ContinuousIntegrationSettings =
+            {
+                Enabled = true
+            }
         };
 
 
@@ -44,6 +48,17 @@ namespace Kentico.Xperience.Lucene.Admin
         {
             get => ValidationHelper.GetInteger(GetValue(nameof(LuceneIndexLanguageItemID)), 0);
             set => SetValue(nameof(LuceneIndexLanguageItemID), value);
+        }
+
+
+        /// <summary>
+        /// Indexed language id.
+        /// </summary>
+        [DatabaseField]
+        public virtual Guid LuceneIndexLanguageItemGuid
+        {
+            get => ValidationHelper.GetGuid(GetValue(nameof(LuceneIndexLanguageItemGuid)), default);
+            set => SetValue(nameof(LuceneIndexLanguageItemGuid), value);
         }
 
 

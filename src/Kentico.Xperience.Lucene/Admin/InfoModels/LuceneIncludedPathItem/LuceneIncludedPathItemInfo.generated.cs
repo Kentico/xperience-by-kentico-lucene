@@ -27,13 +27,17 @@ namespace Kentico.Xperience.Lucene.Admin
         /// <summary>
         /// Type information.
         /// </summary>
-        public static readonly ObjectTypeInfo TYPEINFO = new(typeof(LuceneIncludedPathItemInfoProvider), OBJECT_TYPE, "Lucene.LuceneIncludedPathItem", nameof(LuceneIncludedPathItemId), null, null, null, null, null, null, null)
+        public static readonly ObjectTypeInfo TYPEINFO = new(typeof(LuceneIncludedPathItemInfoProvider), OBJECT_TYPE, "Lucene.LuceneIncludedPathItem", nameof(LuceneIncludedPathItemId), null, nameof(LuceneIncludedPathItemGuid), null, null, null, null, null)
         {
             TouchCacheDependencies = true,
             DependsOn = new List<ObjectDependency>()
             {
                 new(nameof(LuceneIncludedPathItemIndexItemId), LuceneIndexItemInfo.OBJECT_TYPE, ObjectDependencyEnum.Required),
             },
+            ContinuousIntegrationSettings =
+            {
+                Enabled = true
+            }
         };
 
 
@@ -45,6 +49,16 @@ namespace Kentico.Xperience.Lucene.Admin
         {
             get => ValidationHelper.GetInteger(GetValue(nameof(LuceneIncludedPathItemId)), 0);
             set => SetValue(nameof(LuceneIncludedPathItemId), value);
+        }
+
+        /// <summary>
+        /// Lucene included path item guid.
+        /// </summary>
+        [DatabaseField]
+        public virtual Guid LuceneIncludedPathItemGuid
+        {
+            get => ValidationHelper.GetGuid(GetValue(nameof(LuceneIncludedPathItemGuid)), default);
+            set => SetValue(nameof(LuceneIncludedPathItemGuid), value);
         }
 
 

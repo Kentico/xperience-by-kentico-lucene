@@ -27,7 +27,7 @@ public partial class LuceneContentTypeItemInfo : AbstractInfo<LuceneContentTypeI
     /// <summary>
     /// Type information.
     /// </summary>
-    public static readonly ObjectTypeInfo TYPEINFO = new(typeof(LuceneContentTypeItemInfoProvider), OBJECT_TYPE, "Lucene.LuceneContentTypeItem", nameof(LuceneContentTypeItemId), null, null, null, null, null, null, null)
+    public static readonly ObjectTypeInfo TYPEINFO = new(typeof(LuceneContentTypeItemInfoProvider), OBJECT_TYPE, "Lucene.LuceneContentTypeItem", nameof(LuceneContentTypeItemId), null, nameof(LuceneContentTypeItemGuid), null, null, null, null, null)
     {
         TouchCacheDependencies = true,
         DependsOn = new List<ObjectDependency>()
@@ -35,6 +35,10 @@ public partial class LuceneContentTypeItemInfo : AbstractInfo<LuceneContentTypeI
             new(nameof(LuceneContentTypeItemIncludedPathItemId), LuceneIncludedPathItemInfo.OBJECT_TYPE, ObjectDependencyEnum.Required),
             new(nameof(LuceneContentTypeItemIndexItemId), LuceneIndexItemInfo.OBJECT_TYPE, ObjectDependencyEnum.Required),
         },
+        ContinuousIntegrationSettings =
+        {
+            Enabled = true
+        }
     };
 
 
@@ -46,6 +50,17 @@ public partial class LuceneContentTypeItemInfo : AbstractInfo<LuceneContentTypeI
     {
         get => ValidationHelper.GetInteger(GetValue(nameof(LuceneContentTypeItemId)), 0);
         set => SetValue(nameof(LuceneContentTypeItemId), value);
+    }
+
+
+    /// <summary>
+    /// Lucene content type item guid.
+    /// </summary>
+    [DatabaseField]
+    public virtual Guid LuceneContentTypeItemGuid
+    {
+        get => ValidationHelper.GetGuid(GetValue(nameof(LuceneContentTypeItemGuid)), default);
+        set => SetValue(nameof(LuceneContentTypeItemGuid), value);
     }
 
 
