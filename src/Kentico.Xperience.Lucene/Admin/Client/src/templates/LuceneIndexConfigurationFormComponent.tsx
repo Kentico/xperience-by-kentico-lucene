@@ -219,6 +219,15 @@ export const LuceneIndexConfigurationFormComponent = (
       const editedRow = rows[rowIndex];
       const pathCellInNewRow = rows[rowIndex].cells[0] as StringCell;
       pathCellInNewRow.value = path;
+      const propPathIndex = props.value.findIndex(
+        (p) => p.aliasPath === editedIdentifier,
+      );
+      const updatedPath: IncludedPath = {
+        aliasPath: path,
+        identifier: props.value[propPathIndex].identifier,
+        contentTypes: contentTypesSplit,
+      };
+      props.value[propPathIndex] = updatedPath;
 
       editedRow.cells[0] = pathCellInNewRow;
       editedRow.identifier = path;

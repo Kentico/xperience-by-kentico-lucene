@@ -175,7 +175,7 @@ public class DefaultLuceneConfigurationStorageService : ILuceneConfigurationStor
         languageProvider.BulkDelete(new WhereCondition($"{nameof(LuceneIndexLanguageItemInfo.LuceneIndexLanguageItemIndexItemId)} = {configuration.Id}"));
         contentTypeProvider.BulkDelete(new WhereCondition($"{nameof(LuceneContentTypeItemInfo.LuceneContentTypeItemIndexItemId)} = {configuration.Id}"));
 
-        indexInfo.LuceneIndexItemChannelName = configuration.IndexName;
+        indexInfo.LuceneIndexItemRebuildHook = configuration.RebuildHook ?? "";
         indexInfo.LuceneIndexItemStrategyName = configuration.StrategyName ?? "";
         indexInfo.LuceneIndexItemChannelName = configuration.ChannelName ?? "";
 
@@ -188,7 +188,7 @@ public class DefaultLuceneConfigurationStorageService : ILuceneConfigurationStor
                 var languageInfo = new LuceneIndexLanguageItemInfo()
                 {
                     LuceneIndexLanguageItemName = language,
-                    LuceneIndexLanguageItemIndexItemId = indexInfo.LuceneIndexItemId
+                    LuceneIndexLanguageItemIndexItemId = indexInfo.LuceneIndexItemId,
                 };
 
                 languageProvider.Set(languageInfo);
@@ -202,7 +202,7 @@ public class DefaultLuceneConfigurationStorageService : ILuceneConfigurationStor
                 var pathInfo = new LuceneIncludedPathItemInfo()
                 {
                     LuceneIncludedPathItemAliasPath = path.AliasPath,
-                    LuceneIncludedPathItemIndexItemId = indexInfo.LuceneIndexItemId
+                    LuceneIncludedPathItemIndexItemId = indexInfo.LuceneIndexItemId,
                 };
                 pathProvider.Set(pathInfo);
 
@@ -214,7 +214,7 @@ public class DefaultLuceneConfigurationStorageService : ILuceneConfigurationStor
                         {
                             LuceneContentTypeItemContentTypeName = contentType ?? "",
                             LuceneContentTypeItemIncludedPathItemId = pathInfo.LuceneIncludedPathItemId,
-                            LuceneContentTypeItemIndexItemId = indexInfo.LuceneIndexItemId
+                            LuceneContentTypeItemIndexItemId = indexInfo.LuceneIndexItemId,
                         };
                         contentInfo.Insert();
                     }

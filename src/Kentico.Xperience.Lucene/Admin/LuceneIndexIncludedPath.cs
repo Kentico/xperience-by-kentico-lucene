@@ -25,7 +25,7 @@ public class LuceneIndexIncludedPath
     /// <summary>
     /// The internal identifier of the included path.
     /// </summary>
-    internal string? Identifier
+    public string? Identifier
     {
         get;
         set;
