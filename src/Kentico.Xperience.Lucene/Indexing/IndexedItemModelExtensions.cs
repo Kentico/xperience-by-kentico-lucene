@@ -9,7 +9,7 @@ namespace Kentico.Xperience.Lucene.Indexing;
 internal static class IndexedItemModelExtensions
 {
     /// <summary>
-    /// Returns true if the node is included in the Lucene index's allowed
+    /// Returns true if the node is included in the Lucene index based on the index's defined paths
     /// </summary>
     /// <remarks>Logs an error if the search model cannot be found.</remarks>
     /// <param name="item">The node to check for indexing.</param>
@@ -37,22 +37,29 @@ internal static class IndexedItemModelExtensions
 
         return luceneIndex.IncludedPaths.Any(includedPathAttribute =>
         {
-            bool matchesContentType = includedPathAttribute.ContentTypes is null || includedPathAttribute.ContentTypes.Length == 0 || includedPathAttribute.ContentTypes.Contains(item.ContentTypeName);
-            if (includedPathAttribute.AliasPath.EndsWith('/'))
+            bool matchesContentType = includedPathAttribute.ContentTypes is not null
+                && includedPathAttribute.ContentTypes.Contains(item.ContentTypeName, StringComparer.OrdinalIgnoreCase);
+
+            if (!matchesContentType)
             {
-                string? pathToMatch = includedPathAttribute.AliasPath;
+                return false;
+            }
+
+            if (item.WebPageItemTreePath is null)
+            {
+                return false;
+            }
+
+            // Supports wildcard matching
+            if (includedPathAttribute.AliasPath.EndsWith("/%", StringComparison.OrdinalIgnoreCase))
+            {
+                string pathToMatch = includedPathAttribute.AliasPath[..^2];
                 var pathsOnPath = TreePathUtils.GetTreePathsOnPath(item.WebPageItemTreePath, true, false).ToHashSet();
 
-                return pathsOnPath.Contains(pathToMatch) && matchesContentType;
+                return pathsOnPath.Any(p => p.StartsWith(pathToMatch, StringComparison.OrdinalIgnoreCase));
             }
-            else
-            {
-                if (item.WebPageItemTreePath is null)
-                {
-                    return false;
-                }
-                return item.WebPageItemTreePath.Equals(includedPathAttribute.AliasPath, StringComparison.OrdinalIgnoreCase) && matchesContentType;
-            }
+
+            return item.WebPageItemTreePath.Equals(includedPathAttribute.AliasPath, StringComparison.OrdinalIgnoreCase);
         });
     }
 
