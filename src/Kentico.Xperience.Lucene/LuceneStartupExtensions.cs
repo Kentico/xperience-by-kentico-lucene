@@ -1,5 +1,4 @@
 ﻿using System.Runtime.CompilerServices;
-using Kentico.Xperience.Lucene;
 using Kentico.Xperience.Lucene.Admin;
 using Kentico.Xperience.Lucene.Indexing;
 using Kentico.Xperience.Lucene.Search;

@@ -1,11 +1,10 @@
 ﻿using CMS.Base;
 using CMS.DataEngine;
 using CMS.FormEngine;
-using Kentico.Xperience.Lucene.Admin;
 
-namespace Kentico.Xperience.Lucene;
+namespace Kentico.Xperience.Lucene.Admin;
 
-public class LuceneModuleInstaller
+internal class LuceneModuleInstaller
 {
     public void Install()
     {
@@ -23,7 +22,7 @@ public class LuceneModuleInstaller
         InstallLuceneContentTypeItemInfo();
     }
 
-    private void InstallLuceneItemInfo()
+    private static void InstallLuceneItemInfo()
     {
         var luceneItemInfo = DataClassInfoProvider.GetDataClassInfo(LuceneIndexItemInfo.OBJECT_TYPE);
         if (luceneItemInfo is not null)
