@@ -26,6 +26,7 @@ internal class DefaultLuceneClient : ILuceneClient
     private readonly IInfoProvider<ChannelInfo> channelProvider;
     private readonly IConversionService conversionService;
     private readonly IProgressiveCache cache;
+    private readonly IEventLogService log;
     private readonly ICacheAccessor cacheAccessor;
 
     internal const string CACHEKEY_STATISTICS = "Lucene|ListIndices";
@@ -39,7 +40,8 @@ internal class DefaultLuceneClient : ILuceneClient
         IInfoProvider<ContentLanguageInfo> languageProvider,
         IInfoProvider<ChannelInfo> channelProvider,
         IConversionService conversionService,
-        IProgressiveCache cache)
+        IProgressiveCache cache,
+        IEventLogService log)
     {
         this.cacheAccessor = cacheAccessor;
         this.luceneIndexService = luceneIndexService;
@@ -50,6 +52,7 @@ internal class DefaultLuceneClient : ILuceneClient
         this.channelProvider = channelProvider;
         this.conversionService = conversionService;
         this.cache = cache;
+        this.log = log;
     }
 
     /// <inheritdoc />
@@ -166,6 +169,12 @@ internal class DefaultLuceneClient : ILuceneClient
                 }
             }
         }
+
+        log.LogInformation(
+            "Kentico.Xperience.Lucene",
+            "INDEX_REBUILD",
+            $"Rebuilding index [{luceneIndex.IndexName}]. {indexedItems.Count} web page items queued for re-indexing"
+        );
 
         indexedItems.ForEach(item => LuceneQueueWorker.EnqueueLuceneQueueItem(new LuceneQueueItem(item, LuceneTaskType.PUBLISH_INDEX, luceneIndex.IndexName)));
     }
