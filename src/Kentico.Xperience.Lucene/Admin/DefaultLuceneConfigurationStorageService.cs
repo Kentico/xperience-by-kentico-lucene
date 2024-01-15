@@ -3,7 +3,7 @@ using CMS.DataEngine;
 
 namespace Kentico.Xperience.Lucene.Admin;
 
-public class DefaultLuceneConfigurationStorageService : ILuceneConfigurationStorageService
+internal class DefaultLuceneConfigurationStorageService : ILuceneConfigurationStorageService
 {
     private readonly ILuceneIndexItemInfoProvider indexProvider;
     private readonly ILuceneIncludedPathItemInfoProvider pathProvider;
@@ -38,10 +38,12 @@ public class DefaultLuceneConfigurationStorageService : ILuceneConfigurationStor
     }
     public bool TryCreateIndex(LuceneConfigurationModel configuration)
     {
-        if (indexProvider.Get()
+        var existingIndex = indexProvider.Get()
             .WhereEquals(nameof(LuceneIndexItemInfo.LuceneIndexItemIndexName), configuration.IndexName)
             .TopN(1)
-            .FirstOrDefault() is not null)
+            .FirstOrDefault();
+
+        if (existingIndex is not null)
         {
             return false;
         }
@@ -110,26 +112,11 @@ public class DefaultLuceneConfigurationStorageService : ILuceneConfigurationStor
             return default;
         }
 
-        var paths = pathProvider.Get().WhereEquals(nameof(LuceneIncludedPathItemInfo.LuceneIncludedPathItemIndexItemId), indexInfo.LuceneIndexItemId).ToList();
-        var contentTypes = contentTypeProvider.Get().WhereEquals(nameof(LuceneContentTypeItemInfo.LuceneContentTypeItemIndexItemId), indexInfo.LuceneIndexItemId).ToList();
+        var paths = pathProvider.Get().WhereEquals(nameof(LuceneIncludedPathItemInfo.LuceneIncludedPathItemIndexItemId), indexInfo.LuceneIndexItemId).GetEnumerableTypedResult();
+        var contentTypes = contentTypeProvider.Get().WhereEquals(nameof(LuceneContentTypeItemInfo.LuceneContentTypeItemIndexItemId), indexInfo.LuceneIndexItemId).GetEnumerableTypedResult();
+        var languages = languageProvider.Get().WhereEquals(nameof(LuceneIndexLanguageItemInfo.LuceneIndexLanguageItemIndexItemId), indexInfo.LuceneIndexItemId).GetEnumerableTypedResult();
 
-        return new LuceneConfigurationModel()
-        {
-            ChannelName = indexInfo.LuceneIndexItemChannelName,
-            IndexName = indexInfo.LuceneIndexItemIndexName,
-            LanguageNames = languageProvider.Get()
-                .WhereEquals(nameof(LuceneIndexLanguageItemInfo.LuceneIndexLanguageItemIndexItemId), indexInfo.LuceneIndexItemId)
-                .GetEnumerableTypedResult()
-                .Select(x => x.LuceneIndexLanguageItemName).ToList(),
-            RebuildHook = indexInfo.LuceneIndexItemRebuildHook,
-            Id = indexInfo.LuceneIndexItemId,
-            StrategyName = indexInfo.LuceneIndexItemStrategyName,
-            Paths = paths.Select(x => new LuceneIndexIncludedPath(x.LuceneIncludedPathItemAliasPath)
-            {
-                Identifier = x.LuceneIncludedPathItemId.ToString(),
-                ContentTypes = contentTypes.Where(y => x.LuceneIncludedPathItemId == y.LuceneContentTypeItemIncludedPathItemId).Select(y => y.LuceneContentTypeItemContentTypeName).ToArray()
-            }).ToList()
-        };
+        return new LuceneConfigurationModel(indexInfo, languages, paths, contentTypes);
     }
 
     public List<string> GetExistingIndexNames() => indexProvider.Get().Select(x => x.LuceneIndexItemIndexName).ToList();
@@ -148,20 +135,7 @@ public class DefaultLuceneConfigurationStorageService : ILuceneConfigurationStor
         var contentTypes = contentTypeProvider.Get().ToList();
         var languages = languageProvider.Get().ToList();
 
-        return indexInfos.Select(x => new LuceneConfigurationModel
-        {
-            ChannelName = x.LuceneIndexItemChannelName,
-            IndexName = x.LuceneIndexItemIndexName,
-            LanguageNames = languages.Where(y => y.LuceneIndexLanguageItemIndexItemId == x.LuceneIndexItemId).Select(y => y.LuceneIndexLanguageItemName).ToList(),
-            RebuildHook = x.LuceneIndexItemRebuildHook,
-            Id = x.LuceneIndexItemId,
-            StrategyName = x.LuceneIndexItemStrategyName,
-            Paths = paths.Where(y => y.LuceneIncludedPathItemIndexItemId == x.LuceneIndexItemId).Select(y => new LuceneIndexIncludedPath(y.LuceneIncludedPathItemAliasPath)
-            {
-                Identifier = y.LuceneIncludedPathItemId.ToString(),
-                ContentTypes = contentTypes.Where(z => z.LuceneContentTypeItemIncludedPathItemId == y.LuceneIncludedPathItemId).Select(z => z.LuceneContentTypeItemContentTypeName).ToArray()
-            }).ToList()
-        });
+        return indexInfos.Select(index => new LuceneConfigurationModel(index, languages, paths, contentTypes));
     }
 
     public bool TryEditIndex(LuceneConfigurationModel configuration)

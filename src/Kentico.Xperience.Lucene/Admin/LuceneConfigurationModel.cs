@@ -23,5 +23,22 @@ public class LuceneConfigurationModel
     public string RebuildHook { get; set; } = "";
 
     [LuceneIndexConfigurationComponent(Label = "Included Paths")]
-    public List<LuceneIndexIncludedPath> Paths { get; set; } = new();
+    public IEnumerable<LuceneIndexIncludedPath> Paths { get; set; } = Enumerable.Empty<LuceneIndexIncludedPath>();
+
+    public LuceneConfigurationModel() { }
+
+    public LuceneConfigurationModel(
+        LuceneIndexItemInfo index,
+        IEnumerable<LuceneIndexLanguageItemInfo> indexLanguages,
+        IEnumerable<LuceneIncludedPathItemInfo> indexPaths,
+        IEnumerable<LuceneContentTypeItemInfo> contentTypes
+    )
+    {
+        Id = index.LuceneIndexItemId;
+        IndexName = index.LuceneIndexItemIndexName;
+        RebuildHook = index.LuceneIndexItemRebuildHook;
+        StrategyName = index.LuceneIndexItemStrategyName;
+        LanguageNames = indexLanguages.Select(l => l.LuceneIndexLanguageItemName).ToList();
+        Paths = indexPaths.Select(p => new LuceneIndexIncludedPath(p, contentTypes)).ToList();
+    }
 }

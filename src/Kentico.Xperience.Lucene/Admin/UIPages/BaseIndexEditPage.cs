@@ -2,8 +2,6 @@ using System.Text;
 using Kentico.Xperience.Admin.Base;
 using Kentico.Xperience.Admin.Base.Forms;
 using Kentico.Xperience.Lucene.Indexing;
-using Lucene.Net.Analysis.Standard;
-using Lucene.Net.Util;
 using IFormItemCollectionProvider = Kentico.Xperience.Admin.Base.Forms.Internal.IFormItemCollectionProvider;
 
 namespace Kentico.Xperience.Lucene.Admin;
@@ -18,13 +16,13 @@ internal abstract class BaseIndexEditPage : ModelEditPage<LuceneConfigurationMod
         ILuceneConfigurationStorageService storageService)
         : base(formItemCollectionProvider, formDataBinder) => StorageService = storageService;
 
-    protected IndexModificationResult ValidateAndProcess(LuceneConfigurationModel model)
+    protected IndexModificationResult ValidateAndProcess(LuceneConfigurationModel configuration)
     {
-        model.IndexName = RemoveWhitespacesUsingStringBuilder(model.IndexName ?? "");
+        configuration.IndexName = RemoveWhitespacesUsingStringBuilder(configuration.IndexName ?? "");
 
-        if (StorageService.GetIndexIds().Exists(x => x == model.Id))
+        if (StorageService.GetIndexIds().Exists(x => x == configuration.Id))
         {
-            bool edited = StorageService.TryEditIndex(model);
+            bool edited = StorageService.TryEditIndex(configuration);
 
             if (edited)
             {
@@ -37,20 +35,11 @@ internal abstract class BaseIndexEditPage : ModelEditPage<LuceneConfigurationMod
         }
         else
         {
-            bool created = !string.IsNullOrWhiteSpace(model.IndexName) && StorageService.TryCreateIndex(model);
+            bool created = !string.IsNullOrWhiteSpace(configuration.IndexName) && StorageService.TryCreateIndex(configuration);
 
             if (created)
             {
-                LuceneIndexStore.Instance.AddIndex(new LuceneIndex(
-                    new StandardAnalyzer(LuceneVersion.LUCENE_48),
-                    model.IndexName ?? "",
-                    model.ChannelName ?? "",
-                    model.LanguageNames?.ToList() ?? new(),
-                    model.Id,
-                    model.Paths ?? new(),
-                    indexPath: null,
-                    luceneIndexingStrategyType: StrategyStorage.GetOrDefault(model.StrategyName)
-                ));
+                LuceneIndexStore.Instance.AddIndex(new LuceneIndex(configuration, StrategyStorage.Strategies));
 
                 return IndexModificationResult.Success;
             }

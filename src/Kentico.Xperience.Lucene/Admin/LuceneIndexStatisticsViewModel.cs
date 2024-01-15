@@ -1,6 +1,6 @@
 ﻿namespace Kentico.Xperience.Lucene.Admin;
 
-public class LuceneIndexStatisticsViewModel
+internal class LuceneIndexStatisticsViewModel
 {
     //
     // Summary:

@@ -4,7 +4,7 @@ using Kentico.Xperience.Admin.Base.FormAnnotations;
 
 namespace Kentico.Xperience.Lucene.Admin;
 
-public class ChannelOptionsProvider : IDropDownOptionsProvider
+internal class ChannelOptionsProvider : IDropDownOptionsProvider
 {
     private readonly IInfoProvider<ChannelInfo> channelInfoProvider;
 

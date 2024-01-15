@@ -16,6 +16,8 @@ namespace Kentico.Xperience.Lucene.Admin;
 [UIEvaluatePermission(SystemPermissions.UPDATE)]
 internal class IndexEditPage : BaseIndexEditPage
 {
+    private LuceneConfigurationModel? model = null;
+
     [PageParameter(typeof(IntPageModelBinder))]
     public int IndexIdentifier { get; set; }
 
@@ -24,7 +26,15 @@ internal class IndexEditPage : BaseIndexEditPage
                  ILuceneConfigurationStorageService storageService)
         : base(formItemCollectionProvider, formDataBinder, storageService) { }
 
-    protected override LuceneConfigurationModel Model => StorageService.GetIndexDataOrNull(IndexIdentifier) ?? new LuceneConfigurationModel();
+    protected override LuceneConfigurationModel Model
+    {
+        get
+        {
+            model ??= StorageService.GetIndexDataOrNull(IndexIdentifier) ?? new();
+
+            return model;
+        }
+    }
 
     protected override Task<ICommandResponse> ProcessFormData(LuceneConfigurationModel model, ICollection<IFormItem> formItems)
     {

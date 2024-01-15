@@ -38,17 +38,23 @@ internal class IndexCreatePage : BaseIndexEditPage
         }
     }
 
-    protected override async Task<ICommandResponse> ProcessFormData(LuceneConfigurationModel model, ICollection<IFormItem> formItems)
+    protected override Task<ICommandResponse> ProcessFormData(LuceneConfigurationModel model, ICollection<IFormItem> formItems)
     {
         var result = ValidateAndProcess(model);
 
         if (result == IndexModificationResult.Success)
         {
             var index = LuceneIndexStore.Instance.GetRequiredIndex(model.IndexName);
-            return NavigateTo(pageUrlGenerator.GenerateUrl<IndexEditPage>(index.Identifier.ToString()));
+
+            var successResponse = NavigateTo(pageUrlGenerator.GenerateUrl<IndexEditPage>(index.Identifier.ToString()))
+                .AddSuccessMessage("Index created.");
+
+            return Task.FromResult<ICommandResponse>(successResponse);
         }
 
-        return ResponseFrom(new FormSubmissionResult(FormSubmissionStatus.ValidationFailure))
+        var errorResponse = ResponseFrom(new FormSubmissionResult(FormSubmissionStatus.ValidationFailure))
             .AddErrorMessage("Could not create index.");
+
+        return Task.FromResult<ICommandResponse>(errorResponse);
     }
 }

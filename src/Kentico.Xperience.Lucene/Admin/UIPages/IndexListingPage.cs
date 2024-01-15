@@ -235,7 +235,7 @@ internal class IndexListingPage : ListingPageBase<ListingConfiguration>
     {
         var result = new RowActionResult(false);
         var index = LuceneIndexStore.Instance.GetIndex(id);
-        if (index == null)
+        if (index is null)
         {
             return ResponseFrom(result)
                 .AddErrorMessage(string.Format("Error loading Lucene index with identifier {0}.", id));
@@ -266,7 +266,7 @@ internal class IndexListingPage : ListingPageBase<ListingConfiguration>
         {
             var indices = configurationStorageService.GetAllIndexData();
 
-            LuceneIndexStore.Instance.AddIndices(indices);
+            LuceneIndexStore.Instance.SetIndicies(indices);
         }
         var response = NavigateTo(pageUrlGenerator.GenerateUrl<IndexListingPage>());
 
