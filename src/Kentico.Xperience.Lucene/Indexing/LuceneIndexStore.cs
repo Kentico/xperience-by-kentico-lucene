@@ -76,9 +76,9 @@ public sealed class LuceneIndexStore
             throw new ArgumentNullException(nameof(index));
         }
 
-        if (registeredIndexes.Exists(i => i.IndexName.Equals(index.IndexName, StringComparison.OrdinalIgnoreCase)))
+        if (registeredIndexes.Exists(i => i.IndexName.Equals(index.IndexName, StringComparison.OrdinalIgnoreCase) || index.Identifier == i.Identifier))
         {
-            throw new InvalidOperationException($"Attempted to register Lucene index with name '{index.IndexName},' but it is already registered.");
+            throw new InvalidOperationException($"Attempted to register Lucene index with identifer [{index.Identifier}] and name [{index.IndexName}] but it is already registered.");
         }
 
         registeredIndexes.Add(index);

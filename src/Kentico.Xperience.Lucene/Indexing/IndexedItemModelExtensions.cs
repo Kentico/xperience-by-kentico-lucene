@@ -19,7 +19,7 @@ internal static class IndexedItemModelExtensions
     /// <exception cref="ArgumentNullException" />
     public static bool IsIndexedByIndex(this IndexEventWebPageItemModel item, IEventLogService log, string indexName, string eventName)
     {
-        if (string.IsNullOrEmpty(indexName))
+        if (string.IsNullOrWhiteSpace(indexName))
         {
             throw new ArgumentNullException(nameof(indexName));
         }
@@ -35,31 +35,25 @@ internal static class IndexedItemModelExtensions
             return false;
         }
 
-        return luceneIndex.IncludedPaths.Any(includedPathAttribute =>
+        return luceneIndex.IncludedPaths.Any(path =>
         {
-            bool matchesContentType = includedPathAttribute.ContentTypes is not null
-                && includedPathAttribute.ContentTypes.Contains(item.ContentTypeName, StringComparer.OrdinalIgnoreCase);
+            bool matchesContentType = path.ContentTypes.Contains(item.ContentTypeName, StringComparer.OrdinalIgnoreCase);
 
             if (!matchesContentType)
             {
                 return false;
             }
 
-            if (item.WebPageItemTreePath is null)
-            {
-                return false;
-            }
-
             // Supports wildcard matching
-            if (includedPathAttribute.AliasPath.EndsWith("/%", StringComparison.OrdinalIgnoreCase))
+            if (path.AliasPath.EndsWith("/%", StringComparison.OrdinalIgnoreCase))
             {
-                string pathToMatch = includedPathAttribute.AliasPath[..^2];
+                string pathToMatch = path.AliasPath[..^2];
                 var pathsOnPath = TreePathUtils.GetTreePathsOnPath(item.WebPageItemTreePath, true, false).ToHashSet();
 
                 return pathsOnPath.Any(p => p.StartsWith(pathToMatch, StringComparison.OrdinalIgnoreCase));
             }
 
-            return item.WebPageItemTreePath.Equals(includedPathAttribute.AliasPath, StringComparison.OrdinalIgnoreCase);
+            return item.WebPageItemTreePath.Equals(path.AliasPath, StringComparison.OrdinalIgnoreCase);
         });
     }
 
