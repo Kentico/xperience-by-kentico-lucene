@@ -16,11 +16,13 @@
     <PackageReference Include="Kentico.Xperience.Core.Tests" />
     <PackageReference Include="NSubstitute" />
     <PackageReference Include="FluentAssertions" />
+    <PackageReference Include="AutoFixture" />
   </ItemGroup>
 
   <ItemGroup>
     <Using Include="NUnit.Framework" />
     <Using Include="NSubstitute" />
+    <Using Include="AutoFixture" />
   </ItemGroup>
 
   <ItemGroup>
