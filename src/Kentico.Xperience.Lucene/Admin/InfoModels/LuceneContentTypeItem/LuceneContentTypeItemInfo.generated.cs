@@ -21,13 +21,13 @@ public partial class LuceneContentTypeItemInfo : AbstractInfo<LuceneContentTypeI
     /// <summary>
     /// Object type.
     /// </summary>
-    public const string OBJECT_TYPE = "lucene.lucenecontenttypeitem";
+    public const string OBJECT_TYPE = "kenticolucene.lucenecontenttypeitem";
 
 
     /// <summary>
     /// Type information.
     /// </summary>
-    public static readonly ObjectTypeInfo TYPEINFO = new(typeof(LuceneContentTypeItemInfoProvider), OBJECT_TYPE, "Lucene.LuceneContentTypeItem", nameof(LuceneContentTypeItemId), null, nameof(LuceneContentTypeItemGuid), null, null, null, null, null)
+    public static readonly ObjectTypeInfo TYPEINFO = new(typeof(LuceneContentTypeItemInfoProvider), OBJECT_TYPE, "KenticoLucene.LuceneContentTypeItem", nameof(LuceneContentTypeItemId), null, nameof(LuceneContentTypeItemGuid), null, null, null, null, null)
     {
         TouchCacheDependencies = true,
         DependsOn = new List<ObjectDependency>()

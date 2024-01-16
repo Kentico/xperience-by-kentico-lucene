@@ -53,9 +53,9 @@ To remove this configuration and the added database tables perform one of the fo
 
 1. If you are using Xperience's Continuous Integration (CI), delete the files with the paths from your CI repository folder:
 
-   - `\App_Data\CIRepository\@global\cms.class\lucene.*\**`
+   - `\App_Data\CIRepository\@global\cms.class\kenticolucene.*\**`
    - `\App_Data\CIRepository\@global\cms.class\kentico.xperience.lucene\**`
-   - `\App_Data\CIRepository\@global\lucene.*\**`
+   - `\App_Data\CIRepository\@global\kenticolucene.*\**`
 
 1. Remove the `Kentico.Xperience.Lucene` NuGet package from the solution
 1. Remove any code references to the package and recompile your solution
@@ -66,13 +66,13 @@ To remove this configuration and the added database tables perform one of the fo
 If you are not using CI run the following SQL _after_ removing the NuGet package from the solution:
 
 ```sql
-drop table lucene_lucenecontenttypeitem
-drop table lucene_luceneincludedpathitem
-drop table lucene_luceneindexlanguageitem
-drop table lucene_luceneindexitem
+drop table KenticoLucene_LuceneContentTypeItem
+drop table KenticoLucene_LuceneIncludedPathItem
+drop table KenticoLucene_LuceneIndexLanguageItem
+drop table KenticoLucene_LuceneIndexItem
 
 delete
-FROM [dbo].[CMS_Class] where ClassName like 'lucene%'
+FROM [dbo].[CMS_Class] where ClassName like 'kenticolucene%'
 
 delete
 from [CMS_Resource] where ResourceName = 'Kentico.Xperience.Lucene'
