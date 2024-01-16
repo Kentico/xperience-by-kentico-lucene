@@ -1,4 +1,5 @@
 using DancingGoat;
+using DancingGoat.Models;
 using DancingGoat.PageTemplates;
 using DancingGoat.Sections;
 using DancingGoat.Widgets;
@@ -18,7 +19,6 @@ using Kentico.PageBuilder.Web.Mvc.PageTemplates;
 [assembly: RegisterSection(ComponentIdentifiers.SECTION_25_75, "2 columns - 25/75", typeof(ThemeSectionProperties), "~/Components/Sections/_DancingGoat_Section_25_75.cshtml", Description = "Two-column section with zones layout 25% + 75%.", IconClass = "icon-l-cols-30-70")]
 
 // Page templates
-[assembly: RegisterPageTemplate(ComponentIdentifiers.LANDING_PAGE_SINGLE_COLUMN_TEMPLATE, "Single column landing page", propertiesType: typeof(LandingPageSingleColumnProperties), customViewName: "~/PageTemplates/LandingPage/_DancingGoat_LandingPageSingleColumn.cshtml", Description = "A default single column page template with two sections differentiated by a background color.", IconClass = "xp-l-header-text")]
-[assembly: RegisterPageTemplate(ComponentIdentifiers.ARTICLE_TEMPLATE, "Article detail", customViewName: "~/PageTemplates/Article/_Article.cshtml", Description = "Displays an article detail with related articles underneath.", IconClass = "xp-l-text")]
-[assembly: RegisterPageTemplate(ComponentIdentifiers.ARTICLE_WITH_SIDEBAR_TEMPLATE, "Article detail with sidebar", customViewName: "~/PageTemplates/Article/_ArticleWithSidebar.cshtml", Description = "Displays an article detail with sidebar.", IconClass = "xp-l-text-col")]
-[assembly: RegisterPageTemplate(ComponentIdentifiers.SUBSCRIPTION_TEMPLATE, "After (un)subscription confirmation", customViewName: "~/PageTemplates/Subscription/_Subscription.cshtml", Description = "Displays a confirmation of email (un)subscription", IconClass = "xp-l-text-col")]
+[assembly: RegisterPageTemplate(ComponentIdentifiers.LANDING_PAGE_SINGLE_COLUMN_TEMPLATE, "Single column landing page", propertiesType: typeof(LandingPageSingleColumnProperties), customViewName: "~/PageTemplates/LandingPage/_DancingGoat_LandingPageSingleColumn.cshtml", ContentTypeNames = new string[] { LandingPage.CONTENT_TYPE_NAME }, Description = "A default single column page template with two sections differentiated by a background color.", IconClass = "xp-l-header-text")]
+[assembly: RegisterPageTemplate(ComponentIdentifiers.ARTICLE_TEMPLATE, "Article detail", customViewName: "~/PageTemplates/Article/_Article.cshtml", ContentTypeNames = new string[] { ArticlePage.CONTENT_TYPE_NAME }, Description = "Displays an article detail with related articles underneath.", IconClass = "xp-l-text")]
+[assembly: RegisterPageTemplate(ComponentIdentifiers.ARTICLE_WITH_SIDEBAR_TEMPLATE, "Article detail with sidebar", customViewName: "~/PageTemplates/Article/_ArticleWithSidebar.cshtml", ContentTypeNames = new string[] { ArticlePage.CONTENT_TYPE_NAME }, Description = "Displays an article detail with sidebar.", IconClass = "xp-l-text-col")]

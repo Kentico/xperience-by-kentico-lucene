@@ -1,7 +1,7 @@
 ﻿using Kentico.Forms.Web.Mvc;
 using Kentico.PageBuilder.Web.Mvc;
 using Kentico.Xperience.Admin.Base.FormAnnotations;
-using Kentico.Xperience.Admin.Content.FormAnnotations;
+using Kentico.Xperience.Admin.Websites.FormAnnotations;
 
 namespace DancingGoat.Widgets
 {

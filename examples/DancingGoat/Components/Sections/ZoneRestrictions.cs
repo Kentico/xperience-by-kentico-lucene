@@ -29,9 +29,7 @@ namespace DancingGoat.Sections
         public static IEnumerable<string> GetNarrowZoneRestrictions()
         {
             var restrictedWidgets = new List<string> {
-                BannerWidgetViewComponent.IDENTIFIER,
-                HeroImageWidgetViewComponent.IDENTIFIER,
-                ArticlesWidgetViewComponent.IDENTIFIER
+                HeroImageWidgetViewComponent.IDENTIFIER
             };
 
             return GetWidgetsIdentifiers()
@@ -45,7 +43,6 @@ namespace DancingGoat.Sections
         public static IEnumerable<string> GetWideZoneRestrictions()
         {
             var restrictedWidgets = new List<string> {
-                CafeCardWidgetViewComponent.IDENTIFIER,
                 CardWidgetViewComponent.IDENTIFIER,
             };
 

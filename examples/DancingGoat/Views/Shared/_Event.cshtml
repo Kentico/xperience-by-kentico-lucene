@@ -9,7 +9,7 @@
             <div class="event-tile">
                 <div class="event-tile-inner row">
                     <div class="col-md-12 lg-hidden xl-hidden">
-                        <img src="@Url.Content(Model.HeroBannerImagePath)" alt="@Model.HeroBannerImageShortDescription" title="@Model.Title" class="event-tile-image" loading="lazy">
+                        <img src="@Model.HeroBannerImageUrl" alt="@Model.HeroBannerShortDescription" title="@Model.Title" class="event-tile-image" loading="lazy">
                     </div>
                     <div class="col-md-12 col-lg-6 col-xl-8 event-tile-info">
                         <div class="event-tile-content">
@@ -22,8 +22,12 @@
                                 </p>
                                 <ul class="event-tile-details">
                                     <li>When: @Model.Date.ToString("g")</li>
-                                    <li>Where: @Model.Location</li>
-                                    @if (Model.Coffees is not null){
+                                    @if (!String.IsNullOrEmpty(Model.Location))
+                                    {
+                                        <li>Where: @Model.Location</li>
+                                    }
+                                    @if (Model.Coffees is not null)
+                                    {
                                         <li>
                                             What: @string.Join(", ", @Model.Coffees)
                                         </li>
@@ -33,7 +37,7 @@
                         </div>
                     </div>
                     <div class="col-lg-6 col-xl-4 xs-hidden sm-hidden md-hidden">
-                        <img src="@Url.Content(Model.HeroBannerImagePath)" alt="@Model.HeroBannerImageShortDescription" title="@Model.Title" class="event-tile-image" loading="lazy">
+                        <img src="@Model.HeroBannerImageUrl" alt="@Model.HeroBannerShortDescription" title="@Model.Title" class="event-tile-image" loading="lazy">
                     </div>
                 </div>
             </div>

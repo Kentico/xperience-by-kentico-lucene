@@ -1,65 +1,61 @@
-using CMS.Helpers;
+using System;
+using System.Threading.Tasks;
 
 using DancingGoat;
-using DancingGoat.Helpers.Generator;
-using DancingGoat.PageTemplates;
-using DancingGoat.Search;
+using DancingGoat.Models;
+
 using Kentico.Activities.Web.Mvc;
 using Kentico.Content.Web.Mvc.Routing;
-using Kentico.CrossSiteTracking.Web.Mvc;
-using Kentico.Forms.Web.Mvc;
 using Kentico.Membership;
 using Kentico.OnlineMarketing.Web.Mvc;
 using Kentico.PageBuilder.Web.Mvc;
 using Kentico.Web.Mvc;
-using Kentico.Xperience.GraphQL;
-using Kentico.Xperience.Lucene.Models;
-using Lucene.Net.Analysis.Standard;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Localization.Routing;
 
-/***
- This is a route controller constraint for pages not handled by the content tree-based router.
- The constraint limits the match to a list of specified controllers for pages not handled by the content tree-based router.
- The constraint ensures that broken URLs lead to a "404 page not found" page and are not handled by a controller dedicated to the component or 
- to a page handled by the content tree-based router (which would lead to an exception).
- */
-const string CONSTRAINT_FOR_NON_ROUTER_PAGE_CONTROLLERS = "Account|Consent|Subscription|Coffees|Search|CrawlerSearch|CafeSearch";
+using Kentico.Xperience.Cloud;
+
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc.Abstractions;
+using Microsoft.AspNetCore.Mvc.Routing;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Routing;
+using Microsoft.Extensions.DependencyInjection;
+
+using Microsoft.Extensions.Hosting;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddXperienceCloudApplicationInsights(builder.Configuration);
+
+if (builder.Environment.IsQa() || builder.Environment.IsUat() || builder.Environment.IsProduction())
+{
+    builder.Services.AddKenticoCloud(builder.Configuration);
+    builder.Services.AddXperienceCloudSendGrid(builder.Configuration);
+}
 
 builder.Services.AddKentico(features =>
 {
     features.UsePageBuilder(new PageBuilderOptions
     {
         DefaultSectionIdentifier = ComponentIdentifiers.SINGLE_COLUMN_SECTION,
-        RegisterDefaultSection = false
-    });
-
-    features.UseActivityTracking();
-
-    features.UseCrossSiteTracking(new CrossSiteTrackingOptions
-    {
-        ConsentSettings = new CrossSiteTrackingConsentOptions
+        RegisterDefaultSection = false,
+        ContentTypeNames = new[]
         {
-            // This is a sample consent that can be created via sample data generator application.
-            // You can replace it by your own consent.
-            ConsentName = TrackingConsentGenerator.CONSENT_NAME,
-            AgreeCookieLevel = CookieLevel.All
+            LandingPage.CONTENT_TYPE_NAME,
+            ContactsPage.CONTENT_TYPE_NAME,
+            ArticlePage.CONTENT_TYPE_NAME
         }
     });
 
-    features.UseEmailStatisticsLogging();
+    features.UseWebPageRouting();
     features.UseEmailMarketing();
-
-    features.UsePageRouting();
+    features.UseEmailStatisticsLogging();
+    features.UseActivityTracking();
 });
 
-builder.Services.AddDancingGoatServices();
-
 builder.Services.Configure<RouteOptions>(options => options.LowercaseUrls = true);
-builder.Services.Configure<SearchOptions>(builder.Configuration.GetSection("SearchOptions"));
 
 builder.Services.AddLocalization()
     .AddControllersWithViews()
@@ -69,57 +65,12 @@ builder.Services.AddLocalization()
         options.DataAnnotationLocalizerProvider = (type, factory) => factory.Create(typeof(SharedResources));
     });
 
-builder.Services.Configure<KenticoRequestLocalizationOptions>(options =>
-{
-    options.RequestCultureProviders.Add(new RouteDataRequestCultureProvider
-    {
-        RouteDataStringKey = "culture",
-        UIRouteDataStringKey = "culture"
-    });
-});
-
-builder.Services.Configure<FormBuilderBundlesOptions>(options =>
-{
-    options.JQueryCustomBundleWebRootPath = "Scripts/jquery-3.5.1.min.js";
-});
-
-builder.Services.AddKenticoGraphQL(new KenticoGraphQLOptions
-{
-    UseQueryDebugTool = builder.Environment.IsDevelopment()
-});
-
-builder.Services.AddLucene(new[]
-{
-    new LuceneIndex(
-        typeof(DancingGoatSearchModel),
-        new StandardAnalyzer(Lucene.Net.Util.LuceneVersion.LUCENE_48),
-        DancingGoatSearchModel.IndexName,
-        indexPath: null,
-        new DancingGoatLuceneIndexingStrategy()),
-    new LuceneIndex(
-        typeof(DancingGoatCrawlerSearchModel),
-        new StandardAnalyzer(Lucene.Net.Util.LuceneVersion.LUCENE_48),
-        DancingGoatCrawlerSearchModel.IndexName,
-        indexPath: null,
-        new DancingGoatCrawlerLuceneIndexingStrategy()),
-    new LuceneIndex(
-        typeof(CafeSearchModel),
-        new StandardAnalyzer(Lucene.Net.Util.LuceneVersion.LUCENE_48),
-        CafeSearchModel.IndexName,
-        indexPath: null,
-        new CafeLuceneIndexingStrategy()
-    )
-});
-builder.Services.AddSingleton<WebScraperHtmlSanitizer>();
-builder.Services.AddSingleton<DancingGoatSearchService>();
-builder.Services.AddSingleton<CafeSearchService>();
-builder.Services.AddHttpClient<WebCrawlerService>();
-builder.Services.AddSingleton<DancingGoatCrawlerSearchService>();
+builder.Services.AddDancingGoatServices();
 
 ConfigureMembershipServices(builder.Services);
-ConfigurePageBuilderFilters();
 
 var app = builder.Build();
+
 app.InitKentico();
 
 app.UseStaticFiles();
@@ -128,28 +79,42 @@ app.UseCookiePolicy();
 
 app.UseAuthentication();
 
+if (builder.Environment.IsQa() || builder.Environment.IsUat() || builder.Environment.IsProduction())
+{
+    app.UseKenticoCloud();
+}
 
 app.UseKentico();
 
-app.UseStatusCodePagesWithReExecute("/error/{0}");
-
 app.UseAuthorization();
 
-app.UseKenticoGraphQL();
+app.UseStatusCodePagesWithReExecute("/error/{0}");
 
 app.Kentico().MapRoutes();
+
 app.MapControllerRoute(
-       name: "error",
-       pattern: "error/{code}",
-       defaults: new { controller = "HttpErrors", action = "Error" }
-    );
+   name: "error",
+   pattern: "error/{code}",
+   defaults: new { controller = "HttpErrors", action = "Error" }
+);
+
 app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller}/{action=Index}",
+    name: DancingGoatConstants.DEFAULT_ROUTE_NAME,
+    pattern: $"{{{WebPageRoutingOptions.LANGUAGE_ROUTE_VALUE_KEY}}}/{{controller}}/{{action}}",
     constraints: new
     {
-        controller = CONSTRAINT_FOR_NON_ROUTER_PAGE_CONTROLLERS
-    });
+        controller = DancingGoatConstants.CONSTRAINT_FOR_NON_ROUTER_PAGE_CONTROLLERS
+    }
+);
+
+app.MapControllerRoute(
+    name: DancingGoatConstants.DEFAULT_ROUTE_WITHOUT_LANGUAGE_PREFIX_NAME,
+    pattern: "{controller}/{action}",
+    constraints: new
+    {
+        controller = DancingGoatConstants.CONSTRAINT_FOR_NON_ROUTER_PAGE_CONTROLLERS
+    }
+);
 
 app.Run();
 
@@ -174,20 +139,20 @@ static void ConfigureMembershipServices(IServiceCollection services)
 
     services.ConfigureApplicationCookie(options =>
     {
-        options.ExpireTimeSpan = TimeSpan.FromMinutes(14);
+        options.ExpireTimeSpan = TimeSpan.FromDays(14);
+        options.SlidingExpiration = true;
         options.AccessDeniedPath = new PathString("/account/login");
+        options.Events.OnRedirectToAccessDenied = ctx =>
+        {
+            var factory = ctx.HttpContext.RequestServices.GetRequiredService<IUrlHelperFactory>();
+            var urlHelper = factory.GetUrlHelper(new ActionContext(ctx.HttpContext, new RouteData(ctx.HttpContext.Request.RouteValues), new ActionDescriptor()));
+            var url = urlHelper.Action("Login", "Account") + new Uri(ctx.RedirectUri).Query;
+
+            ctx.Response.Redirect(url);
+
+            return Task.CompletedTask;
+        };
     });
 
-    // Sets the validation interval of members security stamp to zero so member's security stamp is validated with each request.
-    services.Configure<SecurityStampValidatorOptions>(options => options.ValidationInterval = TimeSpan.Zero);
-
     services.AddAuthorization();
-}
-
-
-static void ConfigurePageBuilderFilters()
-{
-    PageBuilderFilters.PageTemplates.Add(new ArticlePageTemplatesFilter());
-    PageBuilderFilters.PageTemplates.Add(new LandingPageTemplatesFilter());
-    PageBuilderFilters.PageTemplates.Add(new SubscriptionPageTemplatesFilter());
 }

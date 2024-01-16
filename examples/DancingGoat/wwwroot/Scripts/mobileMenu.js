@@ -1,21 +1,23 @@
-﻿(function ($) {
-    const $navToggle = $('.nav-toggle');
-    const $menu = $('.nav-menu');
+(function () {
+    const navToggle = document.querySelector('.nav-toggle');
+    const menu = document.querySelector('.nav-menu');
 
-    // toggles mobile menu on toggle button click
-    $navToggle.click(function (e) {
+    // Toggles mobile menu on toggle button click
+    navToggle.addEventListener('click', function (e) {
         e.preventDefault();
-        $navToggle.toggleClass('active');
-        $menu.toggleClass('active');
-    })
+        navToggle.classList.toggle('active');
+        menu.classList.toggle('active');
+    });
 
-    // close mobile menu on click away
-    $(document).mouseup(e => {
-        // if menu is active and if target is not menu and its children nor menu toggle button and its children
-        if ($menu.hasClass('active') && !$menu.is(e.target) && $menu.has(e.target).length === 0 && !$navToggle.is(e.target) && $navToggle.has(e.target).length === 0) {
+    // Close mobile menu on click away
+    document.addEventListener('mouseup', function (e) {
+        // If menu is active and if target is not menu and its children
+        // nor menu toggle button and its children
+        if (menu.classList.contains('active') && !menu.contains(e.target) &&
+            e.target !== navToggle && !navToggle.contains(e.target)) {
             e.stopPropagation();
-            $navToggle.removeClass('active');
-            $menu.removeClass('active');
+            navToggle.classList.remove('active');
+            menu.classList.remove('active');
         }
     });
-})(jQuery);
+})();

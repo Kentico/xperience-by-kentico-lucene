@@ -1,9 +1,10 @@
 using System.Linq;
-using CMS.DocumentEngine.Types.DancingGoatCore;
+using System.Threading.Tasks;
 
 using DancingGoat.Models;
 using DancingGoat.Widgets;
 
+using Kentico.Content.Web.Mvc.Routing;
 using Kentico.PageBuilder.Web.Mvc;
 
 using Microsoft.AspNetCore.Mvc;
@@ -24,31 +25,36 @@ namespace DancingGoat.Widgets
         public const string IDENTIFIER = "DancingGoat.LandingPage.CardWidget";
 
 
-        private readonly MediaRepository mediaRepository;
+        private readonly ImageRepository imageRepository;
+        private readonly IPreferredLanguageRetriever currentLanguageRetriever;
+
 
         /// <summary>
         /// Creates an instance of <see cref="CardWidgetViewComponent"/> class.
         /// </summary>
-        /// <param name="mediaRepository">Repository for media files.</param>
-        public CardWidgetViewComponent(MediaRepository mediaRepository)
+        /// <param name="imageRepository">Repository for images.</param>
+        /// <param name="currentLanguageRetriever">Retrieves preferred language name for the current request. Takes language fallback into account.</param>
+        public CardWidgetViewComponent(ImageRepository imageRepository, IPreferredLanguageRetriever currentLanguageRetriever)
         {
-            this.mediaRepository = mediaRepository;
+            this.imageRepository = imageRepository;
+            this.currentLanguageRetriever = currentLanguageRetriever;
         }
 
 
-        public ViewViewComponentResult Invoke(CardWidgetProperties properties)
+        public async Task<ViewViewComponentResult> InvokeAsync(CardWidgetProperties properties)
         {
-            var image = GetImage(properties);
+            var languageName = currentLanguageRetriever.Get();
+            var image = await GetImage(properties, languageName);
 
             return View("~/Components/Widgets/CardWidget/_CardWidget.cshtml", new CardWidgetViewModel
             {
-                ImagePath = image?.Fields.File.Url,
+                ImagePath = image?.ImageFile.Url,
                 Text = properties.Text
             });
         }
 
 
-        private Media GetImage(CardWidgetProperties properties)
+        private async Task<Image> GetImage(CardWidgetProperties properties, string languageName)
         {
             var image = properties.Image.FirstOrDefault();
 
@@ -57,7 +63,7 @@ namespace DancingGoat.Widgets
                 return null;
             }
 
-            return mediaRepository.GetMediaFile(image.ItemId);
+            return await imageRepository.GetImage(image.Identifier, languageName);
         }
     }
 }

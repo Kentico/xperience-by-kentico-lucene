@@ -13,21 +13,18 @@ namespace Samples.DancingGoat
     /// </summary>
     internal sealed class HumanReadablePersonalDataWriter : IPersonalDataWriter
     {
+        private static readonly string DECIMAL_PRECISION = new string('#', 26);
+        private static readonly string DECIMAL_FORMAT = "{0:0.00" + DECIMAL_PRECISION + "}";
+
         private readonly StringBuilder stringBuilder;
         private int indentationLevel;
         private bool ignoreNewLine;
 
-        private static readonly string DECIMAL_PRECISION = new string('#', 26);
-        private static readonly string DECIMAL_FORMAT = "{0:0.00" + DECIMAL_PRECISION + "}";
 
         /// <summary>
         /// Culture used to format values.
         /// </summary>
-        public CultureInfo Culture
-        {
-            get;
-            set;
-        } = new CultureInfo(SystemContext.SYSTEM_CULTURE_NAME);
+        public CultureInfo Culture { get; set; } = new CultureInfo(SystemContext.SYSTEM_CULTURE_NAME);
 
 
         /// <summary>
@@ -86,7 +83,7 @@ namespace Samples.DancingGoat
             {
                 var columnName = column.Name;
                 var columnDisplayName = column.DisplayName;
-                if (String.IsNullOrWhiteSpace(columnDisplayName) || columnName.Equals(baseInfo.TypeInfo.IDColumn, StringComparison.Ordinal) || columnName.Equals(baseInfo.TypeInfo.GUIDColumn, StringComparison.Ordinal))
+                if (string.IsNullOrWhiteSpace(columnDisplayName) || columnName.Equals(baseInfo.TypeInfo.IDColumn, StringComparison.Ordinal) || columnName.Equals(baseInfo.TypeInfo.GUIDColumn, StringComparison.Ordinal))
                 {
                     continue;
                 }
@@ -179,6 +176,8 @@ namespace Samples.DancingGoat
         /// <remarks>
         /// This is a void action in <see cref="HumanReadablePersonalDataWriter"/> as the class uses no disposable resources.
         /// </remarks>
-        public void Dispose() { /* No op */ }
+        public void Dispose()
+        {
+        }
     }
 }

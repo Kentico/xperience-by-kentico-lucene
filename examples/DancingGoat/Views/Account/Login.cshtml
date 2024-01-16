@@ -14,7 +14,7 @@
                 <div class="logon-page-background">
                     <div class="logon-panel">
                         <form asp-action="Login" method="post" asp-route-returnUrl="@Context.Request.Query["ReturnUrl"]">
-                            <div class="form-horizontal">                                
+                            <div class="form-horizontal">
                                 @if (ViewData.ModelState.Any(x => x.Value.Errors.Any()))
                                 {
                                     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
@@ -33,7 +33,7 @@
                                     <div class="editing-form-label-cell">
                                         @Html.LabelFor(model => model.Password, htmlAttributes: new { @class = "control-label" })
                                     </div>
-                                    <div class="editing-form-value-cell">                                        
+                                    <div class="editing-form-value-cell">
                                         @Html.PasswordFor(model => model.Password, htmlAttributes: new { @class = "form-control" })
                                         @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
                                     </div>

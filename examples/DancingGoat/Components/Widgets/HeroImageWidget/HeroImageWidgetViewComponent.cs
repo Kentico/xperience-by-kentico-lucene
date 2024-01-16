@@ -1,10 +1,10 @@
 using System.Linq;
-
-using CMS.DocumentEngine.Types.DancingGoatCore;
+using System.Threading.Tasks;
 
 using DancingGoat.Models;
 using DancingGoat.Widgets;
 
+using Kentico.Content.Web.Mvc.Routing;
 using Kentico.PageBuilder.Web.Mvc;
 
 using Microsoft.AspNetCore.Mvc;
@@ -24,26 +24,30 @@ namespace DancingGoat.Widgets
         /// </summary>
         public const string IDENTIFIER = "DancingGoat.LandingPage.HeroImage";
 
+        private readonly ImageRepository imageRepository;
+        private readonly IPreferredLanguageRetriever currentLanguageRetriever;
 
-        private readonly MediaRepository mediaRepository;
 
         /// <summary>
         /// Creates an instance of <see cref="HeroImageWidgetViewComponent"/> class.
         /// </summary>
-        /// <param name="mediaRepository">Repository for media files.</param>
-        public HeroImageWidgetViewComponent(MediaRepository mediaRepository)
+        /// <param name="imageRepository">Repository for images.</param>
+        /// <param name="currentLanguageRetriever">Retrieves preferred language name for the current request. Takes language fallback into account.</param>
+        public HeroImageWidgetViewComponent(ImageRepository imageRepository, IPreferredLanguageRetriever currentLanguageRetriever)
         {
-            this.mediaRepository = mediaRepository;
+            this.imageRepository = imageRepository;
+            this.currentLanguageRetriever = currentLanguageRetriever;
         }
 
 
-        public ViewViewComponentResult Invoke(HeroImageWidgetProperties properties)
+        public async Task<ViewViewComponentResult> InvokeAsync(HeroImageWidgetProperties properties)
         {
-            var image = GetImage(properties);
+            var languageName = currentLanguageRetriever.Get();
+            var image = await GetImage(properties, languageName);
 
             return View("~/Components/Widgets/HeroImageWidget/_HeroImageWidget.cshtml", new HeroImageWidgetViewModel
             {
-                ImagePath = image?.Fields.File.Url,
+                ImagePath = image?.ImageFile.Url,
                 Text = properties.Text,
                 ButtonText = properties.ButtonText,
                 ButtonTarget = properties.ButtonTarget,
@@ -51,7 +55,8 @@ namespace DancingGoat.Widgets
             });
         }
 
-        private Media GetImage(HeroImageWidgetProperties properties)
+
+        private async Task<Image> GetImage(HeroImageWidgetProperties properties, string languageName)
         {
             var image = properties.Image.FirstOrDefault();
 
@@ -60,7 +65,7 @@ namespace DancingGoat.Widgets
                 return null;
             }
 
-            return mediaRepository.GetMediaFile(image.ItemId);
+            return await imageRepository.GetImage(image.Identifier, languageName);
         }
     }
 }

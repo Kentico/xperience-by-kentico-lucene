@@ -328,16 +328,18 @@ li.dropdown {
     }
 }
 
-.dropdown-content {
+.dropdown .dropdown-content {
     display: none;
     position: absolute;
     top: 50px;
     right: 0;
     background-color: @color-lightbrown;
     z-index: 1;
-}
 
-.dropdown .dropdown-content {
+    a:hover, form:hover {
+        background-color: @color-brown;
+    }
+
     & > a, form {
         color: @color-white;
         text-decoration: none;
@@ -359,12 +361,6 @@ li.dropdown {
             padding: 8px 24px;
             text-align: left;
         }
-    }
-}
-
-.dropdown-content {
-    a:hover, form:hover {
-        background-color: @color-brown;
     }
 }
 

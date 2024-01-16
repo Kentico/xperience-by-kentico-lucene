@@ -15,10 +15,19 @@ using CMS.OnlineForms;
 namespace Samples.DancingGoat
 {
     /// <summary>
-    /// Class responsible for retrieving contact's personal data. 
+    /// Class responsible for retrieving contact's personal data.
     /// </summary>
     internal class SampleContactDataCollectorCore
     {
+        private readonly IPersonalDataWriter writer;
+        private readonly IActivityInfoProvider activityInfoProvider;
+        private readonly ICountryInfoProvider countryInfoProvider;
+        private readonly IStateInfoProvider stateInfoProvider;
+        private readonly IConsentAgreementInfoProvider consentAgreementInfoProvider;
+        private readonly IAccountContactInfoProvider accountContactInfoProvider;
+        private readonly IAccountInfoProvider accountInfoProvider;
+        private readonly IBizFormInfoProvider bizFormInfoProvider;
+
         // Lists store Tuples of database column names and their corresponding display names.
         private readonly List<CollectedColumn> contactInfoColumns = new List<CollectedColumn> {
             new CollectedColumn("ContactFirstName", "First name"),
@@ -109,7 +118,7 @@ namespace Samples.DancingGoat
         /// <summary>
         /// Defines form's columns containing personal data.
         /// </summary>
-        private sealed class FormDefinition
+        private class FormDefinition
         {
             /// <summary>
             /// The form's column name that contains the user's consent agreement.
@@ -138,9 +147,6 @@ namespace Samples.DancingGoat
                 FormColumns = formColumns;
             }
         }
-
-
-        private readonly IPersonalDataWriter writer;
 
 
         // Dancing Goat specific forms definitions
@@ -310,9 +316,31 @@ namespace Samples.DancingGoat
         /// Constructs a new instance of the <see cref="SampleContactDataCollectorCore"/>.
         /// </summary>
         /// <param name="writer">Writer to format output data.</param>
-        public SampleContactDataCollectorCore(IPersonalDataWriter writer)
+        /// <param name="activityInfoProvider">Activity info provider.</param>
+        /// <param name="countryInfoProvider">Country info provider.</param>
+        /// <param name="stateInfoProvider">State info provider.</param>
+        /// <param name="consentAgreementInfoProvider">Consent agreement info provider.</param>
+        /// <param name="accountContactInfoProvider">Account contact info provider.</param>
+        /// <param name="accountInfoProvider">Account info provider.</param>
+        /// <param name="bizFormInfoProvider">BizForm info provider.</param>
+        public SampleContactDataCollectorCore(
+            IPersonalDataWriter writer,
+            IActivityInfoProvider activityInfoProvider,
+            ICountryInfoProvider countryInfoProvider,
+            IStateInfoProvider stateInfoProvider,
+            IConsentAgreementInfoProvider consentAgreementInfoProvider,
+            IAccountContactInfoProvider accountContactInfoProvider,
+            IAccountInfoProvider accountInfoProvider,
+            IBizFormInfoProvider bizFormInfoProvider)
         {
             this.writer = writer;
+            this.activityInfoProvider = activityInfoProvider;
+            this.countryInfoProvider = countryInfoProvider;
+            this.stateInfoProvider = stateInfoProvider;
+            this.consentAgreementInfoProvider = consentAgreementInfoProvider;
+            this.accountContactInfoProvider = accountContactInfoProvider;
+            this.accountInfoProvider = accountInfoProvider;
+            this.bizFormInfoProvider = bizFormInfoProvider;
         }
 
 
@@ -333,11 +361,11 @@ namespace Samples.DancingGoat
             var contactIDs = contacts.Select(c => c.ContactID).ToList();
             var contactEmails = contacts.Select(c => c.ContactEmail).ToList();
 
-            var contactActivities = ActivityInfo.Provider.Get()
+            var contactActivities = activityInfoProvider.Get()
                                                         .Columns(activityInfoColumns.Select(t => t.Name))
                                                         .WhereIn("ActivityContactID", contactIDs).ToList();
 
-            // Gets distinct contact groups for data subject represented by its identities 
+            // Gets distinct contact groups for data subject represented by its identities
             var contactContactGroups = contacts
                 .SelectMany(c => c.ContactGroups)
                 .GroupBy(c => c.ContactGroupID)
@@ -373,11 +401,11 @@ namespace Samples.DancingGoat
                 var stateID = contactInfo.ContactStateID;
                 if (countryID != 0)
                 {
-                    writer.WriteBaseInfo(CountryInfo.Provider.Get(countryID), countryInfoColumns);
+                    writer.WriteBaseInfo(countryInfoProvider.Get(countryID), countryInfoColumns);
                 }
                 if (stateID != 0)
                 {
-                    writer.WriteBaseInfo(StateInfo.Provider.Get(stateID), stateInfoColumns);
+                    writer.WriteBaseInfo(stateInfoProvider.Get(stateID), stateInfoColumns);
                 }
 
                 writer.WriteEndSection();
@@ -391,7 +419,7 @@ namespace Samples.DancingGoat
         /// <param name="contactIDs">List of contact IDs.</param>
         private void WriteConsents(ICollection<int> contactIDs)
         {
-            var consentsData = ConsentAgreementInfo.Provider.Get()
+            var consentsData = consentAgreementInfoProvider.Get()
                 .Source(s => s.Join<ConsentInfo>("CMS_ConsentAgreement.ConsentAgreementConsentID", "ConsentID"))
                 .Source(s => s.LeftJoin<ConsentArchiveInfo>("CMS_ConsentAgreement.ConsentAgreementConsentHash", "ConsentArchiveHash"))
                 .WhereIn("ConsentAgreementContactID", contactIDs)
@@ -445,7 +473,7 @@ namespace Samples.DancingGoat
 
 
         /// <summary>
-        /// Gets list of revocations of same consent from given <paramref name="consentRevocations"/> if presented in the dictionary. 
+        /// Gets list of revocations of same consent from given <paramref name="consentRevocations"/> if presented in the dictionary.
         /// Otherwise creates new empty list and inserts it into dictionary under <paramref name="consentId"/> key.
         /// </summary>
         /// <param name="consentRevocations">Dictionary with consents revocations indexed by ConsentID.</param>
@@ -464,7 +492,7 @@ namespace Samples.DancingGoat
 
 
         /// <summary>
-        /// Gets list of agreements of same consent content from given <paramref name="consentContentAgreements"/> if presented in the dictionary. 
+        /// Gets list of agreements of same consent content from given <paramref name="consentContentAgreements"/> if presented in the dictionary.
         /// Otherwise creates new empty list and inserts it into dictionary under <paramref name="consentHash"/> key.
         /// </summary>
         /// <param name="consentContentAgreements">Dictionary with consent agreements indexed by consent hash.</param>
@@ -505,7 +533,7 @@ namespace Samples.DancingGoat
         {
             foreach (var agreementsOfSameConsentContent in consentContentAgreements.Values)
             {
-                var consentAgreement = agreementsOfSameConsentContent.FirstOrDefault();
+                var consentAgreement = agreementsOfSameConsentContent.First();
 
                 var consentInfo = consents[consentAgreement.ConsentAgreementConsentID];
 
@@ -615,19 +643,19 @@ namespace Samples.DancingGoat
         /// <param name="contactIDs">List of contact IDs.</param>
         private void WriteContactAccounts(ICollection<int> contactIDs)
         {
-            var accountIDs = AccountContactInfo.Provider.Get()
+            var accountIDs = accountContactInfoProvider.Get()
                 .WhereIn("ContactID", contactIDs)
                 .Column("AccountID")
                 .Distinct();
-            var accountInfos = AccountInfo.Provider.Get()
+            var accountInfos = accountInfoProvider.Get()
                 .Columns(accountInfoColumns.Select(t => t.Name))
                 .WhereIn("AccountID", accountIDs)
                 .ToList();
 
-            var countryInfos = CountryInfo.Provider.Get()
+            var countryInfos = countryInfoProvider.Get()
                 .WhereIn("CountryID", accountInfos.Select(r => r.AccountCountryID).ToList())
                 .ToDictionary(ci => ci.CountryID);
-            var stateInfos = StateInfo.Provider.Get()
+            var stateInfos = stateInfoProvider.Get()
                 .WhereIn("StateID", accountInfos.Select(r => r.AccountStateID).ToList())
                 .ToDictionary(si => si.StateID);
 
@@ -677,11 +705,11 @@ namespace Samples.DancingGoat
         /// </summary>
         private void WriteDancingGoatSubmittedFormsData(ICollection<string> emails, ICollection<int> contactIDs)
         {
-            var consentAgreementGuids = ConsentAgreementInfo.Provider.Get()
+            var consentAgreementGuids = consentAgreementInfoProvider.Get()
                 .Columns("ConsentAgreementGuid")
                 .WhereIn("ConsentAgreementContactID", contactIDs);
 
-            var formClasses = BizFormInfo.Provider.Get()
+            var formClasses = bizFormInfoProvider.Get()
                 .Source(s => s.InnerJoin<DataClassInfo>("CMS_Form.FormClassID", "ClassID"))
                 .WhereIn("FormGUID", dancingGoatForms.Keys);
 

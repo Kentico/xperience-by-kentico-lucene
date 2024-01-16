@@ -13,6 +13,19 @@ namespace Samples.DancingGoat
     /// </summary>
     internal class SampleMemberPersonalDataEraser : IPersonalDataEraser
     {
+        private readonly IMemberInfoProvider memberInfoProvider;
+
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SampleMemberPersonalDataEraser"/> class.
+        /// </summary>
+        /// <param name="memberInfoProvider">Member info provider.</param>
+        public SampleMemberPersonalDataEraser(IMemberInfoProvider memberInfoProvider)
+        {
+            this.memberInfoProvider = memberInfoProvider;
+        }
+
+
         /// <summary>
         /// Erases personal data based on given <paramref name="identities"/> and <paramref name="configuration"/>.
         /// </summary>
@@ -30,7 +43,7 @@ namespace Samples.DancingGoat
         public void Erase(IEnumerable<BaseInfo> identities, IDictionary<string, object> configuration)
         {
             var members = identities.OfType<MemberInfo>().ToList();
-            
+
             DeleteMembers(members, configuration);
         }
 
@@ -38,14 +51,14 @@ namespace Samples.DancingGoat
         /// <summary>
         /// Deletes all members, based on <paramref name="configuration"/>'s <c>DeleteMembers</c> flag.
         /// </summary>
-        private static void DeleteMembers(List<MemberInfo> members, IDictionary<string, object> configuration)
+        private void DeleteMembers(List<MemberInfo> members, IDictionary<string, object> configuration)
         {
             if (configuration.TryGetValue("deleteMembers", out object deleteMembers)
                 && ValidationHelper.GetBoolean(deleteMembers, false))
             {
                 foreach (var member in members)
                 {
-                    MemberInfo.Provider.Delete(member);
+                    memberInfoProvider.Delete(member);
                 }
             }
         }

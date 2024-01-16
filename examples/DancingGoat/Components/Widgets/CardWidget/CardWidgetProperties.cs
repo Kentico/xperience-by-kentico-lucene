@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-using CMS.DocumentEngine;
+using CMS.ContentEngine;
 
 using Kentico.PageBuilder.Web.Mvc;
 using Kentico.Xperience.Admin.Base.FormAnnotations;
@@ -15,8 +15,8 @@ namespace DancingGoat.Widgets
         /// <summary>
         /// Image to be displayed.
         /// </summary>
-        [ContentItemSelectorComponent("DancingGoatCore.Media", Label = "Image", Order = 1)]
-        public IEnumerable<LinkedContentItem> Image { get; set; } = new List<LinkedContentItem>();
+        [ContentItemSelectorComponent(Models.Image.CONTENT_TYPE_NAME, Label = "Image", Order = 1)]
+        public IEnumerable<ContentItemReference> Image { get; set; } = new List<ContentItemReference>();
 
         /// <summary>
         /// Text to be displayed.

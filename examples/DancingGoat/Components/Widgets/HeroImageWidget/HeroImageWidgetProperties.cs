@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-using CMS.DocumentEngine;
+using CMS.ContentEngine;
 
 using Kentico.Forms.Web.Mvc;
 using Kentico.PageBuilder.Web.Mvc;
@@ -16,8 +16,8 @@ namespace DancingGoat.Widgets
         /// <summary>
         /// Background image.
         /// </summary>
-        [ContentItemSelectorComponent("DancingGoatCore.Media", Label = "Background image", Order = 1)]
-        public IEnumerable<LinkedContentItem> Image { get; set; } = new List<LinkedContentItem>();
+        [ContentItemSelectorComponent(Models.Image.CONTENT_TYPE_NAME, Label = "Background image", Order = 1)]
+        public IEnumerable<ContentItemReference> Image { get; set; } = new List<ContentItemReference>();
 
 
         /// <summary>
@@ -36,6 +36,7 @@ namespace DancingGoat.Widgets
         /// Target of button link.
         /// </summary>
         [TextInputComponent(Label = "Button target", Order = 2)]
+        [UrlValidationRule(AllowRelativeUrl = true, AllowFragmentUrl = true)]
         public string ButtonTarget { get; set; }
 
 

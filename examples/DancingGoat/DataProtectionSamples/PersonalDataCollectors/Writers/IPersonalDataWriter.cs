@@ -35,7 +35,7 @@ namespace Samples.DancingGoat
         /// <param name="value">Value of element.</param>
         void WriteSectionValue(string sectionName, string sectionDisplayName, string value);
 
-        
+
         /// <summary>
         /// Writes end of a section.
         /// </summary>

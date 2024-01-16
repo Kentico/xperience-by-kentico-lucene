@@ -1,0 +1,20 @@
+﻿@using DancingGoat.Models
+@model CafeViewModel
+
+<div>
+    @if (String.IsNullOrEmpty(Model.Name) && string.IsNullOrEmpty(Model.PhotoPath))
+    {
+        <h2>@HtmlLocalizer["No cafe selected"]</h2>
+    }
+    else
+    {
+        <a href="#" class="ourcoffee-tile-link">
+            <h2 class="ourcoffee-tile-text center-text">@Model.Name</h2>
+            <span class="cafe-overlay"> </span>
+            @if (!string.IsNullOrEmpty(Model.PhotoPath))
+            {
+                <img src="@Url.Content(Model.PhotoPath)" alt="@Model.PhotoShortDescription" title="@Model.Name" class="ourcoffee-tile-image" loading="lazy" />
+            }
+        </a>
+    }
+</div>

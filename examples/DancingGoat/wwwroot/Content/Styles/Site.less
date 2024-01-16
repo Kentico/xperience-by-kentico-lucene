@@ -1,4 +1,3 @@
-
 @import "./Reset.less";
 @import "./variables.less";
 @import "./Fonts.less";
@@ -6,11 +5,6 @@
 @import "./Grid.less";
 @import "./Menu.less";
 @import "./icons-core.less";
-@import "./Controls.less";
-@import "./Gallery.less";
-@import "./Sections.less";
-@import "./Privacy.less";
-@import "./TrackingConsent.less";
 @import "./Buttons.less";
 @import "./Mixins.less";
 
@@ -741,12 +735,58 @@ a + .article-tile-info .article-tile-date {
     .article-detail {
         padding: 0 2rem;
     }
+
+    .article-related-articles {
+        .title-tab {
+            font-size: 2rem;
+            margin-bottom: 2rem;
+            font-weight: 600;
+
+            &:before, &:after {
+                width: 30px
+            }
+
+            &:before {
+                right: calc(100% + 10px);
+            }
+
+            &:after {
+                left: calc(100% + 10px);
+            }
+        }
+
+        .article-tile {
+            padding-bottom: 1.5rem;
+        }
+    }
 }
 
 @media (min-width: 768px) {
     .article-detail-page {
         padding: 3rem;
         background: url(../Images/plant-3.png) right top no-repeat;
+    }
+}
+
+@media (min-width: 1112px) {
+    .article-detail-page {
+        .article-related-articles {
+            .title-tab {
+                font-size: 1.5rem;
+                margin-bottom: 1.5rem;
+            }
+        }
+    }
+}
+
+@media (min-width: 1440px) {
+    .article-detail-page {
+        .article-related-articles {
+            .title-tab {
+                font-size: 2rem;
+                margin-bottom: 2rem;
+            }
+        }
     }
 }
 
@@ -808,6 +848,28 @@ a + .article-tile-info .article-tile-date {
         .article-title--align-middle {
             h2 {
                 margin-top: 0;
+            }
+        }
+    }
+}
+
+.article-related-articles {
+    margin-top: 3rem;
+
+    .title-tab {
+        margin: 0;
+    }
+
+    .col-lg-3 {
+        margin-bottom: 20px;
+
+        p {
+            margin-bottom: 0;
+        }
+
+        @media (min-width: 768px) {
+            .article-tile-image {
+                height: 245px;
             }
         }
     }
@@ -884,6 +946,7 @@ a + .article-tile-info .article-tile-date {
     padding: 1rem;
     display: inline-block;
     margin-bottom: 0;
+    width: 70%;
 }
 
 .banner-text {
