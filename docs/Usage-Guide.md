@@ -43,39 +43,6 @@ You can score indexed items by "freshness" or "recency" using several techniques
 
 > Small differences in boosts will be ignored by Lucene.
 
-## Uninstalling the integration
+## Upgrades and Uninstalling
 
-This integration programmatically inserts custom module classes and their configuration into the Xperience solution on startup (see `LuceneModuleInstaller.cs`).
-
-To remove this configuration and the added database tables perform one of the following sets of changes to your solution:
-
-### Using Continuous Integration (CI)
-
-1. If you are using Xperience's Continuous Integration (CI), delete the files with the paths from your CI repository folder:
-
-   - `\App_Data\CIRepository\@global\cms.class\kenticolucene.*\**`
-   - `\App_Data\CIRepository\@global\cms.class\kentico.xperience.lucene\**`
-   - `\App_Data\CIRepository\@global\kenticolucene.*\**`
-
-1. Remove the `Kentico.Xperience.Lucene` NuGet package from the solution
-1. Remove any code references to the package and recompile your solution
-1. Run a CI restore, which will clean up the database tables and `CMS_Class` records.
-
-### No Continuous Integration
-
-If you are not using CI run the following SQL _after_ removing the NuGet package from the solution:
-
-```sql
-drop table KenticoLucene_LuceneContentTypeItem
-drop table KenticoLucene_LuceneIncludedPathItem
-drop table KenticoLucene_LuceneIndexLanguageItem
-drop table KenticoLucene_LuceneIndexItem
-
-delete
-FROM [dbo].[CMS_Class] where ClassName like 'kenticolucene%'
-
-delete
-from [CMS_Resource] where ResourceName = 'Kentico.Xperience.Lucene'
-```
-
-> Note: there is currently no way to migrate index configuration in the database between versions of this integration in the case that the database schema includes breaking changes. This feature could be added in a future update.
+See [Upgrades](Upgrades.md)
