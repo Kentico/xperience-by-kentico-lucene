@@ -18,7 +18,7 @@ namespace DancingGoat.Models
 	/// <summary>
 	/// Represents a content item of type <see cref="Event"/>.
 	/// </summary>
-	public partial class Event : IContentItemFieldsSource
+	public partial class Event
 	{
 		/// <summary>
 		/// Code name of the content type.

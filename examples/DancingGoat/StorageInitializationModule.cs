@@ -61,7 +61,6 @@ namespace DancingGoat
             {
                 // Maps the assets directory (e.g. media files) to the Azure storage provider
                 MapAzureStoragePath($"~/assets/");
-                MapAzureStoragePath($"~/BizFormFiles");
             }
             else
             {

@@ -4,7 +4,6 @@ using System.Threading.Tasks;
 using DancingGoat.Models;
 using DancingGoat.Widgets;
 
-using Kentico.Content.Web.Mvc.Routing;
 using Kentico.PageBuilder.Web.Mvc;
 
 using Microsoft.AspNetCore.Mvc;
@@ -26,25 +25,20 @@ namespace DancingGoat.Widgets
 
 
         private readonly ImageRepository imageRepository;
-        private readonly IPreferredLanguageRetriever currentLanguageRetriever;
-
 
         /// <summary>
         /// Creates an instance of <see cref="CardWidgetViewComponent"/> class.
         /// </summary>
         /// <param name="imageRepository">Repository for images.</param>
-        /// <param name="currentLanguageRetriever">Retrieves preferred language name for the current request. Takes language fallback into account.</param>
-        public CardWidgetViewComponent(ImageRepository imageRepository, IPreferredLanguageRetriever currentLanguageRetriever)
+        public CardWidgetViewComponent(ImageRepository imageRepository)
         {
             this.imageRepository = imageRepository;
-            this.currentLanguageRetriever = currentLanguageRetriever;
         }
 
 
         public async Task<ViewViewComponentResult> InvokeAsync(CardWidgetProperties properties)
         {
-            var languageName = currentLanguageRetriever.Get();
-            var image = await GetImage(properties, languageName);
+            var image = await GetImage(properties);
 
             return View("~/Components/Widgets/CardWidget/_CardWidget.cshtml", new CardWidgetViewModel
             {
@@ -54,7 +48,7 @@ namespace DancingGoat.Widgets
         }
 
 
-        private async Task<Image> GetImage(CardWidgetProperties properties, string languageName)
+        private async Task<Image> GetImage(CardWidgetProperties properties)
         {
             var image = properties.Image.FirstOrDefault();
 
@@ -63,7 +57,7 @@ namespace DancingGoat.Widgets
                 return null;
             }
 
-            return await imageRepository.GetImage(image.Identifier, languageName);
+            return await imageRepository.GetImage(image.Identifier);
         }
     }
 }

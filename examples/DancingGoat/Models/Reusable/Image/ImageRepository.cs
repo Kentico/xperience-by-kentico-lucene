@@ -22,11 +22,11 @@ namespace DancingGoat.Models
         /// <summary>
         /// Returns <see cref="Image"/> content item.
         /// </summary>
-        public async Task<Image> GetImage(Guid imageGuid, string languageName, CancellationToken cancellationToken = default)
+        public async Task<Image> GetImage(Guid imageGuid, CancellationToken cancellationToken = default)
         {
-            var queryBuilder = GetQueryBuilder(imageGuid, languageName);
+            var queryBuilder = GetQueryBuilder(imageGuid);
 
-            var cacheSettings = new CacheSettings(5, WebsiteChannelContext.WebsiteChannelName, nameof(ImageRepository), nameof(GetImage), languageName, imageGuid);
+            var cacheSettings = new CacheSettings(5, WebsiteChannelContext.WebsiteChannelName, nameof(ImageRepository), nameof(GetImage), imageGuid);
 
             var result = await GetCachedQueryResult<Image>(queryBuilder, null, cacheSettings, GetDependencyCacheKeys, cancellationToken);
 
@@ -34,14 +34,13 @@ namespace DancingGoat.Models
         }
 
 
-        private static ContentItemQueryBuilder GetQueryBuilder(Guid imageGuid, string languageName)
+        private static ContentItemQueryBuilder GetQueryBuilder(Guid imageGuid)
         {
             return new ContentItemQueryBuilder()
                     .ForContentType(Image.CONTENT_TYPE_NAME,
                         config => config
                                 .TopN(1)
-                                .Where(where => where.WhereEquals(nameof(IContentQueryDataContainer.ContentItemGUID), imageGuid)))
-                    .InLanguage(languageName);
+                                .Where(where => where.WhereEquals(nameof(IContentQueryDataContainer.ContentItemGUID), imageGuid)));
         }
 
 

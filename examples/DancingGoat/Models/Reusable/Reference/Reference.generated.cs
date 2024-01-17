@@ -18,7 +18,7 @@ namespace DancingGoat.Models
 	/// <summary>
 	/// Represents a content item of type <see cref="Reference"/>.
 	/// </summary>
-	public partial class Reference : IContentItemFieldsSource
+	public partial class Reference
 	{
 		/// <summary>
 		/// Code name of the content type.

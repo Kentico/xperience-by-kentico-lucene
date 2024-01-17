@@ -98,7 +98,8 @@ namespace DancingGoat.Models
         {
             return new ContentItemQueryBuilder()
                 .ForContentType(ArticlesSection.CONTENT_TYPE_NAME,
-                config => config
+                config =>
+                    config
                         .ForWebsite(WebsiteChannelContext.WebsiteChannelName)
                         .Where(where => where.WhereEquals(nameof(WebPageFields.WebPageItemID), id))
                         .TopN(1))
@@ -110,7 +111,8 @@ namespace DancingGoat.Models
         {
             return new ContentItemQueryBuilder()
                 .ForContentType(ArticlesSection.CONTENT_TYPE_NAME,
-                config => config
+                config =>
+                    config
                         .ForWebsite(WebsiteChannelContext.WebsiteChannelName)
                         .Where(where => where.WhereEquals(nameof(IWebPageContentQueryDataContainer.WebPageItemGUID), guid))
                         .TopN(1))

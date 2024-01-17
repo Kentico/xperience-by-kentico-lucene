@@ -48,11 +48,12 @@ namespace DancingGoat.Models
         {
             return new ContentItemQueryBuilder()
                     .ForContentType(HomePage.CONTENT_TYPE_NAME,
-                        config => config
-                                .WithLinkedItems(4)
-                                .ForWebsite(WebsiteChannelContext.WebsiteChannelName)
-                                .Where(where => where.WhereEquals(nameof(IWebPageContentQueryDataContainer.WebPageItemID), webPageItemId))
-                                .TopN(1))
+                    config =>
+                        config
+                            .WithLinkedItems(4)
+                            .ForWebsite(WebsiteChannelContext.WebsiteChannelName)
+                            .Where(where => where.WhereEquals(nameof(IWebPageContentQueryDataContainer.WebPageItemID), webPageItemId))
+                            .TopN(1))
                     .InLanguage(languageName);
         }
 

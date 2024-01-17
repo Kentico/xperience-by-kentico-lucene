@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using DancingGoat.Models;
 using DancingGoat.Widgets;
 
-using Kentico.Content.Web.Mvc.Routing;
 using Kentico.PageBuilder.Web.Mvc;
 
 using Microsoft.AspNetCore.Mvc;
@@ -27,26 +26,22 @@ namespace DancingGoat.Widgets
 
 
         private readonly CoffeeRepository repository;
-        private readonly IPreferredLanguageRetriever currentLanguageRetriever;
 
 
         /// <summary>
         /// Creates an instance of <see cref="ProductCardWidgetViewComponent"/> class.
         /// </summary>
         /// <param name="repository">Repository for retrieving products.</param>
-        /// <param name="currentLanguageRetriever">Retrieves preferred language name for the current request. Takes language fallback into account.</param>
-        public ProductCardWidgetViewComponent(CoffeeRepository repository, IPreferredLanguageRetriever currentLanguageRetriever)
+        public ProductCardWidgetViewComponent(CoffeeRepository repository)
         {
             this.repository = repository;
-            this.currentLanguageRetriever = currentLanguageRetriever;
         }
 
 
         public async Task<ViewViewComponentResult> InvokeAsync(ProductCardProperties properties)
         {
-            var languageName = currentLanguageRetriever.Get();
             var selectedProductGuids = properties.SelectedProducts.Select(i => i.Identifier).ToList();
-            IEnumerable<Coffee> products = (await repository.GetCoffees(selectedProductGuids, languageName))
+            IEnumerable<Coffee> products = (await repository.GetCoffees(selectedProductGuids))
                                                      .OrderBy(p => selectedProductGuids.IndexOf(p.SystemFields.ContentItemGUID));
             var model = ProductCardListViewModel.GetViewModel(products);
 

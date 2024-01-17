@@ -18,7 +18,7 @@ namespace DancingGoat.Models
 	/// <summary>
 	/// Represents a content item of type <see cref="Coffee"/>.
 	/// </summary>
-	public partial class Coffee : IContentItemFieldsSource
+	public partial class Coffee
 	{
 		/// <summary>
 		/// Code name of the content type.

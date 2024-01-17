@@ -23,6 +23,7 @@ using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.DependencyInjection;
 
 using Microsoft.Extensions.Hosting;
+using DancingGoat.Search;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -61,11 +62,12 @@ builder.Services.AddLocalization()
     .AddControllersWithViews()
     .AddViewLocalization()
     .AddDataAnnotationsLocalization(options =>
-    {
-        options.DataAnnotationLocalizerProvider = (type, factory) => factory.Create(typeof(SharedResources));
-    });
+        options.DataAnnotationLocalizerProvider = (type, factory) => factory.Create(typeof(SharedResources))
+    );
 
 builder.Services.AddDancingGoatServices();
+
+builder.Services.AddLuceneServices();
 
 ConfigureMembershipServices(builder.Services);
 
@@ -115,6 +117,8 @@ app.MapControllerRoute(
         controller = DancingGoatConstants.CONSTRAINT_FOR_NON_ROUTER_PAGE_CONTROLLERS
     }
 );
+
+app.MapControllers();
 
 app.Run();
 

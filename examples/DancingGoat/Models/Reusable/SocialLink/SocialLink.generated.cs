@@ -18,7 +18,7 @@ namespace DancingGoat.Models
 	/// <summary>
 	/// Represents a content item of type <see cref="SocialLink"/>.
 	/// </summary>
-	public partial class SocialLink : IContentItemFieldsSource
+	public partial class SocialLink
 	{
 		/// <summary>
 		/// Code name of the content type.

@@ -141,8 +141,7 @@ namespace DancingGoat.AdminComponents
                     new Kentico.Xperience.Admin.Base.Action(ActionType.Command)
                     {
                         Label = "Generate",
-                        Parameter = nameof(GenerateGdprSampleData),
-                        ButtonColor = ButtonColor.Secondary
+                        Parameter = nameof(GenerateGdprSampleData)
                     }
                 },
                 Components = new List<IOverviewCardComponent>()

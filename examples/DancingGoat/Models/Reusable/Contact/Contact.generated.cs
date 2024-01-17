@@ -18,7 +18,7 @@ namespace DancingGoat.Models
 	/// <summary>
 	/// Represents a content item of type <see cref="Contact"/>.
 	/// </summary>
-	public partial class Contact : IContentItemFieldsSource
+	public partial class Contact
 	{
 		/// <summary>
 		/// Code name of the content type.

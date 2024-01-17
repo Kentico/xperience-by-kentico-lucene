@@ -18,7 +18,7 @@ namespace DancingGoat.Models
 	/// <summary>
 	/// Represents a content item of type <see cref="Banner"/>.
 	/// </summary>
-	public partial class Banner : IContentItemFieldsSource
+	public partial class Banner
 	{
 		/// <summary>
 		/// Code name of the content type.

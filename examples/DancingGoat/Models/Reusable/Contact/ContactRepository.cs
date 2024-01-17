@@ -24,11 +24,11 @@ namespace DancingGoat.Models
         /// <summary>
         /// Returns the first <see cref="Contact"/> content item.
         /// </summary>
-        public async Task<Contact> GetContact(string languageName, CancellationToken cancellationToken = default)
+        public async Task<Contact> GetContact(CancellationToken cancellationToken = default)
         {
-            var queryBuilder = GetQueryBuilder(languageName);
+            var queryBuilder = GetQueryBuilder();
 
-            var cacheSettings = new CacheSettings(5, WebsiteChannelContext.WebsiteChannelName, languageName, nameof(Contact));
+            var cacheSettings = new CacheSettings(5, WebsiteChannelContext.WebsiteChannelName, nameof(Contact));
 
             var result = await GetCachedQueryResult<Contact>(queryBuilder, null, cacheSettings, GetDependencyCacheKeys, cancellationToken);
 
@@ -36,11 +36,10 @@ namespace DancingGoat.Models
         }
 
 
-        private static ContentItemQueryBuilder GetQueryBuilder(string languageName)
+        private static ContentItemQueryBuilder GetQueryBuilder()
         {
             return new ContentItemQueryBuilder()
-                    .ForContentType(Contact.CONTENT_TYPE_NAME, config => config.TopN(1))
-                    .InLanguage(languageName);
+                    .ForContentType(Contact.CONTENT_TYPE_NAME, config => config.TopN(1));
         }
 
 

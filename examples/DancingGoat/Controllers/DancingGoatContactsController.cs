@@ -18,15 +18,13 @@ namespace DancingGoat.Controllers
     {
         private readonly ContactRepository contactRepository;
         private readonly CafeRepository cafeRepository;
-        private readonly IPreferredLanguageRetriever currentLanguageRetriever;
 
 
         public DancingGoatContactsController(ContactRepository contactRepository,
-            CafeRepository cafeRepository, IPreferredLanguageRetriever currentLanguageRetriever)
+            CafeRepository cafeRepository)
         {
             this.contactRepository = contactRepository;
             this.cafeRepository = cafeRepository;
-            this.currentLanguageRetriever = currentLanguageRetriever;
         }
 
 
@@ -40,9 +38,8 @@ namespace DancingGoat.Controllers
 
         private async Task<ContactsIndexViewModel> GetIndexViewModel(CancellationToken cancellationToken)
         {
-            var languageName = currentLanguageRetriever.Get();
-            var cafes = await cafeRepository.GetCompanyCafes(4, languageName, cancellationToken);
-            var contact = await contactRepository.GetContact(languageName, HttpContext.RequestAborted);
+            var cafes = await cafeRepository.GetCompanyCafes(4, cancellationToken);
+            var contact = await contactRepository.GetContact(HttpContext.RequestAborted);
 
             return new ContactsIndexViewModel
             {

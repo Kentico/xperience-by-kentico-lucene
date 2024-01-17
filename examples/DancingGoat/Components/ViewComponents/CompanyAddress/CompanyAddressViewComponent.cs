@@ -23,8 +23,7 @@ namespace DancingGoat.ViewComponents
 
         public async Task<IViewComponentResult> InvokeAsync()
         {
-            var languageName = currentLanguageRetriever.Get();
-            var contact = await contactRepository.GetContact(languageName, HttpContext.RequestAborted);
+            var contact = await contactRepository.GetContact();
             var model = ContactViewModel.GetViewModel(contact);
 
             return View("~/Components/ViewComponents/CompanyAddress/Default.cshtml", model);
