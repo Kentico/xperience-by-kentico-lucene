@@ -36,6 +36,7 @@ public class LuceneConfigurationModel
     {
         Id = index.LuceneIndexItemId;
         IndexName = index.LuceneIndexItemIndexName;
+        ChannelName = index.LuceneIndexItemChannelName;
         RebuildHook = index.LuceneIndexItemRebuildHook;
         StrategyName = index.LuceneIndexItemStrategyName;
         LanguageNames = indexLanguages.Select(l => l.LuceneIndexLanguageItemName).ToList();

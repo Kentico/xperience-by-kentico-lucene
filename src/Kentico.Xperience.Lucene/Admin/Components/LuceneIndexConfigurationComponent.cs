@@ -17,9 +17,9 @@ public class LuceneIndexConfigurationComponentProperties : FormComponentProperti
 }
 #pragma warning restore
 
-public class LuceneIndexConfigurationComponentClientProperties : FormComponentClientProperties<List<LuceneIndexIncludedPath>>
+public class LuceneIndexConfigurationComponentClientProperties : FormComponentClientProperties<IEnumerable<LuceneIndexIncludedPath>>
 {
-    public List<string>? PossibleItems { get; set; }
+    public IEnumerable<string>? PossibleItems { get; set; }
 }
 
 public sealed class LuceneIndexConfigurationComponentAttribute : FormComponentAttribute
@@ -27,7 +27,7 @@ public sealed class LuceneIndexConfigurationComponentAttribute : FormComponentAt
 }
 
 [ComponentAttribute(typeof(LuceneIndexConfigurationComponentAttribute))]
-public class LuceneIndexConfigurationComponent : FormComponent<LuceneIndexConfigurationComponentProperties, LuceneIndexConfigurationComponentClientProperties, List<LuceneIndexIncludedPath>>
+public class LuceneIndexConfigurationComponent : FormComponent<LuceneIndexConfigurationComponentProperties, LuceneIndexConfigurationComponentClientProperties, IEnumerable<LuceneIndexIncludedPath>>
 {
     public const string IDENTIFIER = "kentico.xperience-integrations-lucene.lucene-index-configuration";
 
@@ -35,8 +35,8 @@ public class LuceneIndexConfigurationComponent : FormComponent<LuceneIndexConfig
 
     public override string ClientComponentName => "@kentico/xperience-integrations-lucene/LuceneIndexConfiguration";
 
-    public override List<LuceneIndexIncludedPath> GetValue() => Value ?? new();
-    public override void SetValue(List<LuceneIndexIncludedPath> value) => Value = value;
+    public override IEnumerable<LuceneIndexIncludedPath> GetValue() => Value ?? new();
+    public override void SetValue(IEnumerable<LuceneIndexIncludedPath> value) => Value = value.ToList();
 
     [FormComponentCommand]
     public Task<ICommandResponse<RowActionResult>> DeletePath(string path)

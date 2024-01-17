@@ -1,3 +1,5 @@
+using System.Text.Json.Serialization;
+
 namespace Kentico.Xperience.Lucene.Admin;
 
 public class LuceneIndexIncludedPath
@@ -18,6 +20,7 @@ public class LuceneIndexIncludedPath
     /// </summary>
     public string? Identifier { get; set; }
 
+    [JsonConstructor]
     public LuceneIndexIncludedPath(string aliasPath) => AliasPath = aliasPath;
 
     /// <summary>
