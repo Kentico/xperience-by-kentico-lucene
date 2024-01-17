@@ -9,28 +9,17 @@ public sealed class LuceneQueueItem
     /// <summary>
     /// The <see cref="ItemToIndex"/> that was changed.
     /// </summary>
-    public IIndexEventItemModel ItemToIndex
-    {
-        get;
-    }
-
+    public IIndexEventItemModel ItemToIndex { get; }
 
     /// <summary>
     /// The type of the Lucene task.
     /// </summary>
-    public LuceneTaskType TaskType
-    {
-        get;
-    }
-
+    public LuceneTaskType TaskType { get; }
 
     /// <summary>
     /// The code name of the Lucene index to be updated.
     /// </summary>
-    public string IndexName
-    {
-        get;
-    }
+    public string IndexName { get; }
 
     /// <summary>
     /// Initializes a new instance of the <see cref="LuceneQueueItem"/> class.
@@ -45,12 +34,12 @@ public sealed class LuceneQueueItem
         {
             throw new ArgumentNullException(nameof(indexName));
         }
-
-        ItemToIndex = itemToIndex;
         if (taskType != LuceneTaskType.PUBLISH_INDEX && itemToIndex == null)
         {
             throw new ArgumentNullException(nameof(itemToIndex));
         }
+
+        ItemToIndex = itemToIndex;
         TaskType = taskType;
         IndexName = indexName;
     }

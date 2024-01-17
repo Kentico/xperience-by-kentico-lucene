@@ -49,12 +49,5 @@
 		<PackageReference Include="Lucene.Net" />
 		<PackageReference Include="Lucene.Net.Analysis.Common" />
 		<PackageReference Include="Lucene.Net.Facet" />
-		<PackageReference Include="Microsoft.AspNetCore.Html.Abstractions" />
-		<PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" />
-		<PackageReference Include="Microsoft.AspNetCore.Mvc.ViewFeatures" />
-		<PackageReference Include="Microsoft.SourceLink.GitHub">
-			<PrivateAssets>all</PrivateAssets>
-			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-		</PackageReference>
 	</ItemGroup>
 </Project>
