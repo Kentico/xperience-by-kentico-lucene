@@ -6,28 +6,35 @@ namespace Kentico.Xperience.Lucene.Admin;
 
 internal class LuceneModuleInstaller
 {
+    private readonly IResourceInfoProvider resourceProvider;
+
+    public LuceneModuleInstaller(IResourceInfoProvider resourceProvider) =>
+        this.resourceProvider = resourceProvider;
+
     public void Install()
     {
-        var resource = ResourceInfo.Provider.Get("Kentico.Xperience.Lucene");
-
-        if (resource is not null)
-        {
-            return;
-        }
-
-        resource = new ResourceInfo
-        {
-            ResourceDisplayName = "Kentico Xperience Lucene",
-            ResourceDescription = "Kentico Xperience Lucene custom data",
-            ResourceIsInDevelopment = false,
-            ResourceName = "Kentico.Xperience.Lucene"
-        };
-        resource.Insert();
+        var resource = InstallResource();
 
         InstallLuceneItemInfo(resource);
         InstallLuceneLanguageInfo(resource);
         InstallLuceneIndexPathItemInfo(resource);
         InstallLuceneContentTypeItemInfo(resource);
+    }
+
+    private ResourceInfo InstallResource()
+    {
+        var resourceInfo = resourceProvider.Get("Kentico.Xperience.Lucene") ?? new ResourceInfo();
+
+        resourceInfo.ResourceDisplayName = "Kentico Lucene";
+        resourceInfo.ResourceName = "Kentico.Xperience.Lucene";
+        resourceInfo.ResourceDescription = "Kentico Lucene custom data";
+        resourceInfo.ResourceIsInDevelopment = false;
+        if (resourceInfo.HasChanged)
+        {
+            resourceProvider.Set(resourceInfo);
+        }
+
+        return resourceInfo;
     }
 
     private static void InstallLuceneItemInfo(ResourceInfo resource)
@@ -116,14 +123,12 @@ internal class LuceneModuleInstaller
     private void InstallLuceneIndexPathItemInfo(ResourceInfo resource)
     {
         var pathItem = DataClassInfoProvider.GetDataClassInfo(LuceneIncludedPathItemInfo.OBJECT_TYPE);
-
         if (pathItem is not null)
         {
             return;
         }
 
         pathItem = DataClassInfo.New(LuceneIncludedPathItemInfo.OBJECT_TYPE);
-
         pathItem.ClassName = LuceneIncludedPathItemInfo.TYPEINFO.ObjectClassName;
         pathItem.ClassTableName = LuceneIncludedPathItemInfo.TYPEINFO.ObjectClassName.Replace(".", "_");
         pathItem.ClassDisplayName = "Lucene Path Item";
@@ -175,23 +180,20 @@ internal class LuceneModuleInstaller
 
     private void InstallLuceneLanguageInfo(ResourceInfo resource)
     {
-        string idName = nameof(LuceneIndexLanguageItemInfo.LuceneIndexLanguageItemID);
         var language = DataClassInfoProvider.GetDataClassInfo(LuceneIndexLanguageItemInfo.OBJECT_TYPE);
-
         if (language is not null)
         {
             return;
         }
 
-        language = DataClassInfo.New();
-
+        language = DataClassInfo.New(LuceneIndexLanguageItemInfo.OBJECT_TYPE);
         language.ClassName = LuceneIndexLanguageItemInfo.TYPEINFO.ObjectClassName;
         language.ClassTableName = LuceneIndexLanguageItemInfo.TYPEINFO.ObjectClassName.Replace(".", "_");
         language.ClassDisplayName = "Lucene Indexed Language Item";
         language.ClassType = ClassType.OTHER;
         language.ClassResourceID = resource.ResourceID;
 
-        var formInfo = FormHelper.GetBasicFormDefinition(idName);
+        var formInfo = FormHelper.GetBasicFormDefinition(nameof(LuceneIndexLanguageItemInfo.LuceneIndexLanguageItemID));
 
         var formItem = new FormFieldInfo
         {
@@ -238,14 +240,12 @@ internal class LuceneModuleInstaller
     private void InstallLuceneContentTypeItemInfo(ResourceInfo resource)
     {
         var contentType = DataClassInfoProvider.GetDataClassInfo(LuceneContentTypeItemInfo.OBJECT_TYPE);
-
         if (contentType is not null)
         {
             return;
         }
 
-        contentType = DataClassInfo.New();
-
+        contentType = DataClassInfo.New(LuceneContentTypeItemInfo.OBJECT_TYPE);
         contentType.ClassName = LuceneContentTypeItemInfo.TYPEINFO.ObjectClassName;
         contentType.ClassTableName = LuceneContentTypeItemInfo.TYPEINFO.ObjectClassName.Replace(".", "_");
         contentType.ClassDisplayName = "Lucene Type Item";
