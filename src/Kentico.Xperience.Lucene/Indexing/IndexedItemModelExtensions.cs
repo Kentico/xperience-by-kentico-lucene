@@ -35,6 +35,11 @@ internal static class IndexedItemModelExtensions
             return false;
         }
 
+        if (!luceneIndex.LanguageNames.Exists(x => x == item.LanguageName))
+        {
+            return false;
+        }
+
         return luceneIndex.IncludedPaths.Any(includedPathAttribute =>
         {
             bool matchesContentType = includedPathAttribute.ContentTypes is not null

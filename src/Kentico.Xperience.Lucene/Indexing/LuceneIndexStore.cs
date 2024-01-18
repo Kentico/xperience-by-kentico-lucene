@@ -44,6 +44,12 @@ public sealed class LuceneIndexStore
         foreach (var index in models)
         {
             index.StrategyName ??= "";
+            var strategy = typeof(DefaultLuceneIndexingStrategy);
+
+            if (StrategyStorage.Strategies.ContainsKey(index.StrategyName))
+            {
+                strategy = StrategyStorage.Strategies[index.StrategyName];
+            }
 
             Instance.AddIndex(new LuceneIndex(
                 new StandardAnalyzer(LuceneVersion.LUCENE_48),
@@ -53,7 +59,7 @@ public sealed class LuceneIndexStore
                 index.Id,
                 index.Paths ?? new(),
                 indexPath: null,
-                luceneIndexingStrategyType: StrategyStorage.Strategies[index.StrategyName] ?? typeof(DefaultLuceneIndexingStrategy)
+                luceneIndexingStrategyType: strategy
             ));
         }
     }

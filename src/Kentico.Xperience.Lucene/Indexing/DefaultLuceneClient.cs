@@ -200,7 +200,6 @@ internal class DefaultLuceneClient : ILuceneClient
             content.ContentItemCommonDataContentLanguageID,
             channelName,
             content.WebPageItemTreePath,
-            content.WebPageItemParentID,
             content.WebPageItemOrder);
 
         return item;
