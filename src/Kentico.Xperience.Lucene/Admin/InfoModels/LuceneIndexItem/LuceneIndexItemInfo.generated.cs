@@ -19,13 +19,13 @@ namespace Kentico.Xperience.Lucene.Admin
         /// <summary>
         /// Object type.
         /// </summary>
-        public const string OBJECT_TYPE = "lucene.luceneindexitem";
+        public const string OBJECT_TYPE = "kenticolucene.luceneindexitem";
 
 
         /// <summary>
         /// Type information.
         /// </summary>
-        public static readonly ObjectTypeInfo TYPEINFO = new(typeof(LuceneIndexItemInfoProvider), OBJECT_TYPE, "Lucene.LuceneIndexItem", nameof(LuceneIndexItemId), null, nameof(LuceneIndexItemGuid), nameof(LuceneIndexItemIndexName), null, null, null, null)
+        public static readonly ObjectTypeInfo TYPEINFO = new(typeof(LuceneIndexItemInfoProvider), OBJECT_TYPE, "KenticoLucene.LuceneIndexItem", nameof(LuceneIndexItemId), null, nameof(LuceneIndexItemGuid), nameof(LuceneIndexItemIndexName), null, null, null, null)
         {
             TouchCacheDependencies = true,
             ContinuousIntegrationSettings =

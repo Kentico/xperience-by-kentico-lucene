@@ -20,13 +20,13 @@ namespace Kentico.Xperience.Lucene.Admin
         /// <summary>
         /// Object type.
         /// </summary>
-        public const string OBJECT_TYPE = "lucene.luceneindexlanguageitem";
+        public const string OBJECT_TYPE = "kenticolucene.luceneindexlanguageitem";
 
 
         /// <summary>
         /// Type information.
         /// </summary>
-        public static readonly ObjectTypeInfo TYPEINFO = new(typeof(LuceneIndexedLanguageInfoProvider), OBJECT_TYPE, "Lucene.LuceneIndexLanguageItem", nameof(LuceneIndexLanguageItemID), null, nameof(LuceneIndexLanguageItemGuid), null, null, null, null, null)
+        public static readonly ObjectTypeInfo TYPEINFO = new(typeof(LuceneIndexedLanguageInfoProvider), OBJECT_TYPE, "KenticoLucene.LuceneIndexLanguageItem", nameof(LuceneIndexLanguageItemID), null, nameof(LuceneIndexLanguageItemGuid), null, null, null, null, null)
         {
             TouchCacheDependencies = true,
             DependsOn = new List<ObjectDependency>()

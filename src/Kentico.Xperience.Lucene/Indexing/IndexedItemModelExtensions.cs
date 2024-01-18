@@ -19,7 +19,7 @@ internal static class IndexedItemModelExtensions
     /// <exception cref="ArgumentNullException" />
     public static bool IsIndexedByIndex(this IndexEventWebPageItemModel item, IEventLogService log, string indexName, string eventName)
     {
-        if (string.IsNullOrEmpty(indexName))
+        if (string.IsNullOrWhiteSpace(indexName))
         {
             throw new ArgumentNullException(nameof(indexName));
         }
@@ -42,15 +42,9 @@ internal static class IndexedItemModelExtensions
 
         return luceneIndex.IncludedPaths.Any(includedPathAttribute =>
         {
-            bool matchesContentType = includedPathAttribute.ContentTypes is not null
-                && includedPathAttribute.ContentTypes.Contains(item.ContentTypeName, StringComparer.OrdinalIgnoreCase);
+            bool matchesContentType = includedPathAttribute.ContentTypes.Contains(item.ContentTypeName, StringComparer.OrdinalIgnoreCase);
 
             if (!matchesContentType)
-            {
-                return false;
-            }
-
-            if (item.WebPageItemTreePath is null)
             {
                 return false;
             }

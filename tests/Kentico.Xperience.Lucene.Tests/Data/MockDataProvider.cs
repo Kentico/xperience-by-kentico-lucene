@@ -1,8 +1,6 @@
 ﻿using DancingGoat.Models;
 using Kentico.Xperience.Lucene.Admin;
 using Kentico.Xperience.Lucene.Indexing;
-using Lucene.Net.Analysis.Standard;
-using Lucene.Net.Util;
 
 namespace Kentico.Xperience.Lucene.Tests.Base;
 internal static class MockDataProvider
@@ -23,18 +21,19 @@ internal static class MockDataProvider
 
     public static LuceneIndexIncludedPath Path => new("/%")
     {
-        ContentTypes = new[] { ArticlePage.CONTENT_TYPE_NAME }
+        ContentTypes = [ArticlePage.CONTENT_TYPE_NAME]
     };
 
 
     public static LuceneIndex Index => new(
-        new StandardAnalyzer(LuceneVersion.LUCENE_48),
-        DefaultIndex,
-        DefaultChannel,
-        new() { EnglishLanguageName, CzechLanguageName },
-        IndexId,
-        paths: new List<LuceneIndexIncludedPath>() { Path },
-        luceneIndexingStrategyType: typeof(DefaultLuceneIndexingStrategy)
+        new LuceneConfigurationModel()
+        {
+            IndexName = DefaultIndex,
+            ChannelName = DefaultChannel,
+            LanguageNames = new List<string>() { EnglishLanguageName, CzechLanguageName },
+            Paths = new List<LuceneIndexIncludedPath>() { Path }
+        },
+        []
     );
 
     public static readonly string DefaultIndex = "SimpleIndex";
@@ -44,12 +43,15 @@ internal static class MockDataProvider
     public static readonly int IndexId = 1;
     public static readonly string EventName = "publish";
 
-    public static LuceneIndex GetIndex(string indexName) => new(
-        Index.Analyzer,
-        indexName,
-        Index.WebSiteChannelName,
-        Index.LanguageNames,
-        Index.Identifier,
-        Index.IncludedPaths
+    public static LuceneIndex GetIndex(string indexName, int id) => new(
+        new LuceneConfigurationModel()
+        {
+            Id = id,
+            IndexName = indexName,
+            ChannelName = DefaultChannel,
+            LanguageNames = new List<string>() { EnglishLanguageName, CzechLanguageName },
+            Paths = new List<LuceneIndexIncludedPath>() { Path }
+        },
+        []
     );
 }

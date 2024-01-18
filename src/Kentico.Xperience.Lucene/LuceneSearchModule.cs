@@ -104,6 +104,6 @@ internal class LuceneSearchModule : Module
         var configurationStorageService = Service.Resolve<ILuceneConfigurationStorageService>();
         var indices = configurationStorageService.GetAllIndexData();
 
-        LuceneIndexStore.Instance.AddIndices(indices);
+        LuceneIndexStore.Instance.SetIndicies(indices);
     }
 }

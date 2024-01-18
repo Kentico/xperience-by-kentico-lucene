@@ -16,14 +16,9 @@ public static class LuceneStartupExtensions
     /// <returns></returns>
     public static IServiceCollection AddLucene(this IServiceCollection serviceCollection)
     {
-        serviceCollection
-            .AddSingleton<LuceneModuleInstaller>()
-            .AddSingleton<ILuceneClient, DefaultLuceneClient>()
-            .AddSingleton<ILuceneTaskLogger, DefaultLuceneTaskLogger>()
-            .AddSingleton<ILuceneTaskProcessor, DefaultLuceneTaskProcessor>()
-            .AddSingleton<ILuceneConfigurationStorageService, DefaultLuceneConfigurationStorageService>()
-            .AddSingleton<ILuceneIndexService, DefaultLuceneIndexService>()
-            .AddSingleton<ILuceneSearchService, DefaultLuceneSearchService>();
+        serviceCollection.AddLuceneServicesInternal();
+
+        StrategyStorage.AddStrategy<DefaultLuceneIndexingStrategy>("Default");
 
         return serviceCollection;
     }
@@ -37,14 +32,31 @@ public static class LuceneStartupExtensions
     /// <returns></returns>
     public static IServiceCollection AddLucene(this IServiceCollection serviceCollection, Action<ILuceneBuilder> configure)
     {
-        serviceCollection.AddLucene();
+        serviceCollection.AddLuceneServicesInternal();
 
         var builder = new LuceneBuilder(serviceCollection);
 
         configure(builder);
 
+        if (builder.IncludeDefaultStrategy)
+        {
+            serviceCollection.AddTransient<DefaultLuceneIndexingStrategy>();
+            builder.RegisterStrategy<DefaultLuceneIndexingStrategy>("Default");
+        }
+
         return serviceCollection;
     }
+
+    private static IServiceCollection AddLuceneServicesInternal(this IServiceCollection services) =>
+        services
+            .AddSingleton<LuceneModuleInstaller>()
+            .AddSingleton<ILuceneClient, DefaultLuceneClient>()
+            .AddSingleton<ILuceneTaskLogger, DefaultLuceneTaskLogger>()
+            .AddSingleton<ILuceneTaskProcessor, DefaultLuceneTaskProcessor>()
+            .AddSingleton<ILuceneConfigurationStorageService, DefaultLuceneConfigurationStorageService>()
+            .AddSingleton<ILuceneIndexService, DefaultLuceneIndexService>()
+            .AddSingleton<ILuceneSearchService, DefaultLuceneSearchService>()
+            .AddTransient<DefaultLuceneIndexingStrategy>();
 }
 
 public interface ILuceneBuilder
@@ -65,8 +77,21 @@ internal class LuceneBuilder : ILuceneBuilder
 {
     private readonly IServiceCollection serviceCollection;
 
+    /// <summary>
+    /// If true, the <see cref="DefaultLuceneIndexingStrategy" /> will be available as an explicitly selectable indexing strategy
+    /// within the Admin UI. Defaults to <c>true</c>
+    /// </summary>
+    public bool IncludeDefaultStrategy { get; set; } = true;
+
     public LuceneBuilder(IServiceCollection serviceCollection) => this.serviceCollection = serviceCollection;
 
+    /// <summary>
+    /// Registers the <see cref="ILuceneIndexingStrategy"/> strategy <typeparamref name="TStrategy" /> in DI and
+    /// as a selectable strategy in the Admin UI
+    /// </summary>
+    /// <typeparam name="TStrategy"></typeparam>
+    /// <param name="strategyName"></param>
+    /// <returns></returns>
     public ILuceneBuilder RegisterStrategy<TStrategy>(string strategyName) where TStrategy : class, ILuceneIndexingStrategy
     {
         StrategyStorage.AddStrategy<TStrategy>(strategyName);

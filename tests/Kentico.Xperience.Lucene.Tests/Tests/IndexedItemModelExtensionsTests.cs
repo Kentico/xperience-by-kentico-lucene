@@ -19,7 +19,7 @@ internal class IndexedItemModelExtensionsTests
     [Test]
     public void IsIndexedByIndex()
     {
-        LuceneIndexStore.Instance.ClearIndexes();
+        LuceneIndexStore.Instance.SetIndicies(new List<LuceneConfigurationModel>());
         LuceneIndexStore.Instance.AddIndex(MockDataProvider.Index);
 
         Assert.That(MockDataProvider.WebModel.IsIndexedByIndex(log, MockDataProvider.DefaultIndex, MockDataProvider.EventName));
@@ -32,14 +32,14 @@ internal class IndexedItemModelExtensionsTests
         model.WebPageItemTreePath = "/Home";
 
         var index = MockDataProvider.Index;
-        var path = new LuceneIndexIncludedPath("/%") { ContentTypes = new[] { ArticlePage.CONTENT_TYPE_NAME } };
+        var path = new LuceneIndexIncludedPath("/%") { ContentTypes = [ArticlePage.CONTENT_TYPE_NAME] };
 
         index.IncludedPaths = new List<LuceneIndexIncludedPath>() { path };
 
-        LuceneIndexStore.Instance.ClearIndexes();
+        LuceneIndexStore.Instance.SetIndicies(new List<LuceneConfigurationModel>());
         LuceneIndexStore.Instance.AddIndex(index);
 
-        Assert.True(model.IsIndexedByIndex(log, MockDataProvider.DefaultIndex, MockDataProvider.EventName));
+        Assert.That(model.IsIndexedByIndex(log, MockDataProvider.DefaultIndex, MockDataProvider.EventName));
     }
 
     [Test]
@@ -49,14 +49,14 @@ internal class IndexedItemModelExtensionsTests
         model.WebPageItemTreePath = "/Home";
 
         var index = MockDataProvider.Index;
-        var path = new LuceneIndexIncludedPath("/Index/%") { ContentTypes = new[] { ArticlePage.CONTENT_TYPE_NAME } };
+        var path = new LuceneIndexIncludedPath("/Index/%") { ContentTypes = [ArticlePage.CONTENT_TYPE_NAME] };
 
         index.IncludedPaths = new List<LuceneIndexIncludedPath>() { path };
 
-        LuceneIndexStore.Instance.ClearIndexes();
+        LuceneIndexStore.Instance.SetIndicies(new List<LuceneConfigurationModel>());
         LuceneIndexStore.Instance.AddIndex(index);
 
-        Assert.False(model.IsIndexedByIndex(log, MockDataProvider.DefaultIndex, MockDataProvider.EventName));
+        Assert.That(!model.IsIndexedByIndex(log, MockDataProvider.DefaultIndex, MockDataProvider.EventName));
     }
 
     [Test]
@@ -66,14 +66,14 @@ internal class IndexedItemModelExtensionsTests
         model.WebPageItemTreePath = "/Home";
 
         var index = MockDataProvider.Index;
-        var path = new LuceneIndexIncludedPath("/Index") { ContentTypes = new[] { ArticlePage.CONTENT_TYPE_NAME } };
+        var path = new LuceneIndexIncludedPath("/Index") { ContentTypes = [ArticlePage.CONTENT_TYPE_NAME] };
 
         index.IncludedPaths = new List<LuceneIndexIncludedPath>() { path };
 
-        LuceneIndexStore.Instance.ClearIndexes();
+        LuceneIndexStore.Instance.SetIndicies(new List<LuceneConfigurationModel>());
         LuceneIndexStore.Instance.AddIndex(index);
 
-        Assert.False(model.IsIndexedByIndex(log, MockDataProvider.DefaultIndex, MockDataProvider.EventName));
+        Assert.That(!model.IsIndexedByIndex(log, MockDataProvider.DefaultIndex, MockDataProvider.EventName));
     }
 
     [Test]
@@ -82,19 +82,19 @@ internal class IndexedItemModelExtensionsTests
         var model = MockDataProvider.WebModel;
         model.ContentTypeName = "DancingGoat.HomePage";
 
-        LuceneIndexStore.Instance.ClearIndexes();
+        LuceneIndexStore.Instance.SetIndicies(new List<LuceneConfigurationModel>());
         LuceneIndexStore.Instance.AddIndex(MockDataProvider.Index);
 
-        Assert.False(model.IsIndexedByIndex(log, MockDataProvider.DefaultIndex, MockDataProvider.EventName));
+        Assert.That(!model.IsIndexedByIndex(log, MockDataProvider.DefaultIndex, MockDataProvider.EventName));
     }
 
     [Test]
     public void WrongIndex()
     {
-        LuceneIndexStore.Instance.ClearIndexes();
+        LuceneIndexStore.Instance.SetIndicies(new List<LuceneConfigurationModel>());
         LuceneIndexStore.Instance.AddIndex(MockDataProvider.Index);
 
-        Assert.False(MockDataProvider.WebModel.IsIndexedByIndex(log, "NewIndex", MockDataProvider.EventName));
+        Assert.That(!MockDataProvider.WebModel.IsIndexedByIndex(log, "NewIndex", MockDataProvider.EventName));
     }
 
     [Test]
@@ -103,9 +103,9 @@ internal class IndexedItemModelExtensionsTests
         var model = MockDataProvider.WebModel;
         model.LanguageName = "sk";
 
-        LuceneIndexStore.Instance.ClearIndexes();
+        LuceneIndexStore.Instance.SetIndicies(new List<LuceneConfigurationModel>());
         LuceneIndexStore.Instance.AddIndex(MockDataProvider.Index);
 
-        Assert.False(model.IsIndexedByIndex(log, MockDataProvider.DefaultIndex, MockDataProvider.EventName));
+        Assert.That(!model.IsIndexedByIndex(log, MockDataProvider.DefaultIndex, MockDataProvider.EventName));
     }
 }

@@ -9,22 +9,22 @@ internal class IndexStoreTests
     [Test]
     public void AddAndGetIndex()
     {
-        LuceneIndexStore.Instance.ClearIndexes();
+        LuceneIndexStore.Instance.SetIndicies(new List<LuceneConfigurationModel>());
 
         LuceneIndexStore.Instance.AddIndex(MockDataProvider.Index);
-        LuceneIndexStore.Instance.AddIndex(MockDataProvider.GetIndex("TestIndex"));
+        LuceneIndexStore.Instance.AddIndex(MockDataProvider.GetIndex("TestIndex", 1));
 
         Assert.Multiple(() =>
         {
-            Assert.IsNotNull(LuceneIndexStore.Instance.GetIndex("TestIndex"));
-            Assert.IsNotNull(LuceneIndexStore.Instance.GetIndex(MockDataProvider.DefaultIndex));
+            Assert.That(LuceneIndexStore.Instance.GetIndex("TestIndex") is not null);
+            Assert.That(LuceneIndexStore.Instance.GetIndex(MockDataProvider.DefaultIndex) is not null);
         });
     }
 
     [Test]
     public void AddIndex_AlreadyExists()
     {
-        LuceneIndexStore.Instance.ClearIndexes();
+        LuceneIndexStore.Instance.SetIndicies(new List<LuceneConfigurationModel>());
         LuceneIndexStore.Instance.AddIndex(MockDataProvider.Index);
 
         bool hasThrown = false;
@@ -38,21 +38,21 @@ internal class IndexStoreTests
             hasThrown = true;
         }
 
-        Assert.IsTrue(hasThrown);
+        Assert.That(hasThrown);
     }
 
     [Test]
-    public void AddIndices()
+    public void SetIndicies()
     {
-        var defaultIndex = new LuceneConfigurationModel { IndexName = "DefaultIndex" };
-        var simpleIndex = new LuceneConfigurationModel { IndexName = "SimpleIndex" };
+        var defaultIndex = new LuceneConfigurationModel { IndexName = "DefaultIndex", Id = 0 };
+        var simpleIndex = new LuceneConfigurationModel { IndexName = "SimpleIndex", Id = 1 };
 
-        LuceneIndexStore.Instance.AddIndices(new List<LuceneConfigurationModel>() { defaultIndex, simpleIndex });
+        LuceneIndexStore.Instance.SetIndicies(new List<LuceneConfigurationModel>() { defaultIndex, simpleIndex });
 
         Assert.Multiple(() =>
         {
-            Assert.IsNotNull(LuceneIndexStore.Instance.GetIndex(defaultIndex.IndexName));
-            Assert.IsNotNull(LuceneIndexStore.Instance.GetIndex(simpleIndex.IndexName));
+            Assert.That(LuceneIndexStore.Instance.GetIndex(defaultIndex.IndexName) is not null);
+            Assert.That(LuceneIndexStore.Instance.GetIndex(simpleIndex.IndexName) is not null);
         });
     }
 }

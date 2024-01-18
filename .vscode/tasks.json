@@ -45,6 +45,17 @@
       "problemMatcher": "$msCompile"
     },
     {
+      "label": ".NET: test (Solution)",
+      "command": "dotnet",
+      "type": "process",
+      "args": [
+        "test",
+        "/property:GenerateFullPaths=true",
+        "/consoleloggerparameters:NoSummary"
+      ],
+      "problemMatcher": "$msCompile"
+    },
+    {
       "label": ".NET: format (Lucene)",
       "command": "dotnet",
       "type": "process",

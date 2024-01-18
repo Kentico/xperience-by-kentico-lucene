@@ -21,13 +21,13 @@ namespace Kentico.Xperience.Lucene.Admin
         /// <summary>
         /// Object type.
         /// </summary>
-        public const string OBJECT_TYPE = "lucene.luceneincludedpathitem";
+        public const string OBJECT_TYPE = "kenticolucene.luceneincludedpathitem";
 
 
         /// <summary>
         /// Type information.
         /// </summary>
-        public static readonly ObjectTypeInfo TYPEINFO = new(typeof(LuceneIncludedPathItemInfoProvider), OBJECT_TYPE, "Lucene.LuceneIncludedPathItem", nameof(LuceneIncludedPathItemId), null, nameof(LuceneIncludedPathItemGuid), null, null, null, null, null)
+        public static readonly ObjectTypeInfo TYPEINFO = new(typeof(LuceneIncludedPathItemInfoProvider), OBJECT_TYPE, "KenticoLucene.LuceneIncludedPathItem", nameof(LuceneIncludedPathItemId), null, nameof(LuceneIncludedPathItemGuid), null, null, null, null, null)
         {
             TouchCacheDependencies = true,
             DependsOn = new List<ObjectDependency>()
