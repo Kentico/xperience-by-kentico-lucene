@@ -16,11 +16,17 @@ public class SearchController : Controller
         this.advancedSearchService = advancedSearchService;
     }
 
-    public IActionResult Index(string? query, int pageSize = 10, int page = 1, string? facet = null, string? sortBy = null)
+    public IActionResult Index(string? query, int pageSize = 10, int page = 1, string? facet = null, string? sortBy = null, string? indexName = null)
     {
-        var results = advancedSearchService.GlobalSearch("Advanced", query, pageSize, page, facet, sortBy);
-
-        return View(results);
+        try
+        {
+            var results = advancedSearchService.GlobalSearch(indexName ?? "Advanced", query, pageSize, page, facet, sortBy);
+            return View(results);
+        }
+        catch
+        {
+            return NotFound();
+        }
     }
 
     [HttpGet("Simple")]
