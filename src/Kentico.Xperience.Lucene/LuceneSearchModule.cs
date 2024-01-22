@@ -5,7 +5,6 @@ using CMS.Core;
 using CMS.DataEngine;
 using CMS.Websites;
 using Kentico.Xperience.Lucene;
-using Kentico.Xperience.Lucene.Admin;
 using Kentico.Xperience.Lucene.Indexing;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -21,9 +20,11 @@ internal class LuceneSearchModule : Module
     private ILuceneTaskLogger? luceneTaskLogger;
     private IAppSettingsService? appSettingsService;
     private IConversionService? conversionService;
+
     private const string APP_SETTINGS_KEY_INDEXING_DISABLED = "LuceneSearchDisableIndexing";
 
-    private bool IndexingDisabled => conversionService?.GetBoolean(appSettingsService?[APP_SETTINGS_KEY_INDEXING_DISABLED], false) ?? false;
+    private bool IndexingDisabled =>
+        conversionService?.GetBoolean(appSettingsService?[APP_SETTINGS_KEY_INDEXING_DISABLED], false) ?? false;
 
     /// <inheritdoc/>
     public LuceneSearchModule() : base(nameof(LuceneSearchModule))
@@ -33,15 +34,14 @@ internal class LuceneSearchModule : Module
     /// <inheritdoc/>
     protected override void OnInit(ModuleInitParameters parameters)
     {
-        base.OnInit();
+        base.OnInit(parameters);
+
         var services = parameters.Services;
 
-        services.GetRequiredService<LuceneModuleInstaller>().Install();
         luceneTaskLogger = services.GetRequiredService<ILuceneTaskLogger>();
         appSettingsService = services.GetRequiredService<IAppSettingsService>();
         conversionService = services.GetRequiredService<IConversionService>();
 
-        AddRegisteredIndices();
         WebPageEvents.Publish.Execute += HandleEvent;
         WebPageEvents.Delete.Execute += HandleEvent;
         ContentItemEvents.Publish.Execute += HandleContentItemEvent;
@@ -49,6 +49,7 @@ internal class LuceneSearchModule : Module
 
         RequestEvents.RunEndRequestTasks.Execute += (sender, eventArgs) => LuceneQueueWorker.Current.EnsureRunningThread();
     }
+
 
     /// <summary>
     /// Called when a page is published. Logs an Lucene task to be processed later.
@@ -97,13 +98,5 @@ internal class LuceneSearchModule : Module
         );
 
         luceneTaskLogger?.HandleReusableItemEvent(indexedContentItemModel, e.CurrentHandler.Name).GetAwaiter().GetResult();
-    }
-
-    public static void AddRegisteredIndices()
-    {
-        var configurationStorageService = Service.Resolve<ILuceneConfigurationStorageService>();
-        var indices = configurationStorageService.GetAllIndexData();
-
-        LuceneIndexStore.Instance.SetIndicies(indices);
     }
 }

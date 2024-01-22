@@ -264,9 +264,7 @@ internal class IndexListingPage : ListingPageBase<ListingConfiguration>
         bool res = configurationStorageService.TryDeleteIndex(id);
         if (res)
         {
-            var indices = configurationStorageService.GetAllIndexData();
-
-            LuceneIndexStore.Instance.SetIndicies(indices);
+            LuceneIndexStore.SetIndicies(configurationStorageService);
         }
         var response = NavigateTo(pageUrlGenerator.GenerateUrl<IndexListingPage>());
 

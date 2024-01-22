@@ -26,7 +26,7 @@ internal abstract class BaseIndexEditPage : ModelEditPage<LuceneConfigurationMod
 
             if (edited)
             {
-                LuceneSearchModule.AddRegisteredIndices();
+                LuceneIndexStore.SetIndicies(StorageService);
 
                 return IndexModificationResult.Success;
             }

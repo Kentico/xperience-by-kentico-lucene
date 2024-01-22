@@ -50,6 +50,7 @@ public static class LuceneStartupExtensions
     private static IServiceCollection AddLuceneServicesInternal(this IServiceCollection services) =>
         services
             .AddSingleton<LuceneModuleInstaller>()
+            .AddSingleton<LuceneModuleMigrator>()
             .AddSingleton<ILuceneClient, DefaultLuceneClient>()
             .AddSingleton<ILuceneTaskLogger, DefaultLuceneTaskLogger>()
             .AddSingleton<ILuceneTaskProcessor, DefaultLuceneTaskProcessor>()
