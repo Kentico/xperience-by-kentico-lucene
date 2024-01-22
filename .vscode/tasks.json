@@ -2,15 +2,6 @@
   "version": "2.0.0",
   "tasks": [
     {
-      "type": "npm",
-      "script": "install",
-      "path": "src/Kentico.Xperience.Lucene/Admin/Client",
-      "group": "build",
-      "problemMatcher": [],
-      "label": "npm: install - src/Kentico.Xperience.Lucene/Admin/Client",
-      "detail": "install dependencies from package"
-    },
-    {
       "label": ".NET: build (Solution)",
       "command": "dotnet",
       "type": "process",
@@ -64,6 +55,44 @@
       "options": {
         "cwd": "${workspaceFolder}/src/Kentico.Xperience.Lucene"
       }
+    },
+    {
+      "label": ".NET: watch (DancingGoat)",
+      "command": "dotnet",
+      "type": "process",
+      "args": [
+        "watch",
+        "run",
+        "--project",
+        "${workspaceFolder}/examples/DancingGoat/DancingGoat.csproj"
+      ],
+      "options": {
+        "env": {
+          "DOTNET_WATCH_RESTART_ON_RUDE_EDIT": "true"
+        }
+      },
+      "problemMatcher": "$msCompile"
+    },
+    {
+      "label": ".NET: run (DancingGoat)",
+      "command": "dotnet",
+      "type": "process",
+      "args": [
+        "run",
+        "--project",
+        "${workspaceFolder}/examples/DancingGoat/DancingGoat.csproj"
+      ],
+      "problemMatcher": "$msCompile",
+      "isBackground": true
+    },
+    {
+      "type": "npm",
+      "script": "install",
+      "path": "src/Kentico.Xperience.Lucene/Admin/Client",
+      "group": "build",
+      "problemMatcher": [],
+      "label": "npm: install - src/Kentico.Xperience.Lucene/Admin/Client",
+      "detail": "install dependencies from package"
     },
     {
       "type": "npm",
