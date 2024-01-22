@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<contentitemdata.dancinggoat.reference>
+  <ContentItemDataCommonDataID>
+    <GUID>1d2ff9c3-1ac4-4a61-b408-906c6ebd9dda</GUID>
+    <ObjectType>cms.contentitemcommondata</ObjectType>
+    <Parent>
+      <CodeName>JimmieDimmick-qv484wii</CodeName>
+      <GUID>12e192cc-099a-4fd4-9360-2b8acad4daf0</GUID>
+      <ObjectType>cms.contentitem</ObjectType>
+    </Parent>
+  </ContentItemDataCommonDataID>
+  <ContentItemDataGUID>25d00ca8-21b8-4855-99ff-224864d91ce9</ContentItemDataGUID>
+  <ReferenceDescription>
+    <![CDATA[Founder and Owner of Jimmie's Coffee Cup]]>
+  </ReferenceDescription>
+  <ReferenceImage>
+    <![CDATA[[{"Identifier":"e9c0e77f-97bd-4485-8edc-cdc17d49c147"}]]]>
+  </ReferenceImage>
+  <ReferenceName>Jimmie Dimmick</ReferenceName>
+  <ReferenceText>
+    <![CDATA[Buying coffee at Dancing Goat, I can always be sure about its origin. They provide information not only about the country and region my coffee came from but also about the specific farm where the beans originated. That tells me my coffee was crafted with care.]]>
+  </ReferenceText>
+</contentitemdata.dancinggoat.reference>

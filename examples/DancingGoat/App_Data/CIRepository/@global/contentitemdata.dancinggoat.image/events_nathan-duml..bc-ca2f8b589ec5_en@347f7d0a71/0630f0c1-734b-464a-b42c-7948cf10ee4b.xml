@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<contentitemdata.dancinggoat.image>
+  <ContentItemDataCommonDataID>
+    <GUID>db2d8771-c391-4f40-b0bc-ca2f8b589ec5</GUID>
+    <ObjectType>cms.contentitemcommondata</ObjectType>
+    <Parent>
+      <CodeName>Events_Nathan-dumlao-I_394sxx0ec-unsplash_1_50.jpg-n0loguga</CodeName>
+      <GUID>6e836ba2-d57d-4d48-8504-af6706166e34</GUID>
+      <ObjectType>cms.contentitem</ObjectType>
+    </Parent>
+  </ContentItemDataCommonDataID>
+  <ContentItemDataGUID>0630f0c1-734b-464a-b42c-7948cf10ee4b</ContentItemDataGUID>
+  <ImageFile>
+    <![CDATA[{"Identifier":"c8256f0a-fc6b-47e5-83ab-a596f9200817","Name":"nathan-dumlao-I_394sxx0ec-unsplash_1_50.jpg","Extension":".jpg","Size":997290,"LastModified":"2023-06-14T15:35:56.8582912Z"}]]>
+  </ImageFile>
+</contentitemdata.dancinggoat.image>

@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<contentitemdata.dancinggoat.image>
+  <ContentItemDataCommonDataID>
+    <GUID>26b51366-0e3f-4832-b9b7-9c40910bc0c1</GUID>
+    <ObjectType>cms.contentitemcommondata</ObjectType>
+    <Parent>
+      <CodeName>Cafes_Newyork_2x.png-h7fhjxw7</CodeName>
+      <GUID>4360aa53-d040-4b15-8b89-adea96d79aad</GUID>
+      <ObjectType>cms.contentitem</ObjectType>
+    </Parent>
+  </ContentItemDataCommonDataID>
+  <ContentItemDataGUID>282b6b0c-7c6b-4bf9-887e-d2cbe292868d</ContentItemDataGUID>
+  <ImageFile>
+    <![CDATA[{"Identifier":"3cbcc052-51f8-4680-87c9-4cf4faeec718","Name":"newyork@2x.png","Extension":".png","Size":180175,"LastModified":"2023-07-10T13:27:23.4801193Z"}]]>
+  </ImageFile>
+</contentitemdata.dancinggoat.image>

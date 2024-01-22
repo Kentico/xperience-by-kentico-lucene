@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<contentitemdata.dancinggoat.image>
+  <ContentItemDataCommonDataID>
+    <GUID>17c27ab6-4b57-4329-89ba-5ac31b9cec3e</GUID>
+    <ObjectType>cms.contentitemcommondata</ObjectType>
+    <Parent>
+      <CodeName>Graphics_Hero-bg3.jpg-4dz6obv8</CodeName>
+      <GUID>8a528627-fc98-46a4-9b2f-c56b270e86c5</GUID>
+      <ObjectType>cms.contentitem</ObjectType>
+    </Parent>
+  </ContentItemDataCommonDataID>
+  <ContentItemDataGUID>4eafc936-b9c9-4202-8352-df1317dbc7f1</ContentItemDataGUID>
+  <ImageFile>
+    <![CDATA[{"Identifier":"0d12cfc4-6ba3-42f0-826c-e8c97d79e5c0","Name":"hero-bg3.jpg","Extension":".jpg","Size":108910,"LastModified":"2023-09-12T13:53:54.2293303Z"}]]>
+  </ImageFile>
+</contentitemdata.dancinggoat.image>

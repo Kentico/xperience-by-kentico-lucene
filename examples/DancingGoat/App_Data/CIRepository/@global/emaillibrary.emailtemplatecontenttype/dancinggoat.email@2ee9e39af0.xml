@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<emaillibrary.emailtemplatecontenttype>
+  <Parent>
+    <CodeName>DancingGoat.Email</CodeName>
+    <GUID>793a00b7-b11c-40c7-be0a-93e54e99f50e</GUID>
+    <ObjectType>cms.contenttype</ObjectType>
+  </Parent>
+  <Bindings>
+    <Binding id="emaillibrary.emailtemplate_DancingGoatRegularTemplate">
+      <EmailTemplateContentTypeEmailTemplateID>
+        <CodeName>DancingGoatRegularTemplate</CodeName>
+        <GUID>8503e10c-5a82-4a2f-a1ef-0a11ccdc017e</GUID>
+        <ObjectType>emaillibrary.emailtemplate</ObjectType>
+      </EmailTemplateContentTypeEmailTemplateID>
+    </Binding>
+    <Binding id="emaillibrary.emailtemplate_DancingGoatTemplate">
+      <EmailTemplateContentTypeEmailTemplateID>
+        <CodeName>DancingGoatTemplate</CodeName>
+        <GUID>01c0871f-cafe-4e34-a650-5ae19c8ab92d</GUID>
+        <ObjectType>emaillibrary.emailtemplate</ObjectType>
+      </EmailTemplateContentTypeEmailTemplateID>
+    </Binding>
+  </Bindings>
+</emaillibrary.emailtemplatecontenttype>

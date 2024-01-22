@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<contentitemdata.dancinggoat.contact>
+  <ContactCity>Chicago</ContactCity>
+  <ContactCountry>USA, Illinois</ContactCountry>
+  <ContactEmail>dancinggoat@localhost.local</ContactEmail>
+  <ContactName>Dancing Goat Ltd.</ContactName>
+  <ContactPhone>(+1) 773-740-4882</ContactPhone>
+  <ContactStreet>62 E Lake St</ContactStreet>
+  <ContactZipCode>60601</ContactZipCode>
+  <ContentItemDataCommonDataID>
+    <GUID>f0336360-207c-4b39-b0c3-82720180d970</GUID>
+    <ObjectType>cms.contentitemcommondata</ObjectType>
+    <Parent>
+      <CodeName>DancingGoatLtd-qo6k4x9u</CodeName>
+      <GUID>c0c2013a-f55f-4508-9969-950315111699</GUID>
+      <ObjectType>cms.contentitem</ObjectType>
+    </Parent>
+  </ContentItemDataCommonDataID>
+  <ContentItemDataGUID>6d4801a7-c817-45a9-aa55-43705120406b</ContentItemDataGUID>
+</contentitemdata.dancinggoat.contact>

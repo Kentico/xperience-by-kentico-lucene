@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<contentitemdata.dancinggoat.image>
+  <ContentItemDataCommonDataID>
+    <GUID>492ec3e0-6521-45d2-a80c-edf6f0424bd5</GUID>
+    <ObjectType>cms.contentitemcommondata</ObjectType>
+    <Parent>
+      <CodeName>Events_Fahmi-fakhrudin-nzyzAUsbV0M-unsplash_1_50.jpg-d2wq3izd</CodeName>
+      <GUID>b971d8d3-6d3a-4cdd-a129-41b61e0522d5</GUID>
+      <ObjectType>cms.contentitem</ObjectType>
+    </Parent>
+  </ContentItemDataCommonDataID>
+  <ContentItemDataGUID>d45f8f1e-3333-408c-9545-d0e566613670</ContentItemDataGUID>
+  <ImageFile>
+    <![CDATA[{"Identifier":"14294cd1-1f75-47b5-b362-ad0d1ec880c3","Name":"fahmi-fakhrudin-nzyzAUsbV0M-unsplash_1_50.jpg","Extension":".jpg","Size":177646,"LastModified":"2023-06-14T15:36:41.7011121Z"}]]>
+  </ImageFile>
+</contentitemdata.dancinggoat.image>

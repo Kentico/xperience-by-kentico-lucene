@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<contentitemdata.dancinggoat.image>
+  <ContentItemDataCommonDataID>
+    <GUID>e8e1dd6e-a85f-466d-b79e-0927daf30efc</GUID>
+    <ObjectType>cms.contentitemcommondata</ObjectType>
+    <Parent>
+      <CodeName>Products_Colombia.jpg-pkmhet0j</CodeName>
+      <GUID>0313c4b9-b165-4d4c-b22d-798065d46adf</GUID>
+      <ObjectType>cms.contentitem</ObjectType>
+    </Parent>
+  </ContentItemDataCommonDataID>
+  <ContentItemDataGUID>220e44c1-19e4-4671-a29e-c2dc5a9c0396</ContentItemDataGUID>
+  <ImageFile>
+    <![CDATA[{"Identifier":"c563733e-554a-4601-836b-163486c2f479","Name":"colombia.jpg","Extension":".jpg","Size":53269,"LastModified":"2023-07-03T12:33:17.7476477Z"}]]>
+  </ImageFile>
+</contentitemdata.dancinggoat.image>

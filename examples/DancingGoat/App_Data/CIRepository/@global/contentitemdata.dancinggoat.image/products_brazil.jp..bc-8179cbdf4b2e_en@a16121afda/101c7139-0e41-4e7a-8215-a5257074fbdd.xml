@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<contentitemdata.dancinggoat.image>
+  <ContentItemDataCommonDataID>
+    <GUID>4ca5093d-a6e7-47c9-b2bc-8179cbdf4b2e</GUID>
+    <ObjectType>cms.contentitemcommondata</ObjectType>
+    <Parent>
+      <CodeName>Products_Brazil.jpg-cpxcn6zv</CodeName>
+      <GUID>25cb8afe-99eb-4b87-ba3f-567c90f91bd3</GUID>
+      <ObjectType>cms.contentitem</ObjectType>
+    </Parent>
+  </ContentItemDataCommonDataID>
+  <ContentItemDataGUID>101c7139-0e41-4e7a-8215-a5257074fbdd</ContentItemDataGUID>
+  <ImageFile>
+    <![CDATA[{"Identifier":"8c602a74-70d2-48ec-a924-3ddaa83f27e9","Name":"brazil.jpg","Extension":".jpg","Size":53061,"LastModified":"2023-07-03T12:32:01.3614938Z"}]]>
+  </ImageFile>
+</contentitemdata.dancinggoat.image>

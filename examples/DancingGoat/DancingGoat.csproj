@@ -1,9 +1,11 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
-	<PropertyGroup>
-		<RootNamespace>DancingGoat</RootNamespace>
-		<UserSecretsId>79c858af-5444-4954-8d08-6592a961e82a</UserSecretsId>
-		<SeparatedAdmin Condition="'$(SeparatedAdmin)' == ''">false</SeparatedAdmin>
-	</PropertyGroup>
+  <PropertyGroup>
+    <RootNamespace>DancingGoat</RootNamespace>
+    <UserSecretsId>7e8a56d7-ac0a-4d47-af57-fc423c65eafb</UserSecretsId>
+    <SeparatedAdmin Condition="'$(SeparatedAdmin)' == ''">false</SeparatedAdmin>
+    <Nullable>disable</Nullable>
+    <WarningsAsErrors></WarningsAsErrors>
+  </PropertyGroup>
   <ItemGroup>
     <None Remove="App_Data\CMSModules\WebFarm\webfarm.sync" />
   </ItemGroup>

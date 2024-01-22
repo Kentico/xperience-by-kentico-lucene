@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<contentitemdata.dancinggoat.cafe>
+  <CafeCity>Chicago</CafeCity>
+  <CafeCountry>USA, Illinois</CafeCountry>
+  <CafeIsCompanyCafe>False</CafeIsCompanyCafe>
+  <CafeName>Chicago</CafeName>
+  <CafePhone>773-539-1306</CafePhone>
+  <CafePhoto>
+    <![CDATA[[{"Identifier":"ff45b4fc-f3c3-4171-b1eb-845411e46c54"}]]]>
+  </CafePhoto>
+  <CafeStreet>62 E Lake St</CafeStreet>
+  <CafeZipCode>60601</CafeZipCode>
+  <ContentItemDataCommonDataID>
+    <GUID>98cab91a-c5d1-4b43-b51e-aa113b93fd4c</GUID>
+    <ObjectType>cms.contentitemcommondata</ObjectType>
+    <Parent>
+      <CodeName>Chicago-adnkn64a</CodeName>
+      <GUID>5f5c9fce-d24e-4cda-8022-d20d6504b102</GUID>
+      <ObjectType>cms.contentitem</ObjectType>
+    </Parent>
+  </ContentItemDataCommonDataID>
+  <ContentItemDataGUID>e4066014-8ce9-4e15-8132-e6b1d7ed1fb6</ContentItemDataGUID>
+</contentitemdata.dancinggoat.cafe>

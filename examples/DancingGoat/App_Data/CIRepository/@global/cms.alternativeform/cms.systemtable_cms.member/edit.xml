@@ -1,0 +1,66 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<cms.alternativeform>
+  <FormClassID>
+    <CodeName>CMS.Member</CodeName>
+    <GUID>07c5d145-7cbc-4c75-9a96-6d4948bf6c73</GUID>
+    <ObjectType>cms.systemtable</ObjectType>
+  </FormClassID>
+  <FormDefinition>
+    <form>
+      <field column="MemberID" guid="97a619c1-37d6-4490-8dee-6ac70551d421" enabled="" />
+      <field column="MemberCreated" guid="c5075420-a7c7-4307-922d-82f711b8a689" enabled="" order="1" />
+      <field column="MemberPassword" guid="61911700-cd6c-4d73-943a-985a57342b4f" enabled="" order="2" />
+      <field column="MemberIsExternal" guid="5cf88feb-d217-4a33-8039-63b46bf2c672" enabled="" order="3" />
+      <field column="MemberSecurityStamp" guid="d127bfec-d965-4888-8836-0b22ef2e1010" enabled="" order="4" />
+      <field column="MemberName" enabled="true" guid="f8b13f5b-c254-4f3a-8b8c-df10f5619300" visible="true" order="5">
+        <settings>
+          <controlname>Kentico.Administration.TextInput</controlname>
+        </settings>
+        <properties>
+          <explanationtextashtml>False</explanationtextashtml>
+          <fieldcaption>{$base.members.edit.name$}</fieldcaption>
+          <fielddescriptionashtml>False</fielddescriptionashtml>
+        </properties>
+      </field>
+      <field column="MemberEmail" enabled="true" guid="3e50549b-a12d-4c19-8df7-380efa3a8d40" visible="true" order="6">
+        <settings>
+          <controlname>Kentico.Administration.TextInput</controlname>
+        </settings>
+        <validationrulesdata>
+          <ValidationRuleConfiguration>
+            <ValidationRuleIdentifier>Kentico.Administration.MaximumLength</ValidationRuleIdentifier>
+            <RuleValues>
+              <MaxLength>254</MaxLength>
+            </RuleValues>
+          </ValidationRuleConfiguration>
+          <ValidationRuleConfiguration>
+            <ValidationRuleIdentifier>Kentico.Administration.Email</ValidationRuleIdentifier>
+            <RuleValues>
+              <AllowMultipleAddresses>false</AllowMultipleAddresses>
+            </RuleValues>
+          </ValidationRuleConfiguration>
+        </validationrulesdata>
+        <properties>
+          <explanationtextashtml>False</explanationtextashtml>
+          <fieldcaption>{$base.members.edit.email$}</fieldcaption>
+          <fielddescriptionashtml>False</fielddescriptionashtml>
+        </properties>
+      </field>
+      <field column="MemberEnabled" enabled="true" guid="1454d95c-81bb-4956-bda2-75edda984071" visible="true" order="7">
+        <settings>
+          <controlname>Kentico.Administration.Checkbox</controlname>
+        </settings>
+        <properties>
+          <explanationtextashtml>False</explanationtextashtml>
+          <fieldcaption>{$base.members.edit.enabled$}</fieldcaption>
+          <fielddescriptionashtml>False</fielddescriptionashtml>
+        </properties>
+      </field>
+      <field column="MemberGuid" guid="926897c7-71e2-47b3-b3b7-b456596e7da3" enabled="" order="8" />
+    </form>
+  </FormDefinition>
+  <FormDisplayName>Edit</FormDisplayName>
+  <FormGUID>9863d24a-32fd-4821-90ea-571a7d8919a0</FormGUID>
+  <FormIsCustom>False</FormIsCustom>
+  <FormName>Edit</FormName>
+</cms.alternativeform>

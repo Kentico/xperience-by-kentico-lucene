@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<contentitemdata.dancinggoat.image>
+  <ContentItemDataCommonDataID>
+    <GUID>f933fdb1-342b-4de6-9039-9e77c30d1b8c</GUID>
+    <ObjectType>cms.contentitemcommondata</ObjectType>
+    <Parent>
+      <CodeName>Articles_Which-brewing-fits-you-1080px.jpg-sv619zaw</CodeName>
+      <GUID>29a1ccaf-3cc8-4c58-b57c-824b94a9535e</GUID>
+      <ObjectType>cms.contentitem</ObjectType>
+    </Parent>
+  </ContentItemDataCommonDataID>
+  <ContentItemDataGUID>37af6b0d-e821-49c7-8030-b31e3350a5ef</ContentItemDataGUID>
+  <ImageFile>
+    <![CDATA[{"Identifier":"e7d5ce5b-3916-4cef-955b-1261489daab0","Name":"which-brewing-fits-you-1080px.jpg","Extension":".jpg","Size":76002,"LastModified":"2023-06-14T15:37:23.3227117Z"}]]>
+  </ImageFile>
+  <ImageShortDescription>Two baristas preparing coffee.</ImageShortDescription>
+</contentitemdata.dancinggoat.image>

@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<cms.contentitem>
+  <ContentItemContentTypeID>
+    <CodeName>DancingGoat.Cafe</CodeName>
+    <GUID>2f06d20b-3357-48e6-b0f8-2ca7ef737237</GUID>
+    <ObjectType>cms.contenttype</ObjectType>
+  </ContentItemContentTypeID>
+  <ContentItemGUID>5f5c9fce-d24e-4cda-8022-d20d6504b102</ContentItemGUID>
+  <ContentItemIsReusable>True</ContentItemIsReusable>
+  <ContentItemIsSecured>False</ContentItemIsSecured>
+  <ContentItemName>Chicago-adnkn64a</ContentItemName>
+</cms.contentitem>

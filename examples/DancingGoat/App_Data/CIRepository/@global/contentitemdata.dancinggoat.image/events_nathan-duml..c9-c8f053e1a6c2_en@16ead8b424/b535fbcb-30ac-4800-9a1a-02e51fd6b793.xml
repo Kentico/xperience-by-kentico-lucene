@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<contentitemdata.dancinggoat.image>
+  <ContentItemDataCommonDataID>
+    <GUID>71b51545-2b44-4360-a6c9-c8f053e1a6c2</GUID>
+    <ObjectType>cms.contentitemcommondata</ObjectType>
+    <Parent>
+      <CodeName>Events_Nathan-dumlao-6VhPY27jdps-unsplash_50.jpg-0xla25qz</CodeName>
+      <GUID>5590dc48-6146-4f1b-bd28-e8fef896c52e</GUID>
+      <ObjectType>cms.contentitem</ObjectType>
+    </Parent>
+  </ContentItemDataCommonDataID>
+  <ContentItemDataGUID>b535fbcb-30ac-4800-9a1a-02e51fd6b793</ContentItemDataGUID>
+  <ImageFile>
+    <![CDATA[{"Identifier":"c90f3f60-8aa3-45d8-b4b9-9af9f0f2f03a","Name":"nathan-dumlao-6VhPY27jdps-unsplash_50.jpg.jpg","Extension":".jpg","Size":606347,"LastModified":"2023-06-14T15:36:14.584748Z"}]]>
+  </ImageFile>
+</contentitemdata.dancinggoat.image>

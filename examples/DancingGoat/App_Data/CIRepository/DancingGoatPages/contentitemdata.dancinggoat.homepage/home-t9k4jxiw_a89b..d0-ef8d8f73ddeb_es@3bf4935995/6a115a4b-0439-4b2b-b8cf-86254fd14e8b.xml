@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<contentitemdata.dancinggoat.homepage>
+  <ContentItemDataCommonDataID>
+    <GUID>a89bee14-017a-4d94-8ed0-ef8d8f73ddeb</GUID>
+    <ObjectType>cms.contentitemcommondata</ObjectType>
+    <Parent>
+      <CodeName>Home-t9k4jxiw</CodeName>
+      <GUID>17d83996-c66a-4b07-b47e-d285bd99d8f3</GUID>
+      <ObjectType>cms.contentitem</ObjectType>
+    </Parent>
+  </ContentItemDataCommonDataID>
+  <ContentItemDataGUID>6a115a4b-0439-4b2b-b8cf-86254fd14e8b</ContentItemDataGUID>
+  <HomePageArticlesSection>
+    <![CDATA[[{"WebPageGuid":"4c572828-78af-49ce-89e5-5a87a31ec2cd"}]]]>
+  </HomePageArticlesSection>
+  <HomePageBanner>
+    <![CDATA[[{"Identifier":"a2725352-5eeb-446e-98dc-c244234337f2"}]]]>
+  </HomePageBanner>
+  <HomePageCafes>
+    <![CDATA[[{"Identifier":"4c84719d-689e-460e-8cc1-5495c367b249"},{"Identifier":"5f5c9fce-d24e-4cda-8022-d20d6504b102"},{"Identifier":"9b401e70-fbc7-4d70-b848-19778172e3f1"}]]]>
+  </HomePageCafes>
+  <HomePageEvent>
+    <![CDATA[[{"Identifier":"2b039eb6-312f-4008-8c4f-3d340d87532c"}]]]>
+  </HomePageEvent>
+  <HomePageOurStory>
+    <![CDATA[En Dancing Goat, nos esforzamos por hacer las cosas bien. No solo conseguimos los mejores cafés que puedas encontrar. También nos aseguramos de tener una relación directa con nuestros agricultores. Visitar las microfinca de donde obtenemos nuestros cafés es nuestro pan de cada día. De esta manera, podemos garantizar el más alto estándar de calidad durante todo el año. Sin intermediarios, sin partes injustas. Nuestros agricultores obtienen el mejor trato posible. Tú también.]]>
+  </HomePageOurStory>
+  <HomePageReference>
+    <![CDATA[[{"Identifier":"12e192cc-099a-4fd4-9360-2b8acad4daf0"}]]]>
+  </HomePageReference>
+</contentitemdata.dancinggoat.homepage>

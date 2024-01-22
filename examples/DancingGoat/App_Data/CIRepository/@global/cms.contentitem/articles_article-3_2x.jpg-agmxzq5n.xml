@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<cms.contentitem>
+  <ContentItemContentTypeID>
+    <CodeName>DancingGoat.Image</CodeName>
+    <GUID>fd1947a4-e04b-441b-a76c-1ed826fb766e</GUID>
+    <ObjectType>cms.contenttype</ObjectType>
+  </ContentItemContentTypeID>
+  <ContentItemGUID>dbc6030d-fc1c-4fb9-84f3-3a35b3fe3f02</ContentItemGUID>
+  <ContentItemIsReusable>True</ContentItemIsReusable>
+  <ContentItemIsSecured>False</ContentItemIsSecured>
+  <ContentItemName>Articles_Article-3_2x.jpg-agmxzq5n</ContentItemName>
+</cms.contentitem>

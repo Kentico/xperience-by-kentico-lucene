@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<cms.contentitem>
+  <ContentItemContentTypeID>
+    <CodeName>DancingGoat.Image</CodeName>
+    <GUID>fd1947a4-e04b-441b-a76c-1ed826fb766e</GUID>
+    <ObjectType>cms.contenttype</ObjectType>
+  </ContentItemContentTypeID>
+  <ContentItemGUID>96aaf7e4-b57b-4fb4-ae2c-25e8191e7079</ContentItemGUID>
+  <ContentItemIsReusable>True</ContentItemIsReusable>
+  <ContentItemIsSecured>False</ContentItemIsSecured>
+  <ContentItemName>Logos_Logo-dancing-goat.png-1gxova27</ContentItemName>
+</cms.contentitem>

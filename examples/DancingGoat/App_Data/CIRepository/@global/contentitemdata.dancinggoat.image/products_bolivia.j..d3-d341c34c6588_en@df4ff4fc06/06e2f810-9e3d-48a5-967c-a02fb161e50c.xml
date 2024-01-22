@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<contentitemdata.dancinggoat.image>
+  <ContentItemDataCommonDataID>
+    <GUID>f46d073b-f1f1-4b5e-b6d3-d341c34c6588</GUID>
+    <ObjectType>cms.contentitemcommondata</ObjectType>
+    <Parent>
+      <CodeName>Products_Bolivia.jpg-rpftg6oz</CodeName>
+      <GUID>f239665c-8974-4435-840e-f2cf01e1ae44</GUID>
+      <ObjectType>cms.contentitem</ObjectType>
+    </Parent>
+  </ContentItemDataCommonDataID>
+  <ContentItemDataGUID>06e2f810-9e3d-48a5-967c-a02fb161e50c</ContentItemDataGUID>
+  <ImageFile>
+    <![CDATA[{"Identifier":"bb3c0394-5743-4163-b3f7-5a56b3013690","Name":"bolivia.jpg","Extension":".jpg","Size":53030,"LastModified":"2023-07-03T12:32:34.6517787Z"}]]>
+  </ImageFile>
+</contentitemdata.dancinggoat.image>

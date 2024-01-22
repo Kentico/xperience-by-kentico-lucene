@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<contentitemdata.dancinggoat.navigationitem>
+  <ContentItemDataCommonDataID>
+    <GUID>e71a0115-e9b8-4c66-8522-6e1a8f76c976</GUID>
+    <ObjectType>cms.contentitemcommondata</ObjectType>
+    <Parent>
+      <CodeName>Contacts-0xhpuwvu</CodeName>
+      <GUID>272cf9dd-ffa8-4b5e-9290-85f9dde13c6a</GUID>
+      <ObjectType>cms.contentitem</ObjectType>
+    </Parent>
+  </ContentItemDataCommonDataID>
+  <ContentItemDataGUID>8964361d-2d14-4f11-852a-2fdc60fa0ca0</ContentItemDataGUID>
+  <NavigationItemLink>
+    <![CDATA[[{"WebPageGuid":"1936f468-5f93-427a-9c62-0da5b0a7a094"}]]]>
+  </NavigationItemLink>
+  <NavigationItemName>Contacts</NavigationItemName>
+</contentitemdata.dancinggoat.navigationitem>

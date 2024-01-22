@@ -1,0 +1,127 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<cms.contenttype>
+  <ClassContentTypeType>Reusable</ClassContentTypeType>
+  <ClassDisplayName>Cafe</ClassDisplayName>
+  <ClassFormDefinition>
+    <form>
+      <field column="ContentItemDataID" columntype="integer" enabled="true" guid="89995c20-0805-4767-a474-e67ec0a09d32" isPK="true" />
+      <field column="ContentItemDataCommonDataID" columntype="integer" enabled="true" guid="0673c391-464a-4c31-b09c-9816e84fe922" refobjtype="cms.contentitemcommondata" reftype="Required" system="true" />
+      <field column="ContentItemDataGUID" columntype="guid" enabled="true" guid="ad0d1cf7-a462-48de-b8cc-06638ffbf308" isunique="true" system="true" />
+      <field column="CafeName" columnprecision="0" columnsize="200" columntype="text" enabled="true" guid="d031d074-adbf-4ab4-a4ae-8bdfd5611fb2" visible="true">
+        <properties>
+          <explanationtextashtml>False</explanationtextashtml>
+          <fieldcaption>Cafe Name</fieldcaption>
+          <fielddescriptionashtml>False</fielddescriptionashtml>
+        </properties>
+        <settings>
+          <controlname>Kentico.Administration.TextInput</controlname>
+        </settings>
+      </field>
+      <field allowempty="true" column="CafeIsCompanyCafe" columnprecision="0" columntype="boolean" enabled="true" guid="49d34d4c-a029-49c6-bd88-28dadca4f509" visible="true">
+        <properties>
+          <defaultvalue>False</defaultvalue>
+          <explanationtextashtml>False</explanationtextashtml>
+          <fieldcaption>Our cafe</fieldcaption>
+          <fielddescriptionashtml>False</fielddescriptionashtml>
+        </properties>
+        <settings>
+          <controlname>Kentico.Administration.Checkbox</controlname>
+        </settings>
+      </field>
+      <field column="CafeStreet" columnprecision="0" columnsize="50" columntype="text" enabled="true" guid="db0a468c-b650-4d66-adff-636f09a381f3" visible="true">
+        <properties>
+          <explanationtextashtml>False</explanationtextashtml>
+          <fieldcaption>Street</fieldcaption>
+          <fielddescriptionashtml>False</fielddescriptionashtml>
+        </properties>
+        <settings>
+          <controlname>Kentico.Administration.TextInput</controlname>
+        </settings>
+      </field>
+      <field column="CafeCity" columnprecision="0" columnsize="50" columntype="text" enabled="true" guid="8af53b47-d1b3-4785-8492-19f323c24eda" visible="true">
+        <properties>
+          <explanationtextashtml>False</explanationtextashtml>
+          <fieldcaption>City</fieldcaption>
+          <fielddescriptionashtml>False</fielddescriptionashtml>
+        </properties>
+        <settings>
+          <controlname>Kentico.Administration.TextInput</controlname>
+        </settings>
+      </field>
+      <field column="CafeCountry" columnprecision="0" columnsize="100" columntype="text" enabled="true" guid="c61a8539-3b61-4349-8e05-b7ff4b2950e8" visible="true">
+        <properties>
+          <defaultvalue>USA</defaultvalue>
+          <explanationtextashtml>False</explanationtextashtml>
+          <fieldcaption>Country</fieldcaption>
+          <fielddescriptionashtml>False</fielddescriptionashtml>
+        </properties>
+        <settings>
+          <controlname>Kentico.Administration.TextInput</controlname>
+        </settings>
+      </field>
+      <field column="CafeZipCode" columnprecision="0" columnsize="15" columntype="text" enabled="true" guid="f03adfab-ffd9-42cf-9016-4baad529631c" visible="true">
+        <properties>
+          <explanationtextashtml>False</explanationtextashtml>
+          <fieldcaption>Zip code</fieldcaption>
+          <fielddescriptionashtml>False</fielddescriptionashtml>
+        </properties>
+        <settings>
+          <controlname>Kentico.Administration.TextInput</controlname>
+        </settings>
+      </field>
+      <field column="CafePhone" columnprecision="0" columnsize="30" columntype="text" enabled="true" guid="03df11ad-8b54-47bb-a436-5de8b83f06c5" visible="true">
+        <properties>
+          <explanationtextashtml>False</explanationtextashtml>
+          <fieldcaption>Phone</fieldcaption>
+          <fielddescriptionashtml>False</fielddescriptionashtml>
+        </properties>
+        <settings>
+          <controlname>Kentico.Administration.TextInput</controlname>
+        </settings>
+      </field>
+      <field allowempty="true" column="CafePhoto" columnprecision="0" columntype="contentitemreference" enabled="true" guid="1e4c0c62-4056-4acd-ac2e-d96ba01adff7" visible="true">
+        <properties>
+          <explanationtextashtml>False</explanationtextashtml>
+          <fieldcaption>Photo</fieldcaption>
+          <fielddescriptionashtml>False</fielddescriptionashtml>
+        </properties>
+        <settings>
+          <AllowedContentItemTypeIdentifiers>
+            <![CDATA[["fd1947a4-e04b-441b-a76c-1ed826fb766e"]]]>
+          </AllowedContentItemTypeIdentifiers>
+          <controlname>Kentico.Administration.ContentItemSelector</controlname>
+        </settings>
+      </field>
+      <field allowempty="true" column="CafeAdditionalNotes" columnprecision="0" columnsize="200" columntype="text" enabled="true" guid="632a4ab7-10d3-49c7-a465-e16b6dc453e7" visible="true">
+        <properties>
+          <explanationtextashtml>False</explanationtextashtml>
+          <fieldcaption>Additional notes</fieldcaption>
+          <fielddescriptionashtml>False</fielddescriptionashtml>
+        </properties>
+        <settings>
+          <controlname>Kentico.Administration.TextInput</controlname>
+        </settings>
+      </field>
+      <field allowempty="true" column="CafeCuppingOffer" columnprecision="0" columntype="contentitemreference" enabled="true" guid="323d44df-162d-4dfa-8dd1-76ed849375ef" visible="true">
+        <properties>
+          <explanationtextashtml>False</explanationtextashtml>
+          <fieldcaption>Cupping offer</fieldcaption>
+          <fielddescriptionashtml>False</fielddescriptionashtml>
+        </properties>
+        <settings>
+          <AllowedContentItemTypeIdentifiers>
+            <![CDATA[["7f74020d-0a9e-46fd-bfcc-50b893e94452"]]]>
+          </AllowedContentItemTypeIdentifiers>
+          <controlname>Kentico.Administration.ContentItemSelector</controlname>
+        </settings>
+      </field>
+    </form>
+  </ClassFormDefinition>
+  <ClassGUID>2f06d20b-3357-48e6-b0f8-2ca7ef737237</ClassGUID>
+  <ClassHasUnmanagedDbSchema>False</ClassHasUnmanagedDbSchema>
+  <ClassIconClass>xp-cup</ClassIconClass>
+  <ClassName>DancingGoat.Cafe</ClassName>
+  <ClassTableName>DancingGoat_Cafe</ClassTableName>
+  <ClassType>Content</ClassType>
+  <ClassWebPageHasUrl>False</ClassWebPageHasUrl>
+</cms.contenttype>

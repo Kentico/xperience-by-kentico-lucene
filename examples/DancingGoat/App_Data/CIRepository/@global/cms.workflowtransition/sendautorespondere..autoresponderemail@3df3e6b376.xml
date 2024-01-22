@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<cms.workflowtransition>
+  <Parent>
+    <CodeName>SendAutoresponderEmail</CodeName>
+    <GUID>cdb3c2da-60cd-4395-9559-ac27b025de80</GUID>
+    <ObjectType>ma.automationstep</ObjectType>
+    <Parent>
+      <CodeName>SendAutoresponderEmail.DancingGoatSubscription</CodeName>
+      <GUID>d89515f8-83aa-4458-be1a-cad0d679a810</GUID>
+      <ObjectType>ma.automationprocess</ObjectType>
+    </Parent>
+  </Parent>
+  <Bindings>
+    <Binding id="ma.automationstep_Finished_ma.automationprocess_SendAutoresponderEmail.DancingGoatSubscription">
+      <TransitionEndStepID>
+        <CodeName>Finished</CodeName>
+        <GUID>99c71ad6-d80e-4c5e-bb21-a69c98554ff1</GUID>
+        <ObjectType>ma.automationstep</ObjectType>
+        <Parent>
+          <CodeName>SendAutoresponderEmail.DancingGoatSubscription</CodeName>
+          <GUID>d89515f8-83aa-4458-be1a-cad0d679a810</GUID>
+          <ObjectType>ma.automationprocess</ObjectType>
+        </Parent>
+      </TransitionEndStepID>
+      <TransitionSourcePointGUID>bc78e12f-1ddd-4401-a1f8-62d4ba81d7ff</TransitionSourcePointGUID>
+      <TransitionType>1</TransitionType>
+      <TransitionWorkflowID>
+        <CodeName>SendAutoresponderEmail.DancingGoatSubscription</CodeName>
+        <GUID>d89515f8-83aa-4458-be1a-cad0d679a810</GUID>
+        <ObjectType>ma.automationprocess</ObjectType>
+      </TransitionWorkflowID>
+    </Binding>
+  </Bindings>
+</cms.workflowtransition>

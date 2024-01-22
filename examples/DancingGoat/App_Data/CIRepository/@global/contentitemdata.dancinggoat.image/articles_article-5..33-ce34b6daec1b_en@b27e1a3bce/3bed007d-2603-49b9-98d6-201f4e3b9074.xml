@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<contentitemdata.dancinggoat.image>
+  <ContentItemDataCommonDataID>
+    <GUID>c36f4a01-59b8-4fee-9833-ce34b6daec1b</GUID>
+    <ObjectType>cms.contentitemcommondata</ObjectType>
+    <Parent>
+      <CodeName>Articles_Article-5_2x.jpg-ui1p5uwa</CodeName>
+      <GUID>e07114f8-dd0b-47ed-9cee-1d5c1404835a</GUID>
+      <ObjectType>cms.contentitem</ObjectType>
+    </Parent>
+  </ContentItemDataCommonDataID>
+  <ContentItemDataGUID>3bed007d-2603-49b9-98d6-201f4e3b9074</ContentItemDataGUID>
+  <ImageFile>
+    <![CDATA[{"Identifier":"41652c08-56e9-4f87-98d2-99ffda221444","Name":"article-5@2x.jpg","Extension":".jpg","Size":80444,"LastModified":"2023-06-14T15:38:03.6729852Z"}]]>
+  </ImageFile>
+  <ImageShortDescription>A farmer raking coffee during the drying process.</ImageShortDescription>
+</contentitemdata.dancinggoat.image>

@@ -1,0 +1,217 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<cms.formclass>
+  <ClassContactMapping>
+    <form>
+      <field column="ContactFirstName" enabled="true" guid="6a6f520e-53a8-4508-a222-604d4f02cc2f" mappedtofield="firstname" visible="true" />
+      <field column="ContactLastName" enabled="true" guid="3db44b29-b3b9-4c51-8bc2-68ed28b24818" mappedtofield="lastname" visible="true" />
+      <field column="ContactEmail" enabled="true" guid="868f3bfd-53db-4fc7-8d82-c52004d0bd09" mappedtofield="email" visible="true" />
+      <field column="ContactStateID" enabled="true" guid="e1089f7c-6938-402a-855f-388395a30922" mappedtofield="state" visible="true" />
+    </form>
+  </ClassContactMapping>
+  <ClassContactOverwriteEnabled>False</ClassContactOverwriteEnabled>
+  <ClassDisplayName>Coffee sample list</ClassDisplayName>
+  <ClassFormDefinition>
+    <form>
+      <field column="DancingGoatCoffeeSampleListID" columntype="integer" enabled="true" guid="3fd806c3-39a8-46ba-8ce4-67059d703044" isPK="true" />
+      <field column="FormInserted" columnprecision="7" columntype="datetime" enabled="true" guid="b1a4d3d6-5e7b-48c6-b667-27334873b37b" system="true">
+        <properties>
+          <fieldcaption>Form inserted</fieldcaption>
+        </properties>
+      </field>
+      <field column="FormUpdated" columnprecision="7" columntype="datetime" enabled="true" guid="796bcc40-df54-4e1a-ac85-1f586e3d1eff" system="true">
+        <properties>
+          <fieldcaption>Form updated</fieldcaption>
+        </properties>
+      </field>
+      <field allowempty="true" column="FirstName" columnsize="500" columntype="text" enabled="true" guid="bb1b070e-a408-47e9-87c3-e640dd8a283c" visible="true">
+        <properties>
+          <fieldcaption>First name</fieldcaption>
+          <smart>False</smart>
+        </properties>
+        <settings>
+          <componentidentifier>Kentico.TextInput</componentidentifier>
+        </settings>
+        <validationrulesdata>
+          <ValidationRuleConfiguration>
+            <Identifier>Kentico.MaximumLength</Identifier>
+            <ValidationRule>
+              <InstanceIdentifier>59c0bb49-c4e4-4f6b-9c42-ebda8b17337c</InstanceIdentifier>
+              <ErrorMessage>Maximum allowed length of the input text is 100.</ErrorMessage>
+              <MaximumLength>100</MaximumLength>
+            </ValidationRule>
+          </ValidationRuleConfiguration>
+        </validationrulesdata>
+      </field>
+      <field allowempty="true" column="LastName" columnsize="500" columntype="text" enabled="true" guid="a2def15e-ae04-4699-87e7-eb54a827e1be" visible="true">
+        <properties>
+          <fieldcaption>Last name</fieldcaption>
+          <smart>False</smart>
+        </properties>
+        <settings>
+          <componentidentifier>Kentico.TextInput</componentidentifier>
+        </settings>
+        <validationrulesdata>
+          <ValidationRuleConfiguration>
+            <Identifier>Kentico.MaximumLength</Identifier>
+            <ValidationRule>
+              <InstanceIdentifier>a004a57d-a084-445e-bea6-f589aaea1548</InstanceIdentifier>
+              <ErrorMessage>Maximum allowed length of the input text is 100.</ErrorMessage>
+              <MaximumLength>100</MaximumLength>
+            </ValidationRule>
+          </ValidationRuleConfiguration>
+        </validationrulesdata>
+      </field>
+      <field allowempty="true" column="Email" columnsize="500" columntype="text" enabled="true" guid="52a41b77-905a-414e-8b31-bdabe1a251d8" visible="true">
+        <properties>
+          <fieldcaption>Email</fieldcaption>
+          <smart>False</smart>
+        </properties>
+        <settings>
+          <componentidentifier>Kentico.EmailInput</componentidentifier>
+        </settings>
+        <validationrulesdata>
+          <ValidationRuleConfiguration>
+            <Identifier>Kentico.MaximumLength</Identifier>
+            <ValidationRule>
+              <InstanceIdentifier>0e4f50f5-89fa-49fd-a4e3-9bb32ee6b244</InstanceIdentifier>
+              <ErrorMessage>Maximum allowed length of the input text is 254.</ErrorMessage>
+              <MaximumLength>254</MaximumLength>
+            </ValidationRule>
+          </ValidationRuleConfiguration>
+        </validationrulesdata>
+      </field>
+      <field column="Address" columnsize="500" columntype="text" enabled="true" guid="ac9ea624-b61e-4385-b5d6-90d5bb005fde" visible="true">
+        <properties>
+          <fieldcaption>Address</fieldcaption>
+          <smart>False</smart>
+        </properties>
+        <settings>
+          <componentidentifier>Kentico.TextInput</componentidentifier>
+        </settings>
+      </field>
+      <field column="City" columnsize="500" columntype="text" enabled="true" guid="c5a94a2f-75ee-4ca5-a6bb-1c1f5cd32dbc" visible="true">
+        <properties>
+          <fieldcaption>City</fieldcaption>
+          <smart>False</smart>
+        </properties>
+        <settings>
+          <componentidentifier>Kentico.TextInput</componentidentifier>
+        </settings>
+      </field>
+      <field column="ZIPCode" columnsize="500" columntype="text" enabled="true" guid="af9c4572-5eac-4f1a-806e-fe50bbe826d4" visible="true">
+        <properties>
+          <fieldcaption>ZIP code</fieldcaption>
+          <smart>False</smart>
+        </properties>
+        <settings>
+          <componentidentifier>Kentico.TextInput</componentidentifier>
+        </settings>
+      </field>
+      <field allowempty="true" column="State" columnsize="500" columntype="text" enabled="true" guid="16430203-ad38-41de-a41e-7b59365111d1" visible="true">
+        <properties>
+          <fieldcaption>State</fieldcaption>
+          <smart>False</smart>
+        </properties>
+        <settings>
+          <componentidentifier>Kentico.TextInput</componentidentifier>
+        </settings>
+      </field>
+      <field column="Country" columnsize="500" columntype="text" enabled="true" guid="7c57d1b8-34b5-44ac-9113-8d1cdf810a81" visible="true">
+        <properties>
+          <fieldcaption>Country</fieldcaption>
+          <smart>False</smart>
+        </properties>
+        <settings>
+          <componentidentifier>Kentico.TextInput</componentidentifier>
+        </settings>
+      </field>
+    </form>
+  </ClassFormDefinition>
+  <ClassGUID>f1cb53b0-6b7e-45f2-86ae-5ff3e6cb8f96</ClassGUID>
+  <ClassHasUnmanagedDbSchema>False</ClassHasUnmanagedDbSchema>
+  <ClassName>BizForm.DancingGoatCoffeeSampleList</ClassName>
+  <ClassTableName>Form_DancingGoat_CoffeeSampleList</ClassTableName>
+  <ClassType>Form</ClassType>
+  <ClassXmlSchema>
+<![CDATA[
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="NewDataSet" xmlns="" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+  <xs:element name="NewDataSet" msdata:IsDataSet="true" msdata:UseCurrentLocale="true">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="Form_DancingGoat_CoffeeSampleList">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="DancingGoatCoffeeSampleListID" msdata:ReadOnly="true" msdata:AutoIncrement="true" type="xs:int" />
+              <xs:element name="FormInserted" type="xs:dateTime" />
+              <xs:element name="FormUpdated" type="xs:dateTime" />
+              <xs:element name="FirstName" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="500" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="LastName" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="500" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="Email" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="500" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="Address">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="500" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="City">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="500" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="ZIPCode">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="500" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="State" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="500" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="Country">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="500" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+    <xs:unique name="Constraint1" msdata:PrimaryKey="true">
+      <xs:selector xpath=".//Form_DancingGoat_CoffeeSampleList" />
+      <xs:field xpath="DancingGoatCoffeeSampleListID" />
+    </xs:unique>
+  </xs:element>
+</xs:schema>
+]]>
+  </ClassXmlSchema>
+</cms.formclass>

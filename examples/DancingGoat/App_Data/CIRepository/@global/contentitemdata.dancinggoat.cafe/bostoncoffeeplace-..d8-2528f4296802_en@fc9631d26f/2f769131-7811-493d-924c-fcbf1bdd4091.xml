@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<contentitemdata.dancinggoat.cafe>
+  <CafeCity>Boston</CafeCity>
+  <CafeCountry>USA, Massachusetts</CafeCountry>
+  <CafeCuppingOffer>
+    <![CDATA[[{"Identifier":"60d815a6-674e-468d-8155-d2b3be75a321"},{"Identifier":"edb18903-129a-4c33-9ca1-506cfdf4496e"},{"Identifier":"d81c0256-89eb-4e1f-88d2-34d8beefe8f6"},{"Identifier":"818df78b-353d-4863-8e9d-287040051249"}]]]>
+  </CafeCuppingOffer>
+  <CafeIsCompanyCafe>True</CafeIsCompanyCafe>
+  <CafeName>Boston coffee place</CafeName>
+  <CafePhone>617-824-9072</CafePhone>
+  <CafePhoto>
+    <![CDATA[[{"Identifier":"224f43c1-e456-4dfe-af12-ad151c19d0d6"}]]]>
+  </CafePhoto>
+  <CafeStreet>27 Bowdoin St</CafeStreet>
+  <CafeZipCode>02114</CafeZipCode>
+  <ContentItemDataCommonDataID>
+    <GUID>c3274983-ae81-496b-81d8-2528f4296802</GUID>
+    <ObjectType>cms.contentitemcommondata</ObjectType>
+    <Parent>
+      <CodeName>BostonCoffeePlace-034jwdxo</CodeName>
+      <GUID>4c84719d-689e-460e-8cc1-5495c367b249</GUID>
+      <ObjectType>cms.contentitem</ObjectType>
+    </Parent>
+  </ContentItemDataCommonDataID>
+  <ContentItemDataGUID>2f769131-7811-493d-924c-fcbf1bdd4091</ContentItemDataGUID>
+</contentitemdata.dancinggoat.cafe>

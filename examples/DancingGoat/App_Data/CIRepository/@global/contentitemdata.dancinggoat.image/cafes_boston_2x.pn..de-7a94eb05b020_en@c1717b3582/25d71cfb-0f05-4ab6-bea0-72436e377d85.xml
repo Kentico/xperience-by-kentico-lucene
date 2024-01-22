@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<contentitemdata.dancinggoat.image>
+  <ContentItemDataCommonDataID>
+    <GUID>5c80fdb7-afae-498f-85de-7a94eb05b020</GUID>
+    <ObjectType>cms.contentitemcommondata</ObjectType>
+    <Parent>
+      <CodeName>Cafes_Boston_2x.png-ook06kfb</CodeName>
+      <GUID>224f43c1-e456-4dfe-af12-ad151c19d0d6</GUID>
+      <ObjectType>cms.contentitem</ObjectType>
+    </Parent>
+  </ContentItemDataCommonDataID>
+  <ContentItemDataGUID>25d71cfb-0f05-4ab6-bea0-72436e377d85</ContentItemDataGUID>
+  <ImageFile>
+    <![CDATA[{"Identifier":"aa3a569a-cc3c-4598-94bc-6e645c31f474","Name":"boston@2x.png","Extension":".png","Size":193425,"LastModified":"2023-07-10T13:26:22.8037651Z"}]]>
+  </ImageFile>
+</contentitemdata.dancinggoat.image>

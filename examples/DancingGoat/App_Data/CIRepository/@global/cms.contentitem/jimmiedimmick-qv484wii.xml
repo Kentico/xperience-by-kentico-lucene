@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<cms.contentitem>
+  <ContentItemContentTypeID>
+    <CodeName>DancingGoat.Reference</CodeName>
+    <GUID>fd221dc3-2ad9-443a-88b4-b15d52873d7f</GUID>
+    <ObjectType>cms.contenttype</ObjectType>
+  </ContentItemContentTypeID>
+  <ContentItemGUID>12e192cc-099a-4fd4-9360-2b8acad4daf0</ContentItemGUID>
+  <ContentItemIsReusable>True</ContentItemIsReusable>
+  <ContentItemIsSecured>False</ContentItemIsSecured>
+  <ContentItemName>JimmieDimmick-qv484wii</ContentItemName>
+</cms.contentitem>

@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<cms.contentitem>
+  <ContentItemContentTypeID>
+    <CodeName>DancingGoat.Coffee</CodeName>
+    <GUID>7f74020d-0a9e-46fd-bfcc-50b893e94452</GUID>
+    <ObjectType>cms.contenttype</ObjectType>
+  </ContentItemContentTypeID>
+  <ContentItemGUID>818df78b-353d-4863-8e9d-287040051249</ContentItemGUID>
+  <ContentItemIsReusable>True</ContentItemIsReusable>
+  <ContentItemIsSecured>False</ContentItemIsSecured>
+  <ContentItemName>ElSalvadorFincaSanJose-nr6bglxm</ContentItemName>
+</cms.contentitem>

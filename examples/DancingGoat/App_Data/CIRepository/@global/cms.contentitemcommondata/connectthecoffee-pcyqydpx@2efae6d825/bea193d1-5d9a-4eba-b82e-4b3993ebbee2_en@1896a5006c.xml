@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<cms.contentitemcommondata>
+  <ContentItemCommonDataContentItemID>
+    <CodeName>ConnectTheCoffee-pcyqydpx</CodeName>
+    <GUID>fdc85786-40ce-4c4b-9fb8-1b615a621a49</GUID>
+    <ObjectType>cms.contentitem</ObjectType>
+  </ContentItemCommonDataContentItemID>
+  <ContentItemCommonDataContentLanguageID>
+    <CodeName>en</CodeName>
+    <GUID>e4a8fb12-ebc2-45d0-930f-c9fba2780c85</GUID>
+    <ObjectType>cms.contentlanguage</ObjectType>
+  </ContentItemCommonDataContentLanguageID>
+  <ContentItemCommonDataGUID>bea193d1-5d9a-4eba-b82e-4b3993ebbee2</ContentItemCommonDataGUID>
+  <ContentItemCommonDataIsLatest>True</ContentItemCommonDataIsLatest>
+  <ContentItemCommonDataVersionStatus>2</ContentItemCommonDataVersionStatus>
+  <ContentItemReferences>
+    <cms.contentitemreference>
+      <ContentItemReferenceGroupGUID>0bf8c2b0-092b-46f5-97a4-03279e7aa3be</ContentItemReferenceGroupGUID>
+      <ContentItemReferenceGUID>a8c86d36-36e7-48c2-ba39-207dfbf80a8a</ContentItemReferenceGUID>
+      <ContentItemReferenceSourceCommonDataID>
+        <GUID>bea193d1-5d9a-4eba-b82e-4b3993ebbee2</GUID>
+        <ObjectType>cms.contentitemcommondata</ObjectType>
+      </ContentItemReferenceSourceCommonDataID>
+      <ContentItemReferenceTargetItemID>
+        <CodeName>Events_Battlecreek-coffee-roasters-i22gbC3gFm4-unsplash_50.jpg-h9mzj83x</CodeName>
+        <GUID>38546af2-95d1-4852-a232-9dc0c9fb24b5</GUID>
+        <ObjectType>cms.contentitem</ObjectType>
+      </ContentItemReferenceTargetItemID>
+    </cms.contentitemreference>
+  </ContentItemReferences>
+</cms.contentitemcommondata>

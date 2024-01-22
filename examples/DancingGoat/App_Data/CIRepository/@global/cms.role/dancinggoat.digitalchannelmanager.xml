@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<cms.role>
+  <RoleDescription>
+    <![CDATA[A sample role with an oversight of all digital marketing applications. Responsible for defining the customer journey as well as managing, analyzing, and releasing assets to their target marketing channels. This role also has oversight of all customer data management applications.]]>
+  </RoleDescription>
+  <RoleDisplayName>Digital Channel Manager</RoleDisplayName>
+  <RoleGUID>80f9aa61-d17c-45f0-9b9a-9ff3c301438c</RoleGUID>
+  <RoleName>DancingGoat.DigitalChannelManager</RoleName>
+</cms.role>

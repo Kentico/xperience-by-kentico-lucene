@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<contentitemdata.dancinggoat.image>
+  <ContentItemDataCommonDataID>
+    <GUID>c4b96a62-9246-47b0-9b02-328df1a983a2</GUID>
+    <ObjectType>cms.contentitemcommondata</ObjectType>
+    <Parent>
+      <CodeName>Events_Battlecreek-coffee-roasters-i22gbC3gFm4-unsplash_50.jpg-h9mzj83x</CodeName>
+      <GUID>38546af2-95d1-4852-a232-9dc0c9fb24b5</GUID>
+      <ObjectType>cms.contentitem</ObjectType>
+    </Parent>
+  </ContentItemDataCommonDataID>
+  <ContentItemDataGUID>414bd637-662f-4e13-9b93-a84702f26c42</ContentItemDataGUID>
+  <ImageFile>
+    <![CDATA[{"Identifier":"37285105-211a-4b99-948c-681ed7dcf8bc","Name":"battlecreek-coffee-roasters-i22gbC3gFm4-unsplash_50.jpg","Extension":".jpg","Size":263738,"LastModified":"2023-06-27T10:53:27.2527603Z"}]]>
+  </ImageFile>
+  <ImageShortDescription />
+</contentitemdata.dancinggoat.image>

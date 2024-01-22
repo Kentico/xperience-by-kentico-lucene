@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<cms.contenttype>
+  <ClassContentTypeType>Website</ClassContentTypeType>
+  <ClassDisplayName>Navigation item</ClassDisplayName>
+  <ClassFormDefinition>
+    <form>
+      <field column="ContentItemDataID" columntype="integer" enabled="true" guid="a0904e5d-d357-4978-bf8d-0f4df88b5d41" isPK="true" />
+      <field column="ContentItemDataCommonDataID" columntype="integer" enabled="true" guid="93b6ce9b-2dd7-4845-a342-eda21cd55312" refobjtype="cms.contentitemcommondata" reftype="Required" system="true" />
+      <field column="ContentItemDataGUID" columntype="guid" enabled="true" guid="8f7c1e48-8a60-46b8-9aa8-111728d9eec1" isunique="true" system="true" />
+      <field column="NavigationItemName" columnprecision="0" columnsize="200" columntype="text" enabled="true" guid="b4f8347c-1ce7-4918-914c-8918764f485b" visible="true">
+        <properties>
+          <explanationtextashtml>False</explanationtextashtml>
+          <fieldcaption>Name</fieldcaption>
+          <fielddescriptionashtml>False</fielddescriptionashtml>
+        </properties>
+        <settings>
+          <controlname>Kentico.Administration.TextInput</controlname>
+        </settings>
+      </field>
+      <field column="NavigationItemLink" columnprecision="0" columntype="webpages" enabled="true" guid="0e40b158-c4c5-4c7d-8b77-3c86e2c84770" visible="true">
+        <properties>
+          <explanationtext>
+            <![CDATA[Select a page from the content tree. Make sure that the page you've selected has a URL address.]]>
+          </explanationtext>
+          <explanationtextashtml>False</explanationtextashtml>
+          <fieldcaption>Link to</fieldcaption>
+          <fielddescriptionashtml>False</fielddescriptionashtml>
+        </properties>
+        <settings>
+          <controlname>Kentico.Administration.WebPageSelector</controlname>
+          <MaximumPages>1</MaximumPages>
+          <Sortable>False</Sortable>
+        </settings>
+      </field>
+    </form>
+  </ClassFormDefinition>
+  <ClassGUID>dada684e-94fc-4ead-80fd-bb72dd0e54bf</ClassGUID>
+  <ClassHasUnmanagedDbSchema>False</ClassHasUnmanagedDbSchema>
+  <ClassIconClass>xp-arrow-right-top-square</ClassIconClass>
+  <ClassName>DancingGoat.NavigationItem</ClassName>
+  <ClassTableName>DancingGoat_NavigationItem</ClassTableName>
+  <ClassType>Content</ClassType>
+  <ClassWebPageHasUrl>False</ClassWebPageHasUrl>
+</cms.contenttype>
