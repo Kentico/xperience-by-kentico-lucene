@@ -1,4 +1,5 @@
-﻿using Kentico.Xperience.Admin.Base.FormAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
+using Kentico.Xperience.Admin.Base.FormAnnotations;
 using Kentico.Xperience.Admin.Base.Forms;
 
 namespace Kentico.Xperience.Lucene.Admin;
@@ -7,7 +8,12 @@ public class LuceneConfigurationModel
 {
     public int Id { get; set; }
 
-    [TextInputComponent(Label = "Index Name", Order = 1)]
+    [TextInputComponent(
+        Label = "Index Name",
+        ExplanationText = "Changing this value on an existing index without changing application code will cause the search experience to stop working.",
+        Order = 1)]
+    [Required]
+    [MinLength(1)]
     public string IndexName { get; set; } = "";
 
     [GeneralSelectorComponent(dataProviderType: typeof(LanguageOptionsProvider), Label = "Indexed Languages", Order = 2)]
