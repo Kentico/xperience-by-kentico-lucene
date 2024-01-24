@@ -80,8 +80,11 @@ internal class DefaultLuceneClient : ILuceneClient
             var statistics = luceneSearchService.UseSearcher(i, s => new LuceneIndexStatisticsViewModel()
             {
                 Name = i.IndexName,
-                Entries = s.IndexReader.NumDocs,
+                Entries = s.IndexReader.NumDocs
             });
+
+            var dir = new DirectoryInfo(i.StorageContext.GetPublishedIndex().Path);
+            statistics.UpdatedAt = dir.LastWriteTime;
             return statistics;
         }).ToList();
 
