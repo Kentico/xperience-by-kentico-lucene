@@ -14,6 +14,45 @@ public static class LuceneStartupExtensions
     /// </summary>
     /// <param name="serviceCollection"></param>
     /// <returns></returns>
+    public static IServiceCollection AddKenticoLucene(this IServiceCollection serviceCollection)
+    {
+        serviceCollection.AddLuceneServicesInternal();
+
+        StrategyStorage.AddStrategy<DefaultLuceneIndexingStrategy>("Default");
+
+        return serviceCollection;
+    }
+
+    /// <summary>
+    /// Adds Lucene services and custom module to application with customized options provided by the <see cref="ILuceneBuilder"/>
+    /// in the <paramref name="configure" /> action.
+    /// </summary>
+    /// <param name="serviceCollection"></param>
+    /// <param name="configure"></param>
+    /// <returns></returns>
+    public static IServiceCollection AddKenticoLucene(this IServiceCollection serviceCollection, Action<ILuceneBuilder> configure)
+    {
+        serviceCollection.AddLuceneServicesInternal();
+
+        var builder = new LuceneBuilder(serviceCollection);
+
+        configure(builder);
+
+        if (builder.IncludeDefaultStrategy)
+        {
+            serviceCollection.AddTransient<DefaultLuceneIndexingStrategy>();
+            builder.RegisterStrategy<DefaultLuceneIndexingStrategy>("Default");
+        }
+
+        return serviceCollection;
+    }
+
+    /// <summary>
+    /// Adds Lucene services and custom module to application using the <see cref="DefaultLuceneIndexingStrategy"/> for all indexes
+    /// </summary>
+    /// <param name="serviceCollection"></param>
+    /// <returns></returns>
+    [Obsolete("Will be removed in next version. Use .AddKenticoLucene() instead.")]
     public static IServiceCollection AddLucene(this IServiceCollection serviceCollection)
     {
         serviceCollection.AddLuceneServicesInternal();
@@ -30,6 +69,7 @@ public static class LuceneStartupExtensions
     /// <param name="serviceCollection"></param>
     /// <param name="configure"></param>
     /// <returns></returns>
+    [Obsolete("Will be removed in next version. Use .AddKenticoLucene() instead.")]
     public static IServiceCollection AddLucene(this IServiceCollection serviceCollection, Action<ILuceneBuilder> configure)
     {
         serviceCollection.AddLuceneServicesInternal();
