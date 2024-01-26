@@ -8,7 +8,7 @@ namespace Kentico.Xperience.Lucene.Indexing;
 public sealed class LuceneIndexStore
 {
     private static readonly Lazy<LuceneIndexStore> mInstance = new();
-    private readonly List<LuceneIndex> registeredIndexes = new();
+    private readonly List<LuceneIndex> registeredIndexes = [];
 
     /// <summary>
     /// Gets singleton instance of the <see cref="LuceneIndexStore"/>

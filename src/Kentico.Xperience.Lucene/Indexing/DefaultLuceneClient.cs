@@ -232,6 +232,8 @@ internal class DefaultLuceneClient : ILuceneClient
                         }
 
                         // add new one
+#pragma warning disable S2583 // Boolean expressions should not be gratuitous
+#pragma warning disable S2589 // Boolean expressions should not be gratuitous
                         if (document is not null)
                         {
                             writer.AddDocument(facetsConfig.Build(taxonomyWriter, document));
@@ -241,6 +243,8 @@ internal class DefaultLuceneClient : ILuceneClient
                         {
                             taxonomyWriter.Commit();
                         }
+#pragma warning restore S2583 // Boolean expressions should not be gratuitous
+#pragma warning restore S2589 // Boolean expressions should not be gratuitous
                     }
                     taxonomyWriter.Commit();
 
@@ -264,11 +268,13 @@ internal class DefaultLuceneClient : ILuceneClient
                             writer.DeleteDocuments(new Term(nameof(IIndexEventItemModel.ItemGuid), bytes));
                         }
                         // add new one
+#pragma warning disable S2589 // Boolean expressions should not be gratuitous
                         if (document is not null)
                         {
                             writer.AddDocument(document);
                             count++;
                         }
+#pragma warning restore S2589 // Boolean expressions should not be gratuitous
                     }
                     return count;
                 }, index.StorageContext.GetLastGeneration(true));

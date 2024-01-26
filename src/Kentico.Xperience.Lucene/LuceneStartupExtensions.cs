@@ -52,7 +52,7 @@ public static class LuceneStartupExtensions
     /// </summary>
     /// <param name="serviceCollection"></param>
     /// <returns></returns>
-    [Obsolete("Will be removed in next version. Use .AddKenticoLucene() instead.")]
+    [Obsolete("Will be removed in next major version. Use .AddKenticoLucene() instead.")]
     public static IServiceCollection AddLucene(this IServiceCollection serviceCollection)
     {
         serviceCollection.AddLuceneServicesInternal();
@@ -69,7 +69,7 @@ public static class LuceneStartupExtensions
     /// <param name="serviceCollection"></param>
     /// <param name="configure"></param>
     /// <returns></returns>
-    [Obsolete("Will be removed in next version. Use .AddKenticoLucene() instead.")]
+    [Obsolete("Will be removed in next major version. Use .AddKenticoLucene() instead.")]
     public static IServiceCollection AddLucene(this IServiceCollection serviceCollection, Action<ILuceneBuilder> configure)
     {
         serviceCollection.AddLuceneServicesInternal();
