@@ -2,7 +2,11 @@ namespace Kentico.Xperience.Lucene.Admin;
 
 public partial interface ILuceneModuleVersionInfoProvider
 {
-    LuceneModuleVersionInfo GetDatabaseModuleVersion();
+    InstallStatus GetModuleInstallationStatus();
+
+    LuceneModuleVersionInfo GetInstalledModuleVersion();
 
     string GetAssemblyVersionNumber();
+
+    string GetAssemblyName();
 }

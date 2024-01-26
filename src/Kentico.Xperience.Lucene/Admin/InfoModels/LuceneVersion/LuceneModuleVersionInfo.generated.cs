@@ -25,7 +25,7 @@ namespace Kentico.Xperience.Lucene.Admin
         /// <summary>
         /// Type information.
         /// </summary>
-        public static readonly ObjectTypeInfo TYPEINFO = new(typeof(LuceneModuleVersionInfoProvider), OBJECT_TYPE, "KenticoLucene.LuceneModuleVersion", nameof(LuceneModuleVersionId), nameof(LuceneModuleVersionLastModified), nameof(LuceneModuleVersionGuid), null, null, null, null, null)
+        public static readonly ObjectTypeInfo TYPEINFO = new(typeof(LuceneModuleVersionInfoProvider), OBJECT_TYPE, "KenticoLucene.LuceneModuleVersion", nameof(LuceneModuleVersionId), nameof(LuceneModuleVersionLastModified), nameof(LuceneModuleVersionGuid), nameof(LuceneModuleVersionNumber), nameof(LuceneModuleVersionNumber), null, null, null)
         {
             TouchCacheDependencies = true,
             ContinuousIntegrationSettings =

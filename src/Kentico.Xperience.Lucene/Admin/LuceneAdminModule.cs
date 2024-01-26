@@ -15,18 +15,11 @@ namespace Kentico.Xperience.Lucene.Admin;
 /// </summary>
 internal class LuceneAdminModule : AdminModule
 {
-    private ILuceneConfigurationStorageService? storageService;
-    private LuceneModuleInstaller? installer;
-    private LuceneModuleMigrator? migrator;
+    private ILuceneConfigurationStorageService storageService = null!;
+    private LuceneModuleMigrator migrator = null!;
 
+    public LuceneAdminModule() : base(nameof(LuceneAdminModule)) { }
 
-    public LuceneAdminModule()
-        : base(nameof(LuceneAdminModule))
-    {
-    }
-
-
-    /// <inheritdoc/>
     protected override void OnInit(ModuleInitParameters parameters)
     {
         base.OnInit(parameters);
@@ -35,7 +28,6 @@ internal class LuceneAdminModule : AdminModule
 
         var services = parameters.Services;
 
-        installer = services.GetRequiredService<LuceneModuleInstaller>();
         migrator = services.GetRequiredService<LuceneModuleMigrator>();
         storageService = services.GetRequiredService<ILuceneConfigurationStorageService>();
 
@@ -43,16 +35,19 @@ internal class LuceneAdminModule : AdminModule
         ApplicationEvents.ExecuteMigrations.Execute += ExecuteMigrations;
     }
 
-
     private void InitializeModule(object? sender, EventArgs e)
     {
-        installer?.Install();
+        string[] args = Environment.GetCommandLineArgs();
 
-        if (storageService is not null)
+        // Workaround to ensure we don't perform checks or setup the module
+        // when running an update
+        if (args is null || !Array.Exists(args, a => a.Equals("--kxp-update")))
         {
+            migrator.ValidateModuleInstall();
+
             LuceneIndexStore.SetIndicies(storageService);
         }
     }
 
-    private void ExecuteMigrations(object? sender, MigrationExecutionEventArgs e) => migrator?.Migrate(e);
+    private void ExecuteMigrations(object? sender, MigrationExecutionEventArgs e) => migrator.Migrate();
 }

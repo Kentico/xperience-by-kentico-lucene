@@ -1,4 +1,3 @@
-using CMS.Base;
 using CMS.Modules;
 
 namespace Kentico.Xperience.Lucene.Admin;
@@ -7,36 +6,56 @@ internal class LuceneModuleMigrator
 {
     private readonly ILuceneModuleVersionInfoProvider versionProvider;
     private readonly IResourceInfoProvider resourceProvider;
+    private readonly LuceneModuleInstaller moduleInstaller;
 
-    public LuceneModuleMigrator(ILuceneModuleVersionInfoProvider versionProvider, IResourceInfoProvider resourceProvider)
+    public LuceneModuleMigrator(
+        ILuceneModuleVersionInfoProvider versionProvider,
+        IResourceInfoProvider resourceProvider,
+        LuceneModuleInstaller moduleInstaller)
     {
         this.versionProvider = versionProvider;
         this.resourceProvider = resourceProvider;
+        this.moduleInstaller = moduleInstaller;
     }
 
-    public void Migrate(MigrationExecutionEventArgs _)
+    public void ValidateModuleInstall()
     {
-        string assemblyVersion = versionProvider.GetAssemblyVersionNumber();
-        string installedVersion = versionProvider.GetDatabaseModuleVersion().LuceneModuleVersionNumber;
+        var status = versionProvider.GetModuleInstallationStatus();
 
-        while (!string.Equals(installedVersion, assemblyVersion))
+        if (status.IsInstallationValid())
+        {
+            return;
+        }
+
+        string errorMessage = $"""
+            The {versionProvider.GetAssemblyName()} integration assembly does not match the installed version.
+            Installed version - {status.DatabaseVersion}
+            Package version - {status.AssemblyVersion}
+
+            You must first run "dotnet run --kxp-update" to update this integration from the package.
+            """;
+
+        throw new InvalidOperationException(errorMessage);
+    }
+
+    public void Migrate()
+    {
+        var status = versionProvider.GetModuleInstallationStatus();
+
+        while (!string.Equals(status.DatabaseVersion, status.AssemblyVersion))
         {
             try
             {
-                installedVersion = installedVersion switch
+                _ = status switch
                 {
-                    "3.0.0" => Migrate_3_0_0_to_4_0_0(),
-                    "4.0.0" => Migrate_4_0_0_to_4_0_1(),
-                    _ => assemblyVersion
+                    (false, _) => Install(Migrate_None_to_Latest, status),
+                    (true, "4.0.0") => Migrate(Migrate_4_0_0_to_4_1_0, status),
+                    _ => throw new InvalidOperationException($"{versionProvider.GetAssemblyName()} v{status.DatabaseVersion} cannot be migrated")
                 };
-
-                Console.ForegroundColor = ConsoleColor.DarkCyan;
-                Console.WriteLine($"Upgrading Kentico.Xperience.Lucene from {installedVersion} to version {assemblyVersion}");
-                Console.ResetColor();
             }
             catch
             {
-                string message = $"Upgrading Kentico.Xperience.Lucene from {installedVersion} to version {assemblyVersion} failed";
+                string message = $"Upgrading {versionProvider.GetAssemblyName()} from v{status.DatabaseVersion} to v{status.AssemblyVersion} failed";
 
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine(message);
@@ -44,38 +63,78 @@ internal class LuceneModuleMigrator
 
                 throw;
             }
+
+            status = versionProvider.GetModuleInstallationStatus();
         }
 
+        Console.ForegroundColor = ConsoleColor.DarkCyan;
+        Console.WriteLine($"{versionProvider.GetAssemblyName()} is up to date");
+        Console.ResetColor();
     }
 
-    private string Migrate_4_0_0_to_4_0_1()
+    private string Install(Func<string> installation, InstallStatus status)
     {
-        var oldResource = resourceProvider.Get("Kentico.Xperience.Lucene");
+        Console.ForegroundColor = ConsoleColor.DarkCyan;
+        Console.WriteLine($"Installing {versionProvider.GetAssemblyName()} v{status.AssemblyVersion}");
 
-        oldResource.ResourceName = "CMS.Integration.Lucene";
-        resourceProvider.Set(oldResource);
+        string newVersion = installation();
 
-        string newVersion = "4.0.1";
-
-        UpdateVersion(newVersion);
+        Console.WriteLine($"Install complete");
+        Console.ResetColor();
 
         return newVersion;
     }
 
-    private string Migrate_3_0_0_to_4_0_0()
+    private string Migrate(Func<string> migration, InstallStatus status)
     {
-        string newVersion = "4.0.0";
+        Console.ForegroundColor = ConsoleColor.DarkCyan;
+        Console.WriteLine($"Upgrading {versionProvider.GetAssemblyName()} from v{status.DatabaseVersion} to v{status.AssemblyVersion}");
 
-        UpdateVersion(newVersion);
+        string newVersion = migration();
+
+        Console.WriteLine($"Upgraded complete");
+        Console.ResetColor();
 
         return newVersion;
     }
 
-    private void UpdateVersion(string newVersion)
+    private string Migrate_None_to_Latest()
     {
-        var moduleVersion = versionProvider.GetDatabaseModuleVersion();
+        moduleInstaller.Install();
 
-        moduleVersion.LuceneModuleVersionNumber = newVersion;
-        versionProvider.Set(moduleVersion);
+        string assemblyVersionNumber = versionProvider.GetAssemblyVersionNumber();
+
+        var initialVersion = new LuceneModuleVersionInfo
+        {
+            LuceneModuleVersionNumber = assemblyVersionNumber
+        };
+        versionProvider.Set(initialVersion);
+
+        return initialVersion.LuceneModuleVersionNumber;
+    }
+
+    private string Migrate_4_0_0_to_4_1_0()
+    {
+        var resource = resourceProvider.Get("Kentico.Xperience.Lucene");
+        // Fix the module name
+        moduleInstaller.InitializeResource(resource);
+
+        // Update all the data types to use ClassType.SYSTEM_TABLE
+        moduleInstaller.InstallLuceneModuleVersionInfo(resource);
+        moduleInstaller.InstallLuceneItemInfo(resource);
+        moduleInstaller.InstallLuceneLanguageInfo(resource);
+        moduleInstaller.InstallLuceneIndexPathItemInfo(resource);
+        moduleInstaller.InstallLuceneContentTypeItemInfo(resource);
+        moduleInstaller.InstallLuceneModuleVersionInfo(resource);
+
+        string newVersionNumber = "4.1.0";
+
+        var newVersionInfo = new LuceneModuleVersionInfo
+        {
+            LuceneModuleVersionNumber = newVersionNumber,
+        };
+        versionProvider.Set(newVersionInfo);
+
+        return newVersionInfo.LuceneModuleVersionNumber;
     }
 }
