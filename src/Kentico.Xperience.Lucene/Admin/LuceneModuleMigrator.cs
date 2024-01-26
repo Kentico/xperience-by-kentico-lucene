@@ -1,19 +1,23 @@
-using System.Diagnostics;
-using System.Reflection;
 using CMS.Base;
+using CMS.Modules;
 
 namespace Kentico.Xperience.Lucene.Admin;
 
 internal class LuceneModuleMigrator
 {
     private readonly ILuceneModuleVersionInfoProvider versionProvider;
+    private readonly IResourceInfoProvider resourceProvider;
 
-    public LuceneModuleMigrator(ILuceneModuleVersionInfoProvider versionProvider) => this.versionProvider = versionProvider;
+    public LuceneModuleMigrator(ILuceneModuleVersionInfoProvider versionProvider, IResourceInfoProvider resourceProvider)
+    {
+        this.versionProvider = versionProvider;
+        this.resourceProvider = resourceProvider;
+    }
 
     public void Migrate(MigrationExecutionEventArgs _)
     {
-        string assemblyVersion = GetAssemblyVersionNumber();
-        string installedVersion = versionProvider.GetInstalledModuleVersion().LuceneModuleVersionNumber;
+        string assemblyVersion = versionProvider.GetAssemblyVersionNumber();
+        string installedVersion = versionProvider.GetDatabaseModuleVersion().LuceneModuleVersionNumber;
 
         while (!string.Equals(installedVersion, assemblyVersion))
         {
@@ -22,6 +26,7 @@ internal class LuceneModuleMigrator
                 installedVersion = installedVersion switch
                 {
                     "3.0.0" => Migrate_3_0_0_to_4_0_0(),
+                    "4.0.0" => Migrate_4_0_0_to_4_0_1(),
                     _ => assemblyVersion
                 };
 
@@ -43,23 +48,34 @@ internal class LuceneModuleMigrator
 
     }
 
-    private string Migrate_3_0_0_to_4_0_0()
+    private string Migrate_4_0_0_to_4_0_1()
     {
-        // Ex: Do migrations
+        var oldResource = resourceProvider.Get("Kentico.Xperience.Lucene");
 
-        string newVersion = "4.0.0";
+        oldResource.ResourceName = "CMS.Integration.Lucene";
+        resourceProvider.Set(oldResource);
 
-        var moduleVersion = versionProvider.GetInstalledModuleVersion();
+        string newVersion = "4.0.1";
 
-        moduleVersion.LuceneModuleVersionNumber = newVersion;
-        versionProvider.Set(moduleVersion);
+        UpdateVersion(newVersion);
 
         return newVersion;
     }
 
-    public static string GetAssemblyVersionNumber()
+    private string Migrate_3_0_0_to_4_0_0()
     {
-        var fileVersion = FileVersionInfo.GetVersionInfo(Assembly.GetExecutingAssembly().Location);
-        return new Version(fileVersion.FileVersion ?? "").ToString(3);
+        string newVersion = "4.0.0";
+
+        UpdateVersion(newVersion);
+
+        return newVersion;
+    }
+
+    private void UpdateVersion(string newVersion)
+    {
+        var moduleVersion = versionProvider.GetDatabaseModuleVersion();
+
+        moduleVersion.LuceneModuleVersionNumber = newVersion;
+        versionProvider.Set(moduleVersion);
     }
 }

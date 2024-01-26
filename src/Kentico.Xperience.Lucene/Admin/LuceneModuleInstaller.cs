@@ -1,4 +1,6 @@
-﻿using CMS.DataEngine;
+﻿using System.Reflection;
+using CMS.Core;
+using CMS.DataEngine;
 using CMS.FormEngine;
 using CMS.Modules;
 
@@ -8,15 +10,19 @@ internal class LuceneModuleInstaller
 {
     private readonly IResourceInfoProvider resourceProvider;
     private readonly ILuceneModuleVersionInfoProvider moduleVersionProvider;
+    private readonly IConversionService conversion;
 
-    public LuceneModuleInstaller(IResourceInfoProvider resourceProvider, ILuceneModuleVersionInfoProvider moduleVersionProvider)
+    public LuceneModuleInstaller(IResourceInfoProvider resourceProvider, ILuceneModuleVersionInfoProvider moduleVersionProvider, IConversionService conversion)
     {
         this.resourceProvider = resourceProvider;
         this.moduleVersionProvider = moduleVersionProvider;
+        this.conversion = conversion;
     }
 
     public void Install()
     {
+        ValidateInstalledVersion();
+
         var resource = InstallResource();
 
         InstallLuceneModuleVersionInfo(resource);
@@ -27,12 +33,49 @@ internal class LuceneModuleInstaller
         SetInitialVersion(moduleVersionProvider);
     }
 
+    private void ValidateInstalledVersion()
+    {
+        string queryText = $"""
+            IF OBJECT_ID('KenticoLucene_LuceneModuleVersion', 'U') IS NOT NULL
+                SELECT TOP 1 LuceneModuleVersionNumber FROM KenticoLucene_LuceneModuleVersion;
+            ELSE
+                SELECT '' as LuceneModuleVersionNumber;
+            """;
+        var ds = ConnectionHelper.ExecuteQuery(queryText, [], QueryTypeEnum.SQLQuery);
+
+        string databaseVersion = conversion.GetString(ds.Tables[0].Rows[0][0], "");
+
+        // Not yet installed
+        if (string.IsNullOrEmpty(databaseVersion))
+        {
+            return;
+        }
+
+        string assemblyVersion = moduleVersionProvider.GetAssemblyVersionNumber();
+
+        if (string.Equals(databaseVersion, assemblyVersion))
+        {
+            return;
+        }
+
+        string errorMessage = $"""
+            The {Assembly.GetExecutingAssembly().GetName()} integration does not match the installed version.
+            Package version - {assemblyVersion}
+            Installed version - {databaseVersion}
+
+            You must first run "dotnet run --kxp-update" to update this integration from the package.
+            """;
+
+        throw new InvalidOperationException(errorMessage);
+    }
+
     private ResourceInfo InstallResource()
     {
-        var resourceInfo = resourceProvider.Get("Kentico.Xperience.Lucene") ?? new ResourceInfo();
+        // Temporary way to handle previous versions until the module has been renamed
+        var resourceInfo = resourceProvider.Get("CMS.Integration.Lucene") ?? new ResourceInfo();
 
-        resourceInfo.ResourceDisplayName = "Kentico Lucene";
-        resourceInfo.ResourceName = "Kentico.Xperience.Lucene";
+        resourceInfo.ResourceDisplayName = "Kentico Integration - Lucene";
+        resourceInfo.ResourceName = "CMS.Integration.Lucene";
         resourceInfo.ResourceDescription = "Kentico Lucene custom data";
         resourceInfo.ResourceIsInDevelopment = false;
         if (resourceInfo.HasChanged)
@@ -382,7 +425,7 @@ internal class LuceneModuleInstaller
             return;
         }
 
-        string version = LuceneModuleMigrator.GetAssemblyVersionNumber();
+        string version = moduleVersionProvider.GetAssemblyVersionNumber();
 
         var initialVersion = new LuceneModuleVersionInfo
         {

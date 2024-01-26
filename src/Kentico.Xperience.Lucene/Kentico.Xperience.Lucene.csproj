@@ -11,6 +11,7 @@
 		<AdminOrgName>kentico</AdminOrgName>
 		<RootNamespace>Kentico.Xperience.Lucene</RootNamespace>
 		<NoWarn>$(NoWarn);S1075</NoWarn>
+		<LangVersion>latest</LangVersion>
 
 		<!-- Required to prevent type conflicts with existing types -->
 		<HotChocolateImplicitUsings>disable</HotChocolateImplicitUsings>
