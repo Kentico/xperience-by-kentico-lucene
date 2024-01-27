@@ -66,10 +66,6 @@ internal class LuceneModuleMigrator
 
             status = versionProvider.GetModuleInstallationStatus();
         }
-
-        Console.ForegroundColor = ConsoleColor.DarkCyan;
-        Console.WriteLine($"{versionProvider.GetAssemblyName()} is up to date");
-        Console.ResetColor();
     }
 
     private string Install(Func<string> installation, InstallStatus status)
@@ -79,7 +75,7 @@ internal class LuceneModuleMigrator
 
         string newVersion = installation();
 
-        Console.WriteLine($"Install complete");
+        Console.WriteLine($"Installation complete");
         Console.ResetColor();
 
         return newVersion;
@@ -92,7 +88,7 @@ internal class LuceneModuleMigrator
 
         string newVersion = migration();
 
-        Console.WriteLine($"Upgraded complete");
+        Console.WriteLine($"Upgrade complete");
         Console.ResetColor();
 
         return newVersion;
