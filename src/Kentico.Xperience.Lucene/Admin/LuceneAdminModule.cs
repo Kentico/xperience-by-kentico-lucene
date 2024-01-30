@@ -1,10 +1,6 @@
-﻿using System.Runtime.CompilerServices;
-using CMS;
+﻿using CMS;
 using Kentico.Xperience.Admin.Base;
 using Kentico.Xperience.Lucene.Admin;
-
-// Allows the Lucene test project to read internal members
-[assembly: InternalsVisibleTo("Kentico.Xperience.Lucene.Tests")]
 
 [assembly: RegisterModule(typeof(LuceneAdminModule))]
 

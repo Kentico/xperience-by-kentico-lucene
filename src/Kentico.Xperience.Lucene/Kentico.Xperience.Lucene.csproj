@@ -19,6 +19,7 @@
 	<ItemGroup>
 		<AssemblyAttribute Include="CMS.AssemblyDiscoverableAttribute">
 		</AssemblyAttribute>
+		<InternalsVisibleTo Include="$(AssemblyName).Tests" />
 
 		<Compile Remove="Admin\Client\node_modules\**" />
 		<EmbeddedResource Remove="Admin\Client\node_modules\**" />
