@@ -21,7 +21,7 @@ internal class LuceneQueueWorker : ThreadQueueWorker<LuceneQueueItem, LuceneQueu
     /// Should not be called directly- the worker should be initialized during startup using
     /// <see cref="ThreadWorker{T}.EnsureRunningThread"/>.
     /// </summary>
-    public LuceneQueueWorker() => luceneTaskProcessor = Service.Resolve<ILuceneTaskProcessor>() ?? throw new Exception($"{nameof(ILuceneTaskProcessor)} is not registered.");
+    public LuceneQueueWorker() => luceneTaskProcessor = Service.Resolve<ILuceneTaskProcessor>() ?? throw new InvalidOperationException($"{nameof(ILuceneTaskProcessor)} is not registered.");
 
 
     /// <summary>

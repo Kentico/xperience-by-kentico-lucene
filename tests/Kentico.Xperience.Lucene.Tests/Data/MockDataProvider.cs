@@ -7,7 +7,7 @@ internal static class MockDataProvider
 {
     public static IndexEventWebPageItemModel WebModel => new(
         itemID: 0,
-        itemGuid: new Guid(),
+        itemGuid: Guid.NewGuid(),
         languageName: CzechLanguageName,
         contentTypeName: ArticlePage.CONTENT_TYPE_NAME,
         name: "Name",

@@ -126,7 +126,7 @@ internal class DefaultLuceneConfigurationStorageService : ILuceneConfigurationSt
     public IEnumerable<LuceneConfigurationModel> GetAllIndexData()
     {
         var indexInfos = indexProvider.Get().GetEnumerableTypedResult().ToList();
-        if (indexInfos == default)
+        if (indexInfos.Count == 0)
         {
             return new List<LuceneConfigurationModel>();
         }
