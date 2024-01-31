@@ -7,6 +7,12 @@
 Xperience by Kentico search integration with the latest 4.8 beta version of [Lucene.NET](https://github.com/apache/lucenenet),
 enabling auto-indexing of content in Xperience based on application-local, code-defined search indexes and search results retrieval.
 
+## Screenshots
+
+![Index listing](https://raw.githubusercontent.com/Kentico/xperience-by-kentico-lucene/main/images/xperience-administration-search-index-list.jpg)
+
+![Index edit](https://raw.githubusercontent.com/Kentico/xperience-by-kentico-lucene/main/images/xperience-administration-search-index-edit-form.jpg)
+
 ## Library Version Matrix
 
 | Xperience Version   | Library Version |
