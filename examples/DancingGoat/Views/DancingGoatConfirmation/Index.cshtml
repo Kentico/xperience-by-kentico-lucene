@@ -1,0 +1,21 @@
+﻿@model DancingGoat.Models.ConfirmationPageViewModel
+
+@using System.Linq;
+
+@{
+    ViewBag.Title = Model.Title;
+}
+
+<div class="confirmation-page">
+    <div class="title-wrapper">
+        <h1 class="title-tab confirmation-heading">@Model.Header</h1>
+    </div>
+    <div class="center-text section-text confirmation-text">
+        @Html.Raw(Model.Content)
+    </div>
+</div>
+
+@if (Model.ArticlesSection != null)
+{
+    <vc:articles articles-section-item="@Model.ArticlesSection" />
+}

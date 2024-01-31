@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<cms.contentitemcommondata>
+  <ContentItemCommonDataContentItemID>
+    <CodeName>Contacts-af437tgb</CodeName>
+    <GUID>688a474e-a995-42e4-a397-0c692f14d885</GUID>
+    <ObjectType>cms.contentitem</ObjectType>
+  </ContentItemCommonDataContentItemID>
+  <ContentItemCommonDataContentLanguageID>
+    <CodeName>en</CodeName>
+    <GUID>e4a8fb12-ebc2-45d0-930f-c9fba2780c85</GUID>
+    <ObjectType>cms.contentlanguage</ObjectType>
+  </ContentItemCommonDataContentLanguageID>
+  <ContentItemCommonDataGUID>6b6b58d1-a0ac-400e-ad8d-52e1ae7e7d80</ContentItemCommonDataGUID>
+  <ContentItemCommonDataIsLatest>True</ContentItemCommonDataIsLatest>
+  <ContentItemCommonDataPageBuilderWidgets>
+    <![CDATA[{"editableAreas":[{"identifier":"ContactUs","sections":[{"identifier":"16d868ae-e03d-4fe9-bf40-1263d13ac27a","type":"DancingGoat.SingleColumnSection","properties":{"theme":null},"zones":[{"identifier":"3ceb27ac-6f3b-4684-befc-d4b743926752","widgets":[{"identifier":"c003517d-1eb4-4084-bb55-e3b410f70e69","type":"Kentico.FormWidget","variants":[{"identifier":"41aa37dc-8d33-4413-949f-8bb1c127b96b","properties":{"selectedForm":[{"objectGuid":null,"objectCodeName":"DancingGoatContactUs"}],"afterSubmitMode":"message","afterSubmitDisplayText":"Thanks! We'll get back to you soon.","afterSubmitRedirectToUrl":null,"afterSubmitRedirectToWebPage":[]},"fieldIdentifiers":{"selectedForm":"4d729895-c72c-4e68-a5fe-dc863e2bfb92","afterSubmitMode":"03254ffd-92f9-43fb-bb8f-5ab842cdb5c6","afterSubmitDisplayText":"fda55ff4-56ad-4ef0-a011-9c239e202372","afterSubmitRedirectToUrl":"3808e48c-bc91-4d3d-91d9-3fef82bfbe8c","afterSubmitRedirectToWebPage":"f81c73cf-8832-4b5c-98b4-433e86c2c56c"}}]}]}],"fieldIdentifiers":{"theme":"5c49955e-bc20-46b1-809d-be230cb2f304"}}]}]}]]>
+  </ContentItemCommonDataPageBuilderWidgets>
+  <ContentItemCommonDataPageTemplateConfiguration />
+  <ContentItemCommonDataVersionStatus>2</ContentItemCommonDataVersionStatus>
+</cms.contentitemcommondata>

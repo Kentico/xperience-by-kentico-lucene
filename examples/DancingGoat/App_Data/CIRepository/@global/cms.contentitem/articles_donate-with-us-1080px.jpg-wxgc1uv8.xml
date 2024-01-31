@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<cms.contentitem>
+  <ContentItemContentTypeID>
+    <CodeName>DancingGoat.Image</CodeName>
+    <GUID>fd1947a4-e04b-441b-a76c-1ed826fb766e</GUID>
+    <ObjectType>cms.contenttype</ObjectType>
+  </ContentItemContentTypeID>
+  <ContentItemGUID>637bfdc9-b1f9-4015-8268-459c6b2d5f23</ContentItemGUID>
+  <ContentItemIsReusable>True</ContentItemIsReusable>
+  <ContentItemIsSecured>False</ContentItemIsSecured>
+  <ContentItemName>Articles_Donate-with-us-1080px.jpg-wxgc1uv8</ContentItemName>
+</cms.contentitem>

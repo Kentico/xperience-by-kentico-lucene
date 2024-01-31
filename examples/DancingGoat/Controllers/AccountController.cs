@@ -1,14 +1,17 @@
 ﻿using System;
 using System.Net;
+using System.Threading;
 using System.Threading.Tasks;
 
 using CMS.Core;
+using CMS.DataEngine;
+using CMS.Websites;
+using CMS.Websites.Routing;
 
 using DancingGoat.Models;
 
-using Kentico.Content.Web.Mvc;
+using Kentico.Content.Web.Mvc.Routing;
 using Kentico.Membership;
-using Kentico.Web.Mvc;
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -17,25 +20,38 @@ using Microsoft.Extensions.Localization;
 
 using SignInResult = Microsoft.AspNetCore.Identity.SignInResult;
 
-
 namespace DancingGoat.Controllers
 {
     public class AccountController : Controller
     {
         private readonly IStringLocalizer<SharedResources> localizer;
         private readonly IEventLogService eventLogService;
+        private readonly IInfoProvider<WebsiteChannelInfo> websiteChannelProvider;
+        private readonly IWebPageUrlRetriever webPageUrlRetriever;
+        private readonly IWebsiteChannelContext websiteChannelContext;
+        private readonly IPreferredLanguageRetriever currentLanguageRetriever;
         private readonly UserManager<ApplicationUser> userManager;
         private readonly SignInManager<ApplicationUser> signInManager;
 
-        public AccountController(UserManager<ApplicationUser> userManager,
-                                 SignInManager<ApplicationUser> signInManager,
-                                 IStringLocalizer<SharedResources> localizer,
-                                 IEventLogService eventLogService)
+
+        public AccountController(
+            UserManager<ApplicationUser> userManager,
+            SignInManager<ApplicationUser> signInManager,
+            IStringLocalizer<SharedResources> localizer,
+            IEventLogService eventLogService,
+            IInfoProvider<WebsiteChannelInfo> websiteChannelProvider,
+            IWebPageUrlRetriever webPageUrlRetriever,
+            IWebsiteChannelContext websiteChannelContext,
+            IPreferredLanguageRetriever preferredLanguageRetriever)
         {
             this.userManager = userManager;
             this.signInManager = signInManager;
             this.localizer = localizer;
             this.eventLogService = eventLogService;
+            this.websiteChannelProvider = websiteChannelProvider;
+            this.webPageUrlRetriever = webPageUrlRetriever;
+            this.websiteChannelContext = websiteChannelContext;
+            this.currentLanguageRetriever = preferredLanguageRetriever;
         }
 
 
@@ -52,7 +68,7 @@ namespace DancingGoat.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Login(LoginViewModel model, string returnUrl)
+        public async Task<ActionResult> Login(LoginViewModel model, string returnUrl, CancellationToken cancellationToken = default)
         {
             if (!ModelState.IsValid)
             {
@@ -78,7 +94,7 @@ namespace DancingGoat.Controllers
                     return Redirect(decodedReturnUrl);
                 }
 
-                return Redirect(Url.Kentico().PageUrl(ContentItemIdentifiers.HOME));
+                return Redirect(await GetHomeWebPageUrl(cancellationToken));
             }
 
             ModelState.AddModelError(string.Empty, localizer["Your sign-in attempt was not successful. Please try again."].ToString());
@@ -87,14 +103,14 @@ namespace DancingGoat.Controllers
         }
 
 
-        // POST: Account/Logout
+        // POST: Account/Logout 
         [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Logout()
+        public async Task<ActionResult> Logout(CancellationToken cancellationToken = default)
         {
-            signInManager.SignOutAsync();
-            return Redirect(Url.Kentico().PageUrl(ContentItemIdentifiers.HOME));
+            await signInManager.SignOutAsync();
+            return Redirect(await GetHomeWebPageUrl(cancellationToken));
         }
 
 
@@ -108,7 +124,7 @@ namespace DancingGoat.Controllers
         // POST: Account/Register
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Register(RegisterViewModel model)
+        public async Task<ActionResult> Register(RegisterViewModel model, CancellationToken cancellationToken = default)
         {
             if (!ModelState.IsValid)
             {
@@ -140,7 +156,7 @@ namespace DancingGoat.Controllers
 
                 if (signInResult.Succeeded)
                 {
-                    return Redirect(Url.Kentico().PageUrl(ContentItemIdentifiers.HOME));
+                    return Redirect(await GetHomeWebPageUrl(cancellationToken));
                 }
             }
 
@@ -150,6 +166,34 @@ namespace DancingGoat.Controllers
             }
 
             return View(model);
+        }
+
+
+        private async Task<string> GetHomeWebPageUrl(CancellationToken cancellationToken)
+        {
+            var websiteChannelId = websiteChannelContext.WebsiteChannelID;
+            var websiteChannel = await websiteChannelProvider.GetAsync(websiteChannelId, cancellationToken);
+
+            if (websiteChannel == null)
+            {
+                return string.Empty;
+            }
+
+            var homePageUrl = await webPageUrlRetriever.Retrieve(
+                websiteChannel.WebsiteChannelHomePage, 
+                websiteChannelContext.WebsiteChannelName, 
+                currentLanguageRetriever.Get(), 
+                websiteChannelContext.IsPreview, 
+                cancellationToken
+            );
+
+            if (string.IsNullOrEmpty(homePageUrl?.RelativePath))
+            {
+                return "/";
+            }
+
+            return homePageUrl.RelativePath;
+
         }
     }
 }

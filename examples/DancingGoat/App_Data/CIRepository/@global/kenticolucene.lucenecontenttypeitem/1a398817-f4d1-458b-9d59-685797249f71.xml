@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<kenticolucene.lucenecontenttypeitem>
+  <LuceneContentTypeItemContentTypeName>DancingGoat.ArticlePage</LuceneContentTypeItemContentTypeName>
+  <LuceneContentTypeItemGuid>1a398817-f4d1-458b-9d59-685797249f71</LuceneContentTypeItemGuid>
+  <LuceneContentTypeItemIncludedPathItemId>
+    <GUID>6506555f-416e-4e20-8dd1-f54065f22f60</GUID>
+    <ObjectType>kenticolucene.luceneincludedpathitem</ObjectType>
+  </LuceneContentTypeItemIncludedPathItemId>
+  <LuceneContentTypeItemIndexItemId>
+    <CodeName>Articles</CodeName>
+    <GUID>3b09d8e4-b503-46d9-a479-7055e4025a18</GUID>
+    <ObjectType>kenticolucene.luceneindexitem</ObjectType>
+  </LuceneContentTypeItemIndexItemId>
+</kenticolucene.lucenecontenttypeitem>

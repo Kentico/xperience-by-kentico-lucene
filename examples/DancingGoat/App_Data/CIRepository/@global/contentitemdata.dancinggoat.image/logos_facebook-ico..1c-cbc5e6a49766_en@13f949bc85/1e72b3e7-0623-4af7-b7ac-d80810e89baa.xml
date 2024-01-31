@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<contentitemdata.dancinggoat.image>
+  <ContentItemDataCommonDataID>
+    <GUID>8d8e09c0-259b-4239-9a1c-cbc5e6a49766</GUID>
+    <ObjectType>cms.contentitemcommondata</ObjectType>
+    <Parent>
+      <CodeName>Logos_Facebook-icon.png-kn8fmrwy</CodeName>
+      <GUID>c922749d-1ff6-4132-ad90-94e6d36ec9f1</GUID>
+      <ObjectType>cms.contentitem</ObjectType>
+    </Parent>
+  </ContentItemDataCommonDataID>
+  <ContentItemDataGUID>1e72b3e7-0623-4af7-b7ac-d80810e89baa</ContentItemDataGUID>
+  <ImageFile>
+    <![CDATA[{"Identifier":"0fc2c250-dcdb-4945-a776-478bc22c65a9","Name":"facebook-icon.png","Extension":".png","Size":1643,"LastModified":"2023-06-14T15:37:11.5208327Z"}]]>
+  </ImageFile>
+</contentitemdata.dancinggoat.image>

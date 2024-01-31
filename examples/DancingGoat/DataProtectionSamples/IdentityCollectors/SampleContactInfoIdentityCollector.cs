@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 
 using CMS.ContactManagement;
@@ -13,6 +12,19 @@ namespace Samples.DancingGoat
     /// </summary>
     internal class SampleContactInfoIdentityCollector : IIdentityCollector
     {
+        private readonly IContactInfoProvider contactInfoProvider;
+
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SampleContactInfoIdentityCollector"/> class.
+        /// </summary>
+        /// <param name="contactInfoProvider">Contact info provider.</param>
+        public SampleContactInfoIdentityCollector(IContactInfoProvider contactInfoProvider)
+        {
+            this.contactInfoProvider = contactInfoProvider;
+        }
+
+
         /// <summary>
         /// Collects all the <see cref="ContactInfo"/>s and adds them to the <paramref name="identities"/> collection.
         /// </summary>
@@ -30,15 +42,13 @@ namespace Samples.DancingGoat
             }
 
             var email = dataSubjectIdentifiersFilter["email"] as string;
-            if (String.IsNullOrWhiteSpace(email))
+            if (string.IsNullOrWhiteSpace(email))
             {
                 return;
             }
 
             // Find contacts that used the same email and distinct them
-            var contacts = ContactInfo.Provider.Get()
-                                                .WhereEquals(nameof(ContactInfo.ContactEmail), email)
-                                                .ToList();
+            var contacts = contactInfoProvider.Get().WhereEquals(nameof(ContactInfo.ContactEmail), email).ToList();
 
             identities.AddRange(contacts);
         }

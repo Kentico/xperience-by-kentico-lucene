@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<contentitemdata.dancinggoat.image>
+  <ContentItemDataCommonDataID>
+    <GUID>22870717-0e3f-4f7a-beaa-718e519ef89c</GUID>
+    <ObjectType>cms.contentitemcommondata</ObjectType>
+    <Parent>
+      <CodeName>Events_Our-first-cupping-is-here.png-qiy6oc3x</CodeName>
+      <GUID>359fac84-ed49-4ea7-9d46-04b1e2ea6bbe</GUID>
+      <ObjectType>cms.contentitem</ObjectType>
+    </Parent>
+  </ContentItemDataCommonDataID>
+  <ContentItemDataGUID>d1e508ef-4440-4c69-b3ac-eed53babf2d4</ContentItemDataGUID>
+  <ImageFile>
+    <![CDATA[{"Identifier":"4b99ae39-f8d7-43ab-98a1-e168a9bb7a34","Name":"our-first-cupping-is-here.png","Extension":".png","Size":244878,"LastModified":"2023-06-14T15:35:28.6813019Z"}]]>
+  </ImageFile>
+</contentitemdata.dancinggoat.image>

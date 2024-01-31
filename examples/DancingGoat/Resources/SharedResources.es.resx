@@ -1,0 +1,225 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!--
+    Microsoft ResX Schema
+
+    Version 2.0
+
+    The primary goals of this format is to allow a simple XML format
+    that is mostly human readable. The generation and parsing of the
+    various data types are done through the TypeConverter classes
+    associated with the data types.
+
+    Example:
+
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+
+    There are any number of "resheader" rows that contain simple
+    name/value pairs.
+
+    Each data row contains a name, and value. The row also contains a
+    type or mimetype. Type corresponds to a .NET class that support
+    text/value conversion through the TypeConverter architecture.
+    Classes that don't support this are serialized and stored with the
+    mimetype set.
+
+    The mimetype is used for serialized objects, and tells the
+    ResXResourceReader how to depersist the object. This is currently not
+    extensible. For a given mimetype the value must be set accordingly:
+
+    Note - application/x-microsoft.net.object.binary.base64 is the format
+    that the ResXResourceWriter will generate, however the reader can
+    read any of the formats listed below.
+
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Already have an account?" xml:space="preserve">
+    <value>¿Ya tienes una cuenta?</value>
+  </data>
+  <data name="Consent revocation was not successful." xml:space="preserve">
+    <value>La revocación del consentimiento no prosperó.</value>
+  </data>
+  <data name="Consent revocation was successful." xml:space="preserve">
+    <value>La revocación del consentimiento tuvo éxito.</value>
+  </data>
+  <data name="Contact" xml:space="preserve">
+    <value>Contacto</value>
+  </data>
+  <data name="Create your own account and enjoy smooth shopping experience at Dancing Goat." xml:space="preserve">
+    <value>Crea tu propia cuenta y disfruta de una experiencia de compra fluida en Dancing Goat.</value>
+  </data>
+  <data name="Data protection (GDPR) demo must be enabled." xml:space="preserve">
+    <value>La demo de protección de datos (GDPR) debe estar activada.</value>
+  </data>
+  <data name="Events" xml:space="preserve">
+    <value>Eventos</value>
+  </data>
+  <data name="I agree" xml:space="preserve">
+    <value>Estoy de acuerdo</value>
+  </data>
+  <data name="It only takes a moment to get started." xml:space="preserve">
+    <value>Solo toma un momento para comenzar.</value>
+  </data>
+  <data name="Latest article" xml:space="preserve">
+    <value>Último artículo</value>
+  </data>
+  <data name="Login" xml:space="preserve">
+    <value>Iniciar sesión</value>
+  </data>
+  <data name="More articles" xml:space="preserve">
+    <value>Más artículos</value>
+  </data>
+  <data name="New to Dancing Goat?" xml:space="preserve">
+    <value>¿Eres nuevo en Dancing Goat?</value>
+  </data>
+  <data name="News &amp; Updates" xml:space="preserve">
+    <value>Noticias y Actualizaciones</value>
+  </data>
+  <data name="No cafe selected" xml:space="preserve">
+    <value>Ningún café seleccionado</value>
+  </data>
+  <data name="Only system cookies are currently stored. Tracking of activities and analytics features are turned off." xml:space="preserve">
+    <value>Actualmente sólo se almacenan cookies del sistema. El seguimiento de actividades y las funciones de análisis están desactivadas.</value>
+  </data>
+  <data name="Oops! Page not found..." xml:space="preserve">
+    <value>¡Vaya! Página no encontrada...</value>
+  </data>
+  <data name="Our Story" xml:space="preserve">
+    <value>Nuestra Historia</value>
+  </data>
+  <data name="privacy page" xml:space="preserve">
+    <value>página de privacidad</value>
+  </data>
+  <data name="Reference" xml:space="preserve">
+    <value>Referencia</value>
+  </data>
+  <data name="Register" xml:space="preserve">
+    <value>Registrarse</value>
+  </data>
+  <data name="Related articles" xml:space="preserve">
+    <value>Artículos relacionados</value>
+  </data>
+  <data name="Revoke" xml:space="preserve">
+    <value>Revocar</value>
+  </data>
+  <data name="Sign in" xml:space="preserve">
+    <value>Iniciar sesión</value>
+  </data>
+  <data name="Sign in to access this article" xml:space="preserve">
+    <value>Inicia sesión para acceder a este artículo.</value>
+  </data>
+  <data name="Sign out" xml:space="preserve">
+    <value>Cerrar sesión</value>
+  </data>
+  <data name="Subscribe" xml:space="preserve">
+    <value>Suscribirse</value>
+  </data>
+  <data name="Taste our coffee" xml:space="preserve">
+    <value>Prueba nuestro café</value>
+  </data>
+  <data name="Thank you for subscribing! Now we just need to confirm your email address - please click the link in the email we sent you. Thanks!" xml:space="preserve">
+    <value>¡Gracias por suscribirte! Ahora solo necesitamos confirmar tu dirección de correo electrónico. Por favor, haz clic en el enlace que te enviamos por correo electrónico. ¡Gracias!</value>
+  </data>
+  <data name="The website now stores cookies on your computer, tracks activity, creates personalized content and processes analytics. You can find more information on our" xml:space="preserve">
+    <value>En la actualidad, el sitio web almacena cookies en su ordenador, realiza un seguimiento de la actividad, crea contenidos personalizados y procesa datos analíticos. Puede encontrar más información en nuestra</value>
+  </data>
+  <data name="There are currently no consents agreed by you." xml:space="preserve">
+    <value>Actualmente no hay consentimientos acordados por usted.</value>
+  </data>
+  <data name="Want to stay up to date? Please leave us your email address." xml:space="preserve">
+    <value>¿Quieres mantenerte al día? Por favor, déjanos tu dirección de correo electrónico.</value>
+  </data>
+  <data name="We are really sorry, something has gone wrong. It seems that page you requested doesn't exist." xml:space="preserve">
+    <value>Lo sentimos mucho, algo ha salido mal. Parece que la página que solicitaste no existe.</value>
+  </data>
+  <data name="You can enable data protection demo data in the administration interface (Configuration -&gt; Sample data generator)." xml:space="preserve">
+    <value>Puede activar la protección de datos de demostración en la interfaz de administración (Configuración -&gt; Generador de datos de demostración).</value>
+  </data>
+  <data name="Your agreed consents" xml:space="preserve">
+    <value>Sus consentimientos acordados</value>
+  </data>
+</root>

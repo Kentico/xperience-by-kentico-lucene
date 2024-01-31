@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<cms.contentitemcommondata>
+  <ContentItemCommonDataContentItemID>
+    <CodeName>LiveCoffeeQ_A-41x0diet</CodeName>
+    <GUID>70b5147b-e567-49ad-a3ff-dce8b07c97e9</GUID>
+    <ObjectType>cms.contentitem</ObjectType>
+  </ContentItemCommonDataContentItemID>
+  <ContentItemCommonDataContentLanguageID>
+    <CodeName>en</CodeName>
+    <GUID>e4a8fb12-ebc2-45d0-930f-c9fba2780c85</GUID>
+    <ObjectType>cms.contentlanguage</ObjectType>
+  </ContentItemCommonDataContentLanguageID>
+  <ContentItemCommonDataGUID>020f5ccf-62fd-4bdc-8072-a6bc3fb7c11a</ContentItemCommonDataGUID>
+  <ContentItemCommonDataIsLatest>True</ContentItemCommonDataIsLatest>
+  <ContentItemCommonDataVersionStatus>2</ContentItemCommonDataVersionStatus>
+  <ContentItemReferences>
+    <cms.contentitemreference>
+      <ContentItemReferenceGroupGUID>0bf8c2b0-092b-46f5-97a4-03279e7aa3be</ContentItemReferenceGroupGUID>
+      <ContentItemReferenceGUID>de1b3d8d-517b-48f1-98c8-b6e39185acfe</ContentItemReferenceGUID>
+      <ContentItemReferenceSourceCommonDataID>
+        <GUID>020f5ccf-62fd-4bdc-8072-a6bc3fb7c11a</GUID>
+        <ObjectType>cms.contentitemcommondata</ObjectType>
+      </ContentItemReferenceSourceCommonDataID>
+      <ContentItemReferenceTargetItemID>
+        <CodeName>Events_Fahmi-fakhrudin-nzyzAUsbV0M-unsplash_1_50.jpg-d2wq3izd</CodeName>
+        <GUID>b971d8d3-6d3a-4cdd-a129-41b61e0522d5</GUID>
+        <ObjectType>cms.contentitem</ObjectType>
+      </ContentItemReferenceTargetItemID>
+    </cms.contentitemreference>
+  </ContentItemReferences>
+</cms.contentitemcommondata>

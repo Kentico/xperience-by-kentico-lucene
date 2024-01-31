@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<contentitemdata.dancinggoat.image>
+  <ContentItemDataCommonDataID>
+    <GUID>3f93d77f-e71a-495d-ab5f-f2556809c631</GUID>
+    <ObjectType>cms.contentitemcommondata</ObjectType>
+    <Parent>
+      <CodeName>Products_Salvador.jpg-199mmgqn</CodeName>
+      <GUID>279bb55f-81e3-4d93-9cff-8372dc34cdc5</GUID>
+      <ObjectType>cms.contentitem</ObjectType>
+    </Parent>
+  </ContentItemDataCommonDataID>
+  <ContentItemDataGUID>2ae208d4-f89f-4ec5-8626-9514ea460c48</ContentItemDataGUID>
+  <ImageFile>
+    <![CDATA[{"Identifier":"ec3352e7-403e-4c5e-bc2a-521708fa5be6","Name":"salvador.jpg","Extension":".jpg","Size":53875,"LastModified":"2023-07-03T12:30:49.8372115Z"}]]>
+  </ImageFile>
+</contentitemdata.dancinggoat.image>

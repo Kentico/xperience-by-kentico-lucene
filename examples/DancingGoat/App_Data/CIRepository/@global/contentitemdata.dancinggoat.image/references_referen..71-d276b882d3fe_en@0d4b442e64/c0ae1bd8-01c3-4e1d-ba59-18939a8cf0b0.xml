@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<contentitemdata.dancinggoat.image>
+  <ContentItemDataCommonDataID>
+    <GUID>1322ad6e-4e1a-4f59-a871-d276b882d3fe</GUID>
+    <ObjectType>cms.contentitemcommondata</ObjectType>
+    <Parent>
+      <CodeName>References_Reference.jpg-f6bum6j2</CodeName>
+      <GUID>e9c0e77f-97bd-4485-8edc-cdc17d49c147</GUID>
+      <ObjectType>cms.contentitem</ObjectType>
+    </Parent>
+  </ContentItemDataCommonDataID>
+  <ContentItemDataGUID>c0ae1bd8-01c3-4e1d-ba59-18939a8cf0b0</ContentItemDataGUID>
+  <ImageFile>
+    <![CDATA[{"Identifier":"4396ce22-2dd4-43cd-a217-95c8d1a3d92c","Name":"reference.jpg","Extension":".jpg","Size":60428,"LastModified":"2023-06-14T15:34:01.222609Z"}]]>
+  </ImageFile>
+  <ImageShortDescription>A barista examining an espresso machine.</ImageShortDescription>
+</contentitemdata.dancinggoat.image>

@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<contentitemdata.dancinggoat.coffee>
+  <CoffeeDescription>
+    <![CDATA[<p id="isPasted">This is the story of a man that had worked long hard years since his childhood on a coffee farm. His lifelong dream was to have his own coffee farm. Then, in his thirties, he was able to buy a farm located near Caranvi in the Bolivian Andes. However, even though his farm isn't far from La Paz, there are no roads, and he and his employees have to carry their crop to the nearest road. Too much work, you say? Well, just taste the coffee and you will change your opinion very quickly.</p><p><br></p><p>The flavor of the Finca Illimani Anastacio Cadena Cascara is like marmalade, nothing more, just this, pure and simple, not fussy at all.</p>]]>
+  </CoffeeDescription>
+  <CoffeeImage>
+    <![CDATA[[{"Identifier":"f239665c-8974-4435-840e-f2cf01e1ae44"}]]]>
+  </CoffeeImage>
+  <CoffeeName>Bolivia Finca Illimani</CoffeeName>
+  <CoffeeShortDescription>
+    <![CDATA[Coming from the Bolivian Andes, Finca Illimani tastes of pure marmalade, just like you've always dreamt of.]]>
+  </CoffeeShortDescription>
+  <ContentItemDataCommonDataID>
+    <GUID>b8f2c34d-9391-4ac4-aa7d-3e1918ae8436</GUID>
+    <ObjectType>cms.contentitemcommondata</ObjectType>
+    <Parent>
+      <CodeName>BoliviaFincaIllimani-c77ome92</CodeName>
+      <GUID>60d815a6-674e-468d-8155-d2b3be75a321</GUID>
+      <ObjectType>cms.contentitem</ObjectType>
+    </Parent>
+  </ContentItemDataCommonDataID>
+  <ContentItemDataGUID>734cce16-db74-4114-8a71-50cfcd1136e5</ContentItemDataGUID>
+</contentitemdata.dancinggoat.coffee>

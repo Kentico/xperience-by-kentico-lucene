@@ -1,21 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
 
 using CMS.Base;
+using CMS.ContactManagement;
 using CMS.Core;
 using CMS.DataEngine;
-using CMS.EmailLibrary;
+using CMS.DataProtection;
 using CMS.Membership;
+using CMS.OnlineForms;
+using CMS.Websites;
+
+using DancingGoat.AdminComponents;
+using DancingGoat.Helpers.Generator;
 
 using Kentico.Forms.Web.Mvc.Internal;
 using Kentico.Xperience.Admin.Base;
 using Kentico.Xperience.Admin.Base.UIPages;
-
-using DancingGoat.AdminComponents;
-using DancingGoat.Helpers.Generator;
 
 [assembly: UIApplication(SampleDataGeneratorApplication.IDENTIFIER, typeof(SampleDataGeneratorApplication), "sample-data-generator", "Sample data generator", BaseApplicationCategories.CONFIGURATION, Icons.CogwheelSquare, TemplateNames.OVERVIEW)]
 
@@ -32,28 +33,107 @@ namespace DancingGoat.AdminComponents
         /// </summary>
         public const string IDENTIFIER = "Kentico.Xperience.Application.SampleDataGenerator";
 
-
-        private const string FORM_NAME = "DancingGoatCoreCoffeeSampleList";
+        private const int DANCING_GOAT_WEBSITE_CHANNEL_ID = 1;
+        private const string FORM_NAME = "DancingGoatCoffeeSampleList";
         private const string FORM_FIELD_NAME = "Consent";
         private const string DATA_PROTECTION_SETTINGS_KEY = "DataProtectionSamplesEnabled";
-        private readonly ISiteService siteService;
+
         private readonly IFormBuilderConfigurationSerializer formBuilderConfigurationSerializer;
         private readonly IEventLogService eventLogService;
+        private readonly IConsentInfoProvider consentInfoProvider;
+        private readonly IBizFormInfoProvider bizFormInfoProvider;
+        private readonly IContactGroupInfoProvider contactGroupInfoProvider;
+        private readonly ISettingsKeyInfoProvider settingsKeyInfoProvider;
+        private readonly IInfoProvider<WebsiteChannelInfo> websiteChannelInfoProvider;
 
 
-        public SampleDataGeneratorApplication(ISiteService siteService,
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SampleDataGeneratorApplication"/> class.
+        /// </summary>
+        /// <param name="formBuilderConfigurationSerializer">Form builder configuration serializer.</param>
+        /// <param name="eventLogService">Event log service.</param>
+        /// <param name="consentInfoProvider">Consent info provider.</param>
+        /// <param name="bizFormInfoProvider">BizForm info provider.</param>
+        /// <param name="contactGroupInfoProvider">Contact group info provider.</param>
+        /// <param name="settingsKeyInfoProvider">Settings key info provider.</param>
+        /// <param name="websiteChannelInfoProvider">Website channel info provider.</param>
+        public SampleDataGeneratorApplication(
             IFormBuilderConfigurationSerializer formBuilderConfigurationSerializer,
-            IEventLogService eventLogService)
+            IEventLogService eventLogService,
+            IConsentInfoProvider consentInfoProvider,
+            IBizFormInfoProvider bizFormInfoProvider,
+            IContactGroupInfoProvider contactGroupInfoProvider,
+            ISettingsKeyInfoProvider settingsKeyInfoProvider,
+            IInfoProvider<WebsiteChannelInfo> websiteChannelInfoProvider)
         {
-            this.siteService = siteService;
             this.formBuilderConfigurationSerializer = formBuilderConfigurationSerializer;
             this.eventLogService = eventLogService;
+            this.consentInfoProvider = consentInfoProvider;
+            this.bizFormInfoProvider = bizFormInfoProvider;
+            this.contactGroupInfoProvider = contactGroupInfoProvider;
+            this.settingsKeyInfoProvider = settingsKeyInfoProvider;
+            this.websiteChannelInfoProvider = websiteChannelInfoProvider;
         }
 
 
         public override Task ConfigurePage()
         {
-            var gdprCard = new OverviewCard
+            PageConfiguration.CardGroups.AddCardGroup().AddCard(GetGdprCard());
+
+            PageConfiguration.Caption = "Sample data generator";
+
+            return base.ConfigurePage();
+        }
+
+
+        [PageCommand(Permission = SystemPermissions.VIEW)]
+        public async Task<ICommandResponse> GenerateGdprSampleData()
+        {
+            try
+            {
+                new TrackingConsentGenerator(consentInfoProvider).Generate();
+                new FormConsentGenerator(formBuilderConfigurationSerializer, consentInfoProvider, bizFormInfoProvider).Generate(FORM_NAME, FORM_FIELD_NAME);
+                new FormContactGroupGenerator(contactGroupInfoProvider).Generate();
+
+                EnableDataProtectionSamples();
+
+                await SetChannelDefaultCookieLevelToEssential(DANCING_GOAT_WEBSITE_CHANNEL_ID);
+            }
+            catch (Exception ex)
+            {
+                eventLogService.LogException("SampleDataGenerator", "GDPR", ex);
+
+                return Response().AddErrorMessage("GDPR sample data generator failed. See event log for more details.");
+            }
+
+            return Response().AddSuccessMessage("Generating data finished successfully.");
+        }
+
+
+        private void EnableDataProtectionSamples()
+        {
+            var dataProtectionSamplesEnabledSettingsKey = settingsKeyInfoProvider.Get(DATA_PROTECTION_SETTINGS_KEY);
+            if (dataProtectionSamplesEnabledSettingsKey?.KeyValue.ToBoolean(false) ?? false)
+            {
+                return;
+            }
+
+            var keyInfo = new SettingsKeyInfo
+            {
+                KeyName = DATA_PROTECTION_SETTINGS_KEY,
+                KeyDisplayName = DATA_PROTECTION_SETTINGS_KEY,
+                KeyType = "boolean",
+                KeyValue = "True",
+                KeyIsHidden = true,
+            };
+
+            settingsKeyInfoProvider.Set(keyInfo);
+        }
+
+
+        private OverviewCard GetGdprCard()
+        {
+            return new OverviewCard
             {
                 Headline = "Set up data protection (GDPR) demo",
                 Actions = new[]
@@ -69,142 +149,22 @@ namespace DancingGoat.AdminComponents
                     new StringContentCardComponent
                     {
                         Content =  @"Generates data and enables demonstration of giving consents, personal data portability, right to access, and right to be forgotten features.
-Once enabled, the demo functionality cannot be disabled. Use on demo instances only."
+                            Once enabled, the demo functionality cannot be disabled. Use on demo instances only."
                     }
                 }
             };
-
-            var emailStatisticsCard = new OverviewCard
-            {
-                Headline = "Email statistics sample data",
-                Actions = new[]
-                {
-                    new Kentico.Xperience.Admin.Base.Action(ActionType.Command)
-                    {
-                        Label = "Generate sample data",
-                        Parameter = nameof(GenerateEmailStatisticsSampleData)
-                    },
-                    new Kentico.Xperience.Admin.Base.Action(ActionType.Command)
-                    {
-                        Label = "Recalculate statistics",
-                        Parameter = nameof(RecalculateStatistics)
-                    }
-                },
-                Components = new List<IOverviewCardComponent>()
-                {
-                    new StringContentCardComponent
-                    {
-                        Content =  "Generates emails and a recipient list containing contacts, together with realistically looking email statistics. To immediately see the statistics in the Emails application, select the 'Generate sample data' button and then 'Recalculate statistics'."
-                    }
-                }
-            };
-            PageConfiguration.CardGroups.AddCardGroup().AddCard(gdprCard);
-            PageConfiguration.CardGroups.AddCardGroup().AddCard(emailStatisticsCard);
-
-            PageConfiguration.Caption = "Generator";
-
-            return base.ConfigurePage();
         }
 
 
-        [PageCommand(Permission = SystemPermissions.VIEW)]
-        public Task<ICommandResponse> GenerateGdprSampleData()
+        private async Task SetChannelDefaultCookieLevelToEssential(int websiteChannelId)
         {
-            try
+            var websiteChannel = await websiteChannelInfoProvider.GetAsync(websiteChannelId);
+
+            if (websiteChannel is not null)
             {
-                var site = siteService.CurrentSite;
-
-                new TrackingConsentGenerator(site).Generate();
-                new FormConsentGenerator(site, formBuilderConfigurationSerializer).Generate(FORM_NAME, FORM_FIELD_NAME);
-                new FormContactGroupGenerator().Generate();
-
-                EnableDataProtectionSamples();
+                websiteChannel.WebsiteChannelDefaultCookieLevel = Kentico.Web.Mvc.CookieLevel.Essential.Level;
+                websiteChannel.Generalized.SetObject();
             }
-            catch (Exception ex)
-            {
-                eventLogService.LogException("SampleDataGenerator", "GDPR", ex);
-
-                return Task.FromResult(Response()
-                    .AddErrorMessage("GDPR sample data generator failed. See event log for more details"));
-            }
-
-            return Task.FromResult(Response()
-                    .AddSuccessMessage("Generating data finished successfully."));
-        }
-        
-        
-        [PageCommand(Permission = SystemPermissions.VIEW)]
-        public async Task<ICommandResponse> GenerateEmailStatisticsSampleData()
-        {
-            try
-            {
-                await new EmailLibrarySampleGenerator(siteService.CurrentSite).GenerateDancingGoatMailSample();
-
-                return Response()
-                    .AddSuccessMessage("Email statistics sample data generated successfully.");
-            }
-            catch (Exception ex)
-            {
-                eventLogService.LogException("SampleDataGenerator", "EmailStatistics", ex);
-
-                return Response()
-                    .AddErrorMessage("Email statistics sample data generator failed. See event log for more details");
-            }
-        }
-
-
-        [PageCommand(Permission = SystemPermissions.VIEW)]
-        public async Task<ICommandResponse> RecalculateStatistics()
-        {
-            try
-            {
-                var configurations = EmailConfigurationInfo.Provider.Get()
-                    .WhereContains(nameof(EmailConfigurationInfo.EmailConfigurationName), EmailLibrarySampleGenerator.GeneratedInfoCodeNameSuffix)
-                    .ToArray();
-
-                foreach (var configuration in configurations)
-                {
-                    await ConnectionHelper.ExecuteNonQueryAsync(
-                        $"{EmailStatisticsInfo.TYPEINFO.ObjectClassName}.RecalculateEmailStatistics",
-                        CancellationToken.None,
-                        new QueryDataParameters { new("@EmailConfigurationID", configuration.EmailConfigurationID) });
-                }
-
-                ProviderHelper.ClearHashtables(EmailStatisticsInfo.OBJECT_TYPE, true);
-
-                return Response()
-                    .AddSuccessMessage("Email statistics have been recalculated successfully.");
-            }
-            catch (Exception ex)
-            {
-                eventLogService.LogException("SampleDataGenerator", "EmailStatisticsRecalculation", ex);
-
-                return Response()
-                    .AddErrorMessage("Email statistics recalculation failed. See event log for more details");
-            }
-        }
-
-
-        private void EnableDataProtectionSamples()
-        {
-            var dataProtectionSamplesEnabledSettingsKey = SettingsKeyInfoProvider.GetSettingsKeyInfo(DATA_PROTECTION_SETTINGS_KEY);
-            if (dataProtectionSamplesEnabledSettingsKey?.KeyValue.ToBoolean(false) ?? false)
-            {
-                return;
-            }
-
-            var keyInfo = new SettingsKeyInfo
-            {
-                KeyName = DATA_PROTECTION_SETTINGS_KEY,
-                KeyDisplayName = DATA_PROTECTION_SETTINGS_KEY,
-                KeyType = "boolean",
-                KeyValue = "True",
-                KeyDefaultValue = "False",
-                KeyIsGlobal = true,
-                KeyIsHidden = true
-            };
-
-            SettingsKeyInfoProvider.SetSettingsKeyInfo(keyInfo);
         }
     }
 }

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 
 using CMS.Activities;
-using CMS.Base;
 using CMS.ContactManagement;
 using CMS.DataEngine;
 using CMS.DataProtection;
@@ -18,6 +17,11 @@ namespace Samples.DancingGoat
     internal class SampleContactPersonalDataEraser : IPersonalDataEraser
     {
         /// <summary>
+        /// The form's column name that contains the user's consent agreement.
+        /// </summary>
+        private const string DANCING_GOAT_FORMS_CONSENT_COLUMN_NAME = "Consent";
+
+        /// <summary>
         /// Defines forms to delete personal data from and name of the column where data subject's email be found.
         /// </summary>
         /// <remarks>
@@ -25,16 +29,36 @@ namespace Samples.DancingGoat
         /// </remarks>
         private readonly Dictionary<Guid, string> dancingGoatForms = new Dictionary<Guid, string>
         {
-            // DancingGoatCoreContactUsNew - CORE
-            { new Guid("129D9CED-D72F-407E-A604-7FFDE2B638EA"), "UserEmail" },
-            // DancingGoatCoreCoffeeSampleList - CORE
-            { new Guid("ED48BCBB-953A-4177-B1D2-C3512BBAB4A5"), "Email" }
+            // DancingGoatCoreContactUsNew
+            { new Guid("0081DC2E-47F4-4ACD-80AE-FE39612F379C"), "UserEmail" },
+            // DancingGoatCoreCoffeeSampleList
+            { new Guid("DAAA080A-7B6B-489E-8150-290B1F24E715"), "Email" }
         };
 
+        private readonly IConsentAgreementInfoProvider consentAgreementInfoProvider;
+        private readonly IBizFormInfoProvider bizFormInfoProvider;
+        private readonly IAccountContactInfoProvider accountContactInfoProvider;
+        private readonly IContactInfoProvider contactInfoProvider;
+
+
         /// <summary>
-        /// The form's column name that contains the user's consent agreement.
+        /// Initializes a new instance of the <see cref="SampleContactPersonalDataEraser"/> class.
         /// </summary>
-        private const string DANCING_GOAT_FORMS_CONSENT_COLUMN_NAME = "Consent"; 
+        /// <param name="consentAgreementInfoProvider">Consent agreement info provider.</param>
+        /// <param name="bizFormInfoProvider">BizForm info provider.</param>
+        /// <param name="accountContactInfoProvider">Account contact info provider.</param>
+        /// <param name="contactInfoProvider">Contact info provider.</param>
+        public SampleContactPersonalDataEraser(
+            IConsentAgreementInfoProvider consentAgreementInfoProvider,
+            IBizFormInfoProvider bizFormInfoProvider,
+            IAccountContactInfoProvider accountContactInfoProvider,
+            IContactInfoProvider contactInfoProvider)
+        {
+            this.consentAgreementInfoProvider = consentAgreementInfoProvider;
+            this.bizFormInfoProvider = bizFormInfoProvider;
+            this.accountContactInfoProvider = accountContactInfoProvider;
+            this.contactInfoProvider = contactInfoProvider;
+        }
 
 
         /// <summary>
@@ -92,8 +116,7 @@ namespace Samples.DancingGoat
         /// <remarks>Activities are deleted via bulk operation, considering the amount of activities for a contact.</remarks>
         private void DeleteSubmittedFormsActivities(ICollection<int> contactIds, IDictionary<string, object> configuration)
         {
-            object deleteSubmittedFormsActivities;
-            if (configuration.TryGetValue("DeleteSubmittedFormsActivities", out deleteSubmittedFormsActivities)
+            if (configuration.TryGetValue("DeleteSubmittedFormsActivities", out object deleteSubmittedFormsActivities)
                 && ValidationHelper.GetBoolean(deleteSubmittedFormsActivities, false))
             {
                 ActivityInfoProvider.ProviderObject.BulkDelete(new WhereCondition().WhereEquals("ActivityType", PredefinedActivityType.BIZFORM_SUBMIT)
@@ -107,15 +130,14 @@ namespace Samples.DancingGoat
         /// </summary>
         private void DeleteDancingGoatSubmittedFormsData(ICollection<string> emails, ICollection<int> contactIDs, IDictionary<string, object> configuration)
         {
-            object deleteSubmittedForms;
-            if (configuration.TryGetValue("DeleteSubmittedFormsData", out deleteSubmittedForms)
+            if (configuration.TryGetValue("DeleteSubmittedFormsData", out object deleteSubmittedForms)
                 && ValidationHelper.GetBoolean(deleteSubmittedForms, false))
             {
-                var consentAgreementGuids = ConsentAgreementInfo.Provider.Get()
+                var consentAgreementGuids = consentAgreementInfoProvider.Get()
                     .Columns("ConsentAgreementGuid")
                     .WhereIn("ConsentAgreementContactID", contactIDs);
 
-                var formClasses = BizFormInfo.Provider.Get()
+                var formClasses = bizFormInfoProvider.Get()
                     .Source(s => s.LeftJoin<DataClassInfo>("CMS_Form.FormClassID", "ClassID"))
                     .WhereIn("FormGUID", dancingGoatForms.Keys);
 
@@ -148,8 +170,7 @@ namespace Samples.DancingGoat
         /// <remarks>Activities are deleted via bulk operation, considering the amount of activities for a contact.</remarks>
         private void DeleteActivities(List<int> contactIds, IDictionary<string, object> configuration)
         {
-            object deleteActivities;
-            if (configuration.TryGetValue("DeleteActivities", out deleteActivities)
+            if (configuration.TryGetValue("deleteActivities", out object deleteActivities)
                 && ValidationHelper.GetBoolean(deleteActivities, false))
             {
                 ActivityInfoProvider.ProviderObject.BulkDelete(new WhereCondition().WhereIn("ActivityContactID", contactIds));
@@ -162,12 +183,10 @@ namespace Samples.DancingGoat
         /// </summary>
         private void DeleteContactFromAccounts(ICollection<int> contactIds, IDictionary<string, object> configuration)
         {
-            object deleteContactFromAccounts;
-            if (configuration.TryGetValue("deleteContactFromAccounts", out deleteContactFromAccounts)
+            if (configuration.TryGetValue("deleteContactFromAccounts", out object deleteContactFromAccounts)
                 && ValidationHelper.GetBoolean(deleteContactFromAccounts, false))
             {
-                var accounts = AccountContactInfo.Provider.Get()
-                    .WhereIn("ContactID", contactIds);
+                var accounts = accountContactInfoProvider.Get().WhereIn("ContactID", contactIds);
 
                 foreach (var account in accounts)
                 {
@@ -180,14 +199,13 @@ namespace Samples.DancingGoat
         /// <summary>
         /// Deletes <paramref name="contacts"/> based on <paramref name="configuration"/>'s <c>DeleteContacts</c> flag.
         /// </summary>
-        private static void DeleteContacts(IEnumerable<ContactInfo> contacts, IDictionary<string, object> configuration)
+        private void DeleteContacts(IEnumerable<ContactInfo> contacts, IDictionary<string, object> configuration)
         {
-            object deleteContacts;
-            if (configuration.TryGetValue("DeleteContacts", out deleteContacts) && ValidationHelper.GetBoolean(deleteContacts, false))
+            if (configuration.TryGetValue("DeleteContacts", out object deleteContacts) && ValidationHelper.GetBoolean(deleteContacts, false))
             {
                 foreach (var contact in contacts)
                 {
-                    ContactInfo.Provider.Delete(contact);
+                    contactInfoProvider.Delete(contact);
                 }
             }
         }

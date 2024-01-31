@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<cms.contentitemcommondata>
+  <ContentItemCommonDataContentItemID>
+    <CodeName>OurFirstCuppingIsHere-t8ll79h8</CodeName>
+    <GUID>2b039eb6-312f-4008-8c4f-3d340d87532c</GUID>
+    <ObjectType>cms.contentitem</ObjectType>
+  </ContentItemCommonDataContentItemID>
+  <ContentItemCommonDataContentLanguageID>
+    <CodeName>en</CodeName>
+    <GUID>e4a8fb12-ebc2-45d0-930f-c9fba2780c85</GUID>
+    <ObjectType>cms.contentlanguage</ObjectType>
+  </ContentItemCommonDataContentLanguageID>
+  <ContentItemCommonDataGUID>447e67f6-0606-4f48-af1e-11e209a1667b</ContentItemCommonDataGUID>
+  <ContentItemCommonDataIsLatest>True</ContentItemCommonDataIsLatest>
+  <ContentItemCommonDataVersionStatus>2</ContentItemCommonDataVersionStatus>
+  <ContentItemReferences>
+    <cms.contentitemreference>
+      <ContentItemReferenceGroupGUID>869e6371-44dc-4066-b31c-380a11f49fc3</ContentItemReferenceGroupGUID>
+      <ContentItemReferenceGUID>8e133c55-7d54-4f37-a457-ff9db06e95dd</ContentItemReferenceGUID>
+      <ContentItemReferenceSourceCommonDataID>
+        <GUID>447e67f6-0606-4f48-af1e-11e209a1667b</GUID>
+        <ObjectType>cms.contentitemcommondata</ObjectType>
+      </ContentItemReferenceSourceCommonDataID>
+      <ContentItemReferenceTargetItemID>
+        <CodeName>BostonCoffeePlace-034jwdxo</CodeName>
+        <GUID>4c84719d-689e-460e-8cc1-5495c367b249</GUID>
+        <ObjectType>cms.contentitem</ObjectType>
+      </ContentItemReferenceTargetItemID>
+    </cms.contentitemreference>
+    <cms.contentitemreference>
+      <ContentItemReferenceGroupGUID>0bf8c2b0-092b-46f5-97a4-03279e7aa3be</ContentItemReferenceGroupGUID>
+      <ContentItemReferenceGUID>37bce188-367d-40ca-a8e1-cc7bb61c90a3</ContentItemReferenceGUID>
+      <ContentItemReferenceSourceCommonDataID>
+        <GUID>447e67f6-0606-4f48-af1e-11e209a1667b</GUID>
+        <ObjectType>cms.contentitemcommondata</ObjectType>
+      </ContentItemReferenceSourceCommonDataID>
+      <ContentItemReferenceTargetItemID>
+        <CodeName>Events_Our-first-cupping-is-here.png-qiy6oc3x</CodeName>
+        <GUID>359fac84-ed49-4ea7-9d46-04b1e2ea6bbe</GUID>
+        <ObjectType>cms.contentitem</ObjectType>
+      </ContentItemReferenceTargetItemID>
+    </cms.contentitemreference>
+  </ContentItemReferences>
+</cms.contentitemcommondata>

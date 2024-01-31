@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<contentitemdata.dancinggoat.homepage>
+  <ContentItemDataCommonDataID>
+    <GUID>52c47d26-697c-4e56-90fc-e7f1d8164429</GUID>
+    <ObjectType>cms.contentitemcommondata</ObjectType>
+    <Parent>
+      <CodeName>Home-t9k4jxiw</CodeName>
+      <GUID>17d83996-c66a-4b07-b47e-d285bd99d8f3</GUID>
+      <ObjectType>cms.contentitem</ObjectType>
+    </Parent>
+  </ContentItemDataCommonDataID>
+  <ContentItemDataGUID>d0f3de79-2205-4162-a64b-307b9aafbd25</ContentItemDataGUID>
+  <HomePageArticlesSection>
+    <![CDATA[[{"WebPageGuid":"4c572828-78af-49ce-89e5-5a87a31ec2cd"}]]]>
+  </HomePageArticlesSection>
+  <HomePageBanner>
+    <![CDATA[[{"Identifier":"a2725352-5eeb-446e-98dc-c244234337f2"}]]]>
+  </HomePageBanner>
+  <HomePageCafes>
+    <![CDATA[[{"Identifier":"4c84719d-689e-460e-8cc1-5495c367b249"},{"Identifier":"5f5c9fce-d24e-4cda-8022-d20d6504b102"},{"Identifier":"9b401e70-fbc7-4d70-b848-19778172e3f1"}]]]>
+  </HomePageCafes>
+  <HomePageEvent>
+    <![CDATA[[{"Identifier":"2b039eb6-312f-4008-8c4f-3d340d87532c"}]]]>
+  </HomePageEvent>
+  <HomePageOurStory>
+    <![CDATA[At Dancing Goat, we strive to do things right. Not only do we source the best coffees you can get your hands on. We also make sure we have a direct relationship with our farmers. Visiting the micro farms where we source our coffees is our daily bread. This way, we can guarantee the highest quality standard all year long. No middle-men, no unfair shares. Our farmers get the best deal possible. So do you.]]>
+  </HomePageOurStory>
+  <HomePageReference>
+    <![CDATA[[{"Identifier":"12e192cc-099a-4fd4-9360-2b8acad4daf0"}]]]>
+  </HomePageReference>
+</contentitemdata.dancinggoat.homepage>

@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<kenticolucene.luceneindexlanguageitem>
+  <LuceneIndexLanguageItemGuid>1428d32e-725e-4e7b-b8e3-79e9502feb0d</LuceneIndexLanguageItemGuid>
+  <LuceneIndexLanguageItemIndexItemId>
+    <CodeName>Home_Simple</CodeName>
+    <GUID>ec780d7b-3fa3-466d-8a7c-e2fa08721e66</GUID>
+    <ObjectType>kenticolucene.luceneindexitem</ObjectType>
+  </LuceneIndexLanguageItemIndexItemId>
+  <LuceneIndexLanguageItemName>en</LuceneIndexLanguageItemName>
+</kenticolucene.luceneindexlanguageitem>

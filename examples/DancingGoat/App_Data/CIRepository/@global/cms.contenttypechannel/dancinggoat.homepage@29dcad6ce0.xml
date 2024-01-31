@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<cms.contenttypechannel>
+  <Parent>
+    <CodeName>DancingGoat.HomePage</CodeName>
+    <GUID>92908e16-49f3-4576-b9c8-024461af012c</GUID>
+    <ObjectType>cms.contenttype</ObjectType>
+  </Parent>
+  <Bindings>
+    <Binding id="cms.channel_DancingGoatPages">
+      <ContentTypeChannelChannelID>
+        <CodeName>DancingGoatPages</CodeName>
+        <GUID>c430f96d-bd56-4448-b6ab-bce41a58f186</GUID>
+        <ObjectType>cms.channel</ObjectType>
+      </ContentTypeChannelChannelID>
+    </Binding>
+  </Bindings>
+</cms.contenttypechannel>

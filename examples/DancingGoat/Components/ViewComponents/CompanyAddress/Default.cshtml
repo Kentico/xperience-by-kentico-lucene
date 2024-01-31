@@ -2,10 +2,12 @@
 
 @model DancingGoat.Models.ContactViewModel
 
-<address>
-    @Model.Phone<br />
-    <a href="mailto:@HttpUtility.HtmlAttributeEncode(Model.Email)">@HttpUtility.HtmlEncode(Model.Email)</a><br />
-    @Model.Name<br /><br />
-    @Model.Street @Model.City,<br />
-    @Model.ZIP, @Model.Country
-</address>
+@if(Model != null) {
+    <address>
+        @Model.Phone<br />
+        <a href="mailto:@HttpUtility.HtmlAttributeEncode(Model.Email)">@HttpUtility.HtmlEncode(Model.Email)</a><br />
+        @Model.Name<br /><br />
+        @Model.Street @Model.City,<br />
+        @Model.ZipCode, @Model.Country
+    </address>
+}

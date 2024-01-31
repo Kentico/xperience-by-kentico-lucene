@@ -1,0 +1,37 @@
+﻿@model IEnumerable<DancingGoat.Models.RelatedArticleViewModel>
+@if (Model.Any())
+{
+    <div class="article-related-articles">
+        <div class="title-wrapper">
+            <h1 class="title-tab">@HtmlLocalizer["Related articles"]</h1>
+        </div>
+        <div class="row">
+            @foreach (var article in Model)
+            {
+                <div class="article-tile">
+                    <div class="article-tile-inner">
+                        @if (!string.IsNullOrEmpty(article.TeaserUrl))
+                        {
+                            <a href="@article.Url">
+                                <img src="@article.TeaserUrl" alt="@article.Title" title="@article.Title" class="article-tile-image" loading="lazy" />
+                            </a>
+                        }
+                        <div class="article-tile-info">
+                            <div class="article-tile-date">
+                                @article.PublicationDate.ToString("m")
+                            </div>
+                            <div class="article-tile-content">
+                                <h2 class="h4">
+                                    <a href="@article.Url">@article.Title</a>
+                                </h2>
+                                <p class="article-tile-text">
+                                    @article.Summary
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+}

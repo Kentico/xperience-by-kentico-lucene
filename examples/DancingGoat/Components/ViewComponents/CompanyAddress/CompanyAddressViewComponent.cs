@@ -1,29 +1,31 @@
-﻿using DancingGoat.Models;
+﻿using System.Threading.Tasks;
+
+using DancingGoat.Models;
+
+using Kentico.Content.Web.Mvc.Routing;
 
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Localization;
 
 namespace DancingGoat.ViewComponents
 {
     public class CompanyAddressViewComponent : ViewComponent
     {
         private readonly ContactRepository contactRepository;
-        private readonly IStringLocalizer<SharedResources> localizer;
+        private readonly IPreferredLanguageRetriever currentLanguageRetriever;
 
 
-        public CompanyAddressViewComponent(ContactRepository contactRepository,
-            IStringLocalizer<SharedResources> localizer)
+        public CompanyAddressViewComponent(ContactRepository contactRepository, IPreferredLanguageRetriever currentLanguageRetriever)
         {
             this.contactRepository = contactRepository;
-            this.localizer = localizer;
+            this.currentLanguageRetriever = currentLanguageRetriever;
         }
 
 
-        public IViewComponentResult Invoke()
+        public async Task<IViewComponentResult> InvokeAsync()
         {
-            var contact = contactRepository.GetCompanyContact();
-            var model = ContactViewModel.GetViewModel(contact, localizer);
-            
+            var contact = await contactRepository.GetContact();
+            var model = ContactViewModel.GetViewModel(contact);
+
             return View("~/Components/ViewComponents/CompanyAddress/Default.cshtml", model);
         }
     }

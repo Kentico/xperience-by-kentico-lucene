@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 
 using CMS.DataEngine;
@@ -13,6 +12,19 @@ namespace Samples.DancingGoat
     /// </summary>
     internal class SampleMemberInfoIdentityCollector : IIdentityCollector
     {
+        private readonly IMemberInfoProvider memberInfoProvider;
+
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SampleMemberInfoIdentityCollector"/> class.
+        /// </summary>
+        /// <param name="memberInfoProvider">Member info provider.</param>
+        public SampleMemberInfoIdentityCollector(IMemberInfoProvider memberInfoProvider)
+        {
+            this.memberInfoProvider = memberInfoProvider;
+        }
+
+
         /// <summary>
         /// Collects all the <see cref="MemberInfo"/>s and adds them to the <paramref name="identities"/> collection.
         /// </summary>
@@ -29,15 +41,13 @@ namespace Samples.DancingGoat
             }
 
             var email = dataSubjectIdentifiersFilter["email"] as string;
-            if (String.IsNullOrWhiteSpace(email))
+            if (string.IsNullOrWhiteSpace(email))
             {
                 return;
             }
 
             // Find members that used the same email and distinct them
-            var members = MemberInfo.Provider.Get()
-                .WhereEquals(nameof(MemberInfo.MemberEmail), email)
-                .ToList();
+            var members = memberInfoProvider.Get().WhereEquals(nameof(MemberInfo.MemberEmail), email).ToList();
 
             identities.AddRange(members);
         }

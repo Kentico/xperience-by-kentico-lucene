@@ -1,0 +1,84 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<cms.formclass>
+  <ClassContactMapping>
+    <form>
+      <field column="ContactEmail" enabled="true" guid="77a5c582-cb8f-44e0-8780-5067e35fe87f" mappedtofield="email" visible="true" />
+    </form>
+  </ClassContactMapping>
+  <ClassContactOverwriteEnabled>False</ClassContactOverwriteEnabled>
+  <ClassDisplayName>Dancing Goat subscription</ClassDisplayName>
+  <ClassFormDefinition>
+    <form>
+      <field column="Form_2023_09_15_10_28ID" columntype="integer" enabled="true" guid="ce8b2e03-6799-4820-ab36-f02cbd0673d3" isPK="true" />
+      <field column="FormInserted" columnprecision="7" columntype="datetime" enabled="true" guid="1c0dc97b-1e87-4262-9269-6245100e2b4f" system="true">
+        <properties>
+          <fieldcaption>Form inserted</fieldcaption>
+        </properties>
+      </field>
+      <field column="FormUpdated" columnprecision="7" columntype="datetime" enabled="true" guid="24066a5e-a9e6-4945-ba18-72f701249a94" system="true">
+        <properties>
+          <fieldcaption>Form updated</fieldcaption>
+        </properties>
+      </field>
+      <field column="Email" columnsize="500" columntype="text" enabled="true" guid="e6a851bb-c6dc-4479-9ae8-cebee3b4dfa8" visible="true">
+        <properties>
+          <fieldcaption>
+            <![CDATA[Want to stay up to date? Please leave us your email address]]>
+          </fieldcaption>
+          <smart>False</smart>
+        </properties>
+        <settings>
+          <componentidentifier>Kentico.EmailInput</componentidentifier>
+        </settings>
+        <validationrulesdata>
+          <ValidationRuleConfiguration>
+            <Identifier>Kentico.MaximumLength</Identifier>
+            <ValidationRule>
+              <InstanceIdentifier>0e4f50f5-89fa-49fd-a4e3-9bb32ee6b244</InstanceIdentifier>
+              <ErrorMessage>Maximum allowed length of the input text is 254.</ErrorMessage>
+              <MaximumLength>254</MaximumLength>
+            </ValidationRule>
+          </ValidationRuleConfiguration>
+        </validationrulesdata>
+      </field>
+    </form>
+  </ClassFormDefinition>
+  <ClassGUID>312e1b3a-2715-409c-96f6-1dd51b3f1b1c</ClassGUID>
+  <ClassHasUnmanagedDbSchema>False</ClassHasUnmanagedDbSchema>
+  <ClassName>BizForm.DancingGoatSubscription</ClassName>
+  <ClassTableName>Form_Form_2023_09_15_10_28</ClassTableName>
+  <ClassType>Form</ClassType>
+  <ClassXmlSchema>
+<![CDATA[
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="NewDataSet" xmlns="" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+  <xs:element name="NewDataSet" msdata:IsDataSet="true" msdata:UseCurrentLocale="true">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="Form_Form_2023_09_15_10_28">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="Form_2023_09_15_10_28ID" msdata:ReadOnly="true" msdata:AutoIncrement="true" type="xs:int" />
+              <xs:element name="FormInserted" type="xs:dateTime" />
+              <xs:element name="FormUpdated" type="xs:dateTime" />
+              <xs:element name="Email">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="500" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+    <xs:unique name="Constraint1" msdata:PrimaryKey="true">
+      <xs:selector xpath=".//Form_Form_2023_09_15_10_28" />
+      <xs:field xpath="Form_2023_09_15_10_28ID" />
+    </xs:unique>
+  </xs:element>
+</xs:schema>
+]]>
+  </ClassXmlSchema>
+</cms.formclass>

@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<cms.webpageitem>
+  <WebPageItemContentItemID>
+    <CodeName>DonateWithUs-ib1owx14</CodeName>
+    <GUID>294d6b5d-46fd-4c7a-b0b6-99af3472b468</GUID>
+    <ObjectType>cms.contentitem</ObjectType>
+  </WebPageItemContentItemID>
+  <WebPageItemGUID>d08f84e6-fa61-4f0d-ab06-a85df2ea9e68</WebPageItemGUID>
+  <WebPageItemName>DonateWithUs-ib1owx14</WebPageItemName>
+  <WebPageItemOrder>5</WebPageItemOrder>
+  <WebPageItemParentID>
+    <CodeName>Articles-j3dfhv8n</CodeName>
+    <GUID>4c572828-78af-49ce-89e5-5a87a31ec2cd</GUID>
+    <ObjectType>cms.webpageitem</ObjectType>
+  </WebPageItemParentID>
+  <WebPageItemTreePath>/Articles/Donate_with_us</WebPageItemTreePath>
+  <WebPageItemWebsiteChannelID>
+    <GUID>55e3ae4b-3843-46b8-95d5-79611c371d6f</GUID>
+    <ObjectType>cms.websitechannel</ObjectType>
+    <Parent>
+      <CodeName>DancingGoatPages</CodeName>
+      <GUID>c430f96d-bd56-4448-b6ab-bce41a58f186</GUID>
+      <ObjectType>cms.channel</ObjectType>
+    </Parent>
+  </WebPageItemWebsiteChannelID>
+</cms.webpageitem>

@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<cms.webpageitem>
+  <WebPageItemContentItemID>
+    <CodeName>OnRoasts-nlx96ge6</CodeName>
+    <GUID>d5d28908-d403-4f6d-ab5a-d7758b43dbf2</GUID>
+    <ObjectType>cms.contentitem</ObjectType>
+  </WebPageItemContentItemID>
+  <WebPageItemGUID>2706b01e-92d1-423f-815f-084ecb08fa39</WebPageItemGUID>
+  <WebPageItemName>OnRoasts-nlx96ge6</WebPageItemName>
+  <WebPageItemOrder>6</WebPageItemOrder>
+  <WebPageItemParentID>
+    <CodeName>Articles-j3dfhv8n</CodeName>
+    <GUID>4c572828-78af-49ce-89e5-5a87a31ec2cd</GUID>
+    <ObjectType>cms.webpageitem</ObjectType>
+  </WebPageItemParentID>
+  <WebPageItemTreePath>/Articles/On_Roasts</WebPageItemTreePath>
+  <WebPageItemWebsiteChannelID>
+    <GUID>55e3ae4b-3843-46b8-95d5-79611c371d6f</GUID>
+    <ObjectType>cms.websitechannel</ObjectType>
+    <Parent>
+      <CodeName>DancingGoatPages</CodeName>
+      <GUID>c430f96d-bd56-4448-b6ab-bce41a58f186</GUID>
+      <ObjectType>cms.channel</ObjectType>
+    </Parent>
+  </WebPageItemWebsiteChannelID>
+</cms.webpageitem>

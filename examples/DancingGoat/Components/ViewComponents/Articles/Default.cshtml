@@ -1,0 +1,93 @@
+﻿@using DancingGoat.Models;
+
+@model ArticlesSectionViewModel
+
+@{
+    var i = 1;
+}
+
+<div class="articles-section">
+    <div class="row">
+        <div class="title-wrapper">
+            <h1 class="title-tab">@HtmlLocalizer["Latest article"]</h1>
+        </div>
+        @{ var first = true; }
+        @foreach (var article in Model.Articles)
+        {
+            if (first)
+            {
+                first = false;
+                <div class="article-tile article-tile-large">
+                    <div class="article-tile-inner">
+                        <div class="col-md-12 col-lg-6 col-xl-5">
+                            @if (article.TeaserUrl != null)
+                            {
+                                <a href="@article.Url">
+                                    <img src="@article.TeaserUrl" alt="@article.Title" title="@article.Title" class="article-tile-image" loading="lazy" />
+                                </a>
+                            }
+                        </div>
+                        <div class="col-md-12 col-lg-6 col-xl-7 article-tile-info">
+                            <div class="article-tile-date">
+                                @article.PublicationDate.ToString("m")
+                            </div>
+                            <div class="article-tile-content">
+                                <h2>
+                                    <a href="@article.Url">@article.Title</a>
+                                </h2>
+                                <p class="article-tile-text lead-paragraph">
+                                    @article.Summary
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+            else
+            {
+                var lastInRow = "";
+                if (i % 4 == 0)
+                {
+                    lastInRow = "last";
+                }
+
+                <div class="col-md-3 article-tile article-tile-small @lastInRow">
+                    <div class="article-tile-inner">
+                        @if (article.TeaserUrl != null)
+                        {
+                            <a href="@article.Url">
+                                <img src="@article.TeaserUrl" alt="@article.Title" title="@article.Title" class="article-tile-image" loading="lazy" />
+                            </a>
+                        }
+                        <div class="article-tile-info">
+                            <div class="article-tile-date">
+                                @article.PublicationDate.ToString("m")
+                            </div>
+                            <div class="article-tile-content">
+                                <h2 class="h4">
+                                    <a href="@article.Url">@article.Title</a>
+                                </h2>
+                                <p class="article-tile-text">
+                                    @article.Summary
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                if (i % 4 == 0)
+                {
+                    <div class="clear"></div>
+                }
+                i++;
+            }
+        }
+    </div>
+
+    <div class="row">
+        <div class="clear center-text">
+            <a href="@Model.ArticlesPath" class="btn btn-more">
+                @HtmlLocalizer["More articles"]
+            </a>
+        </div>
+    </div>
+</div>

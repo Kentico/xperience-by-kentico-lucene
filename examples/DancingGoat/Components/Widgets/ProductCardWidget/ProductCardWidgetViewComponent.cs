@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-
-using CMS.DocumentEngine.Types.DancingGoatCore;
+using System.Threading.Tasks;
 
 using DancingGoat.Models;
 using DancingGoat.Widgets;
@@ -39,12 +38,13 @@ namespace DancingGoat.Widgets
         }
 
 
-        public ViewViewComponentResult Invoke(ProductCardProperties properties)
+        public async Task<ViewViewComponentResult> InvokeAsync(ProductCardProperties properties)
         {
-            var selectedProductIds = properties.SelectedProducts.Select(i => i.ItemId).ToList();
-            IEnumerable<Coffee> products = repository.Get(selectedProductIds)
-                                                     .OrderBy(p => selectedProductIds.IndexOf(p.CoffeeID));
+            var selectedProductGuids = properties.SelectedProducts.Select(i => i.Identifier).ToList();
+            IEnumerable<Coffee> products = (await repository.GetCoffees(selectedProductGuids))
+                                                     .OrderBy(p => selectedProductGuids.IndexOf(p.SystemFields.ContentItemGUID));
             var model = ProductCardListViewModel.GetViewModel(products);
+
             return View("~/Components/Widgets/ProductCardWidget/_ProductCardWidget.cshtml", model);
         }
     }

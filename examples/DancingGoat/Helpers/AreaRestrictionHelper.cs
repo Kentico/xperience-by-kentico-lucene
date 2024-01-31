@@ -19,20 +19,7 @@ namespace DancingGoat.Helpers
             var allowedScopes = new[] { "Kentico.", "DancingGoat.General.", "DancingGoat.LandingPage." };
 
             return GetWidgetsIdentifiers()
-                .Where(id => Array.Exists(allowedScopes, scope => id.StartsWith(scope, StringComparison.OrdinalIgnoreCase)))
-                .ToArray();
-        }
-
-
-        /// <summary>
-        /// Gets list of widget identifiers allowed for home page.
-        /// </summary>
-        public static string[] GetHomePageRestrictions()
-        {
-            var deniedScopes = new[] { "DancingGoat.LandingPage." };
-
-            return GetWidgetsIdentifiers()
-                .Where(id => Array.Exists(deniedScopes, scope => !id.StartsWith(scope, StringComparison.OrdinalIgnoreCase)))
+                .Where(id => allowedScopes.Any(scope => id.StartsWith(scope, StringComparison.OrdinalIgnoreCase)))
                 .ToArray();
         }
 

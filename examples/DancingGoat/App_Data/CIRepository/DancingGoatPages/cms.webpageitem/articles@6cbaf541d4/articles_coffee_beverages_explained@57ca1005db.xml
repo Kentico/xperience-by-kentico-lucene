@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<cms.webpageitem>
+  <WebPageItemContentItemID>
+    <CodeName>CoffeeBeveragesExplained-ouq66na8</CodeName>
+    <GUID>9707bd21-cec6-49af-9681-e9cd6d826ffb</GUID>
+    <ObjectType>cms.contentitem</ObjectType>
+  </WebPageItemContentItemID>
+  <WebPageItemGUID>5fdcf2ed-c672-46f1-b959-776142bb6a74</WebPageItemGUID>
+  <WebPageItemName>CoffeeBeveragesExplained-ouq66na8</WebPageItemName>
+  <WebPageItemOrder>4</WebPageItemOrder>
+  <WebPageItemParentID>
+    <CodeName>Articles-j3dfhv8n</CodeName>
+    <GUID>4c572828-78af-49ce-89e5-5a87a31ec2cd</GUID>
+    <ObjectType>cms.webpageitem</ObjectType>
+  </WebPageItemParentID>
+  <WebPageItemTreePath>/Articles/Coffee_Beverages_Explained</WebPageItemTreePath>
+  <WebPageItemWebsiteChannelID>
+    <GUID>55e3ae4b-3843-46b8-95d5-79611c371d6f</GUID>
+    <ObjectType>cms.websitechannel</ObjectType>
+    <Parent>
+      <CodeName>DancingGoatPages</CodeName>
+      <GUID>c430f96d-bd56-4448-b6ab-bce41a58f186</GUID>
+      <ObjectType>cms.channel</ObjectType>
+    </Parent>
+  </WebPageItemWebsiteChannelID>
+</cms.webpageitem>

@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<cms.contentitemcommondata>
+  <ContentItemCommonDataContentItemID>
+    <CodeName>TheArtOfCoffeeCupping-pzodajb5</CodeName>
+    <GUID>febf0de7-f6d2-49c2-96ae-983c63ad8bad</GUID>
+    <ObjectType>cms.contentitem</ObjectType>
+  </ContentItemCommonDataContentItemID>
+  <ContentItemCommonDataContentLanguageID>
+    <CodeName>en</CodeName>
+    <GUID>e4a8fb12-ebc2-45d0-930f-c9fba2780c85</GUID>
+    <ObjectType>cms.contentlanguage</ObjectType>
+  </ContentItemCommonDataContentLanguageID>
+  <ContentItemCommonDataGUID>52e5490b-a54b-4ef9-a0ad-1834ed830870</ContentItemCommonDataGUID>
+  <ContentItemCommonDataIsLatest>True</ContentItemCommonDataIsLatest>
+  <ContentItemCommonDataVersionStatus>2</ContentItemCommonDataVersionStatus>
+  <ContentItemReferences>
+    <cms.contentitemreference>
+      <ContentItemReferenceGroupGUID>869e6371-44dc-4066-b31c-380a11f49fc3</ContentItemReferenceGroupGUID>
+      <ContentItemReferenceGUID>f633dfd3-7103-409e-aef1-da8218f4ee43</ContentItemReferenceGUID>
+      <ContentItemReferenceSourceCommonDataID>
+        <GUID>52e5490b-a54b-4ef9-a0ad-1834ed830870</GUID>
+        <ObjectType>cms.contentitemcommondata</ObjectType>
+      </ContentItemReferenceSourceCommonDataID>
+      <ContentItemReferenceTargetItemID>
+        <CodeName>BostonCoffeePlace-034jwdxo</CodeName>
+        <GUID>4c84719d-689e-460e-8cc1-5495c367b249</GUID>
+        <ObjectType>cms.contentitem</ObjectType>
+      </ContentItemReferenceTargetItemID>
+    </cms.contentitemreference>
+    <cms.contentitemreference>
+      <ContentItemReferenceGroupGUID>0bf8c2b0-092b-46f5-97a4-03279e7aa3be</ContentItemReferenceGroupGUID>
+      <ContentItemReferenceGUID>fe617f52-e219-4585-87fe-ef0416a9ee5b</ContentItemReferenceGUID>
+      <ContentItemReferenceSourceCommonDataID>
+        <GUID>52e5490b-a54b-4ef9-a0ad-1834ed830870</GUID>
+        <ObjectType>cms.contentitemcommondata</ObjectType>
+      </ContentItemReferenceSourceCommonDataID>
+      <ContentItemReferenceTargetItemID>
+        <CodeName>Events_Nathan-dumlao-6VhPY27jdps-unsplash_50.jpg-0xla25qz</CodeName>
+        <GUID>5590dc48-6146-4f1b-bd28-e8fef896c52e</GUID>
+        <ObjectType>cms.contentitem</ObjectType>
+      </ContentItemReferenceTargetItemID>
+    </cms.contentitemreference>
+  </ContentItemReferences>
+</cms.contentitemcommondata>

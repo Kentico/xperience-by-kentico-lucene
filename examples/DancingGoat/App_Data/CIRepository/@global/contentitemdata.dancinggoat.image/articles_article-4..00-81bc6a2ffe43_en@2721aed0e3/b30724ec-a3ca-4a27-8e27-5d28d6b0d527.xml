@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<contentitemdata.dancinggoat.image>
+  <ContentItemDataCommonDataID>
+    <GUID>944b6df9-3643-4516-b100-81bc6a2ffe43</GUID>
+    <ObjectType>cms.contentitemcommondata</ObjectType>
+    <Parent>
+      <CodeName>Articles_Article-4_2x.jpg-pi7pf0nq</CodeName>
+      <GUID>abc5b875-2f70-4aac-80a8-f8033867b0c5</GUID>
+      <ObjectType>cms.contentitem</ObjectType>
+    </Parent>
+  </ContentItemDataCommonDataID>
+  <ContentItemDataGUID>b30724ec-a3ca-4a27-8e27-5d28d6b0d527</ContentItemDataGUID>
+  <ImageFile>
+    <![CDATA[{"Identifier":"31cb66f0-3805-433d-874e-9125e70c2914","Name":"article-4@2x.jpg","Extension":".jpg","Size":160025,"LastModified":"2023-06-14T15:38:15.5179173Z"}]]>
+  </ImageFile>
+  <ImageShortDescription>Coffee beans being roasted.</ImageShortDescription>
+</contentitemdata.dancinggoat.image>

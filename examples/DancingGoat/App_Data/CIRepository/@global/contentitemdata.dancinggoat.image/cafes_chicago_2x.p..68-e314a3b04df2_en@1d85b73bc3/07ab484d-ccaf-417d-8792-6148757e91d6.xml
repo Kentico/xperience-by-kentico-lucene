@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<contentitemdata.dancinggoat.image>
+  <ContentItemDataCommonDataID>
+    <GUID>aae1acee-38e9-4a06-be68-e314a3b04df2</GUID>
+    <ObjectType>cms.contentitemcommondata</ObjectType>
+    <Parent>
+      <CodeName>Cafes_Chicago_2x.png-rqpy9dg4</CodeName>
+      <GUID>ff45b4fc-f3c3-4171-b1eb-845411e46c54</GUID>
+      <ObjectType>cms.contentitem</ObjectType>
+    </Parent>
+  </ContentItemDataCommonDataID>
+  <ContentItemDataGUID>07ab484d-ccaf-417d-8792-6148757e91d6</ContentItemDataGUID>
+  <ImageFile>
+    <![CDATA[{"Identifier":"74841585-62f1-4966-984a-075a0af3a554","Name":"chicago@2x.png","Extension":".png","Size":185779,"LastModified":"2023-07-10T13:28:32.7058727Z"}]]>
+  </ImageFile>
+</contentitemdata.dancinggoat.image>

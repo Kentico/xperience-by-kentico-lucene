@@ -1,0 +1,28 @@
+﻿@model DancingGoat.Models.ConsentViewModel
+
+<div id="consent" class="cookie-consent">
+    @if (!Model.IsConsentAgreed)
+    {
+        var routeData = new Dictionary<string, string> { { "returnUrl", Model.ReturnPageUrl } };
+
+        <div class="consent-text">@HtmlLocalizer["Only system cookies are currently stored. Tracking of activities and analytics features are turned off."]</div>
+        <div>
+             @Html.Raw(@Model.ConsentShortText)
+        </div>
+        <form asp-action="Agree"
+              asp-controller="Consent"
+              asp-antiforgery="true"
+              asp-all-route-data="routeData"
+              method="post"
+              class="consent-buttons">
+            <input type="submit" value="@HtmlLocalizer["I agree"]" class="btn btn-default btn-consent">
+        </form>
+    }
+    else
+    {
+        <div>
+            @HtmlLocalizer["The website now stores cookies on your computer, tracks activity, creates personalized content and processes analytics. You can find more information on our"]
+            <a href=@Model.PrivacyPageUrl>@HtmlLocalizer["privacy page"]</a>.
+        </div>
+    }
+</div>

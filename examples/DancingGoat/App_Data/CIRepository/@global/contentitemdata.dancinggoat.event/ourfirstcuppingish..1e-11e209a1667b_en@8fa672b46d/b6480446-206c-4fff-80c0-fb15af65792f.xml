@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<contentitemdata.dancinggoat.event>
+  <ContentItemDataCommonDataID>
+    <GUID>447e67f6-0606-4f48-af1e-11e209a1667b</GUID>
+    <ObjectType>cms.contentitemcommondata</ObjectType>
+    <Parent>
+      <CodeName>OurFirstCuppingIsHere-t8ll79h8</CodeName>
+      <GUID>2b039eb6-312f-4008-8c4f-3d340d87532c</GUID>
+      <ObjectType>cms.contentitem</ObjectType>
+    </Parent>
+  </ContentItemDataCommonDataID>
+  <ContentItemDataGUID>b6480446-206c-4fff-80c0-fb15af65792f</ContentItemDataGUID>
+  <EventCafe>
+    <![CDATA[[{"Identifier":"4c84719d-689e-460e-8cc1-5495c367b249"}]]]>
+  </EventCafe>
+  <EventDate>2022-09-12 12:00:00Z</EventDate>
+  <EventHeroBannerImage>
+    <![CDATA[[{"Identifier":"359fac84-ed49-4ea7-9d46-04b1e2ea6bbe"}]]]>
+  </EventHeroBannerImage>
+  <EventPromoText>
+    <![CDATA[This is Dancing Goat's first cupping event, where we will try out some new roasts, enjoy new coffees, and have a good time.]]>
+  </EventPromoText>
+  <EventTitle>Our first cupping is here!</EventTitle>
+</contentitemdata.dancinggoat.event>

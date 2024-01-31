@@ -1,5 +1,5 @@
 using System.Linq;
-using CMS.DocumentEngine.Types.DancingGoatCore;
+using System.Threading.Tasks;
 
 using DancingGoat.Models;
 using DancingGoat.Widgets;
@@ -24,31 +24,31 @@ namespace DancingGoat.Widgets
         public const string IDENTIFIER = "DancingGoat.LandingPage.CardWidget";
 
 
-        private readonly MediaRepository mediaRepository;
+        private readonly ImageRepository imageRepository;
 
         /// <summary>
         /// Creates an instance of <see cref="CardWidgetViewComponent"/> class.
         /// </summary>
-        /// <param name="mediaRepository">Repository for media files.</param>
-        public CardWidgetViewComponent(MediaRepository mediaRepository)
+        /// <param name="imageRepository">Repository for images.</param>
+        public CardWidgetViewComponent(ImageRepository imageRepository)
         {
-            this.mediaRepository = mediaRepository;
+            this.imageRepository = imageRepository;
         }
 
 
-        public ViewViewComponentResult Invoke(CardWidgetProperties properties)
+        public async Task<ViewViewComponentResult> InvokeAsync(CardWidgetProperties properties)
         {
-            var image = GetImage(properties);
+            var image = await GetImage(properties);
 
             return View("~/Components/Widgets/CardWidget/_CardWidget.cshtml", new CardWidgetViewModel
             {
-                ImagePath = image?.Fields.File.Url,
+                ImagePath = image?.ImageFile.Url,
                 Text = properties.Text
             });
         }
 
 
-        private Media GetImage(CardWidgetProperties properties)
+        private async Task<Image> GetImage(CardWidgetProperties properties)
         {
             var image = properties.Image.FirstOrDefault();
 
@@ -57,7 +57,7 @@ namespace DancingGoat.Widgets
                 return null;
             }
 
-            return mediaRepository.GetMediaFile(image.ItemId);
+            return await imageRepository.GetImage(image.Identifier);
         }
     }
 }

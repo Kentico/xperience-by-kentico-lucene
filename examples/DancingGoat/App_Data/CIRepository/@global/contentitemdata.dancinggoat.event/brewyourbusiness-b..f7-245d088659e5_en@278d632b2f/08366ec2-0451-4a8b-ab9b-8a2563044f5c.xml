@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<contentitemdata.dancinggoat.event>
+  <ContentItemDataCommonDataID>
+    <GUID>28ea5493-ea6e-4260-81f7-245d088659e5</GUID>
+    <ObjectType>cms.contentitemcommondata</ObjectType>
+    <Parent>
+      <CodeName>BrewYourBusiness-bqgfzgee</CodeName>
+      <GUID>044fb867-f470-490d-af82-6779ae5d1fd5</GUID>
+      <ObjectType>cms.contentitem</ObjectType>
+    </Parent>
+  </ContentItemDataCommonDataID>
+  <ContentItemDataGUID>08366ec2-0451-4a8b-ab9b-8a2563044f5c</ContentItemDataGUID>
+  <EventDate>2022-08-17 07:00:00Z</EventDate>
+  <EventHeroBannerImage>
+    <![CDATA[[{"Identifier":"19aebe45-100a-4807-b5aa-ca7d58d714ea"}]]]>
+  </EventHeroBannerImage>
+  <EventPromoText>
+    <![CDATA[Join our masterclass to find out how best to grow your coffee business. We’ll share all the product, marketing, and sales resources you need. Plus, meet with other members of the coffee community.]]>
+  </EventPromoText>
+  <EventTitle>Brew your business</EventTitle>
+</contentitemdata.dancinggoat.event>

@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<contentitemdata.dancinggoat.event>
+  <ContentItemDataCommonDataID>
+    <GUID>bea193d1-5d9a-4eba-b82e-4b3993ebbee2</GUID>
+    <ObjectType>cms.contentitemcommondata</ObjectType>
+    <Parent>
+      <CodeName>ConnectTheCoffee-pcyqydpx</CodeName>
+      <GUID>fdc85786-40ce-4c4b-9fb8-1b615a621a49</GUID>
+      <ObjectType>cms.contentitem</ObjectType>
+    </Parent>
+  </ContentItemDataCommonDataID>
+  <ContentItemDataGUID>9840b4ea-7bb6-4a02-b9b1-78ea58a90d26</ContentItemDataGUID>
+  <EventDate>2022-08-09 11:00:00Z</EventDate>
+  <EventHeroBannerImage>
+    <![CDATA[[{"Identifier":"38546af2-95d1-4852-a232-9dc0c9fb24b5"}]]]>
+  </EventHeroBannerImage>
+  <EventPromoText>
+    <![CDATA[Get ready for a unique tasting experience. Pair the distinct flavors of perfectly roasted coffee with complementary foods. Learn what goes hand in hand with the delicate flavours of different roasts]]>
+  </EventPromoText>
+  <EventTitle />
+</contentitemdata.dancinggoat.event>

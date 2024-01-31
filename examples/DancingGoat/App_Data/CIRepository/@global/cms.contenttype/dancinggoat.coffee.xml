@@ -1,0 +1,65 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<cms.contenttype>
+  <ClassContentTypeType>Reusable</ClassContentTypeType>
+  <ClassDisplayName>Coffee</ClassDisplayName>
+  <ClassFormDefinition>
+    <form>
+      <field column="ContentItemDataID" columntype="integer" enabled="true" guid="56592b87-fef1-449f-a836-a9c155e39f34" isPK="true" />
+      <field column="ContentItemDataCommonDataID" columntype="integer" enabled="true" guid="0673c391-464a-4c31-b09c-9816e84fe922" refobjtype="cms.contentitemcommondata" reftype="Required" system="true" />
+      <field column="ContentItemDataGUID" columntype="guid" enabled="true" guid="c0178b85-20c0-4b59-acf5-4b2088a7b8cf" isunique="true" system="true" />
+      <field column="CoffeeName" columnprecision="0" columnsize="200" columntype="text" enabled="true" guid="1cf50d35-ee35-4c59-b5ae-5394de3eb581" visible="true">
+        <properties>
+          <explanationtextashtml>False</explanationtextashtml>
+          <fieldcaption>Coffee Name</fieldcaption>
+          <fielddescriptionashtml>False</fielddescriptionashtml>
+        </properties>
+        <settings>
+          <controlname>Kentico.Administration.TextInput</controlname>
+        </settings>
+      </field>
+      <field column="CoffeeShortDescription" columnprecision="0" columnsize="450" columntype="text" enabled="true" guid="33d76091-4a55-4d7d-ae7c-3dab4d719b8c" visible="true">
+        <properties>
+          <explanationtextashtml>False</explanationtextashtml>
+          <fieldcaption>Short description</fieldcaption>
+          <fielddescriptionashtml>False</fielddescriptionashtml>
+        </properties>
+        <settings>
+          <controlname>Kentico.Administration.TextArea</controlname>
+          <CopyButtonVisible>False</CopyButtonVisible>
+          <MaxRowsNumber>5</MaxRowsNumber>
+          <MinRowsNumber>3</MinRowsNumber>
+        </settings>
+      </field>
+      <field column="CoffeeDescription" columnprecision="0" columntype="longtext" enabled="true" guid="0c84a104-5c2c-491d-9fb5-4487cbcade82" visible="true">
+        <properties>
+          <explanationtextashtml>False</explanationtextashtml>
+          <fieldcaption>Description</fieldcaption>
+          <fielddescriptionashtml>False</fielddescriptionashtml>
+        </properties>
+        <settings>
+          <controlname>Kentico.Administration.RichTextEditor</controlname>
+        </settings>
+      </field>
+      <field allowempty="true" column="CoffeeImage" columnprecision="0" columntype="contentitemreference" enabled="true" guid="e724314d-02c6-46e5-ba00-204c1c88c006" visible="true">
+        <properties>
+          <explanationtextashtml>False</explanationtextashtml>
+          <fieldcaption>Image</fieldcaption>
+          <fielddescriptionashtml>False</fielddescriptionashtml>
+        </properties>
+        <settings>
+          <AllowedContentItemTypeIdentifiers>
+            <![CDATA[["fd1947a4-e04b-441b-a76c-1ed826fb766e"]]]>
+          </AllowedContentItemTypeIdentifiers>
+          <controlname>Kentico.Administration.ContentItemSelector</controlname>
+        </settings>
+      </field>
+    </form>
+  </ClassFormDefinition>
+  <ClassGUID>7f74020d-0a9e-46fd-bfcc-50b893e94452</ClassGUID>
+  <ClassHasUnmanagedDbSchema>False</ClassHasUnmanagedDbSchema>
+  <ClassIconClass>xp-cup</ClassIconClass>
+  <ClassName>DancingGoat.Coffee</ClassName>
+  <ClassTableName>DancingGoat_Coffee</ClassTableName>
+  <ClassType>Content</ClassType>
+  <ClassWebPageHasUrl>False</ClassWebPageHasUrl>
+</cms.contenttype>

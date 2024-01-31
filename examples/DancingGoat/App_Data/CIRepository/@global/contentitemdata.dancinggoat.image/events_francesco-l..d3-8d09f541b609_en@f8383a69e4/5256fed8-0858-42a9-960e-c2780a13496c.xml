@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<contentitemdata.dancinggoat.image>
+  <ContentItemDataCommonDataID>
+    <GUID>6b7503d3-e712-45b7-b1d3-8d09f541b609</GUID>
+    <ObjectType>cms.contentitemcommondata</ObjectType>
+    <Parent>
+      <CodeName>Events_Francesco-la-corte-YtGOTady1a4-unsplash_50.jpg-g3jt4j8f</CodeName>
+      <GUID>19aebe45-100a-4807-b5aa-ca7d58d714ea</GUID>
+      <ObjectType>cms.contentitem</ObjectType>
+    </Parent>
+  </ContentItemDataCommonDataID>
+  <ContentItemDataGUID>5256fed8-0858-42a9-960e-c2780a13496c</ContentItemDataGUID>
+  <ImageFile>
+    <![CDATA[{"Identifier":"8f897658-aa7e-424e-8ec1-ca2ed404d94b","Name":"francesco-la-corte-YtGOTady1a4-unsplash_50.jpg","Extension":".jpg","Size":536841,"LastModified":"2023-06-14T15:36:28.3424992Z"}]]>
+  </ImageFile>
+</contentitemdata.dancinggoat.image>

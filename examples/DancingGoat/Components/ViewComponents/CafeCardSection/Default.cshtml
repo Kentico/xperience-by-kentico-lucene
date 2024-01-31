@@ -1,0 +1,16 @@
+﻿@using DancingGoat.Models
+@model IEnumerable<CafeViewModel>
+
+<div class="row cafe-cards">
+    <div class="title-wrapper">
+        <h1 class="title-tab">@HtmlLocalizer["Taste our coffee"]</h1>
+    </div>
+    <div class="row row--with-cols-padding">
+        @foreach (var cafe in Model)
+        {
+            <div class="col-md-4">
+                <vc:cafe cafe="@cafe" />
+            </div>
+        }
+    </div>
+</div>

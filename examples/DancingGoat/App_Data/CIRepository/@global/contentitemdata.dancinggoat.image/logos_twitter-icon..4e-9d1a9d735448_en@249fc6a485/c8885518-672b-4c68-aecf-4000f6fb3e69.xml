@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<contentitemdata.dancinggoat.image>
+  <ContentItemDataCommonDataID>
+    <GUID>9ecc107f-cdcd-494c-9a4e-9d1a9d735448</GUID>
+    <ObjectType>cms.contentitemcommondata</ObjectType>
+    <Parent>
+      <CodeName>Logos_Twitter-icon.png-yhw58zal</CodeName>
+      <GUID>c29dd2f8-d5e2-4d2c-8f7f-a0fb7c09ebed</GUID>
+      <ObjectType>cms.contentitem</ObjectType>
+    </Parent>
+  </ContentItemDataCommonDataID>
+  <ContentItemDataGUID>c8885518-672b-4c68-aecf-4000f6fb3e69</ContentItemDataGUID>
+  <ImageFile>
+    <![CDATA[{"Identifier":"74b3b158-033a-4a42-9989-52baf2b411e4","Name":"twitter-icon.png","Extension":".png","Size":1796,"LastModified":"2023-06-14T15:35:07.2340929Z"}]]>
+  </ImageFile>
+</contentitemdata.dancinggoat.image>

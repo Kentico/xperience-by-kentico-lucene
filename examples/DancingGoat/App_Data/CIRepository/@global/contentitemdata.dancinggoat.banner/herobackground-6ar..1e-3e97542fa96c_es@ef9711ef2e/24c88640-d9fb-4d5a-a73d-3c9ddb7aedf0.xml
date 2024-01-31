@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<contentitemdata.dancinggoat.banner>
+  <BannerBackgroundImage>
+    <![CDATA[[{"Identifier":"b5881f66-102a-4b14-99dd-d713cde77584"}]]]>
+  </BannerBackgroundImage>
+  <BannerHeaderText>
+    <![CDATA[Tostando Café Premium]]>
+  </BannerHeaderText>
+  <BannerText>
+    <![CDATA[Descubre el fascinante mundo del café de alta calidad de Dancing Goat y nunca más te perderás un solo descanso para tomar café.]]>
+  </BannerText>
+  <ContentItemDataCommonDataID>
+    <GUID>772e8b7f-d2cf-4350-941e-3e97542fa96c</GUID>
+    <ObjectType>cms.contentitemcommondata</ObjectType>
+    <Parent>
+      <CodeName>HeroBackground-6arlimda</CodeName>
+      <GUID>a2725352-5eeb-446e-98dc-c244234337f2</GUID>
+      <ObjectType>cms.contentitem</ObjectType>
+    </Parent>
+  </ContentItemDataCommonDataID>
+  <ContentItemDataGUID>24c88640-d9fb-4d5a-a73d-3c9ddb7aedf0</ContentItemDataGUID>
+</contentitemdata.dancinggoat.banner>

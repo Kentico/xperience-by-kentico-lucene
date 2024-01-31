@@ -2,12 +2,20 @@
 using System.Collections.Generic;
 
 using CMS;
+using CMS.Activities;
 using CMS.Base;
 using CMS.ContactManagement;
 using CMS.Core;
 using CMS.DataEngine;
 using CMS.DataProtection;
+using CMS.Globalization;
 using CMS.Helpers;
+using CMS.Membership;
+using CMS.OnlineForms;
+
+using DancingGoat.Helpers.Generator;
+
+using Kentico.Web.Mvc;
 
 using Samples.DancingGoat;
 
@@ -22,12 +30,22 @@ namespace Samples.DancingGoat
     {
         private const string DATA_PROTECTION_SAMPLES_ENABLED_SETTINGS_KEY_NAME = "DataProtectionSamplesEnabled";
 
+        private IContactInfoProvider contactInfoProvider;
+        private IMemberInfoProvider memberInfoProvider;
+        private IConsentAgreementInfoProvider consentAgreementInfoProvider;
+        private IBizFormInfoProvider bizFormInfoProvider;
+        private IAccountContactInfoProvider accountContactInfoProvider;
+        private ISettingsKeyInfoProvider settingsKeyInfoProvider;
+        private IActivityInfoProvider activityInfoProvider;
+        private ICountryInfoProvider countryInfoProvider;
+        private IStateInfoProvider stateInfoProvider;
+        private IAccountInfoProvider accountInfoProvider;
+
 
         /// <summary>
         /// Initializes a new instance of the <see cref="DancingGoatSamplesModule"/> class.
         /// </summary>
-        public DancingGoatSamplesModule()
-            : base("DancingGoatSamplesModule")
+        public DancingGoatSamplesModule() : base(nameof(DancingGoatSamplesModule))
         {
         }
 
@@ -39,6 +57,17 @@ namespace Samples.DancingGoat
         {
             base.OnInit();
 
+            contactInfoProvider = Service.Resolve<IContactInfoProvider>();
+            memberInfoProvider = Service.Resolve<IMemberInfoProvider>();
+            consentAgreementInfoProvider = Service.Resolve<IConsentAgreementInfoProvider>();
+            bizFormInfoProvider = Service.Resolve<IBizFormInfoProvider>();
+            accountContactInfoProvider = Service.Resolve<IAccountContactInfoProvider>();
+            settingsKeyInfoProvider = Service.Resolve<ISettingsKeyInfoProvider>();
+            activityInfoProvider = Service.Resolve<IActivityInfoProvider>();
+            countryInfoProvider = Service.Resolve<ICountryInfoProvider>();
+            stateInfoProvider = Service.Resolve<IStateInfoProvider>();
+            accountInfoProvider = Service.Resolve<IAccountInfoProvider>();
+
             InitializeSamples();
         }
 
@@ -49,17 +78,18 @@ namespace Samples.DancingGoat
         /// </summary>
         private void InitializeSamples()
         {
-            var dataProtectionSamplesEnabledSettingsKey = SettingsKeyInfoProvider.GetSettingsKeyInfo(DATA_PROTECTION_SAMPLES_ENABLED_SETTINGS_KEY_NAME);
+            var dataProtectionSamplesEnabledSettingsKey = settingsKeyInfoProvider.Get(DATA_PROTECTION_SAMPLES_ENABLED_SETTINGS_KEY_NAME);
             if (dataProtectionSamplesEnabledSettingsKey?.KeyValue.ToBoolean(false) ?? false)
             {
                 RegisterSamples();
             }
             else
             {
-                SettingsKeyInfoProvider.OnSettingsKeyChanged += (sender, eventArgs) =>
+                SettingsKeyInfo.TYPEINFO.Events.Insert.After += (sender, eventArgs) =>
                 {
-                    if (eventArgs.KeyName.Equals(DATA_PROTECTION_SAMPLES_ENABLED_SETTINGS_KEY_NAME, StringComparison.OrdinalIgnoreCase) &&
-                        (eventArgs.Action == SettingsKeyActionEnum.Insert) && eventArgs.KeyValue.ToBoolean(false))
+                    var settingKey = eventArgs.Object as SettingsKeyInfo;
+                    if (settingKey.KeyName.Equals(DATA_PROTECTION_SAMPLES_ENABLED_SETTINGS_KEY_NAME, StringComparison.OrdinalIgnoreCase)
+                        && settingKey.KeyValue.ToBoolean(false))
                     {
                         RegisterSamples();
                     }
@@ -68,43 +98,50 @@ namespace Samples.DancingGoat
         }
 
 
-        internal static void RegisterSamples()
+        internal void RegisterSamples()
         {
-            IdentityCollectorRegister.Instance.Add(new SampleContactInfoIdentityCollector());
-            IdentityCollectorRegister.Instance.Add(new SampleMemberInfoIdentityCollector());
+            IdentityCollectorRegister.Instance.Add(new SampleContactInfoIdentityCollector(contactInfoProvider));
+            IdentityCollectorRegister.Instance.Add(new SampleMemberInfoIdentityCollector(memberInfoProvider));
 
-            PersonalDataCollectorRegister.Instance.Add(new SampleContactDataCollector());
+            PersonalDataCollectorRegister.Instance.Add(new SampleContactDataCollector(activityInfoProvider, countryInfoProvider, stateInfoProvider, consentAgreementInfoProvider,
+                accountContactInfoProvider, accountInfoProvider, bizFormInfoProvider));
             PersonalDataCollectorRegister.Instance.Add(new SampleMemberDataCollector());
 
-            PersonalDataEraserRegister.Instance.Add(new SampleContactPersonalDataEraser());
-            PersonalDataEraserRegister.Instance.Add(new SampleMemberPersonalDataEraser());
+            PersonalDataEraserRegister.Instance.Add(new SampleContactPersonalDataEraser(consentAgreementInfoProvider, bizFormInfoProvider, accountContactInfoProvider, contactInfoProvider));
+            PersonalDataEraserRegister.Instance.Add(new SampleMemberPersonalDataEraser(memberInfoProvider));
 
             RegisterConsentRevokeHandler();
         }
 
 
-        internal static void DeleteContactActivities(ContactInfo contact)
+        internal void DeleteContactActivities(ContactInfo contact)
         {
             var configuration = new Dictionary<string, object>
             {
                 { "deleteActivities", true }
             };
 
-            new SampleContactPersonalDataEraser().Erase(new[] { contact }, configuration);
+            new SampleContactPersonalDataEraser(consentAgreementInfoProvider, bizFormInfoProvider, accountContactInfoProvider, contactInfoProvider)
+                    .Erase(new[] { contact }, configuration);
         }
 
 
-        private static void RegisterConsentRevokeHandler()
+        private void RegisterConsentRevokeHandler()
         {
             DataProtectionEvents.RevokeConsentAgreement.Execute += (sender, args) =>
             {
-                if (args.Consent.ConsentName.Equals("DancingGoatTracking", StringComparison.Ordinal))
+                if (args.Consent.ConsentName.Equals(TrackingConsentGenerator.CONSENT_NAME, StringComparison.Ordinal))
                 {
                     DeleteContactActivities(args.Contact);
 
                     // Remove cookies used for contact tracking
-                    CookieHelper.Remove(CookieName.CurrentContact);
-                    CookieHelper.Remove(CookieName.CrossSiteContact);
+                    var cookieAccessor = Service.Resolve<ICookieAccessor>();
+
+#pragma warning disable CS0618 // CookieName is obsolete
+                    cookieAccessor.Remove(CookieName.CurrentContact);
+                    cookieAccessor.Remove(CookieName.CrossSiteContact);
+#pragma warning restore CS0618 // CookieName is obsolete
+
 
                     // Set the cookie level to default
                     var cookieLevelProvider = Service.Resolve<ICurrentCookieLevelProvider>();

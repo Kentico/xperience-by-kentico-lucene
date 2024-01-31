@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<cms.contentitem>
+  <ContentItemContentTypeID>
+    <CodeName>DancingGoat.Image</CodeName>
+    <GUID>fd1947a4-e04b-441b-a76c-1ed826fb766e</GUID>
+    <ObjectType>cms.contenttype</ObjectType>
+  </ContentItemContentTypeID>
+  <ContentItemGUID>224f43c1-e456-4dfe-af12-ad151c19d0d6</ContentItemGUID>
+  <ContentItemIsReusable>True</ContentItemIsReusable>
+  <ContentItemIsSecured>False</ContentItemIsSecured>
+  <ContentItemName>Cafes_Boston_2x.png-ook06kfb</ContentItemName>
+</cms.contentitem>

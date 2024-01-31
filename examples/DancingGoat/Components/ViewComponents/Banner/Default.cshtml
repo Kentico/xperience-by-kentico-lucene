@@ -1,0 +1,16 @@
+﻿@using DancingGoat.Models
+@model BannerViewModel
+@{
+    string styleAttribute = null;
+    if (!string.IsNullOrEmpty(Model.BackgroundImageUrl))
+    {
+        styleAttribute = $"style=\"background-image: url('{Url.Content(HTMLHelper.HTMLEncode(Model.BackgroundImageUrl))}');\"";
+    }
+}
+
+<section class="banner-section" @Html.Raw(styleAttribute)>
+    <h2 class="banner-heading">@Model.HeaderText</h2>
+    <div class="banner-text">
+        @Model.Text
+    </div>
+</section>

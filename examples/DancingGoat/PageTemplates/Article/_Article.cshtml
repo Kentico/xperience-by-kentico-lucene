@@ -1,37 +1,73 @@
-﻿@using DancingGoat.PageTemplates
+﻿@using Kentico.Content.Web.Mvc.PageBuilder
 
-@model ComponentViewModel
+@using DancingGoat.PageTemplates
+@using DancingGoat.Models
 
-@inject ArticlePageTemplateService Service
+@model TemplateViewModel
 
 @{
-    var templateModel = Service.GetTemplateModel();
-    ViewBag.Title = templateModel.Title;
+    Layout = "~/Views/Shared/_DancingGoatLayout.cshtml";
+    var viewModel = Model.GetTemplateModel<ArticleDetailViewModel>();
+
+    ViewBag.Title = viewModel.Title;
+
+    var hasRelatedArticles = viewModel.RelatedArticles.Any();
 }
 
+
 <div class="article-detail-page">
-    <article class="col-lg-12 article-detail-related-box article-detail-full-width">
-        <div class="row equal-height">
-            @if (!string.IsNullOrEmpty(templateModel.TeaserPath))
+    @if (hasRelatedArticles)
+    {
+        <article class="article-detail col-lg-9 col-md-12 article-detail-related-box">
+            <h2>@viewModel.Title</h2>
+            <div class="article-detail-datetime">
+                @viewModel.PublicationDate.ToString("D")
+            </div>
+            @if (!string.IsNullOrEmpty(viewModel.TeaserUrl))
             {
-                <div class="article-detail-image col-lg-6 col-md-6">
-                    <img src="@Url.Content(templateModel.TeaserPath)" alt="@templateModel.Title" title="@templateModel.Title" class="img-responsive" loading="lazy" />
-                </div>
-                <div class="col-lg-1 col-md-1 article-title--padding">
+                <div class="row">
+                    <div class="article-detail-image col-md-push-2 col-md-8">
+                        <img src="@Url.Content(viewModel.TeaserUrl)" alt="@viewModel.Title" title="@viewModel.Title" class="img-responsive" loading="lazy" />
+                    </div>
                 </div>
             }
-            <div class="col-lg-5 col-md-5 article-title--align-middle">
-                <h2>@templateModel.Title</h2>
-                <div class="article-detail-datetime">
-                    @templateModel.PublicationDate.ToString("D")
+            <div class="row">
+                <div class="article-detail-content">
+                    @Html.Raw(viewModel.Text)
                 </div>
             </div>
+        </article>
+
+        <div class="article-related-articles-sidebar col-lg-3 col-md-6 col-sm-12">
+            <partial name="~/Views/DancingGoatArticle/RelatedArticles.cshtml" model="viewModel.RelatedArticles" />
         </div>
-        <div class="row">
-            <div class="article-detail-content col-lg-9">
-                @Html.Kentico().ResolveUrls(templateModel.Text)
+    }
+    else
+    {
+        <article class="col-lg-12 article-detail-related-box article-detail-full-width">
+            <div class="row equal-height">
+                @if (!string.IsNullOrEmpty(viewModel.TeaserUrl))
+                {
+                    <div class="article-detail-image col-lg-6 col-md-6">
+                        <img src="@Url.Content(viewModel.TeaserUrl)" alt="@viewModel.Title" title="@viewModel.Title" class="img-responsive" loading="lazy" />
+                    </div>
+                    <div class="col-lg-1 col-md-1 article-title--padding">
+                    </div>
+                }
+                <div class="col-lg-5 col-md-5 article-title--align-middle">
+                    <h2>@viewModel.Title</h2>
+                    <div class="article-detail-datetime">
+                        @viewModel.PublicationDate.ToString("D")
+                    </div>
+                </div>
             </div>
-        </div>
-    </article>
+            <div class="row">
+                <div class="article-detail-content col-lg-9">
+                    @Html.Raw(viewModel.Text)
+                </div>
+            </div>
+        </article>
+    }
+
     <div class="clear"></div>
 </div>

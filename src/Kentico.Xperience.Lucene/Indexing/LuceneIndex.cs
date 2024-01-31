@@ -55,7 +55,15 @@ public sealed class LuceneIndex
         WebSiteChannelName = indexConfiguration.ChannelName;
         LanguageNames = indexConfiguration.LanguageNames.ToList();
         IncludedPaths = indexConfiguration.Paths;
-        LuceneIndexingStrategyType = strategies[indexConfiguration.StrategyName] ?? typeof(DefaultLuceneIndexingStrategy);
+
+        var strategy = typeof(DefaultLuceneIndexingStrategy);
+
+        if (strategies.ContainsKey(indexConfiguration.StrategyName))
+        {
+            strategy = strategies[indexConfiguration.StrategyName];
+        }
+
+        LuceneIndexingStrategyType = strategy;
 
         string indexStoragePath = Path.Combine(Environment.CurrentDirectory, "App_Data", "LuceneSearch", indexConfiguration.IndexName);
         StorageContext = new IndexStorageContext(new GenerationStorageStrategy(), indexStoragePath, new IndexRetentionPolicy(4));

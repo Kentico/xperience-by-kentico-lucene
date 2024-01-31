@@ -1,4 +1,4 @@
-/* http://meyerweb.com/eric/tools/css/reset/ 
+/* http://meyerweb.com/eric/tools/css/reset/
    v2.0 | 20110126
    License: none (public domain)
 */
@@ -1883,13 +1883,17 @@ li.dropdown {
 li.dropdown a {
   cursor: pointer;
 }
-.dropdown-content {
+.dropdown .dropdown-content {
   display: none;
   position: absolute;
   top: 50px;
   right: 0;
   background-color: #B49669;
   z-index: 1;
+}
+.dropdown .dropdown-content a:hover,
+.dropdown .dropdown-content form:hover {
+  background-color: #846331;
 }
 .dropdown .dropdown-content > a,
 .dropdown .dropdown-content form {
@@ -1910,10 +1914,6 @@ li.dropdown a {
   background: none;
   padding: 8px 24px;
   text-align: left;
-}
-.dropdown-content a:hover,
-.dropdown-content form:hover {
-  background-color: #846331;
 }
 .dropdown:hover .dropdown-content {
   display: block;
@@ -5024,303 +5024,7 @@ li.dropdown a {
   left: 0;
   display: inline-block;
 }
-.radio,
-.ktc-radio,
-.checkbox,
-.ktc-checkbox {
-  display: block;
-}
-.radio label,
-.ktc-radio label,
-.checkbox label,
-.ktc-checkbox label {
-  display: inline-block;
-  cursor: pointer;
-  position: relative;
-  padding-left: 24px;
-  line-height: 20px;
-  font-weight: normal;
-}
-.radio label:before,
-.ktc-radio label:before,
-.checkbox label:before,
-.ktc-checkbox label:before,
-.radio label:after,
-.ktc-radio label:after,
-.checkbox label:after,
-.ktc-checkbox label:after {
-  content: "";
-  width: 15px;
-  height: 15px;
-  line-height: 16px;
-  display: inline-block;
-  box-sizing: border-box;
-  position: absolute;
-  left: 0;
-  top: 2px;
-  background-color: #ffffff;
-}
-.radio label:after,
-.ktc-radio label:after,
-.checkbox label:after,
-.ktc-checkbox label:after {
-  background-color: transparent;
-}
-.radio input,
-.ktc-radio input,
-.checkbox input,
-.ktc-checkbox input {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  border: 0;
-}
-.radio input[disabled] + label,
-.ktc-radio input[disabled] + label,
-.checkbox input[disabled] + label,
-.ktc-checkbox input[disabled] + label,
-.radio input:active[disabled] + label,
-.ktc-radio input:active[disabled] + label,
-.checkbox input:active[disabled] + label,
-.ktc-checkbox input:active[disabled] + label {
-  cursor: not-allowed;
-}
-.radio input[disabled] + label:before,
-.ktc-radio input[disabled] + label:before,
-.checkbox input[disabled] + label:before,
-.ktc-checkbox input[disabled] + label:before,
-.radio input:active[disabled] + label:before,
-.ktc-radio input:active[disabled] + label:before,
-.checkbox input:active[disabled] + label:before,
-.ktc-checkbox input:active[disabled] + label:before,
-.radio input[disabled] + label:focus:before,
-.ktc-radio input[disabled] + label:focus:before,
-.checkbox input[disabled] + label:focus:before,
-.ktc-checkbox input[disabled] + label:focus:before,
-.radio input:active[disabled] + label:focus:before,
-.ktc-radio input:active[disabled] + label:focus:before,
-.checkbox input:active[disabled] + label:focus:before,
-.ktc-checkbox input:active[disabled] + label:focus:before,
-.radio input[disabled] + label:active:before,
-.ktc-radio input[disabled] + label:active:before,
-.checkbox input[disabled] + label:active:before,
-.ktc-checkbox input[disabled] + label:active:before,
-.radio input:active[disabled] + label:active:before,
-.ktc-radio input:active[disabled] + label:active:before,
-.checkbox input:active[disabled] + label:active:before,
-.ktc-checkbox input:active[disabled] + label:active:before {
-  color: #e5e5e5;
-}
-.radio input[disabled] + label:after,
-.ktc-radio input[disabled] + label:after,
-.checkbox input[disabled] + label:after,
-.ktc-checkbox input[disabled] + label:after,
-.radio input:active[disabled] + label:after,
-.ktc-radio input:active[disabled] + label:after,
-.checkbox input:active[disabled] + label:after,
-.ktc-checkbox input:active[disabled] + label:after {
-  color: #696663;
-}
-.radio input + label:before,
-.ktc-radio input + label:before,
-.checkbox input + label:before,
-.ktc-checkbox input + label:before,
-.radio input + label:after,
-.ktc-radio input + label:after,
-.checkbox input + label:after,
-.ktc-checkbox input + label:after {
-  font-family: "Core-icons";
-  font-size: 16px;
-  text-align: center;
-}
-.radio input + label:before,
-.ktc-radio input + label:before,
-.checkbox input + label:before,
-.ktc-checkbox input + label:before {
-  color: #bdbbbb;
-}
-.radio input + label:after,
-.ktc-radio input + label:after,
-.checkbox input + label:after,
-.ktc-checkbox input + label:after {
-  color: #497d04;
-}
-.radio input:focus + label:before,
-.ktc-radio input:focus + label:before,
-.checkbox input:focus + label:before,
-.ktc-checkbox input:focus + label:before,
-.radio input:active + label:before,
-.ktc-radio input:active + label:before,
-.checkbox input:active + label:before,
-.ktc-checkbox input:active + label:before {
-  color: #1175ae;
-}
-.Safari .checkbox label:after,
-.Safari .ktc-checkbox label:after {
-  height: 16px;
-}
-.Chrome .checkbox label:before,
-.Chrome .ktc-checkbox label:before,
-.Chrome .checkbox label:after,
-.Chrome .ktc-checkbox label:after {
-  height: 16px;
-}
-.radio input ~ label:before,
-.ktc-radio input ~ label:before {
-  content: "\e626";
-}
-.radio input:disabled ~ label:before,
-.ktc-radio input:disabled ~ label:before {
-  content: "\e6ac";
-}
-.radio input:checked ~ label:after,
-.ktc-radio input:checked ~ label:after {
-  content: "\e627";
-}
-.radio label:before,
-.ktc-radio label:before {
-  border-radius: 50%;
-}
-.checkbox input ~ label:before,
-.ktc-checkbox input ~ label:before {
-  content: "\e6ad";
-}
-.checkbox input:disabled ~ label:before,
-.ktc-checkbox input:disabled ~ label:before {
-  content: "\e6f0";
-}
-.checkbox input:checked ~ label:after,
-.ktc-checkbox input:checked ~ label:after {
-  content: "\e6b0";
-}
-.checkbox:not(.checkbox-no-label) label,
-.ktc-checkbox:not(.checkbox-no-label) label,
-.checkbox:not(.ktc-checkbox-no-label) label,
-.ktc-checkbox:not(.ktc-checkbox-no-label) label {
-  margin-right: 8px;
-}
-.radio-list-vertical,
-.ktc-radio-list-vertical,
-.checkbox-list-vertical,
-.ktc-checkbox-list-vertical {
-  margin-top: 6px;
-  margin-right: 8px;
-}
-.radio-list-vertical label:not(:first-of-type),
-.ktc-radio-list-vertical label:not(:first-of-type),
-.checkbox-list-vertical label:not(:first-of-type),
-.ktc-checkbox-list-vertical label:not(:first-of-type),
-.radio-list-vertical span:not(:first-of-type) label,
-.ktc-radio-list-vertical span:not(:first-of-type) label,
-.checkbox-list-vertical span:not(:first-of-type) label,
-.ktc-checkbox-list-vertical span:not(:first-of-type) label,
-.radio-list-vertical .radio + .radio,
-.ktc-radio-list-vertical .radio + .radio,
-.checkbox-list-vertical .radio + .radio,
-.ktc-checkbox-list-vertical .radio + .radio,
-.radio-list-vertical .ktc-radio + .ktc-radio,
-.ktc-radio-list-vertical .ktc-radio + .ktc-radio,
-.checkbox-list-vertical .ktc-radio + .ktc-radio,
-.ktc-checkbox-list-vertical .ktc-radio + .ktc-radio,
-.radio-list-vertical .checkbox + .checkbox,
-.ktc-radio-list-vertical .checkbox + .checkbox,
-.checkbox-list-vertical .checkbox + .checkbox,
-.ktc-checkbox-list-vertical .checkbox + .checkbox,
-.radio-list-vertical .ktc-checkbox + .ktc-checkbox,
-.ktc-radio-list-vertical .ktc-checkbox + .ktc-checkbox,
-.checkbox-list-vertical .ktc-checkbox + .ktc-checkbox,
-.ktc-checkbox-list-vertical .ktc-checkbox + .ktc-checkbox {
-  margin-top: 4px;
-}
-.radio-list-vertical.first-on-page,
-.ktc-radio-list-vertical.first-on-page,
-.checkbox-list-vertical.first-on-page,
-.ktc-checkbox-list-vertical.first-on-page {
-  margin-top: 0px;
-}
-.radio-list-horizontal .radio,
-.ktc-radio-list-horizontal .radio,
-.checkbox-list-horizontal .radio,
-.ktc-checkbox-list-horizontal .radio,
-.radio-list-horizontal .ktc-radio,
-.ktc-radio-list-horizontal .ktc-radio,
-.checkbox-list-horizontal .ktc-radio,
-.ktc-checkbox-list-horizontal .ktc-radio,
-.radio-list-horizontal .checkbox,
-.ktc-radio-list-horizontal .checkbox,
-.checkbox-list-horizontal .checkbox,
-.ktc-checkbox-list-horizontal .checkbox,
-.radio-list-horizontal .ktc-checkbox,
-.ktc-radio-list-horizontal .ktc-checkbox,
-.checkbox-list-horizontal .ktc-checkbox,
-.ktc-checkbox-list-horizontal .ktc-checkbox {
-  display: inline-block;
-}
-.radio-list-horizontal label,
-.ktc-radio-list-horizontal label,
-.checkbox-list-horizontal label,
-.ktc-checkbox-list-horizontal label {
-  margin-right: 16px;
-}
-.media-gallery {
-  margin-top: 2.5rem;
-}
-.media-gallery .cafe-overlay {
-  background-color: rgba(0, 0, 0, 0.4);
-  display: block;
-  height: 100%;
-  position: absolute;
-  width: 100%;
-  z-index: 10;
-}
-.media-gallery .cafe-overlay .ourcoffee-tile-text {
-  font-size: 1.375rem;
-  font-weight: 700;
-  position: absolute;
-  top: 50%;
-}
-.media-gallery .media-item span {
-  visibility: hidden;
-}
-.media-gallery .media-item:hover span {
-  visibility: visible;
-}
-.media-gallery .media-item.col-lg-6 {
-  margin-top: -1px;
-}
-.media-gallery .ratio-4-3 {
-  width: 100%;
-  position: relative;
-  background: url() 50% 50% no-repeat;
-  background-size: cover;
-  background-clip: content-box;
-}
-.media-gallery .ratio-4-3:before {
-  display: block;
-  content: "";
-  padding-top: 75%;
-}
-.row.section-white {
-  background: #ffffff;
-}
-.row.section-cappuccino {
-  background-color: #CEB48D;
-}
-.row.section-cappuccino h1,
-.row.section-cappuccino h2,
-.row.section-cappuccino h3,
-.row.section-cappuccino .h1,
-.row.section-cappuccino .h2,
-.row.section-cappuccino .h3 {
-  color: #6a5a3b;
-}
-.row.section-cappuccino .image-uploader-editor .uploader .dz-message {
-  color: #ffffff;
-}
+/*# Consent #*/
 .consent-item:not(:first-of-type) {
   border-top: 1px solid #e7e7e7;
 }
@@ -5977,10 +5681,40 @@ a + .article-tile-info .article-tile-date {
 .article-detail-page .article-detail {
   padding: 0 2rem;
 }
+.article-detail-page .article-related-articles .title-tab {
+  font-size: 2rem;
+  margin-bottom: 2rem;
+  font-weight: 600;
+}
+.article-detail-page .article-related-articles .title-tab:before,
+.article-detail-page .article-related-articles .title-tab:after {
+  width: 30px;
+}
+.article-detail-page .article-related-articles .title-tab:before {
+  right: calc(100% + 10px);
+}
+.article-detail-page .article-related-articles .title-tab:after {
+  left: calc(100% + 10px);
+}
+.article-detail-page .article-related-articles .article-tile {
+  padding-bottom: 1.5rem;
+}
 @media (min-width: 768px) {
   .article-detail-page {
     padding: 3rem;
     background: url(../Images/plant-3.png) right top no-repeat;
+  }
+}
+@media (min-width: 1112px) {
+  .article-detail-page .article-related-articles .title-tab {
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+}
+@media (min-width: 1440px) {
+  .article-detail-page .article-related-articles .title-tab {
+    font-size: 2rem;
+    margin-bottom: 2rem;
   }
 }
 .article-detail-datetime {
@@ -6027,6 +5761,23 @@ a + .article-tile-info .article-tile-date {
   }
   .article-detail-related-box .article-title--align-middle h2 {
     margin-top: 0;
+  }
+}
+.article-related-articles {
+  margin-top: 3rem;
+}
+.article-related-articles .title-tab {
+  margin: 0;
+}
+.article-related-articles .col-lg-3 {
+  margin-bottom: 20px;
+}
+.article-related-articles .col-lg-3 p {
+  margin-bottom: 0;
+}
+@media (min-width: 768px) {
+  .article-related-articles .col-lg-3 .article-tile-image {
+    height: 245px;
   }
 }
 /*# Contact info #*/
@@ -6091,6 +5842,7 @@ a + .article-tile-info .article-tile-date {
   padding: 1rem;
   display: inline-block;
   margin-bottom: 0;
+  width: 70%;
 }
 .banner-text {
   color: #FFF;

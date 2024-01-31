@@ -3,33 +3,35 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.8.34322.80
 MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Kentico.Xperience.Lucene", "src\Kentico.Xperience.Lucene\Kentico.Xperience.Lucene.csproj", "{1B7E6E21-7FC4-4D8C-ADD3-5783B3690761}"
+EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{0D915C08-6113-4ECF-BC23-1D315BA4C0A5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kentico.Xperience.Lucene", "src\Kentico.Xperience.Lucene\Kentico.Xperience.Lucene.csproj", "{1B7E6E21-7FC4-4D8C-ADD3-5783B3690761}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "examples", "examples", "{57981684-9BC2-40B6-801F-22128F63F825}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DancingGoat", "examples\DancingGoat\DancingGoat.csproj", "{E4B3A52A-4054-40AF-891E-B579DFDB83CB}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{EB35FFC8-6DD4-4EDF-8DB9-D9EFBCB9B6C8}"
 	ProjectSection(SolutionItems) = preProject
 		.gitignore = .gitignore
 		.markdownlint.json = .markdownlint.json
-		README.md = README.md
 		LICENSE.md = LICENSE.md
+		README.md = README.md
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "build", "build", "{DB735FC0-4688-4BD7-80E8-D6FE53FF603B}"
 	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
 		Directory.Build.props = Directory.Build.props
 		Directory.build.targets = Directory.build.targets
 		Directory.Packages.props = Directory.Packages.props
-		nuget.config = nuget.config
 		global.json = global.json
-		.editorconfig = .editorconfig
+		nuget.config = nuget.config
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "examples", "examples", "{ED12C822-C44B-4AEF-B4CF-E3238C1CAFE4}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{91F22D92-B6DD-4C46-9853-1A5B649DD04C}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{BFECEDB7-D450-48DF-B7A4-78BA2F20EEC2}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kentico.Xperience.Lucene.Tests", "tests\Kentico.Xperience.Lucene.Tests\Kentico.Xperience.Lucene.Tests.csproj", "{DB2B3A3A-F27B-42ED-88F2-AFF48626D16D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kentico.Xperience.Lucene.Tests", "tests\Kentico.Xperience.Lucene.Tests\Kentico.Xperience.Lucene.Tests.csproj", "{DEB25130-C00C-44E5-8393-07BB49F7480B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -53,24 +55,41 @@ Global
 		{1B7E6E21-7FC4-4D8C-ADD3-5783B3690761}.Release|x64.Build.0 = Release|Any CPU
 		{1B7E6E21-7FC4-4D8C-ADD3-5783B3690761}.Release|x86.ActiveCfg = Release|Any CPU
 		{1B7E6E21-7FC4-4D8C-ADD3-5783B3690761}.Release|x86.Build.0 = Release|Any CPU
-		{DB2B3A3A-F27B-42ED-88F2-AFF48626D16D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{DB2B3A3A-F27B-42ED-88F2-AFF48626D16D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{DB2B3A3A-F27B-42ED-88F2-AFF48626D16D}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{DB2B3A3A-F27B-42ED-88F2-AFF48626D16D}.Debug|x64.Build.0 = Debug|Any CPU
-		{DB2B3A3A-F27B-42ED-88F2-AFF48626D16D}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{DB2B3A3A-F27B-42ED-88F2-AFF48626D16D}.Debug|x86.Build.0 = Debug|Any CPU
-		{DB2B3A3A-F27B-42ED-88F2-AFF48626D16D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{DB2B3A3A-F27B-42ED-88F2-AFF48626D16D}.Release|Any CPU.Build.0 = Release|Any CPU
-		{DB2B3A3A-F27B-42ED-88F2-AFF48626D16D}.Release|x64.ActiveCfg = Release|Any CPU
-		{DB2B3A3A-F27B-42ED-88F2-AFF48626D16D}.Release|x64.Build.0 = Release|Any CPU
-		{DB2B3A3A-F27B-42ED-88F2-AFF48626D16D}.Release|x86.ActiveCfg = Release|Any CPU
-		{DB2B3A3A-F27B-42ED-88F2-AFF48626D16D}.Release|x86.Build.0 = Release|Any CPU
+		{E4B3A52A-4054-40AF-891E-B579DFDB83CB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E4B3A52A-4054-40AF-891E-B579DFDB83CB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E4B3A52A-4054-40AF-891E-B579DFDB83CB}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{E4B3A52A-4054-40AF-891E-B579DFDB83CB}.Debug|x64.Build.0 = Debug|Any CPU
+		{E4B3A52A-4054-40AF-891E-B579DFDB83CB}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{E4B3A52A-4054-40AF-891E-B579DFDB83CB}.Debug|x86.Build.0 = Debug|Any CPU
+		{E4B3A52A-4054-40AF-891E-B579DFDB83CB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E4B3A52A-4054-40AF-891E-B579DFDB83CB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E4B3A52A-4054-40AF-891E-B579DFDB83CB}.Release|x64.ActiveCfg = Release|Any CPU
+		{E4B3A52A-4054-40AF-891E-B579DFDB83CB}.Release|x64.Build.0 = Release|Any CPU
+		{E4B3A52A-4054-40AF-891E-B579DFDB83CB}.Release|x86.ActiveCfg = Release|Any CPU
+		{E4B3A52A-4054-40AF-891E-B579DFDB83CB}.Release|x86.Build.0 = Release|Any CPU
+		{DEB25130-C00C-44E5-8393-07BB49F7480B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DEB25130-C00C-44E5-8393-07BB49F7480B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DEB25130-C00C-44E5-8393-07BB49F7480B}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{DEB25130-C00C-44E5-8393-07BB49F7480B}.Debug|x64.Build.0 = Debug|Any CPU
+		{DEB25130-C00C-44E5-8393-07BB49F7480B}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{DEB25130-C00C-44E5-8393-07BB49F7480B}.Debug|x86.Build.0 = Debug|Any CPU
+		{DEB25130-C00C-44E5-8393-07BB49F7480B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DEB25130-C00C-44E5-8393-07BB49F7480B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DEB25130-C00C-44E5-8393-07BB49F7480B}.Release|x64.ActiveCfg = Release|Any CPU
+		{DEB25130-C00C-44E5-8393-07BB49F7480B}.Release|x64.Build.0 = Release|Any CPU
+		{DEB25130-C00C-44E5-8393-07BB49F7480B}.Release|x86.ActiveCfg = Release|Any CPU
+		{DEB25130-C00C-44E5-8393-07BB49F7480B}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{1B7E6E21-7FC4-4D8C-ADD3-5783B3690761} = {0D915C08-6113-4ECF-BC23-1D315BA4C0A5}
+		{E4B3A52A-4054-40AF-891E-B579DFDB83CB} = {57981684-9BC2-40B6-801F-22128F63F825}
+		{DEB25130-C00C-44E5-8393-07BB49F7480B} = {91F22D92-B6DD-4C46-9853-1A5B649DD04C}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {DDFD806E-9ACE-48D6-BA63-57AEC6D0465B}
 		{DB2B3A3A-F27B-42ED-88F2-AFF48626D16D} = {BFECEDB7-D450-48DF-B7A4-78BA2F20EEC2}
 	EndGlobalSection
 EndGlobal

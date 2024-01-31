@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<cms.contentitem>
+  <ContentItemContentTypeID>
+    <CodeName>DancingGoat.Coffee</CodeName>
+    <GUID>7f74020d-0a9e-46fd-bfcc-50b893e94452</GUID>
+    <ObjectType>cms.contenttype</ObjectType>
+  </ContentItemContentTypeID>
+  <ContentItemGUID>d81c0256-89eb-4e1f-88d2-34d8beefe8f6</ContentItemGUID>
+  <ContentItemIsReusable>True</ContentItemIsReusable>
+  <ContentItemIsSecured>False</ContentItemIsSecured>
+  <ContentItemName>ColombiaCarlosImbachi-t5ps0qy3</ContentItemName>
+</cms.contentitem>

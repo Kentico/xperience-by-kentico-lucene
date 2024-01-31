@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<cms.contentitem>
+  <ContentItemContentTypeID>
+    <CodeName>DancingGoat.SocialLink</CodeName>
+    <GUID>574194b1-fe00-42ac-bd59-0b60b11d8faa</GUID>
+    <ObjectType>cms.contenttype</ObjectType>
+  </ContentItemContentTypeID>
+  <ContentItemGUID>015129c5-8972-47b8-963c-e3d52ef69e7e</ContentItemGUID>
+  <ContentItemIsReusable>True</ContentItemIsReusable>
+  <ContentItemIsSecured>False</ContentItemIsSecured>
+  <ContentItemName>Twitter-i4s1h9pp</ContentItemName>
+</cms.contentitem>

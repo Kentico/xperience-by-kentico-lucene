@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<contentitemdata.dancinggoat.image>
+  <ContentItemDataCommonDataID>
+    <GUID>edbd88c6-dd86-4729-b771-590a87114631</GUID>
+    <ObjectType>cms.contentitemcommondata</ObjectType>
+    <Parent>
+      <CodeName>Articles_Donate-with-us-1080px.jpg-wxgc1uv8</CodeName>
+      <GUID>637bfdc9-b1f9-4015-8268-459c6b2d5f23</GUID>
+      <ObjectType>cms.contentitem</ObjectType>
+    </Parent>
+  </ContentItemDataCommonDataID>
+  <ContentItemDataGUID>9f6baae0-c166-475e-a3d8-828e39d304ff</ContentItemDataGUID>
+  <ImageFile>
+    <![CDATA[{"Identifier":"5cd0e247-bbd6-42cc-978b-c71bab73844d","Name":"donate-with-us-1080px.jpg","Extension":".jpg","Size":86243,"LastModified":"2023-06-14T15:37:47.948333Z"}]]>
+  </ImageFile>
+</contentitemdata.dancinggoat.image>

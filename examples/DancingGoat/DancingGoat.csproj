@@ -1,19 +1,16 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
   <PropertyGroup>
     <RootNamespace>DancingGoat</RootNamespace>
+    <UserSecretsId>7e8a56d7-ac0a-4d47-af57-fc423c65eafb</UserSecretsId>
+    <SeparatedAdmin Condition="'$(SeparatedAdmin)' == ''">false</SeparatedAdmin>
     <Nullable>disable</Nullable>
     <WarningsAsErrors></WarningsAsErrors>
-    <UserSecretsId>79c858af-5444-4954-8d08-6592a961e82a</UserSecretsId>
-    <SeparatedAdmin Condition="'$(SeparatedAdmin)' == ''">false</SeparatedAdmin>
-    <NoWarn>$(NoWarn);CS1572;CS1573;S2259;S3358;S101;S3925;S4136;S1144;S4487</NoWarn>
   </PropertyGroup>
   <ItemGroup>
     <None Remove="App_Data\CMSModules\WebFarm\webfarm.sync" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="assets\**">
-      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-    </Content>
+    <Content Include="app_offline.htm_" Condition="Exists('app_offline.htm_')" CopyToPublishDirectory="PreserveNewest" />
   </ItemGroup>
   <!-- Exclude administration parts from the compilation in live-site only deployment  -->
   <ItemGroup Condition="'$(SeparatedAdmin)' == 'true'">
@@ -23,9 +20,9 @@
     <DefineConstants>$(DefineConstants);SEPARATED_ADMIN</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="kentico.xperience.admin" Condition="'$(SeparatedAdmin)' == 'false'" />
+    <PackageReference Include="kentico.xperience.admin" />
     <PackageReference Include="kentico.xperience.azurestorage" />
-    <PackageReference Include="kentico.xperience.graphql" />
+    <PackageReference Include="kentico.xperience.cloud" />
     <PackageReference Include="kentico.xperience.imageprocessing" />
     <PackageReference Include="kentico.xperience.webapp" />
   </ItemGroup>

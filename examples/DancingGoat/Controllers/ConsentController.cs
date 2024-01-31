@@ -33,11 +33,11 @@ namespace DancingGoat.Controllers
 
             if (consent != null)
             {
-                cookieLevelProvider.SetCurrentCookieLevel(CookieLevel.All);
-                
+                cookieLevelProvider.SetCurrentCookieLevel(Kentico.Web.Mvc.CookieLevel.All.Level);
+
                 var contact = ContactManagementContext.CurrentContact;
-                if (contact != null) 
-                { 
+                if (contact != null)
+                {
                     consentAgreementService.Agree(contact, consent);
                 }
 

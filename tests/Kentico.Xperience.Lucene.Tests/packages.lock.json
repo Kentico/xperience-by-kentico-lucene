@@ -38,6 +38,19 @@
           "Newtonsoft.Json": "13.0.3"
         }
       },
+      "Kentico.Xperience.WebApp": {
+        "type": "Direct",
+        "requested": "[28.0.0, )",
+        "resolved": "28.0.0",
+        "contentHash": "R54QHACtE8rfGtHKKFpSvY7LKI1IqqALe70QGYz1u6ZyZ23w0O7R9UZH5bgW/Ww0d13IgGQBc3ULaMel9bxJXg==",
+        "dependencies": {
+          "CommandLineParser": "2.9.1",
+          "HtmlSanitizer": "8.0.746",
+          "Kentico.Xperience.Core": "[28.0.0]",
+          "Microsoft.Extensions.FileProviders.Embedded": "6.0.24",
+          "Microsoft.Extensions.Localization": "6.0.24"
+        }
+      },
       "Microsoft.NET.Test.Sdk": {
         "type": "Direct",
         "requested": "[17.8.0, )",
@@ -1637,19 +1650,6 @@
           "Kentico.Xperience.WebApp": "[28.0.0]",
           "Microsoft.AspNetCore.SpaServices.Extensions": "6.0.24",
           "Microsoft.Extensions.FileProviders.Embedded": "6.0.24"
-        }
-      },
-      "Kentico.Xperience.WebApp": {
-        "type": "CentralTransitive",
-        "requested": "[28.0.0, )",
-        "resolved": "28.0.0",
-        "contentHash": "R54QHACtE8rfGtHKKFpSvY7LKI1IqqALe70QGYz1u6ZyZ23w0O7R9UZH5bgW/Ww0d13IgGQBc3ULaMel9bxJXg==",
-        "dependencies": {
-          "CommandLineParser": "2.9.1",
-          "HtmlSanitizer": "8.0.746",
-          "Kentico.Xperience.Core": "[28.0.0]",
-          "Microsoft.Extensions.FileProviders.Embedded": "6.0.24",
-          "Microsoft.Extensions.Localization": "6.0.24"
         }
       },
       "Lucene.Net": {

@@ -1,8 +1,8 @@
-@using Kentico.Xperience.Lucene.Models
+﻿@using Kentico.Xperience.Lucene.Search
 @using DancingGoat.Search
+@using Microsoft.AspNetCore.Mvc.Localization
 
-@model LuceneSearchResultModel<DancingGoatSearchModel>
-
+@model LuceneSearchResultModel<DancingGoatSearchResultModel>
 @{
     Dictionary<string, string> GetRouteData(int page) =>
         new Dictionary<string, string>() { { "query", Model.Query }, { "pageSize", Model.PageSize.ToString() }, { "page", page.ToString() } };
@@ -50,20 +50,9 @@
 @foreach (var item in Model.Hits)
 {
     <div class="row search-tile">
-        <div class="col-md-4 col-lg-3">
-            @if (!string.IsNullOrEmpty(item.ImagePath))
-            {
-                <a href="@item.Url" title="@item.Title">
-                    <img src="@item.ImagePath" alt="@item.Title" title="@item.Title" class="img-responsive" />
-                </a>
-            }
-        </div>
-        <div class="col-md-8 col-lg-9 search-tile-content">
-            <h3 class="h4 search-tile-title">
-                <a href="@item.Url">@item.Title</a>
-            </h3>
-            <div class="search-tile-subtitle">@item.PublishedDate</div>
-        </div>
+        <h3 class="h4 search-tile-title">
+            <a href="@item.Url">@item.Title</a>
+        </h3>
     </div>
 }
 

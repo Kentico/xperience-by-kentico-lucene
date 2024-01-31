@@ -20,6 +20,5 @@
         public const string LANDING_PAGE_SINGLE_COLUMN_TEMPLATE = "DancingGoat.LandingPageSingleColumn";
         public const string ARTICLE_TEMPLATE = "DancingGoat.Article";
         public const string ARTICLE_WITH_SIDEBAR_TEMPLATE = "DancingGoat.ArticleWithSidebar";
-        public const string SUBSCRIPTION_TEMPLATE = "DancingGoat.Subscription";
     }
 }

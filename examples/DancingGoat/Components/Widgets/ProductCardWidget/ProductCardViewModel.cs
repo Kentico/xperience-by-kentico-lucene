@@ -1,6 +1,6 @@
 ﻿using System.Linq;
 
-using CMS.DocumentEngine.Types.DancingGoatCore;
+using DancingGoat.Models;
 
 namespace DancingGoat.Widgets
 {
@@ -41,8 +41,8 @@ namespace DancingGoat.Widgets
 
             return new ProductCardViewModel
                 {
-                    Heading = product.DocumentName,
-                    ImagePath = (product.Fields.Image.FirstOrDefault() as Media)?.Fields.File?.Url,
+                    Heading = product.CoffeeName,
+                    ImagePath = (product.CoffeeImage.FirstOrDefault())?.ImageFile.Url,
                     Text = product.CoffeeShortDescription
                 };
         }

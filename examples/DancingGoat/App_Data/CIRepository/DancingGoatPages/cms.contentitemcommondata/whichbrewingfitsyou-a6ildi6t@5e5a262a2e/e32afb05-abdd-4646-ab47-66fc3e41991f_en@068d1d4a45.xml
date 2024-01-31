@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<cms.contentitemcommondata>
+  <ContentItemCommonDataContentItemID>
+    <CodeName>WhichBrewingFitsYou-a6ildi6t</CodeName>
+    <GUID>b69db6f4-355b-4e5a-917b-541fba602213</GUID>
+    <ObjectType>cms.contentitem</ObjectType>
+  </ContentItemCommonDataContentItemID>
+  <ContentItemCommonDataContentLanguageID>
+    <CodeName>en</CodeName>
+    <GUID>e4a8fb12-ebc2-45d0-930f-c9fba2780c85</GUID>
+    <ObjectType>cms.contentlanguage</ObjectType>
+  </ContentItemCommonDataContentLanguageID>
+  <ContentItemCommonDataGUID>e32afb05-abdd-4646-ab47-66fc3e41991f</ContentItemCommonDataGUID>
+  <ContentItemCommonDataIsLatest>True</ContentItemCommonDataIsLatest>
+  <ContentItemCommonDataPageTemplateConfiguration>
+    <![CDATA[{"identifier":"DancingGoat.Article","properties":null,"fieldIdentifiers":null}]]>
+  </ContentItemCommonDataPageTemplateConfiguration>
+  <ContentItemCommonDataVersionStatus>2</ContentItemCommonDataVersionStatus>
+  <ContentItemReferences>
+    <cms.contentitemreference>
+      <ContentItemReferenceGroupGUID>04b5735c-f3b6-4dba-af49-1c748e952820</ContentItemReferenceGroupGUID>
+      <ContentItemReferenceGUID>7891d2b2-b1ed-4cfa-9513-90c117aef23a</ContentItemReferenceGUID>
+      <ContentItemReferenceSourceCommonDataID>
+        <GUID>e32afb05-abdd-4646-ab47-66fc3e41991f</GUID>
+        <ObjectType>cms.contentitemcommondata</ObjectType>
+      </ContentItemReferenceSourceCommonDataID>
+      <ContentItemReferenceTargetItemID>
+        <CodeName>Articles_Which-brewing-fits-you-1080px.jpg-sv619zaw</CodeName>
+        <GUID>29a1ccaf-3cc8-4c58-b57c-824b94a9535e</GUID>
+        <ObjectType>cms.contentitem</ObjectType>
+      </ContentItemReferenceTargetItemID>
+    </cms.contentitemreference>
+  </ContentItemReferences>
+</cms.contentitemcommondata>

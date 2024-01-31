@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<cms.contentitem>
+  <ContentItemContentTypeID>
+    <CodeName>DancingGoat.Banner</CodeName>
+    <GUID>7aed617e-fcee-42fe-ac1d-74893d4fa9e0</GUID>
+    <ObjectType>cms.contenttype</ObjectType>
+  </ContentItemContentTypeID>
+  <ContentItemGUID>a2725352-5eeb-446e-98dc-c244234337f2</ContentItemGUID>
+  <ContentItemIsReusable>True</ContentItemIsReusable>
+  <ContentItemIsSecured>False</ContentItemIsSecured>
+  <ContentItemName>HeroBackground-6arlimda</ContentItemName>
+</cms.contentitem>

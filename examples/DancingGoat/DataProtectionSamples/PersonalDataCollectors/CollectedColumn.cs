@@ -8,19 +8,13 @@
         /// <summary>
         /// Gets the name of the column.
         /// </summary>
-        public string Name
-        {
-            get;
-        }
+        public string Name { get; }
 
 
         /// <summary>
         /// Gets the display name of the column.
         /// </summary>
-        public string DisplayName
-        {
-            get;
-        }
+        public string DisplayName { get; }
 
 
         /// <summary>

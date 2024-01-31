@@ -125,8 +125,8 @@ internal class DefaultLuceneConfigurationStorageService : ILuceneConfigurationSt
 
     public IEnumerable<LuceneConfigurationModel> GetAllIndexData()
     {
-        var indexInfos = indexProvider.Get().ToList();
-        if (indexInfos == default)
+        var indexInfos = indexProvider.Get().GetEnumerableTypedResult().ToList();
+        if (indexInfos.Count == 0)
         {
             return new List<LuceneConfigurationModel>();
         }
@@ -143,7 +143,7 @@ internal class DefaultLuceneConfigurationStorageService : ILuceneConfigurationSt
         configuration.IndexName = RemoveWhitespacesUsingStringBuilder(configuration.IndexName ?? "");
 
         var indexInfo = indexProvider.Get()
-            .WhereEquals(nameof(LuceneIndexItemInfo.LuceneIndexItemIndexName), configuration.IndexName)
+            .WhereEquals(nameof(LuceneIndexItemInfo.LuceneIndexItemId), configuration.Id)
             .TopN(1)
             .FirstOrDefault();
 
@@ -159,6 +159,7 @@ internal class DefaultLuceneConfigurationStorageService : ILuceneConfigurationSt
         indexInfo.LuceneIndexItemRebuildHook = configuration.RebuildHook ?? "";
         indexInfo.LuceneIndexItemStrategyName = configuration.StrategyName ?? "";
         indexInfo.LuceneIndexItemChannelName = configuration.ChannelName ?? "";
+        indexInfo.LuceneIndexItemIndexName = configuration.IndexName ?? "";
 
         indexProvider.Set(indexInfo);
 
