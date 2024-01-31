@@ -16,7 +16,6 @@
     <PackageVersion Include="Lucene.Net.Analysis.Common" Version="4.8.0-beta00016" />
     <PackageVersion Include="Lucene.Net.Facet" Version="4.8.0-beta00016" />
     <PackageVersion Include="SonarAnalyzer.CSharp" Version="9.17.0.82934" />
-    <PackageVersion Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.22.0" />
 
     <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.8.0" />
     <PackageVersion Include="NUnit" Version="4.0.1" />

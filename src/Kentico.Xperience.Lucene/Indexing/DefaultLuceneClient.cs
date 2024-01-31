@@ -232,19 +232,19 @@ internal class DefaultLuceneClient : ILuceneClient
                         }
 
                         // add new one
-#pragma warning disable S2583 // Boolean expressions should not be gratuitous
 #pragma warning disable S2589 // Boolean expressions should not be gratuitous
                         if (document is not null)
                         {
                             writer.AddDocument(facetsConfig.Build(taxonomyWriter, document));
                             count++;
                         }
+#pragma warning restore S2589 // Boolean expressions should not be gratuitous
+#pragma warning disable S2583 // Conditionally executed code should be reachable
                         if (count % 1000 == 0)
                         {
                             taxonomyWriter.Commit();
                         }
-#pragma warning restore S2583 // Boolean expressions should not be gratuitous
-#pragma warning restore S2589 // Boolean expressions should not be gratuitous
+#pragma warning restore S2583 // Conditionally executed code should be reachable
                     }
                     taxonomyWriter.Commit();
 
