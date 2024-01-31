@@ -16,7 +16,7 @@ namespace Kentico.Xperience.Lucene.Admin;
 internal class LuceneAdminModule : AdminModule
 {
     private ILuceneConfigurationStorageService storageService = null!;
-    private LuceneModuleMigrator migrator = null!;
+    private LuceneModuleInstaller installer = null!;
 
     public LuceneAdminModule() : base(nameof(LuceneAdminModule)) { }
 
@@ -28,26 +28,16 @@ internal class LuceneAdminModule : AdminModule
 
         var services = parameters.Services;
 
-        migrator = services.GetRequiredService<LuceneModuleMigrator>();
+        installer = services.GetRequiredService<LuceneModuleInstaller>();
         storageService = services.GetRequiredService<ILuceneConfigurationStorageService>();
 
         ApplicationEvents.Initialized.Execute += InitializeModule;
-        ApplicationEvents.ExecuteMigrations.Execute += ExecuteMigrations;
     }
 
     private void InitializeModule(object? sender, EventArgs e)
     {
-        string[] args = Environment.GetCommandLineArgs();
+        installer.Install();
 
-        // Workaround to ensure we don't perform checks or setup the module
-        // when running an update
-        if (args is null || !Array.Exists(args, a => a.Equals("--kxp-update")))
-        {
-            migrator.ValidateModuleInstall();
-
-            LuceneIndexStore.SetIndicies(storageService);
-        }
+        LuceneIndexStore.SetIndicies(storageService);
     }
-
-    private void ExecuteMigrations(object? sender, MigrationExecutionEventArgs e) => migrator.Migrate();
 }

@@ -48,8 +48,7 @@ internal class IndexListingPage : ListingPage
         if (!LuceneIndexStore.Instance.GetAllIndices().Any())
         {
             PageConfiguration.Callouts =
-            new()
-            {
+            [
                 new()
                 {
                     Headline = "No indexes",
@@ -58,7 +57,7 @@ internal class IndexListingPage : ListingPage
                     Type = CalloutType.FriendlyWarning,
                     Placement = CalloutPlacement.OnDesk
                 }
-            };
+            ];
         }
 
         PageConfiguration.ColumnConfigurations

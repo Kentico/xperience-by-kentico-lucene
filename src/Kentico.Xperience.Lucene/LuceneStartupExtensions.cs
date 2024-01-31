@@ -1,9 +1,6 @@
-﻿using System.Runtime.CompilerServices;
-using Kentico.Xperience.Lucene.Admin;
+﻿using Kentico.Xperience.Lucene.Admin;
 using Kentico.Xperience.Lucene.Indexing;
 using Kentico.Xperience.Lucene.Search;
-
-[assembly: InternalsVisibleTo("Kentico.Xperience.Lucene.Tests")]
 
 namespace Microsoft.Extensions.DependencyInjection;
 
@@ -90,7 +87,6 @@ public static class LuceneStartupExtensions
     private static IServiceCollection AddLuceneServicesInternal(this IServiceCollection services) =>
         services
             .AddSingleton<LuceneModuleInstaller>()
-            .AddSingleton<LuceneModuleMigrator>()
             .AddSingleton<ILuceneClient, DefaultLuceneClient>()
             .AddSingleton<ILuceneTaskLogger, DefaultLuceneTaskLogger>()
             .AddSingleton<ILuceneTaskProcessor, DefaultLuceneTaskProcessor>()
