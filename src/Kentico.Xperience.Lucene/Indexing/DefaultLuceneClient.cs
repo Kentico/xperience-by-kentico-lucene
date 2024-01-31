@@ -158,7 +158,7 @@ internal class DefaultLuceneClient : ILuceneClient
                 {
                     foreach (string contentType in includedPathAttribute.ContentTypes)
                     {
-                        queryBuilder.ForContentType(contentType, config => config.WithLinkedItems(1).ForWebsite(luceneIndex.WebSiteChannelName, includeUrlPath: true));
+                        queryBuilder.ForContentType(contentType, config => config.ForWebsite(luceneIndex.WebSiteChannelName, includeUrlPath: true));
                     }
                 }
                 queryBuilder.InLanguage(language);
