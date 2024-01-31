@@ -17,20 +17,33 @@ namespace Kentico.Xperience.Lucene;
 /// </summary>
 internal class LuceneSearchModule : Module
 {
-    private ILuceneTaskLogger? luceneTaskLogger;
-    private IAppSettingsService? appSettingsService;
-    private IConversionService? conversionService;
+    private ILuceneTaskLogger luceneTaskLogger = null!;
+    private IAppSettingsService appSettingsService = null!;
+    private IConversionService conversionService = null!;
 
     [Obsolete("This setting will be replaced in the next major version. Use CMSLuceneSearchDisableIndexing instead.")]
     private const string APP_SETTINGS_KEY_INDEXING_DISABLED_OLD = "LuceneSearchDisableIndexing";
     private const string APP_SETTINGS_KEY_INDEXING_DISABLED = "CMSLuceneSearchDisableIndexing";
 
-#pragma warning disable S2589 // Boolean expressions should not be gratuitous
-    private bool IndexingDisabled =>
-        conversionService?.GetBoolean(appSettingsService?[APP_SETTINGS_KEY_INDEXING_DISABLED], false)
-        ?? conversionService?.GetBoolean(appSettingsService?[APP_SETTINGS_KEY_INDEXING_DISABLED_OLD], false)
-        ?? false;
-#pragma warning restore S2589 // Boolean expressions should not be gratuitous
+    private bool IndexingDisabled
+    {
+        get
+        {
+            if (appSettingsService[APP_SETTINGS_KEY_INDEXING_DISABLED] is string value1)
+            {
+                return conversionService.GetBoolean(value1, false);
+            }
+
+#pragma warning disable CS0618 // Type or member is obsolete
+            if (appSettingsService[APP_SETTINGS_KEY_INDEXING_DISABLED_OLD] is string value2)
+            {
+                return conversionService.GetBoolean(value2, false);
+            }
+#pragma warning restore CS0618 // Type or member is obsolete
+
+            return false;
+        }
+    }
 
     /// <inheritdoc/>
     public LuceneSearchModule() : base(nameof(LuceneSearchModule))
