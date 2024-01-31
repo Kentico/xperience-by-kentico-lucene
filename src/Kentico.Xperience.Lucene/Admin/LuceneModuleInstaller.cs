@@ -58,7 +58,7 @@ internal class LuceneModuleInstaller(IResourceInfoProvider resourceProvider)
             Visible = true,
             Precision = 0,
             DataType = "guid",
-            Enabled = true
+            Enabled = true,
         };
         formInfo.AddFormItem(formItem);
 
@@ -108,10 +108,9 @@ internal class LuceneModuleInstaller(IResourceInfoProvider resourceProvider)
             DataType = "text",
             Enabled = true
         };
-
         formInfo.AddFormItem(formItem);
 
-        info.ClassFormDefinition = formInfo.GetXmlDefinition();
+        SetFormDefinition(info, formInfo);
 
         if (info.HasChanged)
         {
@@ -167,7 +166,7 @@ internal class LuceneModuleInstaller(IResourceInfoProvider resourceProvider)
 
         formInfo.AddFormItem(formItem);
 
-        info.ClassFormDefinition = formInfo.GetXmlDefinition();
+        SetFormDefinition(info, formInfo);
 
         if (info.HasChanged)
         {
@@ -224,7 +223,7 @@ internal class LuceneModuleInstaller(IResourceInfoProvider resourceProvider)
 
         formInfo.AddFormItem(formItem);
 
-        info.ClassFormDefinition = formInfo.GetXmlDefinition();
+        SetFormDefinition(info, formInfo);
 
         if (info.HasChanged)
         {
@@ -295,11 +294,30 @@ internal class LuceneModuleInstaller(IResourceInfoProvider resourceProvider)
 
         formInfo.AddFormItem(formItem);
 
-        info.ClassFormDefinition = formInfo.GetXmlDefinition();
+        SetFormDefinition(info, formInfo);
 
         if (info.HasChanged)
         {
             DataClassInfoProvider.SetDataClassInfo(info);
+        }
+    }
+
+    /// <summary>
+    /// Ensure that the form is upserted with any existing form
+    /// </summary>
+    /// <param name="info"></param>
+    /// <param name="form"></param>
+    private static void SetFormDefinition(DataClassInfo info, FormInfo form)
+    {
+        if (info.ClassID > 0)
+        {
+            var existingForm = new FormInfo(info.ClassFormDefinition);
+            existingForm.CombineWithForm(form, new());
+            info.ClassFormDefinition = existingForm.GetXmlDefinition();
+        }
+        else
+        {
+            info.ClassFormDefinition = form.GetXmlDefinition();
         }
     }
 }
