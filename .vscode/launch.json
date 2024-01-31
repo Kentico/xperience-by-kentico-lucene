@@ -5,7 +5,7 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": ".NET Core Launch (web)",
+      "name": ".NET Launch (DancingGoat)",
       "type": "coreclr",
       "request": "launch",
       "launchBrowser": {
@@ -25,7 +25,27 @@
       }
     },
     {
-      "name": ".NET Core Attach",
+      "name": ".NET Launch (DancingGoat) - LOCAL_NUGET",
+      "type": "coreclr",
+      "request": "launch",
+      "preLaunchTask": ".NET: build (Solution) - LOCAL_NUGET",
+      "program": "${workspaceFolder}/examples/DancingGoat/bin/Debug/net6.0/DancingGoat.dll",
+      "args": [],
+      "cwd": "${workspaceFolder}/examples/DancingGoat",
+      "stopAtEntry": false,
+      "serverReadyAction": {
+        "action": "openExternally",
+        "pattern": "\\bNow listening on:\\s+(https?://\\S+)"
+      },
+      "env": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      },
+      "sourceFileMap": {
+        "/Views": "${workspaceFolder}/Views"
+      }
+    },
+    {
+      "name": ".NET Attach",
       "type": "coreclr",
       "request": "attach"
     }

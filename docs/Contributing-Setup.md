@@ -59,6 +59,8 @@ To run the example project Admin customization in development mode, add the foll
 
 ## Development Workflow
 
+### Prepare your Git branch and commits
+
 1. Create a new branch with one of the following prefixes
 
    - `feat/` - for new functionality
@@ -71,8 +73,33 @@ To run the example project Admin customization in development mode, add the foll
 
 1. Commit changes, with a commit message preferably following the [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/#summary) convention.
 
-1. Once ready, create a PR on GitHub. The PR will need to have all comments resolved and all tests passing before it will be merged.
+### Test the package locally using the following commands
 
-   - The PR should have a helpful description of the scope of changes being contributed.
-   - Include screenshots or video to reflect UX or UI updates
-   - Indicate if new settings need to be applied when the changes are merged - locally or in other environments
+1. Generate a local package using the VS Code `.NET: pack (Lucene)` task or execute its command and arguments at the command line
+   This will generate a new `Kentico.Xperience.Lucene` package in the `nuget-local` folder with a version matching the version in your `Directory.Build.props`
+
+1. Update the `Directory.Packages.props` to populate the `Kentico.Xperience.Lucene` package `Version=""` with the matching the value from the project's `Directory.Build.props`
+
+   > In the future, we will be able to use floating versions to automatically select the highest (local) package version
+
+1. Build the solution with the `LOCAL_NUGET=true` property
+
+   > You can use the VS Code `.NET: build (Solution) - LOCAL_NUGET` task
+
+1. Make sure the `Kentico.Xperience.Lucene.dll` version in the `examples\DancingGoat\bin\Debug\net6.0\` folder is the right version
+
+1. Run the `DancingGoat` application and ensure all functionality is correct
+
+   > You can use the `.NET Launch (DancingGoat) - LOCAL_NUGET` lauch setting in VS Code
+
+1. Undo the `Directory.Packages.props` version number change to ensure it is not committed to the repository
+
+1. Perform a normal build to reset any modified `packages.lock.json` files
+
+### Create a PR
+
+Once ready, create a PR on GitHub. The PR will need to have all comments resolved and all tests passing before it will be merged.
+
+- The PR should have a helpful description of the scope of changes being contributed.
+- Include screenshots or video to reflect UX or UI updates
+- Indicate if new settings need to be applied when the changes are merged - locally or in other environments

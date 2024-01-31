@@ -12,6 +12,7 @@
     <PackageVersion Include="Kentico.Xperience.Imageprocessing" Version="28.0.0" />
     <PackageVersion Include="Kentico.Xperience.WebApp" Version="28.0.0" />
     <PackageVersion Include="Kentico.Xperience.Core.Tests" Version="28.0.0" />
+    <PackageVersion Include="Kentico.Xperience.Lucene" Version="" Condition="'$(LOCAL_NUGET)' == 'true'" />
     <PackageVersion Include="Lucene.Net" Version="4.8.0-beta00016" />
     <PackageVersion Include="Lucene.Net.Analysis.Common" Version="4.8.0-beta00016" />
     <PackageVersion Include="Lucene.Net.Facet" Version="4.8.0-beta00016" />
@@ -20,7 +21,7 @@
     <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.8.0" />
     <PackageVersion Include="NUnit" Version="4.0.1" />
     <PackageVersion Include="NUnit3TestAdapter" Version="4.5.0" />
-    <PackageVersion Include="NUnit.Analyzers" Version="3.10.0" />
+    <PackageVersion Include="NUnit.Analyzers" Version="4.0.0" />
     <PackageVersion Include="coverlet.collector" Version="6.0.0" />
     <PackageVersion Include="NSubstitute" Version="5.1.0" />
     <PackageVersion Include="FluentAssertions" Version="6.12.0" />
