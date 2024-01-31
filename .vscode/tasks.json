@@ -69,12 +69,12 @@
       }
     },
     {
-      "label": ".NET: pack (TagManager)",
+      "label": ".NET: pack (Lucene)",
       "command": "dotnet",
       "type": "process",
       "args": [
         "pack",
-        "./src/Kentico.Xperience.TagManager",
+        "./src/Kentico.Xperience.Lucene",
         "-c",
         "Release",
         "-o",
