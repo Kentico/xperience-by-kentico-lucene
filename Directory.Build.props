@@ -5,8 +5,8 @@
     <Authors>$(Company)</Authors>
     <Copyright>Copyright © $(Company) $([System.DateTime]::Now.Year)</Copyright>
     <Trademark>$(Company)™</Trademark>
-    <VersionPrefix>4.0.0</VersionPrefix>
-    <VersionSuffix></VersionSuffix>
+    <VersionPrefix>4.1.0</VersionPrefix>
+    <VersionSuffix>prerelease-1</VersionSuffix>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
 
     <PackageProjectUrl>https://github.com/Kentico/xperience-by-kentico-lucene</PackageProjectUrl>
