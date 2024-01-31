@@ -6,7 +6,7 @@
     <Copyright>Copyright © $(Company) $([System.DateTime]::Now.Year)</Copyright>
     <Trademark>$(Company)™</Trademark>
     <VersionPrefix>4.1.0</VersionPrefix>
-    <VersionSuffix>prerelease-3</VersionSuffix>
+    <VersionSuffix>prerelease-4</VersionSuffix>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
 
     <PackageProjectUrl>https://github.com/Kentico/xperience-by-kentico-lucene</PackageProjectUrl>
