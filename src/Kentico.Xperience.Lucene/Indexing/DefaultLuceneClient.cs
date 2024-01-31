@@ -260,12 +260,12 @@ internal class DefaultLuceneClient : ILuceneClient
                     int count = 0;
                     foreach (var document in documents)
                     {
-                        var bytes = document.GetBinaryValue(nameof(IIndexEventItemModel.ItemGuid));
-                        if (bytes is not null)
+                        string? id = document.Get(nameof(IIndexEventItemModel.ItemGuid));
+                        if (id is not null)
                         {
                             // for now all changes are creates, update to be done later
                             // delete old document, there is no upsert nor update in Lucene
-                            writer.DeleteDocuments(new Term(nameof(IIndexEventItemModel.ItemGuid), bytes));
+                            writer.DeleteDocuments(new Term(nameof(IIndexEventItemModel.ItemGuid), id));
                         }
                         // add new one
 #pragma warning disable S2589 // Boolean expressions should not be gratuitous
