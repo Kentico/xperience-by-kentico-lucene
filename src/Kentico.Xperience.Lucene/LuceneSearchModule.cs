@@ -21,10 +21,16 @@ internal class LuceneSearchModule : Module
     private IAppSettingsService? appSettingsService;
     private IConversionService? conversionService;
 
-    private const string APP_SETTINGS_KEY_INDEXING_DISABLED = "LuceneSearchDisableIndexing";
+    [Obsolete("This setting will be replaced in the next major version. Use CMSLuceneSearchDisableIndexing instead.")]
+    private const string APP_SETTINGS_KEY_INDEXING_DISABLED_OLD = "LuceneSearchDisableIndexing";
+    private const string APP_SETTINGS_KEY_INDEXING_DISABLED = "CMSLuceneSearchDisableIndexing";
 
+#pragma warning disable S2589 // Boolean expressions should not be gratuitous
     private bool IndexingDisabled =>
-        conversionService?.GetBoolean(appSettingsService?[APP_SETTINGS_KEY_INDEXING_DISABLED], false) ?? false;
+        conversionService?.GetBoolean(appSettingsService?[APP_SETTINGS_KEY_INDEXING_DISABLED], false)
+        ?? conversionService?.GetBoolean(appSettingsService?[APP_SETTINGS_KEY_INDEXING_DISABLED_OLD], false)
+        ?? false;
+#pragma warning restore S2589 // Boolean expressions should not be gratuitous
 
     /// <inheritdoc/>
     public LuceneSearchModule() : base(nameof(LuceneSearchModule))
