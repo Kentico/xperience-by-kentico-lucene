@@ -6,7 +6,8 @@ public static class DancingGoatSearchStartupExtensions
 {
     public static IServiceCollection AddLuceneServices(this IServiceCollection services)
     {
-        services.AddLucene(builder => {
+        services.AddKenticoLucene(builder =>
+        {
             builder.RegisterStrategy<AdvancedSearchIndexingStrategy>("DancingGoatExampleStrategy");
             builder.RegisterStrategy<SimpleSearchIndexingStrategy>("DancingGoatMinimalExampleStrategy");
         });

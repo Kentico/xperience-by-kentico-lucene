@@ -3,8 +3,8 @@
     <RootNamespace>DancingGoat</RootNamespace>
     <UserSecretsId>7e8a56d7-ac0a-4d47-af57-fc423c65eafb</UserSecretsId>
     <SeparatedAdmin Condition="'$(SeparatedAdmin)' == ''">false</SeparatedAdmin>
-    <Nullable>disable</Nullable>
-    <WarningsAsErrors></WarningsAsErrors>
+    <Nullable>annotations</Nullable>
+    <RunAnalyzersDuringBuild>false</RunAnalyzersDuringBuild>
   </PropertyGroup>
   <ItemGroup>
     <None Remove="App_Data\CMSModules\WebFarm\webfarm.sync" />
@@ -25,8 +25,9 @@
     <PackageReference Include="kentico.xperience.cloud" />
     <PackageReference Include="kentico.xperience.imageprocessing" />
     <PackageReference Include="kentico.xperience.webapp" />
+    <PackageReference Include="Kentico.Xperience.Lucene" Condition="'$(LOCAL_NUGET)' == 'true'" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\src\Kentico.Xperience.Lucene\Kentico.Xperience.Lucene.csproj" />
+    <ProjectReference Include="..\..\src\Kentico.Xperience.Lucene\Kentico.Xperience.Lucene.csproj" Condition="'$(LOCAL_NUGET)' != 'true'" />
   </ItemGroup>
 </Project>

@@ -129,6 +129,8 @@ segments_2i
 
 # Generated files
 **/Client/dist/*
+nuget-local/*.nupkg
+nuget-local/*.snupkg
 
 **/App_Data/CMSModules/*
 **/App_Data/AzureCache/*

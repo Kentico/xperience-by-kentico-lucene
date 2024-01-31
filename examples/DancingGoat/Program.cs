@@ -1,6 +1,3 @@
-using System;
-using System.Threading.Tasks;
-
 using DancingGoat;
 using DancingGoat.Models;
 
@@ -12,18 +9,10 @@ using Kentico.PageBuilder.Web.Mvc;
 using Kentico.Web.Mvc;
 
 using Kentico.Xperience.Cloud;
-
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Abstractions;
 using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Routing;
-using Microsoft.Extensions.DependencyInjection;
-
-using Microsoft.Extensions.Hosting;
-using DancingGoat.Search;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -67,7 +56,7 @@ builder.Services.AddLocalization()
 
 builder.Services.AddDancingGoatServices();
 
-builder.Services.AddLuceneServices();
+builder.Services.AddKenticoLucene();
 
 ConfigureMembershipServices(builder.Services);
 
@@ -150,7 +139,7 @@ static void ConfigureMembershipServices(IServiceCollection services)
         {
             var factory = ctx.HttpContext.RequestServices.GetRequiredService<IUrlHelperFactory>();
             var urlHelper = factory.GetUrlHelper(new ActionContext(ctx.HttpContext, new RouteData(ctx.HttpContext.Request.RouteValues), new ActionDescriptor()));
-            var url = urlHelper.Action("Login", "Account") + new Uri(ctx.RedirectUri).Query;
+            string url = urlHelper.Action("Login", "Account") + new Uri(ctx.RedirectUri).Query;
 
             ctx.Response.Redirect(url);
 

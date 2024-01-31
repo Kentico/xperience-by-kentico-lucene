@@ -13,6 +13,18 @@
       "problemMatcher": "$msCompile"
     },
     {
+      "label": ".NET: build (Solution) - LOCAL_NUGET",
+      "command": "dotnet",
+      "type": "process",
+      "args": [
+        "build",
+        "-p:LOCAL_NUGET=true",
+        "/property:GenerateFullPaths=true",
+        "/consoleloggerparameters:NoSummary"
+      ],
+      "problemMatcher": "$msCompile"
+    },
+    {
       "label": ".NET: rebuild (Solution)",
       "command": "dotnet",
       "type": "process",
@@ -54,6 +66,24 @@
       "problemMatcher": "$msCompile",
       "options": {
         "cwd": "${workspaceFolder}/src/Kentico.Xperience.Lucene"
+      }
+    },
+    {
+      "label": ".NET: pack (Lucene)",
+      "command": "dotnet",
+      "type": "process",
+      "args": [
+        "pack",
+        "./src/Kentico.Xperience.Lucene",
+        "-c",
+        "Release",
+        "-o",
+        "nuget-local",
+        "-p:SIGN_FILE=false"
+      ],
+      "problemMatcher": "$msCompile",
+      "options": {
+        "cwd": "${workspaceFolder}"
       }
     },
     {
