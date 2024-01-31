@@ -45,7 +45,13 @@ public class LuceneConfigurationModel
         ChannelName = index.LuceneIndexItemChannelName;
         RebuildHook = index.LuceneIndexItemRebuildHook;
         StrategyName = index.LuceneIndexItemStrategyName;
-        LanguageNames = indexLanguages.Select(l => l.LuceneIndexLanguageItemName).ToList();
-        Paths = indexPaths.Select(p => new LuceneIndexIncludedPath(p, contentTypes)).ToList();
+        LanguageNames = indexLanguages
+            .Where(l => l.LuceneIndexLanguageItemIndexItemId == index.LuceneIndexItemId)
+            .Select(l => l.LuceneIndexLanguageItemName)
+            .ToList();
+        Paths = indexPaths
+            .Where(p => p.LuceneIncludedPathItemIndexItemId == index.LuceneIndexItemId)
+            .Select(p => new LuceneIndexIncludedPath(p, contentTypes))
+            .ToList();
     }
 }
