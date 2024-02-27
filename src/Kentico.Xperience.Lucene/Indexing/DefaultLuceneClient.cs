@@ -28,6 +28,7 @@ internal class DefaultLuceneClient : ILuceneClient
     private readonly IProgressiveCache cache;
     private readonly IEventLogService log;
     private readonly ICacheAccessor cacheAccessor;
+    private readonly ILuceneIndexManager indexManager;
 
     internal const string CACHEKEY_STATISTICS = "Lucene|ListIndices";
 
@@ -41,7 +42,9 @@ internal class DefaultLuceneClient : ILuceneClient
         IInfoProvider<ChannelInfo> channelProvider,
         IConversionService conversionService,
         IProgressiveCache cache,
-        IEventLogService log)
+        IEventLogService log,
+        ILuceneIndexManager indexManager
+        )
     {
         this.cacheAccessor = cacheAccessor;
         this.luceneIndexService = luceneIndexService;
@@ -52,7 +55,8 @@ internal class DefaultLuceneClient : ILuceneClient
         this.channelProvider = channelProvider;
         this.conversionService = conversionService;
         this.cache = cache;
-        this.log = log;
+        this.log = log;        this.indexManager = indexManager;
+        this.indexManager = indexManager;
     }
 
     /// <inheritdoc />
@@ -75,7 +79,7 @@ internal class DefaultLuceneClient : ILuceneClient
     /// <inheritdoc/>
     public Task<ICollection<LuceneIndexStatisticsViewModel>> GetStatistics(CancellationToken cancellationToken)
     {
-        var stats = LuceneIndexStore.Instance.GetAllIndices().Select(i =>
+        var stats = indexManager.GetAllIndices().Select(i =>
         {
             var statistics = luceneSearchService.UseSearcher(i, s => new LuceneIndexStatisticsViewModel()
             {
@@ -99,7 +103,7 @@ internal class DefaultLuceneClient : ILuceneClient
             throw new ArgumentNullException(nameof(indexName));
         }
 
-        var luceneIndex = LuceneIndexStore.Instance.GetRequiredIndex(indexName);
+        var luceneIndex = indexManager.GetRequiredIndex(indexName);
         return RebuildInternal(luceneIndex, cancellationToken);
     }
 
@@ -122,7 +126,7 @@ internal class DefaultLuceneClient : ILuceneClient
 
     private Task<int> DeleteRecordsInternal(IEnumerable<string> itemGuids, string indexName)
     {
-        var index = LuceneIndexStore.Instance.GetIndex(indexName);
+        var index = indexManager.GetIndex(indexName);
         if (index != null)
         {
             luceneIndexService.UseWriter(index, (writer) =>
@@ -210,7 +214,7 @@ internal class DefaultLuceneClient : ILuceneClient
 
     private Task<int> UpsertRecordsInternal(IEnumerable<Document> documents, string indexName)
     {
-        var index = LuceneIndexStore.Instance.GetIndex(indexName);
+        var index = indexManager.GetIndex(indexName);
         if (index != null)
         {
             var strategy = serviceProvider.GetRequiredStrategy(index);

@@ -34,10 +34,6 @@ internal class LuceneAdminModule : AdminModule
         ApplicationEvents.Initialized.Execute += InitializeModule;
     }
 
-    private void InitializeModule(object? sender, EventArgs e)
-    {
+    private void InitializeModule(object? sender, EventArgs e) =>
         installer.Install();
-
-        LuceneIndexStore.SetIndicies(storageService);
-    }
 }

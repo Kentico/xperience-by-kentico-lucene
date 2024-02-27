@@ -11,14 +11,16 @@ internal class DefaultLuceneTaskLogger : ILuceneTaskLogger
 {
     private readonly IEventLogService eventLogService;
     private readonly IServiceProvider serviceProvider;
+    private readonly ILuceneIndexManager indexManager;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="DefaultLuceneTaskLogger"/> class.
     /// </summary>
-    public DefaultLuceneTaskLogger(IEventLogService eventLogService, IServiceProvider serviceProvider)
+    public DefaultLuceneTaskLogger(IEventLogService eventLogService, IServiceProvider serviceProvider, ILuceneIndexManager indexManager)
     {
         this.eventLogService = eventLogService;
         this.serviceProvider = serviceProvider;
+        this.indexManager = indexManager;
     }
 
     /// <inheritdoc />
@@ -26,9 +28,9 @@ internal class DefaultLuceneTaskLogger : ILuceneTaskLogger
     {
         var taskType = GetTaskType(eventName);
 
-        foreach (var luceneIndex in LuceneIndexStore.Instance.GetAllIndices())
+        foreach (var luceneIndex in indexManager.GetAllIndices())
         {
-            if (!webpageItem.IsIndexedByIndex(eventLogService, luceneIndex.IndexName, eventName))
+            if (!webpageItem.IsIndexedByIndex(eventLogService, indexManager, luceneIndex.IndexName, eventName))
             {
                 continue;
             }
@@ -58,9 +60,9 @@ internal class DefaultLuceneTaskLogger : ILuceneTaskLogger
 
     public async Task HandleReusableItemEvent(IndexEventReusableItemModel reusableItem, string eventName)
     {
-        foreach (var luceneIndex in LuceneIndexStore.Instance.GetAllIndices())
+        foreach (var luceneIndex in indexManager.GetAllIndices())
         {
-            if (!reusableItem.IsIndexedByIndex(eventLogService, luceneIndex.IndexName, eventName))
+            if (!reusableItem.IsIndexedByIndex(eventLogService, indexManager, luceneIndex.IndexName, eventName))
             {
                 continue;
             }

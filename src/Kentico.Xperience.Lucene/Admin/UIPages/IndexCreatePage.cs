@@ -19,14 +19,20 @@ namespace Kentico.Xperience.Lucene.Admin;
 internal class IndexCreatePage : BaseIndexEditPage
 {
     private readonly IPageUrlGenerator pageUrlGenerator;
+    private readonly ILuceneIndexManager indexManager;
     private LuceneConfigurationModel? model = null;
 
     public IndexCreatePage(
         IFormItemCollectionProvider formItemCollectionProvider,
         IFormDataBinder formDataBinder,
         ILuceneConfigurationStorageService storageService,
+        ILuceneIndexManager indexManager,
         IPageUrlGenerator pageUrlGenerator)
-        : base(formItemCollectionProvider, formDataBinder, storageService) => this.pageUrlGenerator = pageUrlGenerator;
+        : base(formItemCollectionProvider, formDataBinder, storageService, indexManager)
+    {
+        this.pageUrlGenerator = pageUrlGenerator;
+        this.indexManager = indexManager;
+    }
 
     protected override LuceneConfigurationModel Model
     {
@@ -44,7 +50,7 @@ internal class IndexCreatePage : BaseIndexEditPage
 
         if (result == IndexModificationResult.Success)
         {
-            var index = LuceneIndexStore.Instance.GetRequiredIndex(model.IndexName);
+            var index = indexManager.GetRequiredIndex(model.IndexName);
 
             var successResponse = NavigateTo(pageUrlGenerator.GenerateUrl<IndexEditPage>(index.Identifier.ToString()))
                 .AddSuccessMessage("Index created.");

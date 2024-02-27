@@ -10,11 +10,18 @@ internal abstract class BaseIndexEditPage : ModelEditPage<LuceneConfigurationMod
 {
     protected readonly ILuceneConfigurationStorageService StorageService;
 
+    private readonly ILuceneIndexManager indexManager;
+
     protected BaseIndexEditPage(
         IFormItemCollectionProvider formItemCollectionProvider,
         IFormDataBinder formDataBinder,
-        ILuceneConfigurationStorageService storageService)
-        : base(formItemCollectionProvider, formDataBinder) => StorageService = storageService;
+        ILuceneConfigurationStorageService storageService,
+        ILuceneIndexManager indexManager)
+        : base(formItemCollectionProvider, formDataBinder)
+    {
+        this.indexManager = indexManager;
+        StorageService = storageService;
+    }
 
     protected IndexModificationResult ValidateAndProcess(LuceneConfigurationModel configuration)
     {
@@ -26,8 +33,6 @@ internal abstract class BaseIndexEditPage : ModelEditPage<LuceneConfigurationMod
 
             if (edited)
             {
-                LuceneIndexStore.SetIndicies(StorageService);
-
                 return IndexModificationResult.Success;
             }
 
@@ -35,11 +40,9 @@ internal abstract class BaseIndexEditPage : ModelEditPage<LuceneConfigurationMod
         }
         else
         {
-            bool created = !string.IsNullOrWhiteSpace(configuration.IndexName) && StorageService.TryCreateIndex(configuration);
-
-            if (created)
+            if (!string.IsNullOrWhiteSpace(configuration.IndexName))
             {
-                LuceneIndexStore.Instance.AddIndex(new LuceneIndex(configuration, StrategyStorage.Strategies));
+                indexManager.AddIndex(configuration);
 
                 return IndexModificationResult.Success;
             }

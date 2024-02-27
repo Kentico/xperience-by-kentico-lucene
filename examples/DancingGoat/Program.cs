@@ -13,6 +13,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Abstractions;
 using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.AspNetCore.Mvc;
+using DancingGoat.Search;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -56,7 +57,7 @@ builder.Services.AddLocalization()
 
 builder.Services.AddDancingGoatServices();
 
-builder.Services.AddKenticoLucene();
+builder.Services.AddLuceneServices();
 
 ConfigureMembershipServices(builder.Services);
 
