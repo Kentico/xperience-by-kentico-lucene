@@ -57,7 +57,7 @@ builder.Services.AddLocalization()
 
 builder.Services.AddDancingGoatServices();
 
-builder.Services.AddLuceneServices();
+builder.Services.AddKenticoLucene();
 
 ConfigureMembershipServices(builder.Services);
 
