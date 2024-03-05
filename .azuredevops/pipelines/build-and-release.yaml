@@ -31,7 +31,7 @@ stages:
               - Agent.Name -equals ${{ parameters.AgentName }}
 
         variables:
-          - group: 14.0 Authenticode signature parameters
+          - group: Code Sign KV Auth
 
           - name: Configuration
             value: Release
@@ -68,6 +68,14 @@ stages:
               useGlobalJson: true
 
           - task: DotNetCoreCLI@2
+            displayName: Restore dotnet tools
+            inputs:
+              command: custom
+              custom: tool
+              arguments: restore
+              workingDirectory: $(System.DefaultWorkingDirectory)
+
+          - task: DotNetCoreCLI@2
             displayName: Restore dependencies
             inputs:
               command: restore
@@ -82,6 +90,8 @@ stages:
               projects: ${{ variables.ProjectFilePath }}
               configuration: ${{ variables.Configuration }}
               arguments: --no-restore
+            env:
+              AuthenticodeClientSecret: $(AuthenticodeClientSecret)
 
           - task: DotNetCoreCLI@2
             displayName: Create NuGet package
