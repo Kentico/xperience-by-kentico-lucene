@@ -9,6 +9,6 @@
             <AssemblyToSign Include="$(XmlSerializersTargetPath)" Condition="Exists('$(XmlSerializersTargetPath)')" />
         </ItemGroup>
 
-        <Exec Command="AzureSignTool sign --azure-key-vault-url $(AuthenticodeKeyVaultUrl) --azure-key-vault-tenant-id $(AuthenticodeTenantId) --azure-key-vault-client-id $(AuthenticodeClientId) --azure-key-vault-client-secret $(AuthenticodeClientSecret) --azure-key-vault-certificate $(AuthenticodeCertificateName) --timestamp-rfc3161 $(TimestampServerUrl) --skip-signed %(AssemblyToSign.Identity)" />
+        <Exec Command="dotnet AzureSignTool sign --azure-key-vault-url $(AuthenticodeKeyVaultUrl) --azure-key-vault-tenant-id $(AuthenticodeTenantId) --azure-key-vault-client-id $(AuthenticodeClientId) --azure-key-vault-client-secret $(AuthenticodeClientSecret) --azure-key-vault-certificate $(AuthenticodeCertificateName) --timestamp-rfc3161 $(TimestampServerUrl) --skip-signed %(AssemblyToSign.Identity)" />
     </Target>
 </Project>
