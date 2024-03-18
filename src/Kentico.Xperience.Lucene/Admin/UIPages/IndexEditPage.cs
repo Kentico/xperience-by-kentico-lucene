@@ -2,6 +2,7 @@
 using Kentico.Xperience.Admin.Base;
 using Kentico.Xperience.Admin.Base.Forms;
 using Kentico.Xperience.Lucene.Admin;
+using Kentico.Xperience.Lucene.Indexing;
 
 [assembly: UIPage(
    parentType: typeof(IndexListingPage),
@@ -23,8 +24,9 @@ internal class IndexEditPage : BaseIndexEditPage
 
     public IndexEditPage(Xperience.Admin.Base.Forms.Internal.IFormItemCollectionProvider formItemCollectionProvider,
                  IFormDataBinder formDataBinder,
-                 ILuceneConfigurationStorageService storageService)
-        : base(formItemCollectionProvider, formDataBinder, storageService) { }
+                 ILuceneConfigurationStorageService storageService,
+                 ILuceneIndexManager indexManager)
+        : base(formItemCollectionProvider, formDataBinder, storageService, indexManager) { }
 
     protected override LuceneConfigurationModel Model
     {

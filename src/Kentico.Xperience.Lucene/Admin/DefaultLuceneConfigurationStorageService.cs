@@ -36,6 +36,7 @@ internal class DefaultLuceneConfigurationStorageService : ILuceneConfigurationSt
         }
         return source.Length == builder.Length ? source : builder.ToString();
     }
+
     public bool TryCreateIndex(LuceneConfigurationModel configuration)
     {
         var existingIndex = indexProvider.Get()
@@ -107,6 +108,21 @@ internal class DefaultLuceneConfigurationStorageService : ILuceneConfigurationSt
     public LuceneConfigurationModel? GetIndexDataOrNull(int indexId)
     {
         var indexInfo = indexProvider.Get().WithID(indexId).FirstOrDefault();
+        if (indexInfo == default)
+        {
+            return default;
+        }
+
+        var paths = pathProvider.Get().WhereEquals(nameof(LuceneIncludedPathItemInfo.LuceneIncludedPathItemIndexItemId), indexInfo.LuceneIndexItemId).GetEnumerableTypedResult();
+        var contentTypes = contentTypeProvider.Get().WhereEquals(nameof(LuceneContentTypeItemInfo.LuceneContentTypeItemIndexItemId), indexInfo.LuceneIndexItemId).GetEnumerableTypedResult();
+        var languages = languageProvider.Get().WhereEquals(nameof(LuceneIndexLanguageItemInfo.LuceneIndexLanguageItemIndexItemId), indexInfo.LuceneIndexItemId).GetEnumerableTypedResult();
+
+        return new LuceneConfigurationModel(indexInfo, languages, paths, contentTypes);
+    }
+
+    public LuceneConfigurationModel? GetIndexDataOrNull(string indexName)
+    {
+        var indexInfo = indexProvider.Get().WhereEquals(nameof(LuceneIndexItemInfo.LuceneIndexItemIndexName), indexName).FirstOrDefault();
         if (indexInfo == default)
         {
             return default;

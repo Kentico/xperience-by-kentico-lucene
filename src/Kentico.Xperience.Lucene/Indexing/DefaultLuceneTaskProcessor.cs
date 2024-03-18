@@ -19,17 +19,20 @@ internal class DefaultLuceneTaskProcessor : ILuceneTaskProcessor
     private readonly IServiceProvider serviceProvider;
     private readonly ILuceneClient luceneClient;
     private readonly IEventLogService eventLogService;
+    private readonly ILuceneIndexManager indexManager;
 
     public DefaultLuceneTaskProcessor(
         ILuceneClient luceneClient,
         IEventLogService eventLogService,
         IWebPageUrlRetriever urlRetriever,
-        IServiceProvider serviceProvider)
+        IServiceProvider serviceProvider,
+        ILuceneIndexManager indexManager)
     {
         this.luceneClient = luceneClient;
         this.eventLogService = eventLogService;
         this.urlRetriever = urlRetriever;
         this.serviceProvider = serviceProvider;
+        this.indexManager = indexManager;
     }
 
     /// <inheritdoc />
@@ -80,7 +83,7 @@ internal class DefaultLuceneTaskProcessor : ILuceneTaskProcessor
                     }
                 }
                 deleteIds.AddRange(GetIdsToDelete(deleteTasks ?? new List<LuceneQueueItem>()).Where(x => x is not null).Select(x => x ?? ""));
-                if (LuceneIndexStore.Instance.GetIndex(group.Key) is { } index)
+                if (indexManager.GetIndex(group.Key) is { } index)
                 {
                     previousBatchResults.SuccessfulOperations += await luceneClient.DeleteRecords(deleteIds, group.Key);
                     previousBatchResults.SuccessfulOperations += await luceneClient.UpsertRecords(upsertData, group.Key, cancellationToken);
@@ -107,7 +110,7 @@ internal class DefaultLuceneTaskProcessor : ILuceneTaskProcessor
     /// <inheritdoc/>
     public async Task<Document?> GetDocument(LuceneQueueItem queueItem)
     {
-        var luceneIndex = LuceneIndexStore.Instance.GetRequiredIndex(queueItem.IndexName);
+        var luceneIndex = indexManager.GetRequiredIndex(queueItem.IndexName);
 
         var strategy = serviceProvider.GetRequiredStrategy(luceneIndex);
 

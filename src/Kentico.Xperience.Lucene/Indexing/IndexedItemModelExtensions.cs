@@ -16,8 +16,9 @@ internal static class IndexedItemModelExtensions
     /// <param name="log"></param>
     /// <param name="indexName">The Lucene index code name.</param>
     /// <param name="eventName"></param>
+    /// <param name="indexManager"></param>
     /// <exception cref="ArgumentNullException" />
-    public static bool IsIndexedByIndex(this IndexEventWebPageItemModel item, IEventLogService log, string indexName, string eventName)
+    public static bool IsIndexedByIndex(this IndexEventWebPageItemModel item, IEventLogService log, ILuceneIndexManager indexManager, string indexName, string eventName)
     {
         if (string.IsNullOrWhiteSpace(indexName))
         {
@@ -28,7 +29,7 @@ internal static class IndexedItemModelExtensions
             throw new ArgumentNullException(nameof(item));
         }
 
-        var luceneIndex = LuceneIndexStore.Instance.GetIndex(indexName);
+        var luceneIndex = indexManager.GetIndex(indexName);
         if (luceneIndex is null)
         {
             log.LogError(nameof(IndexedItemModelExtensions), nameof(IsIndexedByIndex), $"Error loading registered Lucene index '{indexName}' for event [{eventName}].");
@@ -70,8 +71,9 @@ internal static class IndexedItemModelExtensions
     /// <param name="log"></param>
     /// <param name="indexName">The Lucene index code name.</param>
     /// <param name="eventName"></param>
+    /// <param name="indexManager"></param>
     /// <exception cref="ArgumentNullException" />
-    public static bool IsIndexedByIndex(this IndexEventReusableItemModel item, IEventLogService log, string indexName, string eventName)
+    public static bool IsIndexedByIndex(this IndexEventReusableItemModel item, IEventLogService log, ILuceneIndexManager indexManager, string indexName, string eventName)
     {
         if (string.IsNullOrEmpty(indexName))
         {
@@ -82,7 +84,7 @@ internal static class IndexedItemModelExtensions
             throw new ArgumentNullException(nameof(item));
         }
 
-        var luceneIndex = LuceneIndexStore.Instance.GetIndex(indexName);
+        var luceneIndex = indexManager.GetIndex(indexName);
         if (luceneIndex is null)
         {
             log.LogError(nameof(IndexedItemModelExtensions), nameof(IsIndexedByIndex), $"Error loading registered Lucene index '{indexName}' for event [{eventName}].");

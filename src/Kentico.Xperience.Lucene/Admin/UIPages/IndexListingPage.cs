@@ -24,6 +24,7 @@ internal class IndexListingPage : ListingPage
     private readonly IPageUrlGenerator pageUrlGenerator;
     private readonly ILuceneConfigurationStorageService configurationStorageService;
     private readonly IConversionService conversionService;
+    private readonly ILuceneIndexManager indexManager;
 
     protected override string ObjectType => LuceneIndexItemInfo.OBJECT_TYPE;
 
@@ -34,18 +35,20 @@ internal class IndexListingPage : ListingPage
         ILuceneClient luceneClient,
         IPageUrlGenerator pageUrlGenerator,
         ILuceneConfigurationStorageService configurationStorageService,
+        ILuceneIndexManager indexManager,
         IConversionService conversionService)
     {
         this.luceneClient = luceneClient;
         this.pageUrlGenerator = pageUrlGenerator;
         this.configurationStorageService = configurationStorageService;
         this.conversionService = conversionService;
+        this.indexManager = indexManager;
     }
 
     /// <inheritdoc/>
     public override async Task ConfigurePage()
     {
-        if (!LuceneIndexStore.Instance.GetAllIndices().Any())
+        if (!indexManager.GetAllIndices().Any())
         {
             PageConfiguration.Callouts =
             [
@@ -83,7 +86,7 @@ internal class IndexListingPage : ListingPage
 
         var statistics = await luceneClient.GetStatistics(default);
         // Add statistics for indexes that are registered but not created in Lucene
-        AddMissingStatistics(ref statistics);
+        AddMissingStatistics(ref statistics, indexManager);
 
         if (PageConfiguration.ColumnConfigurations is not List<ColumnConfiguration> columns)
         {
@@ -123,7 +126,7 @@ internal class IndexListingPage : ListingPage
     private LuceneIndexStatisticsViewModel? GetStatistic(Row row, ICollection<LuceneIndexStatisticsViewModel> statistics)
     {
         int indexID = conversionService.GetInteger(row.Identifier, 0);
-        string indexName = LuceneIndexStore.Instance.GetIndex(indexID) is LuceneIndex index
+        string indexName = indexManager.GetIndex(indexID) is LuceneIndex index
             ? index.IndexName
             : "";
 
@@ -140,7 +143,7 @@ internal class IndexListingPage : ListingPage
     public async Task<ICommandResponse<RowActionResult>> Rebuild(int id, CancellationToken cancellationToken)
     {
         var result = new RowActionResult(false);
-        var index = LuceneIndexStore.Instance.GetIndex(id);
+        var index = indexManager.GetIndex(id);
         if (index is null)
         {
             return ResponseFrom(result)
@@ -163,19 +166,16 @@ internal class IndexListingPage : ListingPage
     [PageCommand(Permission = SystemPermissions.DELETE)]
     public Task<ICommandResponse> Delete(int id, CancellationToken _)
     {
-        bool res = configurationStorageService.TryDeleteIndex(id);
-        if (res)
-        {
-            LuceneIndexStore.SetIndicies(configurationStorageService);
-        }
+        configurationStorageService.TryDeleteIndex(id);
+
         var response = NavigateTo(pageUrlGenerator.GenerateUrl<IndexListingPage>());
 
         return Task.FromResult<ICommandResponse>(response);
     }
 
-    private static void AddMissingStatistics(ref ICollection<LuceneIndexStatisticsViewModel> statistics)
+    private static void AddMissingStatistics(ref ICollection<LuceneIndexStatisticsViewModel> statistics, ILuceneIndexManager indexManager)
     {
-        foreach (string indexName in LuceneIndexStore.Instance.GetAllIndices().Select(i => i.IndexName))
+        foreach (string indexName in indexManager.GetAllIndices().Select(i => i.IndexName))
         {
             if (!statistics.Any(stat => stat.Name?.Equals(indexName, StringComparison.OrdinalIgnoreCase) ?? false))
             {
