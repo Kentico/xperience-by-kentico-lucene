@@ -41,7 +41,9 @@ internal class LuceneQueueWorker : ThreadQueueWorker<LuceneQueueItem, LuceneQueu
             return;
         }
 
-        if (LuceneIndexStore.Instance.GetIndex(queueItem.IndexName) == null)
+        var indexManager = Service.Resolve<ILuceneIndexManager>() ?? throw new InvalidOperationException($"{nameof(ILuceneIndexManager)} is not registered.");
+
+        if (indexManager.GetIndex(queueItem.IndexName) == null)
         {
             throw new InvalidOperationException($"Attempted to log task for Lucene index '{queueItem.IndexName},' but it is not registered.");
         }

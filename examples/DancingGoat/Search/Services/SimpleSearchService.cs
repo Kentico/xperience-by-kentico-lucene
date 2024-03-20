@@ -13,8 +13,13 @@ public class SimpleSearchService
     private const int MAX_RESULTS = 1000;
 
     private readonly ILuceneSearchService luceneSearchService;
+    private readonly ILuceneIndexManager luceneIndexManager;
 
-    public SimpleSearchService(ILuceneSearchService luceneSearchService) => this.luceneSearchService = luceneSearchService;
+    public SimpleSearchService(ILuceneSearchService luceneSearchService, ILuceneIndexManager luceneIndexManager)
+    {
+        this.luceneSearchService = luceneSearchService;
+        this.luceneIndexManager = luceneIndexManager;
+    }
 
     public LuceneSearchResultModel<DancingGoatSearchResultModel> GlobalSearch(
         string indexName,
@@ -22,7 +27,7 @@ public class SimpleSearchService
         int pageSize = 20,
         int page = 1)
     {
-        var index = LuceneIndexStore.Instance.GetRequiredIndex(indexName);
+        var index = luceneIndexManager.GetRequiredIndex(indexName);
         var query = GetTermQuery(searchText);
 
         var result = luceneSearchService.UseSearcher(

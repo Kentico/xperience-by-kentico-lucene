@@ -14,14 +14,17 @@ public class AdvancedSearchService
     private const int MAX_RESULTS = 1000;
 
     private readonly ILuceneSearchService luceneSearchService;
+    private readonly ILuceneIndexManager luceneIndexManager;
     private readonly AdvancedSearchIndexingStrategy strategy;
 
     public AdvancedSearchService(
         ILuceneSearchService luceneSearchService,
-        AdvancedSearchIndexingStrategy strategy)
+        AdvancedSearchIndexingStrategy strategy,
+        ILuceneIndexManager luceneIndexManager)
     {
         this.luceneSearchService = luceneSearchService;
         this.strategy = strategy;
+        this.luceneIndexManager = luceneIndexManager;
     }
 
     public LuceneSearchResultModel<DancingGoatSearchResultModel> GlobalSearch(
@@ -32,7 +35,7 @@ public class AdvancedSearchService
         string? facet = null,
         string? sortBy = null)
     {
-        var index = LuceneIndexStore.Instance.GetRequiredIndex(indexName);
+        var index = luceneIndexManager.GetRequiredIndex(indexName);
         var query = GetTermQuery(searchText);
 
         var combinedQuery = new BooleanQuery
