@@ -55,7 +55,8 @@ internal class DefaultLuceneClient : ILuceneClient
         this.channelProvider = channelProvider;
         this.conversionService = conversionService;
         this.cache = cache;
-        this.log = log;        this.indexManager = indexManager;
+        this.log = log;
+        this.indexManager = indexManager;
         this.indexManager = indexManager;
     }
 
@@ -154,6 +155,11 @@ internal class DefaultLuceneClient : ILuceneClient
         var indexedItems = new List<IndexEventWebPageItemModel>();
         foreach (var includedPathAttribute in luceneIndex.IncludedPaths)
         {
+            var pathMatch =
+                includedPathAttribute.AliasPath.EndsWith("/%", StringComparison.OrdinalIgnoreCase)
+                    ? PathMatch.Children(includedPathAttribute.AliasPath[..^2])
+                    : PathMatch.Single(includedPathAttribute.AliasPath);
+
             foreach (string language in luceneIndex.LanguageNames)
             {
                 var queryBuilder = new ContentItemQueryBuilder();
@@ -162,7 +168,7 @@ internal class DefaultLuceneClient : ILuceneClient
                 {
                     foreach (string contentType in includedPathAttribute.ContentTypes)
                     {
-                        queryBuilder.ForContentType(contentType, config => config.ForWebsite(luceneIndex.WebSiteChannelName, includeUrlPath: true));
+                        queryBuilder.ForContentType(contentType, config => config.ForWebsite(luceneIndex.WebSiteChannelName, includeUrlPath: true, pathMatch: pathMatch));
                     }
                 }
                 queryBuilder.InLanguage(language);
