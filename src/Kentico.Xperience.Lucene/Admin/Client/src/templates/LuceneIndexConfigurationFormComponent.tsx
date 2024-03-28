@@ -18,7 +18,7 @@ import React, { type CSSProperties, useEffect, useState } from 'react';
 import { IoCheckmarkSharp } from 'react-icons/io5';
 import { MdOutlineCancel } from 'react-icons/md';
 import { RxCross1 } from 'react-icons/rx';
-import Select, { type ActionMeta, type ClearIndicatorProps, components, type CSSObjectWithLabel, type GroupBase, type MultiValue, type MultiValueRemoveProps, type OptionProps, type StylesConfig } from 'react-select'; // eslint-disable-line sort-imports
+import Select, { type ActionMeta, type CSSObjectWithLabel, type ClearIndicatorProps, type GroupBase, type MultiValue, type MultiValueRemoveProps, type OptionProps, type StylesConfig, components } from 'react-select';
 import { Tooltip } from 'react-tooltip';
 
 export interface IncludedPath {
@@ -260,61 +260,65 @@ export const LuceneIndexConfigurationFormComponent = (
         }
     }
 
+    /* eslint-disable @typescript-eslint/naming-convention */
+    /* eslint-disable @typescript-eslint/consistent-type-assertions */
     const customStyle: StylesConfig<OptionType, true, GroupBase<OptionType>> = {
-        control: (styles, { isFocused }) => ({ // eslint-disable-line @typescript-eslint/consistent-type-assertions
+        control: (styles, { isFocused }) => ({ 
             ...styles,
             backgroundColor: 'white',
             borderColor: isFocused ? 'black' : 'gray',
-            '&:hover': { // eslint-disable-line @typescript-eslint/naming-convention
+            '&:hover': {
                 borderColor: 'black'
             },
             borderRadius: 20,
             boxShadow: 'gray',
             padding: 2,
             minHeight: 'fit-content',
-        } as CSSObjectWithLabel), // eslint-disable-line @typescript-eslint/consistent-type-assertions
+        } as CSSObjectWithLabel),
         option: (styles, { isSelected }) => {
-            return { // eslint-disable-line @typescript-eslint/consistent-type-assertions
+            return { 
                 ...styles,
                 backgroundColor: isSelected ? '#bab4f0' : 'white',
-                '&:hover': { // eslint-disable-line @typescript-eslint/naming-convention
+                '&:hover': {
                     backgroundColor: isSelected ? '#a097f7' : 'lightgray'
                 },
                 color: isSelected ? 'purple' : 'black',
                 cursor: 'pointer'
-            } as CSSObjectWithLabel; // eslint-disable-line @typescript-eslint/consistent-type-assertions
+            } as CSSObjectWithLabel;
         },
         input: (styles) => ({ ...styles }),
-        container: (styles) => ({ ...styles, borderColor: 'gray' } as CSSObjectWithLabel), // eslint-disable-line @typescript-eslint/consistent-type-assertions
+        container: (styles) => ({ ...styles, borderColor: 'gray' } as CSSObjectWithLabel),
         placeholder: (styles) => ({ ...styles }),
-        multiValue: (styles) => ({ // eslint-disable-line @typescript-eslint/consistent-type-assertions
+        multiValue: (styles) => ({
             ...styles,
             backgroundColor: '#287ab5',
             borderRadius: 10,
             height: 35,
             alignItems: 'center',
-        } as CSSObjectWithLabel), // eslint-disable-line @typescript-eslint/consistent-type-assertions
-        multiValueLabel: (styles) => ({ // eslint-disable-line @typescript-eslint/consistent-type-assertions
+        } as CSSObjectWithLabel),
+        multiValueLabel: (styles) => ({
             ...styles,
             color: 'white',
             fontSize: 14,
             alignContent: 'center'
-        } as CSSObjectWithLabel), // eslint-disable-line @typescript-eslint/consistent-type-assertions
+        } as CSSObjectWithLabel),
         indicatorSeparator: () => ({}),
-        dropdownIndicator: (styles, state): CSSObjectWithLabel => ({ // eslint-disable-line @typescript-eslint/consistent-type-assertions
+        dropdownIndicator: (styles, state): CSSObjectWithLabel => ({ 
             ...styles,
             transform: state.selectProps.menuIsOpen ? 'rotate(180deg)' : 'rotate(0deg)',
-        } as CSSObjectWithLabel), // eslint-disable-line @typescript-eslint/consistent-type-assertions
-        multiValueRemove: (styles) => ({ // eslint-disable-line @typescript-eslint/consistent-type-assertions
+        } as CSSObjectWithLabel),
+        multiValueRemove: (styles) => ({
             ...styles,
-            '&:hover': { // eslint-disable-line @typescript-eslint/naming-convention
+            '&:hover': {
                 background: '#287ab5',
                 borderRadius: 10,
                 cursor: 'pointer',
                 filter: 'grayscale(40%)',
                 height: '100%'
             }
-        } as CSSObjectWithLabel) // eslint-disable-line @typescript-eslint/consistent-type-assertions
+        } as CSSObjectWithLabel)
+        /* eslint-enable @typescript-eslint/naming-convention */
+        /* eslint-enable @typescript-eslint/consistent-type-assertions */
     };
 
     const MultiValueRemoveStyle: CSSProperties = {
@@ -394,7 +398,7 @@ export const LuceneIndexConfigurationFormComponent = (
                     <div className="label-wrapper___AcszK">
                         <label className="label___WET63">Included content types</label>
                     </div>
-                    <Select<OptionType, true>
+                    <Select
                         isMulti
                         closeMenuOnSelect={false}
                         defaultValue={contentTypesValue}
