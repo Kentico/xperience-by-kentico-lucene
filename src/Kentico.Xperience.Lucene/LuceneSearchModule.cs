@@ -4,8 +4,10 @@ using CMS.ContentEngine;
 using CMS.Core;
 using CMS.DataEngine;
 using CMS.Websites;
+
 using Kentico.Xperience.Lucene;
 using Kentico.Xperience.Lucene.Indexing;
+
 using Microsoft.Extensions.DependencyInjection;
 
 [assembly: RegisterModule(typeof(LuceneSearchModule))]
@@ -21,8 +23,6 @@ internal class LuceneSearchModule : Module
     private IAppSettingsService appSettingsService = null!;
     private IConversionService conversionService = null!;
 
-    [Obsolete("This setting will be replaced in the next major version. Use CMSLuceneSearchDisableIndexing instead.")]
-    private const string APP_SETTINGS_KEY_INDEXING_DISABLED_OLD = "LuceneSearchDisableIndexing";
     private const string APP_SETTINGS_KEY_INDEXING_DISABLED = "CMSLuceneSearchDisableIndexing";
 
     private bool IndexingDisabled
@@ -34,21 +34,16 @@ internal class LuceneSearchModule : Module
                 return conversionService.GetBoolean(value1, false);
             }
 
-#pragma warning disable CS0618 // Type or member is obsolete
-            if (appSettingsService[APP_SETTINGS_KEY_INDEXING_DISABLED_OLD] is string value2)
-            {
-                return conversionService.GetBoolean(value2, false);
-            }
-#pragma warning restore CS0618 // Type or member is obsolete
-
             return false;
         }
     }
+
 
     /// <inheritdoc/>
     public LuceneSearchModule() : base(nameof(LuceneSearchModule))
     {
     }
+
 
     /// <inheritdoc/>
     protected override void OnInit(ModuleInitParameters parameters)
@@ -97,6 +92,7 @@ internal class LuceneSearchModule : Module
 
         luceneTaskLogger?.HandleEvent(indexedItemModel, e.CurrentHandler.Name).GetAwaiter().GetResult();
     }
+
 
     private void HandleContentItemEvent(object? sender, CMSEventArgs e)
     {
