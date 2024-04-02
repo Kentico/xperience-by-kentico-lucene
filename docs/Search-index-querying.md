@@ -36,16 +36,16 @@ public class SearchService
     private const int MAX_RESULTS = 1000;
 
     private readonly ILuceneSearchService luceneSearchService;
-     private readonly ILuceneIndexManager luceneIndexManager;
+    private readonly ILuceneIndexManager luceneIndexManager;
     private readonly ExampleSearchIndexingStrategy strategy;
 
     public SearchService(
         ILuceneSearchService luceneSearchService,
-        ILuceneIndexManager luceneIndexManager
+        ILuceneIndexManager luceneIndexManager,
         ExampleSearchIndexingStrategy strategy)
     {
         this.luceneSearchService = luceneSearchService;
-         this.luceneIndexManager = luceneIndexManager;
+        this.luceneIndexManager = luceneIndexManager;
         this.strategy = strategy;
     }
 
