@@ -26,7 +26,7 @@ public class GlobalSearchResultModel
 
 ## Create a search service
 
-Execute a search with a customized Lucene `Query` (like the `MatchAllDocsQuery`) using the ILuceneSearchService. 
+Execute a search with a customized Lucene `Query` (like the `MatchAllDocsQuery`) using the ILuceneSearchService.
 You can use your `GlobalSearchResultModel` as a generic parameter of prepared class template `LuceneSearchResultModel<T>` class to retrieve the most often desired data from `ILuceneSearchService`.
 
 ```csharp
@@ -36,13 +36,16 @@ public class SearchService
     private const int MAX_RESULTS = 1000;
 
     private readonly ILuceneSearchService luceneSearchService;
+     private readonly ILuceneIndexManager luceneIndexManager;
     private readonly ExampleSearchIndexingStrategy strategy;
 
     public SearchService(
         ILuceneSearchService luceneSearchService,
+        ILuceneIndexManager luceneIndexManager
         ExampleSearchIndexingStrategy strategy)
     {
         this.luceneSearchService = luceneSearchService;
+         this.luceneIndexManager = luceneIndexManager;
         this.strategy = strategy;
     }
 
@@ -54,7 +57,7 @@ public class SearchService
         string? facet = null,
         string? sortBy = null)
     {
-        var index = LuceneIndexStore.Instance.GetRequiredIndex(indexName);
+        var index = luceneIndexManager.GetRequiredIndex(indexName);
         var query = GetTermQuery(searchText, facet, sortBy);
 
         var combinedQuery = new BooleanQuery
@@ -158,7 +161,7 @@ Create a Controller which uses `SearchService` to display view with search bar.
 public class SearchController : Controller
 {
     private readonly SearchService searchService;
-    
+
     private const string NAME_OF_DEFAULT_INDEX = "Default";
 
     public SearchController(SearchService searchService)
