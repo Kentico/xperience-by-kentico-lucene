@@ -19,7 +19,7 @@ public class LuceneIndexConfigurationComponentProperties : FormComponentProperti
 
 public class LuceneIndexConfigurationComponentClientProperties : FormComponentClientProperties<IEnumerable<LuceneIndexIncludedPath>>
 {
-    public IEnumerable<string>? PossibleItems { get; set; }
+    public IEnumerable<LuceneIndexContentType>? PossibleContentTypeItems { get; set; }
 }
 
 public sealed class LuceneIndexConfigurationComponentAttribute : FormComponentAttribute
@@ -35,7 +35,7 @@ public class LuceneIndexConfigurationComponent : FormComponent<LuceneIndexConfig
 
     public override string ClientComponentName => "@kentico/xperience-integrations-lucene/LuceneIndexConfiguration";
 
-    public override IEnumerable<LuceneIndexIncludedPath> GetValue() => Value ?? new();
+    public override IEnumerable<LuceneIndexIncludedPath> GetValue() => Value ?? [];
     public override void SetValue(IEnumerable<LuceneIndexIncludedPath> value) => Value = value.ToList();
 
     [FormComponentCommand]
@@ -81,14 +81,14 @@ public class LuceneIndexConfigurationComponent : FormComponent<LuceneIndexConfig
 
     protected override async Task ConfigureClientProperties(LuceneIndexConfigurationComponentClientProperties properties)
     {
-        var allWebsiteContentTypes = await DataClassInfoProvider
-            .GetClasses()
+        var allWebsiteContentTypes = DataClassInfoProvider.ProviderObject
+            .Get()
             .WhereEquals(nameof(DataClassInfo.ClassContentTypeType), "Website")
-            .Columns(nameof(DataClassInfo.ClassName))
-            .GetEnumerableTypedResultAsync();
+            .GetEnumerableTypedResult()
+            .Select(x => new LuceneIndexContentType(x.ClassName, x.ClassDisplayName));
 
-        properties.Value = Value ?? new();
-        properties.PossibleItems = allWebsiteContentTypes.Select(x => x.ClassName).ToList();
+        properties.Value = Value ?? [];
+        properties.PossibleContentTypeItems = allWebsiteContentTypes.ToList();
 
         await base.ConfigureClientProperties(properties);
     }
