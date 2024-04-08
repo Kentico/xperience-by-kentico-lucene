@@ -1,8 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<cms.resource>
-  <ResourceDescription>Kentico Lucene custom data</ResourceDescription>
-  <ResourceDisplayName>Kentico Lucene</ResourceDisplayName>
-  <ResourceGUID>5024b596-708a-455b-b16d-a9b06542399b</ResourceGUID>
-  <ResourceIsInDevelopment>False</ResourceIsInDevelopment>
-  <ResourceName>Kentico.Xperience.Lucene</ResourceName>
-</cms.resource>

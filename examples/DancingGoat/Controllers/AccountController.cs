@@ -180,10 +180,10 @@ namespace DancingGoat.Controllers
             }
 
             var homePageUrl = await webPageUrlRetriever.Retrieve(
-                websiteChannel.WebsiteChannelHomePage, 
-                websiteChannelContext.WebsiteChannelName, 
-                currentLanguageRetriever.Get(), 
-                websiteChannelContext.IsPreview, 
+                websiteChannel.WebsiteChannelHomePage,
+                websiteChannelContext.WebsiteChannelName,
+                currentLanguageRetriever.Get(),
+                websiteChannelContext.IsPreview,
                 cancellationToken
             );
 

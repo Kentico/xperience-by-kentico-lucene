@@ -46,7 +46,7 @@ namespace DancingGoat.ViewComponents
             var articlesSection = await articlesSectionRepository.GetArticlesSection(articlesSectionItem.WebPageGuid, languageName);
             if (articlesSection == null)
             {
-                return View("~/Components/ViewComponents/Articles/Default.cshtml", ArticlesSectionViewModel.GetViewModel(Enumerable.Empty<ArticleViewModel>(), string.Empty));
+                return View("~/Components/ViewComponents/Articles/Default.cshtml", ArticlesSectionViewModel.GetViewModel(null, Enumerable.Empty<ArticleViewModel>(), string.Empty));
             }
 
             var articlePages = await articlePageRepository.GetArticles(articlesSection.SystemFields.WebPageItemTreePath,
@@ -61,7 +61,7 @@ namespace DancingGoat.ViewComponents
 
             var url = (await urlRetriever.Retrieve(articlesSection, languageName)).RelativePath;
 
-            var viewModel = ArticlesSectionViewModel.GetViewModel(models, url);
+            var viewModel = ArticlesSectionViewModel.GetViewModel(articlesSection, models, url);
 
             return View("~/Components/ViewComponents/Articles/Default.cshtml", viewModel);
         }

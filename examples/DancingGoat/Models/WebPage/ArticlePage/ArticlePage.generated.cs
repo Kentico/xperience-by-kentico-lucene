@@ -11,6 +11,7 @@
 
 using System;
 using System.Collections.Generic;
+using CMS.ContentEngine;
 using CMS.Websites;
 
 namespace DancingGoat.Models
@@ -18,7 +19,8 @@ namespace DancingGoat.Models
 	/// <summary>
 	/// Represents a page of type <see cref="ArticlePage"/>.
 	/// </summary>
-	public partial class ArticlePage : IWebPageFieldsSource
+	[RegisterContentTypeMapping(CONTENT_TYPE_NAME)]
+	public partial class ArticlePage : IWebPageFieldsSource, ISEOFields
 	{
 		/// <summary>
 		/// Code name of the content type.
@@ -29,6 +31,7 @@ namespace DancingGoat.Models
 		/// <summary>
 		/// Represents system properties for a web page item.
 		/// </summary>
+		[SystemField]
 		public WebPageFields SystemFields { get; set; }
 
 
@@ -66,5 +69,23 @@ namespace DancingGoat.Models
 		/// ArticleRelatedArticles.
 		/// </summary>
 		public IEnumerable<WebPageRelatedItem> ArticleRelatedArticles { get; set; }
+
+
+		/// <summary>
+		/// SEOFieldsTitle.
+		/// </summary>
+		public string SEOFieldsTitle { get; set; }
+
+
+		/// <summary>
+		/// SEOFieldsDescription.
+		/// </summary>
+		public string SEOFieldsDescription { get; set; }
+
+
+		/// <summary>
+		/// SEOFieldsAllowSearchIndexing.
+		/// </summary>
+		public bool SEOFieldsAllowSearchIndexing { get; set; }
 	}
 }

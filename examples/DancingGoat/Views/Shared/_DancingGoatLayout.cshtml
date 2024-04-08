@@ -1,24 +1,26 @@
-@using CMS.Websites.Routing;
-@using CMS.Websites;
-@using Kentico.Content.Web.Mvc.Routing;
+@using CMS.Websites.Routing
+@using CMS.Websites
+@using Kentico.Activities.Web.Mvc
+@using Kentico.Content.Web.Mvc.PageBuilder
+@using Kentico.Content.Web.Mvc.Routing
 @using Kentico.Forms.Web.Mvc.Widgets
 @using Kentico.Xperience.Admin.Base.Forms
 @using DancingGoat.Controllers
-@using DancingGoat.Models;
+@using DancingGoat.Models
 @using DancingGoat.ViewComponents
-@using Kentico.Activities.Web.Mvc
 
-@inject HomePageRepository homepageRepository;
 @inject IWebPageUrlRetriever webPageUrlRetriever;
 @inject IPreferredLanguageRetriever currentLanguageRetriever;
 @inject IWebsiteChannelContext websiteChannelContext;
+
+@model object;
 
 @{
     const string ENGLISH = "English";
     const string ESPANOL = "Español";
 
     var language = currentLanguageRetriever.Get();
-    
+
     var homePageUrl = (await webPageUrlRetriever.Retrieve(DancingGoatConstants.HOME_PAGE_PATH, websiteChannelContext.WebsiteChannelName, language)).RelativePath;
 
     var routeDataLanguage = Convert.ToString(@ViewContext.RouteData.Values[WebPageRoutingOptions.LANGUAGE_ROUTE_VALUE_KEY]);
@@ -29,6 +31,14 @@
                 SelectedForm = new List<ObjectRelatedItem> { new() { ObjectCodeName = "DancingGoatSubscription" } },
                 AfterSubmitDisplayText = HtmlLocalizer["Thank you for subscribing! Now we just need to confirm your email address - please click the link in the email we sent you. Thanks!"].Value
             };
+
+    string title = ViewBag.Title;
+    if (title == null)
+    {
+        title = SEOSchemaModelDataRetriever.GetTitleValue(Model);
+    }
+
+    string description = SEOSchemaModelDataRetriever.GetDescriptionValue(Model);
 }
 
 <!DOCTYPE html>
@@ -37,9 +47,17 @@
 <head id="head">
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta charset="UTF-8" />
+    @if (!SEOSchemaModelDataRetriever.GetSearchIndexing(Model))
+    {
+        <meta name="robots" content="noindex,nofollow" />
+    }
+    @if (!string.IsNullOrEmpty(description))
+    {
+        <meta name="description" content="@description">
+    }
     <link rel="icon" href="~/content/images/favicon.svg" type="image/svg+xml" />
     <link href="~/Content/Styles/Site.css" rel="stylesheet" type="text/css" />
-    <title>@ViewBag.Title - Dancing Goat</title>
+    <title>@title</title>
     @RenderSection("styles", required: false)
     @Html.Kentico().ActivityLoggingScriptV2()
     <page-builder-styles />

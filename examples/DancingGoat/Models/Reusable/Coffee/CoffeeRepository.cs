@@ -14,9 +14,10 @@ namespace DancingGoat.Models
     /// <summary>
     /// Represents a collection of coffees.
     /// </summary>
-    public partial class CoffeeRepository : ContentRepositoryBase
+    public class CoffeeRepository : ContentRepositoryBase
     {
         private readonly ILinkedItemsDependencyRetriever linkedItemsDependencyRetriever;
+
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CoffeeRepository"/> class that returns coffees.
@@ -31,23 +32,24 @@ namespace DancingGoat.Models
         /// <summary>
         /// Returns an enumerable collection of <see cref="Coffee"/> based on a given collection of content item guids.
         /// </summary>
-        public async Task<IEnumerable<Coffee>> GetCoffees(ICollection<Guid> coffeeGuids, CancellationToken cancellationToken = default)
+        public async Task<IEnumerable<Coffee>> GetCoffees(ICollection<Guid> coffeeGuids, string languageName, CancellationToken cancellationToken = default)
         {
-            var queryBuilder = GetQueryBuilder(coffeeGuids);
+            var queryBuilder = GetQueryBuilder(coffeeGuids, languageName);
 
-            var cacheSettings = new CacheSettings(5, WebsiteChannelContext.WebsiteChannelName, nameof(CoffeeRepository), nameof(GetCoffees), coffeeGuids.Select(guid => guid.ToString()).Join("|"));
+            var cacheSettings = new CacheSettings(5, WebsiteChannelContext.WebsiteChannelName, nameof(CoffeeRepository), nameof(GetCoffees), languageName, coffeeGuids.Select(guid => guid.ToString()).Join("|"));
 
             return await GetCachedQueryResult<Coffee>(queryBuilder, null, cacheSettings, (coffees, cancellationToken) => GetDependencyCacheKeys(coffees, coffeeGuids), cancellationToken);
         }
 
 
-        private static ContentItemQueryBuilder GetQueryBuilder(ICollection<Guid> coffeeGuids)
+        private static ContentItemQueryBuilder GetQueryBuilder(ICollection<Guid> coffeeGuids, string languageName)
         {
             return new ContentItemQueryBuilder()
                     .ForContentType(Coffee.CONTENT_TYPE_NAME,
                         config => config
                             .WithLinkedItems(1)
-                            .Where(where => where.WhereIn(nameof(IContentQueryDataContainer.ContentItemGUID), coffeeGuids)));
+                            .Where(where => where.WhereIn(nameof(IContentQueryDataContainer.ContentItemGUID), coffeeGuids)))
+                    .InLanguage(languageName);
         }
 
 

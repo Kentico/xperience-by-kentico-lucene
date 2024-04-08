@@ -1,4 +1,5 @@
 ﻿using CMS.ContactManagement;
+using CMS.DataEngine;
 using CMS.DataProtection;
 using CMS.Helpers;
 
@@ -13,10 +14,10 @@ namespace DancingGoat.Controllers
     {
         private readonly ICurrentCookieLevelProvider cookieLevelProvider;
         private readonly IConsentAgreementService consentAgreementService;
-        private readonly IConsentInfoProvider consentInfoProvider;
+        private readonly IInfoProvider<ConsentInfo> consentInfoProvider;
 
 
-        public ConsentController(ICurrentCookieLevelProvider cookieLevelProvider, IConsentAgreementService consentAgreementService, IConsentInfoProvider consentInfoProvider)
+        public ConsentController(ICurrentCookieLevelProvider cookieLevelProvider, IConsentAgreementService consentAgreementService, IInfoProvider<ConsentInfo> consentInfoProvider)
         {
             this.cookieLevelProvider = cookieLevelProvider;
             this.consentAgreementService = consentAgreementService;

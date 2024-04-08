@@ -18,7 +18,8 @@ namespace DancingGoat.Models
 	/// <summary>
 	/// Represents a content item of type <see cref="Cafe"/>.
 	/// </summary>
-	public partial class Cafe
+	[RegisterContentTypeMapping(CONTENT_TYPE_NAME)]
+	public partial class Cafe : IContentItemFieldsSource
 	{
 		/// <summary>
 		/// Code name of the content type.
@@ -29,6 +30,7 @@ namespace DancingGoat.Models
 		/// <summary>
 		/// Represents system properties for a content item.
 		/// </summary>
+		[SystemField]
 		public ContentItemFields SystemFields { get; set; }
 
 

@@ -4,9 +4,9 @@ using CMS.Modules;
 
 namespace Kentico.Xperience.Lucene.Admin;
 
-internal class LuceneModuleInstaller(IResourceInfoProvider resourceProvider)
+internal class LuceneModuleInstaller(IInfoProvider<ResourceInfo> resourceProvider)
 {
-    private readonly IResourceInfoProvider resourceProvider = resourceProvider;
+    private readonly IInfoProvider<ResourceInfo> resourceProvider = resourceProvider;
 
     public void Install()
     {
