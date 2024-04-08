@@ -16,7 +16,7 @@ Fill out the search index form, populating the fields with your custom values.
 - Indexed Languages - the index will only include content in the selected languages
 - Channel Name - the index will only be triggered by web page item creation or modication in the selected website channel
 - Indexing Strategy - the indexing strategy specified in code during dependency registration of a custom indexing strategies.
-  - If you want the default strategy to appear here, register it explicitly in `IServiceCollection.AddLucene()` method
+  - If you want the default strategy to appear here, register it explicitly in `IServiceCollection.AddKenticoLucene()` method
 
 Now, configure the web page paths and content types that the search index depends on by clicking the Add New Path button
 or clicking an existing path in the table at the top of the index configuration form.

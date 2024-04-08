@@ -42,12 +42,12 @@ dotnet add package Kentico.Xperience.Lucene
    // Program.cs
 
    // Registers all services and uses default indexing behavior (no data is indexed)
-   services.AddLucene();
+   services.AddKenticoLucene();
 
    // or
 
    // Registers all services and enables custom indexing behavior
-   services.AddLucene(builder =>
+   services.AddKenticoLucene(builder =>
       builder
          .RegisterStrategy<GlobalSearchIndexingStrategy>("DefaultStrategy")
          .RegisterStrategy<ArticlesSearchIndexingStrategy>("ArticlesStrategy"));

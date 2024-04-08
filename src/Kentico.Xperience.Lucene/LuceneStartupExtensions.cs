@@ -20,6 +20,7 @@ public static class LuceneStartupExtensions
         return serviceCollection;
     }
 
+
     /// <summary>
     /// Adds Lucene services and custom module to application with customized options provided by the <see cref="ILuceneBuilder"/>
     /// in the <paramref name="configure" /> action.
@@ -44,45 +45,6 @@ public static class LuceneStartupExtensions
         return serviceCollection;
     }
 
-    /// <summary>
-    /// Adds Lucene services and custom module to application using the <see cref="DefaultLuceneIndexingStrategy"/> for all indexes
-    /// </summary>
-    /// <param name="serviceCollection"></param>
-    /// <returns></returns>
-    [Obsolete("Will be removed in next major version. Use .AddKenticoLucene() instead.")]
-    public static IServiceCollection AddLucene(this IServiceCollection serviceCollection)
-    {
-        serviceCollection.AddLuceneServicesInternal();
-
-        StrategyStorage.AddStrategy<DefaultLuceneIndexingStrategy>("Default");
-
-        return serviceCollection;
-    }
-
-    /// <summary>
-    /// Adds Lucene services and custom module to application with customized options provided by the <see cref="ILuceneBuilder"/>
-    /// in the <paramref name="configure" /> action.
-    /// </summary>
-    /// <param name="serviceCollection"></param>
-    /// <param name="configure"></param>
-    /// <returns></returns>
-    [Obsolete("Will be removed in next major version. Use .AddKenticoLucene() instead.")]
-    public static IServiceCollection AddLucene(this IServiceCollection serviceCollection, Action<ILuceneBuilder> configure)
-    {
-        serviceCollection.AddLuceneServicesInternal();
-
-        var builder = new LuceneBuilder(serviceCollection);
-
-        configure(builder);
-
-        if (builder.IncludeDefaultStrategy)
-        {
-            serviceCollection.AddTransient<DefaultLuceneIndexingStrategy>();
-            builder.RegisterStrategy<DefaultLuceneIndexingStrategy>("Default");
-        }
-
-        return serviceCollection;
-    }
 
     private static IServiceCollection AddLuceneServicesInternal(this IServiceCollection services) =>
         services
@@ -97,6 +59,7 @@ public static class LuceneStartupExtensions
             .AddTransient<DefaultLuceneIndexingStrategy>();
 }
 
+
 public interface ILuceneBuilder
 {
     /// <summary>
@@ -110,6 +73,7 @@ public interface ILuceneBuilder
     /// <returns></returns>
     ILuceneBuilder RegisterStrategy<TStrategy>(string strategyName) where TStrategy : class, ILuceneIndexingStrategy;
 }
+
 
 internal class LuceneBuilder : ILuceneBuilder
 {

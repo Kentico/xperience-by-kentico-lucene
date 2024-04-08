@@ -334,12 +334,12 @@ Finally, add this library to the application services, registering your custom `
 // Program.cs
 
 // Registers all services and uses default indexing behavior (no custom data will be indexed)
-services.AddLucene();
+services.AddKenticoLucene();
 
 // or
 
 // Registers all services and enables custom indexing behavior
-services.AddLucene(builder =>
+services.AddKenticoLucene(builder =>
     builder
         .RegisterStrategy<ExampleSearchIndexingStrategy>("ExampleStrategy"));
 ```
