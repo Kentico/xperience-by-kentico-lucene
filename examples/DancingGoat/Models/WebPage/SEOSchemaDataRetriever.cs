@@ -82,7 +82,6 @@ namespace DancingGoat.Models
 
 
         /// <summary>
-        /// Returns value of <see cref="ISEOFields.SEOAllowSearchIndexing"/> field from the given model."/>
         /// </summary>
         /// <remarks>
         /// View model must satisfy following requirements:<br/>

@@ -27,7 +27,6 @@ namespace DancingGoat.Models
         /// <summary>
         /// Initializes a new instance of the <see cref="ContentRepositoryBase"/> class.
         /// </summary>
-        /// <param name="pageRetriever">The pages retriever.</param>
         /// <param name="websiteChannelContext">Website channel context.</param>
         /// <param name="executor">Content query executor.</param>
         /// <param name="mapper">Mapper to provide mapping from data container to model.</param>
