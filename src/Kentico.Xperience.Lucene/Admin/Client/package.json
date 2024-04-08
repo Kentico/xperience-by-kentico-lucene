@@ -16,7 +16,9 @@
     "@kentico/xperience-admin-base": "28.0.0",
     "@kentico/xperience-admin-components": "28.0.0",
     "react": "18.2.0",
-    "react-dom": "18.2.0"
+    "react-dom": "18.2.0",
+    "react-icons": "^5.0.1",
+    "react-tooltip": "^5.26.3"
   },
   "devDependencies": {
     "@babel/core": "7.23.9",

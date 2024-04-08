@@ -25,8 +25,7 @@ or clicking an existing path in the table at the top of the index configuration 
 
 - Included Path - can be an exact relative path of a web page item, (ex: `/path/to/my/page`), or a wildcard path (ex: `/parent-path/%`)
   - To determine a web page path, select the web page in the website channel page tree, then view the "Current URL" in the Content tab of the web page. The path will be the relative path excluding the domain
-- Available content types - these are the web page content types that can be selected for the path.
-- Included ContentType items - each content type in the list enables modification to web pages of that type to trigger an event that your custom indexing strategy can process. If the list is empty, no web pages will trigger these events. The items should be separated by new lines.
+- Included ContentType items - these are the web page content types that can be selected for the path. Each content type in the multi-select enables modification to web pages of that type to trigger an event that your custom indexing strategy can process. If no option is selected, no web pages will trigger these events.
 
 ## Indexing reusable content items
 
