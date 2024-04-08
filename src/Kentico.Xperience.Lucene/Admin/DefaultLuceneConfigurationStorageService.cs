@@ -1,4 +1,5 @@
 ﻿using System.Text;
+
 using CMS.DataEngine;
 
 namespace Kentico.Xperience.Lucene.Admin;
@@ -88,11 +89,11 @@ internal class DefaultLuceneConfigurationStorageService : ILuceneConfigurationSt
 
                 if (path.ContentTypes is not null)
                 {
-                    foreach (string? contentType in path.ContentTypes)
+                    foreach (var contentType in path.ContentTypes)
                     {
                         var contentInfo = new LuceneContentTypeItemInfo()
                         {
-                            LuceneContentTypeItemContentTypeName = contentType,
+                            LuceneContentTypeItemContentTypeName = contentType.ContentTypeName,
                             LuceneContentTypeItemIncludedPathItemId = pathInfo.LuceneIncludedPathItemId,
                             LuceneContentTypeItemIndexItemId = newInfo.LuceneIndexItemId
                         };
@@ -114,7 +115,22 @@ internal class DefaultLuceneConfigurationStorageService : ILuceneConfigurationSt
         }
 
         var paths = pathProvider.Get().WhereEquals(nameof(LuceneIncludedPathItemInfo.LuceneIncludedPathItemIndexItemId), indexInfo.LuceneIndexItemId).GetEnumerableTypedResult();
-        var contentTypes = contentTypeProvider.Get().WhereEquals(nameof(LuceneContentTypeItemInfo.LuceneContentTypeItemIndexItemId), indexInfo.LuceneIndexItemId).GetEnumerableTypedResult();
+
+        var contentTypesInfoItems = contentTypeProvider
+         .Get()
+         .WhereEquals(nameof(LuceneContentTypeItemInfo.LuceneContentTypeItemIndexItemId), indexInfo.LuceneIndexItemId)
+         .GetEnumerableTypedResult();
+
+        var contentTypes = DataClassInfoProvider.ProviderObject
+            .Get()
+            .WhereIn(
+                nameof(DataClassInfo.ClassName),
+                contentTypesInfoItems
+                    .Select(x => x.LuceneContentTypeItemContentTypeName)
+                    .ToArray()
+            ).GetEnumerableTypedResult()
+            .Select(x => new LuceneIndexContentType(x.ClassName, x.ClassDisplayName));
+
         var languages = languageProvider.Get().WhereEquals(nameof(LuceneIndexLanguageItemInfo.LuceneIndexLanguageItemIndexItemId), indexInfo.LuceneIndexItemId).GetEnumerableTypedResult();
 
         return new LuceneConfigurationModel(indexInfo, languages, paths, contentTypes);
@@ -129,7 +145,22 @@ internal class DefaultLuceneConfigurationStorageService : ILuceneConfigurationSt
         }
 
         var paths = pathProvider.Get().WhereEquals(nameof(LuceneIncludedPathItemInfo.LuceneIncludedPathItemIndexItemId), indexInfo.LuceneIndexItemId).GetEnumerableTypedResult();
-        var contentTypes = contentTypeProvider.Get().WhereEquals(nameof(LuceneContentTypeItemInfo.LuceneContentTypeItemIndexItemId), indexInfo.LuceneIndexItemId).GetEnumerableTypedResult();
+
+        var contentTypesInfoItems = contentTypeProvider
+         .Get()
+         .WhereEquals(nameof(LuceneContentTypeItemInfo.LuceneContentTypeItemIndexItemId), indexInfo.LuceneIndexItemId)
+         .GetEnumerableTypedResult();
+
+        var contentTypes = DataClassInfoProvider.ProviderObject
+            .Get()
+            .WhereIn(
+                nameof(DataClassInfo.ClassName),
+                contentTypesInfoItems
+                    .Select(x => x.LuceneContentTypeItemContentTypeName)
+                    .ToArray()
+            ).GetEnumerableTypedResult()
+            .Select(x => new LuceneIndexContentType(x.ClassName, x.ClassDisplayName));
+
         var languages = languageProvider.Get().WhereEquals(nameof(LuceneIndexLanguageItemInfo.LuceneIndexLanguageItemIndexItemId), indexInfo.LuceneIndexItemId).GetEnumerableTypedResult();
 
         return new LuceneConfigurationModel(indexInfo, languages, paths, contentTypes);
@@ -148,7 +179,21 @@ internal class DefaultLuceneConfigurationStorageService : ILuceneConfigurationSt
         }
 
         var paths = pathProvider.Get().ToList();
-        var contentTypes = contentTypeProvider.Get().ToList();
+
+        var contentTypesInfoItems = contentTypeProvider
+         .Get()
+         .GetEnumerableTypedResult();
+
+        var contentTypes = DataClassInfoProvider.ProviderObject
+            .Get()
+            .WhereIn(
+                nameof(DataClassInfo.ClassName),
+                contentTypesInfoItems
+                    .Select(x => x.LuceneContentTypeItemContentTypeName)
+                    .ToArray()
+            ).GetEnumerableTypedResult()
+            .Select(x => new LuceneIndexContentType(x.ClassName, x.ClassDisplayName));
+
         var languages = languageProvider.Get().ToList();
 
         return indexInfos.Select(index => new LuceneConfigurationModel(index, languages, paths, contentTypes));
@@ -206,11 +251,11 @@ internal class DefaultLuceneConfigurationStorageService : ILuceneConfigurationSt
 
                 if (path.ContentTypes != null)
                 {
-                    foreach (string? contentType in path.ContentTypes)
+                    foreach (var contentType in path.ContentTypes)
                     {
                         var contentInfo = new LuceneContentTypeItemInfo()
                         {
-                            LuceneContentTypeItemContentTypeName = contentType ?? "",
+                            LuceneContentTypeItemContentTypeName = contentType.ContentTypeName ?? "",
                             LuceneContentTypeItemIncludedPathItemId = pathInfo.LuceneIncludedPathItemId,
                             LuceneContentTypeItemIndexItemId = indexInfo.LuceneIndexItemId,
                         };

@@ -1,4 +1,4 @@
-using DancingGoat;
+﻿using DancingGoat;
 using DancingGoat.Models;
 
 using Kentico.Activities.Web.Mvc;
@@ -8,23 +8,16 @@ using Kentico.OnlineMarketing.Web.Mvc;
 using Kentico.PageBuilder.Web.Mvc;
 using Kentico.Web.Mvc;
 
-using Kentico.Xperience.Cloud;
+
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Abstractions;
 using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.AspNetCore.Mvc;
-using DancingGoat.Search;
+
 
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddXperienceCloudApplicationInsights(builder.Configuration);
-
-if (builder.Environment.IsQa() || builder.Environment.IsUat() || builder.Environment.IsProduction())
-{
-    builder.Services.AddKenticoCloud(builder.Configuration);
-    builder.Services.AddXperienceCloudSendGrid(builder.Configuration);
-}
 
 builder.Services.AddKentico(features =>
 {
@@ -52,8 +45,9 @@ builder.Services.AddLocalization()
     .AddControllersWithViews()
     .AddViewLocalization()
     .AddDataAnnotationsLocalization(options =>
-        options.DataAnnotationLocalizerProvider = (type, factory) => factory.Create(typeof(SharedResources))
-    );
+    {
+        options.DataAnnotationLocalizerProvider = (type, factory) => factory.Create(typeof(SharedResources));
+    });
 
 builder.Services.AddDancingGoatServices();
 
@@ -71,10 +65,6 @@ app.UseCookiePolicy();
 
 app.UseAuthentication();
 
-if (builder.Environment.IsQa() || builder.Environment.IsUat() || builder.Environment.IsProduction())
-{
-    app.UseKenticoCloud();
-}
 
 app.UseKentico();
 
@@ -108,8 +98,6 @@ app.MapControllerRoute(
     }
 );
 
-app.MapControllers();
-
 app.Run();
 
 
@@ -140,7 +128,7 @@ static void ConfigureMembershipServices(IServiceCollection services)
         {
             var factory = ctx.HttpContext.RequestServices.GetRequiredService<IUrlHelperFactory>();
             var urlHelper = factory.GetUrlHelper(new ActionContext(ctx.HttpContext, new RouteData(ctx.HttpContext.Request.RouteValues), new ActionDescriptor()));
-            string url = urlHelper.Action("Login", "Account") + new Uri(ctx.RedirectUri).Query;
+            var url = urlHelper.Action("Login", "Account") + new Uri(ctx.RedirectUri).Query;
 
             ctx.Response.Redirect(url);
 

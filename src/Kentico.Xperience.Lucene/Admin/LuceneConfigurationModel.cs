@@ -37,7 +37,7 @@ public class LuceneConfigurationModel
         LuceneIndexItemInfo index,
         IEnumerable<LuceneIndexLanguageItemInfo> indexLanguages,
         IEnumerable<LuceneIncludedPathItemInfo> indexPaths,
-        IEnumerable<LuceneContentTypeItemInfo> contentTypes
+        IEnumerable<LuceneIndexContentType> contentTypes
     )
     {
         Id = index.LuceneIndexItemId;

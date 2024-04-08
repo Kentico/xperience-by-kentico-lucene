@@ -11,7 +11,7 @@ namespace DancingGoat.ViewComponents
     /// <summary>
     /// Cafe card section view component.
     /// </summary>
-    public class CafeCardSectionViewComponent: ViewComponent
+    public class CafeCardSectionViewComponent : ViewComponent
     {
         public ViewViewComponentResult Invoke(IEnumerable<CafeViewModel> cafes)
         {

@@ -18,19 +18,24 @@ import React, { type CSSProperties, useEffect, useState } from 'react';
 import { IoCheckmarkSharp } from 'react-icons/io5';
 import { MdOutlineCancel } from 'react-icons/md';
 import { RxCross1 } from 'react-icons/rx';
-import Select, { type ActionMeta, type CSSObjectWithLabel, type ClearIndicatorProps, type GroupBase, type MultiValue, type MultiValueRemoveProps, type OptionProps, type StylesConfig, components } from 'react-select';
+import Select, { type CSSObjectWithLabel, type ClearIndicatorProps, type GroupBase, type MultiValue, type MultiValueRemoveProps, type OptionProps, type StylesConfig, components } from 'react-select';
 import { Tooltip } from 'react-tooltip';
+
+export interface LuceneIndexContentType {
+    contentTypeName: string;
+    contentTypeDisplayName: string;
+}
 
 export interface IncludedPath {
     aliasPath: string | null;
-    contentTypes: string[];
+    contentTypes: LuceneIndexContentType[];
     identifier: string | null;
 }
 
 export interface LuceneIndexConfigurationComponentClientProperties
     extends FormComponentProps {
     value: IncludedPath[];
-    possibleItems: string[];
+    possibleContentTypeItems: LuceneIndexContentType[] | null;
 }
 
 interface OptionType {
@@ -169,8 +174,8 @@ export const LuceneIndexConfigurationFormComponent = (
 
         const contentTypes: OptionType[] = props.value.find((x) => x.aliasPath === identifier)?.contentTypes.map(x => {
             const option: OptionType = {
-                value: x,
-                label: x
+                value: x.contentTypeName,
+                label: x.contentTypeDisplayName
             };
             return option;
         }) ?? [];
@@ -196,7 +201,14 @@ export const LuceneIndexConfigurationFormComponent = (
                     const newPath: IncludedPath = {
                         aliasPath: path,
                         identifier: null,
-                        contentTypes: contentTypesValue.map(x => x.value),
+                        contentTypes: contentTypesValue.map(x => {
+                            const contentType: LuceneIndexContentType = {
+                                contentTypeDisplayName: x.label,
+                                contentTypeName: x.value
+                            };
+
+                            return contentType;
+                        })
                     };
                     props.value.push(newPath);
                     setRows(prepareRows(props.value));
@@ -224,7 +236,14 @@ export const LuceneIndexConfigurationFormComponent = (
             const updatedPath: IncludedPath = {
                 aliasPath: path,
                 identifier: props.value[propPathIndex].identifier,
-                contentTypes: contentTypesValue.map(x => x.value),
+                contentTypes: contentTypesValue.map(x => {
+                    const contentType: LuceneIndexContentType = {
+                        contentTypeDisplayName: x.label,
+                        contentTypeName: x.value
+                    };
+
+                    return contentType;
+                })
             };
 
             props.value[propPathIndex] = updatedPath;
@@ -247,17 +266,15 @@ export const LuceneIndexConfigurationFormComponent = (
         setEditedIdentifier('');
         setShowAddNewPath(false);
     };
-    const options: OptionType[] = props.possibleItems.map(x => {
+    const options: OptionType[] = props.possibleContentTypeItems?.map(x => {
         const option: OptionType = {
-            value: x,
-            label: x
+            value: x.contentTypeName,
+            label: x.contentTypeDisplayName
         };
         return option;
-    });
-    const selectContentTypes = (newValue: MultiValue<OptionType>, action: ActionMeta<OptionType>): void => {
-        if (action.action === 'select-option') {
-            setContentTypesValue(newValue as OptionType[]);
-        }
+    }) ?? [];
+    const selectContentTypes = (newValue: MultiValue<OptionType>): void => {
+        setContentTypesValue(newValue as OptionType[]);
     }
 
     /* eslint-disable @typescript-eslint/naming-convention */

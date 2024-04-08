@@ -166,9 +166,9 @@ internal class DefaultLuceneClient : ILuceneClient
 
                 if (includedPathAttribute.ContentTypes != null && includedPathAttribute.ContentTypes.Count > 0)
                 {
-                    foreach (string contentType in includedPathAttribute.ContentTypes)
+                    foreach (var contentType in includedPathAttribute.ContentTypes)
                     {
-                        queryBuilder.ForContentType(contentType, config => config.ForWebsite(luceneIndex.WebSiteChannelName, includeUrlPath: true, pathMatch: pathMatch));
+                        queryBuilder.ForContentType(contentType.ContentTypeName, config => config.ForWebsite(luceneIndex.WebSiteChannelName, includeUrlPath: true, pathMatch: pathMatch));
                     }
                 }
                 queryBuilder.InLanguage(language);

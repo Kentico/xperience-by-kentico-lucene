@@ -1,8 +1,21 @@
 ﻿@using Kentico.Activities.Web.Mvc
 @using Kentico.OnlineMarketing.Web.Mvc
+@using DancingGoat.Models
+@using DancingGoat.PageTemplates
+
+@model TemplateViewModel<LandingPageSingleColumnProperties>
 
 @{
     Layout = null;
+
+    object templateModel = Model.GetTemplateModel<object>();
+    string title = ViewBag.Title;
+    if (title == null)
+    {
+        title = SEOSchemaModelDataRetriever.GetTitleValue(templateModel);
+    }
+    
+    string description = SEOSchemaModelDataRetriever.GetDescriptionValue(templateModel);
 }
 <!DOCTYPE html>
 
@@ -10,9 +23,17 @@
 <head id="head">
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta charset="UTF-8" />
+    @if (!SEOSchemaModelDataRetriever.GetSearchIndexing(Model.GetTemplateModel<object>()))
+    {
+        <meta name="robots" content="noindex,nofollow" />
+    }
+    @if (!string.IsNullOrEmpty(description))
+    {
+        <meta name="description" content="@description">
+    }
     <link rel="icon" href="~/content/images/favicon.svg" type="image/svg+xml" />
     <link href="~/Content/Styles/Landing-page.css" rel="stylesheet" type="text/css" />
-    <title>@ViewBag.Title - Dancing Goat</title>
+    <title>@title</title>
     <page-builder-styles />
 </head>
 <body>

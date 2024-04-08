@@ -1,0 +1,15 @@
+﻿@using DancingGoat.Models
+
+@model ProductListItemViewModel
+
+<article class="product-tile">
+    <a href="@Model.Url">
+        <h1 class="product-heading">@Model.Name</h1>
+        <figure class="product-tile-image">
+            @if (!string.IsNullOrEmpty(Model.ImagePath))
+            {
+                <img src="@Model.ImagePath" alt="@Model.Name" title="@Model.Name" />
+            }
+        </figure>
+    </a>
+</article>

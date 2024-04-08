@@ -1,6 +1,4 @@
-﻿@using Kentico.Content.Web.Mvc.PageBuilder
-
-@using DancingGoat.PageTemplates
+﻿@using DancingGoat.PageTemplates
 @using DancingGoat.Models
 
 @model TemplateViewModel
@@ -8,8 +6,6 @@
 @{
     Layout = "~/Views/Shared/_DancingGoatLayout.cshtml";
     var viewModel = Model.GetTemplateModel<ArticleDetailViewModel>();
-
-    ViewBag.Title = viewModel.Title;
 
     var hasRelatedArticles = viewModel.RelatedArticles.Any();
 }

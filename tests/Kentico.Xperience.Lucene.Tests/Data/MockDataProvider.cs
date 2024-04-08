@@ -1,4 +1,5 @@
-﻿using DancingGoat.Models;
+﻿using CMS.DataEngine;
+using DancingGoat.Models;
 using Kentico.Xperience.Lucene.Admin;
 using Kentico.Xperience.Lucene.Indexing;
 
@@ -21,7 +22,14 @@ internal static class MockDataProvider
 
     public static LuceneIndexIncludedPath Path => new("/%")
     {
-        ContentTypes = [ArticlePage.CONTENT_TYPE_NAME]
+        ContentTypes = [new LuceneIndexContentType(ArticlePage.CONTENT_TYPE_NAME,
+            DataClassInfoProvider.ProviderObject
+                .Get()
+                .WhereEquals(nameof(DataClassInfo.ClassName), ArticlePage.CONTENT_TYPE_NAME)
+                .FirstOrDefault()?
+                .ClassDisplayName ?? ""
+                )
+            ]
     };
 
 
@@ -30,8 +38,8 @@ internal static class MockDataProvider
         {
             IndexName = DefaultIndex,
             ChannelName = DefaultChannel,
-            LanguageNames = new List<string>() { EnglishLanguageName, CzechLanguageName },
-            Paths = new List<LuceneIndexIncludedPath>() { Path }
+            LanguageNames = [EnglishLanguageName, CzechLanguageName],
+            Paths = [Path]
         },
         []
     );
@@ -49,8 +57,8 @@ internal static class MockDataProvider
             Id = id,
             IndexName = indexName,
             ChannelName = DefaultChannel,
-            LanguageNames = new List<string>() { EnglishLanguageName, CzechLanguageName },
-            Paths = new List<LuceneIndexIncludedPath>() { Path }
+            LanguageNames = [EnglishLanguageName, CzechLanguageName],
+            Paths = [Path]
         },
         []
     );

@@ -13,12 +13,12 @@
             }
 
             return new ContactViewModel(
-                contact.ContactName, 
-                contact.ContactStreet, 
-                contact.ContactCity, 
-                contact.ContactCountry, 
-                contact.ContactZipCode, 
-                contact.ContactPhone, 
+                contact.ContactName,
+                contact.ContactStreet,
+                contact.ContactCity,
+                contact.ContactCountry,
+                contact.ContactZipCode,
+                contact.ContactPhone,
                 contact.ContactEmail
             );
         }

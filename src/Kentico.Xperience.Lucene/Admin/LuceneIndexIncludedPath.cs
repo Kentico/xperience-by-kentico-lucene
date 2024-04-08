@@ -13,7 +13,7 @@ public class LuceneIndexIncludedPath
     /// <summary>
     /// A list of content types under the specified <see cref="AliasPath"/> that will be indexed.
     /// </summary>
-    public List<string> ContentTypes { get; set; } = new();
+    public List<LuceneIndexContentType> ContentTypes { get; set; } = [];
 
     /// <summary>
     /// The internal identifier of the included path.
@@ -28,10 +28,10 @@ public class LuceneIndexIncludedPath
     /// </summary>
     /// <param name="indexPath"></param>
     /// <param name="contentTypes"></param>
-    public LuceneIndexIncludedPath(LuceneIncludedPathItemInfo indexPath, IEnumerable<LuceneContentTypeItemInfo> contentTypes)
+    public LuceneIndexIncludedPath(LuceneIncludedPathItemInfo indexPath, IEnumerable<LuceneIndexContentType> contentTypes)
     {
         AliasPath = indexPath.LuceneIncludedPathItemAliasPath;
-        ContentTypes = contentTypes.Where(y => indexPath.LuceneIncludedPathItemId == y.LuceneContentTypeItemIncludedPathItemId).Select(y => y.LuceneContentTypeItemContentTypeName).ToList();
+        ContentTypes = contentTypes.ToList();
         Identifier = indexPath.LuceneIncludedPathItemId.ToString();
     }
 }

@@ -40,8 +40,8 @@ namespace DancingGoat.AdminComponents
 
         private readonly IFormBuilderConfigurationSerializer formBuilderConfigurationSerializer;
         private readonly IEventLogService eventLogService;
-        private readonly IConsentInfoProvider consentInfoProvider;
-        private readonly IBizFormInfoProvider bizFormInfoProvider;
+        private readonly IInfoProvider<ConsentInfo> consentInfoProvider;
+        private readonly IInfoProvider<BizFormInfo> bizFormInfoProvider;
         private readonly IContactGroupInfoProvider contactGroupInfoProvider;
         private readonly ISettingsKeyInfoProvider settingsKeyInfoProvider;
         private readonly IInfoProvider<WebsiteChannelInfo> websiteChannelInfoProvider;
@@ -60,8 +60,8 @@ namespace DancingGoat.AdminComponents
         public SampleDataGeneratorApplication(
             IFormBuilderConfigurationSerializer formBuilderConfigurationSerializer,
             IEventLogService eventLogService,
-            IConsentInfoProvider consentInfoProvider,
-            IBizFormInfoProvider bizFormInfoProvider,
+            IInfoProvider<ConsentInfo> consentInfoProvider,
+            IInfoProvider<BizFormInfo> bizFormInfoProvider,
             IContactGroupInfoProvider contactGroupInfoProvider,
             ISettingsKeyInfoProvider settingsKeyInfoProvider,
             IInfoProvider<WebsiteChannelInfo> websiteChannelInfoProvider)
@@ -141,7 +141,8 @@ namespace DancingGoat.AdminComponents
                     new Kentico.Xperience.Admin.Base.Action(ActionType.Command)
                     {
                         Label = "Generate",
-                        Parameter = nameof(GenerateGdprSampleData)
+                        Parameter = nameof(GenerateGdprSampleData),
+                        ButtonColor = ButtonColor.Secondary
                     }
                 },
                 Components = new List<IOverviewCardComponent>()

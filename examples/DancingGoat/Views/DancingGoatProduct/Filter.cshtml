@@ -1,0 +1,15 @@
+﻿@using DancingGoat.Models
+
+@model Dictionary<string, TaxonomyViewModel>
+
+<form asp-controller="DancingGoatProduct" asp-action="Filter" autocomplete="off">
+    @Html.Kentico().PageData()
+
+    @foreach (var key in Model.Keys)
+    {
+        <h4>@HtmlLocalizer[Model[key].Name]</h4>
+        @Html.HiddenFor(m => Model[key].Name)
+        @Html.HiddenFor(m => Model[key].CodeName)
+        @Html.EditorFor(model => model[key].Tags)
+    }
+</form>

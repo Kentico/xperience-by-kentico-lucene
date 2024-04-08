@@ -1,8 +1,10 @@
 ﻿using System.Collections.Generic;
 
+using CMS.Websites;
+
 namespace DancingGoat.Models
 {
-    public class ContactsIndexViewModel
+    public class ContactsIndexViewModel : IWebPageBasedViewModel
     {
         /// <summary>
         /// The company contact data.
@@ -14,5 +16,9 @@ namespace DancingGoat.Models
         /// The company cafes data.
         /// </summary>
         public List<CafeViewModel> CompanyCafes { get; set; }
+
+
+        /// <inheritdoc/>
+        public IWebPageFieldsSource WebPage { get; init; }
     }
 }

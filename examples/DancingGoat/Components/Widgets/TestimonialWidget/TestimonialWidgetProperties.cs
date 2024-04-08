@@ -12,7 +12,7 @@ namespace DancingGoat.Widgets
         /// </summary>
         public string QuotationText { get; set; }
 
-        
+
         /// <summary>
         /// Author text.
         /// </summary>

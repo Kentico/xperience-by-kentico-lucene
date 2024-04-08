@@ -1,4 +1,5 @@
-﻿using CMS.DataProtection;
+﻿using CMS.DataEngine;
+using CMS.DataProtection;
 
 namespace DancingGoat.Helpers.Generator
 {
@@ -25,13 +26,13 @@ namespace DancingGoat.Helpers.Generator
                 + "visitantes. Además, almacenaremos pequeñas cantidades de datos en las cookies del navegador. Nos comprometemos a tratar "
                 + "sus datos con respeto, almacenarlo en un almacenamiento seguro, y no lo lanzará a terceros.</p>";
 
-        private readonly IConsentInfoProvider consentInfoProvider;
+        private readonly IInfoProvider<ConsentInfo> consentInfoProvider;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="TrackingConsentGenerator"/> class.
         /// </summary>
         /// <param name="consentInfoProvider">Consent info provider.</param>
-        public TrackingConsentGenerator(IConsentInfoProvider consentInfoProvider)
+        public TrackingConsentGenerator(IInfoProvider<ConsentInfo> consentInfoProvider)
         {
             this.consentInfoProvider = consentInfoProvider;
         }

@@ -1,0 +1,132 @@
+﻿/*# Image #*/
+.product-tile-image {
+    overflow: hidden;
+    text-align: center;
+    position: relative;
+    display: block;
+    margin: .5rem;
+    padding-top: 15%;
+    padding-bottom: 25%;
+}
+
+.product-tile-image img {
+    height: auto;
+    width: 100%;
+}
+
+.product-tile-info {
+    padding: 1.25rem;
+    position: absolute;
+    bottom: 0;
+}
+
+/*# Product list page #*/
+.product-page {
+    margin-top: 1.25rem;
+}
+
+.product-tile {
+    overflow: hidden;
+    border: 1px solid #E5E5E5;
+    margin: 0 0 -2px -2px;
+    background: @color-white;
+}
+
+.product-tile .product-heading {
+    text-align: center;
+    font-size: 1rem;
+    font-weight: normal;
+    font-family: 'Source Sans Pro', sans-serif;
+    z-index: 1;
+    position: absolute;
+    display: block;
+    margin: auto;
+    width: 100%;
+    padding: 1.25rem;
+}
+
+.product-tile a {
+    color: #000;
+    text-decoration: none;
+}
+
+/*# Product #*/
+.product-detail header {
+    text-align: left;
+}
+
+.product-detail header h2 {
+    margin-top: 1.5rem;
+    font-size: 2rem;
+}
+
+.product-detail .description {
+    margin-top: 1.25rem;
+}
+
+/*# Image #*/
+.product-detail .image {
+    border: 1px solid #e5e5e5;
+    margin: 0 0 1.25rem -2px;
+    text-align: center;
+}
+
+.product-detail .image img {
+    max-width: 100%;
+    height: auto;
+    margin: auto;
+}
+
+.product-detail {
+    .tag-row {
+        display: flex;
+        flex-direction: row;
+        padding-bottom: 24px;
+        gap: 12px;
+
+        .tag {
+            padding: 8px 16px;
+            border-radius: 8px;
+            background: #846331;
+            color: #FFF;
+            letter-spacing: 0.4px;
+        }
+    }
+}
+
+.product-filter {
+    background-color: @color-brownbg;
+    padding: 1rem;
+
+    h4 {
+        &:first-of-type {
+            margin-top: 0px;
+        }
+    }
+
+    label {
+        padding-left: 0.25rem;
+    }
+
+    input[type="checkbox"] {
+        margin: 0;
+        padding: 0;
+    }
+}
+
+@media(min-width:768px) {
+	.product-page > div.flex {
+        display: -webkit-box;
+		display: -ms-flexbox;
+		display: -webkit-flex;
+		display: flex;
+	}
+}
+
+.product-list {
+	.ContentLabel {
+		display: block;
+		margin-left: 1rem;
+		margin-top: 0.5rem;
+	}
+}

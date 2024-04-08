@@ -14,13 +14,13 @@ namespace Samples.DancingGoat
     /// </summary>
     internal class SampleContactDataCollector : IPersonalDataCollector
     {
-        private readonly IActivityInfoProvider activityInfoProvider;
+        private readonly IInfoProvider<ActivityInfo> activityInfoProvider;
         private readonly ICountryInfoProvider countryInfoProvider;
         private readonly IStateInfoProvider stateInfoProvider;
-        private readonly IConsentAgreementInfoProvider consentAgreementInfoProvider;
+        private readonly IInfoProvider<ConsentAgreementInfo> consentAgreementInfoProvider;
         private readonly IAccountContactInfoProvider accountContactInfoProvider;
         private readonly IAccountInfoProvider accountInfoProvider;
-        private readonly IBizFormInfoProvider bizFormInfoProvider;
+        private readonly IInfoProvider<BizFormInfo> bizFormInfoProvider;
 
 
         /// <summary>
@@ -34,13 +34,13 @@ namespace Samples.DancingGoat
         /// <param name="accountInfoProvider">Account info provider.</param>
         /// <param name="bizFormInfoProvider">BizForm info provider.</param>
         public SampleContactDataCollector(
-            IActivityInfoProvider activityInfoProvider,
+            IInfoProvider<ActivityInfo> activityInfoProvider,
             ICountryInfoProvider countryInfoProvider,
             IStateInfoProvider stateInfoProvider,
-            IConsentAgreementInfoProvider consentAgreementInfoProvider,
+            IInfoProvider<ConsentAgreementInfo> consentAgreementInfoProvider,
             IAccountContactInfoProvider accountContactInfoProvider,
             IAccountInfoProvider accountInfoProvider,
-            IBizFormInfoProvider bizFormInfoProvider)
+            IInfoProvider<BizFormInfo> bizFormInfoProvider)
         {
             this.activityInfoProvider = activityInfoProvider;
             this.countryInfoProvider = countryInfoProvider;

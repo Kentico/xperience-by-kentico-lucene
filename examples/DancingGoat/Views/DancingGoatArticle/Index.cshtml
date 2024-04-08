@@ -1,14 +1,13 @@
 ﻿@using Microsoft.AspNetCore.Mvc.Localization
 
-@model IEnumerable<DancingGoat.Models.ArticleViewModel>
+@model DancingGoat.Models.ArticlesSectionViewModel
 @{
-    ViewBag.Title = HtmlLocalizer["Articles"].Value;
     var i = 1;
 }
 <div class="articles-page">
     <div class="articles-section">
         <div class="row">
-            @foreach (var article in @Model)
+            @foreach (var article in @Model.Articles)
             {
                 var lastInRow = "";
                 if (i % 4 == 0)

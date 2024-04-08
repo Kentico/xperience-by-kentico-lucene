@@ -23,6 +23,7 @@
     <Using Include="NSubstitute" />
     <Using Include="AutoFixture" />
 	<PackageReference Include="Kentico.Xperience.WebApp" />
+	<PackageReference Include="Kentico.Xperience.Admin" />
   </ItemGroup>
 
   <ItemGroup>

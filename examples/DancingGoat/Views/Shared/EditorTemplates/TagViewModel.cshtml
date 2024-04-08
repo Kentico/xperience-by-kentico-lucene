@@ -1,0 +1,10 @@
+﻿@using DancingGoat.Models
+
+@model TagViewModel
+
+@Html.HiddenFor(m => Model.Value)
+@Html.HiddenFor(m => Model.Name)
+<span class="checkbox js-postback" style="padding-left: @(Model.Level * 24)px">
+    <input asp-for="@Model.IsChecked" />
+    <label asp-for="@Model.IsChecked">@HtmlLocalizer[Model.Name]</label>
+</span>

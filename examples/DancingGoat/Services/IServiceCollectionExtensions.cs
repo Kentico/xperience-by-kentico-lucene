@@ -14,7 +14,7 @@ namespace DancingGoat
         {
             AddViewComponentServices(services);
             AddRepositories(services);
-            
+
             services.AddSingleton<ICurrentWebsiteChannelPrimaryLanguageRetriever, CurrentWebsiteChannelPrimaryLanguageRetriever>();
         }
 
@@ -31,6 +31,12 @@ namespace DancingGoat
             services.AddSingleton<ImageRepository>();
             services.AddSingleton<CafeRepository>();
             services.AddSingleton<NavigationItemRepository>();
+            services.AddSingleton<ContactsPageRepository>();
+            services.AddSingleton<PrivacyPageRepository>();
+            services.AddSingleton<LandingPageRepository>();
+            services.AddSingleton<ProductSectionRepository>();
+            services.AddSingleton<ProductPageRepository>();
+            services.AddSingleton<ProductRepository>();
         }
 
 

@@ -15,10 +15,10 @@ namespace DancingGoat.Models
             }
 
             return new ReferenceViewModel(
-                reference.ReferenceName, 
-                reference.ReferenceDescription, 
-                reference.ReferenceText, 
-                reference.ReferenceImage.FirstOrDefault()?.ImageFile.Url, 
+                reference.ReferenceName,
+                reference.ReferenceDescription,
+                reference.ReferenceText,
+                reference.ReferenceImage.FirstOrDefault()?.ImageFile.Url,
                 reference.ReferenceImage.FirstOrDefault()?.ImageShortDescription
              );
         }

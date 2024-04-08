@@ -24,9 +24,9 @@ namespace DancingGoat.Models
         /// Initializes new instance of <see cref="ArticlePageRepository"/>.
         /// </summary>
         public ArticlePageRepository(
-            IWebsiteChannelContext websiteChannelContext, 
-            IContentQueryExecutor executor, 
-            IWebPageQueryResultMapper mapper, 
+            IWebsiteChannelContext websiteChannelContext,
+            IContentQueryExecutor executor,
+            IWebPageQueryResultMapper mapper,
             IProgressiveCache cache,
             IWebPageLinkedItemsDependencyAsyncRetriever webPageLinkedItemsDependencyRetriever)
             : base(websiteChannelContext, executor, mapper, cache)
@@ -60,10 +60,7 @@ namespace DancingGoat.Models
         {
             var queryBuilder = GetQueryBuilder(guids, languageName);
 
-            var options = new ContentQueryExecutionOptions
-            {
-                IncludeSecuredItems = true
-            };
+            var options = new ContentQueryExecutionOptions { IncludeSecuredItems = true };
 
             var cacheSettings = new CacheSettings(5, WebsiteChannelContext.WebsiteChannelName, languageName, guids.GetHashCode());
 
@@ -106,13 +103,14 @@ namespace DancingGoat.Models
 
         private ContentItemQueryBuilder GetQueryBuilder(ICollection<Guid> guids, string languageName)
         {
-            return GetQueryBuilder(
-                languageName,
-                config => config
-                    .WithLinkedItems(1)
-                    .OrderBy(OrderByColumn.Desc(nameof(ArticlePage.ArticlePagePublishDate)))
-                    .ForWebsite(WebsiteChannelContext.WebsiteChannelName)
-                    .Where(where => where.WhereIn(nameof(IWebPageContentQueryDataContainer.WebPageItemGUID), guids)));
+            return new ContentItemQueryBuilder().ForContentTypes(q =>
+            {
+                q.ForWebsite(guids)
+                 .WithContentTypeFields()
+                 .WithLinkedItems(1);
+            }).InLanguage(languageName)
+            .Parameters(q =>
+                q.OrderBy(OrderByColumn.Desc(nameof(ArticlePage.ArticlePagePublishDate))));
         }
 
 

@@ -41,8 +41,8 @@ namespace DancingGoat.Widgets
 
             return new ProductCardViewModel
                 {
-                    Heading = product.CoffeeName,
-                    ImagePath = (product.CoffeeImage.FirstOrDefault())?.ImageFile.Url,
+                    Heading = product.Name,
+                    ImagePath = (product.Image.FirstOrDefault())?.ImageFile.Url,
                     Text = product.CoffeeShortDescription
                 };
         }

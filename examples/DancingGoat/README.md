@@ -1,7 +1,6 @@
 # Xperience by Kentico: Dancing Goat Sample Project
 
-This project implements a company website of a fictional coffee shop franchise with the aim of demonstrating
-the content management and digital marketing features of the Xperience solution.
+This project implements a company website of a fictional coffee shop franchise to demonstrate the Xperience solution's content management and digital marketing features.
 
 ## Installation and setup
 
@@ -10,13 +9,25 @@ to troubleshoot any installation or configuration issues.
 
 ## Project notes
 
-### Content type code files
+### Content type and reusable field schema code files
 
-[Content type](https://docs.xperience.io/x/gYHWCQ) code files under `./Models/Reusable` and `./Models/WebPage` are 
-generated using [code generators](https://docs.xperience.io/x/5IbWCQ) provided by Xperience.
+[Content type](https://docs.xperience.io/x/gYHWCQ) and [reusable field schema](https://docs.xperience.io/x/D4_OD) code files under 
 
-If you add new content types or make changes to existing ones (e.g., add or remove fields), you can
-run the following commands from the root of the Dancing Goat project:
+- `./Models/Reusable` 
+- `./Models/WebPage`
+- `./Models/Schema`
+
+are generated using Xperience's [code generators](https://docs.xperience.io/x/5IbWCQ).
+
+If you change the site's content model (add or remove fields, define new content types or schemas, etc.), you can run the following commands from the root of the Dancing Goat project to regenerate the files.
+
+For _reusable field schemas_:
+
+```powershell
+dotnet run --no-build -- --kxp-codegen --location "./Models/Schema/" --type ReusableFieldSchemas --include "SEOFields" --namespace "DancingGoat.Models"
+```
+
+This command regenerates the interface for the `SEOFields` reusable schema. Note that the `namespace` must match that of the assigned content types.
 
 For _reusable_ content types:
 
@@ -26,7 +37,7 @@ dotnet run --no-build -- --kxp-codegen --location "./Models/Reusable/{name}/" --
 
 This command generates code files for content types with the `DancingGoat` namespace under the `./Models/Reusable` directory.
 
-You can use a similar approach for _page_ content types:
+For _page_ content types:
 
 ```powershell
 dotnet run --no-build -- --kxp-codegen --location "./Models/WebPage/{name}/" --type PageContentTypes --include "DancingGoat.*" --namespace "DancingGoat.Models"
@@ -34,4 +45,4 @@ dotnet run --no-build -- --kxp-codegen --location "./Models/WebPage/{name}/" --t
 
 This command generates code files for content types with the `DancingGoat` namespace under the `./Models/WebPage` directory.
 
-You can of course adapt these example for use in projects with a different folder structure by modifying the `location` parameter accordingly.
+You can adapt these examples for use in projects with a different folder structure by modifying the `location` parameter accordingly.

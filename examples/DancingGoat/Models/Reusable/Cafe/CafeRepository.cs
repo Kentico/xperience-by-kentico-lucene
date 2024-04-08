@@ -20,10 +20,10 @@ namespace DancingGoat.Models
 
 
         public CafeRepository(
-            IWebsiteChannelContext websiteChannelContext, 
-            IContentQueryExecutor executor, 
-            IWebPageQueryResultMapper mapper, 
-            IProgressiveCache cache, 
+            IWebsiteChannelContext websiteChannelContext,
+            IContentQueryExecutor executor,
+            IWebPageQueryResultMapper mapper,
+            IProgressiveCache cache,
             ILinkedItemsDependencyAsyncRetriever linkedItemsDependencyRetriever)
             : base(websiteChannelContext, executor, mapper, cache)
         {
@@ -33,26 +33,25 @@ namespace DancingGoat.Models
         /// <summary>
         /// Returns an enumerable collection of company cafes ordered by a position in the content tree.
         /// </summary>
-        /// <param name="count">The number of cafes to return. Use 0 as value to return all records.</param>
-        /// <param name="cancellationToken">Cancellation token.</param>
-        public async Task<IEnumerable<Cafe>> GetCompanyCafes(int count = 0, CancellationToken cancellationToken = default)
+        public async Task<IEnumerable<Cafe>> GetCompanyCafes(int count, string languageName, CancellationToken cancellationToken = default)
         {
-            var queryBuilder = GetQueryBuilder(count);
+            var queryBuilder = GetQueryBuilder(count, languageName);
 
-            var cacheSettings = new CacheSettings(5, WebsiteChannelContext.WebsiteChannelName, nameof(CafeRepository), nameof(GetCompanyCafes), count);
+            var cacheSettings = new CacheSettings(5, WebsiteChannelContext.WebsiteChannelName, nameof(CafeRepository), languageName, nameof(GetCompanyCafes), count);
 
             return await GetCachedQueryResult<Cafe>(queryBuilder, null, cacheSettings, GetDependencyCacheKeys, cancellationToken);
         }
 
 
-        private static ContentItemQueryBuilder GetQueryBuilder(int count)
+        private static ContentItemQueryBuilder GetQueryBuilder(int count, string languageName)
         {
             return new ContentItemQueryBuilder()
                     .ForContentType(Cafe.CONTENT_TYPE_NAME,
-                    config => config
-                        .WithLinkedItems(1)
-                        .TopN(count)
-                        .Where(where => where.WhereTrue(nameof(Cafe.CafeIsCompanyCafe))));
+                        config => config
+                            .WithLinkedItems(1)
+                            .TopN(count)
+                            .Where(where => where.WhereTrue(nameof(Cafe.CafeIsCompanyCafe))))
+                    .InLanguage(languageName);
         }
 
 

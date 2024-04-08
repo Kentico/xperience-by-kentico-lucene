@@ -2,10 +2,6 @@
 
 @using System.Linq;
 
-@{
-    ViewData["Title"] = @HtmlLocalizer["Home"];
-}
-
 @if (Model.Banner != null)
 {
     <vc:banner banner="@Model.Banner" />

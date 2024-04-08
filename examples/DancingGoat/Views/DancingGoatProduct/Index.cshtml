@@ -1,0 +1,29 @@
+﻿@using DancingGoat.Models
+
+@model ProductListViewModel
+
+@{
+    ViewData["PageClass"] = "inverted";
+}
+
+<div class="product-page-container">
+    <div class="product-page row">
+        <div class="flex">
+            <aside class="col-md-4 col-lg-3 product-filter">
+                <partial name="Filter" model="@Model.Filter" />
+            </aside>
+
+            <div id="product-list" class="col-md-8 col-lg-9 product-list">
+                <partial name="ProductsList" model="Model.Items" />
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/Scripts/formAutoPost.js"></script>
+
+    <script>
+        formAutoPost({ targetContainerSelector: "#product-list" });
+    </script>
+}
