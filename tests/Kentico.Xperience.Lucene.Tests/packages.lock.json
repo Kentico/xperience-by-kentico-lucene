@@ -463,27 +463,6 @@
           "System.IdentityModel.Tokens.Jwt": "7.3.1"
         }
       },
-      "Kentico.Xperience.Core": {
-        "type": "Transitive",
-        "resolved": "28.4.3",
-        "contentHash": "yyQHoVfiABFk7iFrIH81kHqsytzN45/UsSvpNEu3cS7nW1B09nU8GKzwy8Ov4/vKcB8kWZjOSk4g6OG6OydJzA==",
-        "dependencies": {
-          "AngleSharp": "0.17.1",
-          "MailKit": "4.4.0",
-          "Microsoft.Data.SqlClient": "5.2.0",
-          "Microsoft.Extensions.Caching.Memory": "6.0.1",
-          "Microsoft.Extensions.Configuration": "6.0.1",
-          "Microsoft.Extensions.Configuration.Binder": "6.0.0",
-          "Microsoft.Extensions.DependencyInjection": "6.0.1",
-          "Microsoft.Extensions.FileProviders.Physical": "6.0.0",
-          "Microsoft.Extensions.Hosting.Abstractions": "6.0.0",
-          "Microsoft.Extensions.Localization": "6.0.28",
-          "Microsoft.Extensions.Options.ConfigurationExtensions": "6.0.0",
-          "Mono.Cecil": "0.11.5",
-          "Newtonsoft.Json": "13.0.3",
-          "System.CodeDom": "8.0.0"
-        }
-      },
       "Lucene.Net.Grouping": {
         "type": "Transitive",
         "resolved": "4.8.0-beta00016",
@@ -1887,6 +1866,28 @@
           "Lucene.Net": "[4.8.0-beta00016, )",
           "Lucene.Net.Analysis.Common": "[4.8.0-beta00016, )",
           "Lucene.Net.Facet": "[4.8.0-beta00016, )"
+        }
+      },
+      "Kentico.Xperience.Core": {
+        "type": "CentralTransitive",
+        "requested": "[28.4.3, )",
+        "resolved": "28.4.3",
+        "contentHash": "yyQHoVfiABFk7iFrIH81kHqsytzN45/UsSvpNEu3cS7nW1B09nU8GKzwy8Ov4/vKcB8kWZjOSk4g6OG6OydJzA==",
+        "dependencies": {
+          "AngleSharp": "0.17.1",
+          "MailKit": "4.4.0",
+          "Microsoft.Data.SqlClient": "5.2.0",
+          "Microsoft.Extensions.Caching.Memory": "6.0.1",
+          "Microsoft.Extensions.Configuration": "6.0.1",
+          "Microsoft.Extensions.Configuration.Binder": "6.0.0",
+          "Microsoft.Extensions.DependencyInjection": "6.0.1",
+          "Microsoft.Extensions.FileProviders.Physical": "6.0.0",
+          "Microsoft.Extensions.Hosting.Abstractions": "6.0.0",
+          "Microsoft.Extensions.Localization": "6.0.28",
+          "Microsoft.Extensions.Options.ConfigurationExtensions": "6.0.0",
+          "Mono.Cecil": "0.11.5",
+          "Newtonsoft.Json": "13.0.3",
+          "System.CodeDom": "8.0.0"
         }
       },
       "Lucene.Net": {

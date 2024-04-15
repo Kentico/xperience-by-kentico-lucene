@@ -1,5 +1,6 @@
 ﻿using Kentico.Xperience.Lucene.Indexing;
 using Kentico.Xperience.Lucene.Search;
+
 using Lucene.Net.Analysis.Standard;
 using Lucene.Net.Documents;
 using Lucene.Net.Search;
