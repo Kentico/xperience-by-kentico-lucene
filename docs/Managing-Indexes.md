@@ -1,5 +1,7 @@
 # Managing Indexes
 
+This section is relevant for `Kentico.Xperience.Lucene.Admin` NuGet package.
+
 To manage a search index in the Xperience administration, navigate to the Search application on the dashboard.
 
 ![Administration dashboard highlight the Search application](/images/xperience-administration-dashboard.jpg)

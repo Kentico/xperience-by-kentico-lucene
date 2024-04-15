@@ -5,7 +5,6 @@ using CMS.Core;
 using Kentico.Xperience.Admin.Base;
 using Kentico.Xperience.Lucene.Admin;
 using Kentico.Xperience.Lucene.Core;
-
 using Microsoft.Extensions.DependencyInjection;
 
 [assembly: RegisterModule(typeof(LuceneAdminModule))]
@@ -18,14 +17,13 @@ namespace Kentico.Xperience.Lucene.Admin;
 internal class LuceneAdminModule : AdminModule
 {
     private LuceneModuleInstaller installer = null!;
-
     public LuceneAdminModule() : base(nameof(LuceneAdminModule)) { }
 
     protected override void OnInit(ModuleInitParameters parameters)
     {
         base.OnInit(parameters);
 
-        RegisterClientModule("kentico", "xperience-integrations-lucene");
+        RegisterClientModule("kentico", "xperience-integrations-lucene-admin");
 
         var services = parameters.Services;
 
@@ -35,5 +33,5 @@ internal class LuceneAdminModule : AdminModule
     }
 
     private void InitializeModule(object? sender, EventArgs e) =>
-        installer.Install();
+      installer.Install();
 }

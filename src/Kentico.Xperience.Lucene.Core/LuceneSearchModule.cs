@@ -22,6 +22,7 @@ internal class LuceneSearchModule : Module
     private ILuceneTaskLogger luceneTaskLogger = null!;
     private IAppSettingsService appSettingsService = null!;
     private IConversionService conversionService = null!;
+    private LuceneModuleInstaller installer = null!;
 
     private const string APP_SETTINGS_KEY_INDEXING_DISABLED = "CMSLuceneSearchDisableIndexing";
 
@@ -51,6 +52,10 @@ internal class LuceneSearchModule : Module
         base.OnInit(parameters);
 
         var services = parameters.Services;
+
+        installer = services.GetRequiredService<LuceneModuleInstaller>();
+
+        ApplicationEvents.Initialized.Execute += InitializeModule;
 
         luceneTaskLogger = services.GetRequiredService<ILuceneTaskLogger>();
         appSettingsService = services.GetRequiredService<IAppSettingsService>();
@@ -114,4 +119,7 @@ internal class LuceneSearchModule : Module
 
         luceneTaskLogger?.HandleReusableItemEvent(indexedContentItemModel, e.CurrentHandler.Name).GetAwaiter().GetResult();
     }
+
+    private void InitializeModule(object? sender, EventArgs e) =>
+       installer.Install();
 }

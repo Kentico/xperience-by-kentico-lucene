@@ -988,11 +988,17 @@
           "System.IO.Hashing": "7.0.0"
         }
       },
-      "kentico.xperience.lucene": {
+      "kentico.xperience.lucene.admin": {
         "type": "Project",
         "dependencies": {
           "Kentico.Xperience.Admin": "[28.4.3, )",
-          "Kentico.Xperience.WebApp": "[28.4.3, )",
+          "Kentico.Xperience.Lucene.Core": "[5.0.0-prerelease-1, )"
+        }
+      },
+      "kentico.xperience.lucene.core": {
+        "type": "Project",
+        "dependencies": {
+          "Kentico.Xperience.Core": "[28.4.3, )",
           "Lucene.Net": "[4.8.0-beta00016, )",
           "Lucene.Net.Analysis.Common": "[4.8.0-beta00016, )",
           "Lucene.Net.Facet": "[4.8.0-beta00016, )"

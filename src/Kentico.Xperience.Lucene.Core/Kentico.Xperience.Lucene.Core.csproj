@@ -1,0 +1,34 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <Product>Xperience by Kentico Lucene Search Module</Product>
+    <Title>$(Product)</Title>
+	<PackageId>Kentico.Xperience.Lucene.Core</PackageId>
+	<Description>Enables the creation of Lucene search indexes and the indexing of Xperience website channel pages and reusable content items.</Description>
+    <RepositoryUrl>https://github.com/kentico/xperience-by-kentico-lucene</RepositoryUrl>
+  </PropertyGroup>
+
+  <PropertyGroup>
+	<AdminOrgName>kentico</AdminOrgName>
+    <RootNamespace>Kentico.Xperience.Lucene.Core</RootNamespace>
+    <NoWarn>$(NoWarn);S1075</NoWarn>
+    <LangVersion>latest</LangVersion>
+
+    <!-- Required to prevent type conflicts with existing types -->
+    <HotChocolateImplicitUsings>disable</HotChocolateImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <AssemblyAttribute Include="CMS.AssemblyDiscoverableAttribute">
+    </AssemblyAttribute>
+    <InternalsVisibleTo Include="$(AssemblyName).Tests" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <PackageReference Include="Kentico.Xperience.Core" />
+    <PackageReference Include="Lucene.Net" />
+    <PackageReference Include="Lucene.Net.Analysis.Common" />
+    <PackageReference Include="Lucene.Net.Facet" />
+  </ItemGroup>
+
+</Project>

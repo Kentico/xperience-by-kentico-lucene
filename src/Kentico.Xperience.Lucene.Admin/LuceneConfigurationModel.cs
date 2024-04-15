@@ -39,6 +39,7 @@ public class LuceneConfigurationModel
         LuceneIndexModel luceneModel
     )
     {
+        Id = luceneModel.Id;
         IndexName = luceneModel.IndexName;
         LanguageNames = luceneModel.LanguageNames;
         ChannelName = luceneModel.ChannelName;
@@ -50,6 +51,7 @@ public class LuceneConfigurationModel
     public LuceneIndexModel ToLuceneModel() =>
         new()
         {
+            Id = Id,
             IndexName = IndexName,
             LanguageNames = LanguageNames,
             ChannelName = ChannelName,

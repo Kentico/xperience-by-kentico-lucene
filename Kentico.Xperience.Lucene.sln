@@ -35,7 +35,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DancingGoat", "examples\Dan
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kentico.Xperience.Lucene.Admin", "src\Kentico.Xperience.Lucene.Admin\Kentico.Xperience.Lucene.Admin.csproj", "{786BEEC5-48CD-45BA-924E-451D93A50AD9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kentico.Xperience.Lucene.Core", "Kentico.Xperience.Lucene.Core\Kentico.Xperience.Lucene.Core.csproj", "{84E60E84-9684-40DB-B4F1-578A45D24A02}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kentico.Xperience.Lucene.Core", "src\Kentico.Xperience.Lucene.Core\Kentico.Xperience.Lucene.Core.csproj", "{84E60E84-9684-40DB-B4F1-578A45D24A02}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

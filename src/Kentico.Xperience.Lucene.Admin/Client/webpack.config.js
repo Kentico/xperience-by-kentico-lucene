@@ -5,7 +5,7 @@ module.exports = (opts) => {
   const baseConfig = (webpackConfigEnv, argv) => {
     return baseWebpackConfig({
       orgName: 'kentico',
-      projectName: 'xperience-integrations-lucene',
+      projectName: 'xperience-integrations-lucene-admin',
       webpackConfigEnv: webpackConfigEnv,
       argv: argv,
     });

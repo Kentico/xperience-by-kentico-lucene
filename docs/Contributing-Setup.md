@@ -50,7 +50,7 @@ To run the example project Admin customization in development mode, add the foll
 
 ```json
 "CMSAdminClientModuleSettings": {
-  "kentico-xperience-integrations-lucene": {
+  "kentico-xperience-integrations-lucene-admin": {
     "Mode": "Proxy",
     "Port": 3009
   }
@@ -67,7 +67,7 @@ To run the example project Admin customization in development mode, add the foll
    - `refactor/` - for restructuring of existing features
    - `fix/` - for bugfixes
 
-1. Run `dotnet format` against the `src/Kentico.Xperience.Lucene` project
+1. Run `dotnet format` against the `src/Kentico.Xperience.Lucene.Admin` project
 
    > use `dotnet: format` VS Code task.
 
@@ -76,9 +76,9 @@ To run the example project Admin customization in development mode, add the foll
 ### Test the package locally using the following commands
 
 1. Generate a local package using the VS Code `.NET: pack (Lucene)` task or execute its command and arguments at the command line
-   This will generate a new `Kentico.Xperience.Lucene` package in the `nuget-local` folder with a version matching the version in your `Directory.Build.props`
+   This will generate a new `Kentico.Xperience.Lucene.Admin` package in the `nuget-local` folder with a version matching the version in your `Directory.Build.props`
 
-1. Update the `Directory.Packages.props` to populate the `Kentico.Xperience.Lucene` package `Version=""` with the matching the value from the project's `Directory.Build.props`
+1. Update the `Directory.Packages.props` to populate the `Kentico.Xperience.Lucene.Admin` package `Version=""` with the matching the value from the project's `Directory.Build.props`
 
    > In the future, we will be able to use floating versions to automatically select the highest (local) package version
 
@@ -86,7 +86,7 @@ To run the example project Admin customization in development mode, add the foll
 
    > You can use the VS Code `.NET: build (Solution) - LOCAL_NUGET` task
 
-1. Make sure the `Kentico.Xperience.Lucene.dll` version in the `examples\DancingGoat\bin\Debug\net6.0\` folder is the right version
+1. Make sure the `Kentico.Xperience.Lucene.Admin.dll` version in the `examples\DancingGoat\bin\Debug\net6.0\` folder is the right version
 
 1. Run the `DancingGoat` application and ensure all functionality is correct
 

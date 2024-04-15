@@ -31,11 +31,11 @@ public sealed class LuceneIndexConfigurationComponentAttribute : FormComponentAt
 [ComponentAttribute(typeof(LuceneIndexConfigurationComponentAttribute))]
 public class LuceneIndexConfigurationComponent : FormComponent<LuceneIndexConfigurationComponentProperties, LuceneIndexConfigurationComponentClientProperties, IEnumerable<LuceneIndexIncludedPath>>
 {
-    public const string IDENTIFIER = "kentico.xperience-integrations-lucene.lucene-index-configuration";
+    public const string IDENTIFIER = "kentico.xperience-integrations-lucene-admin.lucene-index-configuration";
 
     internal List<LuceneIndexIncludedPath>? Value { get; set; }
 
-    public override string ClientComponentName => "@kentico/xperience-integrations-lucene/LuceneIndexConfiguration";
+    public override string ClientComponentName => "@kentico/xperience-integrations-lucene-admin/LuceneIndexConfiguration";
 
     public override IEnumerable<LuceneIndexIncludedPath> GetValue() => Value ?? [];
     public override void SetValue(IEnumerable<LuceneIndexIncludedPath> value) => Value = value.ToList();
