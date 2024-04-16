@@ -50,6 +50,8 @@ dotnet add package Kentico.Xperience.Lucene
 
 ## Quick Start
 
+This section is relevant for each Lucene NuGet. Steps number 3 and 4 are only relevant if you use NuGet package `Kentico.Xperience.Lucene` or `Kentico.Xperience.Lucene.Admin`.
+
 1. Define a custom `DefaultLuceneIndexingStrategy` implementation to customize how content pages/content items are processed for the index.
 2. Add this library to the application services, registering your custom `DefaultLuceneIndexingStrategy` and Lucene
 
