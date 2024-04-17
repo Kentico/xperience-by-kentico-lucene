@@ -80,6 +80,19 @@ This section is relevant for each Lucene NuGet. Steps number 3 and 4 are only re
 
 View the [Usage Guide](./docs/Usage-Guide.md) for more detailed instructions.
 
+You can view and start the DancingGoat example project.
+For advanced [Strategy usage](./docs/Custom-index-strategy.md) add your website url base to the `WebCrawlerBaseUrl` `appsettings.json`
+
+```json
+{
+    // Other settings ...
+    // Our example runs on localhost with port: 58093
+    "WebCrawlerBaseUrl": "http://localhost:58093/"
+}
+```
+
+This is required for our [Scraping example](./docs/Scraping-web-page-content.md).
+
 ## Projects
 
 | Project                            | Description                                                           |

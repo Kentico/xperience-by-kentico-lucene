@@ -7,6 +7,16 @@ using the Page Builder or related content.
 
 ## Scraping services
 
+First add your website url base to the `WebCrawlerBaseUrl` `appsettings.json`
+
+```json
+{
+    // Other settings ...
+    // Our example runs on localhost with port: 58093
+    "WebCrawlerBaseUrl": "http://localhost:58093/"
+}
+```
+
 ```csharp
 public class WebCrawlerService
 {
