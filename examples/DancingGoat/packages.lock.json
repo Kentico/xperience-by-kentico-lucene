@@ -988,6 +988,13 @@
           "System.IO.Hashing": "7.0.0"
         }
       },
+      "kentico.xperience.lucene": {
+        "type": "Project",
+        "dependencies": {
+          "Kentico.Xperience.Lucene.Admin": "[5.0.0-prerelease-1, )",
+          "Kentico.Xperience.Lucene.Core": "[5.0.0-prerelease-1, )"
+        }
+      },
       "kentico.xperience.lucene.admin": {
         "type": "Project",
         "dependencies": {

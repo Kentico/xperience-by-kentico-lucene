@@ -2,63 +2,6 @@
   "version": 2,
   "dependencies": {
     "net6.0": {
-      "Kentico.Xperience.Admin": {
-        "type": "Direct",
-        "requested": "[28.4.3, )",
-        "resolved": "28.4.3",
-        "contentHash": "TZnv+XpEtH8gWR+UFkJANBS1bZQ+ZP2ZQQgQXPJz9OlowPwVRkB+aAu9yOfqiXXjEudpmvpAP/SB6o3lxHG+3A==",
-        "dependencies": {
-          "Kentico.Aira.Client": "1.0.25",
-          "Kentico.Xperience.WebApp": "[28.4.3]",
-          "Microsoft.AspNetCore.SpaServices.Extensions": "6.0.28",
-          "Microsoft.Extensions.FileProviders.Embedded": "6.0.28"
-        }
-      },
-      "Kentico.Xperience.WebApp": {
-        "type": "Direct",
-        "requested": "[28.4.3, )",
-        "resolved": "28.4.3",
-        "contentHash": "tFsbmisfYQrLdKtH35z9LL/D9UeqIb9T3o8WqKuIWOaZlOZDlxpaohzlh0raUuTGtJ14OE7kYgln1vGg4lvonw==",
-        "dependencies": {
-          "CommandLineParser": "2.9.1",
-          "HotChocolate.AspNetCore": "13.9.0",
-          "HotChocolate.Data": "13.9.0",
-          "HtmlSanitizer": "8.0.843",
-          "Kentico.Xperience.Core": "[28.4.3]",
-          "Microsoft.Extensions.Caching.Memory": "6.0.1",
-          "Microsoft.Extensions.FileProviders.Embedded": "6.0.28",
-          "Microsoft.Extensions.Localization": "6.0.28"
-        }
-      },
-      "Lucene.Net": {
-        "type": "Direct",
-        "requested": "[4.8.0-beta00016, )",
-        "resolved": "4.8.0-beta00016",
-        "contentHash": "DCtUbE/NIrisNI7hRwU+UKS3Cr6S2vH1XB9wvEHHI3anu5OUpX1Fkr/PDC7oFCaol/QCvzVLbLZVizAT1aTLpA==",
-        "dependencies": {
-          "J2N": "2.0.0",
-          "Microsoft.Extensions.Configuration.Abstractions": "2.0.0"
-        }
-      },
-      "Lucene.Net.Analysis.Common": {
-        "type": "Direct",
-        "requested": "[4.8.0-beta00016, )",
-        "resolved": "4.8.0-beta00016",
-        "contentHash": "7pjEAIliWdih6E3I0hCE8hKcKKRx1LLzeQBslF1fhvzE1Sal4NyHd8RFJHV1Z+yHlBw4gCyyVIDZADiIoyqwxg==",
-        "dependencies": {
-          "Lucene.Net": "4.8.0-beta00016"
-        }
-      },
-      "Lucene.Net.Facet": {
-        "type": "Direct",
-        "requested": "[4.8.0-beta00016, )",
-        "resolved": "4.8.0-beta00016",
-        "contentHash": "O1MrRfhb9BMfRQHooyEFrkgNwYbTEbK/AkKhz26sy+xO+zAldJ8YKS/IsydHsE+frklIAWT0jyv0c3Dh9qBXSA==",
-        "dependencies": {
-          "Lucene.Net.Join": "4.8.0-beta00016",
-          "Lucene.Net.Queries": "4.8.0-beta00016"
-        }
-      },
       "SonarAnalyzer.CSharp": {
         "type": "Direct",
         "requested": "[9.17.0.82934, )",
@@ -939,6 +882,34 @@
           "System.IO.Hashing": "7.0.0"
         }
       },
+      "kentico.xperience.lucene.admin": {
+        "type": "Project",
+        "dependencies": {
+          "Kentico.Xperience.Admin": "[28.4.3, )",
+          "Kentico.Xperience.Lucene.Core": "[5.0.0-prerelease-1, )"
+        }
+      },
+      "kentico.xperience.lucene.core": {
+        "type": "Project",
+        "dependencies": {
+          "Kentico.Xperience.Core": "[28.4.3, )",
+          "Lucene.Net": "[4.8.0-beta00016, )",
+          "Lucene.Net.Analysis.Common": "[4.8.0-beta00016, )",
+          "Lucene.Net.Facet": "[4.8.0-beta00016, )"
+        }
+      },
+      "Kentico.Xperience.Admin": {
+        "type": "CentralTransitive",
+        "requested": "[28.4.3, )",
+        "resolved": "28.4.3",
+        "contentHash": "TZnv+XpEtH8gWR+UFkJANBS1bZQ+ZP2ZQQgQXPJz9OlowPwVRkB+aAu9yOfqiXXjEudpmvpAP/SB6o3lxHG+3A==",
+        "dependencies": {
+          "Kentico.Aira.Client": "1.0.25",
+          "Kentico.Xperience.WebApp": "[28.4.3]",
+          "Microsoft.AspNetCore.SpaServices.Extensions": "6.0.28",
+          "Microsoft.Extensions.FileProviders.Embedded": "6.0.28"
+        }
+      },
       "Kentico.Xperience.Core": {
         "type": "CentralTransitive",
         "requested": "[28.4.3, )",
@@ -959,6 +930,51 @@
           "Mono.Cecil": "0.11.5",
           "Newtonsoft.Json": "13.0.3",
           "System.CodeDom": "8.0.0"
+        }
+      },
+      "Kentico.Xperience.WebApp": {
+        "type": "CentralTransitive",
+        "requested": "[28.4.3, )",
+        "resolved": "28.4.3",
+        "contentHash": "tFsbmisfYQrLdKtH35z9LL/D9UeqIb9T3o8WqKuIWOaZlOZDlxpaohzlh0raUuTGtJ14OE7kYgln1vGg4lvonw==",
+        "dependencies": {
+          "CommandLineParser": "2.9.1",
+          "HotChocolate.AspNetCore": "13.9.0",
+          "HotChocolate.Data": "13.9.0",
+          "HtmlSanitizer": "8.0.843",
+          "Kentico.Xperience.Core": "[28.4.3]",
+          "Microsoft.Extensions.Caching.Memory": "6.0.1",
+          "Microsoft.Extensions.FileProviders.Embedded": "6.0.28",
+          "Microsoft.Extensions.Localization": "6.0.28"
+        }
+      },
+      "Lucene.Net": {
+        "type": "CentralTransitive",
+        "requested": "[4.8.0-beta00016, )",
+        "resolved": "4.8.0-beta00016",
+        "contentHash": "DCtUbE/NIrisNI7hRwU+UKS3Cr6S2vH1XB9wvEHHI3anu5OUpX1Fkr/PDC7oFCaol/QCvzVLbLZVizAT1aTLpA==",
+        "dependencies": {
+          "J2N": "2.0.0",
+          "Microsoft.Extensions.Configuration.Abstractions": "2.0.0"
+        }
+      },
+      "Lucene.Net.Analysis.Common": {
+        "type": "CentralTransitive",
+        "requested": "[4.8.0-beta00016, )",
+        "resolved": "4.8.0-beta00016",
+        "contentHash": "7pjEAIliWdih6E3I0hCE8hKcKKRx1LLzeQBslF1fhvzE1Sal4NyHd8RFJHV1Z+yHlBw4gCyyVIDZADiIoyqwxg==",
+        "dependencies": {
+          "Lucene.Net": "4.8.0-beta00016"
+        }
+      },
+      "Lucene.Net.Facet": {
+        "type": "CentralTransitive",
+        "requested": "[4.8.0-beta00016, )",
+        "resolved": "4.8.0-beta00016",
+        "contentHash": "O1MrRfhb9BMfRQHooyEFrkgNwYbTEbK/AkKhz26sy+xO+zAldJ8YKS/IsydHsE+frklIAWT0jyv0c3Dh9qBXSA==",
+        "dependencies": {
+          "Lucene.Net.Join": "4.8.0-beta00016",
+          "Lucene.Net.Queries": "4.8.0-beta00016"
         }
       }
     }
