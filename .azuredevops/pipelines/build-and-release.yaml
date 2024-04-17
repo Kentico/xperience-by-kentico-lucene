@@ -51,6 +51,24 @@ stages:
             value: src/Kentico.Xperience.Lucene.Libs.sln
 
         steps:
+          - task: PowerShell@2
+            displayName: Set Node.js version from package.json
+            inputs:
+              targetType: inline
+              script: |
+                $fileContent = Get-Content -Path 'src/Kentico.Xperience.Lucene.Admin/Client/package.json' -Raw
+                $jsonObject = ConvertFrom-Json -InputObject $fileContent
+
+                # Get the value of engines.node
+                $enginesNode = $jsonObject.engines.node
+                Write-Host "Required Node version $enginesNode"
+                Write-Host "##vso[task.setvariable variable=PACKAGE_JSON_NODE_VERSION]$enginesNode"
+
+          - task: UseNode@1
+            displayName: "Install Node.js from package.json version"
+            inputs:
+              version: $(PACKAGE_JSON_NODE_VERSION)
+
         - task: DotNetCoreCLI@2
           displayName: Restore dotnet tools
           inputs:
