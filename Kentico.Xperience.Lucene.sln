@@ -29,13 +29,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "build", "build", "{DB735FC0
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{91F22D92-B6DD-4C46-9853-1A5B649DD04C}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Kentico.Xperience.Lucene.Tests", "tests\Kentico.Xperience.Lucene.Tests\Kentico.Xperience.Lucene.Tests.csproj", "{DEB25130-C00C-44E5-8393-07BB49F7480B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Kentico.Xperience.Lucene.Core.Tests", "tests\Kentico.Xperience.Lucene.Tests\Kentico.Xperience.Lucene.Core.Tests.csproj", "{DEB25130-C00C-44E5-8393-07BB49F7480B}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DancingGoat", "examples\DancingGoat\DancingGoat.csproj", "{A4F272B0-A8F0-4CFB-856D-DE88C0255339}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kentico.Xperience.Lucene.Admin", "src\Kentico.Xperience.Lucene.Admin\Kentico.Xperience.Lucene.Admin.csproj", "{786BEEC5-48CD-45BA-924E-451D93A50AD9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Kentico.Xperience.Lucene.Admin", "src\Kentico.Xperience.Lucene.Admin\Kentico.Xperience.Lucene.Admin.csproj", "{786BEEC5-48CD-45BA-924E-451D93A50AD9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kentico.Xperience.Lucene.Core", "src\Kentico.Xperience.Lucene.Core\Kentico.Xperience.Lucene.Core.csproj", "{84E60E84-9684-40DB-B4F1-578A45D24A02}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Kentico.Xperience.Lucene.Core", "src\Kentico.Xperience.Lucene.Core\Kentico.Xperience.Lucene.Core.csproj", "{84E60E84-9684-40DB-B4F1-578A45D24A02}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -119,7 +119,7 @@ Global
 		{84E60E84-9684-40DB-B4F1-578A45D24A02} = {0D915C08-6113-4ECF-BC23-1D315BA4C0A5}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		{DB2B3A3A-F27B-42ED-88F2-AFF48626D16D} = {BFECEDB7-D450-48DF-B7A4-78BA2F20EEC2}
 		SolutionGuid = {DDFD806E-9ACE-48D6-BA63-57AEC6D0465B}
+		{DB2B3A3A-F27B-42ED-88F2-AFF48626D16D} = {BFECEDB7-D450-48DF-B7A4-78BA2F20EEC2}
 	EndGlobalSection
 EndGlobal

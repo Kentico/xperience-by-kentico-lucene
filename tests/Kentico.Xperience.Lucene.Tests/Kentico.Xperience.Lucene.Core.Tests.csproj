@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
@@ -27,7 +27,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\Kentico.Xperience.Lucene\Kentico.Xperience.Lucene.csproj" />
+    <ProjectReference Include="..\..\src\Kentico.Xperience.Lucene.Admin\Kentico.Xperience.Lucene.Admin.csproj" />
+    <ProjectReference Include="..\..\src\Kentico.Xperience.Lucene.Core\Kentico.Xperience.Lucene.Core.csproj" />
   </ItemGroup>
 
 </Project>
