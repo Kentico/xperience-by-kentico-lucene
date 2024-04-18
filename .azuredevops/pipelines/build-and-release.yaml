@@ -51,7 +51,7 @@ stages:
             value: true
 
           - name: slnPath
-            value: src/Kentico.Xperience.Lucene.Libs.sln
+            value: src/Kentico.Xperience.Lucene.Libs/Kentico.Xperience.Lucene.Libs.sln
 
         steps:
           - task: PowerShell@2
