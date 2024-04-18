@@ -47,6 +47,9 @@ stages:
           - name: Configuration
             value: Release
 
+          - name: SIGN_FILE
+            value: true
+
           - name: slnPath
             value: src/Kentico.Xperience.Lucene.Libs.sln
 
@@ -69,47 +72,47 @@ stages:
             inputs:
               version: $(PACKAGE_JSON_NODE_VERSION)
 
-        - task: DotNetCoreCLI@2
-          displayName: Restore dotnet tools
-          inputs:
-            command: custom
-            custom: tool
-            arguments: restore
-            workingDirectory: $(System.DefaultWorkingDirectory)
+          - task: DotNetCoreCLI@2
+            displayName: Restore dotnet tools
+            inputs:
+              command: custom
+              custom: tool
+              arguments: restore
+              workingDirectory: $(System.DefaultWorkingDirectory)
 
-        - task: DotNetCoreCLI@2
-          displayName: Restore dependencies
-          inputs:
-            command: restore
-            projects: ${{ variables.slnPath }}
-            feedsToUse: select
-            restoreArguments: --locked-mode
+          - task: DotNetCoreCLI@2
+            displayName: Restore dependencies
+            inputs:
+              command: restore
+              projects: ${{ variables.slnPath }}
+              feedsToUse: select
+              restoreArguments: --locked-mode
 
-        - task: DotNetCoreCLI@2
-          displayName: Build
-          inputs:
-            command: build
-            projects: ${{ variables.slnPath }}
-            configuration: ${{ variables.Configuration }}
-            arguments: --no-restore
-          env:
-            AuthenticodeClientSecret: $(AuthenticodeClientSecret)
-            # Roll-forward behavior set for AzureSignTool dotnet tool (see .config\dotnet-tools.json) which requires .Net 6.0 runtime
-            DOTNET_ROLL_FORWARD: Major
+          - task: DotNetCoreCLI@2
+            displayName: Build
+            inputs:
+              command: build
+              projects: ${{ variables.slnPath }}
+              configuration: ${{ variables.Configuration }}
+              arguments: --no-restore
+            env:
+              AuthenticodeClientSecret: $(AuthenticodeClientSecret)
+              # Roll-forward behavior set for AzureSignTool dotnet tool (see .config\dotnet-tools.json) which requires .Net 6.0 runtime
+              DOTNET_ROLL_FORWARD: Major
 
-        - template: steps.yml
-          parameters:
-            Configuration: $(Configuration)
-            artifacts:
-              - CRMCommon:
-                artifactName: "Kentico-Xperience-Lucene"
-                projectPath: "src/Kentico.Xperience.Lucene"
-              - CRMDynamics:
-                artifactName: "Kentico-Xperience-Lucene-Admin"
-                projectPath: "src/Kentico.Xperience.Lucene.Admin"
-              - CRMSalesforce:
-                artifactName: "Kentico-Xperience-Lucene-Core"
-                projectPath: "src/Kentico.Xperience.Lucene.Core" 
+          - template: steps.yml
+            parameters:
+              Configuration: $(Configuration)
+              artifacts:
+                - CRMCommon:
+                  artifactName: "Kentico-Xperience-Lucene"
+                  projectPath: "src/Kentico.Xperience.Lucene"
+                - CRMDynamics:
+                  artifactName: "Kentico-Xperience-Lucene-Admin"
+                  projectPath: "src/Kentico.Xperience.Lucene.Admin"
+                - CRMSalesforce:
+                  artifactName: "Kentico-Xperience-Lucene-Core"
+                  projectPath: "src/Kentico.Xperience.Lucene.Core"
 
   - ${{ if eq(variables['Build.SourceBranch'], 'refs/heads/main') }}:
       - stage: PublishNuGetPackages
