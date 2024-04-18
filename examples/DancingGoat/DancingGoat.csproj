@@ -27,6 +27,6 @@
     <PackageReference Include="Kentico.Xperience.Lucene" Condition="'$(LOCAL_NUGET)' == 'true'" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\src\Kentico.Xperience.Lucene\Kentico.Xperience.Lucene.csproj" Condition="'$(LOCAL_NUGET)' != 'true'" />
+    <ProjectReference Include="..\..\src\Kentico.Xperience.Lucene\Kentico.Xperience.Lucene.csproj" />
   </ItemGroup>
 </Project>

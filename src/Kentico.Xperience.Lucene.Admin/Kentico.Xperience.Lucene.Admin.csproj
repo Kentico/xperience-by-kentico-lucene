@@ -1,0 +1,54 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <Product>Xperience by Kentico Lucene Search Administration Module</Product>
+    <Title>$(Product)</Title>
+    <PackageId>Kentico.Xperience.Lucene.Admin</PackageId>
+    <Description>Adds Administration Module for Xperience by Kentico Lucene Search Module.</Description>
+    <RepositoryUrl>https://github.com/kentico/xperience-by-kentico-lucene</RepositoryUrl>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <AdminOrgName>kentico</AdminOrgName>
+    <RootNamespace>Kentico.Xperience.Lucene.Admin</RootNamespace>
+    <NoWarn>$(NoWarn);S1075</NoWarn>
+    <LangVersion>latest</LangVersion>
+
+    <!-- Required to prevent type conflicts with existing types -->
+    <HotChocolateImplicitUsings>disable</HotChocolateImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <AssemblyAttribute Include="CMS.AssemblyDiscoverableAttribute">
+    </AssemblyAttribute>
+    <InternalsVisibleTo Include="$(AssemblyName).Tests" />
+
+    <Compile Remove="Client\node_modules\**" />
+    <EmbeddedResource Remove="Client\node_modules\**" />
+    <None Remove="Client\node_modules\**" />
+
+    <!-- Requires that npm run build or npm run build:dev was executed _before_ the .NET build -->
+    <AdminClientPath Include="Client\dist\**" Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+        <ProjectName>xperience-integrations-lucene-admin</ProjectName>
+    </AdminClientPath>
+  </ItemGroup>
+
+  <Target Name="NpmInstall" BeforeTargets="NpmBuildClient" Condition=" '$(Configuration)|$(Platform)' != 'Debug|AnyCPU' ">
+    <Exec Command="npm ci --no-audit --no-fund" WorkingDirectory="$(MSBuildProjectDirectory)\Client" />
+  </Target>
+  <Target Name="NpmBuildClient" BeforeTargets="BeforeBuild" Condition=" '$(Configuration)|$(Platform)' != 'Debug|AnyCPU' ">
+    <Exec Command="npm run build" WorkingDirectory="$(MSBuildProjectDirectory)\Client" />
+
+    <ItemGroup>
+        <AdminClientPath Include="Client\dist\**">
+            <ProjectName>xperience-integrations-lucene-admin</ProjectName>
+		</AdminClientPath>
+    </ItemGroup>
+  </Target>
+  <ItemGroup>
+    <PackageReference Include="Kentico.Xperience.Admin" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Kentico.Xperience.Lucene.Core\Kentico.Xperience.Lucene.Core.csproj" />
+  </ItemGroup>
+</Project>

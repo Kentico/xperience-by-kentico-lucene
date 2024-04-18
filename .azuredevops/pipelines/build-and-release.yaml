@@ -47,11 +47,8 @@ stages:
           - name: Configuration
             value: Release
 
-          - name: ProjectFolder
-            value: src/Kentico.Xperience.Lucene
-
-          - name: ProjectFilePath
-            value: src/Kentico.Xperience.Lucene/Kentico.Xperience.Lucene.csproj
+          - name: slnPath
+            value: src/Kentico.Xperience.Lucene.Libs.sln
 
         steps:
           - task: PowerShell@2
@@ -59,7 +56,7 @@ stages:
             inputs:
               targetType: inline
               script: |
-                $fileContent = Get-Content -Path './${{ variables.ProjectFolder }}/Admin/Client/package.json' -Raw
+                $fileContent = Get-Content -Path 'src/Kentico.Xperience.Lucene.Admin/Client/package.json' -Raw
                 $jsonObject = ConvertFrom-Json -InputObject $fileContent
 
                 # Get the value of engines.node
@@ -72,48 +69,47 @@ stages:
             inputs:
               version: $(PACKAGE_JSON_NODE_VERSION)
 
-          - task: DotNetCoreCLI@2
-            displayName: Restore dotnet tools
-            inputs:
-              command: custom
-              custom: tool
-              arguments: restore
-              workingDirectory: $(System.DefaultWorkingDirectory)
+        - task: DotNetCoreCLI@2
+          displayName: Restore dotnet tools
+          inputs:
+            command: custom
+            custom: tool
+            arguments: restore
+            workingDirectory: $(System.DefaultWorkingDirectory)
 
-          - task: DotNetCoreCLI@2
-            displayName: Restore dependencies
-            inputs:
-              command: restore
-              projects: ${{ variables.ProjectFilePath }}
-              feedsToUse: select
-              restoreArguments: --locked-mode
+        - task: DotNetCoreCLI@2
+          displayName: Restore dependencies
+          inputs:
+            command: restore
+            projects: ${{ variables.slnPath }}
+            feedsToUse: select
+            restoreArguments: --locked-mode
 
-          - task: DotNetCoreCLI@2
-            displayName: Build
-            inputs:
-              command: build
-              projects: ${{ variables.ProjectFilePath }}
-              configuration: ${{ variables.Configuration }}
-              arguments: --no-restore
-            env:
-              AuthenticodeClientSecret: $(AuthenticodeClientSecret)
-              # Roll-forward behavior set for AzureSignTool dotnet tool (see .config\dotnet-tools.json) which requires .Net 6.0 runtime
-              DOTNET_ROLL_FORWARD: Major
+        - task: DotNetCoreCLI@2
+          displayName: Build
+          inputs:
+            command: build
+            projects: ${{ variables.slnPath }}
+            configuration: ${{ variables.Configuration }}
+            arguments: --no-restore
+          env:
+            AuthenticodeClientSecret: $(AuthenticodeClientSecret)
+            # Roll-forward behavior set for AzureSignTool dotnet tool (see .config\dotnet-tools.json) which requires .Net 6.0 runtime
+            DOTNET_ROLL_FORWARD: Major
 
-          - task: DotNetCoreCLI@2
-            displayName: Create NuGet package
-            inputs:
-              command: pack
-              packagesToPack: ${{ variables.ProjectFilePath }}
-              configuration: ${{ variables.Configuration }}
-              packDirectory: $(System.DefaultWorkingDirectory)/packages
-              includesymbols: true
-              nobuild: true
-              versioningScheme: off
-
-          - publish: $(System.DefaultWorkingDirectory)/packages
-            displayName: Publish NuGet package as artifact
-            artifact: artifact
+        - template: steps.yml
+          parameters:
+            Configuration: $(Configuration)
+            artifacts:
+              - CRMCommon:
+                artifactName: "Kentico-Xperience-Lucene"
+                projectPath: "src/Kentico.Xperience.Lucene"
+              - CRMDynamics:
+                artifactName: "Kentico-Xperience-Lucene-Admin"
+                projectPath: "src/Kentico.Xperience.Lucene.Admin"
+              - CRMSalesforce:
+                artifactName: "Kentico-Xperience-Lucene-Core"
+                projectPath: "src/Kentico.Xperience.Lucene.Core" 
 
   - ${{ if eq(variables['Build.SourceBranch'], 'refs/heads/main') }}:
       - stage: PublishNuGetPackages
@@ -153,7 +149,7 @@ stages:
                       displayName: NuGet push
                       inputs:
                         command: push
-                        packagesToPush: $(Pipeline.Workspace)/artifact/*.nupkg
+                        packagesToPush: $(Pipeline.Workspace)/**/*.nupkg
                         nuGetFeedType: external
                         publishFeedCredentials: nuget.org
                         allowPackageConflicts: true

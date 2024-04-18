@@ -1,0 +1,22 @@
+parameters:
+  - name: Configuration
+    type: string
+  - name: artifacts
+    type: object
+
+steps:
+  - ${{ each artifact in parameters.artifacts }}:
+      - task: DotNetCoreCLI@2
+        displayName: Create NuGet package
+        inputs:
+          command: pack
+          packagesToPack: ${{ artifact.projectPath }}/*.csproj
+          configuration: ${{ parameters.Configuration }}
+          packDirectory: $(System.DefaultWorkingDirectory)/packages/${{ artifact.artifactName }}
+          includesymbols: true
+          nobuild: true
+          versioningScheme: off
+
+      - publish: $(System.DefaultWorkingDirectory)/packages/${{ artifact.artifactName }}
+        displayName: Publish Artifact ${{ artifact.artifactName }}
+        artifact: build_${{ artifact.artifactName }}

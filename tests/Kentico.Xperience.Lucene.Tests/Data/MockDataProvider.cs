@@ -1,9 +1,9 @@
 ﻿using CMS.DataEngine;
 using DancingGoat.Models;
-using Kentico.Xperience.Lucene.Admin;
-using Kentico.Xperience.Lucene.Indexing;
+using Kentico.Xperience.Lucene.Core.Indexing;
 
 namespace Kentico.Xperience.Lucene.Tests.Base;
+
 internal static class MockDataProvider
 {
     public static IndexEventWebPageItemModel WebModel => new(
@@ -34,7 +34,7 @@ internal static class MockDataProvider
 
 
     public static LuceneIndex Index => new(
-        new LuceneConfigurationModel()
+        new LuceneIndexModel()
         {
             IndexName = DefaultIndex,
             ChannelName = DefaultChannel,
@@ -52,7 +52,7 @@ internal static class MockDataProvider
     public static readonly string EventName = "publish";
 
     public static LuceneIndex GetIndex(string indexName, int id) => new(
-        new LuceneConfigurationModel()
+        new LuceneIndexModel()
         {
             Id = id,
             IndexName = indexName,

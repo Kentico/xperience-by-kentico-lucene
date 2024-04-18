@@ -1,0 +1,37 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.9.34701.34
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Kentico.Xperience.Lucene", "..\Kentico.Xperience.Lucene\Kentico.Xperience.Lucene.csproj", "{A1502472-968B-4976-B732-71A0CC2ED5B9}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Kentico.Xperience.Lucene.Admin", "..\Kentico.Xperience.Lucene.Admin\Kentico.Xperience.Lucene.Admin.csproj", "{139F9BC9-4851-43EC-A8D4-4EB54C36E560}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Kentico.Xperience.Lucene.Core", "..\Kentico.Xperience.Lucene.Core\Kentico.Xperience.Lucene.Core.csproj", "{3A9A6C3A-2980-4179-8CF6-E088AE3CD290}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A1502472-968B-4976-B732-71A0CC2ED5B9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A1502472-968B-4976-B732-71A0CC2ED5B9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A1502472-968B-4976-B732-71A0CC2ED5B9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A1502472-968B-4976-B732-71A0CC2ED5B9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{139F9BC9-4851-43EC-A8D4-4EB54C36E560}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{139F9BC9-4851-43EC-A8D4-4EB54C36E560}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{139F9BC9-4851-43EC-A8D4-4EB54C36E560}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{139F9BC9-4851-43EC-A8D4-4EB54C36E560}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3A9A6C3A-2980-4179-8CF6-E088AE3CD290}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3A9A6C3A-2980-4179-8CF6-E088AE3CD290}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3A9A6C3A-2980-4179-8CF6-E088AE3CD290}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3A9A6C3A-2980-4179-8CF6-E088AE3CD290}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {A1E39334-8F1C-496F-8793-18426447ADF9}
+	EndGlobalSection
+EndGlobal

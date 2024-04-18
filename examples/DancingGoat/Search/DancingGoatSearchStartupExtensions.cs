@@ -4,7 +4,7 @@ namespace DancingGoat.Search;
 
 public static class DancingGoatSearchStartupExtensions
 {
-    public static IServiceCollection AddLuceneServices(this IServiceCollection services)
+    public static IServiceCollection AddKenticoDancingGoatLuceneServices(this IServiceCollection services)
     {
         services.AddKenticoLucene(builder =>
         {

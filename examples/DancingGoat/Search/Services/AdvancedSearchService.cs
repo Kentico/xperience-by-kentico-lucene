@@ -1,5 +1,5 @@
-﻿using Kentico.Xperience.Lucene.Indexing;
-using Kentico.Xperience.Lucene.Search;
+﻿using Kentico.Xperience.Lucene.Core.Indexing;
+using Kentico.Xperience.Lucene.Core.Search;
 using Lucene.Net.Analysis.Standard;
 using Lucene.Net.Documents;
 using Lucene.Net.Facet;
