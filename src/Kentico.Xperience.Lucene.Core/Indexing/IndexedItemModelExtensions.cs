@@ -1,5 +1,5 @@
-﻿using CMS.Core;
-using CMS.Websites.Internal;
+﻿using CMS.ContentEngine.Internal;
+using CMS.Core;
 
 namespace Kentico.Xperience.Lucene.Core.Indexing;
 

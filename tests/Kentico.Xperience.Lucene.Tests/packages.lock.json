@@ -463,6 +463,27 @@
           "System.IdentityModel.Tokens.Jwt": "7.3.1"
         }
       },
+      "Kentico.Xperience.Core": {
+        "type": "Transitive",
+        "resolved": "29.0.0",
+        "contentHash": "jG0gkDLE4H7ZNEdxdyZEzPxoAMlfx24oVdPeRa8RCUriOhBtleNREInbR9kYoMWwo456EaUaf3RPngArmZdy1g==",
+        "dependencies": {
+          "AngleSharp": "0.17.1",
+          "MailKit": "4.5.0",
+          "Microsoft.Data.SqlClient": "5.2.0",
+          "Microsoft.Extensions.Caching.Memory": "6.0.1",
+          "Microsoft.Extensions.Configuration": "6.0.1",
+          "Microsoft.Extensions.Configuration.Binder": "6.0.0",
+          "Microsoft.Extensions.DependencyInjection": "6.0.1",
+          "Microsoft.Extensions.FileProviders.Physical": "6.0.0",
+          "Microsoft.Extensions.Hosting.Abstractions": "6.0.0",
+          "Microsoft.Extensions.Localization": "6.0.29",
+          "Microsoft.Extensions.Options.ConfigurationExtensions": "6.0.0",
+          "Mono.Cecil": "0.11.5",
+          "Newtonsoft.Json": "13.0.3",
+          "System.CodeDom": "8.0.0"
+        }
+      },
       "Lucene.Net.Grouping": {
         "type": "Transitive",
         "resolved": "4.8.0-beta00016",
@@ -490,10 +511,10 @@
       },
       "MailKit": {
         "type": "Transitive",
-        "resolved": "4.4.0",
-        "contentHash": "cv+oiAOn2+LhhGUVvxpJjEOIZOTZBFDIDO9ebOfxqqU1f/PllHpKr5VjWOBsqeLrb+zLisxWSQDzM5C64XrRNA==",
+        "resolved": "4.5.0",
+        "contentHash": "EaXHODUdIV5oPdWvBJGazwaEpKt1LI/H/S//EEozANYCsfOSKHntX+Skk2kW616lSQp+fkRTmSjk0CYxEuOyEA==",
         "dependencies": {
-          "MimeKit": "4.4.0"
+          "MimeKit": "4.5.0"
         }
       },
       "Microsoft.AspNetCore.SpaServices.Extensions": {
@@ -646,19 +667,19 @@
       },
       "Microsoft.Extensions.Localization": {
         "type": "Transitive",
-        "resolved": "6.0.28",
-        "contentHash": "uuD1hdAFK+JqLOOQBMBEIA1aHPLZ1iomXDiAO7ffssDpRCK23tUuQKvl+IGPI3WM9CUsmnAxwXNJg7YKFtUiMA==",
+        "resolved": "6.0.29",
+        "contentHash": "cZ5Tx6NtTZFzk+PWW2icApat7agQiMIFIsohsmHmz/scKRfAI/5XTa9lpZMwKowQBZm+ap0RwAJmQ2/5xoL+VQ==",
         "dependencies": {
           "Microsoft.Extensions.DependencyInjection.Abstractions": "6.0.0",
-          "Microsoft.Extensions.Localization.Abstractions": "6.0.28",
+          "Microsoft.Extensions.Localization.Abstractions": "6.0.29",
           "Microsoft.Extensions.Logging.Abstractions": "6.0.4",
           "Microsoft.Extensions.Options": "6.0.0"
         }
       },
       "Microsoft.Extensions.Localization.Abstractions": {
         "type": "Transitive",
-        "resolved": "6.0.28",
-        "contentHash": "LFbRKw+TOPiU3eFyuklwCoNCpVb3bYZjvgyCFjmL7GsWLjZg1quyKgUCunLS2Sq5m/4nhppM5VR91alKaRz1wQ=="
+        "resolved": "6.0.29",
+        "contentHash": "4HVhh+V/7H2VMgFI8EP1kLgLpeRqm1kQOlXjHk4MHCVD5/pgWOTTbLEz9pdXymQQf/eRg1vNK8tG2MZstBHhlw=="
       },
       "Microsoft.Extensions.Logging": {
         "type": "Transitive",
@@ -818,13 +839,11 @@
       },
       "MimeKit": {
         "type": "Transitive",
-        "resolved": "4.4.0",
-        "contentHash": "pKvznVpvK35cJb21LdjvhB3MW2FrlAqG3PH36uVKHhlgnfMS5tIRsKJEMgo0hiPyJJhN2f1llHptu2w8CvF9Vg==",
+        "resolved": "4.5.0",
+        "contentHash": "OYn8b8b66J4mgtDzoImepiUtdkJOAVGoTj/ghzJ+az4wVixA5L5Z8GmgFhRvQ1btAIwZh/d9zvZLCALndQdz5w==",
         "dependencies": {
           "BouncyCastle.Cryptography": "2.3.0",
-          "System.Runtime.CompilerServices.Unsafe": "6.0.0",
-          "System.Security.Cryptography.Pkcs": "8.0.0",
-          "System.Text.Encoding.CodePages": "8.0.0"
+          "System.Security.Cryptography.Pkcs": "8.0.0"
         }
       },
       "Mono.Cecil": {
@@ -1735,8 +1754,11 @@
       },
       "System.Text.Encoding.CodePages": {
         "type": "Transitive",
-        "resolved": "8.0.0",
-        "contentHash": "OZIsVplFGaVY90G2SbpgU7EnCoOO5pw1t4ic21dBF3/1omrJFpAGoNAVpPyMVOC90/hvgkGG3VFqR13YgZMQfg=="
+        "resolved": "6.0.0",
+        "contentHash": "ZFCILZuOvtKPauZ/j/swhvw68ZRi9ATCfvGbk1QfydmcXBkIWecWKn/250UH7rahZ5OoDBaiAudJtPvLwzw85A==",
+        "dependencies": {
+          "System.Runtime.CompilerServices.Unsafe": "6.0.0"
+        }
       },
       "System.Text.Encoding.Extensions": {
         "type": "Transitive",
@@ -1868,39 +1890,17 @@
       "kentico.xperience.lucene.admin": {
         "type": "Project",
         "dependencies": {
-          "Kentico.Xperience.Admin": "[28.4.3, )",
+          "Kentico.Xperience.Admin": "[29.0.0, )",
           "Kentico.Xperience.Lucene.Core": "[5.0.0-prerelease-1, )"
         }
       },
       "kentico.xperience.lucene.core": {
         "type": "Project",
         "dependencies": {
-          "Kentico.Xperience.Core": "[28.4.3, )",
+          "Kentico.Xperience.Core": "[29.0.0, )",
           "Lucene.Net": "[4.8.0-beta00016, )",
           "Lucene.Net.Analysis.Common": "[4.8.0-beta00016, )",
           "Lucene.Net.Facet": "[4.8.0-beta00016, )"
-        }
-      },
-      "Kentico.Xperience.Core": {
-        "type": "CentralTransitive",
-        "requested": "[28.4.3, )",
-        "resolved": "28.4.3",
-        "contentHash": "yyQHoVfiABFk7iFrIH81kHqsytzN45/UsSvpNEu3cS7nW1B09nU8GKzwy8Ov4/vKcB8kWZjOSk4g6OG6OydJzA==",
-        "dependencies": {
-          "AngleSharp": "0.17.1",
-          "MailKit": "4.4.0",
-          "Microsoft.Data.SqlClient": "5.2.0",
-          "Microsoft.Extensions.Caching.Memory": "6.0.1",
-          "Microsoft.Extensions.Configuration": "6.0.1",
-          "Microsoft.Extensions.Configuration.Binder": "6.0.0",
-          "Microsoft.Extensions.DependencyInjection": "6.0.1",
-          "Microsoft.Extensions.FileProviders.Physical": "6.0.0",
-          "Microsoft.Extensions.Hosting.Abstractions": "6.0.0",
-          "Microsoft.Extensions.Localization": "6.0.28",
-          "Microsoft.Extensions.Options.ConfigurationExtensions": "6.0.0",
-          "Mono.Cecil": "0.11.5",
-          "Newtonsoft.Json": "13.0.3",
-          "System.CodeDom": "8.0.0"
         }
       },
       "Lucene.Net": {
