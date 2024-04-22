@@ -1,8 +1,12 @@
 ﻿using CMS.ContentEngine;
 using CMS.Websites;
+
 using DancingGoat.Models;
+
 using Kentico.Xperience.Lucene.Core.Indexing;
+
 using Lucene.Net.Documents;
+
 using Microsoft.IdentityModel.Tokens;
 
 namespace DancingGoat.Search;
