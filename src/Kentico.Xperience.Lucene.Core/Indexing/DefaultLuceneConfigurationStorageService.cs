@@ -199,7 +199,7 @@ internal class DefaultLuceneConfigurationStorageService : ILuceneConfigurationSt
         return indexInfos.Select(index => new LuceneIndexModel(index, languages, paths, contentTypes));
     }
 
-    public bool TryEditIndex(LuceneIndexModel configuration)
+    public async Task<bool> TryEditIndexAsync(LuceneIndexModel configuration)
     {
         configuration.IndexName = RemoveWhitespacesUsingStringBuilder(configuration.IndexName ?? "");
 
@@ -213,10 +213,6 @@ internal class DefaultLuceneConfigurationStorageService : ILuceneConfigurationSt
             return false;
         }
 
-        pathProvider.BulkDelete(new WhereCondition($"{nameof(LuceneIncludedPathItemInfo.LuceneIncludedPathItemIndexItemId)} = {configuration.Id}"));
-        languageProvider.BulkDelete(new WhereCondition($"{nameof(LuceneIndexLanguageItemInfo.LuceneIndexLanguageItemIndexItemId)} = {configuration.Id}"));
-        contentTypeProvider.BulkDelete(new WhereCondition($"{nameof(LuceneContentTypeItemInfo.LuceneContentTypeItemIndexItemId)} = {configuration.Id}"));
-
         indexInfo.LuceneIndexItemRebuildHook = configuration.RebuildHook ?? "";
         indexInfo.LuceneIndexItemStrategyName = configuration.StrategyName ?? "";
         indexInfo.LuceneIndexItemChannelName = configuration.ChannelName ?? "";
@@ -226,7 +222,19 @@ internal class DefaultLuceneConfigurationStorageService : ILuceneConfigurationSt
 
         if (configuration.LanguageNames is not null)
         {
-            foreach (string? language in configuration.LanguageNames)
+            var removeLanguagesQuery = languageProvider
+               .Get()
+               .WhereEquals(nameof(LuceneIndexLanguageItemInfo.LuceneIndexLanguageItemIndexItemId), configuration.Id)
+               .WhereNotIn(nameof(LuceneIndexLanguageItemInfo.LuceneIndexLanguageItemName), configuration.LanguageNames.ToArray());
+
+            languageProvider.BulkDelete(new WhereCondition(removeLanguagesQuery));
+
+            var existingLanguages = await languageProvider
+                .Get()
+                .WhereEquals(nameof(LuceneIndexLanguageItemInfo.LuceneIndexLanguageItemIndexItemId), configuration.Id)
+                .GetEnumerableTypedResultAsync();
+
+            foreach (string? language in configuration.LanguageNames.Where(x => !existingLanguages.Any(y => y.LuceneIndexLanguageItemName == x)))
             {
                 var languageInfo = new LuceneIndexLanguageItemInfo()
                 {
@@ -240,7 +248,23 @@ internal class DefaultLuceneConfigurationStorageService : ILuceneConfigurationSt
 
         if (configuration.Paths is not null)
         {
-            foreach (var path in configuration.Paths)
+            var removePathsQuery = pathProvider
+                .Get()
+                .WhereEquals(nameof(LuceneIncludedPathItemInfo.LuceneIncludedPathItemIndexItemId), configuration.Id)
+                .WhereNotIn(nameof(LuceneIncludedPathItemInfo.LuceneIncludedPathItemId), configuration.Paths.Select(x => int.Parse(x.Identifier ?? "0")).ToArray());
+
+            var removedPaths = await removePathsQuery.GetEnumerableTypedResultAsync();
+
+            pathProvider.BulkDelete(removePathsQuery);
+
+            var existingPaths = await pathProvider
+                .Get()
+                .WhereEquals(nameof(LuceneIncludedPathItemInfo.LuceneIncludedPathItemIndexItemId), configuration.Id)
+                .GetEnumerableTypedResultAsync();
+
+            var newPaths = configuration.Paths.Where(x => !existingPaths.Any(y => y.LuceneIncludedPathItemId.ToString() == x.Identifier));
+
+            foreach (var path in newPaths)
             {
                 var pathInfo = new LuceneIncludedPathItemInfo()
                 {
@@ -261,6 +285,44 @@ internal class DefaultLuceneConfigurationStorageService : ILuceneConfigurationSt
                         };
                         contentInfo.Insert();
                     }
+                }
+            }
+
+            var removeContentTypesQuery = contentTypeProvider
+                .Get()
+                .WhereIn(nameof(LuceneContentTypeItemInfo.LuceneContentTypeItemIncludedPathItemId), removedPaths.Select(x => x.LuceneIncludedPathItemId).ToArray());
+
+            contentTypeProvider.BulkDelete(removeContentTypesQuery);
+
+            var allExistingContentTypes = await contentTypeProvider
+                .Get()
+                .WhereIn(nameof(LuceneContentTypeItemInfo.LuceneContentTypeItemIncludedPathItemId), configuration.Paths.Select(x => int.Parse(x.Identifier ?? "0")).ToArray())
+                .GetEnumerableTypedResultAsync();
+
+            int[] removedContentTypeIdsFromEditedPaths = allExistingContentTypes
+                .Where(x => !configuration.Paths
+                    .Any(y => y.ContentTypes
+                        .Exists(z => x.LuceneContentTypeItemIncludedPathItemId.ToString() == y.Identifier && x.LuceneContentTypeItemContentTypeName == z.ContentTypeName))
+                )
+                .Select(x => x.LuceneContentTypeItemId)
+                .ToArray();
+
+            contentTypeProvider.BulkDelete(contentTypeProvider.Get().WhereIn(nameof(LuceneContentTypeItemInfo.LuceneContentTypeItemId), removedContentTypeIdsFromEditedPaths));
+
+            foreach (var path in existingPaths)
+            {
+                path.LuceneIncludedPathItemAliasPath = configuration.Paths.Single(x => x.Identifier == path.LuceneIncludedPathItemId.ToString()).AliasPath;
+                path.Update();
+
+                foreach (var contentType in configuration.Paths.Single(x => x.Identifier == path.LuceneIncludedPathItemId.ToString()).ContentTypes)
+                {
+                    var contentInfo = new LuceneContentTypeItemInfo()
+                    {
+                        LuceneContentTypeItemContentTypeName = contentType.ContentTypeName ?? "",
+                        LuceneContentTypeItemIncludedPathItemId = path.LuceneIncludedPathItemId,
+                        LuceneContentTypeItemIndexItemId = indexInfo.LuceneIndexItemId,
+                    };
+                    contentInfo.Insert();
                 }
             }
         }

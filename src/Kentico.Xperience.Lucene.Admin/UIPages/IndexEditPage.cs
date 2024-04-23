@@ -39,9 +39,9 @@ internal class IndexEditPage : BaseIndexEditPage
         }
     }
 
-    protected override Task<ICommandResponse> ProcessFormData(LuceneConfigurationModel model, ICollection<IFormItem> formItems)
+    protected override async Task<ICommandResponse> ProcessFormData(LuceneConfigurationModel model, ICollection<IFormItem> formItems)
     {
-        var result = ValidateAndProcess(model);
+        var result = await ValidateAndProcess(model);
 
         var response = ResponseFrom(new FormSubmissionResult(
             result == IndexModificationResult.Success
@@ -52,6 +52,6 @@ internal class IndexEditPage : BaseIndexEditPage
             ? response.AddSuccessMessage("Index edited")
             : response.AddErrorMessage("Could not update index");
 
-        return Task.FromResult<ICommandResponse>(response);
+        return await Task.FromResult<ICommandResponse>(response);
     }
 }

@@ -25,13 +25,13 @@ internal abstract class BaseIndexEditPage : ModelEditPage<LuceneConfigurationMod
         StorageService = storageService;
     }
 
-    protected IndexModificationResult ValidateAndProcess(LuceneConfigurationModel configuration)
+    protected async Task<IndexModificationResult> ValidateAndProcess(LuceneConfigurationModel configuration)
     {
         configuration.IndexName = RemoveWhitespacesUsingStringBuilder(configuration.IndexName ?? "");
 
         if (StorageService.GetIndexIds().Exists(x => x == configuration.Id))
         {
-            bool edited = StorageService.TryEditIndex(configuration.ToLuceneModel());
+            bool edited = await StorageService.TryEditIndexAsync(configuration.ToLuceneModel());
 
             if (edited)
             {
