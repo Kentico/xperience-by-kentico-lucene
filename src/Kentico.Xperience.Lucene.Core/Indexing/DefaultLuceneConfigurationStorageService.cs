@@ -314,7 +314,13 @@ internal class DefaultLuceneConfigurationStorageService : ILuceneConfigurationSt
                 path.LuceneIncludedPathItemAliasPath = configuration.Paths.Single(x => x.Identifier == path.LuceneIncludedPathItemId.ToString()).AliasPath;
                 path.Update();
 
-                foreach (var contentType in configuration.Paths.Single(x => x.Identifier == path.LuceneIncludedPathItemId.ToString()).ContentTypes)
+                foreach (var contentType in configuration.Paths
+                    .Single(x => x.Identifier == path.LuceneIncludedPathItemId.ToString())
+                    .ContentTypes
+                    .Where(x => !allExistingContentTypes
+                        .Any(y => y.LuceneContentTypeItemContentTypeName == x.ContentTypeName && y.LuceneContentTypeItemIncludedPathItemId == path.LuceneIncludedPathItemId)
+                    )
+                )
                 {
                     var contentInfo = new LuceneContentTypeItemInfo()
                     {
