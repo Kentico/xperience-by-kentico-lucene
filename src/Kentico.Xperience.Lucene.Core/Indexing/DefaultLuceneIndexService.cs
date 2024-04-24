@@ -1,8 +1,11 @@
-﻿using Lucene.Net.Facet.Taxonomy;
+﻿using Lucene.Net.Analysis.Standard;
+using Lucene.Net.Facet.Taxonomy;
 using Lucene.Net.Facet.Taxonomy.Directory;
 using Lucene.Net.Index;
 using Lucene.Net.Store;
 using Lucene.Net.Util;
+
+using Microsoft.Extensions.DependencyInjection;
 
 using LuceneDirectory = Lucene.Net.Store.Directory;
 
@@ -11,13 +14,18 @@ namespace Kentico.Xperience.Lucene.Core.Indexing;
 public class DefaultLuceneIndexService : ILuceneIndexService
 {
     private const LuceneVersion LUCENE_VERSION = LuceneVersion.LUCENE_48;
+    private readonly IServiceProvider serviceProvider;
+
+    public DefaultLuceneIndexService(IServiceProvider serviceProvider) => this.serviceProvider = serviceProvider;
 
     public T UseIndexAndTaxonomyWriter<T>(LuceneIndex index, Func<IndexWriter, ITaxonomyWriter, T> useIndexWriter, IndexStorageModel storage, OpenMode openMode = OpenMode.CREATE_OR_APPEND)
     {
         using LuceneDirectory indexDir = FSDirectory.Open(storage.Path);
 
+        var analyzer = serviceProvider.GetRequiredAnalyzer(index);
+
         //Create an index writer
-        var indexConfig = new IndexWriterConfig(LUCENE_VERSION, index.Analyzer)
+        var indexConfig = new IndexWriterConfig(LUCENE_VERSION, analyzer)
         {
             OpenMode = openMode // create/overwrite index
         };
@@ -33,8 +41,10 @@ public class DefaultLuceneIndexService : ILuceneIndexService
     {
         using LuceneDirectory indexDir = FSDirectory.Open(storage.Path);
 
+        var analyzer = serviceProvider.GetRequiredAnalyzer(index);
+
         //Create an index writer
-        var indexConfig = new IndexWriterConfig(LUCENE_VERSION, index.Analyzer)
+        var indexConfig = new IndexWriterConfig(LUCENE_VERSION, analyzer)
         {
             OpenMode = openMode // create/overwrite index
         };

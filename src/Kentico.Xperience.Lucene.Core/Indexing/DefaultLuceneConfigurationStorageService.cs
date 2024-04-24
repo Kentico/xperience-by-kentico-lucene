@@ -55,6 +55,7 @@ internal class DefaultLuceneConfigurationStorageService : ILuceneConfigurationSt
             LuceneIndexItemIndexName = configuration.IndexName ?? "",
             LuceneIndexItemChannelName = configuration.ChannelName ?? "",
             LuceneIndexItemStrategyName = configuration.StrategyName ?? "",
+            LuceneIndexItemAnalyzerName = configuration.AnalyzerName ?? "",
             LuceneIndexItemRebuildHook = configuration.RebuildHook ?? ""
         };
 
@@ -219,6 +220,7 @@ internal class DefaultLuceneConfigurationStorageService : ILuceneConfigurationSt
 
         indexInfo.LuceneIndexItemRebuildHook = configuration.RebuildHook ?? "";
         indexInfo.LuceneIndexItemStrategyName = configuration.StrategyName ?? "";
+        indexInfo.LuceneIndexItemAnalyzerName = configuration.AnalyzerName ?? "";
         indexInfo.LuceneIndexItemChannelName = configuration.ChannelName ?? "";
         indexInfo.LuceneIndexItemIndexName = configuration.IndexName ?? "";
 

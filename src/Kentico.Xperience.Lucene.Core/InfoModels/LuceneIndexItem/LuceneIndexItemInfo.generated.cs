@@ -92,6 +92,17 @@ public partial class LuceneIndexItemInfo : AbstractInfo<LuceneIndexItemInfo, ILu
 
 
     /// <summary>
+    /// Analyzer name.
+    /// </summary>
+    [DatabaseField]
+    public virtual string LuceneIndexItemAnalyzerName
+    {
+        get => ValidationHelper.GetString(GetValue(nameof(LuceneIndexItemAnalyzerName)), String.Empty);
+        set => SetValue(nameof(LuceneIndexItemAnalyzerName), value);
+    }
+
+
+    /// <summary>
     /// Rebuild hook.
     /// </summary>
     [DatabaseField]
