@@ -33,7 +33,7 @@ internal class IndexEditPage : BaseIndexEditPage
     {
         get
         {
-            model ??= new LuceneConfigurationModel(StorageService.GetIndexDataOrNull(IndexIdentifier) ?? new());
+            model ??= new LuceneConfigurationModel(StorageService.GetIndexDataOrNullAsync(IndexIdentifier).Result ?? new());
 
             return model;
         }

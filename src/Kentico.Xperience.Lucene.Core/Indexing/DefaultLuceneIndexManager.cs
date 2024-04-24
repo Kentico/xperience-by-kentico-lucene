@@ -22,7 +22,7 @@ internal class DefaultLuceneIndexManager : ILuceneIndexManager
     {
         var indices = (CacheSettings cs) =>
         {
-            var luceneIndices = storageService.GetAllIndexData().Select(x => new LuceneIndex(x, StrategyStorage.Strategies));
+            var luceneIndices = storageService.GetAllIndexDataAsync().Result.Select(x => new LuceneIndex(x, StrategyStorage.Strategies));
 
             cs.CacheDependency = CacheHelper.GetCacheDependency(GetLuceneDependencyCacheKeys());
 
@@ -37,7 +37,7 @@ internal class DefaultLuceneIndexManager : ILuceneIndexManager
     {
         var index = (CacheSettings cs) =>
         {
-            var indexConfiguration = storageService.GetIndexDataOrNull(indexName);
+            var indexConfiguration = storageService.GetIndexDataOrNullAsync(indexName).Result;
 
             if (indexConfiguration == null)
             {
@@ -56,7 +56,7 @@ internal class DefaultLuceneIndexManager : ILuceneIndexManager
     {
         var index = (CacheSettings cs) =>
         {
-            var indexConfiguration = storageService.GetIndexDataOrNull(identifier);
+            var indexConfiguration = storageService.GetIndexDataOrNullAsync(identifier).Result;
 
             if (indexConfiguration == null)
             {
@@ -75,7 +75,7 @@ internal class DefaultLuceneIndexManager : ILuceneIndexManager
     {
         var index = (CacheSettings cs) =>
         {
-            var indexConfiguration = storageService.GetIndexDataOrNull(indexName);
+            var indexConfiguration = storageService.GetIndexDataOrNullAsync(indexName).Result;
 
             if (indexConfiguration == null)
             {

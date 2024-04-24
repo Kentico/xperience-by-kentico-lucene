@@ -12,12 +12,18 @@ public class LuceneIndexContentType
     /// </summary>
     public string ContentTypeDisplayName { get; set; } = "";
 
+    /// <summary>
+    /// Id of the associated Lucene path item
+    /// </summary>
+    public int LucenePathItemId { get; set; }
+
     public LuceneIndexContentType()
     { }
 
-    public LuceneIndexContentType(string className, string classDisplayName)
+    public LuceneIndexContentType(string className, string classDisplayName, int lucenePathItemId)
     {
         ContentTypeName = className;
         ContentTypeDisplayName = classDisplayName;
+        LucenePathItemId = lucenePathItemId;
     }
 }

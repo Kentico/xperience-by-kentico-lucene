@@ -36,7 +36,9 @@ public class LuceneIndexModel
             .ToList();
         Paths = indexPaths
             .Where(p => p.LuceneIncludedPathItemIndexItemId == index.LuceneIndexItemId)
-            .Select(p => new LuceneIndexIncludedPath(p, contentTypes))
+            .Select(p => new LuceneIndexIncludedPath(p,
+                contentTypes.Where(x => x.LucenePathItemId == p.LuceneIncludedPathItemId))
+            )
             .ToList();
     }
 }
