@@ -12,8 +12,6 @@ public class LuceneIndexModel
 
     public string StrategyName { get; set; } = "";
 
-    public string AnalyzerName { get; set; } = "";
-
     public string RebuildHook { get; set; } = "";
 
     public IEnumerable<LuceneIndexIncludedPath> Paths { get; set; } = Enumerable.Empty<LuceneIndexIncludedPath>();
@@ -32,7 +30,6 @@ public class LuceneIndexModel
         ChannelName = index.LuceneIndexItemChannelName;
         RebuildHook = index.LuceneIndexItemRebuildHook;
         StrategyName = index.LuceneIndexItemStrategyName;
-        AnalyzerName = index.LuceneIndexItemAnalyzerName;
         LanguageNames = indexLanguages
             .Where(l => l.LuceneIndexLanguageItemIndexItemId == index.LuceneIndexItemId)
             .Select(l => l.LuceneIndexLanguageItemName)

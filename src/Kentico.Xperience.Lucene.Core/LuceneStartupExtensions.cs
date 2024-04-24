@@ -1,16 +1,13 @@
 ﻿using Kentico.Xperience.Lucene.Core.Indexing;
 using Kentico.Xperience.Lucene.Core.Search;
 using Kentico.Xperience.Lucene.Core;
-using Lucene.Net.Analysis.Standard;
-using Lucene.Net.Util;
-using Lucene.Net.Analysis;
 
 namespace Microsoft.Extensions.DependencyInjection;
 
 public static class LuceneStartupExtensions
 {
     /// <summary>
-    /// Adds Lucene services and custom module to application using the <see cref="DefaultLuceneIndexingStrategy"/> and <see cref="StandardAnalyzer"/> for all indexes
+    /// Adds Lucene services and custom module to application using the <see cref="DefaultLuceneIndexingStrategy"/> for all indexes
     /// </summary>
     /// <param name="serviceCollection"></param>
     /// <returns></returns>
@@ -19,7 +16,6 @@ public static class LuceneStartupExtensions
         serviceCollection.AddLuceneServicesInternal();
 
         StrategyStorage.AddStrategy<DefaultLuceneIndexingStrategy>("Default");
-        AnalyzerStorage.AddAnalyzer<StandardAnalyzer>("Standard");
 
         return serviceCollection;
     }
@@ -42,12 +38,8 @@ public static class LuceneStartupExtensions
 
         if (builder.IncludeDefaultStrategy)
         {
+            serviceCollection.AddTransient<DefaultLuceneIndexingStrategy>();
             builder.RegisterStrategy<DefaultLuceneIndexingStrategy>("Default");
-        }
-
-        if (builder.IncludeDefaultAnalyzer)
-        {
-            builder.RegisterAnalyzer<StandardAnalyzer>("Standard");
         }
 
         return serviceCollection;
@@ -64,8 +56,7 @@ public static class LuceneStartupExtensions
             .AddSingleton<ILuceneIndexService, DefaultLuceneIndexService>()
             .AddSingleton<ILuceneSearchService, DefaultLuceneSearchService>()
             .AddSingleton<ILuceneIndexManager, DefaultLuceneIndexManager>()
-            .AddTransient<DefaultLuceneIndexingStrategy>()
-            .AddTransient(x => new StandardAnalyzer(LuceneVersion.LUCENE_48));
+            .AddTransient<DefaultLuceneIndexingStrategy>();
 }
 
 
@@ -94,12 +85,6 @@ internal class LuceneBuilder : ILuceneBuilder
     /// </summary>
     public bool IncludeDefaultStrategy { get; set; } = true;
 
-    /// <summary>
-    /// If true, the <see cref="StandardAnalyzer" /> will be available as an explicitly selectable analyzer
-    /// within the Admin UI. Defaults to <c>true</c>
-    /// </summary>
-    public bool IncludeDefaultAnalyzer { get; set; } = true;
-
     public LuceneBuilder(IServiceCollection serviceCollection) => this.serviceCollection = serviceCollection;
 
     /// <summary>
@@ -113,21 +98,6 @@ internal class LuceneBuilder : ILuceneBuilder
     {
         StrategyStorage.AddStrategy<TStrategy>(strategyName);
         serviceCollection.AddTransient<TStrategy>();
-
-        return this;
-    }
-
-    /// <summary>
-    /// Registers the <see cref="Analyzer"/> analyzer <typeparamref name="TAnalyzer"/> in DI and
-    /// as a selectable analyzer in the Admin UI
-    /// </summary>
-    /// <typeparam name="TAnalyzer"></typeparam>
-    /// <param name="analyzerName"></param>
-    /// <returns></returns>
-    public ILuceneBuilder RegisterAnalyzer<TAnalyzer>(string analyzerName) where TAnalyzer : Analyzer
-    {
-        AnalyzerStorage.AddAnalyzer<TAnalyzer>(analyzerName);
-        serviceCollection.AddTransient<TAnalyzer>();
 
         return this;
     }
