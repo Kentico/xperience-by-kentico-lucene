@@ -1,5 +1,7 @@
 ﻿using DancingGoat.Search.Services;
 
+using Lucene.Net.Analysis.Cz;
+
 namespace DancingGoat.Search;
 
 public static class DancingGoatSearchStartupExtensions
@@ -10,6 +12,7 @@ public static class DancingGoatSearchStartupExtensions
         {
             builder.RegisterStrategy<AdvancedSearchIndexingStrategy>("DancingGoatExampleStrategy");
             builder.RegisterStrategy<SimpleSearchIndexingStrategy>("DancingGoatMinimalExampleStrategy");
+            builder.RegisterAnalyzer<CzechAnalyzer>("Czech analyzer");
         });
 
         services.AddHttpClient<WebCrawlerService>();

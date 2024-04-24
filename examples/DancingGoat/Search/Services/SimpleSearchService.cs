@@ -1,7 +1,6 @@
 ﻿using Kentico.Xperience.Lucene.Core.Indexing;
 using Kentico.Xperience.Lucene.Core.Search;
 
-using Lucene.Net.Analysis.Standard;
 using Lucene.Net.Documents;
 using Lucene.Net.Search;
 using Lucene.Net.Util;
@@ -16,7 +15,10 @@ public class SimpleSearchService
     private readonly ILuceneSearchService luceneSearchService;
     private readonly ILuceneIndexManager luceneIndexManager;
 
-    public SimpleSearchService(ILuceneSearchService luceneSearchService, ILuceneIndexManager luceneIndexManager)
+    public SimpleSearchService(
+        ILuceneSearchService luceneSearchService,
+        ILuceneIndexManager luceneIndexManager
+    )
     {
         this.luceneSearchService = luceneSearchService;
         this.luceneIndexManager = luceneIndexManager;
@@ -29,7 +31,7 @@ public class SimpleSearchService
         int page = 1)
     {
         var index = luceneIndexManager.GetRequiredIndex(indexName);
-        var query = GetTermQuery(searchText);
+        var query = GetTermQuery(searchText, index);
 
         var result = luceneSearchService.UseSearcher(
            index,
@@ -72,9 +74,9 @@ public class SimpleSearchService
         return query;
     }
 
-    private static Query GetTermQuery(string? searchText)
+    private Query GetTermQuery(string? searchText, LuceneIndex index)
     {
-        var analyzer = new StandardAnalyzer(LuceneVersion.LUCENE_48);
+        var analyzer = index.LuceneAnalyzer;
         var queryBuilder = new QueryBuilder(analyzer);
 
         var booleanQuery = new BooleanQuery();

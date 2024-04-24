@@ -1,6 +1,7 @@
 ﻿using Kentico.Xperience.Lucene.Core.Indexing;
 using Kentico.Xperience.Lucene.Core.Search;
 using Kentico.Xperience.Lucene.Core;
+
 using Lucene.Net.Analysis.Standard;
 using Lucene.Net.Util;
 using Lucene.Net.Analysis;
@@ -64,8 +65,7 @@ public static class LuceneStartupExtensions
             .AddSingleton<ILuceneIndexService, DefaultLuceneIndexService>()
             .AddSingleton<ILuceneSearchService, DefaultLuceneSearchService>()
             .AddSingleton<ILuceneIndexManager, DefaultLuceneIndexManager>()
-            .AddTransient<DefaultLuceneIndexingStrategy>()
-            .AddTransient(x => new StandardAnalyzer(LuceneVersion.LUCENE_48));
+            .AddTransient<DefaultLuceneIndexingStrategy>();
 }
 
 
@@ -77,10 +77,32 @@ public interface ILuceneBuilder
     /// <typeparam name="TStrategy">The custom type of <see cref="ILuceneIndexingStrategy"/> </typeparam>
     /// <param name="strategyName">Used internally <typeparamref name="TStrategy" /> to enable dynamic assignment of strategies to search indexes. Names must be unique.</param>
     /// <exception cref="ArgumentException">
-    ///     Thrown if an strategy has already been registered with the given <paramref name="strategyName"/>
+    ///     Thrown if a strategy has already been registered with the given <paramref name="strategyName"/>
     /// </exception>
     /// <returns></returns>
     ILuceneBuilder RegisterStrategy<TStrategy>(string strategyName) where TStrategy : class, ILuceneIndexingStrategy;
+
+
+    /// <summary>
+    /// Registers the given <see cref="Analyzer"/> <typeparamref name="TAnalyzer"/>  and
+    /// as a selectable analyzer in the Admin UI
+    /// </summary>
+    /// <typeparam name="TAnalyzer">The type of <see cref="Analyzer"/> </typeparam>
+    /// <param name="analyzerName">Used internally <typeparamref name="TAnalyzer"/> to enable dynamic assignment of analyzers to search indexes. Names must be unique.</param>
+    /// <exception cref="ArgumentException">
+    ///     Thrown if an analyzer has already been registered with the given <paramref name="analyzerName"/>
+    /// </exception>
+    /// <returns></returns>
+    ILuceneBuilder RegisterAnalyzer<TAnalyzer>(string analyzerName) where TAnalyzer : Analyzer;
+
+
+    /// <summary>
+    /// Sets the <see cref="LuceneVersion"/> lucene version which will be used by <see cref="Analyzer"/> for search indexes.
+    /// Defaults to <c><see cref="LuceneVersion.LUCENE_48"/></c>
+    /// </summary>
+    /// <param name="matchVersion"></param>
+    /// <returns></returns>
+    ILuceneBuilder SetAnalyzerLuceneVersion(LuceneVersion matchVersion);
 }
 
 
@@ -102,6 +124,7 @@ internal class LuceneBuilder : ILuceneBuilder
 
     public LuceneBuilder(IServiceCollection serviceCollection) => this.serviceCollection = serviceCollection;
 
+
     /// <summary>
     /// Registers the <see cref="ILuceneIndexingStrategy"/> strategy <typeparamref name="TStrategy" /> in DI and
     /// as a selectable strategy in the Admin UI
@@ -117,9 +140,10 @@ internal class LuceneBuilder : ILuceneBuilder
         return this;
     }
 
+
     /// <summary>
-    /// Registers the <see cref="Analyzer"/> analyzer <typeparamref name="TAnalyzer"/> in DI and
-    /// as a selectable analyzer in the Admin UI
+    /// Registers the <see cref="Analyzer"/> analyzer <typeparamref name="TAnalyzer"/>
+    /// as a selectable analyzer in the Admin UI. When selected this analyzer will be used to process indexed items.
     /// </summary>
     /// <typeparam name="TAnalyzer"></typeparam>
     /// <param name="analyzerName"></param>
@@ -127,7 +151,20 @@ internal class LuceneBuilder : ILuceneBuilder
     public ILuceneBuilder RegisterAnalyzer<TAnalyzer>(string analyzerName) where TAnalyzer : Analyzer
     {
         AnalyzerStorage.AddAnalyzer<TAnalyzer>(analyzerName);
-        serviceCollection.AddTransient<TAnalyzer>();
+
+        return this;
+    }
+
+
+    /// <summary>
+    /// Sets the <see cref="LuceneVersion"/> lucene version which will be used by <see cref="Analyzer"/> for indexing.
+    /// Defaults to <c><see cref="LuceneVersion.LUCENE_48"/></c>
+    /// </summary>
+    /// <param name="matchVersion"></param>
+    /// <returns></returns>
+    public ILuceneBuilder SetAnalyzerLuceneVersion(LuceneVersion matchVersion)
+    {
+        AnalyzerStorage.SetAnalyzerLuceneVersion(matchVersion);
 
         return this;
     }
