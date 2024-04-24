@@ -1,5 +1,7 @@
 ﻿using CMS.DataEngine;
+
 using DancingGoat.Models;
+
 using Kentico.Xperience.Lucene.Core.Indexing;
 
 namespace Kentico.Xperience.Lucene.Tests.Base;
@@ -41,6 +43,7 @@ internal static class MockDataProvider
             LanguageNames = [EnglishLanguageName, CzechLanguageName],
             Paths = [Path]
         },
+        [],
         []
     );
 
@@ -60,6 +63,7 @@ internal static class MockDataProvider
             LanguageNames = [EnglishLanguageName, CzechLanguageName],
             Paths = [Path]
         },
+        [],
         []
     );
 }

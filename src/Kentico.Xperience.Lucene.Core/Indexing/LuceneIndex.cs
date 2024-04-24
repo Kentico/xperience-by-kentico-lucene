@@ -1,6 +1,4 @@
-﻿using Lucene.Net.Analysis;
-using Lucene.Net.Analysis.Standard;
-using Lucene.Net.Util;
+﻿using Lucene.Net.Analysis.Standard;
 
 namespace Kentico.Xperience.Lucene.Core.Indexing;
 
@@ -30,9 +28,9 @@ public sealed class LuceneIndex
     public List<string> LanguageNames { get; }
 
     /// <summary>
-    /// Lucene Analyzer instance <see cref="Analyzer"/>.
+    /// The type of Lucene Analyzer which extends <see cref="LuceneAnalyzerType"/>.
     /// </summary>
-    public Analyzer Analyzer { get; }
+    public Type LuceneAnalyzerType { get; }
 
     /// <summary>
     /// The type of the class which extends <see cref="ILuceneIndexingStrategy"/>.
@@ -46,9 +44,8 @@ public sealed class LuceneIndex
 
     internal IEnumerable<LuceneIndexIncludedPath> IncludedPaths { get; set; }
 
-    internal LuceneIndex(LuceneIndexModel indexConfiguration, Dictionary<string, Type> strategies)
+    internal LuceneIndex(LuceneIndexModel indexConfiguration, Dictionary<string, Type> strategies, Dictionary<string, Type> analyzers)
     {
-        Analyzer = new StandardAnalyzer(LuceneVersion.LUCENE_48);
         Identifier = indexConfiguration.Id;
         IndexName = indexConfiguration.IndexName;
         WebSiteChannelName = indexConfiguration.ChannelName;
@@ -62,7 +59,15 @@ public sealed class LuceneIndex
             strategy = strategies[indexConfiguration.StrategyName];
         }
 
+        var analyzer = typeof(StandardAnalyzer);
+
+        if (analyzers.ContainsKey(indexConfiguration.AnalyzerName))
+        {
+            analyzer = analyzers[indexConfiguration.AnalyzerName];
+        }
+
         LuceneIndexingStrategyType = strategy;
+        LuceneAnalyzerType = analyzer;
 
         string indexStoragePath = Path.Combine(Environment.CurrentDirectory, "App_Data", "LuceneSearch", indexConfiguration.IndexName);
         StorageContext = new IndexStorageContext(new GenerationStorageStrategy(), indexStoragePath, new IndexRetentionPolicy(4));
