@@ -30,6 +30,10 @@ See [Managing search indexes](Managing-Indexes.md)
 
 See [Search index querying](Search-index-querying.md)
 
+## Using Lucene Analyzer
+
+See [Text analyzing](Text-analyzing.md)
+
 ## Implementing document decay
 
 You can score indexed items by "freshness" or "recency" using several techniques, each with different tradeoffs.
