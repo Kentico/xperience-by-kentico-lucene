@@ -29,7 +29,7 @@ internal static class MockDataProvider
                 .Get()
                 .WhereEquals(nameof(DataClassInfo.ClassName), ArticlePage.CONTENT_TYPE_NAME)
                 .FirstOrDefault()?
-                .ClassDisplayName ?? ""
+                .ClassDisplayName ?? "", 0
                 )
             ]
     };

@@ -3,12 +3,12 @@
 public interface ILuceneConfigurationStorageService
 {
     bool TryCreateIndex(LuceneIndexModel configuration);
-    bool TryEditIndex(LuceneIndexModel configuration);
+    Task<bool> TryEditIndexAsync(LuceneIndexModel configuration);
     bool TryDeleteIndex(LuceneIndexModel configuration);
     bool TryDeleteIndex(int id);
-    LuceneIndexModel? GetIndexDataOrNull(int indexId);
-    LuceneIndexModel? GetIndexDataOrNull(string indexName);
+    Task<LuceneIndexModel?> GetIndexDataOrNullAsync(int indexId);
+    Task<LuceneIndexModel?> GetIndexDataOrNullAsync(string indexName);
     List<string> GetExistingIndexNames();
     List<int> GetIndexIds();
-    IEnumerable<LuceneIndexModel> GetAllIndexData();
+    Task<IEnumerable<LuceneIndexModel>> GetAllIndexDataAsync();
 }
