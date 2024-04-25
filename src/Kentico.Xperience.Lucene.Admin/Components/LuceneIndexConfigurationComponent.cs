@@ -87,7 +87,7 @@ public class LuceneIndexConfigurationComponent : FormComponent<LuceneIndexConfig
             .Get()
             .WhereEquals(nameof(DataClassInfo.ClassContentTypeType), "Website")
             .GetEnumerableTypedResult()
-            .Select(x => new LuceneIndexContentType(x.ClassName, x.ClassDisplayName));
+            .Select(x => new LuceneIndexContentType(x.ClassName, x.ClassDisplayName, 0));
 
         properties.Value = Value ?? [];
         properties.PossibleContentTypeItems = allWebsiteContentTypes.ToList();

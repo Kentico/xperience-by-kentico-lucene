@@ -46,9 +46,9 @@ internal class IndexCreatePage : BaseIndexEditPage
         }
     }
 
-    protected override Task<ICommandResponse> ProcessFormData(LuceneConfigurationModel model, ICollection<IFormItem> formItems)
+    protected override async Task<ICommandResponse> ProcessFormData(LuceneConfigurationModel model, ICollection<IFormItem> formItems)
     {
-        var result = ValidateAndProcess(model);
+        var result = await ValidateAndProcess(model);
 
         if (result == IndexModificationResult.Success)
         {
@@ -57,12 +57,12 @@ internal class IndexCreatePage : BaseIndexEditPage
             var successResponse = NavigateTo(pageUrlGenerator.GenerateUrl<IndexEditPage>(index.Identifier.ToString()))
                 .AddSuccessMessage("Index created.");
 
-            return Task.FromResult<ICommandResponse>(successResponse);
+            return await Task.FromResult<ICommandResponse>(successResponse);
         }
 
         var errorResponse = ResponseFrom(new FormSubmissionResult(FormSubmissionStatus.ValidationFailure))
             .AddErrorMessage("Could not create index.");
 
-        return Task.FromResult<ICommandResponse>(errorResponse);
+        return await Task.FromResult<ICommandResponse>(errorResponse);
     }
 }

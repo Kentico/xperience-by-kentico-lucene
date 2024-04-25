@@ -18,7 +18,7 @@ public class LuceneIndexIncludedPath
     /// <summary>
     /// The internal identifier of the included path.
     /// </summary>
-    public string? Identifier { get; set; }
+    public int? Identifier { get; set; }
 
     [JsonConstructor]
     public LuceneIndexIncludedPath(string aliasPath) => AliasPath = aliasPath;
@@ -32,6 +32,6 @@ public class LuceneIndexIncludedPath
     {
         AliasPath = indexPath.LuceneIncludedPathItemAliasPath;
         ContentTypes = contentTypes.ToList();
-        Identifier = indexPath.LuceneIncludedPathItemId.ToString();
+        Identifier = indexPath.LuceneIncludedPathItemId;
     }
 }
