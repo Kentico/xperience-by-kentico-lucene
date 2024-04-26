@@ -22,6 +22,7 @@
     <AssemblyAttribute Include="CMS.AssemblyDiscoverableAttribute">
     </AssemblyAttribute>
     <InternalsVisibleTo Include="$(AssemblyName).Tests" />
+	<InternalsVisibleTo Include="Kentico.Xperience.Lucene.Admin" />
   </ItemGroup>
   
   <ItemGroup>

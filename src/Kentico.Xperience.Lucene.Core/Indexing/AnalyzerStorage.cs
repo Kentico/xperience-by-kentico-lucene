@@ -4,7 +4,7 @@ using Lucene.Net.Util;
 
 namespace Kentico.Xperience.Lucene.Core.Indexing;
 
-public static class AnalyzerStorage
+internal static class AnalyzerStorage
 {
     public static Dictionary<string, Type> Analyzers { get; private set; }
     public static LuceneVersion AnalyzerLuceneVersion { get; private set; }

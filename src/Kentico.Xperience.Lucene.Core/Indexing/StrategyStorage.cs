@@ -1,6 +1,6 @@
 ﻿namespace Kentico.Xperience.Lucene.Core.Indexing;
 
-public static class StrategyStorage
+internal static class StrategyStorage
 {
     public static Dictionary<string, Type> Strategies { get; private set; }
     static StrategyStorage() => Strategies = [];
