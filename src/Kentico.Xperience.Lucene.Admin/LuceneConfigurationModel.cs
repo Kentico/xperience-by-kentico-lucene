@@ -2,6 +2,7 @@
 
 using Kentico.Xperience.Admin.Base.FormAnnotations;
 using Kentico.Xperience.Admin.Base.Forms;
+using Kentico.Xperience.Lucene.Admin.Providers;
 using Kentico.Xperience.Lucene.Core.Indexing;
 
 namespace Kentico.Xperience.Lucene.Admin;
@@ -27,6 +28,9 @@ public class LuceneConfigurationModel
     [DropDownComponent(Label = "Indexing Strategy", DataProviderType = typeof(IndexingStrategyOptionsProvider), Order = 4)]
     public string StrategyName { get; set; } = "";
 
+    [DropDownComponent(Label = "Lucene Analyzer", DataProviderType = typeof(AnalyzerOptionsProvider), Order = 5)]
+    public string AnalyzerName { get; set; } = "";
+
     [TextInputComponent(Label = "Rebuild Hook")]
     public string RebuildHook { get; set; } = "";
 
@@ -44,6 +48,7 @@ public class LuceneConfigurationModel
         LanguageNames = luceneModel.LanguageNames;
         ChannelName = luceneModel.ChannelName;
         StrategyName = luceneModel.StrategyName;
+        AnalyzerName = luceneModel.AnalyzerName;
         RebuildHook = luceneModel.RebuildHook;
         Paths = luceneModel.Paths;
     }
@@ -55,6 +60,7 @@ public class LuceneConfigurationModel
             IndexName = IndexName,
             LanguageNames = LanguageNames,
             ChannelName = ChannelName,
+            AnalyzerName = AnalyzerName,
             StrategyName = StrategyName,
             RebuildHook = RebuildHook,
             Paths = Paths

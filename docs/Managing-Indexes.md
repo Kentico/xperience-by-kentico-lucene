@@ -19,6 +19,7 @@ Fill out the search index form, populating the fields with your custom values.
 - Channel Name - the index will only be triggered by web page item creation or modication in the selected website channel
 - Indexing Strategy - the indexing strategy specified in code during dependency registration of a custom indexing strategies.
   - If you want the default strategy to appear here, register it explicitly in `IServiceCollection.AddKenticoLucene()` method
+- Lucene Analyzer - the Lucene analyzer which indexes use to analyze text.
 
 Now, configure the web page paths and content types that the search index depends on by clicking the Add New Path button
 or clicking an existing path in the table at the top of the index configuration form.
@@ -33,4 +34,4 @@ or clicking an existing path in the table at the top of the index configuration 
 
 All reusable content item modifications will trigger an event to generate a `IndexEventReusableItemModel` for your custom index strategy class to process, as long as the content item has a language variant matching one of the languages selected for the index. You can use this to index reusable content items in addition to web page items but returning the reusable content item content as a `IIndexEventItemModel` from the strategy `FindItemsToReindex` method.
 
-> Note: There currently no UI to allow administrators to configure which types of reusable content items trigger indexing. This could be added in a future update.
+> Note: There is currently no UI to allow administrators to configure which types of reusable content items trigger indexing. This could be added in a future update.

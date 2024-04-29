@@ -1,6 +1,6 @@
 ﻿using Kentico.Xperience.Lucene.Core.Indexing;
 using Kentico.Xperience.Lucene.Core.Search;
-using Lucene.Net.Analysis.Standard;
+
 using Lucene.Net.Documents;
 using Lucene.Net.Facet;
 using Lucene.Net.Search;
@@ -19,8 +19,9 @@ public class AdvancedSearchService
 
     public AdvancedSearchService(
         ILuceneSearchService luceneSearchService,
-        AdvancedSearchIndexingStrategy strategy,
-        ILuceneIndexManager luceneIndexManager)
+        ILuceneIndexManager luceneIndexManager,
+        AdvancedSearchIndexingStrategy strategy
+    )
     {
         this.luceneSearchService = luceneSearchService;
         this.strategy = strategy;
@@ -36,7 +37,7 @@ public class AdvancedSearchService
         string? sortBy = null)
     {
         var index = luceneIndexManager.GetRequiredIndex(indexName);
-        var query = GetTermQuery(searchText);
+        var query = GetTermQuery(searchText, index);
 
         var combinedQuery = new BooleanQuery
         {
@@ -105,9 +106,9 @@ public class AdvancedSearchService
         return query;
     }
 
-    private static Query GetTermQuery(string? searchText)
+    private Query GetTermQuery(string? searchText, LuceneIndex index)
     {
-        var analyzer = new StandardAnalyzer(LuceneVersion.LUCENE_48);
+        var analyzer = index.LuceneAnalyzer;
         var queryBuilder = new QueryBuilder(analyzer);
 
         if (string.IsNullOrEmpty(searchText))

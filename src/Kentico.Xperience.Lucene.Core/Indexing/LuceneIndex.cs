@@ -30,9 +30,9 @@ public sealed class LuceneIndex
     public List<string> LanguageNames { get; }
 
     /// <summary>
-    /// Lucene Analyzer instance <see cref="Analyzer"/>.
+    /// Lucene Analyzer used for indexing.
     /// </summary>
-    public Analyzer Analyzer { get; }
+    public Analyzer LuceneAnalyzer { get; }
 
     /// <summary>
     /// The type of the class which extends <see cref="ILuceneIndexingStrategy"/>.
@@ -46,9 +46,8 @@ public sealed class LuceneIndex
 
     internal IEnumerable<LuceneIndexIncludedPath> IncludedPaths { get; set; }
 
-    internal LuceneIndex(LuceneIndexModel indexConfiguration, Dictionary<string, Type> strategies)
+    internal LuceneIndex(LuceneIndexModel indexConfiguration, Dictionary<string, Type> strategies, Dictionary<string, Type> analyzers, LuceneVersion matchVersion)
     {
-        Analyzer = new StandardAnalyzer(LuceneVersion.LUCENE_48);
         Identifier = indexConfiguration.Id;
         IndexName = indexConfiguration.IndexName;
         WebSiteChannelName = indexConfiguration.ChannelName;
@@ -61,6 +60,21 @@ public sealed class LuceneIndex
         {
             strategy = strategies[indexConfiguration.StrategyName];
         }
+
+        var analyzerType = typeof(StandardAnalyzer);
+
+        if (analyzers.ContainsKey(indexConfiguration.AnalyzerName))
+        {
+            analyzerType = analyzers[indexConfiguration.AnalyzerName];
+        }
+
+        var constructorParameters = analyzerType.GetConstructors().Select(x => new
+        {
+            Constructor = x,
+            Parameters = x.GetParameters()
+        });
+        var constructor = constructorParameters.First(x => x.Parameters.Length == 1 && x.Parameters.Single().ParameterType == typeof(LuceneVersion)).Constructor;
+        LuceneAnalyzer = (Analyzer)constructor.Invoke([matchVersion]);
 
         LuceneIndexingStrategyType = strategy;
 

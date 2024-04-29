@@ -1,6 +1,10 @@
 ﻿using CMS.DataEngine;
+
 using DancingGoat.Models;
+
 using Kentico.Xperience.Lucene.Core.Indexing;
+
+using Lucene.Net.Util;
 
 namespace Kentico.Xperience.Lucene.Tests.Base;
 
@@ -39,13 +43,17 @@ internal static class MockDataProvider
             IndexName = DefaultIndex,
             ChannelName = DefaultChannel,
             LanguageNames = [EnglishLanguageName, CzechLanguageName],
-            Paths = [Path]
+            Paths = [Path],
+            AnalyzerName = DefaultAnalyzer
         },
-        []
+        [],
+        [],
+        LuceneVersion.LUCENE_48
     );
 
     public static readonly string DefaultIndex = "SimpleIndex";
     public static readonly string DefaultChannel = "DefaultChannel";
+    public static readonly string DefaultAnalyzer = "StandardAnalyzer";
     public static readonly string EnglishLanguageName = "en";
     public static readonly string CzechLanguageName = "cz";
     public static readonly int IndexId = 1;
@@ -58,8 +66,10 @@ internal static class MockDataProvider
             IndexName = indexName,
             ChannelName = DefaultChannel,
             LanguageNames = [EnglishLanguageName, CzechLanguageName],
-            Paths = [Path]
+            Paths = [Path],
         },
-        []
+        [],
+        [],
+        LuceneVersion.LUCENE_48
     );
 }
