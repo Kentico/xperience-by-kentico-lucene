@@ -5,6 +5,7 @@ using CMS.Core;
 using Kentico.Xperience.Admin.Base;
 using Kentico.Xperience.Lucene.Admin;
 using Kentico.Xperience.Lucene.Core;
+
 using Microsoft.Extensions.DependencyInjection;
 
 [assembly: RegisterModule(typeof(LuceneAdminModule))]

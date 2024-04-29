@@ -191,7 +191,7 @@ internal class DefaultLuceneConfigurationStorageService : ILuceneConfigurationSt
 
         return true;
     }
-    
+
 
     public bool TryDeleteIndex(int id)
     {

@@ -65,7 +65,7 @@ internal class DefaultLuceneSearchService : ILuceneSearchService
 
         using var taxonomyReader = new DirectoryTaxonomyReader(taxonomyDir);
         var facetsCollector = new FacetsCollector();
-        Dictionary<string, Facets> facetsMap = new();
+        Dictionary<string, Facets> facetsMap = [];
         FacetsCollector.Search(searcher, query, n, facetsCollector);
         var strategy = serviceProvider.GetRequiredStrategy(index);
         var config = strategy?.FacetsConfigFactory() ?? new FacetsConfig();

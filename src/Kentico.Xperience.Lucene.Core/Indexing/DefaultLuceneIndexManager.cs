@@ -75,12 +75,7 @@ internal class DefaultLuceneIndexManager : ILuceneIndexManager
     {
         var index = (CacheSettings cs) =>
         {
-            var indexConfiguration = storageService.GetIndexDataOrNullAsync(indexName).Result;
-
-            if (indexConfiguration == null)
-            {
-                throw new InvalidOperationException($"The index '{indexName}' does not exist.");
-            }
+            var indexConfiguration = storageService.GetIndexDataOrNullAsync(indexName).Result ?? throw new InvalidOperationException($"The index '{indexName}' does not exist.");
             cs.CacheDependency = CacheHelper.GetCacheDependency(GetLuceneDependencyCacheKeys());
 
             return new LuceneIndex(indexConfiguration, StrategyStorage.Strategies, AnalyzerStorage.Analyzers, AnalyzerStorage.AnalyzerLuceneVersion);
