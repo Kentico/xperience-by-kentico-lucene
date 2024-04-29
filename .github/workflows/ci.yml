@@ -27,7 +27,7 @@ on:
 
 jobs:
   dotnet-format:
-    name: Format
+    name: dotnet-format
     runs-on: ubuntu-latest
 
     steps:

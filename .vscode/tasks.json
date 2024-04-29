@@ -62,11 +62,13 @@
       "label": ".NET: format (Lucene)",
       "command": "dotnet",
       "type": "process",
-      "args": ["format", "Kentico.Xperience.Lucene.csproj"],
-      "problemMatcher": "$msCompile",
-      "options": {
-        "cwd": "${workspaceFolder}/src/Kentico.Xperience.Lucene"
-      }
+      "args": [
+        "format",
+        "Kentico.Xperience.Lucene.sln",
+        "--exclude",
+        "./examples/**"
+      ],
+      "problemMatcher": "$msCompile"
     },
     {
       "label": ".NET: pack (Lucene)",

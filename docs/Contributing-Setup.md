@@ -67,9 +67,9 @@ To run the example project Admin customization in development mode, add the foll
    - `refactor/` - for restructuring of existing features
    - `fix/` - for bugfixes
 
-1. Run `dotnet format` against the `src/Kentico.Xperience.Lucene.Admin` project
+1. Run `dotnet format` against the `Kentico.Xperience.Lucene` solution
 
-   > use `dotnet: format` VS Code task.
+   > use `.NET: format (Lucene)` VS Code task.
 
 1. Commit changes, with a commit message preferably following the [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/#summary) convention.
 
