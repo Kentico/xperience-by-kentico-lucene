@@ -16,7 +16,7 @@ internal static class AnalyzerStorage
 
     public static void AddAnalyzer<TAnalyzer>(string analyzerName) where TAnalyzer : Analyzer
         => Analyzers.Add(analyzerName, typeof(TAnalyzer));
-    
+
 
     public static Type GetOrDefault(string analyzerName) =>
         Analyzers.TryGetValue(analyzerName, out var type)
