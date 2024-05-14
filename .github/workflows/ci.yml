@@ -31,7 +31,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Run dotnet format
         run: dotnet format Kentico.Xperience.Lucene.sln --exclude ./examples/** --verify-no-changes
@@ -51,7 +51,7 @@ jobs:
       SIGN_FILE: false
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Setup .NET
         uses: actions/setup-dotnet@v3
