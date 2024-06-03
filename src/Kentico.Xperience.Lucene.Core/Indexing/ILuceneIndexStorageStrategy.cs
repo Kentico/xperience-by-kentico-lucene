@@ -69,10 +69,10 @@ internal class GenerationStorageStrategy : ILuceneIndexStorageStrategy
     {
         (string? path, string? taxonomyPath, int generation, bool _) = storage;
 
-        string delBase = Path.Combine(path, $@"..\{IndexDeletionDirectoryName}");
+        string delBase = Path.Combine(path, "..", IndexDeletionDirectoryName);
         Directory.CreateDirectory(delBase);
 
-        string delPath = Path.Combine(path, $@"..\{IndexDeletionDirectoryName}\{generation:0000000}");
+        string delPath = Path.Combine(path, "..", IndexDeletionDirectoryName, $"{generation:0000000}");
         try
         {
             Directory.Move(path, delPath);
@@ -87,7 +87,7 @@ internal class GenerationStorageStrategy : ILuceneIndexStorageStrategy
 
         if (!string.IsNullOrWhiteSpace(taxonomyPath) && Directory.Exists(taxonomyPath))
         {
-            string delPathTaxon = Path.Combine(path, $@"..\{IndexDeletionDirectoryName}\{generation:0000000}_taxon");
+            string delPathTaxon = Path.Combine(path, "..", IndexDeletionDirectoryName, $"{generation:0000000}_taxon");
             try
             {
                 Directory.Move(taxonomyPath, delPathTaxon);
