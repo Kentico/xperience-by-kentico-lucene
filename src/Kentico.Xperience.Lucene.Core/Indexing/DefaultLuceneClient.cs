@@ -238,9 +238,18 @@ internal class DefaultLuceneClient : ILuceneClient
                         // delete old document, there is no upsert nor update in Lucene
 
                         string? id = document.Get(nameof(IIndexEventItemModel.ItemGuid));
-                        if (id is not null)
+                        string? language = document.Get(nameof(IIndexEventItemModel.LanguageName));
+                        if (id is not null && language is not null)
                         {
-                            writer.DeleteDocuments(new Term(nameof(IIndexEventItemModel.ItemGuid), id));
+                            // for now all changes are creates, update to be done later
+                            // delete old document, there is no upsert nor update in Lucene
+                            var multiTermQuery = new BooleanQuery
+                            {
+                                { new TermQuery(new Term(nameof(IIndexEventItemModel.ItemGuid), id)), Occur.MUST },
+                                { new TermQuery(new Term(nameof(IIndexEventItemModel.LanguageName), language)), Occur.MUST }
+                            };
+
+                            writer.DeleteDocuments(multiTermQuery);
                         }
 
                         // add new one
@@ -273,11 +282,18 @@ internal class DefaultLuceneClient : ILuceneClient
                     foreach (var document in documents)
                     {
                         string? id = document.Get(nameof(IIndexEventItemModel.ItemGuid));
-                        if (id is not null)
+                        string? language = document.Get(nameof(IIndexEventItemModel.LanguageName));
+                        if (id is not null && language is not null)
                         {
                             // for now all changes are creates, update to be done later
                             // delete old document, there is no upsert nor update in Lucene
-                            writer.DeleteDocuments(new Term(nameof(IIndexEventItemModel.ItemGuid), id));
+                            var multiTermQuery = new BooleanQuery
+                            {
+                                { new TermQuery(new Term(nameof(IIndexEventItemModel.ItemGuid), id)), Occur.MUST },
+                                { new TermQuery(new Term(nameof(IIndexEventItemModel.LanguageName), language)), Occur.MUST }
+                            };
+
+                            writer.DeleteDocuments(multiTermQuery);
                         }
                         // add new one
 #pragma warning disable S2589 // Boolean expressions should not be gratuitous
