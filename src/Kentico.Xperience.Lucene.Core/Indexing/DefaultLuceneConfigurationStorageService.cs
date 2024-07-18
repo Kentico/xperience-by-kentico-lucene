@@ -3,6 +3,9 @@
 using CMS.Base;
 using CMS.DataEngine;
 
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
+
 namespace Kentico.Xperience.Lucene.Core.Indexing;
 
 internal class DefaultLuceneConfigurationStorageService : ILuceneConfigurationStorageService
@@ -11,18 +14,21 @@ internal class DefaultLuceneConfigurationStorageService : ILuceneConfigurationSt
     private readonly ILuceneIncludedPathItemInfoProvider pathProvider;
     private readonly ILuceneContentTypeItemInfoProvider contentTypeProvider;
     private readonly ILuceneIndexLanguageItemInfoProvider languageProvider;
+    private readonly LuceneStoragePathOptions storagePathOptions;
 
     public DefaultLuceneConfigurationStorageService(
         ILuceneIndexItemInfoProvider indexProvider,
         ILuceneIncludedPathItemInfoProvider pathProvider,
         ILuceneContentTypeItemInfoProvider contentTypeProvider,
-        ILuceneIndexLanguageItemInfoProvider languageProvider
+        ILuceneIndexLanguageItemInfoProvider languageProvider,
+        IOptions<LuceneStoragePathOptions> storagePathOptions
     )
     {
         this.indexProvider = indexProvider;
         this.pathProvider = pathProvider;
         this.contentTypeProvider = contentTypeProvider;
         this.languageProvider = languageProvider;
+        this.storagePathOptions = storagePathOptions.Value;
     }
 
     public bool TryCreateIndex(LuceneIndexModel configuration)
@@ -94,7 +100,7 @@ internal class DefaultLuceneConfigurationStorageService : ILuceneConfigurationSt
         return true;
     }
 
-
+    public string? GetStoragePathBase() => storagePathOptions.StoragePathBase;
     public async Task<LuceneIndexModel?> GetIndexDataOrNullAsync(int indexId)
     {
         var indexInfo = indexProvider.Get().WithID(indexId).FirstOrDefault();

@@ -57,6 +57,7 @@ public static class LuceneStartupExtensions
 
     private static IServiceCollection AddLuceneServicesInternal(this IServiceCollection services) =>
         services
+            .Configure<LuceneStoragePathOptions>(options => new LuceneStoragePathOptions())
             .AddSingleton<LuceneModuleInstaller>()
             .AddSingleton<ILuceneClient, DefaultLuceneClient>()
             .AddSingleton<ILuceneTaskLogger, DefaultLuceneTaskLogger>()
@@ -168,4 +169,18 @@ internal class LuceneBuilder : ILuceneBuilder
 
         return this;
     }
+
+    public ILuceneBuilder SetLuceneStoragePathBase(string storagePathBase)
+    {
+        serviceCollection.Configure<LuceneStoragePathOptions>(options => new LuceneStoragePathOptions(storagePathBase));
+        return this;
+    }
+}
+
+internal class LuceneStoragePathOptions
+{
+    public string? StoragePathBase { get; set; }
+
+    public LuceneStoragePathOptions() { }
+    public LuceneStoragePathOptions(string storagePathBase) => StoragePathBase = storagePathBase;
 }

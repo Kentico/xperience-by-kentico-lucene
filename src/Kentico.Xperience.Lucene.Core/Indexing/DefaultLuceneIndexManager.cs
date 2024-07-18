@@ -22,7 +22,9 @@ internal class DefaultLuceneIndexManager : ILuceneIndexManager
     {
         var indices = (CacheSettings cs) =>
         {
-            var luceneIndices = storageService.GetAllIndexDataAsync().Result.Select(x => new LuceneIndex(x, StrategyStorage.Strategies, AnalyzerStorage.Analyzers, AnalyzerStorage.AnalyzerLuceneVersion));
+            var luceneIndices = storageService.GetAllIndexDataAsync().Result.Select(x =>
+                new LuceneIndex(x, StrategyStorage.Strategies, AnalyzerStorage.Analyzers, AnalyzerStorage.AnalyzerLuceneVersion, storageService.GetStoragePathBase())
+            );
 
             cs.CacheDependency = CacheHelper.GetCacheDependency(GetLuceneDependencyCacheKeys());
 
@@ -45,7 +47,7 @@ internal class DefaultLuceneIndexManager : ILuceneIndexManager
             }
             cs.CacheDependency = CacheHelper.GetCacheDependency(GetLuceneDependencyCacheKeys());
 
-            return new LuceneIndex(indexConfiguration, StrategyStorage.Strategies, AnalyzerStorage.Analyzers, AnalyzerStorage.AnalyzerLuceneVersion);
+            return new LuceneIndex(indexConfiguration, StrategyStorage.Strategies, AnalyzerStorage.Analyzers, AnalyzerStorage.AnalyzerLuceneVersion, storageService.GetStoragePathBase());
         };
 
         return progressiveCache.Load(cs => index(cs), new CacheSettings(10, $"customdatasource|index|name|{indexName}"));
@@ -64,7 +66,7 @@ internal class DefaultLuceneIndexManager : ILuceneIndexManager
             }
             cs.CacheDependency = CacheHelper.GetCacheDependency(GetLuceneDependencyCacheKeys());
 
-            return new LuceneIndex(indexConfiguration, StrategyStorage.Strategies, AnalyzerStorage.Analyzers, AnalyzerStorage.AnalyzerLuceneVersion);
+            return new LuceneIndex(indexConfiguration, StrategyStorage.Strategies, AnalyzerStorage.Analyzers, AnalyzerStorage.AnalyzerLuceneVersion, storageService.GetStoragePathBase());
         };
 
         return progressiveCache.Load(cs => index(cs), new CacheSettings(10, $"customdatasource|index|identifier|{identifier}"));
@@ -78,7 +80,7 @@ internal class DefaultLuceneIndexManager : ILuceneIndexManager
             var indexConfiguration = storageService.GetIndexDataOrNullAsync(indexName).Result ?? throw new InvalidOperationException($"The index '{indexName}' does not exist.");
             cs.CacheDependency = CacheHelper.GetCacheDependency(GetLuceneDependencyCacheKeys());
 
-            return new LuceneIndex(indexConfiguration, StrategyStorage.Strategies, AnalyzerStorage.Analyzers, AnalyzerStorage.AnalyzerLuceneVersion);
+            return new LuceneIndex(indexConfiguration, StrategyStorage.Strategies, AnalyzerStorage.Analyzers, AnalyzerStorage.AnalyzerLuceneVersion, storageService.GetStoragePathBase());
         };
 
         return progressiveCache.Load(cs => index(cs), new CacheSettings(10, $"customdatasource|index|identifier|{indexName}"));

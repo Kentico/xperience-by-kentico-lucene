@@ -11,4 +11,5 @@ public interface ILuceneConfigurationStorageService
     List<string> GetExistingIndexNames();
     List<int> GetIndexIds();
     Task<IEnumerable<LuceneIndexModel>> GetAllIndexDataAsync();
+    string? GetStoragePathBase();
 }

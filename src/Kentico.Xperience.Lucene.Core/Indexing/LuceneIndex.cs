@@ -46,7 +46,7 @@ public sealed class LuceneIndex
 
     internal IEnumerable<LuceneIndexIncludedPath> IncludedPaths { get; set; }
 
-    internal LuceneIndex(LuceneIndexModel indexConfiguration, Dictionary<string, Type> strategies, Dictionary<string, Type> analyzers, LuceneVersion matchVersion)
+    internal LuceneIndex(LuceneIndexModel indexConfiguration, Dictionary<string, Type> strategies, Dictionary<string, Type> analyzers, LuceneVersion matchVersion, string? storagePathBase)
     {
         Identifier = indexConfiguration.Id;
         IndexName = indexConfiguration.IndexName;
@@ -78,7 +78,12 @@ public sealed class LuceneIndex
 
         LuceneIndexingStrategyType = strategy;
 
-        string indexStoragePath = Path.Combine(Environment.CurrentDirectory, "App_Data", "LuceneSearch", indexConfiguration.IndexName);
+        string indexPath = Path.Combine("LuceneSearch", indexConfiguration.IndexName);
+
+        string indexStoragePath = storagePathBase is null
+            ? Path.Combine(Environment.CurrentDirectory, "App_Data", indexPath)
+            : Path.Combine(storagePathBase, indexPath);
+
         StorageContext = new IndexStorageContext(new GenerationStorageStrategy(), indexStoragePath, new IndexRetentionPolicy(4));
     }
 }
