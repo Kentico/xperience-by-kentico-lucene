@@ -5,11 +5,8 @@ using Lucene.Net.Facet.Taxonomy;
 using Lucene.Net.Facet.Taxonomy.Directory;
 using Lucene.Net.Index;
 using Lucene.Net.Search;
-using Lucene.Net.Store;
 
 using Microsoft.Extensions.DependencyInjection;
-
-using LuceneDirectory = Lucene.Net.Store.Directory;
 
 namespace Kentico.Xperience.Lucene.Core.Search;
 
@@ -27,7 +24,7 @@ internal class DefaultLuceneSearchService : ILuceneSearchService
     public TResult UseSearcher<TResult>(LuceneIndex index, Func<IndexSearcher, TResult> useIndexSearcher)
     {
         var storage = index.StorageContext.GetPublishedIndex();
-        if (!System.IO.Directory.Exists(storage.Path))
+        if (!CMS.IO.Directory.Exists(storage.Path))
         {
             // ensure index
             indexService.UseWriter(index, (writer) =>
@@ -37,7 +34,7 @@ internal class DefaultLuceneSearchService : ILuceneSearchService
             }, storage);
         }
 
-        using LuceneDirectory indexDir = FSDirectory.Open(storage.Path);
+        using var indexDir = KenticoLuceneDirectory.Open(storage.Path);
         using var reader = DirectoryReader.Open(indexDir);
         var searcher = new IndexSearcher(reader);
         return useIndexSearcher(searcher);
@@ -46,7 +43,7 @@ internal class DefaultLuceneSearchService : ILuceneSearchService
     public TResult UseSearcherWithFacets<TResult>(LuceneIndex index, Query query, int n, Func<IndexSearcher, MultiFacets, TResult> useIndexSearcher)
     {
         var storage = index.StorageContext.GetPublishedIndex();
-        if (!System.IO.Directory.Exists(storage.Path))
+        if (!CMS.IO.Directory.Exists(storage.Path))
         {
             // ensure index
             indexService.UseIndexAndTaxonomyWriter(index, (writer, tw) =>
@@ -57,11 +54,11 @@ internal class DefaultLuceneSearchService : ILuceneSearchService
             }, storage);
         }
 
-        using LuceneDirectory indexDir = FSDirectory.Open(storage.Path);
+        using var indexDir = KenticoLuceneDirectory.Open(storage.Path);
         using var reader = DirectoryReader.Open(indexDir);
         var searcher = new IndexSearcher(reader);
 
-        using var taxonomyDir = FSDirectory.Open(storage.TaxonomyPath);
+        using var taxonomyDir = KenticoLuceneDirectory.Open(storage.TaxonomyPath);
 
         using var taxonomyReader = new DirectoryTaxonomyReader(taxonomyDir);
         var facetsCollector = new FacetsCollector();

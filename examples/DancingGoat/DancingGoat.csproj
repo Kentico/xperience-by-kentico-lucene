@@ -7,9 +7,6 @@
     <RunAnalyzersDuringBuild>false</RunAnalyzersDuringBuild>
   </PropertyGroup>
   <ItemGroup>
-    <None Remove="App_Data\CMSModules\WebFarm\webfarm.sync" />
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="app_offline.htm_" Condition="Exists('app_offline.htm_')" CopyToPublishDirectory="PreserveNewest" />
   </ItemGroup>
   <!-- Exclude administration parts from the compilation in live-site only deployment  -->

@@ -2,6 +2,8 @@
 using Lucene.Net.Analysis.Standard;
 using Lucene.Net.Util;
 
+using Path = CMS.IO.Path;
+
 namespace Kentico.Xperience.Lucene.Core.Indexing;
 
 /// <summary>

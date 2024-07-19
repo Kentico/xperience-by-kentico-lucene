@@ -57,7 +57,7 @@ public static class LuceneStartupExtensions
 
     private static IServiceCollection AddLuceneServicesInternal(this IServiceCollection services) =>
         services
-            .Configure<LuceneStoragePathOptions>(options => new LuceneStoragePathOptions())
+            .Configure<LuceneStoragePathOptions>(options => { })
             .AddSingleton<LuceneModuleInstaller>()
             .AddSingleton<ILuceneClient, DefaultLuceneClient>()
             .AddSingleton<ILuceneTaskLogger, DefaultLuceneTaskLogger>()
@@ -104,6 +104,8 @@ public interface ILuceneBuilder
     /// <param name="matchVersion"><see cref="LuceneVersion"/> to be used by the <see cref="Analyzer"/></param>
     /// <returns>Returns this instance of <see cref="ILuceneBuilder"/>, allowing for further configuration in a fluent manner.</returns>
     ILuceneBuilder SetAnalyzerLuceneVersion(LuceneVersion matchVersion);
+
+    ILuceneBuilder SetLuceneStoragePathBase(string storagePathBase);
 }
 
 
@@ -172,7 +174,7 @@ internal class LuceneBuilder : ILuceneBuilder
 
     public ILuceneBuilder SetLuceneStoragePathBase(string storagePathBase)
     {
-        serviceCollection.Configure<LuceneStoragePathOptions>(options => new LuceneStoragePathOptions(storagePathBase));
+        serviceCollection.Configure<LuceneStoragePathOptions>(options => options.StoragePathBase = storagePathBase);
         return this;
     }
 }
