@@ -16,5 +16,9 @@ public interface ILuceneTaskLogger
 
     Task HandleReusableItemEvent(IndexEventReusableItemModel reusableItem, string eventName);
 
+    /// <summary>
+    /// Logs a single <see cref="LuceneQueueItem"/>.
+    /// </summary>
+    /// <param name="task">The task to log.</param>
     void LogIndexTask(LuceneQueueItem task);
 }

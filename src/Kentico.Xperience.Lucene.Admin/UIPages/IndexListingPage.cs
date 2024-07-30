@@ -141,7 +141,7 @@ internal class IndexListingPage : ListingPage
     }
 
     /// <summary>
-    /// A page command which rebuilds an Lucene index.
+    /// A page command which rebuilds an Lucene index. Runs the rebuild on all application instances in case of vertical scaling.
     /// </summary>
     /// <param name="id">The ID of the row whose action was performed, which corresponds with the internal
     /// <see cref="LuceneIndex.Identifier"/> to rebuild.</param>

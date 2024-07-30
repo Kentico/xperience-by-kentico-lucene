@@ -88,10 +88,7 @@ internal class DefaultLuceneTaskLogger : ILuceneTaskLogger
         }
     }
 
-    /// <summary>
-    /// Logs a single <see cref="LuceneQueueItem"/>.
-    /// </summary>
-    /// <param name="task">The task to log.</param>
+    /// <inheritdoc />
     public void LogIndexTask(LuceneQueueItem task)
     {
         try
