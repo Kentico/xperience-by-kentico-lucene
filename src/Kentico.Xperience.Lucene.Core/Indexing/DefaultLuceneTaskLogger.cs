@@ -1,6 +1,8 @@
 ﻿using CMS.Core;
 using CMS.Websites;
 
+using Kentico.Xperience.Lucene.Core.Scaling;
+
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Kentico.Xperience.Lucene.Core.Indexing;
@@ -13,15 +15,20 @@ internal class DefaultLuceneTaskLogger : ILuceneTaskLogger
     private readonly IEventLogService eventLogService;
     private readonly IServiceProvider serviceProvider;
     private readonly ILuceneIndexManager indexManager;
+    private readonly IWebFarmService webFarmService;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="DefaultLuceneTaskLogger"/> class.
     /// </summary>
-    public DefaultLuceneTaskLogger(IEventLogService eventLogService, IServiceProvider serviceProvider, ILuceneIndexManager indexManager)
+    public DefaultLuceneTaskLogger(IEventLogService eventLogService,
+        IServiceProvider serviceProvider,
+        ILuceneIndexManager indexManager,
+        IWebFarmService webFarmService)
     {
         this.eventLogService = eventLogService;
         this.serviceProvider = serviceProvider;
         this.indexManager = indexManager;
+        this.webFarmService = webFarmService;
     }
 
     /// <inheritdoc />
@@ -47,11 +54,11 @@ internal class DefaultLuceneTaskLogger : ILuceneTaskLogger
                     {
                         if (taskType == LuceneTaskType.DELETE)
                         {
-                            LogIndexTask(new LuceneQueueItem(item, LuceneTaskType.DELETE, luceneIndex.IndexName));
+                            LogIndexTaskInternal(item, LuceneTaskType.DELETE, luceneIndex.IndexName);
                         }
                         else
                         {
-                            LogIndexTask(new LuceneQueueItem(item, LuceneTaskType.UPDATE, luceneIndex.IndexName));
+                            LogIndexTaskInternal(item, LuceneTaskType.UPDATE, luceneIndex.IndexName);
                         }
                     }
                 }
@@ -75,7 +82,7 @@ internal class DefaultLuceneTaskLogger : ILuceneTaskLogger
             {
                 foreach (var item in toReindex)
                 {
-                    LogIndexTask(new LuceneQueueItem(item, LuceneTaskType.UPDATE, luceneIndex.IndexName));
+                    LogIndexTaskInternal(item, LuceneTaskType.UPDATE, luceneIndex.IndexName);
                 }
             }
         }
@@ -85,7 +92,7 @@ internal class DefaultLuceneTaskLogger : ILuceneTaskLogger
     /// Logs a single <see cref="LuceneQueueItem"/>.
     /// </summary>
     /// <param name="task">The task to log.</param>
-    private void LogIndexTask(LuceneQueueItem task)
+    public void LogIndexTask(LuceneQueueItem task)
     {
         try
         {
@@ -95,6 +102,32 @@ internal class DefaultLuceneTaskLogger : ILuceneTaskLogger
         {
             eventLogService.LogException(nameof(DefaultLuceneTaskLogger), nameof(LogIndexTask), ex);
         }
+    }
+
+    private void LogIndexTaskInternal(IIndexEventItemModel item, LuceneTaskType taskType, string indexName)
+    {
+        if (item is IndexEventReusableItemModel reusableItemModel)
+        {
+            webFarmService.CreateTask(new IndexLogReusableItemWebFarmTask()
+            {
+                CreatorName = webFarmService.ServerName,
+                Data = reusableItemModel,
+                TaskType = taskType,
+                IndexName = indexName
+            });
+        }
+        else if (item is IndexEventWebPageItemModel webPageItemModel)
+        {
+            webFarmService.CreateTask(new IndexLogWebPageItemWebFarmTask()
+            {
+                CreatorName = webFarmService.ServerName,
+                Data = webPageItemModel,
+                TaskType = taskType,
+                IndexName = indexName
+            });
+        }
+
+        LogIndexTask(new LuceneQueueItem(item, taskType, indexName));
     }
 
     private static LuceneTaskType GetTaskType(string eventName)

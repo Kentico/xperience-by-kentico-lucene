@@ -15,4 +15,6 @@ public interface ILuceneTaskLogger
     Task HandleEvent(IndexEventWebPageItemModel webpageItem, string eventName);
 
     Task HandleReusableItemEvent(IndexEventReusableItemModel reusableItem, string eventName);
+
+    void LogIndexTask(LuceneQueueItem task);
 }
