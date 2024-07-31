@@ -17,9 +17,7 @@ internal class RebuildWebFarmTask : WebFarmTaskBase
         luceneClient = Service.Resolve<ILuceneClient>();
     }
 
-#pragma warning disable CS1998 // Async method lacks 'await' operators and will run synchronously
-    public override async void ExecuteTask()
-#pragma warning restore CS1998 // Async method lacks 'await' operators and will run synchronously
+    public override void ExecuteTask()
     {
         string message = $"Server {SystemContext.ServerName} is processing a Lucene Rebuild task from creator {CreatorName}";
         eventLog.LogInformation("Lucene Rebuild Task", "Execute", message);

@@ -1,29 +1,18 @@
-﻿using CMS.Base;
-using CMS.Core;
+﻿using CMS.Core;
 
 using Kentico.Xperience.Lucene.Core.Indexing;
 
 namespace Kentico.Xperience.Lucene.Core.Scaling;
 internal class IndexLogWebPageItemWebFarmTask : WebFarmTaskBase
 {
-    private readonly IEventLogService eventLog;
     private readonly ILuceneTaskLogger luceneTaskLogger;
-    public string? CreatorName { get; set; }
     public IndexEventWebPageItemModel? Data { get; set; }
     public LuceneTaskType TaskType { get; set; }
     public string? IndexName { get; set; }
 
-    public IndexLogWebPageItemWebFarmTask()
-    {
-        eventLog = Service.Resolve<IEventLogService>();
+    public IndexLogWebPageItemWebFarmTask() =>
         luceneTaskLogger = Service.Resolve<ILuceneTaskLogger>();
-    }
 
-    public override void ExecuteTask()
-    {
-        string message = $"Server {SystemContext.ServerName} is processing a Lucene indexing task from creator {CreatorName}";
-        eventLog.LogInformation("Lucene Indexing Task", "Execute", message);
-
+    public override void ExecuteTask() =>
         luceneTaskLogger.LogIndexTask(new LuceneQueueItem(Data!, TaskType, IndexName!));
-    }
 }

@@ -107,7 +107,6 @@ internal class DefaultLuceneTaskLogger : ILuceneTaskLogger
         {
             webFarmService.CreateTask(new IndexLogReusableItemWebFarmTask()
             {
-                CreatorName = webFarmService.ServerName,
                 Data = reusableItemModel,
                 TaskType = taskType,
                 IndexName = indexName
@@ -117,7 +116,6 @@ internal class DefaultLuceneTaskLogger : ILuceneTaskLogger
         {
             webFarmService.CreateTask(new IndexLogWebPageItemWebFarmTask()
             {
-                CreatorName = webFarmService.ServerName,
                 Data = webPageItemModel,
                 TaskType = taskType,
                 IndexName = indexName
