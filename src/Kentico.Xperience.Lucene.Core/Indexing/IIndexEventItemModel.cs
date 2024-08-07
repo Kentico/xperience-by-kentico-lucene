@@ -34,21 +34,21 @@ public class IndexEventWebPageItemModel : IIndexEventItemModel
     /// The <see cref="WebPageFields.WebPageItemGUID"/>
     /// </summary>
     public Guid ItemGuid { get; set; }
-    public string LanguageName { get; set; }
-    public string ContentTypeName { get; set; }
+    public string LanguageName { get; set; } = string.Empty;
+    public string ContentTypeName { get; set; } = string.Empty;
     /// <summary>
     /// The <see cref="WebPageFields.WebPageItemName"/>
     /// </summary>
-    public string Name { get; set; }
+    public string Name { get; set; } = string.Empty;
     public bool IsSecured { get; set; }
     public int ContentTypeID { get; set; }
     public int ContentLanguageID { get; set; }
 
-    public string WebsiteChannelName { get; set; }
-    public string WebPageItemTreePath { get; set; }
+    public string WebsiteChannelName { get; set; } = string.Empty;
+    public string WebPageItemTreePath { get; set; } = string.Empty;
     public int? ParentID { get; set; }
     public int Order { get; set; }
-
+    public IndexEventWebPageItemModel() { }
     public IndexEventWebPageItemModel(
         int itemID,
         Guid itemGuid,
@@ -119,16 +119,16 @@ public class IndexEventReusableItemModel : IIndexEventItemModel
     /// The <see cref="ContentItemFields.ContentItemGUID"/>
     /// </summary>
     public Guid ItemGuid { get; set; }
-    public string LanguageName { get; set; }
-    public string ContentTypeName { get; set; }
+    public string LanguageName { get; set; } = string.Empty;
+    public string ContentTypeName { get; set; } = string.Empty;
     /// <summary>
     /// The <see cref="ContentItemFields.ContentItemName"/>
     /// </summary>
-    public string Name { get; set; }
+    public string Name { get; set; } = string.Empty;
     public bool IsSecured { get; set; }
     public int ContentTypeID { get; set; }
     public int ContentLanguageID { get; set; }
-
+    public IndexEventReusableItemModel() { }
     public IndexEventReusableItemModel(
         int itemID,
         Guid itemGuid,
