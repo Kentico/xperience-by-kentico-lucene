@@ -47,6 +47,10 @@ You can score indexed items by "freshness" or "recency" using several techniques
 
 > Small differences in boosts will be ignored by Lucene.
 
+## Auto-scaling Support
+
+See [Auto-Scaling](Auto-Scaling.md)
+
 ## Upgrades and Uninstalling
 
 See [Upgrades](Upgrades.md)

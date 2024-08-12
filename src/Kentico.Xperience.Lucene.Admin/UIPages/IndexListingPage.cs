@@ -5,6 +5,7 @@ using Kentico.Xperience.Admin.Base;
 using Kentico.Xperience.Lucene.Admin;
 using Kentico.Xperience.Lucene.Core;
 using Kentico.Xperience.Lucene.Core.Indexing;
+using Kentico.Xperience.Lucene.Core.Scaling;
 
 [assembly: UIPage(
    parentType: typeof(LuceneApplicationPage),
@@ -27,6 +28,7 @@ internal class IndexListingPage : ListingPage
     private readonly ILuceneConfigurationStorageService configurationStorageService;
     private readonly IConversionService conversionService;
     private readonly ILuceneIndexManager indexManager;
+    private readonly IWebFarmService webFarmService;
 
     protected override string ObjectType => LuceneIndexItemInfo.OBJECT_TYPE;
 
@@ -38,13 +40,15 @@ internal class IndexListingPage : ListingPage
         IPageUrlGenerator pageUrlGenerator,
         ILuceneConfigurationStorageService configurationStorageService,
         ILuceneIndexManager indexManager,
-        IConversionService conversionService)
+        IConversionService conversionService,
+        IWebFarmService webFarmService)
     {
         this.luceneClient = luceneClient;
         this.pageUrlGenerator = pageUrlGenerator;
         this.configurationStorageService = configurationStorageService;
         this.conversionService = conversionService;
         this.indexManager = indexManager;
+        this.webFarmService = webFarmService;
     }
 
     /// <inheritdoc/>
@@ -137,7 +141,7 @@ internal class IndexListingPage : ListingPage
     }
 
     /// <summary>
-    /// A page command which rebuilds an Lucene index.
+    /// A page command which rebuilds an Lucene index. Runs the rebuild on all application instances in case of vertical scaling.
     /// </summary>
     /// <param name="id">The ID of the row whose action was performed, which corresponds with the internal
     /// <see cref="LuceneIndex.Identifier"/> to rebuild.</param>
@@ -154,7 +158,14 @@ internal class IndexListingPage : ListingPage
         }
         try
         {
+            webFarmService.CreateTask(new RebuildWebFarmTask()
+            {
+                IndexName = index.IndexName,
+                CreatorName = webFarmService.ServerName
+            });
+
             await luceneClient.Rebuild(index.IndexName, cancellationToken);
+
             return ResponseFrom(result)
                 .AddSuccessMessage("Indexing in progress. Visit your Lucene dashboard for details about the indexing process.");
         }
