@@ -63,10 +63,10 @@ internal class LuceneSearchModule : Module
 
         WebPageEvents.Publish.Execute += HandleEvent;
         WebPageEvents.Delete.Execute += HandleEvent;
-        WebPageEvents.Archive.Execute += HandleEvent;
+        WebPageEvents.Unpublish.Execute += HandleEvent;
         ContentItemEvents.Publish.Execute += HandleContentItemEvent;
         ContentItemEvents.Delete.Execute += HandleContentItemEvent;
-        ContentItemEvents.Archive.Execute += HandleContentItemEvent;
+        ContentItemEvents.Unpublish.Execute += HandleContentItemEvent;
 
         RequestEvents.RunEndRequestTasks.Execute += (sender, eventArgs) => LuceneQueueWorker.Current.EnsureRunningThread();
     }
