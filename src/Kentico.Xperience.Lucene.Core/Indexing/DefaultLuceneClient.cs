@@ -154,7 +154,7 @@ internal class DefaultLuceneClient : ILuceneClient
 
         luceneIndexService.ResetIndex(luceneIndex);
 
-        var indexedItems = new List<IndexEventWebPageItemModel>();
+        var indexedItems = new List<IIndexEventItemModel>();
         foreach (var includedPathAttribute in luceneIndex.IncludedPaths)
         {
             var pathMatch =
@@ -182,6 +182,28 @@ internal class DefaultLuceneClient : ILuceneClient
                     var item = await MapToEventItem(page);
                     indexedItems.Add(item);
                 }
+            }
+        }
+
+        foreach (string language in luceneIndex.LanguageNames)
+        {
+            var queryBuilder = new ContentItemQueryBuilder();
+
+            if (luceneIndex.IncludedReusableContentTypes != null && luceneIndex.IncludedReusableContentTypes.Count > 0)
+            {
+                foreach (string reusableContentType in luceneIndex.IncludedReusableContentTypes)
+                {
+                    queryBuilder.ForContentType(reusableContentType);
+                }
+            }
+            queryBuilder.InLanguage(language);
+
+            var reusableItems = await executor.GetResult(queryBuilder, result => result, cancellationToken: cancellationToken ?? default);
+
+            foreach (var reusableItem in reusableItems)
+            {
+                var item = await MapToEventReusableItem(reusableItem);
+                indexedItems.Add(item);
             }
         }
 
@@ -216,6 +238,27 @@ internal class DefaultLuceneClient : ILuceneClient
             channelName,
             content.WebPageItemTreePath,
             content.WebPageItemOrder);
+
+        return item;
+    }
+
+    private async Task<IndexEventReusableItemModel> MapToEventReusableItem(IContentQueryDataContainer content)
+    {
+        var languages = await GetAllLanguages();
+
+        string languageName = languages.FirstOrDefault(l => l.ContentLanguageID == content.ContentItemCommonDataContentLanguageID)?.ContentLanguageName ?? "";
+
+        var websiteChannels = await GetAllWebsiteChannels();
+
+        var item = new IndexEventReusableItemModel(
+            content.ContentItemID,
+            content.ContentItemGUID,
+            languageName,
+            content.ContentTypeName,
+            content.ContentItemName,
+            content.ContentItemIsSecured,
+            content.ContentItemContentTypeID,
+            content.ContentItemCommonDataContentLanguageID);
 
         return item;
     }
