@@ -21,7 +21,7 @@ internal class ReusableContentOptionsProvider : IGeneralSelectorDataProvider
         // Ensures paging of items
         itemQuery.Page(pageIndex, 20);
 
-        // Retrieves the users and converts them into ObjectSelectorListItem<string> options
+        // Retrieves the reusable content types and converts them into ObjectSelectorListItem<string> options
         var items = (await itemQuery.GetEnumerableTypedResultAsync()).Select(x => new ObjectSelectorListItem<string>()
         {
             Value = x.ClassName,
