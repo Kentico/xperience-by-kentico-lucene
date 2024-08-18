@@ -248,8 +248,6 @@ internal class DefaultLuceneClient : ILuceneClient
 
         string languageName = languages.FirstOrDefault(l => l.ContentLanguageID == content.ContentItemCommonDataContentLanguageID)?.ContentLanguageName ?? "";
 
-        var websiteChannels = await GetAllWebsiteChannels();
-
         var item = new IndexEventReusableItemModel(
             content.ContentItemID,
             content.ContentItemGUID,
