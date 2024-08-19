@@ -83,6 +83,7 @@ public static class BaseDocumentProperties
     public const string ID = "ID";
     public const string CONTENT_TYPE_NAME = "ContentTypeName";
     // ...
+    // This field is only added to the document if the indexed item is a web page.
     public const string URL = "Url";
 }
 ```
