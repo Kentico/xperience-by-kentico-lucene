@@ -14,7 +14,7 @@ namespace DancingGoat.Search;
 
 public class ReusableContentItemsIndexingStrategy : DefaultLuceneIndexingStrategy
 {
-    public static string SORTABLE_TITLE_FIELD_NAME = "SortableTitle";
+    public const string SORTABLE_TITLE_FIELD_NAME = "SortableTitle";
 
     private readonly IWebPageQueryResultMapper webPageMapper;
     private readonly IContentQueryExecutor queryExecutor;
@@ -53,7 +53,9 @@ public class ReusableContentItemsIndexingStrategy : DefaultLuceneIndexingStrateg
         // pattern matching to get access to the web page item specific type and fields
         if (item is IndexEventReusableItemModel indexedItem)
         {
-            var query = new ContentItemQueryBuilder()
+            if (string.Equals(item.ContentTypeName, Banner.CONTENT_TYPE_NAME, StringComparison.OrdinalIgnoreCase))
+            {
+                var query = new ContentItemQueryBuilder()
                 .ForContentType(HomePage.CONTENT_TYPE_NAME,
                     config =>
                         config
@@ -63,35 +65,40 @@ public class ReusableContentItemsIndexingStrategy : DefaultLuceneIndexingStrateg
                             // so we use a hardcoded channel name.
                             .ForWebsite(INDEXED_WEBSITECHANNEL_NAME)
 
-                            // Retrieves all ArticlePages that link to the Article through the ArticlePage.ArticlePageArticle field
+                            // Retrieves all HomePages that link to the Banner through the HomePage.HomePageBanner field
                             .Linking(nameof(HomePage.HomePageBanner), new[] { indexedItem.ItemID }))
                 .InLanguage(indexedItem.LanguageName);
 
-            var associatedWebPageItem = (await queryExecutor.GetWebPageResult(query, webPageMapper.Map<HomePage>)).First();
-            string url = string.Empty;
-            try
-            {
-                url = (await urlRetriever.Retrieve(associatedWebPageItem.SystemFields.WebPageItemTreePath,
-                    INDEXED_WEBSITECHANNEL_NAME, indexedItem.LanguageName)).RelativePath;
+                var associatedWebPageItem = (await queryExecutor.GetWebPageResult(query, webPageMapper.Map<HomePage>)).First();
+                string url = string.Empty;
+                try
+                {
+                    url = (await urlRetriever.Retrieve(associatedWebPageItem.SystemFields.WebPageItemTreePath,
+                        INDEXED_WEBSITECHANNEL_NAME, indexedItem.LanguageName)).RelativePath;
+                }
+                catch (Exception)
+                {
+                    // Retrieve can throw an exception when processing a page update LuceneQueueItem
+                    // and the page was deleted before the update task has processed. In this case, return no item.
+                    return null;
+                }
+
+                sortableTitle = title = associatedWebPageItem!.HomePageBanner.First().BannerText;
+                string rawContent = await webCrawler.CrawlWebPage(associatedWebPageItem!);
+                content = htmlSanitizer.SanitizeHtmlDocument(rawContent);
+
+                //If the indexed item is a reusable content item, we need to set the url manually.
+                document.Add(new StringField(BaseDocumentProperties.URL, url, Field.Store.YES));
+                document.Add(new TextField(nameof(DancingGoatSearchResultModel.Title), title, Field.Store.YES));
+                document.Add(new StringField(SORTABLE_TITLE_FIELD_NAME, sortableTitle, Field.Store.YES));
+                document.Add(new TextField(CRAWLER_CONTENT_FIELD_NAME, content, Field.Store.NO));
+
+                return document;
             }
-            catch (Exception)
+            else
             {
-                // Retrieve can throw an exception when processing a page update LuceneQueueItem
-                // and the page was deleted before the update task has processed. In this case, return no item.
                 return null;
             }
-
-            sortableTitle = title = associatedWebPageItem!.HomePageBanner.First().BannerText;
-            string rawContent = await webCrawler.CrawlWebPage(associatedWebPageItem!);
-            content = htmlSanitizer.SanitizeHtmlDocument(rawContent);
-
-            //If the indexed item is a reusable content item, we need to set the url manually.
-            document.Add(new StringField(BaseDocumentProperties.URL, url, Field.Store.YES));
-            document.Add(new TextField(nameof(DancingGoatSearchResultModel.Title), title, Field.Store.YES));
-            document.Add(new StringField(SORTABLE_TITLE_FIELD_NAME, sortableTitle, Field.Store.YES));
-            document.Add(new TextField(CRAWLER_CONTENT_FIELD_NAME, content, Field.Store.NO));
-
-            return document;
         }
         else
         {
