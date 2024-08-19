@@ -164,46 +164,48 @@ internal class DefaultLuceneClient : ILuceneClient
 
             foreach (string language in luceneIndex.LanguageNames)
             {
-                var queryBuilder = new ContentItemQueryBuilder();
-
                 if (includedPathAttribute.ContentTypes != null && includedPathAttribute.ContentTypes.Count > 0)
                 {
+                    var queryBuilder = new ContentItemQueryBuilder();
+
                     foreach (var contentType in includedPathAttribute.ContentTypes)
                     {
                         queryBuilder.ForContentType(contentType.ContentTypeName, config => config.ForWebsite(luceneIndex.WebSiteChannelName, includeUrlPath: true, pathMatch: pathMatch));
                     }
-                }
-                queryBuilder.InLanguage(language);
 
-                var webpages = await executor.GetWebPageResult(queryBuilder, container => container, cancellationToken: cancellationToken ?? default);
+                    queryBuilder.InLanguage(language);
 
-                foreach (var page in webpages)
-                {
-                    var item = await MapToEventItem(page);
-                    indexedItems.Add(item);
+                    var webpages = await executor.GetWebPageResult(queryBuilder, container => container, cancellationToken: cancellationToken ?? default);
+
+                    foreach (var page in webpages)
+                    {
+                        var item = await MapToEventItem(page);
+                        indexedItems.Add(item);
+                    }
                 }
             }
         }
 
         foreach (string language in luceneIndex.LanguageNames)
         {
-            var queryBuilder = new ContentItemQueryBuilder();
-
             if (luceneIndex.IncludedReusableContentTypes != null && luceneIndex.IncludedReusableContentTypes.Count > 0)
             {
+                var queryBuilder = new ContentItemQueryBuilder();
+
                 foreach (string reusableContentType in luceneIndex.IncludedReusableContentTypes)
                 {
                     queryBuilder.ForContentType(reusableContentType);
                 }
-            }
-            queryBuilder.InLanguage(language);
 
-            var reusableItems = await executor.GetResult(queryBuilder, result => result, cancellationToken: cancellationToken ?? default);
+                queryBuilder.InLanguage(language);
 
-            foreach (var reusableItem in reusableItems)
-            {
-                var item = await MapToEventReusableItem(reusableItem);
-                indexedItems.Add(item);
+                var reusableItems = await executor.GetResult(queryBuilder, result => result, cancellationToken: cancellationToken ?? default);
+
+                foreach (var reusableItem in reusableItems)
+                {
+                    var item = await MapToEventReusableItem(reusableItem);
+                    indexedItems.Add(item);
+                }
             }
         }
 
