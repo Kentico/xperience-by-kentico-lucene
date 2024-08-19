@@ -12,6 +12,7 @@ public static class DancingGoatSearchStartupExtensions
         {
             builder.RegisterStrategy<AdvancedSearchIndexingStrategy>("DancingGoatExampleStrategy");
             builder.RegisterStrategy<SimpleSearchIndexingStrategy>("DancingGoatMinimalExampleStrategy");
+            builder.RegisterStrategy<ReusableContentItemsIndexingStrategy>(nameof(ReusableContentItemsIndexingStrategy));
             builder.RegisterAnalyzer<CzechAnalyzer>("Czech analyzer");
         });
 

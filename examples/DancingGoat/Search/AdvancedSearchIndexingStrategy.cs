@@ -15,7 +15,7 @@ namespace DancingGoat.Search;
 
 public class AdvancedSearchIndexingStrategy : DefaultLuceneIndexingStrategy
 {
-    public static string SORTABLE_TITLE_FIELD_NAME = "SortableTitle";
+    public const string SORTABLE_TITLE_FIELD_NAME = "SortableTitle";
 
     private readonly IWebPageQueryResultMapper webPageMapper;
     private readonly IContentQueryExecutor queryExecutor;
