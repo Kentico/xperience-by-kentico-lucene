@@ -31,7 +31,7 @@ Use `Kentico.Xperience.Lucene.Admin` in your Xperience by Kentico Administration
 
 | Xperience Version   | Library Version |
 | ------------------- | --------------- |
-| >= 29.3.3           | >  8.x.x        |
+| >= 29.3.3           | >=  8.1.0       |
 | >= 29.0.0           | >= 6.1.x        |
 | >= 28.4.3, < 29.0.0 | >= 5.x.x        |
 | >= 28.0.0           | >= 3.x.x        |
