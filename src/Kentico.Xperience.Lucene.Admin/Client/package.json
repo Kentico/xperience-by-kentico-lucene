@@ -13,8 +13,8 @@
     "node": ">=18.12.0 <=19"
   },
   "dependencies": {
-    "@kentico/xperience-admin-base": "28.4.3",
-    "@kentico/xperience-admin-components": "28.4.3",
+    "@kentico/xperience-admin-base": "29.3.3",
+    "@kentico/xperience-admin-components": "29.3.3",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-icons": "5.0.1",
