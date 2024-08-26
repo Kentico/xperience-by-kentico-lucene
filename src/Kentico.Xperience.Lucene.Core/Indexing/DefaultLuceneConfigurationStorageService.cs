@@ -42,11 +42,11 @@ internal class DefaultLuceneConfigurationStorageService : ILuceneConfigurationSt
 
         var newInfo = new LuceneIndexItemInfo()
         {
-            LuceneIndexItemIndexName = configuration.IndexName ?? "",
-            LuceneIndexItemChannelName = configuration.ChannelName ?? "",
-            LuceneIndexItemStrategyName = configuration.StrategyName ?? "",
-            LuceneIndexItemAnalyzerName = configuration.AnalyzerName ?? "",
-            LuceneIndexItemRebuildHook = configuration.RebuildHook ?? ""
+            LuceneIndexItemIndexName = configuration.IndexName ?? string.Empty,
+            LuceneIndexItemChannelName = configuration.ChannelName ?? string.Empty,
+            LuceneIndexItemStrategyName = configuration.StrategyName ?? string.Empty,
+            LuceneIndexItemAnalyzerName = configuration.AnalyzerName ?? string.Empty,
+            LuceneIndexItemRebuildHook = configuration.RebuildHook ?? string.Empty
         };
 
         indexProvider.Set(newInfo);
@@ -180,7 +180,7 @@ internal class DefaultLuceneConfigurationStorageService : ILuceneConfigurationSt
 
     public async Task<bool> TryEditIndexAsync(LuceneIndexModel configuration)
     {
-        configuration.IndexName = RemoveWhitespacesUsingStringBuilder(configuration.IndexName ?? "");
+        configuration.IndexName = RemoveWhitespacesUsingStringBuilder(configuration.IndexName ?? string.Empty);
 
         var indexInfo = indexProvider.Get()
             .WhereEquals(nameof(LuceneIndexItemInfo.LuceneIndexItemId), configuration.Id)
@@ -192,11 +192,11 @@ internal class DefaultLuceneConfigurationStorageService : ILuceneConfigurationSt
             return false;
         }
 
-        indexInfo.LuceneIndexItemRebuildHook = configuration.RebuildHook ?? "";
-        indexInfo.LuceneIndexItemStrategyName = configuration.StrategyName ?? "";
-        indexInfo.LuceneIndexItemAnalyzerName = configuration.AnalyzerName ?? "";
-        indexInfo.LuceneIndexItemChannelName = configuration.ChannelName ?? "";
-        indexInfo.LuceneIndexItemIndexName = configuration.IndexName ?? "";
+        indexInfo.LuceneIndexItemRebuildHook = configuration.RebuildHook ?? string.Empty;
+        indexInfo.LuceneIndexItemStrategyName = configuration.StrategyName ?? string.Empty;
+        indexInfo.LuceneIndexItemAnalyzerName = configuration.AnalyzerName ?? string.Empty;
+        indexInfo.LuceneIndexItemChannelName = configuration.ChannelName ?? string.Empty;
+        indexInfo.LuceneIndexItemIndexName = configuration.IndexName ?? string.Empty;
 
         indexProvider.Set(indexInfo);
 
@@ -382,7 +382,7 @@ internal class DefaultLuceneConfigurationStorageService : ILuceneConfigurationSt
                 {
                     var contentInfo = new LuceneContentTypeItemInfo()
                     {
-                        LuceneContentTypeItemContentTypeName = contentType.ContentTypeName ?? "",
+                        LuceneContentTypeItemContentTypeName = contentType.ContentTypeName ?? string.Empty,
                         LuceneContentTypeItemIncludedPathItemId = pathInfo.LuceneIncludedPathItemId,
                         LuceneContentTypeItemIndexItemId = indexInfo.LuceneIndexItemId,
                     };
@@ -448,7 +448,7 @@ internal class DefaultLuceneConfigurationStorageService : ILuceneConfigurationSt
             {
                 var contentInfo = new LuceneContentTypeItemInfo()
                 {
-                    LuceneContentTypeItemContentTypeName = contentType.ContentTypeName ?? "",
+                    LuceneContentTypeItemContentTypeName = contentType.ContentTypeName ?? string.Empty,
                     LuceneContentTypeItemIncludedPathItemId = path.LuceneIncludedPathItemId,
                     LuceneContentTypeItemIndexItemId = indexInfo.LuceneIndexItemId,
                 };
