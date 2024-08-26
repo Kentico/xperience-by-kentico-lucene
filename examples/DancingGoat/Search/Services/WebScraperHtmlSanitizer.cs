@@ -53,8 +53,8 @@ public class WebScraperHtmlSanitizer
         textContent = HTMLHelper.RegexHtmlToTextWhiteSpace.Replace(textContent, " ");
         textContent = textContent.Trim();
 
-        string title = doc.Head?.QuerySelector("title")?.TextContent ?? "";
-        string description = doc.Head?.QuerySelector("meta[name='description']")?.GetAttribute("content") ?? "";
+        string title = doc.Head?.QuerySelector("title")?.TextContent ?? string.Empty;
+        string description = doc.Head?.QuerySelector("meta[name='description']")?.GetAttribute("content") ?? string.Empty;
 
         return string.Join(
             " ",

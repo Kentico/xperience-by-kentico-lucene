@@ -49,54 +49,52 @@ public class AdvancedSearchIndexingStrategy : DefaultLuceneIndexingStrategy
 
         // IIndexEventItemModel could be a reusable content item or a web page item, so we use
         // pattern matching to get access to the web page item specific type and fields
-        if (item is IndexEventWebPageItemModel indexedPage)
+        if (item is not IndexEventWebPageItemModel indexedPage)
         {
-            if (string.Equals(item.ContentTypeName, ArticlePage.CONTENT_TYPE_NAME, StringComparison.OrdinalIgnoreCase))
-            {
-                // The implementation of GetPage<T>() is below
-                var page = await GetPage<ArticlePage>(
-                    indexedPage.ItemGuid,
-                    indexedPage.WebsiteChannelName,
-                    indexedPage.LanguageName,
-                    ArticlePage.CONTENT_TYPE_NAME);
+            return null;
+        }
 
-                if (page is null)
-                {
-                    return null;
-                }
+        if (string.Equals(item.ContentTypeName, ArticlePage.CONTENT_TYPE_NAME, StringComparison.OrdinalIgnoreCase))
+        {
+            // The implementation of GetPage<T>() is below
+            var page = await GetPage<ArticlePage>(
+                indexedPage.ItemGuid,
+                indexedPage.WebsiteChannelName,
+                indexedPage.LanguageName,
+                ArticlePage.CONTENT_TYPE_NAME);
 
-                sortableTitle = title = page?.ArticleTitle ?? string.Empty;
-
-                string rawContent = await webCrawler.CrawlWebPage(page!);
-                content = htmlSanitizer.SanitizeHtmlDocument(rawContent);
-            }
-            else if (string.Equals(item.ContentTypeName, HomePage.CONTENT_TYPE_NAME, StringComparison.OrdinalIgnoreCase))
-            {
-                var page = await GetPage<HomePage>(
-                    indexedPage.ItemGuid,
-                    indexedPage.WebsiteChannelName,
-                    indexedPage.LanguageName,
-                    HomePage.CONTENT_TYPE_NAME);
-
-                if (page is null)
-                {
-                    return null;
-                }
-
-                if (page.HomePageBanner.IsNullOrEmpty())
-                {
-                    return null;
-                }
-
-                sortableTitle = title = page!.HomePageBanner.First().BannerText;
-
-                string rawContent = await webCrawler.CrawlWebPage(page!);
-                content = htmlSanitizer.SanitizeHtmlDocument(rawContent);
-            }
-            else
+            if (page is null)
             {
                 return null;
             }
+
+            sortableTitle = title = page?.ArticleTitle ?? string.Empty;
+
+            string rawContent = await webCrawler.CrawlWebPage(page!);
+            content = htmlSanitizer.SanitizeHtmlDocument(rawContent);
+        }
+        else if (string.Equals(item.ContentTypeName, HomePage.CONTENT_TYPE_NAME, StringComparison.OrdinalIgnoreCase))
+        {
+            var page = await GetPage<HomePage>(
+                indexedPage.ItemGuid,
+                indexedPage.WebsiteChannelName,
+                indexedPage.LanguageName,
+                HomePage.CONTENT_TYPE_NAME);
+
+            if (page is null)
+            {
+                return null;
+            }
+
+            if (page.HomePageBanner.IsNullOrEmpty())
+            {
+                return null;
+            }
+
+            sortableTitle = title = page!.HomePageBanner.First().BannerText;
+
+            string rawContent = await webCrawler.CrawlWebPage(page!);
+            content = htmlSanitizer.SanitizeHtmlDocument(rawContent);
         }
         else
         {
