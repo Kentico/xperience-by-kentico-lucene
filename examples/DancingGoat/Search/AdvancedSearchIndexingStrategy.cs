@@ -43,9 +43,9 @@ public class AdvancedSearchIndexingStrategy : DefaultLuceneIndexingStrategy
     {
         var document = new Document();
 
-        string sortableTitle = "";
-        string title = "";
-        string content = "";
+        string sortableTitle = string.Empty;
+        string title = string.Empty;
+        string content = string.Empty;
 
         // IIndexEventItemModel could be a reusable content item or a web page item, so we use
         // pattern matching to get access to the web page item specific type and fields
@@ -65,7 +65,7 @@ public class AdvancedSearchIndexingStrategy : DefaultLuceneIndexingStrategy
                     return null;
                 }
 
-                sortableTitle = title = page?.ArticleTitle ?? "";
+                sortableTitle = title = page?.ArticleTitle ?? string.Empty;
 
                 string rawContent = await webCrawler.CrawlWebPage(page!);
                 content = htmlSanitizer.SanitizeHtmlDocument(rawContent);
