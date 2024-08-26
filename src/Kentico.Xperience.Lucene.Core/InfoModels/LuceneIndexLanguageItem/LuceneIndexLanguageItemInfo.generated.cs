@@ -26,7 +26,7 @@ public partial class LuceneIndexLanguageItemInfo : AbstractInfo<LuceneIndexLangu
     /// <summary>
     /// Type information.
     /// </summary>
-    public static readonly ObjectTypeInfo TYPEINFO = new(typeof(LuceneIndexedLanguageInfoProvider), OBJECT_TYPE, "KenticoLucene.LuceneIndexLanguageItem", nameof(LuceneIndexLanguageItemID), null, nameof(LuceneIndexLanguageItemGuid), null, null, null, null, null)
+    public static readonly ObjectTypeInfo TYPEINFO = new(typeof(IInfoProvider<LuceneIndexLanguageItemInfo>), OBJECT_TYPE, "KenticoLucene.LuceneIndexLanguageItem", nameof(LuceneIndexLanguageItemID), null, nameof(LuceneIndexLanguageItemGuid), null, null, null, null, null)
     {
         TouchCacheDependencies = true,
         DependsOn = new List<ObjectDependency>()

@@ -27,7 +27,7 @@ public partial class LuceneReusableContentTypeItemInfo : AbstractInfo<LuceneReus
     /// <summary>
     /// Type information.
     /// </summary>
-    public static readonly ObjectTypeInfo TYPEINFO = new(typeof(LuceneReusableContentTypeItemInfoProvider), OBJECT_TYPE, "KenticoLucene.LuceneReusableContentTypeItem", nameof(LuceneReusableContentTypeItemId), null, nameof(LuceneReusableContentTypeItemGuid), null, null, null, null, null)
+    public static readonly ObjectTypeInfo TYPEINFO = new(typeof(IInfoProvider<LuceneReusableContentTypeItemInfo>), OBJECT_TYPE, "KenticoLucene.LuceneReusableContentTypeItem", nameof(LuceneReusableContentTypeItemId), null, nameof(LuceneReusableContentTypeItemGuid), null, null, null, null, null)
     {
         TouchCacheDependencies = true,
         DependsOn = new List<ObjectDependency>()
