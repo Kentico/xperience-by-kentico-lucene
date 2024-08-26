@@ -18,7 +18,7 @@ Fill out the search index form, populating the fields with your custom values.
 - Included Reusable Content Types - these are the reusable content types that will be processed by your custom indexing strategy.
 If no option is selected, no items will be processed.
 - Indexed Languages - the index will only include content in the selected languages.
-- Channel Name - the index will only be triggered by web page item creation or modication in the selected website channel.
+- Channel Name - the index will only be triggered by web page item creation or modification in the selected website channel.
 - Indexing Strategy - the indexing strategy specified in code during dependency registration of a custom indexing strategies.
   - If you want the default strategy to appear here, register it explicitly in `IServiceCollection.AddKenticoLucene()` method.
 - Lucene Analyzer - the Lucene analyzer which indexes use to analyze text.
