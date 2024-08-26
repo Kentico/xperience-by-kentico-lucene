@@ -7,18 +7,18 @@ namespace Kentico.Xperience.Lucene.Core.Indexing;
 
 internal class DefaultLuceneConfigurationStorageService : ILuceneConfigurationStorageService
 {
-    private readonly ILuceneIndexItemInfoProvider indexProvider;
-    private readonly ILuceneIncludedPathItemInfoProvider pathProvider;
-    private readonly ILuceneContentTypeItemInfoProvider contentTypeProvider;
-    private readonly ILuceneReusableContentTypeItemInfoProvider reusableContentTypeProvider;
-    private readonly ILuceneIndexLanguageItemInfoProvider languageProvider;
+    private readonly IInfoProvider<LuceneIndexItemInfo> indexProvider;
+    private readonly IInfoProvider<LuceneIncludedPathItemInfo> pathProvider;
+    private readonly IInfoProvider<LuceneContentTypeItemInfo> contentTypeProvider;
+    private readonly IInfoProvider<LuceneReusableContentTypeItemInfo> reusableContentTypeProvider;
+    private readonly IInfoProvider<LuceneIndexLanguageItemInfo> languageProvider;
 
     public DefaultLuceneConfigurationStorageService(
-        ILuceneIndexItemInfoProvider indexProvider,
-        ILuceneIncludedPathItemInfoProvider pathProvider,
-        ILuceneContentTypeItemInfoProvider contentTypeProvider,
-        ILuceneReusableContentTypeItemInfoProvider reusableContentTypeProvider,
-        ILuceneIndexLanguageItemInfoProvider languageProvider
+        IInfoProvider<LuceneIndexItemInfo> indexProvider,
+        IInfoProvider<LuceneIncludedPathItemInfo> pathProvider,
+        IInfoProvider<LuceneContentTypeItemInfo> contentTypeProvider,
+        IInfoProvider<LuceneReusableContentTypeItemInfo> reusableContentTypeProvider,
+        IInfoProvider<LuceneIndexLanguageItemInfo> languageProvider
     )
     {
         this.indexProvider = indexProvider;
