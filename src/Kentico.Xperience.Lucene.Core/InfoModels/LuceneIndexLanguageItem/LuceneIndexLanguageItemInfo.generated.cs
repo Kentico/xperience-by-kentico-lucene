@@ -15,7 +15,7 @@ namespace Kentico.Xperience.Lucene.Core;
 /// Data container class for <see cref="LuceneIndexLanguageItemInfo"/>.
 /// </summary>
 [Serializable]
-public partial class LuceneIndexLanguageItemInfo : AbstractInfo<LuceneIndexLanguageItemInfo, ILuceneIndexLanguageItemInfoProvider>
+public partial class LuceneIndexLanguageItemInfo : AbstractInfo<LuceneIndexLanguageItemInfo, IInfoProvider<LuceneIndexLanguageItemInfo>>
 {
     /// <summary>
     /// Object type.

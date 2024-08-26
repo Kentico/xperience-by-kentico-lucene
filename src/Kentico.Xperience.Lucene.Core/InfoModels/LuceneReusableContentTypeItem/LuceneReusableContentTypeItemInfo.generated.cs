@@ -16,7 +16,7 @@ namespace Kentico.Xperience.Lucene.Core;
 /// Data container class for <see cref="LuceneReusableContentTypeItemInfo"/>.
 /// </summary>
 [Serializable]
-public partial class LuceneReusableContentTypeItemInfo : AbstractInfo<LuceneReusableContentTypeItemInfo, ILuceneReusableContentTypeItemInfoProvider>
+public partial class LuceneReusableContentTypeItemInfo : AbstractInfo<LuceneReusableContentTypeItemInfo, IInfoProvider<LuceneReusableContentTypeItemInfo>>
 {
     /// <summary>
     /// Object type.
