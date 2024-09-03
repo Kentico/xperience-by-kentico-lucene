@@ -27,7 +27,7 @@ internal abstract class BaseIndexEditPage : ModelEditPage<LuceneConfigurationMod
 
     protected async Task<IndexModificationResult> ValidateAndProcess(LuceneConfigurationModel configuration)
     {
-        configuration.IndexName = RemoveWhitespacesUsingStringBuilder(configuration.IndexName ?? "");
+        configuration.IndexName = RemoveWhitespacesUsingStringBuilder(configuration.IndexName ?? string.Empty);
 
         if (StorageService.GetIndexIds().Exists(x => x == configuration.Id))
         {

@@ -29,36 +29,33 @@ public class SimpleSearchIndexingStrategy : DefaultLuceneIndexingStrategy
     {
         var document = new Document();
 
-        string title = "";
+        string title = string.Empty;
 
         // IIndexEventItemModel could be a reusable content item or a web page item, so we use
         // pattern matching to get access to the web page item specific type and fields
-        if (item is IndexEventWebPageItemModel indexedPage)
+        if (item is not IndexEventWebPageItemModel indexedPage)
         {
-            if (string.Equals(item.ContentTypeName, HomePage.CONTENT_TYPE_NAME, StringComparison.OrdinalIgnoreCase))
-            {
-                var page = await GetPage<HomePage>(
-                    indexedPage.ItemGuid,
-                    indexedPage.WebsiteChannelName,
-                    indexedPage.LanguageName,
-                    HomePage.CONTENT_TYPE_NAME);
+            return null;
+        }
+        if (string.Equals(item.ContentTypeName, HomePage.CONTENT_TYPE_NAME, StringComparison.OrdinalIgnoreCase))
+        {
+            var page = await GetPage<HomePage>(
+                indexedPage.ItemGuid,
+                indexedPage.WebsiteChannelName,
+                indexedPage.LanguageName,
+                HomePage.CONTENT_TYPE_NAME);
 
-                if (page is null)
-                {
-                    return null;
-                }
-
-                if (page.HomePageBanner.IsNullOrEmpty())
-                {
-                    return null;
-                }
-
-                title = page!.HomePageBanner.First().BannerHeaderText;
-            }
-            else
+            if (page is null)
             {
                 return null;
             }
+
+            if (page.HomePageBanner.IsNullOrEmpty())
+            {
+                return null;
+            }
+
+            title = page!.HomePageBanner.First().BannerHeaderText;
         }
         else
         {

@@ -419,9 +419,9 @@ export const LuceneIndexConfigurationFormComponent = (
                         isMulti
                         closeMenuOnSelect={false}
                         defaultValue={contentTypesValue}
+                        placeholder="Select content types"
                         options={options}
                         onChange={selectContentTypes}
-                        placeholder="Select a tag type"
                         styles={customStyle}
                         hideSelectedOptions={false}
                         components={{ MultiValueRemove, ClearIndicator, Option }}

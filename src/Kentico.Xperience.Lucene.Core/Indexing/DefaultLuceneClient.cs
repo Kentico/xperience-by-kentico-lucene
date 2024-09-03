@@ -154,7 +154,7 @@ internal class DefaultLuceneClient : ILuceneClient
 
         luceneIndexService.ResetIndex(luceneIndex);
 
-        var indexedItems = new List<IndexEventWebPageItemModel>();
+        var indexedItems = new List<IIndexEventItemModel>();
         foreach (var includedPathAttribute in luceneIndex.IncludedPaths)
         {
             var pathMatch =
@@ -164,22 +164,46 @@ internal class DefaultLuceneClient : ILuceneClient
 
             foreach (string language in luceneIndex.LanguageNames)
             {
-                var queryBuilder = new ContentItemQueryBuilder();
-
                 if (includedPathAttribute.ContentTypes != null && includedPathAttribute.ContentTypes.Count > 0)
                 {
+                    var queryBuilder = new ContentItemQueryBuilder();
+
                     foreach (var contentType in includedPathAttribute.ContentTypes)
                     {
                         queryBuilder.ForContentType(contentType.ContentTypeName, config => config.ForWebsite(luceneIndex.WebSiteChannelName, includeUrlPath: true, pathMatch: pathMatch));
                     }
+
+                    queryBuilder.InLanguage(language);
+
+                    var webpages = await executor.GetWebPageResult(queryBuilder, container => container, cancellationToken: cancellationToken ?? default);
+
+                    foreach (var page in webpages)
+                    {
+                        var item = await MapToEventItem(page);
+                        indexedItems.Add(item);
+                    }
                 }
+            }
+        }
+
+        foreach (string language in luceneIndex.LanguageNames)
+        {
+            if (luceneIndex.IncludedReusableContentTypes != null && luceneIndex.IncludedReusableContentTypes.Count > 0)
+            {
+                var queryBuilder = new ContentItemQueryBuilder();
+
+                foreach (string reusableContentType in luceneIndex.IncludedReusableContentTypes)
+                {
+                    queryBuilder.ForContentType(reusableContentType);
+                }
+
                 queryBuilder.InLanguage(language);
 
-                var webpages = await executor.GetWebPageResult(queryBuilder, container => container, cancellationToken: cancellationToken ?? default);
+                var reusableItems = await executor.GetResult(queryBuilder, result => result, cancellationToken: cancellationToken ?? default);
 
-                foreach (var page in webpages)
+                foreach (var reusableItem in reusableItems)
                 {
-                    var item = await MapToEventItem(page);
+                    var item = await MapToEventReusableItem(reusableItem);
                     indexedItems.Add(item);
                 }
             }
@@ -198,11 +222,11 @@ internal class DefaultLuceneClient : ILuceneClient
     {
         var languages = await GetAllLanguages();
 
-        string languageName = languages.FirstOrDefault(l => l.ContentLanguageID == content.ContentItemCommonDataContentLanguageID)?.ContentLanguageName ?? "";
+        string languageName = languages.FirstOrDefault(l => l.ContentLanguageID == content.ContentItemCommonDataContentLanguageID)?.ContentLanguageName ?? string.Empty;
 
         var websiteChannels = await GetAllWebsiteChannels();
 
-        string channelName = websiteChannels.FirstOrDefault(c => c.WebsiteChannelID == content.WebPageItemWebsiteChannelID).ChannelName ?? "";
+        string channelName = websiteChannels.FirstOrDefault(c => c.WebsiteChannelID == content.WebPageItemWebsiteChannelID).ChannelName ?? string.Empty;
 
         var item = new IndexEventWebPageItemModel(
             content.WebPageItemID,
@@ -216,6 +240,25 @@ internal class DefaultLuceneClient : ILuceneClient
             channelName,
             content.WebPageItemTreePath,
             content.WebPageItemOrder);
+
+        return item;
+    }
+
+    private async Task<IndexEventReusableItemModel> MapToEventReusableItem(IContentQueryDataContainer content)
+    {
+        var languages = await GetAllLanguages();
+
+        string languageName = languages.FirstOrDefault(l => l.ContentLanguageID == content.ContentItemCommonDataContentLanguageID)?.ContentLanguageName ?? string.Empty;
+
+        var item = new IndexEventReusableItemModel(
+            content.ContentItemID,
+            content.ContentItemGUID,
+            languageName,
+            content.ContentTypeName,
+            content.ContentItemName,
+            content.ContentItemIsSecured,
+            content.ContentItemContentTypeID,
+            content.ContentItemCommonDataContentLanguageID);
 
         return item;
     }
@@ -340,7 +383,7 @@ internal class DefaultLuceneClient : ILuceneClient
             {
                 if (item.TryGetValue(nameof(WebsiteChannelInfo.WebsiteChannelID), out object channelID) && item.TryGetValue(nameof(ChannelInfo.ChannelName), out object channelName))
                 {
-                    items.Add(new(conversionService.GetInteger(channelID, 0), conversionService.GetString(channelName, "")));
+                    items.Add(new(conversionService.GetInteger(channelID, 0), conversionService.GetString(channelName, string.Empty)));
                 }
             }
 

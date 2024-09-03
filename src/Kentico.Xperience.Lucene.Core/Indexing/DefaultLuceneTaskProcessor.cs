@@ -84,7 +84,7 @@ internal class DefaultLuceneTaskProcessor : ILuceneTaskProcessor
                         deleteTasks.Add(queueItem);
                     }
                 }
-                deleteIds.AddRange(GetIdsToDelete(deleteTasks ?? []).Where(x => x is not null).Select(x => x ?? ""));
+                deleteIds.AddRange(GetIdsToDelete(deleteTasks ?? []).Where(x => x is not null).Select(x => x ?? string.Empty));
                 if (indexManager.GetIndex(group.Key) is { } index)
                 {
                     previousBatchResults.SuccessfulOperations += await luceneClient.DeleteRecords(deleteIds, group.Key);

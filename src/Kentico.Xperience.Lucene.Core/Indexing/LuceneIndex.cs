@@ -30,6 +30,11 @@ public sealed class LuceneIndex
     public List<string> LanguageNames { get; }
 
     /// <summary>
+    /// A list of reusable content types that will be indexed.
+    /// </summary>
+    public List<string> IncludedReusableContentTypes { get; }
+
+    /// <summary>
     /// Lucene Analyzer used for indexing.
     /// </summary>
     public Analyzer LuceneAnalyzer { get; }
@@ -52,6 +57,7 @@ public sealed class LuceneIndex
         IndexName = indexConfiguration.IndexName;
         WebSiteChannelName = indexConfiguration.ChannelName;
         LanguageNames = indexConfiguration.LanguageNames.ToList();
+        IncludedReusableContentTypes = indexConfiguration.ReusableContentTypeNames.ToList();
         IncludedPaths = indexConfiguration.Paths;
 
         var strategy = typeof(DefaultLuceneIndexingStrategy);

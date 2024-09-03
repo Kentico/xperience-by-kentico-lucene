@@ -11,9 +11,9 @@ To index all existing content, rebuild the index in Xperience's Administration w
 ```csharp
 public class GlobalSearchResultModel
 {
-    public string Title { get; set; } = "";
-    public string ContentType { get; set; } = "";
-    public string Url { get; set; } = "";
+    public string Title { get; set; } = string.Empty;
+    public string ContentType { get; set; } = string.Empty;
+    public string Url { get; set; } = string.Empty;
 
     public static List<string> PossibleFacets { get; set; } = new List<string>
     {
@@ -105,7 +105,7 @@ public class SearchService
 
                 return new LuceneSearchResultModel<GlobalSearchResultModel>
                 {
-                    Query = searchText ?? "",
+                    Query = searchText ?? string.Empty,
                     Page = page,
                     PageSize = pageSize,
                     TotalPages = topDocs.TotalHits <= 0 ? 0 : ((topDocs.TotalHits - 1) / pageSize) + 1,
