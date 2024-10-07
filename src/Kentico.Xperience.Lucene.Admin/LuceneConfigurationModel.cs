@@ -19,23 +19,26 @@ public class LuceneConfigurationModel
     [MinLength(1)]
     public string IndexName { get; set; } = "";
 
-    [GeneralSelectorComponent(dataProviderType: typeof(LanguageOptionsProvider), Label = "Indexed Languages", Order = 2)]
+    [LuceneIndexConfigurationComponent(Label = "Included Paths", Order = 2)]
+    public IEnumerable<LuceneIndexIncludedPath> Paths { get; set; } = Enumerable.Empty<LuceneIndexIncludedPath>();
+
+    [GeneralSelectorComponent(dataProviderType: typeof(ReusableContentOptionsProvider), Label = "Included Reusable Content Types", Order = 3)]
+    public IEnumerable<string> ReusableContentTypeNames { get; set; } = Enumerable.Empty<string>();
+
+    [GeneralSelectorComponent(dataProviderType: typeof(LanguageOptionsProvider), Label = "Indexed Languages", Order = 4)]
     public IEnumerable<string> LanguageNames { get; set; } = Enumerable.Empty<string>();
 
-    [DropDownComponent(Label = "Channel Name", DataProviderType = typeof(ChannelOptionsProvider), Order = 3)]
+    [DropDownComponent(Label = "Channel Name", DataProviderType = typeof(ChannelOptionsProvider), Order = 5)]
     public string ChannelName { get; set; } = "";
 
-    [DropDownComponent(Label = "Indexing Strategy", DataProviderType = typeof(IndexingStrategyOptionsProvider), Order = 4)]
+    [DropDownComponent(Label = "Indexing Strategy", DataProviderType = typeof(IndexingStrategyOptionsProvider), Order = 6)]
     public string StrategyName { get; set; } = "";
 
-    [DropDownComponent(Label = "Lucene Analyzer", DataProviderType = typeof(AnalyzerOptionsProvider), Order = 5)]
+    [DropDownComponent(Label = "Lucene Analyzer", DataProviderType = typeof(AnalyzerOptionsProvider), Order = 7)]
     public string AnalyzerName { get; set; } = "";
 
-    [TextInputComponent(Label = "Rebuild Hook")]
+    [TextInputComponent(Label = "Rebuild Hook", Order = 8)]
     public string RebuildHook { get; set; } = "";
-
-    [LuceneIndexConfigurationComponent(Label = "Included Paths")]
-    public IEnumerable<LuceneIndexIncludedPath> Paths { get; set; } = Enumerable.Empty<LuceneIndexIncludedPath>();
 
     public LuceneConfigurationModel() { }
 
@@ -51,6 +54,7 @@ public class LuceneConfigurationModel
         AnalyzerName = luceneModel.AnalyzerName;
         RebuildHook = luceneModel.RebuildHook;
         Paths = luceneModel.Paths;
+        ReusableContentTypeNames = luceneModel.ReusableContentTypeNames;
     }
 
     public LuceneIndexModel ToLuceneModel() =>
@@ -63,6 +67,7 @@ public class LuceneConfigurationModel
             AnalyzerName = AnalyzerName,
             StrategyName = StrategyName,
             RebuildHook = RebuildHook,
-            Paths = Paths
+            Paths = Paths,
+            ReusableContentTypeNames = ReusableContentTypeNames
         };
 }

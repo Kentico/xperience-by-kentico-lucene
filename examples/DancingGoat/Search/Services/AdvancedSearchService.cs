@@ -77,7 +77,7 @@ public class AdvancedSearchService
 
                return new LuceneSearchResultModel<DancingGoatSearchResultModel>
                {
-                   Query = searchText ?? "",
+                   Query = searchText ?? string.Empty,
                    Page = page,
                    PageSize = pageSize,
                    TotalPages = topDocs.TotalHits <= 0 ? 0 : ((topDocs.TotalHits - 1) / pageSize) + 1,

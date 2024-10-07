@@ -16,7 +16,7 @@ namespace Kentico.Xperience.Lucene.Core;
 /// Data container class for <see cref="LuceneContentTypeItemInfo"/>.
 /// </summary>
 [Serializable]
-public partial class LuceneContentTypeItemInfo : AbstractInfo<LuceneContentTypeItemInfo, ILuceneContentTypeItemInfoProvider>
+public partial class LuceneContentTypeItemInfo : AbstractInfo<LuceneContentTypeItemInfo, IInfoProvider<LuceneContentTypeItemInfo>>
 {
     /// <summary>
     /// Object type.
@@ -27,7 +27,7 @@ public partial class LuceneContentTypeItemInfo : AbstractInfo<LuceneContentTypeI
     /// <summary>
     /// Type information.
     /// </summary>
-    public static readonly ObjectTypeInfo TYPEINFO = new(typeof(LuceneContentTypeItemInfoProvider), OBJECT_TYPE, "KenticoLucene.LuceneContentTypeItem", nameof(LuceneContentTypeItemId), null, nameof(LuceneContentTypeItemGuid), null, null, null, null, null)
+    public static readonly ObjectTypeInfo TYPEINFO = new(typeof(IInfoProvider<LuceneContentTypeItemInfo>), OBJECT_TYPE, "KenticoLucene.LuceneContentTypeItem", nameof(LuceneContentTypeItemId), null, nameof(LuceneContentTypeItemGuid), null, null, null, null, null)
     {
         TouchCacheDependencies = true,
         DependsOn = new List<ObjectDependency>()

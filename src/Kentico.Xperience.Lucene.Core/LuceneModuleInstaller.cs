@@ -20,6 +20,7 @@ public class LuceneModuleInstaller(IInfoProvider<ResourceInfo> resourceProvider)
         InstallLuceneLanguageInfo(resource);
         InstallLuceneIndexPathItemInfo(resource);
         InstallLuceneContentTypeItemInfo(resource);
+        InstallLuceneReusableContentTypeItemInfo(resource);
     }
 
     public ResourceInfo InitializeResource(ResourceInfo resource)
@@ -231,6 +232,64 @@ public class LuceneModuleInstaller(IInfoProvider<ResourceInfo> resourceProvider)
             DataType = "integer",
             ReferenceToObjectType = LuceneIndexItemInfo.OBJECT_TYPE,
             ReferenceType = ObjectDependencyEnum.Required,
+        };
+
+        formInfo.AddFormItem(formItem);
+
+        SetFormDefinition(info, formInfo);
+
+        if (info.HasChanged)
+        {
+            DataClassInfoProvider.SetDataClassInfo(info);
+        }
+    }
+
+    public void InstallLuceneReusableContentTypeItemInfo(ResourceInfo resource)
+    {
+        var info = DataClassInfoProvider.GetDataClassInfo(LuceneReusableContentTypeItemInfo.OBJECT_TYPE) ?? DataClassInfo.New(LuceneReusableContentTypeItemInfo.OBJECT_TYPE);
+
+        info.ClassName = LuceneReusableContentTypeItemInfo.TYPEINFO.ObjectClassName;
+        info.ClassTableName = LuceneReusableContentTypeItemInfo.TYPEINFO.ObjectClassName.Replace(".", "_");
+        info.ClassDisplayName = "Lucene Reusable Content Type Item";
+        info.ClassType = ClassType.OTHER;
+        info.ClassResourceID = resource.ResourceID;
+
+        var formInfo = FormHelper.GetBasicFormDefinition(nameof(LuceneReusableContentTypeItemInfo.LuceneReusableContentTypeItemId));
+
+        var formItem = new FormFieldInfo
+        {
+            Name = nameof(LuceneReusableContentTypeItemInfo.LuceneReusableContentTypeItemContentTypeName),
+            AllowEmpty = false,
+            Visible = true,
+            Precision = 0,
+            Size = 100,
+            DataType = "text",
+            Enabled = true,
+            IsUnique = false
+        };
+        formInfo.AddFormItem(formItem);
+
+        formItem = new FormFieldInfo
+        {
+            Name = nameof(LuceneReusableContentTypeItemInfo.LuceneReusableContentTypeItemGuid),
+            Enabled = true,
+            AllowEmpty = false,
+            Visible = true,
+            Precision = 0,
+            DataType = "guid",
+        };
+
+        formInfo.AddFormItem(formItem);
+
+        formItem = new FormFieldInfo
+        {
+            Name = nameof(LuceneReusableContentTypeItemInfo.LuceneReusableContentTypeItemIndexItemId),
+            AllowEmpty = false,
+            Visible = true,
+            Precision = 0,
+            DataType = "integer",
+            ReferenceToObjectType = LuceneIndexItemInfo.OBJECT_TYPE,
+            ReferenceType = ObjectDependencyEnum.Required
         };
 
         formInfo.AddFormItem(formItem);

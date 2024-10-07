@@ -31,8 +31,8 @@ public class ExampleSearchIndexingStrategy : DefaultLuceneIndexingStrategy
     {
         var document = new Document();
 
-        string sortableTitle = "";
-        string title = "";
+        string sortableTitle = string.Empty;
+        string title = string.Empty;
 
         // IIndexEventItemModel could be a reusable content item or a web page item, so we use
         // pattern matching to get access to the web page item specific type and fields
@@ -60,7 +60,7 @@ public class ExampleSearchIndexingStrategy : DefaultLuceneIndexingStrategy
 
             var article = page.ArticlePageArticle.FirstOrDefault();
 
-            sortableTitle = title = article?.ArticleTitle ?? "";
+            sortableTitle = title = article?.ArticleTitle ?? string.Empty;
         }
 
         document.Add(new TextField(nameof(GlobalSearchResultModel.Title), title, Field.Store.YES));
@@ -83,6 +83,7 @@ public static class BaseDocumentProperties
     public const string ID = "ID";
     public const string CONTENT_TYPE_NAME = "ContentTypeName";
     // ...
+    // This field is only added to the document if the indexed item is a web page.
     public const string URL = "Url";
 }
 ```
@@ -135,9 +136,9 @@ public class ExampleSearchIndexingStrategy : DefaultLuceneIndexingStrategy
     {
         var document = new Document();
 
-        string sortableTitle = "";
-        string title = "";
-        string contentType = "";
+        string sortableTitle = string.Empty;
+        string title = string.Empty;
+        string contentType = string.Empty;
 
         if (item is IndexEventWebPageItemModel webpageItem &&
             string.Equals(indexedModel.ContentTypeName, ArticlePage.CONTENT_TYPE_NAME, StringComparison.OrdinalIgnorecase))

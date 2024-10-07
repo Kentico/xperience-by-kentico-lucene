@@ -36,6 +36,11 @@ internal static class IndexedItemModelExtensions
             return false;
         }
 
+        if (!string.Equals(item.WebsiteChannelName, luceneIndex.WebSiteChannelName))
+        {
+            return false;
+        }
+
         if (!luceneIndex.LanguageNames.Exists(x => x == item.LanguageName))
         {
             return false;

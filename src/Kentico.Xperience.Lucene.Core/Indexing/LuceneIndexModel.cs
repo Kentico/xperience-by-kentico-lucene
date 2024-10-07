@@ -18,13 +18,16 @@ public class LuceneIndexModel
 
     public IEnumerable<LuceneIndexIncludedPath> Paths { get; set; } = Enumerable.Empty<LuceneIndexIncludedPath>();
 
+    public IEnumerable<string> ReusableContentTypeNames { get; set; } = Enumerable.Empty<string>();
+
     public LuceneIndexModel() { }
 
     public LuceneIndexModel(
         LuceneIndexItemInfo index,
         IEnumerable<LuceneIndexLanguageItemInfo> indexLanguages,
         IEnumerable<LuceneIncludedPathItemInfo> indexPaths,
-        IEnumerable<LuceneIndexContentType> contentTypes
+        IEnumerable<LuceneIndexContentType> contentTypes,
+        IEnumerable<LuceneReusableContentTypeItemInfo> reusableContentTypes
     )
     {
         Id = index.LuceneIndexItemId;
@@ -36,6 +39,10 @@ public class LuceneIndexModel
         LanguageNames = indexLanguages
             .Where(l => l.LuceneIndexLanguageItemIndexItemId == index.LuceneIndexItemId)
             .Select(l => l.LuceneIndexLanguageItemName)
+            .ToList();
+        ReusableContentTypeNames = reusableContentTypes
+            .Where(c => c.LuceneReusableContentTypeItemIndexItemId == index.LuceneIndexItemId)
+            .Select(c => c.LuceneReusableContentTypeItemContentTypeName)
             .ToList();
         Paths = indexPaths
             .Where(p => p.LuceneIncludedPathItemIndexItemId == index.LuceneIndexItemId)
