@@ -57,6 +57,17 @@ To run the example project Admin customization in development mode, add the foll
 }
 ```
 
+The Xperience web application requests client modules from a webpack dev server that runs parallel to the Xperience application.
+
+Changes to client code are immediately integrated and don’t require a restart or rebuild of the web application. 
+
+Before you start developing, the webpack server needs to be manually started by running
+
+```bash
+npm run start
+```
+from the root of the module folder, in our case in the `/src/Kentico.Xperience.Lucene.Admin/Client` folder.
+
 ## Development Workflow
 
 ### Prepare your Git branch and commits
