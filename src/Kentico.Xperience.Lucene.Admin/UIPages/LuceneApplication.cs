@@ -8,7 +8,7 @@ using Kentico.Xperience.Lucene.Admin;
     identifier: LuceneApplicationPage.IDENTIFIER,
     type: typeof(LuceneApplicationPage),
     slug: "lucene",
-    name: "Search",
+    name: "Lucene Search",
     category: BaseApplicationCategories.DEVELOPMENT,
     icon: Icons.Magnifier,
     templateName: TemplateNames.SECTION_LAYOUT)]
