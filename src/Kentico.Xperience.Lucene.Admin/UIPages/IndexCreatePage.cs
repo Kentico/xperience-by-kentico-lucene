@@ -20,7 +20,7 @@ namespace Kentico.Xperience.Lucene.Admin;
 [UIEvaluatePermission(SystemPermissions.CREATE)]
 internal class IndexCreatePage : BaseIndexEditPage
 {
-    private readonly IPageUrlGenerator pageUrlGenerator;
+    private readonly IPageLinkGenerator pageLinkGenerator;
     private readonly ILuceneIndexManager indexManager;
     private LuceneConfigurationModel? model = null;
 
@@ -29,10 +29,10 @@ internal class IndexCreatePage : BaseIndexEditPage
         IFormDataBinder formDataBinder,
         ILuceneConfigurationStorageService storageService,
         ILuceneIndexManager indexManager,
-        IPageUrlGenerator pageUrlGenerator)
+        IPageLinkGenerator pageLinkGenerator)
         : base(formItemCollectionProvider, formDataBinder, storageService, indexManager)
     {
-        this.pageUrlGenerator = pageUrlGenerator;
+        this.pageLinkGenerator = pageLinkGenerator;
         this.indexManager = indexManager;
     }
 
@@ -54,7 +54,12 @@ internal class IndexCreatePage : BaseIndexEditPage
         {
             var index = indexManager.GetRequiredIndex(model.IndexName);
 
-            var successResponse = NavigateTo(pageUrlGenerator.GenerateUrl<IndexEditPage>(index.Identifier.ToString()))
+            var pageParameterValues = new PageParameterValues
+            {
+                { typeof(IndexEditPage), index.Identifier }
+            };
+
+            var successResponse = NavigateTo(pageLinkGenerator.GetPath<IndexEditPage>(pageParameterValues))
                 .AddSuccessMessage("Index created.");
 
             return await Task.FromResult<ICommandResponse>(successResponse);

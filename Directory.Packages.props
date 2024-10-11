@@ -6,13 +6,13 @@
     <DisableImplicitNuGetFallbackFolder>true</DisableImplicitNuGetFallbackFolder>
   </PropertyGroup>
   <ItemGroup>
-    <PackageVersion Include="Kentico.Xperience.Admin" Version="29.3.3" />
-    <PackageVersion Include="Kentico.Xperience.Azurestorage" Version="29.3.3" />
-    <PackageVersion Include="Kentico.Xperience.Cloud" Version="29.3.3" />
-    <PackageVersion Include="Kentico.Xperience.Core" Version="29.3.3" />
-    <PackageVersion Include="Kentico.Xperience.Imageprocessing" Version="29.3.3" />
-    <PackageVersion Include="Kentico.Xperience.WebApp" Version="29.3.3" />
-    <PackageVersion Include="Kentico.Xperience.Core.Tests" Version="29.3.3" />
+    <PackageVersion Include="Kentico.Xperience.Admin" Version="29.5.3" />
+    <PackageVersion Include="Kentico.Xperience.Azurestorage" Version="29.5.3" />
+    <PackageVersion Include="Kentico.Xperience.Cloud" Version="29.5.3" />
+    <PackageVersion Include="Kentico.Xperience.Core" Version="29.5.3" />
+    <PackageVersion Include="Kentico.Xperience.Imageprocessing" Version="29.5.3" />
+    <PackageVersion Include="Kentico.Xperience.WebApp" Version="29.5.3" />
+    <PackageVersion Include="Kentico.Xperience.Core.Tests" Version="29.5.3" />
     <PackageVersion Include="Kentico.Xperience.Lucene" Version="" Condition="'$(LOCAL_NUGET)' == 'true'" />
     <PackageVersion Include="Lucene.Net" Version="4.8.0-beta00016" />
     <PackageVersion Include="Lucene.Net.Analysis.Common" Version="4.8.0-beta00016" />

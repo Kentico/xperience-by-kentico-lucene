@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -15,9 +16,24 @@ namespace DancingGoat.Models
         /// <summary>
         /// Initializes new instance of <see cref="ContactsPageRepository"/>.
         /// </summary>
-        public ContactsPageRepository(IWebsiteChannelContext websiteChannelContext, IContentQueryExecutor executor, IWebPageQueryResultMapper mapper, IProgressiveCache cache)
-            : base(websiteChannelContext, executor, mapper, cache)
+        public ContactsPageRepository(IWebsiteChannelContext websiteChannelContext, IContentQueryExecutor executor, IProgressiveCache cache)
+            : base(websiteChannelContext, executor, cache)
         {
+        }
+
+
+        /// <summary>
+        /// Returns <see cref="ContactsPage"/> web page by tree path and language name.
+        /// </summary>
+        public async Task<ContactsPage> GetContactsPage(string treePath, string languageName, CancellationToken cancellationToken = default)
+        {
+            var queryBuilder = GetQueryBuilder(w => w.WhereEquals(nameof(IWebPageContentQueryDataContainer.WebPageItemTreePath), treePath), languageName);
+
+            var cacheSettings = new CacheSettings(5, WebsiteChannelContext.WebsiteChannelName, nameof(ContactsPage), nameof(IWebPageContentQueryDataContainer.WebPageItemTreePath), treePath, languageName);
+
+            var result = await GetCachedQueryResult<ContactsPage>(queryBuilder, null, cacheSettings, GetDependencyCacheKeys, cancellationToken);
+
+            return result.FirstOrDefault();
         }
 
 
@@ -26,9 +42,9 @@ namespace DancingGoat.Models
         /// </summary>
         public async Task<ContactsPage> GetContactsPage(int webPageItemId, string languageName, CancellationToken cancellationToken = default)
         {
-            var queryBuilder = GetQueryBuilder(webPageItemId, languageName);
+            var queryBuilder = GetQueryBuilder(w => w.WhereEquals(nameof(IWebPageContentQueryDataContainer.WebPageItemID), webPageItemId), languageName);
 
-            var cacheSettings = new CacheSettings(5, WebsiteChannelContext.WebsiteChannelName, nameof(ContactsPage), webPageItemId, languageName);
+            var cacheSettings = new CacheSettings(5, WebsiteChannelContext.WebsiteChannelName, nameof(ContactsPage), nameof(IWebPageContentQueryDataContainer.WebPageItemID), webPageItemId, languageName);
 
             var result = await GetCachedQueryResult<ContactsPage>(queryBuilder, null, cacheSettings, GetDependencyCacheKeys, cancellationToken);
 
@@ -36,13 +52,12 @@ namespace DancingGoat.Models
         }
 
 
-        private ContentItemQueryBuilder GetQueryBuilder(int webPageItemId, string languageName)
+        private ContentItemQueryBuilder GetQueryBuilder(Action<WhereParameters> where, string languageName)
         {
             return new ContentItemQueryBuilder()
                     .ForContentType(ContactsPage.CONTENT_TYPE_NAME, config => config
-                        .ForWebsite(WebsiteChannelContext.WebsiteChannelName, includeUrlPath: false)
-                    .Where(where => where
-                            .WhereEquals(nameof(IWebPageContentQueryDataContainer.WebPageItemID), webPageItemId))
+                        .ForWebsite(WebsiteChannelContext.WebsiteChannelName)
+                    .Where(where)
                     .TopN(1))
                     .InLanguage(languageName);
         }

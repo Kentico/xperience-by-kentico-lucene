@@ -15,8 +15,8 @@ namespace DancingGoat.Models
     /// </summary>
     public class ConfirmationPageRepository : ContentRepositoryBase
     {
-        public ConfirmationPageRepository(IWebsiteChannelContext websiteChannelContext, IContentQueryExecutor executor, IWebPageQueryResultMapper mapper, IProgressiveCache cache)
-            : base(websiteChannelContext, executor, mapper, cache)
+        public ConfirmationPageRepository(IWebsiteChannelContext websiteChannelContext, IContentQueryExecutor executor, IProgressiveCache cache)
+            : base(websiteChannelContext, executor, cache)
         {
         }
 

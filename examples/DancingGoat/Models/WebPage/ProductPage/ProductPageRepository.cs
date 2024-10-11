@@ -25,23 +25,22 @@ namespace DancingGoat.Models
         public ProductPageRepository(
             IWebsiteChannelContext websiteChannelContext,
             IContentQueryExecutor executor,
-            IWebPageQueryResultMapper mapper,
             IProgressiveCache cache,
             IWebPageLinkedItemsDependencyAsyncRetriever webPageLinkedItemsDependencyRetriever)
-            : base(websiteChannelContext, executor, mapper, cache)
+            : base(websiteChannelContext, executor, cache)
         {
             this.webPageLinkedItemsDependencyRetriever = webPageLinkedItemsDependencyRetriever;
         }
 
 
         /// <summary>
-        /// Returns list of <see cref="ProductPage"/> web pages.
+        /// Returns list of <see cref="IProductPage"/> web pages.
         /// </summary>
-        public async Task<IEnumerable<ProductPage>> GetProducts(string treePath, string languageName, IEnumerable<Product> linkedProducts, bool includeSecuredItems = true, CancellationToken cancellationToken = default)
+        public async Task<IEnumerable<IProductPage>> GetProducts(string treePath, string languageName, IEnumerable<IProductFields> linkedProducts, bool includeSecuredItems = true, CancellationToken cancellationToken = default)
         {
             if (!linkedProducts.Any())
             {
-                return Enumerable.Empty<ProductPage>();
+                return Enumerable.Empty<IProductPage>();
             }
 
             var queryBuilder = GetQueryBuilder(treePath, languageName, linkedProducts);
@@ -51,15 +50,15 @@ namespace DancingGoat.Models
                 IncludeSecuredItems = includeSecuredItems
             };
 
-            var linkedProductCacheParts = linkedProducts.Select(product => product.SystemFields.ContentItemID.ToString()).Join("|");
-            var cacheSettings = new CacheSettings(5, WebsiteChannelContext.WebsiteChannelName, treePath, languageName, includeSecuredItems, nameof(ProductPage), linkedProductCacheParts);
+            var linkedProductCacheParts = linkedProducts.Select(product => product.ProductFieldsName).Join("|");
+            var cacheSettings = new CacheSettings(5, WebsiteChannelContext.WebsiteChannelName, treePath, languageName, includeSecuredItems, nameof(IProductPage), linkedProductCacheParts);
 
-            return await GetCachedQueryResult<ProductPage>(queryBuilder, options, cacheSettings, GetDependencyCacheKeys, cancellationToken);
+            return await GetCachedQueryResult<IProductPage>(queryBuilder, options, cacheSettings, GetDependencyCacheKeys, cancellationToken);
         }
 
 
         public async Task<ProductPageType> GetProduct<ProductPageType>(string contentTypeName, int id, string languageName, bool includeSecuredItems = true, CancellationToken cancellationToken = default)
-            where ProductPageType: IWebPageFieldsSource, new()
+            where ProductPageType : IWebPageFieldsSource, new()
         {
             var queryBuilder = GetQueryBuilder(id, languageName, contentTypeName);
 
@@ -76,12 +75,12 @@ namespace DancingGoat.Models
         }
 
 
-        private ContentItemQueryBuilder GetQueryBuilder(string treePath, string languageName, IEnumerable<Product> linkedProducts)
+        private ContentItemQueryBuilder GetQueryBuilder(string treePath, string languageName, IEnumerable<IProductFields> linkedProducts)
         {
             return GetQueryBuilder(
                 languageName,
                 config => config
-                    .Linking(nameof(ProductPage.RelatedItem), linkedProducts.Select(linkedProduct => linkedProduct.SystemFields.ContentItemID))
+                    .Linking(nameof(IProductPage.RelatedItem), linkedProducts.Select(linkedProduct => ((IContentItemFieldsSource)linkedProduct).SystemFields.ContentItemID))
                     .WithLinkedItems(2)
                     .ForWebsite(WebsiteChannelContext.WebsiteChannelName, PathMatch.Children(treePath)));
         }

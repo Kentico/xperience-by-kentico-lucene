@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 
 using CMS.ContentEngine;
 using CMS.Helpers;
-using CMS.Websites;
 using CMS.Websites.Routing;
 
 namespace DancingGoat.Models
@@ -15,8 +14,8 @@ namespace DancingGoat.Models
     /// </summary>
     public class ContactRepository : ContentRepositoryBase
     {
-        public ContactRepository(IWebsiteChannelContext websiteChannelContext, IContentQueryExecutor executor, IWebPageQueryResultMapper mapper, IProgressiveCache cache)
-            : base(websiteChannelContext, executor, mapper, cache)
+        public ContactRepository(IWebsiteChannelContext websiteChannelContext, IContentQueryExecutor executor, IProgressiveCache cache)
+            : base(websiteChannelContext, executor, cache)
         {
         }
 

@@ -19,7 +19,7 @@ namespace DancingGoat.Models
 	/// Represents a content item of type <see cref="Grinder"/>.
 	/// </summary>
 	[RegisterContentTypeMapping(CONTENT_TYPE_NAME)]
-	public partial class Grinder : IContentItemFieldsSource
+	public partial class Grinder : IContentItemFieldsSource, IProductFields
 	{
 		/// <summary>
 		/// Code name of the content type.
@@ -35,24 +35,6 @@ namespace DancingGoat.Models
 
 
 		/// <summary>
-		/// Name.
-		/// </summary>
-		public string Name { get; set; }
-
-
-		/// <summary>
-		/// Description.
-		/// </summary>
-		public string Description { get; set; }
-
-
-		/// <summary>
-		/// Image.
-		/// </summary>
-		public IEnumerable<Image> Image { get; set; }
-
-
-		/// <summary>
 		/// GrinderManufacturer.
 		/// </summary>
 		public IEnumerable<TagReference> GrinderManufacturer { get; set; }
@@ -62,5 +44,29 @@ namespace DancingGoat.Models
 		/// GrinderType.
 		/// </summary>
 		public IEnumerable<TagReference> GrinderType { get; set; }
+
+
+		/// <summary>
+		/// ProductFieldsName.
+		/// </summary>
+		public string ProductFieldsName { get; set; }
+
+
+		/// <summary>
+		/// ProductFieldsDescription.
+		/// </summary>
+		public string ProductFieldsDescription { get; set; }
+
+
+		/// <summary>
+		/// ProductFieldsShortDescription.
+		/// </summary>
+		public string ProductFieldsShortDescription { get; set; }
+
+
+		/// <summary>
+		/// ProductFieldsImage.
+		/// </summary>
+		public IEnumerable<Image> ProductFieldsImage { get; set; }
 	}
 }

@@ -1,15 +1,17 @@
-﻿@using DancingGoat.Models
-@model IEnumerable<CafeViewModel>
+﻿@using DancingGoat.ViewComponents
+@model CafeCardSectionViewModel
 
 <div class="row cafe-cards">
     <div class="title-wrapper">
         <h1 class="title-tab">@HtmlLocalizer["Taste our coffee"]</h1>
     </div>
     <div class="row row--with-cols-padding">
-        @foreach (var cafe in Model)
+        @foreach (var cafe in Model.Cafes)
         {
             <div class="col-md-4">
-                <vc:cafe cafe="@cafe" />
+                <a href="@Model.ContactsPagePath" class="ourcoffee-tile-link">
+                    <vc:cafe cafe="@cafe" />
+                </a>
             </div>
         }
     </div>

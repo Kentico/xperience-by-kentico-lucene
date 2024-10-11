@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 
 using CMS.ContentEngine;
 using CMS.Helpers;
-using CMS.Websites;
 using CMS.Websites.Routing;
 
 namespace DancingGoat.Models
@@ -19,8 +18,8 @@ namespace DancingGoat.Models
         private readonly ILinkedItemsDependencyRetriever linkedItemsDependencyRetriever;
 
 
-        public SocialLinkRepository(IWebsiteChannelContext websiteChannelContext, IContentQueryExecutor executor, IWebPageQueryResultMapper mapper, IProgressiveCache cache, ILinkedItemsDependencyRetriever linkedItemsDependencyRetriever)
-            : base(websiteChannelContext, executor, mapper, cache)
+        public SocialLinkRepository(IWebsiteChannelContext websiteChannelContext, IContentQueryExecutor executor, IProgressiveCache cache, ILinkedItemsDependencyRetriever linkedItemsDependencyRetriever)
+            : base(websiteChannelContext, executor, cache)
         {
             this.linkedItemsDependencyRetriever = linkedItemsDependencyRetriever;
         }

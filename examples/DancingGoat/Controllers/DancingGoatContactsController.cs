@@ -51,19 +51,22 @@ namespace DancingGoat.Controllers
         private async Task<ContactsIndexViewModel> GetIndexViewModel(ContactsPage contactsPage, CancellationToken cancellationToken)
         {
             var languageName = currentLanguageRetriever.Get();
-            var cafes = await cafeRepository.GetCompanyCafes(4, languageName, cancellationToken);
+            var cafes = (await cafeRepository.GetCafes(0, languageName, cancellationToken)).ToList();
+            var companyCafes = cafes.Where(c => c.CafeIsCompanyCafe).OrderBy(c => c.CafeName);
+            var partnerCafes = cafes.Where(c => !c.CafeIsCompanyCafe).OrderBy(c => c.CafeCity);
             var contact = await contactRepository.GetContact(languageName, HttpContext.RequestAborted);
 
             return new ContactsIndexViewModel
             {
                 CompanyContact = ContactViewModel.GetViewModel(contact),
-                CompanyCafes = GetCompanyCafesModel(cafes),
+                CompanyCafes = GetCafesModel(companyCafes),
+                PartnerCafes = GetCafesModel(partnerCafes),
                 WebPage = contactsPage
             };
         }
 
 
-        private List<CafeViewModel> GetCompanyCafesModel(IEnumerable<Cafe> cafes)
+        private List<CafeViewModel> GetCafesModel(IEnumerable<Cafe> cafes)
         {
             return cafes.Select(cafe => CafeViewModel.GetViewModel(cafe)).ToList();
         }

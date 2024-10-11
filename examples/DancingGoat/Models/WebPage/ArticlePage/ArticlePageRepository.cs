@@ -26,10 +26,9 @@ namespace DancingGoat.Models
         public ArticlePageRepository(
             IWebsiteChannelContext websiteChannelContext,
             IContentQueryExecutor executor,
-            IWebPageQueryResultMapper mapper,
             IProgressiveCache cache,
             IWebPageLinkedItemsDependencyAsyncRetriever webPageLinkedItemsDependencyRetriever)
-            : base(websiteChannelContext, executor, mapper, cache)
+            : base(websiteChannelContext, executor, cache)
         {
             this.webPageLinkedItemsDependencyRetriever = webPageLinkedItemsDependencyRetriever;
         }

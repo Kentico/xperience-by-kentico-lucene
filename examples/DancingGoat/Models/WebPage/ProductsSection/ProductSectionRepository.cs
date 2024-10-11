@@ -16,8 +16,8 @@ namespace DancingGoat.Models
         private readonly ILinkedItemsDependencyAsyncRetriever linkedItemsDependencyRetriever;
 
 
-        public ProductSectionRepository(IWebsiteChannelContext websiteChannelContext, IContentQueryExecutor executor, IWebPageQueryResultMapper mapper, IProgressiveCache cache, ILinkedItemsDependencyAsyncRetriever linkedItemsDependencyRetriever) 
-            : base(websiteChannelContext, executor, mapper, cache)
+        public ProductSectionRepository(IWebsiteChannelContext websiteChannelContext, IContentQueryExecutor executor, IProgressiveCache cache, ILinkedItemsDependencyAsyncRetriever linkedItemsDependencyRetriever)
+            : base(websiteChannelContext, executor, cache)
         {
             this.linkedItemsDependencyRetriever = linkedItemsDependencyRetriever;
         }

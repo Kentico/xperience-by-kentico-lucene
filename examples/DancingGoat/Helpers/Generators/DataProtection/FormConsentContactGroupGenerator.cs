@@ -1,4 +1,5 @@
 ﻿using CMS.ContactManagement;
+using CMS.DataEngine;
 using CMS.MacroEngine;
 using CMS.Membership;
 
@@ -9,14 +10,14 @@ namespace DancingGoat.Helpers.Generator
         private const string CONTACT_GROUP_DISPLAY_NAME = "Coffee samples applicants";
         private const string CONTACT_GROUP_NAME = "CoffeeSamplesApplicants";
 
-        private readonly IContactGroupInfoProvider contactGroupInfoProvider;
+        private readonly IInfoProvider<ContactGroupInfo> contactGroupInfoProvider;
 
 
         /// <summary>
         /// Initializes a new instance of the <see cref="FormContactGroupGenerator"/> class.
         /// </summary>
         /// <param name="contactGroupInfoProvider">Contact group info provider.</param>
-        public FormContactGroupGenerator(IContactGroupInfoProvider contactGroupInfoProvider)
+        public FormContactGroupGenerator(IInfoProvider<ContactGroupInfo> contactGroupInfoProvider)
         {
             this.contactGroupInfoProvider = contactGroupInfoProvider;
         }

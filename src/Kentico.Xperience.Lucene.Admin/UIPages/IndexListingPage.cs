@@ -24,7 +24,7 @@ namespace Kentico.Xperience.Lucene.Admin;
 internal class IndexListingPage : ListingPage
 {
     private readonly ILuceneClient luceneClient;
-    private readonly IPageUrlGenerator pageUrlGenerator;
+    private readonly IPageLinkGenerator pageLinkGenerator;
     private readonly ILuceneConfigurationStorageService configurationStorageService;
     private readonly IConversionService conversionService;
     private readonly ILuceneIndexManager indexManager;
@@ -37,14 +37,14 @@ internal class IndexListingPage : ListingPage
     /// </summary>
     public IndexListingPage(
         ILuceneClient luceneClient,
-        IPageUrlGenerator pageUrlGenerator,
+        IPageLinkGenerator pageLinkGenerator,
         ILuceneConfigurationStorageService configurationStorageService,
         ILuceneIndexManager indexManager,
         IConversionService conversionService,
         IWebFarmService webFarmService)
     {
         this.luceneClient = luceneClient;
-        this.pageUrlGenerator = pageUrlGenerator;
+        this.pageLinkGenerator = pageLinkGenerator;
         this.configurationStorageService = configurationStorageService;
         this.conversionService = conversionService;
         this.indexManager = indexManager;
@@ -182,7 +182,7 @@ internal class IndexListingPage : ListingPage
     {
         configurationStorageService.TryDeleteIndex(id);
 
-        var response = NavigateTo(pageUrlGenerator.GenerateUrl<IndexListingPage>());
+        var response = NavigateTo(pageLinkGenerator.GetPath<IndexListingPage>());
 
         return Task.FromResult<ICommandResponse>(response);
     }

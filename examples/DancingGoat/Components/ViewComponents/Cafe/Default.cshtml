@@ -8,13 +8,11 @@
     }
     else
     {
-        <a href="#" class="ourcoffee-tile-link">
-            <h2 class="ourcoffee-tile-text center-text">@Model.Name</h2>
-            <span class="cafe-overlay"> </span>
-            @if (!string.IsNullOrEmpty(Model.PhotoPath))
-            {
-                <img src="@Url.Content(Model.PhotoPath)" alt="@Model.PhotoShortDescription" title="@Model.Name" class="ourcoffee-tile-image" loading="lazy" />
-            }
-        </a>
+        <h2 class="ourcoffee-tile-text center-text">@Model.Name</h2>
+        <span class="cafe-overlay"> </span>
+        @if (!string.IsNullOrEmpty(Model.PhotoPath))
+        {
+            <img src="@Url.Content(Model.PhotoPath)" alt="@Model.PhotoShortDescription" title="@Model.Name" class="ourcoffee-tile-image" loading="lazy" />
+        }
     }
 </div>
