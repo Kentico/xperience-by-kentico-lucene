@@ -6,12 +6,57 @@ namespace Kentico.Xperience.Lucene.Core.Indexing;
 
 public interface ILuceneIndexStorageStrategy
 {
+    /// <summary>
+    /// Gets all existing indices.
+    /// </summary>
+    /// <param name="indexStoragePath">Path root of the index storage</param>
+    /// <returns></returns>
     IEnumerable<IndexStorageModel> GetExistingIndices(string indexStoragePath);
+
+    /// <summary>
+    /// Formats path of an index in a specified generation.
+    /// </summary>
+    /// <param name="indexRoot">Root path of the index</param>
+    /// <param name="generation">Indexing generation</param>
+    /// <param name="isPublished">Parameter specifying whether the index has been published</param>
+    /// <returns></returns>
     string FormatPath(string indexRoot, int generation, bool isPublished);
+
+    /// <summary>
+    /// Formats path of a taxonomy of an index in a specified generation.
+    /// </summary>
+    /// <param name="indexRoot">Root path of the index</param>
+    /// <param name="generation">Indexing generation</param>
+    /// <param name="isPublished">Parameter specifying whether the taxonomy has been published</param>
+    /// <returns></returns>
     string FormatTaxonomyPath(string indexRoot, int generation, bool isPublished);
+
+    /// <summary>
+    /// Publishes the index.
+    /// </summary>
+    /// <param name="storage">Index storage model</param>
     void PublishIndex(IndexStorageModel storage);
+
+    /// <summary>
+    /// Schedules removal of files of an index.
+    /// </summary>
+    /// <param name="storage">Index storage model</param>
+    /// <returns></returns>
     bool ScheduleRemoval(IndexStorageModel storage);
+
+    /// <summary>
+    /// Performs cleanup of files of an index.
+    /// </summary>
+    /// <param name="indexStoragePath">Path root of the index storage</param>
+    /// <returns></returns>
     bool PerformCleanup(string indexStoragePath);
+
+    /// <summary>
+    /// Deletes all files associated with an index.
+    /// </summary>
+    /// <param name="indexStoragePath">Path root of the index storage</param>
+    /// <returns></returns>
+    bool DeleteIndex(string indexStoragePath);
 }
 
 internal class GenerationStorageStrategy : ILuceneIndexStorageStrategy
@@ -107,6 +152,37 @@ internal class GenerationStorageStrategy : ILuceneIndexStorageStrategy
         return true;
     }
 
+    public bool DeleteIndex(string indexStoragePath)
+    {
+        var deleteDir = new DirectoryInfo(indexStoragePath);
+
+        try
+        {
+            if (!deleteDir.Exists)
+            {
+                return true;
+            }
+
+            try
+            {
+                Trace.WriteLine($"D={deleteDir.Name}: delete *.*", $"GenerationStorageStrategy.DeleteIndex");
+                deleteDir.Delete(true);
+            }
+            catch
+            {
+                // ignored, can't do anything about resource
+            }
+        }
+        catch (IOException)
+        {
+            // directory might be destroyed or inaccessible
+
+            return false;
+        }
+
+        return true;
+    }
+
     public bool PerformCleanup(string indexStoragePath)
     {
         string toDeleteDir = Path.Combine(indexStoragePath, IndexDeletionDirectoryName);
@@ -159,7 +235,6 @@ internal class GenerationStorageStrategy : ILuceneIndexStorageStrategy
         bool Success,
         [property: MemberNotNullWhen(true, "Success")] IndexStorageModelParseResult? Result
     );
-
     private IndexStorageModelParsingResult ParseIndexStorageModel(string directoryPath)
     {
         if (string.IsNullOrWhiteSpace(directoryPath))

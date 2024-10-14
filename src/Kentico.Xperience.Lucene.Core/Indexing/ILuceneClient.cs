@@ -21,6 +21,13 @@ public interface ILuceneClient
     Task<int> DeleteRecords(IEnumerable<string> itemGuids, string indexName);
 
     /// <summary>
+    /// Removes Lucene index.
+    /// </summary>
+    /// <param name="luceneIndex">The index to be deleted</param>
+    /// <returns></returns>
+    void DeleteIndex(LuceneIndex luceneIndex);
+
+    /// <summary>
     /// Gets the indices of the Lucene application with basic statistics.
     /// </summary>
     /// <param name="cancellationToken">The cancellation token for the task.</param>
