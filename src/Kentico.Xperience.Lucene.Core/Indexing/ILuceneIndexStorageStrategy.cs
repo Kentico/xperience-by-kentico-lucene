@@ -6,12 +6,56 @@ namespace Kentico.Xperience.Lucene.Core.Indexing;
 
 public interface ILuceneIndexStorageStrategy
 {
+    /// <summary>
+    /// Gets all existing indices.
+    /// </summary>
+    /// <param name="indexStoragePath">Path root of the index storage</param>
+    /// <returns></returns>
     IEnumerable<IndexStorageModel> GetExistingIndices(string indexStoragePath);
+
+    /// <summary>
+    /// Formats path of an index in a specified generation.
+    /// </summary>
+    /// <param name="indexRoot">Root path of the index</param>
+    /// <param name="generation">Indexing generation</param>
+    /// <param name="isPublished">Parameter specifying whether the index has been published</param>
+    /// <returns></returns>
     string FormatPath(string indexRoot, int generation, bool isPublished);
+
+    /// <summary>
+    /// Formats path of a taxonomy of an index in a specified generation.
+    /// </summary>
+    /// <param name="indexRoot">Root path of the index</param>
+    /// <param name="generation">Indexing generation</param>
+    /// <param name="isPublished">Parameter specifying whether the taxonomy has been published</param>
+    /// <returns></returns>
     string FormatTaxonomyPath(string indexRoot, int generation, bool isPublished);
+
+    /// <summary>
+    /// Publishes the index.
+    /// </summary>
+    /// <param name="storage">Index storage model</param>
     void PublishIndex(IndexStorageModel storage);
+
+    /// <summary>
+    /// Schedules removal of files of an index.
+    /// </summary>
+    /// <param name="storage">Index storage model</param>
+    /// <returns></returns>
     bool ScheduleRemoval(IndexStorageModel storage);
+
+    /// <summary>
+    /// Performs cleanup of files of an index.
+    /// </summary>
+    /// <param name="indexStoragePath">Path root of the index storage</param>
+    /// <returns></returns>
     bool PerformCleanup(string indexStoragePath);
+
+    /// <summary>
+    /// Deletes all files associated with an index.
+    /// </summary>
+    /// <param name="indexStoragePath">Path root of the index storage</param>
+    /// <returns></returns>
     bool DeleteIndex(string indexStoragePath);
 }
 
