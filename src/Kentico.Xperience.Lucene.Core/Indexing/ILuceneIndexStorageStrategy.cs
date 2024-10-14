@@ -12,6 +12,7 @@ public interface ILuceneIndexStorageStrategy
     void PublishIndex(IndexStorageModel storage);
     bool ScheduleRemoval(IndexStorageModel storage);
     bool PerformCleanup(string indexStoragePath);
+    bool DeleteIndex(string indexStoragePath);
 }
 
 internal class GenerationStorageStrategy : ILuceneIndexStorageStrategy
@@ -107,6 +108,37 @@ internal class GenerationStorageStrategy : ILuceneIndexStorageStrategy
         return true;
     }
 
+    public bool DeleteIndex(string indexStoragePath)
+    {
+        var deleteDir = new DirectoryInfo(indexStoragePath);
+
+        try
+        {
+            if (!deleteDir.Exists)
+            {
+                return true;
+            }
+
+            try
+            {
+                Trace.WriteLine($"D={deleteDir.Name}: delete *.*", $"GenerationStorageStrategy.DeleteIndex");
+                deleteDir.Delete(true);
+            }
+            catch
+            {
+                // ignored, can't do anything about resource
+            }
+        }
+        catch (IOException)
+        {
+            // directory might be destroyed or inaccessible
+
+            return false;
+        }
+
+        return true;
+    }
+
     public bool PerformCleanup(string indexStoragePath)
     {
         string toDeleteDir = Path.Combine(indexStoragePath, IndexDeletionDirectoryName);
@@ -159,7 +191,6 @@ internal class GenerationStorageStrategy : ILuceneIndexStorageStrategy
         bool Success,
         [property: MemberNotNullWhen(true, "Success")] IndexStorageModelParseResult? Result
     );
-
     private IndexStorageModelParsingResult ParseIndexStorageModel(string directoryPath)
     {
         if (string.IsNullOrWhiteSpace(directoryPath))

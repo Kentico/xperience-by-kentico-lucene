@@ -180,6 +180,18 @@ internal class IndexListingPage : ListingPage
     [PageCommand(Permission = SystemPermissions.DELETE)]
     public Task<ICommandResponse> Delete(int id, CancellationToken _)
     {
+        var index = indexManager.GetIndex(id);
+
+        if (index is null)
+        {
+            var result = new RowActionResult(false);
+
+            return Task.FromResult<ICommandResponse>(ResponseFrom(result)
+                .AddErrorMessage(string.Format("Error loading Lucene index with identifier {0}.", id)));
+        }
+
+        luceneClient.DeleteIndex(index!);
+
         configurationStorageService.TryDeleteIndex(id);
 
         var response = NavigateTo(pageLinkGenerator.GetPath<IndexListingPage>());
