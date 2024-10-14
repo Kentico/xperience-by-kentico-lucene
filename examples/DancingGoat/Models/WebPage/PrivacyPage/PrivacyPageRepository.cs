@@ -15,8 +15,8 @@ namespace DancingGoat.Models
         /// <summary>
         /// Initializes new instance of <see cref="PrivacyPageRepository"/>.
         /// </summary>
-        public PrivacyPageRepository(IWebsiteChannelContext websiteChannelContext, IContentQueryExecutor executor, IWebPageQueryResultMapper mapper, IProgressiveCache cache)
-            : base(websiteChannelContext, executor, mapper, cache)
+        public PrivacyPageRepository(IWebsiteChannelContext websiteChannelContext, IContentQueryExecutor executor, IProgressiveCache cache)
+            : base(websiteChannelContext, executor, cache)
         {
         }
 

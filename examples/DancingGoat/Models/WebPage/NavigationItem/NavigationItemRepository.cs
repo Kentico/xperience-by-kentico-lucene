@@ -19,8 +19,8 @@ namespace DancingGoat.Models
         /// <summary>
         /// Initializes new instance of <see cref="NavigationItemRepository"/>.
         /// </summary>
-        public NavigationItemRepository(IWebsiteChannelContext websiteChannelContext, IContentQueryExecutor executor, IWebPageQueryResultMapper mapper, IProgressiveCache cache)
-            : base(websiteChannelContext, executor, mapper, cache)
+        public NavigationItemRepository(IWebsiteChannelContext websiteChannelContext, IContentQueryExecutor executor, IProgressiveCache cache)
+            : base(websiteChannelContext, executor, cache)
         {
         }
 

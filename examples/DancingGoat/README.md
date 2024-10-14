@@ -24,10 +24,10 @@ If you change the site's content model (add or remove fields, define new content
 For _reusable field schemas_:
 
 ```powershell
-dotnet run --no-build -- --kxp-codegen --location "./Models/Schema/" --type ReusableFieldSchemas --include "SEOFields" --namespace "DancingGoat.Models"
+dotnet run --no-build -- --kxp-codegen --location "./Models/Schema/" --type ReusableFieldSchemas --namespace "DancingGoat.Models"
 ```
 
-This command regenerates the interface for the `SEOFields` reusable schema. Note that the `namespace` must match that of the assigned content types.
+This command regenerates the interfaces for all reusable field schemas in the project. Note that the specified `--namespace` must match the namespace where content type code files that reference the schemas are generated. You will get uncompilable code otherwise.
 
 For _reusable_ content types:
 

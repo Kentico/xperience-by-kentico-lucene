@@ -1,4 +1,7 @@
-﻿using DancingGoat;
+﻿using System;
+using System.Threading.Tasks;
+
+using DancingGoat;
 using DancingGoat.Models;
 
 using Kentico.Activities.Web.Mvc;
@@ -9,12 +12,15 @@ using Kentico.PageBuilder.Web.Mvc;
 using Kentico.Web.Mvc;
 
 
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Abstractions;
 using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Routing;
+using Microsoft.Extensions.DependencyInjection;
 using DancingGoat.Search;
-
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -135,6 +141,12 @@ static void ConfigureMembershipServices(IServiceCollection services)
 
             return Task.CompletedTask;
         };
+    });
+
+    services.Configure<AdminIdentityOptions>(options =>
+    {
+        // The expiration time span of 8 hours is set for demo purposes only. In production environment, set expiration according to best practices.
+        options.AuthenticationOptions.ExpireTimeSpan = TimeSpan.FromHours(8);
     });
 
     services.AddAuthorization();

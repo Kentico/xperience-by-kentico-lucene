@@ -22,8 +22,8 @@ namespace DancingGoat.Models
         /// <summary>
         /// Initializes new instance of <see cref="HomePageRepository"/>.
         /// </summary>
-        public HomePageRepository(IWebsiteChannelContext websiteChannelContext, IContentQueryExecutor executor, IWebPageQueryResultMapper mapper, IProgressiveCache cache, IWebPageLinkedItemsDependencyAsyncRetriever webPageLinkedItemsDependencyRetriever)
-            : base(websiteChannelContext, executor, mapper, cache)
+        public HomePageRepository(IWebsiteChannelContext websiteChannelContext, IContentQueryExecutor executor, IProgressiveCache cache, IWebPageLinkedItemsDependencyAsyncRetriever webPageLinkedItemsDependencyRetriever)
+            : base(websiteChannelContext, executor, cache)
         {
             this.webPageLinkedItemsDependencyRetriever = webPageLinkedItemsDependencyRetriever;
         }

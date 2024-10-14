@@ -21,7 +21,7 @@ namespace DancingGoat.Widgets
         /// </summary>
         /// <param name="products">Collection of products.</param>
         /// <returns>Hydrated ViewModel.</returns>
-        public static ProductCardListViewModel GetViewModel(IEnumerable<Coffee> products)
+        public static ProductCardListViewModel GetViewModel(IEnumerable<IProductFields> products)
         {
             var productModels = new List<ProductCardViewModel>();
 

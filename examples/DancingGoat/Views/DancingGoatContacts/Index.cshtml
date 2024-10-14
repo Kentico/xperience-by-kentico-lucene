@@ -30,19 +30,28 @@
         @foreach (var cafe in @Model.CompanyCafes)
         {
             <div class="col-md-6 col-lg-3">
-                <div class="cafe-tile cursor-hand js-scroll-to-map" data-address="@cafe.City, @cafe.Street">
+                <div class="cafe-tile" data-address="@cafe.City, @cafe.Street">
                     <div class="cafe-tile-content">
                         <h3 class="cafe-tile-name">@cafe.Name</h3>
                         <address class="cafe-tile-address">
-                            <a href="javascript:void(0)" class="cafe-tile-address-anchor">
-                                @cafe.Street, @cafe.City<br />
-                                @cafe.Country
-                            </a>
+                            @cafe.Street, @cafe.City<br />
+                            @cafe.Country
                         </address>
                         <p class="cafe-tile-phone">@cafe.Phone</p>
                     </div>
                 </div>
             </div>
+        }
+    </div>
+
+    <h2>@HtmlLocalizer["Other places where you can drink our coffee"]</h2>
+    <div class="row">
+        @foreach (var partnerCafe in Model.PartnerCafes)
+        {
+            <h3>@partnerCafe.City, @partnerCafe.Country</h3>
+            <p>
+                @partnerCafe.Name, @partnerCafe.Street, @partnerCafe.Phone
+            </p>
         }
     </div>
 </div>

@@ -33,11 +33,10 @@ namespace DancingGoat.Models
         public ProductRepository(
             IWebsiteChannelContext websiteChannelContext,
             IContentQueryExecutor executor,
-            IWebPageQueryResultMapper mapper,
             IProgressiveCache cache,
             ILinkedItemsDependencyAsyncRetriever linkedItemsDependencyRetriever,
             IInfoProvider<TaxonomyInfo> taxonomyInfoProvider)
-            : base(websiteChannelContext, executor, mapper, cache)
+            : base(websiteChannelContext, executor, cache)
         {
             this.linkedItemsDependencyRetriever = linkedItemsDependencyRetriever;
             this.taxonomyInfoProvider = taxonomyInfoProvider;
@@ -45,11 +44,11 @@ namespace DancingGoat.Models
 
 
         /// <summary>
-        /// Returns list of <see cref="Product"/> content items.
+        /// Returns list of <see cref="IProductFields"/> content items.
         /// </summary>
-        public async Task<IEnumerable<Product>> GetProducts(string languageName, IDictionary<string, TaxonomyViewModel> filter, bool includeSecuredItems = true, CancellationToken cancellationToken = default)
+        public async Task<IEnumerable<IProductFields>> GetProducts(string languageName, IDictionary<string, TaxonomyViewModel> filter, bool includeSecuredItems = true, CancellationToken cancellationToken = default)
         {
-            var queryBuilder = GetQueryBuilder(languageName, filter);
+            var queryBuilder = await GetQueryBuilder(languageName, filter: filter);
 
             var options = new ContentQueryExecutionOptions
             {
@@ -58,32 +57,57 @@ namespace DancingGoat.Models
 
             var filterCacheItemNameParts = filter.Values.Where(value => value != null && value.Tags != null).SelectMany(value => value.Tags.Where(tag => tag.IsChecked)).Select(id => id.Value.ToString()).Join("|");
 
-            var cacheSettings = new CacheSettings(5, WebsiteChannelContext.WebsiteChannelName, languageName, includeSecuredItems, nameof(Product), filterCacheItemNameParts);
+            var cacheSettings = new CacheSettings(5, WebsiteChannelContext.WebsiteChannelName, languageName, includeSecuredItems, nameof(IProductFields), filterCacheItemNameParts);
 
-            return await GetCachedQueryResult<Product>(queryBuilder, options, cacheSettings, (_, _) => GetDependencyCacheKeys(languageName), cancellationToken);
+            return await GetCachedQueryResult<IProductFields>(queryBuilder, options, cacheSettings, (_, _) => GetDependencyCacheKeys(languageName), cancellationToken);
         }
 
 
-        private static ContentItemQueryBuilder GetQueryBuilder(string languageName, IDictionary<string, TaxonomyViewModel> filter)
+        /// <summary>
+        /// Returns list of <see cref="IProductFields"/> content items.
+        /// </summary>
+        public async Task<IEnumerable<IProductFields>> GetProducts(ICollection<Guid> productGuids, string languageName, CancellationToken cancellationToken = default)
         {
-            var baseBuilder = new ContentItemQueryBuilder()
-                    .ForContentType(Coffee.CONTENT_TYPE_NAME)
-                    .ForContentType(Grinder.CONTENT_TYPE_NAME)
-                    .InLanguage(languageName);
+            var queryBuilder = await GetQueryBuilder(languageName, productGuids);
 
-            if (!filter.Any())
+            var cacheSettings = new CacheSettings(5, WebsiteChannelContext.WebsiteChannelName, languageName, nameof(IProductFields), productGuids.Select(guid => guid.ToString()).Join("|"));
+
+            return await GetCachedQueryResult<IProductFields>(queryBuilder, new ContentQueryExecutionOptions(), cacheSettings, (_, _) => GetDependencyCacheKeys(languageName, productGuids), cancellationToken);
+        }
+
+
+        private static async Task<ContentItemQueryBuilder> GetQueryBuilder(string languageName, IEnumerable<Guid> productGuids = null, IDictionary<string, TaxonomyViewModel> filter = null)
+        {
+            var baseBuilder = new ContentItemQueryBuilder().ForContentTypes(ct =>
+                {
+                    ct.OfReusableSchema(IProductFields.REUSABLE_FIELD_SCHEMA_NAME)
+                      .WithContentTypeFields()
+                      .WithLinkedItems(1);
+                }).InLanguage(languageName);
+
+            if (productGuids != null)
+            {
+                baseBuilder.Parameters(query => query.Where(where => where.WhereIn(nameof(IContentQueryDataContainer.ContentItemGUID), productGuids)));
+            }
+
+            if (filter == null || !filter.Any())
             {
                 return baseBuilder;
             }
 
+            var coffeeProcessingTags = await GetSelectedTags(filter, COFFEE_PROCESSING);
+            var coffeeTastesTags = await GetSelectedTags(filter, COFFEE_TASTES);
+            var grinderManufacturerTags = await GetSelectedTags(filter, GRINDER_MANUFACTURER);
+            var grinderTypeTags = await GetSelectedTags(filter, GRINDER_TYPE);
+
             return baseBuilder
                 .Parameters(query => query.Where(where => where
-                    .Where(async coffeeWhere => coffeeWhere
-                        .WhereContainsTags(nameof(Coffee.CoffeeProcessing), await GetSelectedTags(filter, COFFEE_PROCESSING))
-                        .WhereContainsTags(nameof(Coffee.CoffeeTastes), await GetSelectedTags(filter, COFFEE_TASTES))
-                    .Where(async grinderWhere => grinderWhere
-                        .WhereContainsTags(nameof(Grinder.GrinderManufacturer), await GetSelectedTags(filter, GRINDER_MANUFACTURER))
-                        .WhereContainsTags(nameof(Grinder.GrinderType), await GetSelectedTags(filter, GRINDER_TYPE))))
+                    .Where(coffeeWhere => coffeeWhere
+                        .WhereContainsTags(nameof(Coffee.CoffeeProcessing), coffeeProcessingTags)
+                        .WhereContainsTags(nameof(Coffee.CoffeeTastes), coffeeTastesTags))
+                    .Where(grinderWhere => grinderWhere
+                        .WhereContainsTags(nameof(Grinder.GrinderManufacturer), grinderManufacturerTags)
+                        .WhereContainsTags(nameof(Grinder.GrinderType), grinderTypeTags))
                 ));
         }
 
@@ -99,7 +123,7 @@ namespace DancingGoat.Models
         }
 
 
-        private async Task<ISet<string>> GetDependencyCacheKeys(string languageName)
+        private async Task<ISet<string>> GetDependencyCacheKeys(string languageName, ICollection<Guid> productGuids = null)
         {
             var dependencyCacheKeys = new HashSet<string>(StringComparer.InvariantCultureIgnoreCase)
             {
@@ -111,8 +135,23 @@ namespace DancingGoat.Models
                 await GetTaxonomyTagsCacheDependencyKey(GRINDER_MANUFACTURER),
                 await GetTaxonomyTagsCacheDependencyKey(GRINDER_TYPE)
             };
+            GetProductPageDependencies(productGuids, dependencyCacheKeys);
 
             return dependencyCacheKeys;
+        }
+
+
+        private static void GetProductPageDependencies(ICollection<Guid> productGuids, HashSet<string> dependencyCacheKeys)
+        {
+            if (productGuids == null || !productGuids.Any())
+            {
+                return;
+            }
+
+            foreach (var guid in productGuids)
+            {
+                dependencyCacheKeys.Add(CacheHelper.BuildCacheItemName(new[] { "contentitem", "byguid", guid.ToString() }, false));
+            }
         }
 
 
