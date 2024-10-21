@@ -181,16 +181,21 @@ internal class IndexListingPage : ListingPage
     public Task<ICommandResponse> Delete(int id, CancellationToken _)
     {
         var index = indexManager.GetIndex(id);
+        var result = new RowActionResult(false);
 
         if (index is null)
         {
-            var result = new RowActionResult(false);
-
             return Task.FromResult<ICommandResponse>(ResponseFrom(result)
                 .AddErrorMessage(string.Format("Error loading Lucene index with identifier {0}.", id)));
         }
 
-        luceneClient.DeleteIndex(index!);
+        bool indexDeleted = luceneClient.DeleteIndex(index!);
+
+        if (!indexDeleted)
+        {
+            return Task.FromResult<ICommandResponse>(ResponseFrom(result)
+               .AddErrorMessage(string.Format("Errors occurred while deleting the '{0}' index. Please check the Event Log for more details.", index.IndexName)));
+        }
 
         configurationStorageService.TryDeleteIndex(id);
 

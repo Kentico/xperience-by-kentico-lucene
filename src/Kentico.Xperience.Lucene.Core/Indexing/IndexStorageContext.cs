@@ -149,6 +149,6 @@ public class IndexStorageContext
         storageStrategy.PerformCleanup(indexStoragePathRoot);
     }
 
-    public void DeleteIndex() =>
+    public bool DeleteIndex() =>
         storageStrategy.DeleteIndex(indexStoragePathRoot);
 }

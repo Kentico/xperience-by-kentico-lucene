@@ -127,8 +127,8 @@ internal class DefaultLuceneClient : ILuceneClient
         return UpsertRecordsInternal(documents, indexName);
     }
 
-    public void DeleteIndex(LuceneIndex luceneIndex) =>
-        luceneIndex?.StorageContext.DeleteIndex();
+    public bool DeleteIndex(LuceneIndex luceneIndex) =>
+        luceneIndex?.StorageContext.DeleteIndex() ?? false;
 
     private Task<int> DeleteRecordsInternal(IEnumerable<string> itemGuids, string indexName)
     {

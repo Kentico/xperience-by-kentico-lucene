@@ -24,7 +24,7 @@ public interface ILuceneClient
     /// Removes Lucene index.
     /// </summary>
     /// <param name="luceneIndex">The index to be deleted.</param>
-    void DeleteIndex(LuceneIndex luceneIndex);
+    bool DeleteIndex(LuceneIndex luceneIndex);
 
     /// <summary>
     /// Gets the indices of the Lucene application with basic statistics.
