@@ -2,6 +2,8 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Text.RegularExpressions;
 
+using CMS.Core;
+
 namespace Kentico.Xperience.Lucene.Core.Indexing;
 
 public interface ILuceneIndexStorageStrategy
@@ -9,59 +11,57 @@ public interface ILuceneIndexStorageStrategy
     /// <summary>
     /// Gets all existing indices.
     /// </summary>
-    /// <param name="indexStoragePath">Path root of the index storage</param>
-    /// <returns></returns>
+    /// <param name="indexStoragePath">Path root of the index storage.</param>
     IEnumerable<IndexStorageModel> GetExistingIndices(string indexStoragePath);
 
     /// <summary>
     /// Formats path of an index in a specified generation.
     /// </summary>
-    /// <param name="indexRoot">Root path of the index</param>
-    /// <param name="generation">Indexing generation</param>
-    /// <param name="isPublished">Parameter specifying whether the index has been published</param>
-    /// <returns></returns>
+    /// <param name="indexRoot">Root path of the index.</param>
+    /// <param name="generation">Indexing generation.</param>
+    /// <param name="isPublished">Parameter specifying whether the index has been published.</param>
     string FormatPath(string indexRoot, int generation, bool isPublished);
 
     /// <summary>
     /// Formats path of a taxonomy of an index in a specified generation.
     /// </summary>
-    /// <param name="indexRoot">Root path of the index</param>
-    /// <param name="generation">Indexing generation</param>
-    /// <param name="isPublished">Parameter specifying whether the taxonomy has been published</param>
-    /// <returns></returns>
+    /// <param name="indexRoot">Root path of the index.</param>
+    /// <param name="generation">Indexing generation.</param>
+    /// <param name="isPublished">Parameter specifying whether the taxonomy has been published.</param>
     string FormatTaxonomyPath(string indexRoot, int generation, bool isPublished);
 
     /// <summary>
     /// Publishes the index.
     /// </summary>
-    /// <param name="storage">Index storage model</param>
+    /// <param name="storage">Index storage model.</param>
     void PublishIndex(IndexStorageModel storage);
 
     /// <summary>
     /// Schedules removal of files of an index.
     /// </summary>
-    /// <param name="storage">Index storage model</param>
-    /// <returns></returns>
+    /// <param name="storage">Index storage model.</param>
     bool ScheduleRemoval(IndexStorageModel storage);
 
     /// <summary>
     /// Performs cleanup of files of an index.
     /// </summary>
-    /// <param name="indexStoragePath">Path root of the index storage</param>
-    /// <returns></returns>
+    /// <param name="indexStoragePath">Path root of the index storage.</param>
     bool PerformCleanup(string indexStoragePath);
 
     /// <summary>
     /// Deletes all files associated with an index.
     /// </summary>
-    /// <param name="indexStoragePath">Path root of the index storage</param>
-    /// <returns></returns>
+    /// <param name="indexStoragePath">Path root of the index storage.</param>
     bool DeleteIndex(string indexStoragePath);
 }
 
 internal class GenerationStorageStrategy : ILuceneIndexStorageStrategy
 {
     private const string IndexDeletionDirectoryName = ".trash";
+    private readonly IEventLogService eventLogService;
+
+    public GenerationStorageStrategy() =>
+        eventLogService = Service.Resolve<IEventLogService>();
 
     public IEnumerable<IndexStorageModel> GetExistingIndices(string indexStoragePath)
     {
@@ -168,14 +168,14 @@ internal class GenerationStorageStrategy : ILuceneIndexStorageStrategy
                 Trace.WriteLine($"D={deleteDir.Name}: delete *.*", $"GenerationStorageStrategy.DeleteIndex");
                 deleteDir.Delete(true);
             }
-            catch
+            catch (Exception ex)
             {
-                // ignored, can't do anything about resource
+                eventLogService.LogError(nameof(GenerationStorageStrategy), nameof(DeleteIndex), ex.Message);
             }
         }
-        catch (IOException)
+        catch (IOException ex)
         {
-            // directory might be destroyed or inaccessible
+            eventLogService.LogError(nameof(GenerationStorageStrategy), nameof(DeleteIndex), ex.Message);
 
             return false;
         }
