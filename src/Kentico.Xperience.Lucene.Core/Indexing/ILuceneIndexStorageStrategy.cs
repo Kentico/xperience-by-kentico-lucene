@@ -156,27 +156,19 @@ internal class GenerationStorageStrategy : ILuceneIndexStorageStrategy
     {
         var deleteDir = new DirectoryInfo(indexStoragePath);
 
+        if (!deleteDir.Exists)
+        {
+            return true;
+        }
+
         try
         {
-            if (!deleteDir.Exists)
-            {
-                return true;
-            }
-
-            try
-            {
-                Trace.WriteLine($"D={deleteDir.Name}: delete *.*", $"GenerationStorageStrategy.DeleteIndex");
-                deleteDir.Delete(true);
-            }
-            catch (Exception ex)
-            {
-                eventLogService.LogError(nameof(GenerationStorageStrategy), nameof(DeleteIndex), ex.Message);
-            }
+            Trace.WriteLine($"D={deleteDir.Name}: delete *.*", $"GenerationStorageStrategy.DeleteIndex");
+            deleteDir.Delete(true);
         }
-        catch (IOException ex)
+        catch (Exception ex)
         {
             eventLogService.LogError(nameof(GenerationStorageStrategy), nameof(DeleteIndex), ex.Message);
-
             return false;
         }
 
