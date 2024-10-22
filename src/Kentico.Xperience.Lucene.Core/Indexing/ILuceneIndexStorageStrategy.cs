@@ -52,7 +52,7 @@ public interface ILuceneIndexStorageStrategy
     /// Deletes all files associated with an index.
     /// </summary>
     /// <param name="indexStoragePath">Path root of the index storage.</param>
-    bool DeleteIndex(string indexStoragePath);
+    Task<bool> DeleteIndex(string indexStoragePath);
 }
 
 internal class GenerationStorageStrategy : ILuceneIndexStorageStrategy
@@ -152,7 +152,7 @@ internal class GenerationStorageStrategy : ILuceneIndexStorageStrategy
         return true;
     }
 
-    public bool DeleteIndex(string indexStoragePath)
+    public async Task<bool> DeleteIndex(string indexStoragePath)
     {
         var deleteDir = new DirectoryInfo(indexStoragePath);
 
@@ -161,6 +161,25 @@ internal class GenerationStorageStrategy : ILuceneIndexStorageStrategy
             return true;
         }
 
+        int numberOfRetries = 10;
+        int millisecondsRetryDelay = 100;
+
+        for (int i = 0; i < numberOfRetries; i++)
+        {
+            try
+            {
+                Trace.WriteLine($"D={deleteDir.Name}: delete *.*", $"GenerationStorageStrategy.DeleteIndex");
+                deleteDir.Delete(true);
+                return true;
+            }
+            catch
+            {
+                // Do nothing with exception and retry.
+                // The directory may be locked by another process, but we can not know about it without trying to delete it.
+                // The exact exception is not known and is not written in .NET documentation.
+                await Task.Delay(millisecondsRetryDelay);
+            }
+        }
         try
         {
             Trace.WriteLine($"D={deleteDir.Name}: delete *.*", $"GenerationStorageStrategy.DeleteIndex");

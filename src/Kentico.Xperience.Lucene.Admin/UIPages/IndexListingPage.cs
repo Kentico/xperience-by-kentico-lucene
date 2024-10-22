@@ -178,22 +178,22 @@ internal class IndexListingPage : ListingPage
     }
 
     [PageCommand(Permission = SystemPermissions.DELETE)]
-    public Task<ICommandResponse> Delete(int id, CancellationToken _)
+    public async Task<ICommandResponse> Delete(int id, CancellationToken _)
     {
         var index = indexManager.GetIndex(id);
         var result = new RowActionResult(false);
 
         if (index is null)
         {
-            return Task.FromResult<ICommandResponse>(ResponseFrom(result)
+            return await Task.FromResult<ICommandResponse>(ResponseFrom(result)
                 .AddErrorMessage(string.Format("Error loading Lucene index with identifier {0}.", id)));
         }
 
-        bool indexDeleted = luceneClient.DeleteIndex(index!);
+        bool indexDeleted = await luceneClient.DeleteIndex(index!);
 
         if (!indexDeleted)
         {
-            return Task.FromResult<ICommandResponse>(ResponseFrom(result)
+            return await Task.FromResult<ICommandResponse>(ResponseFrom(result)
                .AddErrorMessage(string.Format("Errors occurred while deleting the '{0}' index. Please check the Event Log for more details.", index.IndexName)));
         }
 
@@ -201,7 +201,7 @@ internal class IndexListingPage : ListingPage
 
         var response = NavigateTo(pageLinkGenerator.GetPath<IndexListingPage>());
 
-        return Task.FromResult<ICommandResponse>(response);
+        return await Task.FromResult<ICommandResponse>(response);
     }
 
     private static void AddMissingStatistics(ref ICollection<LuceneIndexStatisticsModel> statistics, ILuceneIndexManager indexManager)
