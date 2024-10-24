@@ -148,4 +148,7 @@ public class IndexStorageContext
 
         storageStrategy.PerformCleanup(indexStoragePathRoot);
     }
+
+    public async Task<bool> DeleteIndex() =>
+        await storageStrategy.DeleteIndex(indexStoragePathRoot);
 }
