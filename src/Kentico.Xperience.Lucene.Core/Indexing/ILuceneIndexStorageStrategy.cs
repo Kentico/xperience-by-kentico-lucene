@@ -163,6 +163,7 @@ internal class GenerationStorageStrategy : ILuceneIndexStorageStrategy
 
         int numberOfRetries = 10;
         int millisecondsRetryDelay = 100;
+        int millisecondsAddedToRetryPerRequest = millisecondsRetryDelay * 2;
 
         for (int i = 0; i < numberOfRetries; i++)
         {
@@ -177,7 +178,8 @@ internal class GenerationStorageStrategy : ILuceneIndexStorageStrategy
                 // Do nothing with exception and retry.
                 // The directory may be locked by another process, but we can not know about it without trying to delete it.
                 // The exact exception is not known and is not written in .NET documentation.
-                await Task.Delay(millisecondsRetryDelay);
+
+                await Task.Delay(millisecondsRetryDelay + (millisecondsAddedToRetryPerRequest * numberOfRetries));
             }
         }
         try
