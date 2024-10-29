@@ -21,6 +21,12 @@ public interface ILuceneClient
     Task<int> DeleteRecords(IEnumerable<string> itemGuids, string indexName);
 
     /// <summary>
+    /// Removes Lucene index.
+    /// </summary>
+    /// <param name="luceneIndex">The index to be deleted.</param>
+    Task<bool> DeleteIndex(LuceneIndex luceneIndex);
+
+    /// <summary>
     /// Gets the indices of the Lucene application with basic statistics.
     /// </summary>
     /// <param name="cancellationToken">The cancellation token for the task.</param>
@@ -29,7 +35,7 @@ public interface ILuceneClient
     Task<ICollection<LuceneIndexStatisticsModel>> GetStatistics(CancellationToken cancellationToken);
 
     /// <summary>
-    /// Updates the Lucene index with the dynamic data in each object of the passed <paramref name="documents"/>.
+    /// Updates the Lucene index with the dynamic data in each object of the passed.<paramref name="documents"/>.
     /// </summary>
     /// <remarks>Logs an error if there are issues loading the node data.</remarks>
     /// <param name="documents">The document to upsert into Lucene.</param>
