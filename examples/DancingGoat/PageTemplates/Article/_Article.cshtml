@@ -7,7 +7,7 @@
     Layout = "~/Views/Shared/_DancingGoatLayout.cshtml";
     var viewModel = Model.GetTemplateModel<ArticleDetailViewModel>();
 
-    var hasRelatedArticles = viewModel.RelatedArticles.Any();
+    var hasRelatedArticles = viewModel.RelatedPages.Any();
 }
 
 
@@ -35,7 +35,7 @@
         </article>
 
         <div class="article-related-articles-sidebar col-lg-3 col-md-6 col-sm-12">
-            <partial name="~/Views/DancingGoatArticle/RelatedArticles.cshtml" model="viewModel.RelatedArticles" />
+            <partial name="~/Views/DancingGoatArticle/RelatedPages.cshtml" model="viewModel.RelatedPages" />
         </div>
     }
     else

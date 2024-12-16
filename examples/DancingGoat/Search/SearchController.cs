@@ -21,7 +21,7 @@ public class SearchController : Controller
         try
         {
             var results = advancedSearchService.GlobalSearch(indexName ?? "Advanced", query, pageSize, page, facet, sortBy);
-            return View(results);
+            return Ok(results);
         }
         catch
         {
@@ -34,6 +34,6 @@ public class SearchController : Controller
     {
         var results = simpleSearchService.GlobalSearch("Simple", query, pageSize, page);
 
-        return View(results);
+        return Ok(results);
     }
 }

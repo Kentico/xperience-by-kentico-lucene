@@ -104,17 +104,6 @@ public partial class LuceneReusableContentTypeItemInfo : AbstractInfo<LuceneReus
 
 
     /// <summary>
-    /// Constructor for de-serialization.
-    /// </summary>
-    /// <param name="info">Serialization info.</param>
-    /// <param name="context">Streaming context.</param>
-    protected LuceneReusableContentTypeItemInfo(SerializationInfo info, StreamingContext context)
-        : base(info, context)
-    {
-    }
-
-
-    /// <summary>
     /// Creates an empty instance of the <see cref="LuceneReusableContentTypeItemInfo"/> class.
     /// </summary>
     public LuceneReusableContentTypeItemInfo()
