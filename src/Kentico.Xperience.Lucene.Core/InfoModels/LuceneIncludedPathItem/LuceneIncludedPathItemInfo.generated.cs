@@ -102,17 +102,6 @@ public partial class LuceneIncludedPathItemInfo : AbstractInfo<LuceneIncludedPat
 
 
     /// <summary>
-    /// Constructor for de-serialization.
-    /// </summary>
-    /// <param name="info">Serialization info.</param>
-    /// <param name="context">Streaming context.</param>
-    protected LuceneIncludedPathItemInfo(SerializationInfo info, StreamingContext context)
-        : base(info, context)
-    {
-    }
-
-
-    /// <summary>
     /// Creates an empty instance of the <see cref="LuceneIncludedPathItemInfo"/> class.
     /// </summary>
     public LuceneIncludedPathItemInfo()

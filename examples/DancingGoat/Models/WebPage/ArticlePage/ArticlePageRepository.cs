@@ -53,21 +53,6 @@ namespace DancingGoat.Models
 
 
         /// <summary>
-        /// Returns list of <see cref="ArticlePage"/> content items with guids passed in parameter.
-        /// </summary>
-        public async Task<IEnumerable<ArticlePage>> GetArticles(ICollection<Guid> guids, string languageName, CancellationToken cancellationToken = default)
-        {
-            var queryBuilder = GetQueryBuilder(guids, languageName);
-
-            var options = new ContentQueryExecutionOptions { IncludeSecuredItems = true };
-
-            var cacheSettings = new CacheSettings(5, WebsiteChannelContext.WebsiteChannelName, languageName, guids.GetHashCode());
-
-            return await GetCachedQueryResult<ArticlePage>(queryBuilder, options, cacheSettings, GetDependencyCacheKeys, cancellationToken);
-        }
-
-
-        /// <summary>
         /// Returns <see cref="ArticlePage"/> web page by ID and language name.
         /// </summary>
         public async Task<ArticlePage> GetArticle(int id, string languageName, CancellationToken cancellationToken = default)
@@ -100,25 +85,12 @@ namespace DancingGoat.Models
         }
 
 
-        private ContentItemQueryBuilder GetQueryBuilder(ICollection<Guid> guids, string languageName)
-        {
-            return new ContentItemQueryBuilder().ForContentTypes(q =>
-            {
-                q.ForWebsite(guids)
-                 .WithContentTypeFields()
-                 .WithLinkedItems(1);
-            }).InLanguage(languageName)
-            .Parameters(q =>
-                q.OrderBy(OrderByColumn.Desc(nameof(ArticlePage.ArticlePagePublishDate))));
-        }
-
-
         private ContentItemQueryBuilder GetQueryBuilder(int id, string languageName)
         {
             return GetQueryBuilder(
                 languageName,
                 config => config
-                    .WithLinkedItems(1)
+                    .WithLinkedItems(3, options => options.IncludeWebPageData())
                     .ForWebsite(WebsiteChannelContext.WebsiteChannelName)
                     .Where(where => where.WhereEquals(nameof(IWebPageContentQueryDataContainer.WebPageItemID), id)));
         }

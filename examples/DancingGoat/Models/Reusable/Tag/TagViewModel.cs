@@ -6,35 +6,39 @@ using CMS.ContentEngine;
 
 using Tag = CMS.ContentEngine.Tag;
 
-namespace DancingGoat.Models;
-
-public record TagViewModel(string Name, int Level, Guid Value, bool IsChecked = false)
+namespace DancingGoat.Models
 {
-    private const int ROOT_TAG_ID = 0;
-
-    public static TagViewModel GetViewModel(Tag tag, int level = 0) => new(tag.Title, level, tag.Identifier);
-
-
-    public static List<TagViewModel> GetViewModels(IEnumerable<Tag> tags)
+    public record TagViewModel(string Name, int Level, Guid Value, bool IsChecked = false)
     {
-        var result = new List<TagViewModel>();
-        var tagsByParentId = tags.GroupBy(tag => tag.ParentID).ToDictionary(group => group.Key, group => group.ToList());
+        private const int ROOT_TAG_ID = 0;
 
-        if (tagsByParentId.TryGetValue(ROOT_TAG_ID, out var firstLevelTags))
+        public static TagViewModel GetViewModel(Tag tag, int level = 0)
         {
-            GetTagsWithTagViewModels(firstLevelTags, ROOT_TAG_ID);
+            return new TagViewModel(tag.Title, level, tag.Identifier);
         }
 
-        return result;
 
-
-        void GetTagsWithTagViewModels(IEnumerable<Tag> currentLevelTags, int level)
+        public static List<TagViewModel> GetViewModels(IEnumerable<Tag> tags)
         {
-            foreach (var tag in currentLevelTags.OrderBy(tag => tag.Order))
+            var result = new List<TagViewModel>();
+            var tagsByParentId = tags.GroupBy(tag => tag.ParentID).ToDictionary(group => group.Key, group => group.ToList());
+
+            if (tagsByParentId.TryGetValue(ROOT_TAG_ID, out var firstLevelTags))
             {
-                var children = tagsByParentId.TryGetValue(tag.ID, out var childrenTags) ? childrenTags : Enumerable.Empty<Tag>();
-                result.Add(GetViewModel(tag, level));
-                GetTagsWithTagViewModels(children, level + 1);
+                GetTagsWithTagViewModels(firstLevelTags, ROOT_TAG_ID);
+            }
+
+            return result;
+
+
+            void GetTagsWithTagViewModels(IEnumerable<Tag> currentLevelTags, int level)
+            {
+                foreach (var tag in currentLevelTags.OrderBy(tag => tag.Order))
+                {
+                    var children = tagsByParentId.TryGetValue(tag.ID, out var childrenTags) ? childrenTags : Enumerable.Empty<Tag>();
+                    result.Add(GetViewModel(tag, level));
+                    GetTagsWithTagViewModels(children, level + 1);
+                }
             }
         }
     }

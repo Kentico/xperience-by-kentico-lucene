@@ -46,7 +46,7 @@ namespace DancingGoat.ViewComponents
             const string CONTACTS_PAGE_TREE_PATH = "/Contacts";
 
             var contactsPage = await contactsPageRepository.GetContactsPage(CONTACTS_PAGE_TREE_PATH, languageName, cancellationToken);
-            var url = await webPageUrlRetriever.Retrieve(contactsPage, cancellationToken);
+            var url = await webPageUrlRetriever.Retrieve(contactsPage, languageName, cancellationToken);
 
             return url.RelativePath;
         }

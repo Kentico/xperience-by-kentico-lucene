@@ -11,15 +11,14 @@ using Kentico.OnlineMarketing.Web.Mvc;
 using Kentico.PageBuilder.Web.Mvc;
 using Kentico.Web.Mvc;
 
-
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Abstractions;
 using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Routing;
-using Microsoft.Extensions.DependencyInjection;
+
+using Samples.DancingGoat;
+
+using CMS.Base;
 using DancingGoat.Search;
 
 
@@ -60,7 +59,14 @@ builder.Services.AddDancingGoatServices();
 
 builder.Services.AddKenticoDancingGoatLuceneServices();
 
+builder.Services.AddSingleton<IEmailActivityTrackingEvaluator, EmailActivityTrackingEvaluator>();
+
 ConfigureMembershipServices(builder.Services);
+
+if (builder.Environment.IsDevelopment())
+{
+    builder.Services.Configure<UrlResolveOptions>(options => options.UseSSL = false);
+}
 
 var app = builder.Build();
 

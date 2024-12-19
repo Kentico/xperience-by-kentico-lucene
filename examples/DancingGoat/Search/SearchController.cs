@@ -34,6 +34,6 @@ public class SearchController : Controller
     {
         var results = simpleSearchService.GlobalSearch("Simple", query, pageSize, page);
 
-        return View(results);
+        return Ok(results);
     }
 }

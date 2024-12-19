@@ -180,8 +180,8 @@
   <data name="Register" xml:space="preserve">
     <value>Registrarse</value>
   </data>
-  <data name="Related articles" xml:space="preserve">
-    <value>Artículos relacionados</value>
+  <data name="Related" xml:space="preserve">
+    <value>Relacionados</value>
   </data>
   <data name="Revoke" xml:space="preserve">
     <value>Revocar</value>
