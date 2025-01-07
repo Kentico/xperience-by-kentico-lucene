@@ -60,9 +60,9 @@ namespace DancingGoat.Models
 
 
 		/// <summary>
-		/// HomePageCafes.
+		/// HomePageCafesFolder.
 		/// </summary>
-		public IEnumerable<Cafe> HomePageCafes { get; set; }
+		public SmartFolderReference HomePageCafesFolder { get; set; }
 
 
 		/// <summary>

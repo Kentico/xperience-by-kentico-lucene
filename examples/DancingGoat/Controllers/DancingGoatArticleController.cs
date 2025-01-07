@@ -79,7 +79,7 @@ namespace DancingGoat.Controllers
                 return NotFound();
             }
 
-            var model = await ArticleDetailViewModel.GetViewModel(article, languageName, articlePageRepository, urlRetriever);
+            var model = await ArticleDetailViewModel.GetViewModel(article, languageName, urlRetriever);
 
             return new TemplateResult(model);
         }
