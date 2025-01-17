@@ -21,8 +21,7 @@ resources:
 
   containers:
     - container: Windows
-      image: base/mcr-dotnet-sdk-8.0-servercore-ltsc2022:release
-      endpoint: xperienceagentshub.azurecr.io
+      image: mcr.microsoft.com/dotnet/sdk:8.0-windowsservercore-ltsc2022
 
 variables:
   - name: SIGN_FILE
