@@ -422,11 +422,6 @@ dotnet_diagnostic.IDE0062.severity                                        = warn
 csharp_style_inlined_variable_declaration                                 = true : error
 dotnet_diagnostic.IDE0018.severity                                        = error
 
-csharp_style_var_elsewhere                                                = true : error
-csharp_style_var_when_type_is_apparent                                    = false : none
-dotnet_diagnostic.IDE0007.severity                                        = warning
-dotnet_diagnostic.IDE0008.severity                                        = none
-
 csharp_style_expression_bodied_constructors                               = true : error
 dotnet_diagnostic.IDE0021.severity                                        = error
 
