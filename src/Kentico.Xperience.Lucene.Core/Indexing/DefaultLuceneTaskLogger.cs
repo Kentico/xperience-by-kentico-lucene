@@ -63,6 +63,11 @@ internal class DefaultLuceneTaskLogger : ILuceneTaskLogger
                     }
                 }
             }
+
+            if (taskType == LuceneTaskType.DELETE)
+            {
+                LogIndexTaskInternal(webpageItem, LuceneTaskType.DELETE, luceneIndex.IndexName);
+            }
         }
     }
 

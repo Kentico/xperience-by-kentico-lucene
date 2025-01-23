@@ -4,9 +4,9 @@
     "net8.0": {
       "Kentico.Xperience.Core": {
         "type": "Direct",
-        "requested": "[30.0.0, )",
-        "resolved": "30.0.0",
-        "contentHash": "9P6OhCXzwd1KLzzmmGUI5Vnm+5mrtIlniioC2zGuMqgxmFUaDuk0SHBOW9knBICeF24IHpnXBK32icr17e1vPA==",
+        "requested": "[30.0.1, )",
+        "resolved": "30.0.1",
+        "contentHash": "oJ/ibUMM3dr7bsURna6pQePvdmqAnbdW9Lxhz8oHozCplBw9Lo5ZUTNEUu33K1K7sWHjd5/i0npCeDZxKRRp2g==",
         "dependencies": {
           "AngleSharp": "0.17.1",
           "Magick.NET-Q8-AnyCPU": "14.2.0",
