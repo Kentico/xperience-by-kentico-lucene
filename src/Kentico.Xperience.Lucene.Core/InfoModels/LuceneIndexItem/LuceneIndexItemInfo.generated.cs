@@ -26,7 +26,18 @@ public partial class LuceneIndexItemInfo : AbstractInfo<LuceneIndexItemInfo, IIn
     /// <summary>
     /// Type information.
     /// </summary>
-    public static readonly ObjectTypeInfo TYPEINFO = new(typeof(IInfoProvider<LuceneIndexItemInfo>), OBJECT_TYPE, "KenticoLucene.LuceneIndexItem", nameof(LuceneIndexItemId), null, nameof(LuceneIndexItemGuid), nameof(LuceneIndexItemIndexName), null, null, null, null)
+    public static readonly ObjectTypeInfo TYPEINFO = new(
+        providerType: typeof(IInfoProvider<LuceneIndexItemInfo>),
+        objectType: OBJECT_TYPE,
+        objectClassName: "KenticoLucene.LuceneIndexItem",
+        idColumn: nameof(LuceneIndexItemId),
+        timeStampColumn: nameof(LuceneIndexItemIndexName),
+        guidColumn: nameof(LuceneIndexItemGuid),
+        codeNameColumn: nameof(LuceneIndexItemIndexName),
+        displayNameColumn: null,
+        binaryColumn: null,
+        parentIDColumn: null,
+        parentObjectType: null)
     {
         TouchCacheDependencies = true,
         ContinuousIntegrationSettings =
