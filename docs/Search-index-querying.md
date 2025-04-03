@@ -28,7 +28,7 @@ public class GlobalSearchResultModel
 
 Execute a search with a customized Lucene `Query` (like the `MatchAllDocsQuery`) using the ILuceneSearchService.
 You can use your `GlobalSearchResultModel` as a generic parameter of prepared class template `LuceneSearchResultModel<T>` class to retrieve the most often desired data from `ILuceneSearchService`.
-If you don't want to use [facets](Custom-index-strategy.md#Add-facets) or you haven't provided configuration at search time to `FacetsConfig`, use `UseSearcher` instead.
+If you don't want to use [facets](Custom-index-strategy.md#Add-facets) or you haven't provided configuration at search time to `FacetsConfig`, use `UseSearcher` instead of `UseSearcherWithFacets` for querying lucene indexes.
 
 ```csharp
 public class SearchService
