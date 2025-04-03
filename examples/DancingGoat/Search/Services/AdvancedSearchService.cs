@@ -58,6 +58,8 @@ public class AdvancedSearchService
             combinedQuery.Add(drillDownQuery, Occur.MUST);
         }
 
+        // The UseSearcherWithFacets method does not function when a configuration to FacetsConfig is not provided at search time.
+        // If you want to query lucene indexes without the use of facets, use the UseSearcher method instead.
         var result = luceneSearchService.UseSearcherWithFacets(
            index,
            query, 20,
