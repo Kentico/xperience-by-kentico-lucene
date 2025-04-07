@@ -69,3 +69,22 @@ The `Analyzer` uses a `LuceneVersion` to match version compatibility accross rel
         builder.SetAnalyzerLuceneVersion(LuceneVersion.LUCENE_47);
     });
    ```
+
+## Disable default standard analyzer
+
+By default, the `StandardAnalyzer` is included and available for use. If you do not want the default `StandardAnalyzer` to appear in the Admin UI, you can disable it by setting the `IncludeDefaultAnalyzer` property to `false` when registering application services.
+
+```csharp
+// Program.cs
+
+// Registers all services and disables the default StandardAnalyzer
+services.AddKenticoLucene(builder =>
+{
+    builder.IncludeDefaultAnalyzer = false;
+
+    // Register custom analyzers
+    builder.RegisterAnalyzer<CzechAnalyzer>("Czech analyzer");
+});
+```
+
+With this configuration, the `StandardAnalyzer` will no longer be available in the Admin UI, and only the analyzers you explicitly register will appear.

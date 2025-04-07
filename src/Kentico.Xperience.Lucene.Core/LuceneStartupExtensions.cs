@@ -72,6 +72,20 @@ public static class LuceneStartupExtensions
 public interface ILuceneBuilder
 {
     /// <summary>
+    /// If true, the <see cref="DefaultLuceneIndexingStrategy" /> will be available as an explicitly selectable indexing strategy
+    /// within the Admin UI. Defaults to <c>true</c>
+    /// </summary>
+    public bool IncludeDefaultStrategy { get; set; }
+
+
+    /// <summary>
+    /// If true, the <see cref="StandardAnalyzer" /> will be available as an explicitly selectable analyzer
+    /// within the Admin UI. Defaults to <c>true</c>
+    /// </summary>
+    public bool IncludeDefaultAnalyzer { get; set; }
+
+
+    /// <summary>
     /// Registers the given <typeparamref name="TStrategy" /> as a transient service under <paramref name="strategyName" />
     /// </summary>
     /// <typeparam name="TStrategy">The custom type of <see cref="ILuceneIndexingStrategy"/> </typeparam>
