@@ -1,6 +1,7 @@
 ﻿using Kentico.Xperience.Lucene.Core.Indexing;
-using Lucene.Net.Analysis.Standard;
+
 using Lucene.Net.Analysis;
+using Lucene.Net.Analysis.Standard;
 using Lucene.Net.Util;
 
 namespace Kentico.Xperience.Lucene.Core;
@@ -30,7 +31,7 @@ public interface ILuceneBuilder
     ///     Thrown if a strategy has already been registered with the given <paramref name="strategyName"/>
     /// </exception>
     /// <returns>Returns this instance of <see cref="ILuceneBuilder"/>, allowing for further configuration in a fluent manner.</returns>
-    ILuceneBuilder RegisterStrategy<TStrategy>(string strategyName) where TStrategy : class, ILuceneIndexingStrategy;
+    public ILuceneBuilder RegisterStrategy<TStrategy>(string strategyName) where TStrategy : class, ILuceneIndexingStrategy;
 
 
     /// <summary>
@@ -43,7 +44,7 @@ public interface ILuceneBuilder
     ///     Thrown if an analyzer has already been registered with the given <paramref name="analyzerName"/>
     /// </exception>
     /// <returns>Returns this instance of <see cref="ILuceneBuilder"/>, allowing for further configuration in a fluent manner.</returns>
-    ILuceneBuilder RegisterAnalyzer<TAnalyzer>(string analyzerName) where TAnalyzer : Analyzer;
+    public ILuceneBuilder RegisterAnalyzer<TAnalyzer>(string analyzerName) where TAnalyzer : Analyzer;
 
 
     /// <summary>
@@ -52,5 +53,5 @@ public interface ILuceneBuilder
     /// </summary>
     /// <param name="matchVersion"><see cref="LuceneVersion"/> to be used by the <see cref="Analyzer"/></param>
     /// <returns>Returns this instance of <see cref="ILuceneBuilder"/>, allowing for further configuration in a fluent manner.</returns>
-    ILuceneBuilder SetAnalyzerLuceneVersion(LuceneVersion matchVersion);
+    public ILuceneBuilder SetAnalyzerLuceneVersion(LuceneVersion matchVersion);
 }

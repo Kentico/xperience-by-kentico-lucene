@@ -1,7 +1,9 @@
 ﻿using Kentico.Xperience.Lucene.Core.Indexing;
-using Lucene.Net.Analysis.Standard;
+
 using Lucene.Net.Analysis;
+using Lucene.Net.Analysis.Standard;
 using Lucene.Net.Util;
+
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Kentico.Xperience.Lucene.Core;
