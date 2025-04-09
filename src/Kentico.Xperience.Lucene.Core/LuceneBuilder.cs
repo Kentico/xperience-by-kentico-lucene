@@ -5,6 +5,7 @@ using Lucene.Net.Util;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Kentico.Xperience.Lucene.Core;
+
 internal class LuceneBuilder : ILuceneBuilder
 {
     private readonly IServiceCollection serviceCollection;
