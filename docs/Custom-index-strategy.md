@@ -344,3 +344,22 @@ services.AddKenticoLucene(builder =>
     builder
         .RegisterStrategy<ExampleSearchIndexingStrategy>("ExampleStrategy"));
 ```
+
+## Disable default indexing strategy
+
+By default, the library includes a default indexing strategy. If you do not want the default strategy to appear in the Admin UI, you can disable it by setting the `IncludeDefaultStrategy` property to `false` when registering application services.
+
+```csharp
+// Program.cs
+
+// Registers all services and disables the default indexing strategy
+services.AddKenticoLucene(builder =>
+{
+    builder.IncludeDefaultStrategy = false;
+
+    // Register custom strategies
+    builder.RegisterStrategy<ExampleSearchIndexingStrategy>("ExampleStrategy");
+});
+```
+
+With this configuration, the default indexing strategy will no longer be available in the Admin UI, and only the strategies you explicitly register will appear.

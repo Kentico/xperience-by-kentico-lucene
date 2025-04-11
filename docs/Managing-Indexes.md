@@ -20,8 +20,9 @@ If no option is selected, no items will be processed.
 - Indexed Languages - the index will only include content in the selected languages.
 - Channel Name - the index will only be triggered by web page item creation or modification in the selected website channel.
 - Indexing Strategy - the indexing strategy specified in code during dependency registration of a custom indexing strategies.
-  - If you want the default strategy to appear here, register it explicitly in `IServiceCollection.AddKenticoLucene()` method.
+  - In case you do not want the default strategy to appear here, use the builder and set the `IncludeDefaultStrategy` property to `false`.
 - Lucene Analyzer - the Lucene analyzer which indexes use to analyze text.
+  - In case you do not want the default `Standard` analyzer to appear here, use the builder and set the `IncludeDefaultAnalyzer` property to `false`.
 - Rebuild Hook - for validating a request rebuild of the search index from an external source (ex: API request).
 
 Now, configure the web page paths and content types that the search index depends on by clicking the Add New Path button

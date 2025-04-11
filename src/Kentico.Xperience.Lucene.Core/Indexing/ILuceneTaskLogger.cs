@@ -12,13 +12,13 @@ public interface ILuceneTaskLogger
     /// </summary>
     /// <param name="webpageItem">The <see cref="IndexEventWebPageItemModel"/> that triggered the event.</param>
     /// <param name="eventName">The name of the Xperience event that was triggered.</param>
-    Task HandleEvent(IndexEventWebPageItemModel webpageItem, string eventName);
+    public Task HandleEvent(IndexEventWebPageItemModel webpageItem, string eventName);
 
-    Task HandleReusableItemEvent(IndexEventReusableItemModel reusableItem, string eventName);
+    public Task HandleReusableItemEvent(IndexEventReusableItemModel reusableItem, string eventName);
 
     /// <summary>
     /// Logs a single <see cref="LuceneQueueItem"/>.
     /// </summary>
     /// <param name="task">The task to log.</param>
-    void LogIndexTask(LuceneQueueItem task);
+    public void LogIndexTask(LuceneQueueItem task);
 }
