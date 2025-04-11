@@ -18,13 +18,13 @@ public interface ILuceneClient
     /// <exception cref="ObjectDisposedException" />
     /// <exception cref="OverflowException" />
     /// <returns>The number of records deleted.</returns>
-    Task<int> DeleteRecords(IEnumerable<string> itemGuids, string indexName);
+    public Task<int> DeleteRecords(IEnumerable<string> itemGuids, string indexName);
 
     /// <summary>
     /// Removes Lucene index.
     /// </summary>
     /// <param name="luceneIndex">The index to be deleted.</param>
-    Task<bool> DeleteIndex(LuceneIndex luceneIndex);
+    public Task<bool> DeleteIndex(LuceneIndex luceneIndex);
 
     /// <summary>
     /// Gets the indices of the Lucene application with basic statistics.
@@ -32,7 +32,7 @@ public interface ILuceneClient
     /// <param name="cancellationToken">The cancellation token for the task.</param>
     /// <exception cref="OperationCanceledException" />
     /// <exception cref="ObjectDisposedException" />
-    Task<ICollection<LuceneIndexStatisticsModel>> GetStatistics(CancellationToken cancellationToken);
+    public Task<ICollection<LuceneIndexStatisticsModel>> GetStatistics(CancellationToken cancellationToken);
 
     /// <summary>
     /// Updates the Lucene index with the dynamic data in each object of the passed.<paramref name="documents"/>.
@@ -46,7 +46,7 @@ public interface ILuceneClient
     /// <exception cref="ObjectDisposedException" />
     /// <exception cref="OverflowException" />
     /// <returns>The number of objects processed.</returns>
-    Task<int> UpsertRecords(IEnumerable<Document> documents, string indexName, CancellationToken cancellationToken);
+    public Task<int> UpsertRecords(IEnumerable<Document> documents, string indexName, CancellationToken cancellationToken);
 
     /// <summary>
     /// Rebuilds the Lucene index by removing existing data from Lucene and indexing all
@@ -58,5 +58,5 @@ public interface ILuceneClient
     /// <exception cref="ArgumentNullException" />
     /// <exception cref="OperationCanceledException" />
     /// <exception cref="ObjectDisposedException" />
-    Task Rebuild(string indexName, CancellationToken? cancellationToken);
+    public Task Rebuild(string indexName, CancellationToken? cancellationToken);
 }

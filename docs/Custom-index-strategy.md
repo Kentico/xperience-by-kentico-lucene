@@ -5,7 +5,7 @@ content model and search experience. Below we will look at the steps and feature
 
 ## Implement an index strategy type
 
-Define a custom `DefaultLuceneIndexingStrategy` implementation to customize how page or content items are processed for indexing.
+Define a custom `DefaultLuceneIndexingStrategy` implementation to customize how pages or content items are processed for indexing.
 
 Your custom implemention of `DefaultLuceneIndexingStrategy` can use dependency injection to define services and configuration used for gathering the content to be indexed. `DefaultLuceneIndexingStrategy` implements `ILuceneIndexingStrategy` and will be [registered as a transient](https://learn.microsoft.com/en-us/dotnet/core/extensions/dependency-injection#transient) in the DI container.
 
@@ -13,12 +13,12 @@ Your custom implemention of `DefaultLuceneIndexingStrategy` can use dependency i
 
 Override the `Task<Document?> MapToLuceneDocumentOrNull(IIndexEventItemModel item)` method and define a process for mapping custom fields of each content item event provided.
 
-The method is given an `IIndexEventItemModel` which is a abstraction of any item being processed for indexing, which includes both `IndexEventWebPageItemModel` for web page items and `IndexEventReusableItemModel` for reusable content items. Every item specified in the admin ui is rebuilt. In the UI you need to specify one or more language, channel name, indexingStrategy and paths with content types. This strategy than evaluates all web page items specified in the administration.
+The method is given an `IIndexEventItemModel` which is an abstraction of any item being processed for indexing, which includes both `IndexEventWebPageItemModel` for web page items and `IndexEventReusableItemModel` for reusable content items. Every item specified in the admin UI is rebuilt. In the UI you need to specify one or more language, channel name, indexingStrategy and paths with content types. This strategy than evaluates all web page items specified in the administration.
 
-Let's say we specified `ArticlePage` in the admin ui.
+Let's say we specified `ArticlePage` in the admin UI.
 Now we implement how we want to save ArticlePage document in our strategy.
 
-The document is indexed representation of the webpageitem.
+The document is an indexed representation of the webpageItem.
 
 You specify what fields should be indexed in the document by adding this to the document. You later retrieve data from document based on your implementation.
 
@@ -35,7 +35,7 @@ public class ExampleSearchIndexingStrategy : DefaultLuceneIndexingStrategy
         string title = string.Empty;
 
         // IIndexEventItemModel could be a reusable content item or a web page item, so we use
-        // pattern matching to get access to the web page item specific type and fields
+        // pattern matching to get access to the web page item's specific type and fields
         if (item is IndexEventWebPageItemModel webpageItem &&
             string.Equals(indexedModel.ContentTypeName, ArticlePage.CONTENT_TYPE_NAME, StringComparison.OrdinalIgnorecase))
         {
@@ -72,7 +72,7 @@ public class ExampleSearchIndexingStrategy : DefaultLuceneIndexingStrategy
 ```
 
 Some properties of the `IIndexEventItemModel` are added to the document by default by the library and these can be found in the `BaseDocumentProperties` class.
-These can be retrieved from any indexed document. by the value of the constants in that class.
+These can be retrieved from any indexed document, by the value of the constants in that class.
 
 ```csharp
 // BaseDocumentProperties.cs
@@ -88,7 +88,7 @@ public static class BaseDocumentProperties
 }
 ```
 
-The `Url` field is a relative path by default. You can change this by adding this field manually in the `MapToLuceneDocumentOrNull` method.
+The `URL` field is a relative path by default. You can change this by adding this field manually in the `MapToLuceneDocumentOrNull` method.
 
 ```csharp
 public override async Task<Document?> MapToLuceneDocumentOrNull(IIndexEventItemModel item)
@@ -171,7 +171,7 @@ public class ExampleSearchIndexingStrategy : DefaultLuceneIndexingStrategy
 
 ## Data retrieval during indexing
 
-It is up to your implementation how do you want to retrieve the content or data to be indexed, however any web page item could be retrieved using a generic `GetPage<T>` method. In the example below, you specify that you want to retrieve `ArticlePage` item in the provided language on the channel using provided id and content type.
+It is up to your implementation how you want to retrieve the content or data to be indexed. However, any web page item could be retrieved using a generic `GetPage<T>` method. In the example below, you specify that you want to retrieve `ArticlePage` item in the provided language on the channel using provided id and content type.
 
 ```csharp
 public class ExampleSearchIndexingStrategy : DefaultLuceneIndexingStrategy
@@ -329,7 +329,7 @@ See [Scraping web page content](Scraping-web-page-content.md)
 
 ## DI Registration
 
-Finally, add this library to the application services, registering your custom `DefaultLuceneIndexingStrategy` and Lucene
+Finally, add this library to the application services, registering your custom `DefaultLuceneIndexingStrategy` and Lucene.
 
 ```csharp
 // Program.cs
@@ -344,3 +344,22 @@ services.AddKenticoLucene(builder =>
     builder
         .RegisterStrategy<ExampleSearchIndexingStrategy>("ExampleStrategy"));
 ```
+
+## Disable default indexing strategy
+
+By default, the library includes a default indexing strategy. If you do not want the default strategy to appear in the Admin UI, you can disable it by setting the `IncludeDefaultStrategy` property to `false` when registering application services.
+
+```csharp
+// Program.cs
+
+// Registers all services and disables the default indexing strategy
+services.AddKenticoLucene(builder =>
+{
+    builder.IncludeDefaultStrategy = false;
+
+    // Register custom strategies
+    builder.RegisterStrategy<ExampleSearchIndexingStrategy>("ExampleStrategy");
+});
+```
+
+With this configuration, the default indexing strategy will no longer be available in the Admin UI, and only the strategies you explicitly register will appear.
