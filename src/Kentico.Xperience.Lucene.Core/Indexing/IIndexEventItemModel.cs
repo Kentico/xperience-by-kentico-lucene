@@ -11,14 +11,14 @@ public interface IIndexEventItemModel
     /// <summary>
     /// The identifier of the item
     /// </summary>
-    public int ItemID { get; set; }
-    public Guid ItemGuid { get; set; }
-    public string LanguageName { get; set; }
-    public string ContentTypeName { get; set; }
-    public string Name { get; set; }
-    public bool IsSecured { get; set; }
-    public int ContentTypeID { get; set; }
-    public int ContentLanguageID { get; set; }
+    int ItemID { get; set; }
+    Guid ItemGuid { get; set; }
+    string LanguageName { get; set; }
+    string ContentTypeName { get; set; }
+    string Name { get; set; }
+    bool IsSecured { get; set; }
+    int ContentTypeID { get; set; }
+    int ContentLanguageID { get; set; }
 }
 
 /// <summary>
