@@ -37,5 +37,7 @@ public class DefaultLuceneIndexingStrategy : ILuceneIndexingStrategy
 
     /// <inheritdoc />
     public virtual async Task<IEnumerable<IIndexEventItemModel>> FindItemsToReindex(IndexEventReusableItemModel changedItem) => await Task.FromResult(new List<IIndexEventItemModel>());
+
+    
 }
 
