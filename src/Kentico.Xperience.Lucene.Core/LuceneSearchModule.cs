@@ -23,6 +23,7 @@ internal class LuceneSearchModule : Module
     private IAppSettingsService appSettingsService = null!;
     private IConversionService conversionService = null!;
     private LuceneModuleInstaller installer = null!;
+    private LuceneSearchOptions luceneSearchOptions = null!;
 
     private const string APP_SETTINGS_KEY_INDEXING_DISABLED = "CMSLuceneSearchDisableIndexing";
 
@@ -61,6 +62,15 @@ internal class LuceneSearchModule : Module
         appSettingsService = services.GetRequiredService<IAppSettingsService>();
         conversionService = services.GetRequiredService<IConversionService>();
 
+        luceneSearchOptions = new LuceneSearchOptions
+        {
+            IncludeSecuredItems = conversionService.GetBoolean(
+                appSettingsService[$"{LuceneSearchOptions.CMS_LUCENE_SEARCH_SECTION_NAME}:{nameof(LuceneSearchOptions.IncludeSecuredItems)}"],
+                false
+            )
+        };
+
+        WebPageEvents.UpdateSecuritySettings.After += HandleEvent;
         WebPageEvents.Publish.Execute += HandleEvent;
         WebPageEvents.Delete.Execute += HandleEvent;
         WebPageEvents.Unpublish.Execute += HandleEvent;
@@ -71,13 +81,39 @@ internal class LuceneSearchModule : Module
         RequestEvents.RunEndRequestTasks.Execute += (sender, eventArgs) => LuceneQueueWorker.Current.EnsureRunningThread();
     }
 
+    private void HandleEvent(object? sender, UpdateWebPageSecuritySettingsEventsArgs e)
+    {
+        if (IndexingDisabled)
+        {
+            return;
+        }
+
+        var indexedItemModel = new IndexEventUpdateSecuritySettingsModel(
+            e.ID,
+            e.Guid,
+            e.ContentTypeName,
+            e.Name,
+            e.IsSecured,
+            e.ContentTypeID,
+            e.WebsiteChannelName,
+            e.TreePath,
+            e.ParentID,
+            e.Order
+        );
+
+        luceneTaskLogger?.HandleSecurityChangeEvent(indexedItemModel, e.CurrentHandler.Name).GetAwaiter().GetResult();
+    }
+
 
     /// <summary>
     /// Called when a page is published. Logs an Lucene task to be processed later.
     /// </summary>
     private void HandleEvent(object? sender, CMSEventArgs e)
     {
-        if (IndexingDisabled || e is not WebPageEventArgsBase publishedEvent)
+        if (IndexingDisabled
+            || e is not WebPageEventArgsBase publishedEvent
+            || (publishedEvent.IsSecured && !luceneSearchOptions.IncludeSecuredItems)
+        )
         {
             return;
         }
@@ -103,7 +139,10 @@ internal class LuceneSearchModule : Module
 
     private void HandleContentItemEvent(object? sender, CMSEventArgs e)
     {
-        if (IndexingDisabled || e is not ContentItemEventArgsBase publishedEvent)
+        if (IndexingDisabled
+            || e is not ContentItemEventArgsBase publishedEvent
+            || (publishedEvent.IsSecured && !luceneSearchOptions.IncludeSecuredItems)
+        )
         {
             return;
         }

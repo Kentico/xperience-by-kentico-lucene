@@ -6,7 +6,7 @@ namespace DancingGoat.Search;
 
 public static class DancingGoatSearchStartupExtensions
 {
-    public static IServiceCollection AddKenticoDancingGoatLuceneServices(this IServiceCollection services)
+    public static IServiceCollection AddKenticoDancingGoatLuceneServices(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddKenticoLucene(builder =>
         {
@@ -14,7 +14,7 @@ public static class DancingGoatSearchStartupExtensions
             builder.RegisterStrategy<SimpleSearchIndexingStrategy>("DancingGoatMinimalExampleStrategy");
             builder.RegisterStrategy<ReusableContentItemsIndexingStrategy>(nameof(ReusableContentItemsIndexingStrategy));
             builder.RegisterAnalyzer<CzechAnalyzer>("Czech analyzer");
-        });
+        }, configuration);
 
         services.AddHttpClient<WebCrawlerService>();
         services.AddSingleton<WebScraperHtmlSanitizer>();

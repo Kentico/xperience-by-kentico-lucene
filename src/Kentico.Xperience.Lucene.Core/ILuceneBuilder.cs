@@ -12,14 +12,14 @@ public interface ILuceneBuilder
     /// If true, the <see cref="DefaultLuceneIndexingStrategy" /> will be available as an explicitly selectable indexing strategy
     /// within the Admin UI. Defaults to <c>true</c>
     /// </summary>
-    public bool IncludeDefaultStrategy { get; set; }
+    bool IncludeDefaultStrategy { get; set; }
 
 
     /// <summary>
     /// If true, the <see cref="StandardAnalyzer" /> will be available as an explicitly selectable analyzer
     /// within the Admin UI. Defaults to <c>true</c>
     /// </summary>
-    public bool IncludeDefaultAnalyzer { get; set; }
+    bool IncludeDefaultAnalyzer { get; set; }
 
 
     /// <summary>
@@ -31,7 +31,7 @@ public interface ILuceneBuilder
     ///     Thrown if a strategy has already been registered with the given <paramref name="strategyName"/>
     /// </exception>
     /// <returns>Returns this instance of <see cref="ILuceneBuilder"/>, allowing for further configuration in a fluent manner.</returns>
-    public ILuceneBuilder RegisterStrategy<TStrategy>(string strategyName) where TStrategy : class, ILuceneIndexingStrategy;
+    ILuceneBuilder RegisterStrategy<TStrategy>(string strategyName) where TStrategy : class, ILuceneIndexingStrategy;
 
 
     /// <summary>
@@ -44,7 +44,7 @@ public interface ILuceneBuilder
     ///     Thrown if an analyzer has already been registered with the given <paramref name="analyzerName"/>
     /// </exception>
     /// <returns>Returns this instance of <see cref="ILuceneBuilder"/>, allowing for further configuration in a fluent manner.</returns>
-    public ILuceneBuilder RegisterAnalyzer<TAnalyzer>(string analyzerName) where TAnalyzer : Analyzer;
+    ILuceneBuilder RegisterAnalyzer<TAnalyzer>(string analyzerName) where TAnalyzer : Analyzer;
 
 
     /// <summary>
@@ -53,5 +53,5 @@ public interface ILuceneBuilder
     /// </summary>
     /// <param name="matchVersion"><see cref="LuceneVersion"/> to be used by the <see cref="Analyzer"/></param>
     /// <returns>Returns this instance of <see cref="ILuceneBuilder"/>, allowing for further configuration in a fluent manner.</returns>
-    public ILuceneBuilder SetAnalyzerLuceneVersion(LuceneVersion matchVersion);
+    ILuceneBuilder SetAnalyzerLuceneVersion(LuceneVersion matchVersion);
 }
