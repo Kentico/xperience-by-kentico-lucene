@@ -60,7 +60,6 @@ internal class DefaultLuceneTaskProcessor : ILuceneTaskProcessor
 
     private async Task ProcessLuceneBatch(IEnumerable<LuceneQueueItem> queueItems, LuceneBatchResult previousBatchResults, CancellationToken cancellationToken)
     {
-
         var groups = queueItems.GroupBy(item => item.IndexName);
 
         foreach (var group in groups)
