@@ -12,7 +12,7 @@ public interface ILuceneIndexStorageStrategy
     /// Gets all existing indices.
     /// </summary>
     /// <param name="indexStoragePath">Path root of the index storage.</param>
-    public IEnumerable<IndexStorageModel> GetExistingIndices(string indexStoragePath);
+    IEnumerable<IndexStorageModel> GetExistingIndices(string indexStoragePath);
 
     /// <summary>
     /// Formats path of an index in a specified generation.
@@ -20,7 +20,7 @@ public interface ILuceneIndexStorageStrategy
     /// <param name="indexRoot">Root path of the index.</param>
     /// <param name="generation">Indexing generation.</param>
     /// <param name="isPublished">Parameter specifying whether the index has been published.</param>
-    public string FormatPath(string indexRoot, int generation, bool isPublished);
+    string FormatPath(string indexRoot, int generation, bool isPublished);
 
     /// <summary>
     /// Formats path of a taxonomy of an index in a specified generation.
@@ -28,31 +28,31 @@ public interface ILuceneIndexStorageStrategy
     /// <param name="indexRoot">Root path of the index.</param>
     /// <param name="generation">Indexing generation.</param>
     /// <param name="isPublished">Parameter specifying whether the taxonomy has been published.</param>
-    public string FormatTaxonomyPath(string indexRoot, int generation, bool isPublished);
+    string FormatTaxonomyPath(string indexRoot, int generation, bool isPublished);
 
     /// <summary>
     /// Publishes the index.
     /// </summary>
     /// <param name="storage">Index storage model.</param>
-    public void PublishIndex(IndexStorageModel storage);
+    void PublishIndex(IndexStorageModel storage);
 
     /// <summary>
     /// Schedules removal of files of an index.
     /// </summary>
     /// <param name="storage">Index storage model.</param>
-    public bool ScheduleRemoval(IndexStorageModel storage);
+    bool ScheduleRemoval(IndexStorageModel storage);
 
     /// <summary>
     /// Performs cleanup of files of an index.
     /// </summary>
     /// <param name="indexStoragePath">Path root of the index storage.</param>
-    public bool PerformCleanup(string indexStoragePath);
+    bool PerformCleanup(string indexStoragePath);
 
     /// <summary>
     /// Deletes all files associated with an index.
     /// </summary>
     /// <param name="indexStoragePath">Path root of the index storage.</param>
-    public Task<bool> DeleteIndex(string indexStoragePath);
+    Task<bool> DeleteIndex(string indexStoragePath);
 }
 
 internal class GenerationStorageStrategy : ILuceneIndexStorageStrategy
