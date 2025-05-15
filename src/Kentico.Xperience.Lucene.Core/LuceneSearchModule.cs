@@ -7,6 +7,7 @@ using CMS.Websites;
 
 using Kentico.Xperience.Lucene.Core;
 using Kentico.Xperience.Lucene.Core.Indexing;
+using Kentico.Xperience.Lucene.Core.Scaling;
 
 using Microsoft.Extensions.DependencyInjection;
 
@@ -22,6 +23,7 @@ internal class LuceneSearchModule : Module
     private ILuceneTaskLogger luceneTaskLogger = null!;
     private IAppSettingsService appSettingsService = null!;
     private IConversionService conversionService = null!;
+    private IWebFarmService webFarmService = null!;
     private LuceneModuleInstaller installer = null!;
     private LuceneSearchOptions luceneSearchOptions = null!;
 
@@ -57,10 +59,12 @@ internal class LuceneSearchModule : Module
         installer = services.GetRequiredService<LuceneModuleInstaller>();
 
         ApplicationEvents.Initialized.Execute += InitializeModule;
+        ApplicationEvents.Initialized.Execute += RegisterLuceneWebFarmTasks;
 
         luceneTaskLogger = services.GetRequiredService<ILuceneTaskLogger>();
         appSettingsService = services.GetRequiredService<IAppSettingsService>();
         conversionService = services.GetRequiredService<IConversionService>();
+        webFarmService = services.GetRequiredService<IWebFarmService>();
 
         luceneSearchOptions = new LuceneSearchOptions
         {
@@ -163,4 +167,10 @@ internal class LuceneSearchModule : Module
 
     private void InitializeModule(object? sender, EventArgs e) =>
        installer.Install();
+
+    private void RegisterLuceneWebFarmTasks(object? sender, EventArgs e)
+    {
+        webFarmService.RegisterTask<DeleteIndexWebFarmTask>();
+        webFarmService.RegisterTask<ProcessLuceneTasksWebFarmTask>();
+    }
 }

@@ -143,28 +143,7 @@ internal class DefaultLuceneTaskLogger : ILuceneTaskLogger
     }
 
     private void LogIndexTaskInternal(IIndexEventItemModel item, LuceneTaskType taskType, string indexName)
-    {
-        if (item is IndexEventReusableItemModel reusableItemModel)
-        {
-            webFarmService.CreateTask(new IndexLogReusableItemWebFarmTask()
-            {
-                Data = reusableItemModel,
-                TaskType = taskType,
-                IndexName = indexName
-            });
-        }
-        else if (item is IndexEventWebPageItemModel webPageItemModel)
-        {
-            webFarmService.CreateTask(new IndexLogWebPageItemWebFarmTask()
-            {
-                Data = webPageItemModel,
-                TaskType = taskType,
-                IndexName = indexName
-            });
-        }
-
-        LogIndexTask(new LuceneQueueItem(item, taskType, indexName));
-    }
+        => LogIndexTask(new LuceneQueueItem(item, taskType, indexName));
 
     private async Task HandleEventInternal(IndexEventWebPageItemModel webpageItem, string eventName, LuceneTaskType taskType)
     {
