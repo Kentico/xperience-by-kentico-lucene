@@ -14,9 +14,9 @@
     <PackageVersion Include="Kentico.Xperience.WebApp" Version="30.0.1" />
     <PackageVersion Include="Kentico.Xperience.Core.Tests" Version="30.0.1" />
     <PackageVersion Include="Kentico.Xperience.Lucene" Version="" Condition="'$(LOCAL_NUGET)' == 'true'" />
-    <PackageVersion Include="Lucene.Net" Version="4.8.0-beta00016" />
-    <PackageVersion Include="Lucene.Net.Analysis.Common" Version="4.8.0-beta00016" />
-    <PackageVersion Include="Lucene.Net.Facet" Version="4.8.0-beta00016" />
+    <PackageVersion Include="Lucene.Net" Version="4.8.0-beta00017" />
+    <PackageVersion Include="Lucene.Net.Analysis.Common" Version="4.8.0-beta00017" />
+    <PackageVersion Include="Lucene.Net.Facet" Version="4.8.0-beta00017" />
     <PackageVersion Include="SonarAnalyzer.CSharp" Version="9.17.0.82934" />
     <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.8.0" />
     <PackageVersion Include="NUnit" Version="4.0.1" />

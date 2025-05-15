@@ -449,8 +449,8 @@
       },
       "J2N": {
         "type": "Transitive",
-        "resolved": "2.0.0",
-        "contentHash": "M5bwDajAARZiyqupU+rHQJnsVLxNBOHJ8vKYHd8LcLIb1FgLfzzcJvc31Qo5Xz/GEHFjDF9ScjKL/ks/zRTXuA=="
+        "resolved": "2.1.0",
+        "contentHash": "Vooz1wbnnqWuS+u93tADXK5Owxo8vLJhSrZ9Ac+KpgDF3GJq9TybXXTF1TFcWILgEtRThc8AOBENEzB0TQH1JA=="
       },
       "Kentico.Aira.Client": {
         "type": "Transitive",
@@ -466,27 +466,27 @@
       },
       "Lucene.Net.Grouping": {
         "type": "Transitive",
-        "resolved": "4.8.0-beta00016",
-        "contentHash": "y7QSEYfSnz7gEJS30xHsf8P0oMIreGGO08qC+UzKre29IAoUXdLLE2+vUfByGkcPuoGMIpZVBP51P6O647grBg==",
+        "resolved": "4.8.0-beta00017",
+        "contentHash": "nzMGvz0b1cedS8KKOlglJQJpyz8fT0ojgXFkgSkLLhwPNbMPwVoBsR7RlZs1FrF60Oz369O3Pm1a+MIr52KcLQ==",
         "dependencies": {
-          "Lucene.Net": "4.8.0-beta00016",
-          "Lucene.Net.Queries": "4.8.0-beta00016"
+          "Lucene.Net": "4.8.0-beta00017",
+          "Lucene.Net.Queries": "4.8.0-beta00017"
         }
       },
       "Lucene.Net.Join": {
         "type": "Transitive",
-        "resolved": "4.8.0-beta00016",
-        "contentHash": "trUiWhV3QPgW4TNPrEP29AsTXE29ACR5+Vz22xjbPtFTwyXMozl95NELVG5aUVMTqdwyMhJ9Lj82QeoHDnN0jw==",
+        "resolved": "4.8.0-beta00017",
+        "contentHash": "WcJl4O6t3iXiXwXHnhmbVCO7C6ilPxabBCsdW/auQN0lrDpbVIcHorCxwd199fGBEQnk7wbl5pPnk8nw/VK4eQ==",
         "dependencies": {
-          "Lucene.Net.Grouping": "4.8.0-beta00016"
+          "Lucene.Net.Grouping": "4.8.0-beta00017"
         }
       },
       "Lucene.Net.Queries": {
         "type": "Transitive",
-        "resolved": "4.8.0-beta00016",
-        "contentHash": "XBzdMDlan68V2ZlhAlP8Fd+Xx2Le8ec7cEN1kFF45Sipa3Q8L/tilJfwS9VHvMTvGkwPM/yj62eGbfGBgIMR8Q==",
+        "resolved": "4.8.0-beta00017",
+        "contentHash": "RVpZCfa/7pgvytFw64zLqinvZPQt4TojvcFghdAA5vhnpSs5GTbtciPIxFH3wwH3f2dYJywiqYKo1h3JBCXRBA==",
         "dependencies": {
-          "Lucene.Net": "4.8.0-beta00016"
+          "Lucene.Net": "4.8.0-beta00017"
         }
       },
       "Magick.NET-Q8-AnyCPU": {
@@ -1876,16 +1876,16 @@
         "type": "Project",
         "dependencies": {
           "Kentico.Xperience.Admin": "[30.0.1, )",
-          "Kentico.Xperience.Lucene.Core": "[11.0.0, )"
+          "Kentico.Xperience.Lucene.Core": "[12.1.0, )"
         }
       },
       "kentico.xperience.lucene.core": {
         "type": "Project",
         "dependencies": {
           "Kentico.Xperience.Core": "[30.0.1, )",
-          "Lucene.Net": "[4.8.0-beta00016, )",
-          "Lucene.Net.Analysis.Common": "[4.8.0-beta00016, )",
-          "Lucene.Net.Facet": "[4.8.0-beta00016, )"
+          "Lucene.Net": "[4.8.0-beta00017, )",
+          "Lucene.Net.Analysis.Common": "[4.8.0-beta00017, )",
+          "Lucene.Net.Facet": "[4.8.0-beta00017, )"
         }
       },
       "Kentico.Xperience.Core": {
@@ -1912,31 +1912,31 @@
       },
       "Lucene.Net": {
         "type": "CentralTransitive",
-        "requested": "[4.8.0-beta00016, )",
-        "resolved": "4.8.0-beta00016",
-        "contentHash": "DCtUbE/NIrisNI7hRwU+UKS3Cr6S2vH1XB9wvEHHI3anu5OUpX1Fkr/PDC7oFCaol/QCvzVLbLZVizAT1aTLpA==",
+        "requested": "[4.8.0-beta00017, )",
+        "resolved": "4.8.0-beta00017",
+        "contentHash": "7LLWS9nNwx01AyE/KXMh+qdAlzDkRANE8407AO/wEmLL1InzVKFwfsRdRmwg4ILOMFui4xZ1Y54eqvzo3Tf9Vw==",
         "dependencies": {
-          "J2N": "2.0.0",
-          "Microsoft.Extensions.Configuration.Abstractions": "2.0.0"
+          "J2N": "[2.1.0, 3.0.0)",
+          "Microsoft.Extensions.Configuration.Abstractions": "8.0.0"
         }
       },
       "Lucene.Net.Analysis.Common": {
         "type": "CentralTransitive",
-        "requested": "[4.8.0-beta00016, )",
-        "resolved": "4.8.0-beta00016",
-        "contentHash": "7pjEAIliWdih6E3I0hCE8hKcKKRx1LLzeQBslF1fhvzE1Sal4NyHd8RFJHV1Z+yHlBw4gCyyVIDZADiIoyqwxg==",
+        "requested": "[4.8.0-beta00017, )",
+        "resolved": "4.8.0-beta00017",
+        "contentHash": "rPpmww/HgwEwhvfvZgdWITxFsWRoCEpP3+WQBFgbGxTn4eLDr3U/oFoe8KS+8jUNAl2+5atErDrW5JOcFG+gcQ==",
         "dependencies": {
-          "Lucene.Net": "4.8.0-beta00016"
+          "Lucene.Net": "4.8.0-beta00017"
         }
       },
       "Lucene.Net.Facet": {
         "type": "CentralTransitive",
-        "requested": "[4.8.0-beta00016, )",
-        "resolved": "4.8.0-beta00016",
-        "contentHash": "O1MrRfhb9BMfRQHooyEFrkgNwYbTEbK/AkKhz26sy+xO+zAldJ8YKS/IsydHsE+frklIAWT0jyv0c3Dh9qBXSA==",
+        "requested": "[4.8.0-beta00017, )",
+        "resolved": "4.8.0-beta00017",
+        "contentHash": "LVxGwgRAVq9XdwvNfgCB8OH+ou40I0E1NYN53muPjQK5oUY+HpkgkFUhTFSHdajWWj7xFI1f+UFB23iweoVf2w==",
         "dependencies": {
-          "Lucene.Net.Join": "4.8.0-beta00016",
-          "Lucene.Net.Queries": "4.8.0-beta00016"
+          "Lucene.Net.Join": "4.8.0-beta00017",
+          "Lucene.Net.Queries": "4.8.0-beta00017"
         }
       }
     }
