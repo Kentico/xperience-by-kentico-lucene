@@ -72,11 +72,18 @@ internal class LuceneQueueWorker : ThreadQueueWorker<LuceneQueueItem, LuceneQueu
     /// <inheritdoc />
     protected override int ProcessItems(IEnumerable<LuceneQueueItem> items)
     {
+        var itemList = items.ToList();
+
+        if (itemList.Count == 0)
+        {
+            return 0;
+        }
+
         webFarmService.CreateTask(new ProcessLuceneTasksWebFarmTask
         {
-            LuceneQueueItems = items
+            LuceneQueueItems = itemList
         });
 
-        return luceneTaskProcessor.ProcessLuceneTasks(items, CancellationToken.None).GetAwaiter().GetResult();
+        return luceneTaskProcessor.ProcessLuceneTasks(itemList, CancellationToken.None).GetAwaiter().GetResult();
     }
 }

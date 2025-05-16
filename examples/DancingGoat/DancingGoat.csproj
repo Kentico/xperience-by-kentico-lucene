@@ -7,9 +7,6 @@
     <RunAnalyzersDuringBuild>false</RunAnalyzersDuringBuild>
   </PropertyGroup>
   <ItemGroup>
-    <None Remove="App_Data\CMSModules\WebFarm\webfarm.sync" />
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="assets\**">
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>
