@@ -34,6 +34,10 @@ See [Search index querying](Search-index-querying.md)
 
 See [Text analyzing](Text-analyzing.md)
 
+## Indexing Secured Items
+
+See [Indexing Secured Items](Indexing-Secured-Items.md)
+
 ## Implementing document decay
 
 You can score indexed items by "freshness" or "recency" using several techniques, each with different tradeoffs.

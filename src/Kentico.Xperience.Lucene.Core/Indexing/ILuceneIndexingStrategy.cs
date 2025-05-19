@@ -12,11 +12,13 @@ public interface ILuceneIndexingStrategy
     /// <returns>Modified Lucene document.</returns>
     Task<Document?> MapToLuceneDocumentOrNull(IIndexEventItemModel item);
 
+
     /// <summary>
-    /// When overriden and configuration supplied, indexing will also create taxonomy index for facet search
+    /// When overridden and configuration supplied, indexing will also create taxonomy index for facet search
     /// </summary>
-    /// <returns>Facet configuration for the index thta is used in indexing and querying</returns>
+    /// <returns>Facet configuration for the index that is used in indexing and querying</returns>
     FacetsConfig? FacetsConfigFactory();
+
 
     /// <summary>
     /// Triggered by modifications to a web page item, which is provided to determine what other items should be included for indexing
@@ -24,6 +26,7 @@ public interface ILuceneIndexingStrategy
     /// <param name="changedItem">The web page item that was modified</param>
     /// <returns>Items that should be passed to <see cref="MapToLuceneDocumentOrNull"/> for indexing</returns>
     Task<IEnumerable<IIndexEventItemModel>> FindItemsToReindex(IndexEventWebPageItemModel changedItem);
+
 
     /// <summary>
     /// Triggered by modifications to a reusable content item, which is provided to determine what other items should be included for indexing 

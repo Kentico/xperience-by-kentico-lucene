@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
   <PropertyGroup>
     <RootNamespace>DancingGoat</RootNamespace>
-    <UserSecretsId>7e8a56d7-ac0a-4d47-af57-fc423c65eafb</UserSecretsId>
+    <UserSecretsId>79c858af-5444-4954-8d08-6592a961e82a</UserSecretsId>
     <SeparatedAdmin Condition="'$(SeparatedAdmin)' == ''">false</SeparatedAdmin>
     <Nullable>annotations</Nullable>
     <RunAnalyzersDuringBuild>false</RunAnalyzersDuringBuild>

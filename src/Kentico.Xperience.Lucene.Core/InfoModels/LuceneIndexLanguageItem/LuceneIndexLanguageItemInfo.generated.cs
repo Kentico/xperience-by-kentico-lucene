@@ -103,17 +103,6 @@ public partial class LuceneIndexLanguageItemInfo : AbstractInfo<LuceneIndexLangu
 
 
     /// <summary>
-    /// Constructor for de-serialization.
-    /// </summary>
-    /// <param name="info">Serialization info.</param>
-    /// <param name="context">Streaming context.</param>
-    protected LuceneIndexLanguageItemInfo(SerializationInfo info, StreamingContext context)
-        : base(info, context)
-    {
-    }
-
-
-    /// <summary>
     /// Creates an empty instance of the <see cref="LuceneIndexLanguageItemInfo"/> class.
     /// </summary>
     public LuceneIndexLanguageItemInfo()

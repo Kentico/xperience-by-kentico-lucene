@@ -12,6 +12,7 @@ using Lucene.Net.Index;
 using Lucene.Net.Search;
 
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 
 namespace Kentico.Xperience.Lucene.Core.Indexing;
 
@@ -31,6 +32,7 @@ internal class DefaultLuceneClient : ILuceneClient
     private readonly IEventLogService log;
     private readonly ICacheAccessor cacheAccessor;
     private readonly ILuceneIndexManager indexManager;
+    private readonly LuceneSearchOptions luceneSearchOptions;
 
     internal const string CACHEKEY_STATISTICS = "Lucene|ListIndices";
 
@@ -45,7 +47,8 @@ internal class DefaultLuceneClient : ILuceneClient
         IConversionService conversionService,
         IProgressiveCache cache,
         IEventLogService log,
-        ILuceneIndexManager indexManager
+        ILuceneIndexManager indexManager,
+        IOptions<LuceneSearchOptions> luceneSearchOptions
         )
     {
         this.cacheAccessor = cacheAccessor;
@@ -60,6 +63,7 @@ internal class DefaultLuceneClient : ILuceneClient
         this.log = log;
         this.indexManager = indexManager;
         this.indexManager = indexManager;
+        this.luceneSearchOptions = luceneSearchOptions.Value;
     }
 
     /// <inheritdoc />
@@ -157,6 +161,11 @@ internal class DefaultLuceneClient : ILuceneClient
 
         luceneIndexService.ResetIndex(luceneIndex);
 
+        var contentQueryExecutionOptions = new ContentQueryExecutionOptions
+        {
+            IncludeSecuredItems = luceneSearchOptions.IncludeSecuredItems
+        };
+
         var indexedItems = new List<IIndexEventItemModel>();
         foreach (var includedPathAttribute in luceneIndex.IncludedPaths)
         {
@@ -178,7 +187,10 @@ internal class DefaultLuceneClient : ILuceneClient
 
                     queryBuilder.InLanguage(language);
 
-                    var webpages = await executor.GetWebPageResult(queryBuilder, container => container, cancellationToken: cancellationToken ?? default);
+                    var webpages = await executor.GetWebPageResult(queryBuilder,
+                        container => container,
+                        options: contentQueryExecutionOptions,
+                        cancellationToken: cancellationToken ?? default);
 
                     foreach (var page in webpages)
                     {
@@ -202,7 +214,10 @@ internal class DefaultLuceneClient : ILuceneClient
 
                 queryBuilder.InLanguage(language);
 
-                var reusableItems = await executor.GetResult(queryBuilder, result => result, cancellationToken: cancellationToken ?? default);
+                var reusableItems = await executor.GetResult(queryBuilder,
+                    result => result,
+                    options: contentQueryExecutionOptions,
+                    cancellationToken: cancellationToken ?? default);
 
                 foreach (var reusableItem in reusableItems)
                 {
