@@ -182,16 +182,13 @@ internal class DefaultLuceneTaskLogger : ILuceneTaskLogger
             {
                 foreach (var item in toReindex)
                 {
-                    if (item.ItemGuid == webpageItem.ItemGuid)
+                    if (taskType == LuceneTaskType.DELETE)
                     {
-                        if (taskType == LuceneTaskType.DELETE)
-                        {
-                            LogIndexTaskInternal(item, LuceneTaskType.DELETE, luceneIndex.IndexName);
-                        }
-                        else
-                        {
-                            LogIndexTaskInternal(item, LuceneTaskType.UPDATE, luceneIndex.IndexName);
-                        }
+                        LogIndexTaskInternal(item, LuceneTaskType.DELETE, luceneIndex.IndexName);
+                    }
+                    else
+                    {
+                        LogIndexTaskInternal(item, LuceneTaskType.UPDATE, luceneIndex.IndexName);
                     }
                 }
             }
