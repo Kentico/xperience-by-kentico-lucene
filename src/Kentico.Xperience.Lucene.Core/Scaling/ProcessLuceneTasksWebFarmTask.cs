@@ -4,6 +4,7 @@ using CMS.Core;
 using Kentico.Xperience.Lucene.Core.Indexing;
 
 namespace Kentico.Xperience.Lucene.Core.Scaling;
+
 internal class ProcessLuceneTasksWebFarmTask : WebFarmTaskBase
 {
     private readonly IEventLogService eventLog;
@@ -22,6 +23,6 @@ internal class ProcessLuceneTasksWebFarmTask : WebFarmTaskBase
         string message = $"Server {SystemContext.ServerName} is processing a Process Lucene Tasks task from creator {CreatorName}";
         eventLog.LogInformation("Lucene Process Lucene Tasks Task", "Execute", message);
 
-        luceneTaskProcessor.ProcessLuceneTasks(LuceneQueueItems!, default);
+        luceneTaskProcessor.ProcessLuceneTasks(LuceneQueueItems!, default).GetAwaiter().GetResult();
     }
 }
