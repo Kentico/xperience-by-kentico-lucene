@@ -5,7 +5,6 @@ using Kentico.Xperience.Admin.Base;
 using Kentico.Xperience.Lucene.Admin;
 using Kentico.Xperience.Lucene.Core;
 using Kentico.Xperience.Lucene.Core.Indexing;
-using Kentico.Xperience.Lucene.Core.Scaling;
 
 [assembly: UIPage(
    parentType: typeof(LuceneApplicationPage),
@@ -28,7 +27,6 @@ internal class IndexListingPage : ListingPage
     private readonly ILuceneConfigurationStorageService configurationStorageService;
     private readonly IConversionService conversionService;
     private readonly ILuceneIndexManager indexManager;
-    private readonly IWebFarmService webFarmService;
 
     protected override string ObjectType => LuceneIndexItemInfo.OBJECT_TYPE;
 
@@ -40,15 +38,13 @@ internal class IndexListingPage : ListingPage
         IPageLinkGenerator pageLinkGenerator,
         ILuceneConfigurationStorageService configurationStorageService,
         ILuceneIndexManager indexManager,
-        IConversionService conversionService,
-        IWebFarmService webFarmService)
+        IConversionService conversionService)
     {
         this.luceneClient = luceneClient;
         this.pageLinkGenerator = pageLinkGenerator;
         this.configurationStorageService = configurationStorageService;
         this.conversionService = conversionService;
         this.indexManager = indexManager;
-        this.webFarmService = webFarmService;
     }
 
     /// <inheritdoc/>
@@ -158,12 +154,6 @@ internal class IndexListingPage : ListingPage
         }
         try
         {
-            webFarmService.CreateTask(new RebuildWebFarmTask()
-            {
-                IndexName = index.IndexName,
-                CreatorName = webFarmService.ServerName
-            });
-
             await luceneClient.Rebuild(index.IndexName, cancellationToken);
 
             return ResponseFrom(result)

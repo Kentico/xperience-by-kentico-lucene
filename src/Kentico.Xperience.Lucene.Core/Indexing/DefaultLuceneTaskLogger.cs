@@ -5,8 +5,6 @@ using CMS.DataEngine;
 using CMS.Websites;
 using CMS.Websites.Internal;
 
-using Kentico.Xperience.Lucene.Core.Scaling;
-
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 
@@ -20,7 +18,6 @@ internal class DefaultLuceneTaskLogger : ILuceneTaskLogger
     private readonly IEventLogService eventLogService;
     private readonly IServiceProvider serviceProvider;
     private readonly ILuceneIndexManager indexManager;
-    private readonly IWebFarmService webFarmService;
     private readonly IInfoProvider<ContentLanguageInfo> contentLanguageInfoProvider;
     private readonly IInfoProvider<WebPageItemInfo> webPageItemInfoProvider;
     private readonly LuceneSearchOptions luceneSearchOptions;
@@ -31,7 +28,6 @@ internal class DefaultLuceneTaskLogger : ILuceneTaskLogger
     public DefaultLuceneTaskLogger(IEventLogService eventLogService,
         IServiceProvider serviceProvider,
         ILuceneIndexManager indexManager,
-        IWebFarmService webFarmService,
         IInfoProvider<ContentLanguageInfo> contentLanguageInfoProvider,
         IInfoProvider<WebPageItemInfo> webPageItemInfoProvider,
         IOptions<LuceneSearchOptions> luceneSearchOptions)
@@ -39,7 +35,6 @@ internal class DefaultLuceneTaskLogger : ILuceneTaskLogger
         this.eventLogService = eventLogService;
         this.serviceProvider = serviceProvider;
         this.indexManager = indexManager;
-        this.webFarmService = webFarmService;
         this.contentLanguageInfoProvider = contentLanguageInfoProvider;
         this.webPageItemInfoProvider = webPageItemInfoProvider;
         this.luceneSearchOptions = luceneSearchOptions.Value;
@@ -143,28 +138,7 @@ internal class DefaultLuceneTaskLogger : ILuceneTaskLogger
     }
 
     private void LogIndexTaskInternal(IIndexEventItemModel item, LuceneTaskType taskType, string indexName)
-    {
-        if (item is IndexEventReusableItemModel reusableItemModel)
-        {
-            webFarmService.CreateTask(new IndexLogReusableItemWebFarmTask()
-            {
-                Data = reusableItemModel,
-                TaskType = taskType,
-                IndexName = indexName
-            });
-        }
-        else if (item is IndexEventWebPageItemModel webPageItemModel)
-        {
-            webFarmService.CreateTask(new IndexLogWebPageItemWebFarmTask()
-            {
-                Data = webPageItemModel,
-                TaskType = taskType,
-                IndexName = indexName
-            });
-        }
-
-        LogIndexTask(new LuceneQueueItem(item, taskType, indexName));
-    }
+        => LogIndexTask(new LuceneQueueItem(item, taskType, indexName));
 
     private async Task HandleEventInternal(IndexEventWebPageItemModel webpageItem, string eventName, LuceneTaskType taskType)
     {

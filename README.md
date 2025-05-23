@@ -21,6 +21,11 @@ full support for both admin ui and live site.
 Use `Kentico.Xperience.Lucene.Core` in your Xperience by Kentico project for Lucene Search in your live website.
 Use `Kentico.Xperience.Lucene.Admin` in your Xperience by Kentico Administration project for Lucene Search Administration UI managment.
 
+**Important Compatibility Notice**  
+This Lucene integration **requires persistent file system access** to store and manage indexes.
+It is **not compatible with Kentico Xperience SaaS**, which restricts file system access.
+If you plan to run this in the cloud, ensure your environment supports persistent disk writes — such as a self-hosted VM, container with mounted volume, or a traditional server.
+
 ## Screenshots
 
 ![Index listing](https://raw.githubusercontent.com/Kentico/xperience-by-kentico-lucene/main/images/xperience-administration-search-index-list.jpg)

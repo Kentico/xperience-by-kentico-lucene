@@ -5,6 +5,7 @@ using CMS.Helpers;
 using CMS.Helpers.Caching.Abstractions;
 using CMS.Websites;
 
+using Kentico.Xperience.Lucene.Core.Scaling;
 using Kentico.Xperience.Lucene.Core.Search;
 
 using Lucene.Net.Documents;
@@ -32,6 +33,7 @@ internal class DefaultLuceneClient : ILuceneClient
     private readonly IEventLogService log;
     private readonly ICacheAccessor cacheAccessor;
     private readonly ILuceneIndexManager indexManager;
+    private readonly IWebFarmService webFarmService;
     private readonly LuceneSearchOptions luceneSearchOptions;
 
     internal const string CACHEKEY_STATISTICS = "Lucene|ListIndices";
@@ -48,6 +50,7 @@ internal class DefaultLuceneClient : ILuceneClient
         IProgressiveCache cache,
         IEventLogService log,
         ILuceneIndexManager indexManager,
+        IWebFarmService webFarmService,
         IOptions<LuceneSearchOptions> luceneSearchOptions
         )
     {
@@ -63,6 +66,7 @@ internal class DefaultLuceneClient : ILuceneClient
         this.log = log;
         this.indexManager = indexManager;
         this.indexManager = indexManager;
+        this.webFarmService = webFarmService;
         this.luceneSearchOptions = luceneSearchOptions.Value;
     }
 
@@ -131,8 +135,16 @@ internal class DefaultLuceneClient : ILuceneClient
         return UpsertRecordsInternal(documents, indexName);
     }
 
-    public async Task<bool> DeleteIndex(LuceneIndex luceneIndex) =>
-        await luceneIndex.StorageContext.DeleteIndex();
+    public async Task<bool> DeleteIndex(LuceneIndex luceneIndex)
+    {
+        webFarmService.CreateTask(new DeleteIndexWebFarmTask
+        {
+            LuceneIndex = luceneIndex,
+            CreatorName = webFarmService.ServerName
+        });
+
+        return await luceneIndex.StorageContext.DeleteIndex();
+    }
 
     private Task<int> DeleteRecordsInternal(IEnumerable<string> itemGuids, string indexName)
     {
@@ -158,6 +170,12 @@ internal class DefaultLuceneClient : ILuceneClient
     {
         // Clear statistics cache so listing displays updated data after rebuild
         cacheAccessor.Remove(CACHEKEY_STATISTICS);
+
+        webFarmService.CreateTask(new ResetIndexWebFarmTask
+        {
+            LuceneIndex = luceneIndex,
+            CreatorName = webFarmService.ServerName
+        });
 
         luceneIndexService.ResetIndex(luceneIndex);
 
