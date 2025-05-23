@@ -137,7 +137,7 @@ internal class DefaultLuceneClient : ILuceneClient
 
     public async Task<bool> DeleteIndex(LuceneIndex luceneIndex)
     {
-        webFarmService.CreateTask(new DeleteIndexWebFarmTask()
+        webFarmService.CreateTask(new DeleteIndexWebFarmTask
         {
             LuceneIndex = luceneIndex
         });
@@ -169,6 +169,11 @@ internal class DefaultLuceneClient : ILuceneClient
     {
         // Clear statistics cache so listing displays updated data after rebuild
         cacheAccessor.Remove(CACHEKEY_STATISTICS);
+
+        webFarmService.CreateTask(new ResetIndexWebFarmTask
+        {
+            LuceneIndex = luceneIndex
+        });
 
         luceneIndexService.ResetIndex(luceneIndex);
 
