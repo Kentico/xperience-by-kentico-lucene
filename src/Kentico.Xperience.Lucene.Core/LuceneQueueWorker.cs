@@ -81,7 +81,8 @@ internal class LuceneQueueWorker : ThreadQueueWorker<LuceneQueueItem, LuceneQueu
 
         webFarmService.CreateTask(new ProcessLuceneTasksWebFarmTask
         {
-            LuceneQueueItems = itemList
+            LuceneQueueItems = itemList,
+            CreatorName = webFarmService.ServerName
         });
 
         return luceneTaskProcessor.ProcessLuceneTasks(itemList, CancellationToken.None).GetAwaiter().GetResult();
