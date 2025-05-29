@@ -53,7 +53,7 @@ namespace DancingGoat.Sections
 
         private static IEnumerable<string> GetWidgetsIdentifiers()
         {
-            return new ComponentDefinitionProvider<WidgetDefinition>()
+            return new Kentico.Builder.Web.Mvc.ComponentDefinitionProvider<WidgetDefinition>()
                    .GetAll()
                    .Select(definition => definition.Identifier);
         }
