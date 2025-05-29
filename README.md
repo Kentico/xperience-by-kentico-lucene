@@ -36,6 +36,7 @@ If you plan to run this in the cloud, ensure your environment supports persisten
 
 | Xperience Version   | Library Version |
 | ------------------- | --------------- |
+| >= 30.5.1           | >= 12.3.0       |
 | >= 30.0.1           | >= 11.0.1       |
 | >= 30.0.0           | >= 11.0.0       |
 | >= 29.3.3           | >= 8.1.0        |
