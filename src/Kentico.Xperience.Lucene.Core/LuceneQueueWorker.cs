@@ -2,6 +2,7 @@ using CMS.Base;
 using CMS.Core;
 
 using Kentico.Xperience.Lucene.Core.Indexing;
+using Kentico.Xperience.Lucene.Core.Scaling;
 
 namespace Kentico.Xperience.Lucene.Core;
 
@@ -12,7 +13,7 @@ namespace Kentico.Xperience.Lucene.Core;
 internal class LuceneQueueWorker : ThreadQueueWorker<LuceneQueueItem, LuceneQueueWorker>
 {
     private readonly ILuceneTaskProcessor luceneTaskProcessor;
-
+    private readonly IWebFarmService webFarmService;
 
     /// <inheritdoc />
     protected override int DefaultInterval => 10000;
@@ -23,7 +24,11 @@ internal class LuceneQueueWorker : ThreadQueueWorker<LuceneQueueItem, LuceneQueu
     /// Should not be called directly- the worker should be initialized during startup using
     /// <see cref="ThreadWorker{T}.EnsureRunningThread"/>.
     /// </summary>
-    public LuceneQueueWorker() => luceneTaskProcessor = Service.Resolve<ILuceneTaskProcessor>() ?? throw new InvalidOperationException($"{nameof(ILuceneTaskProcessor)} is not registered.");
+    public LuceneQueueWorker()
+    {
+        webFarmService = Service.Resolve<IWebFarmService>();
+        luceneTaskProcessor = Service.Resolve<ILuceneTaskProcessor>() ?? throw new InvalidOperationException($"{nameof(ILuceneTaskProcessor)} is not registered.");
+    }
 
 
     /// <summary>
@@ -65,7 +70,21 @@ internal class LuceneQueueWorker : ThreadQueueWorker<LuceneQueueItem, LuceneQueu
 
 
     /// <inheritdoc />
-    protected override int ProcessItems(IEnumerable<LuceneQueueItem> items) =>
-         luceneTaskProcessor.ProcessLuceneTasks(items, CancellationToken.None).GetAwaiter().GetResult();
+    protected override int ProcessItems(IEnumerable<LuceneQueueItem> items)
+    {
+        var itemList = items.ToList();
 
+        if (itemList.Count == 0)
+        {
+            return 0;
+        }
+
+        webFarmService.CreateTask(new ProcessLuceneTasksWebFarmTask
+        {
+            LuceneQueueItems = itemList,
+            CreatorName = webFarmService.ServerName
+        });
+
+        return luceneTaskProcessor.ProcessLuceneTasks(itemList, CancellationToken.None).GetAwaiter().GetResult();
+    }
 }
