@@ -9,12 +9,6 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Kentico.Xperience.Lucene.Core.Indexing;
 
-internal class LuceneBatchResult
-{
-    internal int SuccessfulOperations { get; set; } = 0;
-    internal HashSet<LuceneIndex> PublishedIndices { get; set; } = [];
-}
-
 internal class DefaultLuceneTaskProcessor : ILuceneTaskProcessor
 {
     private readonly IWebPageUrlRetriever urlRetriever;
@@ -38,27 +32,66 @@ internal class DefaultLuceneTaskProcessor : ILuceneTaskProcessor
     }
 
     /// <inheritdoc />
-    public async Task<int> ProcessLuceneTasks(IEnumerable<LuceneQueueItem> queueItems, CancellationToken cancellationToken, int maximumBatchSize = 100)
+    public async Task<Dictionary<string, LucenePreprocessResult>> PreprocessLuceneTasks(IEnumerable<LuceneQueueItem> queueItems, int maximumBatchSize = 100)
     {
-        LuceneBatchResult batchResults = new();
+        Dictionary<string, LucenePreprocessResult> lucenePreprocessResults = [];
 
         var batches = queueItems.Batch(maximumBatchSize);
 
         foreach (var batch in batches)
         {
-            await ProcessLuceneBatch(batch, batchResults, cancellationToken);
+            await PreProcessLuceneTasksInternal(batch, lucenePreprocessResults);
         }
 
-        foreach (var index in batchResults.PublishedIndices)
-        {
-            var storage = index.StorageContext.GetNextOrOpenNextGeneration();
-            index.StorageContext.PublishIndex(storage);
-        }
-
-        return batchResults.SuccessfulOperations;
+        return lucenePreprocessResults;
     }
 
-    private async Task ProcessLuceneBatch(IEnumerable<LuceneQueueItem> queueItems, LuceneBatchResult previousBatchResults, CancellationToken cancellationToken)
+    /// <inheritdoc/>
+    public async Task<int> ProcessLuceneIndices(Dictionary<string, LucenePreprocessResult> lucenePreprocessingResults, CancellationToken cancellationToken)
+    {
+        var successfulOperations = 0;
+
+        foreach (var preprocessResult in lucenePreprocessingResults)
+        {
+            var indexName = preprocessResult.Key;
+            var deleteIds = preprocessResult.Value.DeleteIds;
+            var upsertData = preprocessResult.Value.UpsertData;
+
+            successfulOperations += await luceneClient.DeleteRecords(deleteIds, indexName);
+            successfulOperations += await luceneClient.UpsertRecords(upsertData, indexName, cancellationToken);
+
+            if (preprocessResult.Value.PublishIndex)
+            {
+                var index = indexManager.GetIndex(indexName);
+                var storage = index!.StorageContext.GetNextOrOpenNextGeneration();
+                index.StorageContext.PublishIndex(storage);
+            }
+        }
+
+        return successfulOperations;
+    }
+
+
+    /// <inheritdoc/>
+    public async Task<Document?> GetDocument(LuceneQueueItem queueItem)
+    {
+        var luceneIndex = indexManager.GetRequiredIndex(queueItem.IndexName);
+
+        var strategy = serviceProvider.GetRequiredStrategy(luceneIndex);
+
+        var data = await strategy.MapToLuceneDocumentOrNull(queueItem.ItemToIndex);
+
+        if (data is null)
+        {
+            return null;
+        }
+
+        await AddBaseProperties(queueItem.ItemToIndex, data!);
+
+        return data;
+    }
+
+    private async Task PreProcessLuceneTasksInternal(IEnumerable<LuceneQueueItem> queueItems, Dictionary<string, LucenePreprocessResult> previousBatchResults)
     {
         var groups = queueItems.GroupBy(item => item.IndexName);
 
@@ -86,46 +119,42 @@ internal class DefaultLuceneTaskProcessor : ILuceneTaskProcessor
                 deleteIds.AddRange(GetIdsToDelete(deleteTasks ?? []).Where(x => x is not null).Select(x => x ?? string.Empty));
                 if (indexManager.GetIndex(group.Key) is { } index)
                 {
-                    previousBatchResults.SuccessfulOperations += await luceneClient.DeleteRecords(deleteIds, group.Key);
-                    previousBatchResults.SuccessfulOperations += await luceneClient.UpsertRecords(upsertData, group.Key, cancellationToken);
-
-                    if (group.Any(t => t.TaskType == LuceneTaskType.PUBLISH_INDEX) && !previousBatchResults.PublishedIndices.Any(x => x.IndexName == index.IndexName))
+                    LucenePreprocessResult previousIndexPreprocessResult;
+                    if (previousBatchResults.TryGetValue(group.Key, out var result))
                     {
-                        previousBatchResults.PublishedIndices.Add(index);
+                        previousIndexPreprocessResult = result;
+                        result.UpsertData.AddRange(upsertData);
+                        result.DeleteIds.AddRange(deleteIds);
+                    }
+                    else
+                    {
+                        previousIndexPreprocessResult = new LucenePreprocessResult
+                        {
+                            DeleteIds = deleteIds,
+                            UpsertData = upsertData,
+                            PublishIndex = false
+                        };
+                        previousBatchResults.Add(index.IndexName, previousIndexPreprocessResult);
+                    }
+
+                    if (group.Any(t => t.TaskType == LuceneTaskType.PUBLISH_INDEX))
+                    {
+                        previousIndexPreprocessResult.PublishIndex = true;
                     }
                 }
                 else
                 {
-                    eventLogService.LogError(nameof(DefaultLuceneTaskProcessor), nameof(ProcessLuceneTasks), "Index instance not exists");
+                    eventLogService.LogError(nameof(DefaultLuceneTaskProcessor), nameof(PreprocessLuceneTasks), "Index instance does not exist");
                 }
             }
             catch (Exception ex)
             {
-                eventLogService.LogError(nameof(DefaultLuceneTaskProcessor), nameof(ProcessLuceneTasks), ex.Message);
+                eventLogService.LogError(nameof(DefaultLuceneTaskProcessor), nameof(PreprocessLuceneTasks), ex.Message);
             }
         }
     }
 
     private static IEnumerable<string?> GetIdsToDelete(IEnumerable<LuceneQueueItem> deleteTasks) => deleteTasks.Select(queueItem => queueItem.ItemToIndex.ItemGuid.ToString());
-
-    /// <inheritdoc/>
-    public async Task<Document?> GetDocument(LuceneQueueItem queueItem)
-    {
-        var luceneIndex = indexManager.GetRequiredIndex(queueItem.IndexName);
-
-        var strategy = serviceProvider.GetRequiredStrategy(luceneIndex);
-
-        var data = await strategy.MapToLuceneDocumentOrNull(queueItem.ItemToIndex);
-
-        if (data is null)
-        {
-            return null;
-        }
-
-        await AddBaseProperties(queueItem.ItemToIndex, data!);
-
-        return data;
-    }
 
     private async Task AddBaseProperties(IIndexEventItemModel item, Document document)
     {

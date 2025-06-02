@@ -171,7 +171,7 @@ internal class LuceneSearchModule : Module
     private void RegisterLuceneWebFarmTasks(object? sender, EventArgs e)
     {
         webFarmService.RegisterTask<DeleteIndexWebFarmTask>();
-        webFarmService.RegisterTask<ProcessLuceneTasksWebFarmTask>();
+        webFarmService.RegisterTask<ProcessLuceneIndicesWebFarmTask>();
         webFarmService.RegisterTask<ResetIndexWebFarmTask>();
     }
 }
