@@ -53,4 +53,10 @@ public interface IIndexEventItemModel
     /// Content language ID.
     /// </summary>
     int ContentLanguageID { get; set; }
+
+
+    /// <summary>
+    /// The representation of the type of this <see cref="IIndexEventItemModel"/>.
+    /// </summary>
+    IndexEventItemModelType IndexEventItemModelType { get; }
 }

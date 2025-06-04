@@ -78,9 +78,36 @@ internal class LuceneQueueWorker : ThreadQueueWorker<LuceneQueueItem, LuceneQueu
         {
             return 0;
         }
+
+        var reusableQueueItems = new List<LuceneQueueItemDto<IndexEventReusableItemModel>>();
+        var webQueueItems = new List<LuceneQueueItemDto<IndexEventWebPageItemModel>>();
+
+        foreach (var item in items)
+        {
+            if (item.ItemToIndex.IndexEventItemModelType == IndexEventItemModelType.ReusableItem)
+            {
+                reusableQueueItems.Add(new LuceneQueueItemDto<IndexEventReusableItemModel>
+                {
+                    ItemToIndex = (IndexEventReusableItemModel)item.ItemToIndex,
+                    TaskType = item.TaskType,
+                    IndexName = item.IndexName
+                });
+            }
+            else
+            {
+                webQueueItems.Add(new LuceneQueueItemDto<IndexEventWebPageItemModel>
+                {
+                    ItemToIndex = (IndexEventWebPageItemModel)item.ItemToIndex,
+                    TaskType = item.TaskType,
+                    IndexName = item.IndexName
+                });
+            }
+        }
+
         webFarmService.CreateTask(new ProcessLuceneTasksWebFarmTask
         {
-            LuceneQueueItems = itemList,
+            LuceneWebPageQueueItems = webQueueItems,
+            LuceneReusableQueueItems = reusableQueueItems,
             CreatorName = webFarmService.ServerName
         });
 
