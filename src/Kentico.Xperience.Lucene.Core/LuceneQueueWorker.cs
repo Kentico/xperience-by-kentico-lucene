@@ -82,7 +82,7 @@ internal class LuceneQueueWorker : ThreadQueueWorker<LuceneQueueItem, LuceneQueu
         var reusableQueueItems = new List<LuceneQueueItemDto<IndexEventReusableItemModel>>();
         var webQueueItems = new List<LuceneQueueItemDto<IndexEventWebPageItemModel>>();
 
-        foreach (var item in items)
+        foreach (var item in itemList)
         {
             if (item.ItemToIndex.IndexEventItemModelType == IndexEventItemModelType.ReusableItem)
             {
