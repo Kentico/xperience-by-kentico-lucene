@@ -26,8 +26,8 @@ internal class LuceneQueueWorker : ThreadQueueWorker<LuceneQueueItem, LuceneQueu
     /// </summary>
     public LuceneQueueWorker()
     {
-        webFarmService = Service.Resolve<IWebFarmService>();
         luceneTaskProcessor = Service.Resolve<ILuceneTaskProcessor>() ?? throw new InvalidOperationException($"{nameof(ILuceneTaskProcessor)} is not registered.");
+        webFarmService = Service.Resolve<IWebFarmService>();
     }
 
 
@@ -78,7 +78,6 @@ internal class LuceneQueueWorker : ThreadQueueWorker<LuceneQueueItem, LuceneQueu
         {
             return 0;
         }
-
         webFarmService.CreateTask(new ProcessLuceneTasksWebFarmTask
         {
             LuceneQueueItems = itemList,
