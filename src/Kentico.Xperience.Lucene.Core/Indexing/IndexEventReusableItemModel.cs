@@ -55,6 +55,10 @@ public class IndexEventReusableItemModel : IIndexEventItemModel
     public int ContentLanguageID { get; set; }
 
 
+    /// <inheritdoc/>
+    public IndexEventItemModelType IndexEventItemModelType { get; } = IndexEventItemModelType.ReusableItem;
+
+
     public IndexEventReusableItemModel() { }
 
 

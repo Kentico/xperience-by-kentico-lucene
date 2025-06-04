@@ -139,7 +139,7 @@ internal class DefaultLuceneClient : ILuceneClient
     {
         webFarmService.CreateTask(new DeleteIndexWebFarmTask
         {
-            LuceneIndex = luceneIndex,
+            IndexName = luceneIndex.IndexName,
             CreatorName = webFarmService.ServerName
         });
 
@@ -173,7 +173,7 @@ internal class DefaultLuceneClient : ILuceneClient
 
         webFarmService.CreateTask(new ResetIndexWebFarmTask
         {
-            LuceneIndex = luceneIndex,
+            IndexName = luceneIndex.IndexName,
             CreatorName = webFarmService.ServerName
         });
 

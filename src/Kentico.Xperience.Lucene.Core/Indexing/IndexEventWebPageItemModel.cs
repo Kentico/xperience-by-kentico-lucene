@@ -79,6 +79,10 @@ public class IndexEventWebPageItemModel : IIndexEventItemModel
     public int Order { get; set; }
 
 
+    /// <inheritdoc/>
+    public IndexEventItemModelType IndexEventItemModelType { get; } = IndexEventItemModelType.WebPageItem;
+
+
     public IndexEventWebPageItemModel() { }
 
 
