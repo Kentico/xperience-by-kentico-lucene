@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<cms.contentitemcommondata>
+  <ContentItemCommonDataContentItemID>
+    <CodeName>HarioBuonoKettle-8rmgs34y</CodeName>
+    <GUID>5d5e747b-9a4d-4816-9ea3-b0806aaec1d0</GUID>
+    <ObjectType>cms.contentitem</ObjectType>
+  </ContentItemCommonDataContentItemID>
+  <ContentItemCommonDataContentLanguageID>
+    <CodeName>en</CodeName>
+    <GUID>e4a8fb12-ebc2-45d0-930f-c9fba2780c85</GUID>
+    <ObjectType>cms.contentlanguage</ObjectType>
+  </ContentItemCommonDataContentLanguageID>
+  <ContentItemCommonDataFirstPublishedWhen>2025-02-04 14:09:57Z</ContentItemCommonDataFirstPublishedWhen>
+  <ContentItemCommonDataGUID>91c549d3-eafc-4b98-9c37-eba5fea639f8</ContentItemCommonDataGUID>
+  <ContentItemCommonDataIsLatest>True</ContentItemCommonDataIsLatest>
+  <ContentItemCommonDataLastPublishedWhen>2025-04-14 16:04:12Z</ContentItemCommonDataLastPublishedWhen>
+  <ContentItemCommonDataVersionStatus>2</ContentItemCommonDataVersionStatus>
+  <ProductFieldCategory>
+    <![CDATA[[{"Identifier":"3c27e654-6c18-451f-863d-cfa093b49c49"}]]]>
+  </ProductFieldCategory>
+  <ProductFieldDescription>
+    <![CDATA[<p>The smallest variant in the Hario Buono Kettle family. Look at its long, thin nozzle. It's not just a pretty design; it was developed to provide you with the ability to pour water with the greatest precision.<br><br>Keep in mind that the shape was designed especially for the V60 porcelain filter. But hey, don't limit your imagination. You can use the Hario Buono Kettle to pour not only whatever coffee you like, but you can also use it for watering your plants if that's what you want.<br><br>The kettle is big enough for four cups (1 liter).</p>]]>
+  </ProductFieldDescription>
+  <ProductFieldImage>
+    <![CDATA[[{"Identifier":"d116d9e4-ccd5-41c3-8f87-a6f7d6b1d75a"}]]]>
+  </ProductFieldImage>
+  <ProductFieldName>Hario Buono Kettle</ProductFieldName>
+  <ProductFieldPrice>23.9</ProductFieldPrice>
+  <ProductSKUCode>ACC-HAR-BUONO</ProductSKUCode>
+  <ContentItemReferences>
+    <cms.contentitemreference>
+      <ContentItemReferenceGroupGUID>af37d29a-2fc8-4ead-82ef-d5ec6998f910</ContentItemReferenceGroupGUID>
+      <ContentItemReferenceGUID>767bd099-53bd-4ddb-9f90-4fa9e46a03d1</ContentItemReferenceGUID>
+      <ContentItemReferenceSourceCommonDataID>
+        <GUID>91c549d3-eafc-4b98-9c37-eba5fea639f8</GUID>
+        <ObjectType>cms.contentitemcommondata</ObjectType>
+      </ContentItemReferenceSourceCommonDataID>
+      <ContentItemReferenceTargetItemID>
+        <CodeName>HarioBuonoKettle-dbnosy85</CodeName>
+        <GUID>d116d9e4-ccd5-41c3-8f87-a6f7d6b1d75a</GUID>
+        <ObjectType>cms.contentitem</ObjectType>
+      </ContentItemReferenceTargetItemID>
+    </cms.contentitemreference>
+  </ContentItemReferences>
+</cms.contentitemcommondata>

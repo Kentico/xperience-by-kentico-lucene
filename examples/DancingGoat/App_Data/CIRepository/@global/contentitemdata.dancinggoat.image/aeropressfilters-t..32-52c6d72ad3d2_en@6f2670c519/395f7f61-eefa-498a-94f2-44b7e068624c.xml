@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<contentitemdata.dancinggoat.image>
+  <ContentItemDataCommonDataID>
+    <GUID>4fff9aef-0587-41bf-a432-52c6d72ad3d2</GUID>
+    <ObjectType>cms.contentitemcommondata</ObjectType>
+    <Parent>
+      <CodeName>AeroPressFilters-tvy1o4js</CodeName>
+      <GUID>513288c1-d136-495c-adb6-9e602583cf4f</GUID>
+      <ObjectType>cms.contentitem</ObjectType>
+    </Parent>
+  </ContentItemDataCommonDataID>
+  <ContentItemDataGUID>395f7f61-eefa-498a-94f2-44b7e068624c</ContentItemDataGUID>
+  <ImageFile>
+    <![CDATA[{"Original":{"Identifier":"ec84bbbc-f664-421f-8b84-072f27d37f94","Name":"aero-press-filters.jpg","Extension":".jpg","Size":12575,"Width":400,"Height":400,"LastModified":"2025-02-03T14:45:13.0576664Z"},"OptimizationParameters":{"OutputExtension":"webp","Quality":70},"Identifier":"e527d455-ed7f-41e8-b117-093e478dc7af","Name":"aero-press-filters.webp","Extension":".webp","Size":4412,"Width":400,"Height":400,"LastModified":"2025-02-03T14:45:13.0978107Z"}]]>
+  </ImageFile>
+</contentitemdata.dancinggoat.image>

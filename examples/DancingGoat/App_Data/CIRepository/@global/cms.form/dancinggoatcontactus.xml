@@ -1,0 +1,53 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<cms.form>
+  <FormBuilderLayout>
+<![CDATA[
+{
+  "editableAreas": [
+    {
+      "identifier": "DefaultFormBuilderArea",
+      "sections": [
+        {
+          "identifier": "c2cfc8fa-afed-41d4-9dfe-18ee8eac23a0",
+          "type": "DancingGoat.TitledSection",
+          "zones": [
+            {
+              "identifier": "913c8daa-1231-403e-8092-c1c562cf79c9",
+              "formComponents": [
+                {
+                  "identifier": "dc5fd062-5601-4ba5-a4bd-75bc722f69c2"
+                },
+                {
+                  "identifier": "a4b3216b-0b12-4c36-9147-0ea02477b40b"
+                },
+                {
+                  "identifier": "daae1fe5-f5a2-48de-b9f5-03d49dca3a6e"
+                },
+                {
+                  "identifier": "8b99a7b9-5001-4e61-a502-c0e32e6e2598"
+                }
+              ]
+            }
+          ],
+          "properties": {
+            "$type": "DancingGoat.Components.FormSections.TitledSection.TitledSectionProperties, Kentico.Xperience.DancingGoat",
+            "title": "\u003ch2\u003eSend us a message\u003c/h2\u003e"
+          }
+        }
+      ]
+    }
+  ]
+}
+]]>
+  </FormBuilderLayout>
+  <FormClassID>
+    <CodeName>BizForm.DancingGoatContactUs</CodeName>
+    <GUID>bb692509-e657-445b-a0c5-f51d8cd8fc87</GUID>
+    <ObjectType>cms.formclass</ObjectType>
+  </FormClassID>
+  <FormDisplayName>Contact Us</FormDisplayName>
+  <FormGUID>0081dc2e-47f4-4acd-80ae-fe39612f379c</FormGUID>
+  <FormItems>0</FormItems>
+  <FormLogActivity>True</FormLogActivity>
+  <FormName>DancingGoatContactUs</FormName>
+</cms.form>

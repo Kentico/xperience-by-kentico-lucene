@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<contentitemdata.dancinggoat.image>
+  <ContentItemDataCommonDataID>
+    <GUID>ec1fd3e2-b292-4361-b222-f4b869784e7b</GUID>
+    <ObjectType>cms.contentitemcommondata</ObjectType>
+    <Parent>
+      <CodeName>MacapM2D-a91vujnx</CodeName>
+      <GUID>18daf418-dd94-4ee7-ba6b-cbc3a614bc9e</GUID>
+      <ObjectType>cms.contentitem</ObjectType>
+    </Parent>
+  </ContentItemDataCommonDataID>
+  <ContentItemDataGUID>3179473c-15bb-41cc-9d94-dc2a36614930</ContentItemDataGUID>
+  <ImageFile>
+    <![CDATA[{"Original":{"Identifier":"a4521e70-3ff6-4521-acbc-5c1eef6a7445","Name":"macap-m2d.jpg","Extension":".jpg","Size":11013,"Width":400,"Height":400,"LastModified":"2025-02-03T14:30:36.7125764Z"},"OptimizationParameters":{"OutputExtension":"webp","Quality":70},"Identifier":"63324eb0-11a0-4621-a2d6-e95ec565ae4f","Name":"macap-m2d.webp","Extension":".webp","Size":4148,"Width":400,"Height":400,"LastModified":"2025-02-03T14:30:36.7409578Z"}]]>
+  </ImageFile>
+</contentitemdata.dancinggoat.image>

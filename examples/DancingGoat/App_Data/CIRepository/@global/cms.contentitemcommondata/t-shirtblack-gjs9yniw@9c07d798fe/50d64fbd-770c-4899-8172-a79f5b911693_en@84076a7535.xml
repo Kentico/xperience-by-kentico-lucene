@@ -1,0 +1,86 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<cms.contentitemcommondata>
+  <ContentItemCommonDataContentItemID>
+    <CodeName>T-shirtBlack-gjs9yniw</CodeName>
+    <GUID>37fc0fce-5f95-42e1-94e3-e61475755dc5</GUID>
+    <ObjectType>cms.contentitem</ObjectType>
+  </ContentItemCommonDataContentItemID>
+  <ContentItemCommonDataContentLanguageID>
+    <CodeName>en</CodeName>
+    <GUID>e4a8fb12-ebc2-45d0-930f-c9fba2780c85</GUID>
+    <ObjectType>cms.contentlanguage</ObjectType>
+  </ContentItemCommonDataContentLanguageID>
+  <ContentItemCommonDataFirstPublishedWhen>2025-03-05 07:57:23Z</ContentItemCommonDataFirstPublishedWhen>
+  <ContentItemCommonDataGUID>50d64fbd-770c-4899-8172-a79f5b911693</ContentItemCommonDataGUID>
+  <ContentItemCommonDataIsLatest>True</ContentItemCommonDataIsLatest>
+  <ContentItemCommonDataLastPublishedWhen>2025-04-14 16:26:35Z</ContentItemCommonDataLastPublishedWhen>
+  <ContentItemCommonDataVersionStatus>2</ContentItemCommonDataVersionStatus>
+  <ProductFieldCategory>
+    <![CDATA[[{"Identifier":"8f44b1a7-d508-4dbb-987e-d3738a51272c"}]]]>
+  </ProductFieldCategory>
+  <ProductFieldDescription>
+    <![CDATA[<p>Elevate your everyday style with our Classic Comfort T-Shirt. Crafted from 100% premium cotton, this T-shirt offers unmatched softness and breathability, making it perfect for all-day wear. Its timeless design features a relaxed fit, crew neckline, and short sleeves, ensuring a versatile addition to any wardrobe.</p>]]>
+  </ProductFieldDescription>
+  <ProductFieldImage>
+    <![CDATA[[{"Identifier":"b50b4826-4ba9-42ad-a675-07fee0c040a5"}]]]>
+  </ProductFieldImage>
+  <ProductFieldName>T-shirt Black</ProductFieldName>
+  <ProductFieldPrice>12.49</ProductFieldPrice>
+  <ProductFieldTags>
+    <![CDATA[[{"Identifier":"2fe7ed0f-2204-44c5-bcd2-3be0721b19c1"}]]]>
+  </ProductFieldTags>
+  <ContentItemReferences>
+    <cms.contentitemreference>
+      <ContentItemReferenceGroupGUID>7307ad92-817c-4a42-ae99-67ffa727bac5</ContentItemReferenceGroupGUID>
+      <ContentItemReferenceGUID>9d538d66-f280-40f7-8758-06a5036616b4</ContentItemReferenceGUID>
+      <ContentItemReferenceSourceCommonDataID>
+        <GUID>50d64fbd-770c-4899-8172-a79f5b911693</GUID>
+        <ObjectType>cms.contentitemcommondata</ObjectType>
+      </ContentItemReferenceSourceCommonDataID>
+      <ContentItemReferenceTargetItemID>
+        <CodeName>T-shirtBlackL-epqvf7lk</CodeName>
+        <GUID>8f4eaaf4-c3d0-42bc-b111-fd289a36cab8</GUID>
+        <ObjectType>cms.contentitem</ObjectType>
+      </ContentItemReferenceTargetItemID>
+    </cms.contentitemreference>
+    <cms.contentitemreference>
+      <ContentItemReferenceGroupGUID>7307ad92-817c-4a42-ae99-67ffa727bac5</ContentItemReferenceGroupGUID>
+      <ContentItemReferenceGUID>51925da9-a1e7-46f9-9c8a-5fdc330d679c</ContentItemReferenceGUID>
+      <ContentItemReferenceSourceCommonDataID>
+        <GUID>50d64fbd-770c-4899-8172-a79f5b911693</GUID>
+        <ObjectType>cms.contentitemcommondata</ObjectType>
+      </ContentItemReferenceSourceCommonDataID>
+      <ContentItemReferenceTargetItemID>
+        <CodeName>T-shirtBlackS-itawhhk7</CodeName>
+        <GUID>e7dc1611-4405-43ee-ba5a-aff1a8307a5a</GUID>
+        <ObjectType>cms.contentitem</ObjectType>
+      </ContentItemReferenceTargetItemID>
+    </cms.contentitemreference>
+    <cms.contentitemreference>
+      <ContentItemReferenceGroupGUID>7307ad92-817c-4a42-ae99-67ffa727bac5</ContentItemReferenceGroupGUID>
+      <ContentItemReferenceGUID>474d31f0-2043-4179-82d3-f071b049dc12</ContentItemReferenceGUID>
+      <ContentItemReferenceSourceCommonDataID>
+        <GUID>50d64fbd-770c-4899-8172-a79f5b911693</GUID>
+        <ObjectType>cms.contentitemcommondata</ObjectType>
+      </ContentItemReferenceSourceCommonDataID>
+      <ContentItemReferenceTargetItemID>
+        <CodeName>T-shirtBlackM-fxxj208y</CodeName>
+        <GUID>686cad9d-d78d-4a8c-a3b4-af2e3d2e9f3f</GUID>
+        <ObjectType>cms.contentitem</ObjectType>
+      </ContentItemReferenceTargetItemID>
+    </cms.contentitemreference>
+    <cms.contentitemreference>
+      <ContentItemReferenceGroupGUID>af37d29a-2fc8-4ead-82ef-d5ec6998f910</ContentItemReferenceGroupGUID>
+      <ContentItemReferenceGUID>12e3554a-0275-4fc9-99a2-54345e78c2bd</ContentItemReferenceGUID>
+      <ContentItemReferenceSourceCommonDataID>
+        <GUID>50d64fbd-770c-4899-8172-a79f5b911693</GUID>
+        <ObjectType>cms.contentitemcommondata</ObjectType>
+      </ContentItemReferenceSourceCommonDataID>
+      <ContentItemReferenceTargetItemID>
+        <CodeName>T-shirtBlack-xckpsxf1</CodeName>
+        <GUID>b50b4826-4ba9-42ad-a675-07fee0c040a5</GUID>
+        <ObjectType>cms.contentitem</ObjectType>
+      </ContentItemReferenceTargetItemID>
+    </cms.contentitemreference>
+  </ContentItemReferences>
+</cms.contentitemcommondata>

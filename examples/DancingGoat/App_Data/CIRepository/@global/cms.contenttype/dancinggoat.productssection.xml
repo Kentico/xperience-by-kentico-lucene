@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<cms.contenttype>
+  <ClassContentTypeType>Website</ClassContentTypeType>
+  <ClassDisplayName>Products section</ClassDisplayName>
+  <ClassFormDefinition>
+    <form>
+      <field column="ContentItemDataID" columntype="integer" enabled="true" guid="7dc3e51f-33f9-4480-9176-7d84d441c684" isPK="true" />
+      <field column="ContentItemDataCommonDataID" columntype="integer" enabled="true" guid="fa7bb88b-8c18-47e6-a9e1-de4229dc0048" refobjtype="cms.contentitemcommondata" reftype="Required" system="true" />
+      <field column="ContentItemDataGUID" columntype="guid" enabled="true" guid="10f262c1-488a-4e5c-a9a0-8e73de07b2d2" isunique="true" system="true" />
+    </form>
+  </ClassFormDefinition>
+  <ClassGUID>c2d4f4f3-dbd7-481a-b5f6-df465a2a8b45</ClassGUID>
+  <ClassHasUnmanagedDbSchema>False</ClassHasUnmanagedDbSchema>
+  <ClassIconClass>xp-box</ClassIconClass>
+  <ClassName>DancingGoat.ProductsSection</ClassName>
+  <ClassShortName>DancingGoatProductsSection</ClassShortName>
+  <ClassTableName>DancingGoat_ProductsSection</ClassTableName>
+  <ClassType>Content</ClassType>
+  <ClassWebPageHasUrl>True</ClassWebPageHasUrl>
+</cms.contenttype>

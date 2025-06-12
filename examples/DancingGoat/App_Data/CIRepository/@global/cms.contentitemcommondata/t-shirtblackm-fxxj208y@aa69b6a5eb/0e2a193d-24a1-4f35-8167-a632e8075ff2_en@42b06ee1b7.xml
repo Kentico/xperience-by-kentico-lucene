@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<cms.contentitemcommondata>
+  <ContentItemCommonDataContentItemID>
+    <CodeName>T-shirtBlackM-fxxj208y</CodeName>
+    <GUID>686cad9d-d78d-4a8c-a3b4-af2e3d2e9f3f</GUID>
+    <ObjectType>cms.contentitem</ObjectType>
+  </ContentItemCommonDataContentItemID>
+  <ContentItemCommonDataContentLanguageID>
+    <CodeName>en</CodeName>
+    <GUID>e4a8fb12-ebc2-45d0-930f-c9fba2780c85</GUID>
+    <ObjectType>cms.contentlanguage</ObjectType>
+  </ContentItemCommonDataContentLanguageID>
+  <ContentItemCommonDataFirstPublishedWhen>2025-03-05 07:57:24Z</ContentItemCommonDataFirstPublishedWhen>
+  <ContentItemCommonDataGUID>0e2a193d-24a1-4f35-8167-a632e8075ff2</ContentItemCommonDataGUID>
+  <ContentItemCommonDataIsLatest>True</ContentItemCommonDataIsLatest>
+  <ContentItemCommonDataLastPublishedWhen>2025-04-14 15:56:07Z</ContentItemCommonDataLastPublishedWhen>
+  <ContentItemCommonDataVersionStatus>2</ContentItemCommonDataVersionStatus>
+  <ProductOptionAlphaSize>M</ProductOptionAlphaSize>
+  <ProductSKUCode>MER-TS-BK-M</ProductSKUCode>
+</cms.contentitemcommondata>

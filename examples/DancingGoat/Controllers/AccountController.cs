@@ -1,16 +1,15 @@
 ﻿using System;
+using System.Linq;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 
 using CMS.Core;
-using CMS.DataEngine;
 using CMS.Websites;
-using CMS.Websites.Routing;
 
 using DancingGoat.Models;
 
-using Kentico.Content.Web.Mvc.Routing;
+using Kentico.Content.Web.Mvc;
 using Kentico.Membership;
 
 using Microsoft.AspNetCore.Authorization;
@@ -26,10 +25,7 @@ namespace DancingGoat.Controllers
     {
         private readonly IStringLocalizer<SharedResources> localizer;
         private readonly IEventLogService eventLogService;
-        private readonly IInfoProvider<WebsiteChannelInfo> websiteChannelProvider;
-        private readonly IWebPageUrlRetriever webPageUrlRetriever;
-        private readonly IWebsiteChannelContext websiteChannelContext;
-        private readonly IPreferredLanguageRetriever currentLanguageRetriever;
+        private readonly IContentRetriever contentRetriever;
         private readonly UserManager<ApplicationUser> userManager;
         private readonly SignInManager<ApplicationUser> signInManager;
 
@@ -39,19 +35,13 @@ namespace DancingGoat.Controllers
             SignInManager<ApplicationUser> signInManager,
             IStringLocalizer<SharedResources> localizer,
             IEventLogService eventLogService,
-            IInfoProvider<WebsiteChannelInfo> websiteChannelProvider,
-            IWebPageUrlRetriever webPageUrlRetriever,
-            IWebsiteChannelContext websiteChannelContext,
-            IPreferredLanguageRetriever preferredLanguageRetriever)
+            IContentRetriever contentRetriever)
         {
             this.userManager = userManager;
             this.signInManager = signInManager;
             this.localizer = localizer;
             this.eventLogService = eventLogService;
-            this.websiteChannelProvider = websiteChannelProvider;
-            this.webPageUrlRetriever = webPageUrlRetriever;
-            this.websiteChannelContext = websiteChannelContext;
-            this.currentLanguageRetriever = preferredLanguageRetriever;
+            this.contentRetriever = contentRetriever;
         }
 
 
@@ -169,31 +159,16 @@ namespace DancingGoat.Controllers
         }
 
 
-        private async Task<string> GetHomeWebPageUrl(CancellationToken cancellationToken)
+        private async Task<string> GetHomeWebPageUrl(CancellationToken cancellationToken = default)
         {
-            var websiteChannelId = websiteChannelContext.WebsiteChannelID;
-            var websiteChannel = await websiteChannelProvider.GetAsync(websiteChannelId, cancellationToken);
-
-            if (websiteChannel == null)
-            {
-                return string.Empty;
-            }
-
-            var homePageUrl = await webPageUrlRetriever.Retrieve(
-                websiteChannel.WebsiteChannelHomePage,
-                websiteChannelContext.WebsiteChannelName,
-                currentLanguageRetriever.Get(),
-                websiteChannelContext.IsPreview,
+            var homePage = (await contentRetriever.RetrievePages<HomePage>(
+                RetrievePagesParameters.Default,
+                query => query.UrlPathColumns(),
+                new RetrievalCacheSettings("UrlPathColumns"),
                 cancellationToken
-            );
+            )).FirstOrDefault();
 
-            if (string.IsNullOrEmpty(homePageUrl?.RelativePath))
-            {
-                return "/";
-            }
-
-            return homePageUrl.RelativePath;
-
+            return homePage.GetUrl().RelativePath;
         }
     }
 }

@@ -1,0 +1,80 @@
+﻿@using DancingGoat.Models
+
+@using Kentico.Content.Web.Mvc.Routing
+
+@inject IPreferredLanguageRetriever currentLanguageRetriever
+
+@model CheckoutViewModel
+
+@{
+    ViewBag.Title = HtmlLocalizer["Order confirmation"].Value;
+
+    var languageName = currentLanguageRetriever.Get();
+}
+
+<div class="checkout-container">
+    <div class="cart">
+        <div class="continue-shopping-link">
+            <form asp-controller="DancingGoatCheckout" asp-action="Index" method="post" id="backToCheckoutForm">
+                <a href="#" id="submitLink">&larr; @HtmlLocalizer["back to checkout"]</a>
+                <input type="hidden" name="CheckoutStep" value="@CheckoutStep.CheckoutCustomer" />
+                <partial name="_ShoppingCartCheckoutCustomerData" model="Model" />
+            </form>
+        </div>
+
+        <div asp-validation-summary="ModelOnly" class="ErrorLabel red">@HtmlLocalizer["Your order cannot be completed"]</div>
+
+        <div class="col-md-8 cart-content">
+            <div class="row">
+                <div class="col-md-6">
+                    <h2>@HtmlLocalizer["Billing details"]</h2>
+
+                    <div><span>@Model.Customer.FirstName</span> <span>@Model.Customer.LastName</span></div>
+                    <div>@Model.Customer.Company</div>
+                    <div>@Model.Customer.Email</div>
+                    <div>@Model.Customer.PhoneNumber</div>
+
+                    <br />
+
+                    <div>@Model.CustomerAddress.Line1</div>
+                    <div>@Model.CustomerAddress.Line2</div>
+                    <div>@Model.CustomerAddress.City</div>
+
+                    <div><span>@Model.CustomerAddress.PostalCode</span> <span>@Model.CustomerAddress.State</span></div>
+                    <div>@Model.CustomerAddress.Country</div>
+                </div>
+            </div>
+            <div class="row">
+                <h2>@HtmlLocalizer["Ordered items"]</h2>
+                <hr class="first-separator" />
+
+                <partial name="_ShoppingCartContentPreview" model="Model.ShoppingCart" />
+            </div>
+        </div>
+        <div class="col-md-4">
+            @{
+                var routeData = new Dictionary<string, string> { { "languageName", languageName } };
+                <form asp-action="ConfirmOrder" asp-controller="DancingGoatCheckout" asp-all-route-data="routeData" method="post" id="checkoutForm">
+                    <div class="cart-right-panel floating-box">
+                        <div id="shoppingCartTotals">
+                            <partial name="_ShoppingCartTotals" model="Model.ShoppingCart" />
+                        </div>
+
+                        <input type="submit" value="@HtmlLocalizer["Confirm order"]" class="btn-primary checkout-button btn btn-default" />
+
+                        <partial name="_ShoppingCartCheckoutCustomerData" model="Model" />
+                    </div>
+                </form>
+            }
+        </div>
+    </div>
+</div>
+
+<script>
+    (function () {
+        document.getElementById('submitLink').addEventListener('click', function(event) {
+            event.preventDefault();
+            document.getElementById('backToCheckoutForm').submit();
+        });
+    })();
+</script>

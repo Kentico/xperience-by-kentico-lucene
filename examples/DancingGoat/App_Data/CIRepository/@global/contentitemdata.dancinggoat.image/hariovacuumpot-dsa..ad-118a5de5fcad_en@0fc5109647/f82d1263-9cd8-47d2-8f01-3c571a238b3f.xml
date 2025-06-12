@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<contentitemdata.dancinggoat.image>
+  <ContentItemDataCommonDataID>
+    <GUID>50a0804c-6d70-49c7-a0ad-118a5de5fcad</GUID>
+    <ObjectType>cms.contentitemcommondata</ObjectType>
+    <Parent>
+      <CodeName>HarioVacuumPot-dsad6nia</CodeName>
+      <GUID>42a88e22-76cb-4d02-a5f1-bedde710b2a3</GUID>
+      <ObjectType>cms.contentitem</ObjectType>
+    </Parent>
+  </ContentItemDataCommonDataID>
+  <ContentItemDataGUID>f82d1263-9cd8-47d2-8f01-3c571a238b3f</ContentItemDataGUID>
+  <ImageFile>
+    <![CDATA[{"Original":{"Identifier":"0eede400-045b-4ca6-8fcf-1c5c9453efba","Name":"hario-vacuum-pot.jpg","Extension":".jpg","Size":12230,"Width":400,"Height":400,"LastModified":"2025-02-03T14:20:37.7966215Z"},"OptimizationParameters":{"OutputExtension":"webp","Quality":70},"Identifier":"277f021b-5bbb-45c6-bf6d-30fcb12e1ad3","Name":"hario-vacuum-pot.webp","Extension":".webp","Size":5250,"Width":400,"Height":400,"LastModified":"2025-02-03T14:20:37.8344084Z"}]]>
+  </ImageFile>
+</contentitemdata.dancinggoat.image>

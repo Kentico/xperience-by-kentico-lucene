@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<cms.contentitem>
+  <ContentItemContentFolderID>
+    <CodeName>Root-DancingGoat.DancingGoatEvents</CodeName>
+    <GUID>0aa26d00-4d4a-4c1d-82fb-051edbaf93c5</GUID>
+    <ObjectType>cms.contentfolder</ObjectType>
+  </ContentItemContentFolderID>
+  <ContentItemContentTypeID>
+    <CodeName>DancingGoat.Event</CodeName>
+    <GUID>1f61cca9-7551-4634-82ed-dfb4e4db8c0e</GUID>
+    <ObjectType>cms.contenttype</ObjectType>
+  </ContentItemContentTypeID>
+  <ContentItemGUID>2b039eb6-312f-4008-8c4f-3d340d87532c</ContentItemGUID>
+  <ContentItemIsReusable>True</ContentItemIsReusable>
+  <ContentItemIsSecured>False</ContentItemIsSecured>
+  <ContentItemName>OurFirstCuppingIsHere-t8ll79h8</ContentItemName>
+  <ContentItemWorkspaceID>
+    <CodeName>DancingGoat.DancingGoatEvents</CodeName>
+    <GUID>ec4b090a-a67e-40e8-aec2-fcfbc37067bd</GUID>
+    <ObjectType>cms.workspace</ObjectType>
+  </ContentItemWorkspaceID>
+</cms.contentitem>

@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<contentitemdata.dancinggoat.productvariantalphasize>
+  <ContentItemDataCommonDataID>
+    <GUID>6b088741-b482-4051-83a8-9e4c7a98b44f</GUID>
+    <ObjectType>cms.contentitemcommondata</ObjectType>
+    <Parent>
+      <CodeName>T-shirtWhiteL-bddjteye</CodeName>
+      <GUID>8eca26e4-4d8f-4ea5-a006-6c184758ac54</GUID>
+      <ObjectType>cms.contentitem</ObjectType>
+    </Parent>
+  </ContentItemDataCommonDataID>
+  <ContentItemDataGUID>dc9b0947-ece8-4c0b-802c-0074deed68dc</ContentItemDataGUID>
+</contentitemdata.dancinggoat.productvariantalphasize>

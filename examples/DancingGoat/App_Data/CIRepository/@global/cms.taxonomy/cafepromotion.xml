@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<cms.taxonomy>
+  <TaxonomyGUID>0eb82e7d-4af6-496a-bfc2-c0b3419956b7</TaxonomyGUID>
+  <TaxonomyMetadata>
+    <![CDATA[{"Translations":{"fc939370-8f94-4fc9-8cc4-bfdef6ab748c":{"Title":null}}}]]>
+  </TaxonomyMetadata>
+  <TaxonomyName>CafePromotion</TaxonomyName>
+  <TaxonomyTitle>
+    <![CDATA[Cafe Promotions & Offers]]>
+  </TaxonomyTitle>
+</cms.taxonomy>

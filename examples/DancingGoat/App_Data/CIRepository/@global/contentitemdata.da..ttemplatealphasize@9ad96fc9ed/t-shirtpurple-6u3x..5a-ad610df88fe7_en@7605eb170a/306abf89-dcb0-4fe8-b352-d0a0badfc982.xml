@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<contentitemdata.dancinggoat.producttemplatealphasize>
+  <ContentItemDataCommonDataID>
+    <GUID>4bfaff6d-a0a4-4aba-9f5a-ad610df88fe7</GUID>
+    <ObjectType>cms.contentitemcommondata</ObjectType>
+    <Parent>
+      <CodeName>T-shirtPurple-6u3xnlt7</CodeName>
+      <GUID>b14c90ac-d702-4dc9-874c-e8f9f16fe997</GUID>
+      <ObjectType>cms.contentitem</ObjectType>
+    </Parent>
+  </ContentItemDataCommonDataID>
+  <ContentItemDataGUID>306abf89-dcb0-4fe8-b352-d0a0badfc982</ContentItemDataGUID>
+  <ProductVariants>
+    <![CDATA[[{"Identifier":"8ebc4c54-810a-44bd-8df3-ac681fd3108d"}]]]>
+  </ProductVariants>
+</contentitemdata.dancinggoat.producttemplatealphasize>

@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<contentitemdata.dancinggoat.cafe>
+  <CafeCity>New York</CafeCity>
+  <CafeCountry>USA, NewYork</CafeCountry>
+  <CafeIsCompanyCafe>True</CafeIsCompanyCafe>
+  <CafeName>New York</CafeName>
+  <CafePhone>646-555-0150</CafePhone>
+  <CafePhoto>
+    <![CDATA[[{"Identifier":"4360aa53-d040-4b15-8b89-adea96d79aad"}]]]>
+  </CafePhoto>
+  <CafePromotion>
+    <![CDATA[[{"Identifier":"9966ec69-20f5-40f3-9833-9122ea53e416"},{"Identifier":"5e0196c5-d7c2-4e66-80d5-a134ee708c58"},{"Identifier":"31fb0b68-a2a1-4196-bdd8-d4ae441996e8"}]]]>
+  </CafePromotion>
+  <CafeStreet>328 W 29th St</CafeStreet>
+  <CafeZipCode>10001</CafeZipCode>
+  <ContentItemDataCommonDataID>
+    <GUID>ed391fc5-0781-47ae-90ec-f1b03c1ef6a1</GUID>
+    <ObjectType>cms.contentitemcommondata</ObjectType>
+    <Parent>
+      <CodeName>NewYork-xn4wcoi7</CodeName>
+      <GUID>9b401e70-fbc7-4d70-b848-19778172e3f1</GUID>
+      <ObjectType>cms.contentitem</ObjectType>
+    </Parent>
+  </ContentItemDataCommonDataID>
+  <ContentItemDataGUID>6f1f362b-6b10-4279-a43e-add609bfb952</ContentItemDataGUID>
+</contentitemdata.dancinggoat.cafe>

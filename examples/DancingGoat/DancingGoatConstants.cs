@@ -17,12 +17,30 @@
         public const string DEFAULT_ROUTE_WITHOUT_LANGUAGE_PREFIX_NAME = "defaultWithoutLanguagePrefix";
 
 
-        public const string HOME_PAGE_PATH = "/Home";
-
-
         public const string WEBSITE_CHANNEL_NAME = "DancingGoatPages";
 
 
-        public const string NAVIGATION_MENU_FOLDER_PATH = "/Navigation_menu";
+        public const string COMMERCE_WORKSPACE_NAME = "DancingGoat.DancingGoatCommerce";
+
+
+        public const string HOME_PAGE_TREE_PATH = "/Home";
+
+
+        public const string SITE_NAVIGATION_MENU_TREE_PATH = "/Navigation_menu";
+
+
+        public const string STORE_NAVIGATION_MENU_TREE_PATH = "/Navigation_menu/Store";
+
+
+        public const string PRODUCTS_PAGE_TREE_PATH = "/Products";
+
+
+        public const string STORE_PAGE_TREE_PATH = "/Store";
+
+
+        public const string SHOPPING_CART_PAGE_TREE_PATH = "/Specials/ShoppingCart";
+
+
+        public const string CHECKOUT_PAGE_TREE_PATH = "/Specials/Checkout";
     }
 }

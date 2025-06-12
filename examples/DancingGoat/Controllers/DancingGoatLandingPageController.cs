@@ -16,26 +16,16 @@ namespace DancingGoat.Controllers
 {
     public class DancingGoatLandingPageController : Controller
     {
-        private readonly LandingPageRepository landingPageRepository;
-        private readonly IWebPageDataContextRetriever webPageDataContextRetriever;
-        private readonly IPreferredLanguageRetriever currentLanguageRetriever;
+        private readonly IContentRetriever contentRetriever;
 
-
-        public DancingGoatLandingPageController(LandingPageRepository landingPageRepository, IWebPageDataContextRetriever webPageDataContextRetriever, IPreferredLanguageRetriever currentLanguageRetriever)
+        public DancingGoatLandingPageController(IContentRetriever contentRetriever)
         {
-            this.landingPageRepository = landingPageRepository;
-            this.webPageDataContextRetriever = webPageDataContextRetriever;
-            this.currentLanguageRetriever = currentLanguageRetriever;
+            this.contentRetriever = contentRetriever;
         }
-
 
         public async Task<IActionResult> Index()
         {
-            var webPageItemId = webPageDataContextRetriever.Retrieve().WebPage.WebPageItemID;
-            var languageName = currentLanguageRetriever.Get();
-
-            var landingPage = await landingPageRepository.GetLandingPage(webPageItemId, languageName, cancellationToken: HttpContext.RequestAborted);
-
+            var landingPage = await contentRetriever.RetrieveCurrentPage<LandingPage>(HttpContext.RequestAborted);
             return new TemplateResult(landingPage);
         }
     }

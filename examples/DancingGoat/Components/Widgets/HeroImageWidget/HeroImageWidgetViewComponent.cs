@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using DancingGoat.Models;
 using DancingGoat.Widgets;
 
-using Kentico.Content.Web.Mvc.Routing;
+using Kentico.Content.Web.Mvc;
 using Kentico.PageBuilder.Web.Mvc;
 
 using Microsoft.AspNetCore.Mvc;
@@ -24,26 +24,22 @@ namespace DancingGoat.Widgets
         /// </summary>
         public const string IDENTIFIER = "DancingGoat.LandingPage.HeroImage";
 
-        private readonly ImageRepository imageRepository;
-        private readonly IPreferredLanguageRetriever currentLanguageRetriever;
+        private readonly IContentRetriever contentRetriever;
 
 
         /// <summary>
         /// Creates an instance of <see cref="HeroImageWidgetViewComponent"/> class.
         /// </summary>
-        /// <param name="imageRepository">Repository for images.</param>
-        /// <param name="currentLanguageRetriever">Retrieves preferred language name for the current request. Takes language fallback into account.</param>
-        public HeroImageWidgetViewComponent(ImageRepository imageRepository, IPreferredLanguageRetriever currentLanguageRetriever)
+        /// <param name="contentRetriever">Content retriever.</param>
+        public HeroImageWidgetViewComponent(IContentRetriever contentRetriever)
         {
-            this.imageRepository = imageRepository;
-            this.currentLanguageRetriever = currentLanguageRetriever;
+            this.contentRetriever = contentRetriever;
         }
 
 
         public async Task<ViewViewComponentResult> InvokeAsync(HeroImageWidgetProperties properties)
         {
-            var languageName = currentLanguageRetriever.Get();
-            var image = await GetImage(properties, languageName);
+            var image = await GetImage(properties);
 
             return View("~/Components/Widgets/HeroImageWidget/_HeroImageWidget.cshtml", new HeroImageWidgetViewModel
             {
@@ -56,7 +52,7 @@ namespace DancingGoat.Widgets
         }
 
 
-        private async Task<Image> GetImage(HeroImageWidgetProperties properties, string languageName)
+        private async Task<Image> GetImage(HeroImageWidgetProperties properties)
         {
             var image = properties.Image.FirstOrDefault();
 
@@ -65,7 +61,12 @@ namespace DancingGoat.Widgets
                 return null;
             }
 
-            return await imageRepository.GetImage(image.Identifier, languageName);
+            var result = await contentRetriever.RetrieveContentByGuids<Image>(
+                [image.Identifier],
+                HttpContext.RequestAborted
+            );
+
+            return result.FirstOrDefault();
         }
     }
 }

@@ -1,0 +1,79 @@
+﻿@using Kentico.VisualBuilderComponents.Rcl.Components
+
+@namespace DancingGoat.EmailComponents
+
+<mjml>
+    <mj-head>
+        <mj-title>@EmailModel?.EmailSubject</mj-title>
+        <mj-style inline="inline">
+            * {
+                font-family: Verdana, sans-serif;
+                line-height: 1.25;
+            }
+            h1, h2, h3, h4, a { color: rgba(132, 99, 49, 1); }
+            .footer-text { color: #846331; text-align: center; }
+        </mj-style>
+        <EmailBuilderStyles />
+        <mj-preview>@EmailModel?.EmailPreviewText</mj-preview>
+    </mj-head>
+
+    <mj-body background-color="#ffffff">
+
+        <!-- Full-width Header with Logo -->
+        <mj-section full-width="full-width" background-color="#272219" padding="5px" >
+            <mj-column padding="0px">
+                <mj-image src="@EmailModel?.BannerLogo?.FirstOrDefault()?.ImageFile?.Url"
+                          alt="@EmailModel?.BannerLogo?.FirstOrDefault()?.ImageShortDescription"
+                          width="240px"
+                          height="71px"
+                          align="center" />
+            </mj-column>
+        </mj-section>
+
+        <!-- Content -->
+        <mj-section background-color="#ffffff" padding="35px 15px">
+            <mj-column>
+                <EditableArea AreaIdentifier="MainContent" DefaultSectionIdentifier="@DancingGoatFullWidthEmailSection.IDENTIFIER" />
+                <EditableArea AreaIdentifier="AdditionalContent" DefaultSectionIdentifier="@DancingGoatFullWidthEmailSection.IDENTIFIER" />
+            </mj-column>
+        </mj-section>
+
+        <!-- Social Links -->
+        <mj-section padding="20px 15px">
+            @if (EmailModel?.SocialPlatforms is not null)
+            {
+                foreach (var link in EmailModel.SocialPlatforms)
+                {
+                    <mj-column width="auto" padding="0px">
+                        <mj-image width="40px"
+                                  padding="0 6px"
+                                  href="@link.SocialLinkUrl"
+                                  src="@link.SocialLinkIcon.FirstOrDefault().ImageFile.Url"
+                                  alt="@link.SocialLinkTitle" />
+                    </mj-column>
+                }
+            }
+        </mj-section>
+
+        <!-- Unsubscribe -->
+        <mj-section>
+            <mj-column>
+                <mj-text align="center" color="#000000">
+                    Don't want to receive these emails?
+                    <a href="@EmailRecipientContext?.UnsubscriptionUrl" style="text-decoration: none;">Unsubscribe</a>
+                </mj-text>
+            </mj-column>
+        </mj-section>
+
+        <!-- Footer -->
+        <mj-section>
+            <mj-column>
+                <mj-text align="center" color="#846331">
+                    &copy; 2025 Dancing Goat. All rights reserved.
+                </mj-text>
+            </mj-column>
+        </mj-section>
+
+        <EmailBuilderScripts />
+    </mj-body>
+</mjml>

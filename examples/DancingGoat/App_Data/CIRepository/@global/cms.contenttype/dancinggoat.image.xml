@@ -1,0 +1,66 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<cms.contenttype>
+  <ClassContentTypeType>Reusable</ClassContentTypeType>
+  <ClassDisplayName>Image</ClassDisplayName>
+  <ClassFormDefinition>
+    <form>
+      <field column="ContentItemDataID" columntype="integer" enabled="true" guid="1226d45b-811d-41de-9a49-52fb562264d0" isPK="true" />
+      <field column="ContentItemDataCommonDataID" columntype="integer" enabled="true" guid="0673c391-464a-4c31-b09c-9816e84fe922" refobjtype="cms.contentitemcommondata" reftype="Required" system="true" />
+      <field column="ContentItemDataGUID" columntype="guid" enabled="true" guid="8e5608d5-40a6-46af-ab00-aa35eee8deff" isunique="true" system="true" />
+      <field allowempty="true" column="ImageFile" columnprecision="0" columntype="contentitemasset" enabled="true" guid="cc721195-df8f-4799-b974-5ade63036cab" visible="true">
+        <properties>
+          <explanationtextashtml>False</explanationtextashtml>
+          <fieldcaption>File</fieldcaption>
+          <fielddescriptionashtml>False</fielddescriptionashtml>
+        </properties>
+        <settings>
+          <AllowedExtensions>_INHERITED_</AllowedExtensions>
+          <controlname>Kentico.Administration.ContentItemAssetUploader</controlname>
+          <InputImageExtensions>
+            <![CDATA[["avif","jpeg","jpg","png","webp"]]]>
+          </InputImageExtensions>
+          <IsFormatConversionEnabled>True</IsFormatConversionEnabled>
+          <OutputImageExtension>webp</OutputImageExtension>
+          <OutputQuality>70</OutputQuality>
+        </settings>
+        <validationrulesdata>
+          <ValidationRuleConfiguration>
+            <ValidationRuleIdentifier>Kentico.Administration.RequiredValue</ValidationRuleIdentifier>
+            <RuleValues>
+              <ErrorMessage>You have to select exactly one asset file.</ErrorMessage>
+            </RuleValues>
+          </ValidationRuleConfiguration>
+        </validationrulesdata>
+      </field>
+      <field allowempty="true" column="ImageShortDescription" columnprecision="0" columnsize="200" columntype="text" enabled="true" guid="d8be3de6-d211-408b-8f29-571df861e619" visible="true">
+        <properties>
+          <explanationtextashtml>False</explanationtextashtml>
+          <fieldcaption>Short Description</fieldcaption>
+          <fielddescriptionashtml>False</fielddescriptionashtml>
+        </properties>
+        <settings>
+          <controlname>Kentico.Administration.TextArea</controlname>
+          <CopyButtonVisible>False</CopyButtonVisible>
+          <MaxRowsNumber>5</MaxRowsNumber>
+          <MinRowsNumber>3</MinRowsNumber>
+        </settings>
+        <additionalactionsdata>
+          <AdditionalActionConfiguration>
+            <AdditionalActionIdentifier>
+              <![CDATA[Kentico.Administration.AiraMassUploadImageDescriptionRetrieval]]>
+            </AdditionalActionIdentifier>
+            <AdditionalActionValues />
+          </AdditionalActionConfiguration>
+        </additionalactionsdata>
+      </field>
+    </form>
+  </ClassFormDefinition>
+  <ClassGUID>fd1947a4-e04b-441b-a76c-1ed826fb766e</ClassGUID>
+  <ClassHasUnmanagedDbSchema>False</ClassHasUnmanagedDbSchema>
+  <ClassIconClass>xp-picture</ClassIconClass>
+  <ClassName>DancingGoat.Image</ClassName>
+  <ClassShortName>DancingGoatImage</ClassShortName>
+  <ClassTableName>DancingGoat_Image</ClassTableName>
+  <ClassType>Content</ClassType>
+  <ClassWebPageHasUrl>False</ClassWebPageHasUrl>
+</cms.contenttype>

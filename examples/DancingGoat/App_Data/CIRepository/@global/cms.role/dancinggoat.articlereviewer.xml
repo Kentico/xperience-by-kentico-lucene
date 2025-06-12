@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<cms.role>
+  <RoleDescription>
+    <![CDATA[A sample role that grants control over content delivered through the 'Dancing Goat Pages' website channel. Users with this role are also allowed to review and publish article pages, which are scoped under the 'Article review' workflow.]]>
+  </RoleDescription>
+  <RoleDisplayName>Article reviewer</RoleDisplayName>
+  <RoleGUID>4c5783ce-57d3-41f7-9ae9-baaf875e91aa</RoleGUID>
+  <RoleName>DancingGoat.ArticleReviewer</RoleName>
+</cms.role>

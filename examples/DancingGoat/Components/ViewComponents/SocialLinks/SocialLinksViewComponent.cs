@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 using DancingGoat.Models;
 
-using Kentico.Content.Web.Mvc.Routing;
+using Kentico.Content.Web.Mvc;
 
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,21 +11,21 @@ namespace DancingGoat.ViewComponents
 {
     public class SocialLinksViewComponent : ViewComponent
     {
-        private readonly SocialLinkRepository socialLinkRepository;
-        private readonly IPreferredLanguageRetriever currentLanguageRetriever;
+        private readonly IContentRetriever contentRetriever;
 
-        public SocialLinksViewComponent(SocialLinkRepository socialLinkRepository, IPreferredLanguageRetriever currentLanguageRetriever)
+
+        public SocialLinksViewComponent(IContentRetriever contentRetriever)
         {
-            this.socialLinkRepository = socialLinkRepository;
-            this.currentLanguageRetriever = currentLanguageRetriever;
+            this.contentRetriever = contentRetriever;
         }
 
 
         public async Task<IViewComponentResult> InvokeAsync()
         {
-            var languageName = currentLanguageRetriever.Get();
-
-            var socialLinks = await socialLinkRepository.GetSocialLinks(languageName, HttpContext.RequestAborted);
+            var socialLinks = await contentRetriever.RetrieveContent<SocialLink>(
+                new RetrieveContentParameters { LinkedItemsMaxLevel = 1 },
+                HttpContext.RequestAborted
+            );
 
             return View("~/Components/ViewComponents/SocialLinks/Default.cshtml", socialLinks.Select(SocialLinkViewModel.GetViewModel));
         }

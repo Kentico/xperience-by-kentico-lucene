@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<contentitemdata.dancinggoat.productpage>
+  <ContentItemDataCommonDataID>
+    <GUID>f4bdd23f-3555-4a5d-83c0-f595c0b32ac0</GUID>
+    <ObjectType>cms.contentitemcommondata</ObjectType>
+    <Parent>
+      <CodeName>MazzerSuperJollyDR-scmsdass</CodeName>
+      <GUID>5d8297d2-925b-46b7-9007-6c4a18eddc1e</GUID>
+      <ObjectType>cms.contentitem</ObjectType>
+    </Parent>
+  </ContentItemDataCommonDataID>
+  <ContentItemDataGUID>4b3c6780-81b4-49e0-bd27-4f27143e08f5</ContentItemDataGUID>
+  <ProductPageProduct>
+    <![CDATA[[{"Identifier":"acbdb61f-0fd8-4fd7-b57e-cc577cd0164a"}]]]>
+  </ProductPageProduct>
+</contentitemdata.dancinggoat.productpage>

@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<contentitemdata.dancinggoat.shoppingcart>
+  <ContentItemDataCommonDataID>
+    <GUID>f593f423-e9ce-4ab9-bf42-9780a03faad6</GUID>
+    <ObjectType>cms.contentitemcommondata</ObjectType>
+    <Parent>
+      <CodeName>ShoppingCart-61vwdwtj</CodeName>
+      <GUID>3244a32b-5699-45bb-b1d6-034616d1c9ee</GUID>
+      <ObjectType>cms.contentitem</ObjectType>
+    </Parent>
+  </ContentItemDataCommonDataID>
+  <ContentItemDataGUID>a126d01c-8aaf-4e4b-97ae-af83b0a79cb2</ContentItemDataGUID>
+</contentitemdata.dancinggoat.shoppingcart>

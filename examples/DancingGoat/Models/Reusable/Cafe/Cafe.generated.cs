@@ -91,6 +91,12 @@ namespace DancingGoat.Models
 		/// <summary>
 		/// CafeCuppingOffer.
 		/// </summary>
-		public IEnumerable<Coffee> CafeCuppingOffer { get; set; }
+		public IEnumerable<ProductCoffee> CafeCuppingOffer { get; set; }
+
+
+		/// <summary>
+		/// CafePromotion.
+		/// </summary>
+		public IEnumerable<TagReference> CafePromotion { get; set; }
 	}
 }

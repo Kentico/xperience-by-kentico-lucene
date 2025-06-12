@@ -21,7 +21,9 @@
 
                             @if (!string.IsNullOrEmpty(product.Text))
                             {
-                                <p>@product.Text</p>
+                                <div class="product-card-text">
+                                @Html.Raw(product.Text)
+                                </div>
                             }
                         </div>
                     </div>

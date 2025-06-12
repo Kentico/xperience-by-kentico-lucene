@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<cms.contentitem>
+  <ContentItemChannelID>
+    <CodeName>DancingGoatEmails</CodeName>
+    <GUID>85813214-7d3e-4ec9-8d92-e762fd61dc81</GUID>
+    <ObjectType>cms.channel</ObjectType>
+  </ContentItemChannelID>
+  <ContentItemContentTypeID>
+    <CodeName>DancingGoat.BuilderEmail</CodeName>
+    <GUID>0ce8be88-3ba2-4528-9b15-cb401c4b71e3</GUID>
+    <ObjectType>cms.contenttype</ObjectType>
+  </ContentItemContentTypeID>
+  <ContentItemGUID>1eafe243-79ea-4b79-ade0-69990b6ebf80</ContentItemGUID>
+  <ContentItemIsReusable>False</ContentItemIsReusable>
+  <ContentItemIsSecured>False</ContentItemIsSecured>
+  <ContentItemName>DancingGoatRegular_EmailBuilder-aydyp6ht</ContentItemName>
+</cms.contentitem>

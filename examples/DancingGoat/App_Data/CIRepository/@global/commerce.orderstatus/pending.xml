@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<commerce.orderstatus>
+  <OrderStatusDisplayName>Pending</OrderStatusDisplayName>
+  <OrderStatusGUID>e2f3b1a4-5c7d-4c8b-9f0e-2a6d1f3b5c8e</OrderStatusGUID>
+  <OrderStatusInternalNotificationEnabled>False</OrderStatusInternalNotificationEnabled>
+  <OrderStatusName>Pending</OrderStatusName>
+  <OrderStatusOrder>1</OrderStatusOrder>
+</commerce.orderstatus>

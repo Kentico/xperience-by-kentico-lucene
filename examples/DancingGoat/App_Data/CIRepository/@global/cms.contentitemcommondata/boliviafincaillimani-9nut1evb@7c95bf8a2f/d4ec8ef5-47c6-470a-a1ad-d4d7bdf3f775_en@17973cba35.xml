@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<cms.contentitemcommondata>
+  <ContentItemCommonDataContentItemID>
+    <CodeName>BoliviaFincaIllimani-9nut1evb</CodeName>
+    <GUID>38d6115a-a102-4b4c-8f07-cf21ad100a57</GUID>
+    <ObjectType>cms.contentitem</ObjectType>
+  </ContentItemCommonDataContentItemID>
+  <ContentItemCommonDataContentLanguageID>
+    <CodeName>en</CodeName>
+    <GUID>e4a8fb12-ebc2-45d0-930f-c9fba2780c85</GUID>
+    <ObjectType>cms.contentlanguage</ObjectType>
+  </ContentItemCommonDataContentLanguageID>
+  <ContentItemCommonDataFirstPublishedWhen>2025-02-04 14:19:44Z</ContentItemCommonDataFirstPublishedWhen>
+  <ContentItemCommonDataGUID>d4ec8ef5-47c6-470a-a1ad-d4d7bdf3f775</ContentItemCommonDataGUID>
+  <ContentItemCommonDataIsLatest>True</ContentItemCommonDataIsLatest>
+  <ContentItemCommonDataLastPublishedWhen>2025-04-14 16:10:00Z</ContentItemCommonDataLastPublishedWhen>
+  <ContentItemCommonDataVersionStatus>2</ContentItemCommonDataVersionStatus>
+  <ProductFieldCategory>
+    <![CDATA[[{"Identifier":"cfe8a882-9424-4d03-81a6-a941fd559cde"}]]]>
+  </ProductFieldCategory>
+  <ProductFieldDescription>
+    <![CDATA[<p>This is the story of a man&nbsp;that&nbsp;had&nbsp;worked long hard years since his childhood on a coffee farm. His lifelong dream was to have his own coffee farm. Then, in his thirties, he was able to buy a farm located near Caranvi in the Bolivian Andes. However, even though his farm isn't far from La Paz, there are no roads, and he and his employees have to carry their crop to the nearest road. Too much work, you say? Well, just taste the coffee and you will change your opinion very quickly.</p><p>The flavor of the Finca Illimani Anastacio Cadena Cascara is like marmalade, nothing more, just this, pure and simple, not fussy at all.</p>]]>
+  </ProductFieldDescription>
+  <ProductFieldImage>
+    <![CDATA[[{"Identifier":"2fe6cee5-9f66-4cdb-8fa5-89738bd57bb8"}]]]>
+  </ProductFieldImage>
+  <ProductFieldName>Bolivia Finca Illimani</ProductFieldName>
+  <ProductFieldPrice>5</ProductFieldPrice>
+  <ProductSKUCode>CAF-BOL-ILLI</ProductSKUCode>
+  <ContentItemReferences>
+    <cms.contentitemreference>
+      <ContentItemReferenceGroupGUID>af37d29a-2fc8-4ead-82ef-d5ec6998f910</ContentItemReferenceGroupGUID>
+      <ContentItemReferenceGUID>334751bc-bf7b-4a35-a026-006e60d77703</ContentItemReferenceGUID>
+      <ContentItemReferenceSourceCommonDataID>
+        <GUID>d4ec8ef5-47c6-470a-a1ad-d4d7bdf3f775</GUID>
+        <ObjectType>cms.contentitemcommondata</ObjectType>
+      </ContentItemReferenceSourceCommonDataID>
+      <ContentItemReferenceTargetItemID>
+        <CodeName>BoliviaFincaIllimani-dnu4t723</CodeName>
+        <GUID>2fe6cee5-9f66-4cdb-8fa5-89738bd57bb8</GUID>
+        <ObjectType>cms.contentitem</ObjectType>
+      </ContentItemReferenceTargetItemID>
+    </cms.contentitemreference>
+  </ContentItemReferences>
+</cms.contentitemcommondata>

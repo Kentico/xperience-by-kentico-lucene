@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<contentitemdata.dancinggoat.image>
+  <ContentItemDataCommonDataID>
+    <GUID>a4f834cd-84b7-4006-8c71-875368574f58</GUID>
+    <ObjectType>cms.contentitemcommondata</ObjectType>
+    <Parent>
+      <CodeName>PaperFiltersForChemex-1bc35n01</CodeName>
+      <GUID>2f87accd-1cca-48fb-bd0b-4f327f977684</GUID>
+      <ObjectType>cms.contentitem</ObjectType>
+    </Parent>
+  </ContentItemDataCommonDataID>
+  <ContentItemDataGUID>2a61e213-8a34-4ee1-a112-2953cb8d26f6</ContentItemDataGUID>
+  <ImageFile>
+    <![CDATA[{"Original":{"Identifier":"1caa3820-1ace-4931-a4a2-522a72b696b5","Name":"chemex-filters.jpg","Extension":".jpg","Size":10031,"Width":400,"Height":400,"LastModified":"2025-02-03T14:42:40.3628306Z"},"OptimizationParameters":{"OutputExtension":"webp","Quality":70},"Identifier":"79b110e5-5d8d-432c-bd88-46319c3484cd","Name":"chemex-filters.webp","Extension":".webp","Size":3260,"Width":400,"Height":400,"LastModified":"2025-02-03T14:42:40.4020481Z"}]]>
+  </ImageFile>
+</contentitemdata.dancinggoat.image>

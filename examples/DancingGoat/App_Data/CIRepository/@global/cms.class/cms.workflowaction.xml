@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<cms.class>
+  <ClassConnectionString>CMSConnectionString</ClassConnectionString>
+  <ClassContactOverwriteEnabled>False</ClassContactOverwriteEnabled>
+  <ClassDisplayName>Workflow action</ClassDisplayName>
+  <ClassFormDefinition>
+    <form>
+      <field column="ActionID" columntype="integer" guid="94b6d141-6fbe-40f9-8047-018916e0f5d7" isPK="true" system="true" />
+      <field column="ActionDisplayName" columnsize="200" columntype="text" guid="cd2ba1dd-e906-45e5-b9e1-1b898ce889ca" system="true" />
+      <field column="ActionName" columnsize="200" columntype="text" guid="acc9addc-b246-44c7-aec3-2083e3e9b8d1" system="true" />
+      <field allowempty="true" column="ActionDescription" columntype="longtext" guid="66ff2236-1e8e-436e-b24e-344718a9a68c" system="true" />
+      <field column="ActionEnabled" columntype="boolean" guid="5bcd7c43-7a38-40bb-b996-e85195be2552" system="true">
+        <properties>
+          <defaultvalue>True</defaultvalue>
+        </properties>
+      </field>
+      <field column="ActionClass" columnsize="200" columntype="text" guid="df941c32-c138-4419-94bf-d018f47eaff8" system="true" />
+      <field column="ActionAssemblyName" columnsize="200" columntype="text" guid="2364fdc8-9909-4388-a29a-5ee7e304ada2" system="true" />
+      <field column="ActionGUID" columntype="guid" guid="6dd91d6e-ee97-4a82-9624-a7649b6c195d" system="true" />
+      <field column="ActionLastModified" columntype="datetime" guid="a699661a-1372-4535-b5dd-3add8c92d3c9" system="true" />
+      <field allowempty="true" column="ActionWorkflowType" columnprecision="0" columntype="integer" guid="ed6b7241-0a4b-4ae0-a1ba-bdc07ce3756f" system="true" />
+    </form>
+  </ClassFormDefinition>
+  <ClassGUID>bc666071-3ba9-44ea-8470-1b75a9fe9f8a</ClassGUID>
+  <ClassHasUnmanagedDbSchema>False</ClassHasUnmanagedDbSchema>
+  <ClassName>cms.workflowaction</ClassName>
+  <ClassResourceID>
+    <CodeName>CMS.WorkflowEngine</CodeName>
+    <GUID>2b67f370-3df4-4a4d-8734-1974639c5b69</GUID>
+    <ObjectType>cms.resource</ObjectType>
+  </ClassResourceID>
+  <ClassShowTemplateSelection>False</ClassShowTemplateSelection>
+  <ClassTableName>CMS_WorkflowAction</ClassTableName>
+  <ClassType>Other</ClassType>
+</cms.class>

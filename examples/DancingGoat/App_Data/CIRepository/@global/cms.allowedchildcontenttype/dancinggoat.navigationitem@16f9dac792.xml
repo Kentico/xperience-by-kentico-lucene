@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<cms.allowedchildcontenttype>
+  <Parent>
+    <CodeName>DancingGoat.NavigationItem</CodeName>
+    <GUID>dada684e-94fc-4ead-80fd-bb72dd0e54bf</GUID>
+    <ObjectType>cms.contenttype</ObjectType>
+  </Parent>
+  <Bindings>
+    <Binding id="cms.contenttype_DancingGoat.NavigationItem">
+      <AllowedChildContentTypeChildID>
+        <CodeName>DancingGoat.NavigationItem</CodeName>
+        <GUID>dada684e-94fc-4ead-80fd-bb72dd0e54bf</GUID>
+        <ObjectType>cms.contenttype</ObjectType>
+      </AllowedChildContentTypeChildID>
+    </Binding>
+  </Bindings>
+</cms.allowedchildcontenttype>

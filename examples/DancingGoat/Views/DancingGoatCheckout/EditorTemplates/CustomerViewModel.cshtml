@@ -1,0 +1,12 @@
+﻿@using DancingGoat.Models
+@using DancingGoat.Helpers
+
+@model CustomerViewModel
+
+<h4>@HtmlLocalizer["Customer details"]</h4>
+
+@Html.ValidatedEditorFor(m => m.FirstName)
+@Html.ValidatedEditorFor(m => m.LastName)
+@Html.ValidatedEditorFor(m => m.Company)
+@Html.ValidatedEditorFor(m => m.Email)
+@Html.ValidatedEditorFor(m => m.PhoneNumber)
