@@ -14,7 +14,6 @@
     <PackageReference Include="coverlet.collector" />
     <PackageReference Include="Kentico.Xperience.Core.Tests" />
     <PackageReference Include="NSubstitute" />
-    <PackageReference Include="FluentAssertions" />
     <PackageReference Include="AutoFixture" />
   </ItemGroup>
 
@@ -22,8 +21,8 @@
     <Using Include="NUnit.Framework" />
     <Using Include="NSubstitute" />
     <Using Include="AutoFixture" />
-	<PackageReference Include="Kentico.Xperience.WebApp" />
-	<PackageReference Include="Kentico.Xperience.Admin" />
+    <PackageReference Include="Kentico.Xperience.WebApp" />
+    <PackageReference Include="Kentico.Xperience.Admin" />
   </ItemGroup>
 
   <ItemGroup>

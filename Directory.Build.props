@@ -32,6 +32,7 @@
     <NoWarn>$(NoWarn);1591;S3267;S1133;S4144</NoWarn>
     <EnableDefaultEmbeddedResourceItems>false</EnableDefaultEmbeddedResourceItems>
     <TimestampServerUrl>http://timestamp.digicert.com</TimestampServerUrl>
+    <HotChocolateImplicitUsings>disable</HotChocolateImplicitUsings>
   </PropertyGroup>
 
   <PropertyGroup Condition=" $(Configuration) == 'Release' ">

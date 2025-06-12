@@ -1,3 +1,49 @@
-* text eol=crlf
-*.png binary
-*.jpg binary
+# Auto detect text files and perform LF normalization
+*                   text=auto
+
+*.cs                text diff=csharp
+*.cshtml            text diff=html
+
+*.sln               text eol=crlf
+*.csproj            text eol=crlf
+*.vcproj            text eol=crlf
+*.sqlproj           text eol=crlf
+*.config            text eol=crlf
+
+*.xproj             text eol=crlf
+*.props             text eol=crlf
+*.filters           text eol=crlf
+*.vcxitems          text eol=crlf
+
+*.yaml              text eol=crlf
+*.yml               text eol=crlf
+
+*.css               text eol=crlf diff=css
+*.html              text eol=crlf diff=html
+*.js                text eol=crlf
+*.jsx               text eol=crlf
+*.ts                text eol=crlf
+*.tsx               text eol=crlf
+
+package.json        text eol=crlf
+package-lock.json   text eol=crlf -diff
+
+*.sql               linguist-detectable=true
+*.sql               linguist-language=sql
+.vscode/*.json      linguist-language=JSON-with-Comments
+tsconfig.json       linguist-language=JSON-with-Comments
+
+*.webm              binary
+*.mp4               binary
+
+*.svg               text eol=crlf
+*.ico               binary
+*.gif               binary
+*.pdf               binary
+*.png               binary
+*.jpg               binary
+*.jpeg              binary
+*.webp              binary
+
+*.woff              binary
+*.woff2             binary
