@@ -1,5 +1,6 @@
 # Auto detect text files and perform LF normalization
 *                   text=auto
+*                   text eol=crlf
 
 *.cs                text diff=csharp
 *.cshtml            text diff=html
