@@ -1,0 +1,63 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<cms.contentitemcommondata>
+  <ContentItemCommonDataContentItemID>
+    <CodeName>CoffeeProcessingTechniques-vnl8fs1k</CodeName>
+    <GUID>69a5c969-8e18-4b57-a9cd-7ce089d0d059</GUID>
+    <ObjectType>cms.contentitem</ObjectType>
+  </ContentItemCommonDataContentItemID>
+  <ContentItemCommonDataContentLanguageID>
+    <CodeName>es</CodeName>
+    <GUID>fc939370-8f94-4fc9-8cc4-bfdef6ab748c</GUID>
+    <ObjectType>cms.contentlanguage</ObjectType>
+  </ContentItemCommonDataContentLanguageID>
+  <ContentItemCommonDataGUID>12973114-c846-4534-a995-cf5305850aac</ContentItemCommonDataGUID>
+  <ContentItemCommonDataIsLatest>True</ContentItemCommonDataIsLatest>
+  <ContentItemCommonDataLastPublishedWhen>2024-11-04 08:33:26Z</ContentItemCommonDataLastPublishedWhen>
+  <ContentItemCommonDataVersionStatus>2</ContentItemCommonDataVersionStatus>
+  <ContentItemCommonDataVisualBuilderTemplateConfiguration>
+    <![CDATA[{"identifier":"DancingGoat.Article","properties":null,"fieldIdentifiers":null}]]>
+  </ContentItemCommonDataVisualBuilderTemplateConfiguration>
+  <ProductFieldCategory />
+  <SEOFieldsAllowSearchIndexing>True</SEOFieldsAllowSearchIndexing>
+  <ContentItemReferences>
+    <cms.contentitemreference>
+      <ContentItemReferenceGroupGUID>04b5735c-f3b6-4dba-af49-1c748e952820</ContentItemReferenceGroupGUID>
+      <ContentItemReferenceGUID>f61d3992-8c31-4c8c-9cfc-5eec9c71646f</ContentItemReferenceGUID>
+      <ContentItemReferenceSourceCommonDataID>
+        <GUID>12973114-c846-4534-a995-cf5305850aac</GUID>
+        <ObjectType>cms.contentitemcommondata</ObjectType>
+      </ContentItemReferenceSourceCommonDataID>
+      <ContentItemReferenceTargetItemID>
+        <CodeName>Articles_Article-5_2x.jpg-ui1p5uwa</CodeName>
+        <GUID>e07114f8-dd0b-47ed-9cee-1d5c1404835a</GUID>
+        <ObjectType>cms.contentitem</ObjectType>
+      </ContentItemReferenceTargetItemID>
+    </cms.contentitemreference>
+    <cms.contentitemreference>
+      <ContentItemReferenceGroupGUID>49eea67f-5a3a-4a0a-a4a4-42cf4e2117c0</ContentItemReferenceGroupGUID>
+      <ContentItemReferenceGUID>718e1c00-730d-4bfa-82f6-33a9ef6aac19</ContentItemReferenceGUID>
+      <ContentItemReferenceSourceCommonDataID>
+        <GUID>12973114-c846-4534-a995-cf5305850aac</GUID>
+        <ObjectType>cms.contentitemcommondata</ObjectType>
+      </ContentItemReferenceSourceCommonDataID>
+      <ContentItemReferenceTargetItemID>
+        <CodeName>OnRoasts-nlx96ge6</CodeName>
+        <GUID>d5d28908-d403-4f6d-ab5a-d7758b43dbf2</GUID>
+        <ObjectType>cms.contentitem</ObjectType>
+      </ContentItemReferenceTargetItemID>
+    </cms.contentitemreference>
+    <cms.contentitemreference>
+      <ContentItemReferenceGroupGUID>49eea67f-5a3a-4a0a-a4a4-42cf4e2117c0</ContentItemReferenceGroupGUID>
+      <ContentItemReferenceGUID>d4e92763-4b7f-470d-8b80-e92c90affaa3</ContentItemReferenceGUID>
+      <ContentItemReferenceSourceCommonDataID>
+        <GUID>12973114-c846-4534-a995-cf5305850aac</GUID>
+        <ObjectType>cms.contentitemcommondata</ObjectType>
+      </ContentItemReferenceSourceCommonDataID>
+      <ContentItemReferenceTargetItemID>
+        <CodeName>WhichBrewingFitsYou-a6ildi6t</CodeName>
+        <GUID>b69db6f4-355b-4e5a-917b-541fba602213</GUID>
+        <ObjectType>cms.contentitem</ObjectType>
+      </ContentItemReferenceTargetItemID>
+    </cms.contentitemreference>
+  </ContentItemReferences>
+</cms.contentitemcommondata>

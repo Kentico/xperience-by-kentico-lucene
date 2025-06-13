@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<cms.tag>
+  <TagGUID>9891389f-e404-476a-8eb8-55adea059d51</TagGUID>
+  <TagMetadata>
+    <![CDATA[{"Translations":{"fc939370-8f94-4fc9-8cc4-bfdef6ab748c":{"Title":null,"Description":null}}}]]>
+  </TagMetadata>
+  <TagName>Natural</TagName>
+  <TagOrder>2</TagOrder>
+  <TagTaxonomyID>
+    <CodeName>CoffeeProcessing</CodeName>
+    <GUID>3029353a-41f7-404b-a8be-3dd7e3f437e0</GUID>
+    <ObjectType>cms.taxonomy</ObjectType>
+  </TagTaxonomyID>
+  <TagTitle>Natural</TagTitle>
+</cms.tag>

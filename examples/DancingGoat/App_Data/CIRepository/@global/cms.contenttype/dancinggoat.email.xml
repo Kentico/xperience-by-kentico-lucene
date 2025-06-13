@@ -1,0 +1,108 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<cms.contenttype>
+  <ClassContentTypeType>Email</ClassContentTypeType>
+  <ClassDisplayName>Email</ClassDisplayName>
+  <ClassFormDefinition>
+    <form>
+      <field column="ContentItemDataID" columntype="integer" enabled="true" guid="10f4b5b0-d6fd-40be-bb51-5f513bb571c7" isPK="true" />
+      <field column="ContentItemDataCommonDataID" columntype="integer" enabled="true" guid="0673c391-464a-4c31-b09c-9816e84fe922" refobjtype="cms.contentitemcommondata" reftype="Required" system="true" />
+      <field column="ContentItemDataGUID" columntype="guid" enabled="true" guid="8a3f2e69-3868-4ff2-a56c-d6d47ad3af08" isunique="true" system="true" />
+      <field allowempty="true" column="EmailSenderID" columntype="integer" enabled="true" guid="ffe99721-cb17-44ee-bfdc-9685153ce949" refobjtype="emaillibrary.emailchannelsender" reftype="NotRequired" system="true" />
+      <field allowempty="true" column="EmailTemplateID" columntype="integer" enabled="true" guid="58e58438-8a58-4e56-af3a-fc3f5e428abd" refobjtype="emaillibrary.emailtemplate" reftype="NotRequired" system="true" />
+      <field allowempty="true" column="EmailPlainText" columntype="longtext" enabled="true" guid="64cfeed4-662e-47b4-9136-f487d455b0c9" system="true" />
+      <field allowempty="true" column="EmailSubject" columnprecision="0" columnsize="450" columntype="text" enabled="true" guid="6c9647ce-f9a3-438d-91a9-c65a5b1f2773" visible="true">
+        <properties>
+          <explanationtextashtml>False</explanationtextashtml>
+          <fieldcaption>{$digitalmarketing.emails.edit.subject$}</fieldcaption>
+          <fielddescriptionashtml>False</fielddescriptionashtml>
+        </properties>
+        <settings>
+          <controlname>Kentico.Administration.TextInput</controlname>
+        </settings>
+        <validationrulesdata>
+          <ValidationRuleConfiguration>
+            <ValidationRuleIdentifier>Kentico.Administration.RequiredValue</ValidationRuleIdentifier>
+            <RuleValues />
+          </ValidationRuleConfiguration>
+        </validationrulesdata>
+        <additionalactionsdata>
+          <AdditionalActionConfiguration>
+            <AdditionalActionIdentifier>Kentico.Administration.AiraEmailSubjectSuggestion</AdditionalActionIdentifier>
+            <AdditionalActionValues>
+              <BodyFieldNames>
+                <string>Content</string>
+              </BodyFieldNames>
+            </AdditionalActionValues>
+          </AdditionalActionConfiguration>
+        </additionalactionsdata>
+      </field>
+      <field allowempty="true" column="EmailPreviewText" columnprecision="0" columntype="longtext" enabled="true" guid="2b59b569-d9a5-4e5c-8b7d-3ab9823628bc" visible="true">
+        <properties>
+          <explanationtextashtml>False</explanationtextashtml>
+          <fieldcaption>{$digitalmarketing.emails.edit.previewtext$}</fieldcaption>
+          <fielddescription>
+            <![CDATA[{$digitalmarketing.emails.edit.previewtext.tooltip$}]]>
+          </fielddescription>
+          <fielddescriptionashtml>False</fielddescriptionashtml>
+        </properties>
+        <settings>
+          <controlname>Kentico.Administration.TextArea</controlname>
+          <CopyButtonVisible>False</CopyButtonVisible>
+          <MaxRowsNumber>5</MaxRowsNumber>
+          <MinRowsNumber>3</MinRowsNumber>
+        </settings>
+      </field>
+      <field column="Content" columnprecision="0" columntype="richtexthtml" enabled="true" guid="45b46167-4936-4dfd-a2fd-d4d060b8da2a" visible="true">
+        <properties>
+          <explanationtextashtml>False</explanationtextashtml>
+          <fieldcaption>Content</fieldcaption>
+          <fielddescriptionashtml>False</fielddescriptionashtml>
+        </properties>
+        <settings>
+          <controlname>Kentico.Administration.RichTextEditor</controlname>
+        </settings>
+        <additionalactionsdata>
+          <AdditionalActionConfiguration>
+            <AdditionalActionIdentifier>Kentico.Administration.AiraEmailBodySuggestion</AdditionalActionIdentifier>
+            <AdditionalActionValues />
+          </AdditionalActionConfiguration>
+        </additionalactionsdata>
+      </field>
+      <field allowempty="true" column="BannerLogo" columnprecision="0" columntype="contentitemreference" enabled="true" guid="8cc584c3-2a5f-4c45-9267-c946f766399a" visible="true">
+        <properties>
+          <explanationtextashtml>False</explanationtextashtml>
+          <fieldcaption>Banner Logo</fieldcaption>
+          <fielddescriptionashtml>False</fielddescriptionashtml>
+        </properties>
+        <settings>
+          <AllowContentItemCreation>True</AllowContentItemCreation>
+          <AllowedContentItemTypeIdentifiers>
+            <![CDATA[["fd1947a4-e04b-441b-a76c-1ed826fb766e"]]]>
+          </AllowedContentItemTypeIdentifiers>
+          <controlname>Kentico.Administration.ContentItemSelector</controlname>
+        </settings>
+      </field>
+      <field allowempty="true" column="SocialPlatforms" columnprecision="0" columntype="contentitemreference" enabled="true" guid="82b7639d-e97f-4020-8926-55577729926a" visible="true">
+        <properties>
+          <explanationtextashtml>False</explanationtextashtml>
+          <fieldcaption>Social Platforms</fieldcaption>
+          <fielddescriptionashtml>False</fielddescriptionashtml>
+        </properties>
+        <settings>
+          <AllowContentItemCreation>True</AllowContentItemCreation>
+          <AllowedContentItemTypeIdentifiers>
+            <![CDATA[["574194b1-fe00-42ac-bd59-0b60b11d8faa"]]]>
+          </AllowedContentItemTypeIdentifiers>
+          <controlname>Kentico.Administration.ContentItemSelector</controlname>
+        </settings>
+      </field>
+    </form>
+  </ClassFormDefinition>
+  <ClassGUID>793a00b7-b11c-40c7-be0a-93e54e99f50e</ClassGUID>
+  <ClassHasUnmanagedDbSchema>False</ClassHasUnmanagedDbSchema>
+  <ClassIconClass>xp-messages</ClassIconClass>
+  <ClassName>DancingGoat.Email</ClassName>
+  <ClassTableName>DancingGoat_Email</ClassTableName>
+  <ClassType>Content</ClassType>
+  <ClassWebPageHasUrl>False</ClassWebPageHasUrl>
+</cms.contenttype>

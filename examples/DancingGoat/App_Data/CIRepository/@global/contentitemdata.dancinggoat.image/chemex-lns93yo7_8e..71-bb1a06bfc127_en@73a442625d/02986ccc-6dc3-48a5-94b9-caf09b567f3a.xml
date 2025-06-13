@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<contentitemdata.dancinggoat.image>
+  <ContentItemDataCommonDataID>
+    <GUID>8e24ca29-62ef-437b-a071-bb1a06bfc127</GUID>
+    <ObjectType>cms.contentitemcommondata</ObjectType>
+    <Parent>
+      <CodeName>Chemex-lns93yo7</CodeName>
+      <GUID>61c6722c-4c71-4310-8ec4-89c0e6f933e0</GUID>
+      <ObjectType>cms.contentitem</ObjectType>
+    </Parent>
+  </ContentItemDataCommonDataID>
+  <ContentItemDataGUID>02986ccc-6dc3-48a5-94b9-caf09b567f3a</ContentItemDataGUID>
+  <ImageFile>
+    <![CDATA[{"Original":{"Identifier":"b1237f76-b4d8-438b-90a0-981a3cf179cc","Name":"chemex.jpg","Extension":".jpg","Size":11308,"Width":400,"Height":400,"LastModified":"2025-02-03T14:27:00.331914Z"},"OptimizationParameters":{"OutputExtension":"webp","Quality":70},"Identifier":"ebf5faf5-56fc-4699-a5fe-bb7804d2c067","Name":"chemex.webp","Extension":".webp","Size":4056,"Width":400,"Height":400,"LastModified":"2025-02-03T14:27:00.3620052Z"}]]>
+  </ImageFile>
+</contentitemdata.dancinggoat.image>

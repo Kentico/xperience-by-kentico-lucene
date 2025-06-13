@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<contentitemdata.dancinggoat.productbrewer>
+  <ContentItemDataCommonDataID>
+    <GUID>bfb7424d-e3e5-4930-8003-28ae91ab5117</GUID>
+    <ObjectType>cms.contentitemcommondata</ObjectType>
+    <Parent>
+      <CodeName>AeroPress-gcj6qc2q</CodeName>
+      <GUID>0e4a9330-f652-4d03-a62b-a5a63a0079a0</GUID>
+      <ObjectType>cms.contentitem</ObjectType>
+    </Parent>
+  </ContentItemDataCommonDataID>
+  <ContentItemDataGUID>d01a263a-333d-44a0-93ca-62368806f046</ContentItemDataGUID>
+</contentitemdata.dancinggoat.productbrewer>

@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<cms.contentitemcommondata>
+  <ContentItemCommonDataContentItemID>
+    <CodeName>AeroPressFilters-795o6rsc</CodeName>
+    <GUID>cbd9b842-2104-465a-b116-f2f0f584fe8c</GUID>
+    <ObjectType>cms.contentitem</ObjectType>
+  </ContentItemCommonDataContentItemID>
+  <ContentItemCommonDataContentLanguageID>
+    <CodeName>en</CodeName>
+    <GUID>e4a8fb12-ebc2-45d0-930f-c9fba2780c85</GUID>
+    <ObjectType>cms.contentlanguage</ObjectType>
+  </ContentItemCommonDataContentLanguageID>
+  <ContentItemCommonDataFirstPublishedWhen>2025-03-25 09:53:00Z</ContentItemCommonDataFirstPublishedWhen>
+  <ContentItemCommonDataGUID>ad278bc6-2e4d-42d4-951c-b78638ec55b3</ContentItemCommonDataGUID>
+  <ContentItemCommonDataIsLatest>True</ContentItemCommonDataIsLatest>
+  <ContentItemCommonDataLastPublishedWhen>2025-03-25 09:53:00Z</ContentItemCommonDataLastPublishedWhen>
+  <ContentItemCommonDataVersionStatus>2</ContentItemCommonDataVersionStatus>
+  <ContentItemReferences>
+    <cms.contentitemreference>
+      <ContentItemReferenceGroupGUID>a266f250-8c59-46ff-ad68-ca57a3b4ed86</ContentItemReferenceGroupGUID>
+      <ContentItemReferenceGUID>c47cb2a2-bb5e-466c-a8bb-c193dd05acfe</ContentItemReferenceGUID>
+      <ContentItemReferenceSourceCommonDataID>
+        <GUID>ad278bc6-2e4d-42d4-951c-b78638ec55b3</GUID>
+        <ObjectType>cms.contentitemcommondata</ObjectType>
+      </ContentItemReferenceSourceCommonDataID>
+      <ContentItemReferenceTargetItemID>
+        <CodeName>AeroPressFilters-46fk8pza</CodeName>
+        <GUID>bde147c7-c543-465d-a817-ba5f96984185</GUID>
+        <ObjectType>cms.contentitem</ObjectType>
+      </ContentItemReferenceTargetItemID>
+    </cms.contentitemreference>
+  </ContentItemReferences>
+</cms.contentitemcommondata>

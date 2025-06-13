@@ -4,8 +4,6 @@ using System.Linq;
 
 using CMS.ContentEngine;
 
-using Tag = CMS.ContentEngine.Tag;
-
 namespace DancingGoat.Models
 {
     public record TagViewModel(string Name, int Level, Guid Value, bool IsChecked = false)

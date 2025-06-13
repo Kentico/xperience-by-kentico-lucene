@@ -1,0 +1,174 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<cms.contenttype>
+  <ClassContentTypeType>Reusable</ClassContentTypeType>
+  <ClassDisplayName>Contact</ClassDisplayName>
+  <ClassFormDefinition>
+    <form>
+      <field column="ContentItemDataID" columntype="integer" enabled="true" guid="c73f564e-814b-4348-a6ce-118bfeaaacda" isPK="true" />
+      <field column="ContentItemDataCommonDataID" columntype="integer" enabled="true" guid="0673c391-464a-4c31-b09c-9816e84fe922" refobjtype="cms.contentitemcommondata" reftype="Required" system="true" />
+      <field column="ContentItemDataGUID" columntype="guid" enabled="true" guid="4f912640-4b83-4967-8d42-e17cc2b4cd00" isunique="true" system="true" />
+      <field column="ContactName" columnprecision="0" columnsize="50" columntype="text" enabled="true" guid="d6b98f17-105e-4df5-a816-40fc27452966" visible="true">
+        <properties>
+          <explanationtextashtml>False</explanationtextashtml>
+          <fieldcaption>Name</fieldcaption>
+          <fielddescriptionashtml>False</fielddescriptionashtml>
+        </properties>
+        <settings>
+          <controlname>Kentico.Administration.TextInput</controlname>
+        </settings>
+      </field>
+      <field column="ContactStreet" columnprecision="0" columnsize="50" columntype="text" enabled="true" guid="47a635cd-12b2-4c10-86db-46bfacc479e1" visible="true">
+        <properties>
+          <explanationtextashtml>False</explanationtextashtml>
+          <fieldcaption>Street</fieldcaption>
+          <fielddescriptionashtml>False</fielddescriptionashtml>
+        </properties>
+        <settings>
+          <controlname>Kentico.Administration.TextInput</controlname>
+        </settings>
+      </field>
+      <field column="ContactCity" columnprecision="0" columnsize="50" columntype="text" enabled="true" guid="983eddc0-2975-4e3a-99bc-5118dbc2d0b3" visible="true">
+        <properties>
+          <explanationtextashtml>False</explanationtextashtml>
+          <fieldcaption>City</fieldcaption>
+          <fielddescriptionashtml>False</fielddescriptionashtml>
+        </properties>
+        <settings>
+          <controlname>Kentico.Administration.TextInput</controlname>
+        </settings>
+      </field>
+      <field column="ContactCountry" columnprecision="0" columnsize="100" columntype="text" enabled="true" guid="d07ce3e2-d5a8-4961-8660-c9244e96352a" visible="true">
+        <properties>
+          <defaultvalue>USA</defaultvalue>
+          <explanationtextashtml>False</explanationtextashtml>
+          <fieldcaption>Country</fieldcaption>
+          <fielddescriptionashtml>False</fielddescriptionashtml>
+        </properties>
+        <settings>
+          <controlname>Kentico.Administration.TextInput</controlname>
+        </settings>
+      </field>
+      <field allowempty="true" column="ContactUSState" columnprecision="0" columnsize="200" columntype="text" enabled="true" guid="a28eb81b-823e-415a-b5d4-1c85fc1bb6c9" visible="true">
+        <properties>
+          <explanationtextashtml>False</explanationtextashtml>
+          <fieldcaption>State</fieldcaption>
+          <fielddescriptionashtml>False</fielddescriptionashtml>
+        </properties>
+        <settings>
+          <controlname>Kentico.Administration.DropDownSelector</controlname>
+          <Options>
+<![CDATA[
+alabama;Alabama
+alaska;Alaska
+arizona;Arizona
+arkansas;Arkansas
+california;California
+colorado;Colorado
+connecticut;Connecticut
+delaware;Delaware
+florida;Florida
+georgia;Georgia
+hawaii;Hawaii
+idaho;Idaho
+illinois;Illinois
+indiana;Indiana
+iowa;Iowa
+kansas;Kansas
+kentucky;Kentucky
+louisiana;Louisiana
+maine;Maine
+maryland;Maryland
+massachusetts;Massachusetts
+michigan;Michigan
+minnesota;Minnesota
+mississippi;Mississippi
+missouri;Missouri
+montana;Montana
+nebraska;Nebraska
+nevada;Nevada
+new_hampshire;New Hampshire
+new_jersey;New Jersey
+new_mexico;New Mexico
+new_york;New York
+north_carolina;North Carolina
+north_dakota;North Dakota
+ohio;Ohio
+oklahoma;Oklahoma
+oregon;Oregon
+pennsylvania;Pennsylvania
+rhode_island;Rhode Island
+south_carolina;South Carolina
+south_dakota;South Dakota
+tennessee;Tennessee
+texas;Texas
+utah;Utah
+vermont;Vermont
+virginia;Virginia
+washington;Washington
+west_virginia;West Virginia
+wisconsin;Wisconsin
+wyoming;Wyoming
+]]>
+          </Options>
+          <OptionsValueSeparator>;</OptionsValueSeparator>
+        </settings>
+        <visibilityconditiondata>
+          <VisibilityConditionConfiguration>
+            <Identifier>Kentico.Administration.StartsWithString</Identifier>
+            <Properties>
+              <PropertyName>ContactCountry</PropertyName>
+              <Value>USA</Value>
+              <CaseSensitive>false</CaseSensitive>
+            </Properties>
+          </VisibilityConditionConfiguration>
+        </visibilityconditiondata>
+      </field>
+      <field column="ContactZipCode" columnprecision="0" columnsize="15" columntype="text" enabled="true" guid="be181174-92d0-4377-8c28-5dfc88c33946" visible="true">
+        <properties>
+          <explanationtextashtml>False</explanationtextashtml>
+          <fieldcaption>Zip code</fieldcaption>
+          <fielddescriptionashtml>False</fielddescriptionashtml>
+        </properties>
+        <settings>
+          <controlname>Kentico.Administration.TextInput</controlname>
+        </settings>
+      </field>
+      <field column="ContactPhone" columnprecision="0" columnsize="30" columntype="text" enabled="true" guid="8021a6ca-d9e9-4209-abf5-d17ccaddb776" visible="true">
+        <properties>
+          <explanationtextashtml>False</explanationtextashtml>
+          <fieldcaption>Phone</fieldcaption>
+          <fielddescriptionashtml>False</fielddescriptionashtml>
+        </properties>
+        <settings>
+          <controlname>Kentico.Administration.TextInput</controlname>
+        </settings>
+      </field>
+      <field column="ContactEmail" columnprecision="0" columnsize="400" columntype="text" enabled="true" guid="2ace5091-d12d-4414-9784-47b3bdd92e73" visible="true">
+        <properties>
+          <explanationtextashtml>False</explanationtextashtml>
+          <fieldcaption>Email</fieldcaption>
+          <fielddescriptionashtml>False</fielddescriptionashtml>
+        </properties>
+        <settings>
+          <controlname>Kentico.Administration.TextInput</controlname>
+        </settings>
+        <validationrulesdata>
+          <ValidationRuleConfiguration>
+            <ValidationRuleIdentifier>Kentico.Administration.Email</ValidationRuleIdentifier>
+            <RuleValues>
+              <AllowMultipleAddresses>false</AllowMultipleAddresses>
+            </RuleValues>
+          </ValidationRuleConfiguration>
+        </validationrulesdata>
+      </field>
+    </form>
+  </ClassFormDefinition>
+  <ClassGUID>0d28f34b-3326-4fec-b487-5b2228983ae5</ClassGUID>
+  <ClassHasUnmanagedDbSchema>False</ClassHasUnmanagedDbSchema>
+  <ClassIconClass>xp-id-card</ClassIconClass>
+  <ClassName>DancingGoat.Contact</ClassName>
+  <ClassShortName>DancingGoatContact</ClassShortName>
+  <ClassTableName>DancingGoat_Contact</ClassTableName>
+  <ClassType>Content</ClassType>
+  <ClassWebPageHasUrl>False</ClassWebPageHasUrl>
+</cms.contenttype>

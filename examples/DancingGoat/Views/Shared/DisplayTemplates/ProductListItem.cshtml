@@ -1,15 +1,27 @@
-﻿@using DancingGoat.Models
+﻿@using CMS.Commerce
+@using DancingGoat.Commerce
+@using DancingGoat.Models
 
 @model ProductListItemViewModel
 
 <article class="product-tile">
     <a href="@Model.Url">
         <h1 class="product-heading">@Model.Name</h1>
+        @if (@Model.Tag != null) {
+            <div class="product-tag">@Model.Tag</div>
+        }
+
         <figure class="product-tile-image">
             @if (!string.IsNullOrEmpty(Model.ImagePath))
             {
                 <img src="@Model.ImagePath" alt="@Model.Name" title="@Model.Name" />
             }
         </figure>
+
+        <div class="product-tile-info">
+            <span class="product-tile-price">
+                <price>@Model.Price</price>
+            </span>
+        </div>
     </a>
 </article>

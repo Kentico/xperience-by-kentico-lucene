@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<cms.webpageitem>
+  <WebPageItemContentItemID>
+    <CodeName>Specials-msdh998h</CodeName>
+    <GUID>51296a24-7ac3-4c51-81af-0e9d35a22ea5</GUID>
+    <ObjectType>cms.contentitem</ObjectType>
+  </WebPageItemContentItemID>
+  <WebPageItemGUID>04da8783-c1e4-46fb-9fd9-c9d853366576</WebPageItemGUID>
+  <WebPageItemName>Specials-msdh998h</WebPageItemName>
+  <WebPageItemOrder>9</WebPageItemOrder>
+  <WebPageItemTreePath>/Specials</WebPageItemTreePath>
+  <WebPageItemWebsiteChannelID>
+    <GUID>55e3ae4b-3843-46b8-95d5-79611c371d6f</GUID>
+    <ObjectType>cms.websitechannel</ObjectType>
+    <Parent>
+      <CodeName>DancingGoatPages</CodeName>
+      <GUID>c430f96d-bd56-4448-b6ab-bce41a58f186</GUID>
+      <ObjectType>cms.channel</ObjectType>
+    </Parent>
+  </WebPageItemWebsiteChannelID>
+</cms.webpageitem>

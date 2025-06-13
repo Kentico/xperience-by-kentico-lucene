@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<cms.contentitemcommondata>
+  <ContentItemCommonDataContentItemID>
+    <CodeName>HarioV60-dgmnyggc</CodeName>
+    <GUID>e72cdfb0-f771-45a2-9864-7c5a9a740a40</GUID>
+    <ObjectType>cms.contentitem</ObjectType>
+  </ContentItemCommonDataContentItemID>
+  <ContentItemCommonDataContentLanguageID>
+    <CodeName>en</CodeName>
+    <GUID>e4a8fb12-ebc2-45d0-930f-c9fba2780c85</GUID>
+    <ObjectType>cms.contentlanguage</ObjectType>
+  </ContentItemCommonDataContentLanguageID>
+  <ContentItemCommonDataFirstPublishedWhen>2025-02-04 14:10:00Z</ContentItemCommonDataFirstPublishedWhen>
+  <ContentItemCommonDataGUID>1f7231a2-ef03-420f-af24-aa0fc2af1972</ContentItemCommonDataGUID>
+  <ContentItemCommonDataIsLatest>True</ContentItemCommonDataIsLatest>
+  <ContentItemCommonDataLastPublishedWhen>2025-04-14 16:02:52Z</ContentItemCommonDataLastPublishedWhen>
+  <ContentItemCommonDataVersionStatus>2</ContentItemCommonDataVersionStatus>
+  <ProductFieldCategory>
+    <![CDATA[[{"Identifier":"4c3bece5-3552-461c-b8f0-29f4fca27684"}]]]>
+  </ProductFieldCategory>
+  <ProductFieldDescription>
+    <![CDATA[<p>This has to be one of the, if not 'the' most popular manual coffee brewers available. With an almost unlimited number of varieties, Hario V60 has conquered the hearts of coffee aficionados the world over. You can see this device being used on a daily basis at home by complete beginners and experts alike. Baristas stick to Hario V60 for its ease of use and the proven taste of the resulting drink.</p><p>It will brew you quite the cup, that's guaranteed. Hario's unique design lets the coffee slowly pour through both sides of the cone. Spiral ribs on the inside of the cone help the water catch the taste perfectly. As the water spirals through the brewer, the V60 creates an amazingly even brew, making sure no coffee is left out.</p>]]>
+  </ProductFieldDescription>
+  <ProductFieldImage>
+    <![CDATA[[{"Identifier":"55e37c18-afc4-4cc6-83d6-bbf065d1ad0d"}]]]>
+  </ProductFieldImage>
+  <ProductFieldName>Hario V60</ProductFieldName>
+  <ProductFieldPrice>15.9</ProductFieldPrice>
+  <ProductManufacturerTag>
+    <![CDATA[[{"Identifier":"08a6c011-b370-4309-ac7f-b8b0071e1262"}]]]>
+  </ProductManufacturerTag>
+  <ProductSKUCode>ACC-HAR-V60</ProductSKUCode>
+  <ContentItemReferences>
+    <cms.contentitemreference>
+      <ContentItemReferenceGroupGUID>af37d29a-2fc8-4ead-82ef-d5ec6998f910</ContentItemReferenceGroupGUID>
+      <ContentItemReferenceGUID>cb1f1b73-744b-4f9a-8149-912fa18ee5d5</ContentItemReferenceGUID>
+      <ContentItemReferenceSourceCommonDataID>
+        <GUID>1f7231a2-ef03-420f-af24-aa0fc2af1972</GUID>
+        <ObjectType>cms.contentitemcommondata</ObjectType>
+      </ContentItemReferenceSourceCommonDataID>
+      <ContentItemReferenceTargetItemID>
+        <CodeName>HarioV60-44abws38</CodeName>
+        <GUID>55e37c18-afc4-4cc6-83d6-bbf065d1ad0d</GUID>
+        <ObjectType>cms.contentitem</ObjectType>
+      </ContentItemReferenceTargetItemID>
+    </cms.contentitemreference>
+  </ContentItemReferences>
+</cms.contentitemcommondata>

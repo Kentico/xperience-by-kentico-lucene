@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<cms.contentitemcommondata>
+  <ContentItemCommonDataContentItemID>
+    <CodeName>PorlexTallCeramicBurrGrinder-53y9sg4n</CodeName>
+    <GUID>9e067ec4-850b-4020-82d2-ede11ea21bc0</GUID>
+    <ObjectType>cms.contentitem</ObjectType>
+  </ContentItemCommonDataContentItemID>
+  <ContentItemCommonDataContentLanguageID>
+    <CodeName>en</CodeName>
+    <GUID>e4a8fb12-ebc2-45d0-930f-c9fba2780c85</GUID>
+    <ObjectType>cms.contentlanguage</ObjectType>
+  </ContentItemCommonDataContentLanguageID>
+  <ContentItemCommonDataFirstPublishedWhen>2025-02-04 14:08:37Z</ContentItemCommonDataFirstPublishedWhen>
+  <ContentItemCommonDataGUID>c5d75fd3-9da6-47d9-bbc8-f31874426fec</ContentItemCommonDataGUID>
+  <ContentItemCommonDataIsLatest>True</ContentItemCommonDataIsLatest>
+  <ContentItemCommonDataLastPublishedWhen>2025-04-14 15:50:19Z</ContentItemCommonDataLastPublishedWhen>
+  <ContentItemCommonDataVersionStatus>2</ContentItemCommonDataVersionStatus>
+  <ProductFieldCategory>
+    <![CDATA[[{"Identifier":"c33dd46a-0896-4920-b326-7e80659f7600"}]]]>
+  </ProductFieldCategory>
+  <ProductFieldDescription>
+    <![CDATA[<p>Are you looking for a firm, extra-durable, but also a little static grinder? The Porlex Tall Ceramic Burr Grinder is all from stainless steel except for the burrs. Those strong conical burrs are ceramic, so they won't rust and are also sharper than steel burrs will ever be. The grinder is also able to be adjusted for many different variants of grind setting to cover all your needs.<br><br>As to the size, the grinder is 7.3" (18.5 cm) tall and 1.9" (4.9 cm) &nbsp;in diameter, without the handle, so it perfectly fits your hands. You can put up to 1 oz (30 g) of beans inside. It's also very easy to wash.</p>]]>
+  </ProductFieldDescription>
+  <ProductFieldImage>
+    <![CDATA[[{"Identifier":"024ecfde-2d85-4537-98ae-f8571e67b845"}]]]>
+  </ProductFieldImage>
+  <ProductFieldName>Porlex Tall Ceramic Burr Grinder</ProductFieldName>
+  <ProductFieldPrice>32.9</ProductFieldPrice>
+  <ProductSKUCode>ACC-PRX-TALL</ProductSKUCode>
+  <ContentItemReferences>
+    <cms.contentitemreference>
+      <ContentItemReferenceGroupGUID>af37d29a-2fc8-4ead-82ef-d5ec6998f910</ContentItemReferenceGroupGUID>
+      <ContentItemReferenceGUID>c93583f9-0580-4b75-8334-8d2e37a29573</ContentItemReferenceGUID>
+      <ContentItemReferenceSourceCommonDataID>
+        <GUID>c5d75fd3-9da6-47d9-bbc8-f31874426fec</GUID>
+        <ObjectType>cms.contentitemcommondata</ObjectType>
+      </ContentItemReferenceSourceCommonDataID>
+      <ContentItemReferenceTargetItemID>
+        <CodeName>PorlexTallCeramicBurrGrinder-m20mpf8e</CodeName>
+        <GUID>024ecfde-2d85-4537-98ae-f8571e67b845</GUID>
+        <ObjectType>cms.contentitem</ObjectType>
+      </ContentItemReferenceTargetItemID>
+    </cms.contentitemreference>
+  </ContentItemReferences>
+</cms.contentitemcommondata>

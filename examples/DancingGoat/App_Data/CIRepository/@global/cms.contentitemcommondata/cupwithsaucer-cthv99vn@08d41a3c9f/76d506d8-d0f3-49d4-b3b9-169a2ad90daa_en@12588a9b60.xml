@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<cms.contentitemcommondata>
+  <ContentItemCommonDataContentItemID>
+    <CodeName>CupWithSaucer-cthv99vn</CodeName>
+    <GUID>3a34025f-ac1e-4a24-8720-f4ca9a181c15</GUID>
+    <ObjectType>cms.contentitem</ObjectType>
+  </ContentItemCommonDataContentItemID>
+  <ContentItemCommonDataContentLanguageID>
+    <CodeName>en</CodeName>
+    <GUID>e4a8fb12-ebc2-45d0-930f-c9fba2780c85</GUID>
+    <ObjectType>cms.contentlanguage</ObjectType>
+  </ContentItemCommonDataContentLanguageID>
+  <ContentItemCommonDataFirstPublishedWhen>2025-02-04 14:08:35Z</ContentItemCommonDataFirstPublishedWhen>
+  <ContentItemCommonDataGUID>76d506d8-d0f3-49d4-b3b9-169a2ad90daa</ContentItemCommonDataGUID>
+  <ContentItemCommonDataIsLatest>True</ContentItemCommonDataIsLatest>
+  <ContentItemCommonDataLastPublishedWhen>2025-04-14 16:06:45Z</ContentItemCommonDataLastPublishedWhen>
+  <ContentItemCommonDataVersionStatus>2</ContentItemCommonDataVersionStatus>
+  <ProductFieldCategory>
+    <![CDATA[[{"Identifier":"3c27e654-6c18-451f-863d-cfa093b49c49"}]]]>
+  </ProductFieldCategory>
+  <ProductFieldDescription>
+    <![CDATA[Make your kitchen special and purchase this white ceramic cup with saucer. Why is this cup so extraordinary? Look at the cup and say it's not beautiful... Yes, that's right, it's not possible. Besides, the cup is made of a special kind of ceramic that helps keep your coffee hot.]]>
+  </ProductFieldDescription>
+  <ProductFieldImage>
+    <![CDATA[[{"Identifier":"9ff4d653-cd7d-4d66-9864-9ec422e05957"}]]]>
+  </ProductFieldImage>
+  <ProductFieldName>Cup with saucer</ProductFieldName>
+  <ProductFieldPrice>9.99</ProductFieldPrice>
+  <ProductFieldTags>
+    <![CDATA[[{"Identifier":"6aafec28-dabc-4090-bf59-b9c1ba62dd24"}]]]>
+  </ProductFieldTags>
+  <ProductSKUCode>ACC-CUP-SAUCER</ProductSKUCode>
+  <ContentItemReferences>
+    <cms.contentitemreference>
+      <ContentItemReferenceGroupGUID>af37d29a-2fc8-4ead-82ef-d5ec6998f910</ContentItemReferenceGroupGUID>
+      <ContentItemReferenceGUID>f2e1e304-e2b5-44f3-bf4f-88b09a5c9866</ContentItemReferenceGUID>
+      <ContentItemReferenceSourceCommonDataID>
+        <GUID>76d506d8-d0f3-49d4-b3b9-169a2ad90daa</GUID>
+        <ObjectType>cms.contentitemcommondata</ObjectType>
+      </ContentItemReferenceSourceCommonDataID>
+      <ContentItemReferenceTargetItemID>
+        <CodeName>CupWithSaucer-qi4zwham</CodeName>
+        <GUID>9ff4d653-cd7d-4d66-9864-9ec422e05957</GUID>
+        <ObjectType>cms.contentitem</ObjectType>
+      </ContentItemReferenceTargetItemID>
+    </cms.contentitemreference>
+  </ContentItemReferences>
+</cms.contentitemcommondata>

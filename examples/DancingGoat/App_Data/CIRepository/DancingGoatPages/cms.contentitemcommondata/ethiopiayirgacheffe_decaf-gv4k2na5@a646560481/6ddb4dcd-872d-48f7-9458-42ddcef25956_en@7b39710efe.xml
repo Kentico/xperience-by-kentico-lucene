@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<cms.contentitemcommondata>
+  <ContentItemCommonDataContentItemID>
+    <CodeName>EthiopiaYirgacheffe_decaf-gv4k2na5</CodeName>
+    <GUID>4b68fb92-4557-4858-9298-6b523498ccff</GUID>
+    <ObjectType>cms.contentitem</ObjectType>
+  </ContentItemCommonDataContentItemID>
+  <ContentItemCommonDataContentLanguageID>
+    <CodeName>en</CodeName>
+    <GUID>e4a8fb12-ebc2-45d0-930f-c9fba2780c85</GUID>
+    <ObjectType>cms.contentlanguage</ObjectType>
+  </ContentItemCommonDataContentLanguageID>
+  <ContentItemCommonDataFirstPublishedWhen>2025-03-25 09:48:18Z</ContentItemCommonDataFirstPublishedWhen>
+  <ContentItemCommonDataGUID>6ddb4dcd-872d-48f7-9458-42ddcef25956</ContentItemCommonDataGUID>
+  <ContentItemCommonDataIsLatest>True</ContentItemCommonDataIsLatest>
+  <ContentItemCommonDataLastPublishedWhen>2025-03-25 09:48:18Z</ContentItemCommonDataLastPublishedWhen>
+  <ContentItemCommonDataVersionStatus>2</ContentItemCommonDataVersionStatus>
+  <ContentItemReferences>
+    <cms.contentitemreference>
+      <ContentItemReferenceGroupGUID>a266f250-8c59-46ff-ad68-ca57a3b4ed86</ContentItemReferenceGroupGUID>
+      <ContentItemReferenceGUID>06242cea-deff-423f-924c-07713bbfcfc5</ContentItemReferenceGUID>
+      <ContentItemReferenceSourceCommonDataID>
+        <GUID>6ddb4dcd-872d-48f7-9458-42ddcef25956</GUID>
+        <ObjectType>cms.contentitemcommondata</ObjectType>
+      </ContentItemReferenceSourceCommonDataID>
+      <ContentItemReferenceTargetItemID>
+        <CodeName>EthiopiaYirgacheffe_decaf-rdx2r0ni</CodeName>
+        <GUID>83d7e1e9-bafb-4eba-820e-33be30538aa1</GUID>
+        <ObjectType>cms.contentitem</ObjectType>
+      </ContentItemReferenceTargetItemID>
+    </cms.contentitemreference>
+  </ContentItemReferences>
+</cms.contentitemcommondata>

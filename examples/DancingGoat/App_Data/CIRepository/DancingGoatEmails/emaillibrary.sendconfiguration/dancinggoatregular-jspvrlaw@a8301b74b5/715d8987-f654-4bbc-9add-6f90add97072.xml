@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<emaillibrary.sendconfiguration>
+  <SendConfigurationEmailConfigurationID>
+    <CodeName>DancingGoatRegular-jspvrlaw</CodeName>
+    <GUID>e3eb96eb-aed7-4039-bfdf-f1e0ab605d73</GUID>
+    <ObjectType>emaillibrary.emailconfiguration</ObjectType>
+  </SendConfigurationEmailConfigurationID>
+  <SendConfigurationGUID>715d8987-f654-4bbc-9add-6f90add97072</SendConfigurationGUID>
+  <SendConfigurationRecipientListID>
+    <CodeName>DancingGoat.RecipientList</CodeName>
+    <GUID>82c6d953-a0a7-4f85-b7e1-4bb29ded7680</GUID>
+    <ObjectType>om.recipientlist</ObjectType>
+  </SendConfigurationRecipientListID>
+  <SendConfigurationStatus>0</SendConfigurationStatus>
+</emaillibrary.sendconfiguration>

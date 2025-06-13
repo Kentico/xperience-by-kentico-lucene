@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<cms.contentitemcommondata>
+  <ContentItemCommonDataContentItemID>
+    <CodeName>T-shirtPurple-t4ptq848</CodeName>
+    <GUID>9e1c08e3-4125-476a-8a79-b9394dab3187</GUID>
+    <ObjectType>cms.contentitem</ObjectType>
+  </ContentItemCommonDataContentItemID>
+  <ContentItemCommonDataContentLanguageID>
+    <CodeName>en</CodeName>
+    <GUID>e4a8fb12-ebc2-45d0-930f-c9fba2780c85</GUID>
+    <ObjectType>cms.contentlanguage</ObjectType>
+  </ContentItemCommonDataContentLanguageID>
+  <ContentItemCommonDataFirstPublishedWhen>2025-03-25 09:36:38Z</ContentItemCommonDataFirstPublishedWhen>
+  <ContentItemCommonDataGUID>bc926e12-f592-4284-82e0-69e13aaf0a05</ContentItemCommonDataGUID>
+  <ContentItemCommonDataIsLatest>True</ContentItemCommonDataIsLatest>
+  <ContentItemCommonDataLastPublishedWhen>2025-03-26 14:46:09Z</ContentItemCommonDataLastPublishedWhen>
+  <ContentItemCommonDataVersionStatus>2</ContentItemCommonDataVersionStatus>
+  <ContentItemReferences>
+    <cms.contentitemreference>
+      <ContentItemReferenceGroupGUID>a266f250-8c59-46ff-ad68-ca57a3b4ed86</ContentItemReferenceGroupGUID>
+      <ContentItemReferenceGUID>e6f7d757-a532-4552-9f07-0720b550231d</ContentItemReferenceGUID>
+      <ContentItemReferenceSourceCommonDataID>
+        <GUID>bc926e12-f592-4284-82e0-69e13aaf0a05</GUID>
+        <ObjectType>cms.contentitemcommondata</ObjectType>
+      </ContentItemReferenceSourceCommonDataID>
+      <ContentItemReferenceTargetItemID>
+        <CodeName>T-shirtPurple-6u3xnlt7</CodeName>
+        <GUID>b14c90ac-d702-4dc9-874c-e8f9f16fe997</GUID>
+        <ObjectType>cms.contentitem</ObjectType>
+      </ContentItemReferenceTargetItemID>
+    </cms.contentitemreference>
+  </ContentItemReferences>
+</cms.contentitemcommondata>

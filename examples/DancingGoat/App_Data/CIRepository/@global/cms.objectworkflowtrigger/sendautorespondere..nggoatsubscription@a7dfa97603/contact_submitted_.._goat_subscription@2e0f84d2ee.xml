@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<cms.objectworkflowtrigger>
+  <TriggerDisplayName>
+    <![CDATA[Contact submitted form 'Dancing Goat subscription']]>
+  </TriggerDisplayName>
+  <TriggerGUID>b11bf75b-0e03-4503-a625-2e2a3dc459d1</TriggerGUID>
+  <TriggerObjectType>cms.form</TriggerObjectType>
+  <TriggerParameters />
+  <TriggerTargetObjectID>
+    <CodeName>DancingGoatSubscription</CodeName>
+    <GUID>202b0ce3-89d3-4b22-bcc7-b3d8fe1dc20f</GUID>
+    <ObjectType>cms.form</ObjectType>
+  </TriggerTargetObjectID>
+  <TriggerTargetObjectType>cms.form</TriggerTargetObjectType>
+  <TriggerType>0</TriggerType>
+  <TriggerWorkflowID>
+    <CodeName>SendAutoresponderEmail.DancingGoatSubscription</CodeName>
+    <GUID>d89515f8-83aa-4458-be1a-cad0d679a810</GUID>
+    <ObjectType>ma.automationprocess</ObjectType>
+  </TriggerWorkflowID>
+</cms.objectworkflowtrigger>

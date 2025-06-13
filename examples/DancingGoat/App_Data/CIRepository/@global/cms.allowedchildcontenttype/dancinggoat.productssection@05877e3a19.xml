@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<cms.allowedchildcontenttype>
+  <Parent>
+    <CodeName>DancingGoat.ProductsSection</CodeName>
+    <GUID>c2d4f4f3-dbd7-481a-b5f6-df465a2a8b45</GUID>
+    <ObjectType>cms.contenttype</ObjectType>
+  </Parent>
+  <Bindings>
+    <Binding id="cms.contenttype_DancingGoat.ProductPage">
+      <AllowedChildContentTypeChildID>
+        <CodeName>DancingGoat.ProductPage</CodeName>
+        <GUID>f943db37-2aa0-41aa-9a47-3810a9c6d2cf</GUID>
+        <ObjectType>cms.contenttype</ObjectType>
+      </AllowedChildContentTypeChildID>
+    </Binding>
+  </Bindings>
+</cms.allowedchildcontenttype>

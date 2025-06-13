@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<kenticolucene.luceneindexitem>
+  <LuceneIndexItemAnalyzerName>Standard</LuceneIndexItemAnalyzerName>
+  <LuceneIndexItemChannelName>DancingGoatPages</LuceneIndexItemChannelName>
+  <LuceneIndexItemGuid>ed303da7-311d-49fd-a924-a66730305519</LuceneIndexItemGuid>
+  <LuceneIndexItemIndexName>Advanced</LuceneIndexItemIndexName>
+  <LuceneIndexItemStrategyName>DancingGoatExampleStrategy</LuceneIndexItemStrategyName>
+</kenticolucene.luceneindexitem>

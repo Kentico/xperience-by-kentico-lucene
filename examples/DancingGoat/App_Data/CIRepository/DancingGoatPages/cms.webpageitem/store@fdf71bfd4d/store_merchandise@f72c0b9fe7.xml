@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<cms.webpageitem>
+  <WebPageItemContentItemID>
+    <CodeName>Merchandise-yxzsokeq</CodeName>
+    <GUID>527e6079-945d-410f-81f4-3e5e9ecfdd78</GUID>
+    <ObjectType>cms.contentitem</ObjectType>
+  </WebPageItemContentItemID>
+  <WebPageItemGUID>0b72cc84-d9fc-46b7-9a4e-1a2cef527384</WebPageItemGUID>
+  <WebPageItemName>Merchandise-yxzsokeq</WebPageItemName>
+  <WebPageItemOrder>5</WebPageItemOrder>
+  <WebPageItemParentID>
+    <CodeName>Store-8gtyoz81</CodeName>
+    <GUID>888992c0-8702-4c4d-b50e-ac7c61f0a2fe</GUID>
+    <ObjectType>cms.webpageitem</ObjectType>
+  </WebPageItemParentID>
+  <WebPageItemTreePath>/Store/Merchandise</WebPageItemTreePath>
+  <WebPageItemWebsiteChannelID>
+    <GUID>55e3ae4b-3843-46b8-95d5-79611c371d6f</GUID>
+    <ObjectType>cms.websitechannel</ObjectType>
+    <Parent>
+      <CodeName>DancingGoatPages</CodeName>
+      <GUID>c430f96d-bd56-4448-b6ab-bce41a58f186</GUID>
+      <ObjectType>cms.channel</ObjectType>
+    </Parent>
+  </WebPageItemWebsiteChannelID>
+</cms.webpageitem>

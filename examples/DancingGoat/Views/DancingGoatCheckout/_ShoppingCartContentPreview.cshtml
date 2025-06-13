@@ -1,0 +1,38 @@
+﻿@using CMS.Commerce
+@using DancingGoat.Commerce
+@using DancingGoat.Models
+
+@model ShoppingCartViewModel
+
+@foreach (var cartItem in Model.Items)
+{
+    <div class="row">
+        <div class="col-md-10">
+            @if (!string.IsNullOrEmpty(cartItem.ImageUrl))
+            {
+                <div class="cart-item-image">
+                    <a href="@cartItem.DetailUrl">
+                        <img src="@cartItem.ImageUrl" alt="@cartItem.Name" title="@cartItem.Name" />
+                    </a>
+                </div>
+            }
+            <div class="cart-item-info">
+                <a href="@cartItem.DetailUrl">
+                    @cartItem.Name
+                </a>
+            </div>
+            <div class="cart-item-amount">
+                <span>Qty</span>
+                <input type="hidden" name="contentItemId" value="@cartItem.ContentItemId" />
+                <input type="hidden" name="variantId" value="@cartItem.VariantId" />
+                <input type="number" name="quantity" value="@cartItem.Quantity" class="form-control" size="2" min="1" disabled />
+            </div>
+            
+            @Html.ValidationMessage(cartItem.ContentItemId.ToString(), new { @class = "red"} )
+        </div>
+        <div class="col-md-2 cart-item-subtotal">
+            <price>@cartItem.TotalPrice</price>
+        </div>
+    </div>
+    <hr />
+}

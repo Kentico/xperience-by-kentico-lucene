@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<cms.contentitemcommondata>
+  <ContentItemCommonDataContentItemID>
+    <CodeName>PanamaLosLajonesHoney-oqi18lde</CodeName>
+    <GUID>e5658fcf-6164-4659-b3bb-be2398206294</GUID>
+    <ObjectType>cms.contentitem</ObjectType>
+  </ContentItemCommonDataContentItemID>
+  <ContentItemCommonDataContentLanguageID>
+    <CodeName>en</CodeName>
+    <GUID>e4a8fb12-ebc2-45d0-930f-c9fba2780c85</GUID>
+    <ObjectType>cms.contentlanguage</ObjectType>
+  </ContentItemCommonDataContentLanguageID>
+  <ContentItemCommonDataFirstPublishedWhen>2025-02-04 14:08:32Z</ContentItemCommonDataFirstPublishedWhen>
+  <ContentItemCommonDataGUID>c42ab404-5b1f-40c4-8e9f-82f8d41d8543</ContentItemCommonDataGUID>
+  <ContentItemCommonDataIsLatest>True</ContentItemCommonDataIsLatest>
+  <ContentItemCommonDataLastPublishedWhen>2025-04-14 15:58:08Z</ContentItemCommonDataLastPublishedWhen>
+  <ContentItemCommonDataVersionStatus>2</ContentItemCommonDataVersionStatus>
+  <ProductFieldCategory>
+    <![CDATA[[{"Identifier":"cfe8a882-9424-4d03-81a6-a941fd559cde"}]]]>
+  </ProductFieldCategory>
+  <ProductFieldDescription>
+    <![CDATA[<p>Los Lajones comes from Canas Verdes, which is located on the steep slopes of the Baru Volcano in Panama. You can find the farm at a very high altitude, and by that we mean around 2,000 meters. That puts Los Lajones among the highest located coffee farms in the world. Besides that, Los Lajones is the first Panamanian bio-certified farm where only local people are employed and also well paid.</p><p>But their most genuine specialty is the way they process their coffee beans. It's called honey-processing and Graciano Cruz, the owner of Los Lajones, has significantly refined this approach and has started to win different regional and international competitions with this coffee. He even teaches it to his competitors in other countries. And what is honey-processing about? The key is in drying the coffee berries on beds along with their flesh.</p><p>After the processing all the gifts of their Catuai trees, you can taste the extraordinary flavor of velvety chocolate peaches and figs.</p>]]>
+  </ProductFieldDescription>
+  <ProductFieldImage>
+    <![CDATA[[{"Identifier":"a4d104ee-d176-4668-a70d-3239df1bb320"}]]]>
+  </ProductFieldImage>
+  <ProductFieldName>Panama Los Lajones Honey</ProductFieldName>
+  <ProductFieldPrice>15</ProductFieldPrice>
+  <ProductSKUCode>CAF-PAN-LAJO</ProductSKUCode>
+  <ContentItemReferences>
+    <cms.contentitemreference>
+      <ContentItemReferenceGroupGUID>af37d29a-2fc8-4ead-82ef-d5ec6998f910</ContentItemReferenceGroupGUID>
+      <ContentItemReferenceGUID>320a20b1-8d12-446d-b8e3-97d03fabf2fb</ContentItemReferenceGUID>
+      <ContentItemReferenceSourceCommonDataID>
+        <GUID>c42ab404-5b1f-40c4-8e9f-82f8d41d8543</GUID>
+        <ObjectType>cms.contentitemcommondata</ObjectType>
+      </ContentItemReferenceSourceCommonDataID>
+      <ContentItemReferenceTargetItemID>
+        <CodeName>PanamaLosLajonesHoney-7566xx9y</CodeName>
+        <GUID>a4d104ee-d176-4668-a70d-3239df1bb320</GUID>
+        <ObjectType>cms.contentitem</ObjectType>
+      </ContentItemReferenceTargetItemID>
+    </cms.contentitemreference>
+  </ContentItemReferences>
+</cms.contentitemcommondata>

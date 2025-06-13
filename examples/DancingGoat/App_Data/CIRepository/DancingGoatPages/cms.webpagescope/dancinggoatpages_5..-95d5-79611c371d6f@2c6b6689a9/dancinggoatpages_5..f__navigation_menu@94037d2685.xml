@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<cms.webpagescope>
+  <WebPageScopeGUID>171c1a8b-834a-4ba8-ae7a-c59875270803</WebPageScopeGUID>
+  <WebPageScopeIncludeChildren>False</WebPageScopeIncludeChildren>
+  <WebPageScopeWebPageItemID>
+    <CodeName>NavigationMenu-q2f5caof</CodeName>
+    <GUID>7227b2a2-f3b8-439e-8bd2-d1aeae36f015</GUID>
+    <ObjectType>cms.webpageitem</ObjectType>
+  </WebPageScopeWebPageItemID>
+  <WebPageScopeWebsiteChannelID>
+    <GUID>55e3ae4b-3843-46b8-95d5-79611c371d6f</GUID>
+    <ObjectType>cms.websitechannel</ObjectType>
+    <Parent>
+      <CodeName>DancingGoatPages</CodeName>
+      <GUID>c430f96d-bd56-4448-b6ab-bce41a58f186</GUID>
+      <ObjectType>cms.channel</ObjectType>
+    </Parent>
+  </WebPageScopeWebsiteChannelID>
+</cms.webpagescope>

@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<contentitemdata.dancinggoat.productpage>
+  <ContentItemDataCommonDataID>
+    <GUID>439c2539-7cff-48c2-8851-dd5abdbaab9f</GUID>
+    <ObjectType>cms.contentitemcommondata</ObjectType>
+    <Parent>
+      <CodeName>HarioMiniMillSlim-du0lilun</CodeName>
+      <GUID>0aa3605f-161e-4195-923b-eb9f08c4ed1d</GUID>
+      <ObjectType>cms.contentitem</ObjectType>
+    </Parent>
+  </ContentItemDataCommonDataID>
+  <ContentItemDataGUID>2732f917-312e-4b87-9458-7578fc5a1b3c</ContentItemDataGUID>
+  <ProductPageProduct>
+    <![CDATA[[{"Identifier":"2bb721fe-cdb8-46d7-97e2-04b3177e8d23"}]]]>
+  </ProductPageProduct>
+</contentitemdata.dancinggoat.productpage>

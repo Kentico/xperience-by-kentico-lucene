@@ -1,9 +1,9 @@
-﻿using CMS.ContentEngine;
-using CMS.Websites;
+﻿using CMS.Websites;
 
 using DancingGoat.Models;
 using DancingGoat.Search.Services;
 
+using Kentico.Content.Web.Mvc;
 using Kentico.Xperience.Lucene.Core.Indexing;
 
 using Lucene.Net.Documents;
@@ -13,39 +13,25 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace DancingGoat.Search;
 
-public class AdvancedSearchIndexingStrategy : DefaultLuceneIndexingStrategy
+public class AdvancedSearchIndexingStrategy(
+    IContentRetriever contentRetriever,
+    WebScraperHtmlSanitizer htmlSanitizer,
+    WebCrawlerService webCrawler
+    ) : DefaultLuceneIndexingStrategy
 {
     public const string SORTABLE_TITLE_FIELD_NAME = "SortableTitle";
 
-    private readonly IWebPageQueryResultMapper webPageMapper;
-    private readonly IContentQueryExecutor queryExecutor;
-    private readonly WebScraperHtmlSanitizer htmlSanitizer;
-    private readonly WebCrawlerService webCrawler;
+    private readonly IContentRetriever contentRetriever = contentRetriever;
+    private readonly WebScraperHtmlSanitizer htmlSanitizer = htmlSanitizer;
+    private readonly WebCrawlerService webCrawler = webCrawler;
 
     public const string FACET_DIMENSION = "ContentType";
     public const string INDEXED_WEBSITECHANNEL_NAME = "DancingGoatPages";
     public const string CRAWLER_CONTENT_FIELD_NAME = "Content";
 
-    public AdvancedSearchIndexingStrategy(
-        IWebPageQueryResultMapper webPageMapper,
-        IContentQueryExecutor queryExecutor,
-        WebScraperHtmlSanitizer htmlSanitizer,
-        WebCrawlerService webCrawler
-    )
-    {
-        this.webPageMapper = webPageMapper;
-        this.queryExecutor = queryExecutor;
-        this.htmlSanitizer = htmlSanitizer;
-        this.webCrawler = webCrawler;
-    }
-
     public override async Task<Document?> MapToLuceneDocumentOrNull(IIndexEventItemModel item)
     {
         var document = new Document();
-
-        string sortableTitle = string.Empty;
-        string title = string.Empty;
-        string content = string.Empty;
 
         // IIndexEventItemModel could be a reusable content item or a web page item, so we use
         // pattern matching to get access to the web page item specific type and fields
@@ -54,32 +40,36 @@ public class AdvancedSearchIndexingStrategy : DefaultLuceneIndexingStrategy
             return null;
         }
 
+        string sortableTitle;
+        string title;
+        string content;
+        string facetValue;
+
         if (string.Equals(item.ContentTypeName, ArticlePage.CONTENT_TYPE_NAME, StringComparison.OrdinalIgnoreCase))
         {
             // The implementation of GetPage<T>() is below
             var page = await GetPage<ArticlePage>(
                 indexedPage.ItemGuid,
                 indexedPage.WebsiteChannelName,
-                indexedPage.LanguageName,
-                ArticlePage.CONTENT_TYPE_NAME);
+                indexedPage.LanguageName);
 
             if (page is null)
             {
                 return null;
             }
 
-            sortableTitle = title = page?.ArticleTitle ?? string.Empty;
+            sortableTitle = title = page.ArticleTitle ?? string.Empty;
 
             string rawContent = await webCrawler.CrawlWebPage(page!);
             content = htmlSanitizer.SanitizeHtmlDocument(rawContent);
+            facetValue = "Article";
         }
         else if (string.Equals(item.ContentTypeName, HomePage.CONTENT_TYPE_NAME, StringComparison.OrdinalIgnoreCase))
         {
             var page = await GetPage<HomePage>(
                 indexedPage.ItemGuid,
                 indexedPage.WebsiteChannelName,
-                indexedPage.LanguageName,
-                HomePage.CONTENT_TYPE_NAME);
+                indexedPage.LanguageName);
 
             if (page is null)
             {
@@ -95,12 +85,36 @@ public class AdvancedSearchIndexingStrategy : DefaultLuceneIndexingStrategy
 
             string rawContent = await webCrawler.CrawlWebPage(page!);
             content = htmlSanitizer.SanitizeHtmlDocument(rawContent);
+            facetValue = "Home";
+        }
+        else if (string.Equals(item.ContentTypeName, ProductPage.CONTENT_TYPE_NAME, StringComparison.OrdinalIgnoreCase))
+        {
+            var page = await GetPage<ProductPage>(
+                indexedPage.ItemGuid,
+                indexedPage.WebsiteChannelName,
+                indexedPage.LanguageName);
+
+            if (page is null)
+            {
+                return null;
+            }
+
+            if (page.ProductPageProduct.FirstOrDefault() is not IProductFields contentItem)
+            {
+                return null;
+            }
+
+            sortableTitle = title = contentItem.ProductFieldName;
+            string rawContent = await webCrawler.CrawlWebPage(page);
+            content = htmlSanitizer.SanitizeHtmlDocument(rawContent);
+            facetValue = "Product";
         }
         else
         {
             return null;
         }
 
+        document.Add(new FacetField(FACET_DIMENSION, facetValue));
         document.Add(new TextField(nameof(DancingGoatSearchResultModel.Title), title, Field.Store.YES));
         document.Add(new StringField(SORTABLE_TITLE_FIELD_NAME, sortableTitle, Field.Store.YES));
         document.Add(new TextField(CRAWLER_CONTENT_FIELD_NAME, content, Field.Store.NO));
@@ -114,24 +128,11 @@ public class AdvancedSearchIndexingStrategy : DefaultLuceneIndexingStrategy
 
         if (string.Equals(changedItem.ContentTypeName, ArticlePage.CONTENT_TYPE_NAME, StringComparison.OrdinalIgnoreCase))
         {
-            var query = new ContentItemQueryBuilder()
-                .ForContentType(ArticlePage.CONTENT_TYPE_NAME,
-                    config =>
-                        config
-                            .WithLinkedItems(4)
-
-                            // Because the changedItem is a reusable content item, we don't have a website channel name to use here
-                            // so we use a hardcoded channel name.
-                            //
-                            // This will be resolved with an upcoming Xperience by Kentico feature
-                            // https://roadmap.kentico.com/c/193-new-api-cross-content-type-querying
-                            .ForWebsite(INDEXED_WEBSITECHANNEL_NAME)
-
-                            // Retrieves all ArticlePages that link to the Article through the ArticlePage.ArticlePageArticle field
-                            .Linking(nameof(ArticlePage.ArticlePageTeaser), new[] { changedItem.ItemID }))
-                .InLanguage(changedItem.LanguageName);
-
-            var result = await queryExecutor.GetWebPageResult(query, webPageMapper.Map<ArticlePage>);
+            var result = await contentRetriever.RetrievePages<ArticlePage>(
+                new RetrievePagesParameters() { LanguageName = changedItem.LanguageName, LinkedItemsMaxLevel = 4, ChannelName = changedItem.WebsiteChannelName, IsForPreview = false },
+                q => q.Linking(nameof(ArticlePage.ArticlePageTeaser), [changedItem.ItemID]),
+                new RetrievalCacheSettings($"ArticlesLinking|{changedItem.ItemID}"),
+                cancellationToken: default);
 
             foreach (var articlePage in result)
             {
@@ -145,7 +146,7 @@ public class AdvancedSearchIndexingStrategy : DefaultLuceneIndexingStrategy
                     articlePage.SystemFields.ContentItemIsSecured,
                     articlePage.SystemFields.ContentItemContentTypeID,
                     articlePage.SystemFields.ContentItemCommonDataContentLanguageID,
-                    INDEXED_WEBSITECHANNEL_NAME,
+                    changedItem.WebsiteChannelName,
                     articlePage.SystemFields.WebPageItemTreePath,
                     articlePage.SystemFields.WebPageItemParentID,
                     articlePage.SystemFields.WebPageItemOrder));
@@ -161,24 +162,11 @@ public class AdvancedSearchIndexingStrategy : DefaultLuceneIndexingStrategy
 
         if (string.Equals(changedItem.ContentTypeName, Banner.CONTENT_TYPE_NAME, StringComparison.OrdinalIgnoreCase))
         {
-            var query = new ContentItemQueryBuilder()
-                .ForContentType(HomePage.CONTENT_TYPE_NAME,
-                    config =>
-                        config
-                            .WithLinkedItems(4)
-
-                            // Because the changedItem is a reusable content item, we don't have a website channel name to use here
-                            // so we use a hardcoded channel name.
-                            //
-                            // This will be resolved with an upcoming Xperience by Kentico feature
-                            // https://roadmap.kentico.com/c/193-new-api-cross-content-type-querying
-                            .ForWebsite(INDEXED_WEBSITECHANNEL_NAME)
-
-                            // Retrieves all ArticlePages that link to the Article through the ArticlePage.ArticlePageArticle field
-                            .Linking(nameof(HomePage.HomePageBanner), new[] { changedItem.ItemID }))
-                .InLanguage(changedItem.LanguageName);
-
-            var result = await queryExecutor.GetWebPageResult(query, webPageMapper.Map<HomePage>);
+            var result = await contentRetriever.RetrievePages<HomePage>(
+                new RetrievePagesParameters() { LanguageName = changedItem.LanguageName, LinkedItemsMaxLevel = 4, ChannelName = INDEXED_WEBSITECHANNEL_NAME, IsForPreview = false },
+                q => q.Linking(nameof(HomePage.HomePageBanner), [changedItem.ItemID]),
+                new RetrievalCacheSettings($"HomePageLinking|{changedItem.ItemID}"),
+                cancellationToken: default);
 
             foreach (var homePage in result)
             {
@@ -206,25 +194,19 @@ public class AdvancedSearchIndexingStrategy : DefaultLuceneIndexingStrategy
     {
         var facetConfig = new FacetsConfig();
 
-        facetConfig.SetMultiValued(FACET_DIMENSION, true);
+        facetConfig.SetMultiValued(FACET_DIMENSION, false);
 
         return facetConfig;
     }
 
-    private async Task<T?> GetPage<T>(Guid id, string channelName, string languageName, string contentTypeName)
+    private async Task<T?> GetPage<T>(Guid id, string channelName, string languageName)
         where T : IWebPageFieldsSource, new()
     {
-        var query = new ContentItemQueryBuilder()
-            .ForContentType(contentTypeName,
-                config =>
-                    config
-                        .WithLinkedItems(4) // You could parameterize this if you want to optimize specific database queries
-                        .ForWebsite(channelName)
-                        .Where(where => where.WhereEquals(nameof(WebPageFields.WebPageItemGUID), id))
-                        .TopN(1))
-            .InLanguage(languageName);
-
-        var result = await queryExecutor.GetWebPageResult(query, webPageMapper.Map<T>);
+        var result = await contentRetriever.RetrievePagesByGuids<T>([id],
+                new RetrievePagesParameters() { LanguageName = languageName, LinkedItemsMaxLevel = 4, ChannelName = channelName, IsForPreview = false },
+                RetrievePagesQueryParameters.Default,
+                new RetrievalCacheSettings($"Page|{id}"),
+                cancellationToken: default);
 
         return result.FirstOrDefault();
     }

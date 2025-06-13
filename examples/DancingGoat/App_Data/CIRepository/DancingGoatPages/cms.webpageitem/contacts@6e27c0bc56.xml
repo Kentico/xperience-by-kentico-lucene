@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<cms.webpageitem>
+  <WebPageItemContentItemID>
+    <CodeName>Contacts-af437tgb</CodeName>
+    <GUID>688a474e-a995-42e4-a397-0c692f14d885</GUID>
+    <ObjectType>cms.contentitem</ObjectType>
+  </WebPageItemContentItemID>
+  <WebPageItemGUID>1936f468-5f93-427a-9c62-0da5b0a7a094</WebPageItemGUID>
+  <WebPageItemName>Contacts-af437tgb</WebPageItemName>
+  <WebPageItemOrder>5</WebPageItemOrder>
+  <WebPageItemTreePath>/Contacts</WebPageItemTreePath>
+  <WebPageItemWebsiteChannelID>
+    <GUID>55e3ae4b-3843-46b8-95d5-79611c371d6f</GUID>
+    <ObjectType>cms.websitechannel</ObjectType>
+    <Parent>
+      <CodeName>DancingGoatPages</CodeName>
+      <GUID>c430f96d-bd56-4448-b6ab-bce41a58f186</GUID>
+      <ObjectType>cms.channel</ObjectType>
+    </Parent>
+  </WebPageItemWebsiteChannelID>
+</cms.webpageitem>

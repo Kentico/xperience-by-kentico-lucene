@@ -22,7 +22,7 @@ namespace DancingGoat.Helpers
         private readonly IHtmlGenerator htmlGenerator;
         private readonly IWebPageUrlRetriever webPageUrlRetriever;
         private readonly IPreferredLanguageRetriever currentLanguageRetriever;
-        private readonly ICurrentWebsiteChannelPrimaryLanguageRetriever websiteChannelPrimaryLanguageRetriever;
+        private readonly CurrentWebsiteChannelPrimaryLanguageRetriever websiteChannelPrimaryLanguageRetriever;
 
 
         public string LinkText { get; set; }
@@ -42,7 +42,7 @@ namespace DancingGoat.Helpers
             IHtmlGenerator htmlGenerator,
             IWebPageUrlRetriever webPageUrlRetriever,
             IPreferredLanguageRetriever currentLanguageRetriever,
-            ICurrentWebsiteChannelPrimaryLanguageRetriever websiteChannelPrimaryLanguageRetriever)
+            CurrentWebsiteChannelPrimaryLanguageRetriever websiteChannelPrimaryLanguageRetriever)
         {
             this.httpContextAccessor = httpContextAccessor;
             this.pageDataContextRetriever = pageDataContextRetriever;

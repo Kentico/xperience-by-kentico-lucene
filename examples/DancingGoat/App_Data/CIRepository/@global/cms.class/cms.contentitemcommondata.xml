@@ -1,0 +1,278 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<cms.class>
+  <ClassDisplayName>Content item common data</ClassDisplayName>
+  <ClassFormDefinition>
+    <form>
+      <field column="ContentItemCommonDataID" columntype="integer" enabled="true" guid="dcc7d6bf-4c35-4414-9ed7-76f89bf9960d" isPK="true" system="true" />
+      <field column="ContentItemCommonDataGUID" columnprecision="0" columntype="guid" enabled="true" guid="8faf5ded-4735-4a11-a8ba-da6e5cfe71b5" system="true" />
+      <field column="ContentItemCommonDataContentItemID" columnprecision="0" columntype="integer" enabled="true" guid="91fc5540-0504-4301-a196-d9cc050499f6" refobjtype="cms.contentitem" reftype="Required" system="true">
+        <properties>
+          <defaultvalue>0</defaultvalue>
+        </properties>
+      </field>
+      <field column="ContentItemCommonDataContentLanguageID" columnprecision="0" columntype="integer" enabled="true" guid="66a47fdf-75d6-4bd6-b99d-f37a816b8676" refobjtype="cms.contentlanguage" reftype="Required" system="true" />
+      <field column="ContentItemCommonDataVersionStatus" columnprecision="0" columntype="integer" enabled="true" guid="a26f89d5-5e71-4e55-97e9-0f121c2ec231" system="true" />
+      <field column="ContentItemCommonDataIsLatest" columnprecision="0" columntype="boolean" enabled="true" guid="8fda7834-4aeb-4f2d-9ba9-cb3861e56b62" system="true" />
+      <field allowempty="true" column="ContentItemCommonDataVisualBuilderWidgets" columnprecision="0" columntype="longtext" enabled="true" guid="b67cbb13-d340-42bf-bb5b-e479bf31f509" system="true" />
+      <field allowempty="true" column="ContentItemCommonDataVisualBuilderTemplateConfiguration" columnprecision="0" columntype="longtext" enabled="true" guid="0d5a573b-759a-4dd7-a86b-be2ef2f5bac4" system="true" />
+      <field allowempty="true" column="ContentItemCommonDataFirstPublishedWhen" columnprecision="7" columntype="datetime" enabled="true" guid="1318327e-9a4c-47e7-be2e-3da0fe99c15e" system="true" />
+      <field allowempty="true" column="ContentItemCommonDataLastPublishedWhen" columnprecision="7" columntype="datetime" enabled="true" guid="169ce320-e362-4b70-b4dd-cc055082c254" system="true" />
+      <schema guid="7c7b596d-5b91-40a5-8ded-f2e4757d8e66" name="SEOFields">
+        <properties>
+          <description>Schema representing SEO fields </description>
+          <fieldcaption>SEO fields</fieldcaption>
+        </properties>
+      </schema>
+      <field allowempty="true" column="SEOFieldsTitle" columnprecision="0" columnsize="200" columntype="text" enabled="true" guid="60b37ef3-d909-45d4-b5d1-fd27d9258396" visible="true">
+        <properties>
+          <explanationtextashtml>False</explanationtextashtml>
+          <fieldcaption>SEO Title</fieldcaption>
+          <fielddescriptionashtml>False</fielddescriptionashtml>
+          <kxp_schema_identifier>7c7b596d-5b91-40a5-8ded-f2e4757d8e66</kxp_schema_identifier>
+        </properties>
+        <settings>
+          <controlname>Kentico.Administration.TextInput</controlname>
+        </settings>
+      </field>
+      <field allowempty="true" column="SEOFieldsDescription" columnprecision="0" columnsize="200" columntype="text" enabled="true" guid="ec3e6220-9a88-47be-8dfc-d8ebceaabe74" visible="true">
+        <properties>
+          <explanationtextashtml>False</explanationtextashtml>
+          <fieldcaption>SEO description</fieldcaption>
+          <fielddescriptionashtml>False</fielddescriptionashtml>
+          <kxp_schema_identifier>7c7b596d-5b91-40a5-8ded-f2e4757d8e66</kxp_schema_identifier>
+        </properties>
+        <settings>
+          <controlname>Kentico.Administration.TextArea</controlname>
+          <CopyButtonVisible>False</CopyButtonVisible>
+          <MaxRowsNumber>5</MaxRowsNumber>
+          <MinRowsNumber>3</MinRowsNumber>
+        </settings>
+      </field>
+      <field allowempty="true" column="SEOFieldsAllowSearchIndexing" columnprecision="0" columntype="boolean" enabled="true" guid="af054025-144e-4b75-b102-dfa908f9b382" visible="true">
+        <properties>
+          <defaultvalue>True</defaultvalue>
+          <explanationtextashtml>False</explanationtextashtml>
+          <fieldcaption>Allow search indexing</fieldcaption>
+          <fielddescription>
+            <![CDATA[When enabled, adds the page to the sitemap. When disabled, removes the page from the sitemap and disables search engine indexing for the page.]]>
+          </fielddescription>
+          <fielddescriptionashtml>False</fielddescriptionashtml>
+          <kxp_schema_identifier>7c7b596d-5b91-40a5-8ded-f2e4757d8e66</kxp_schema_identifier>
+        </properties>
+        <settings>
+          <controlname>Kentico.Administration.Checkbox</controlname>
+        </settings>
+      </field>
+      <schema guid="fe13f703-8744-4947-8c01-5f78bbd5039d" name="ProductFields">
+        <properties>
+          <description>Schema representing common product fields.</description>
+          <fieldcaption>Product fields</fieldcaption>
+        </properties>
+      </schema>
+      <field allowempty="true" column="ProductFieldName" columnprecision="0" columnsize="200" columntype="text" enabled="true" guid="bf0f2c4d-f21e-4dec-a059-081a0e88d21b" visible="true">
+        <properties>
+          <explanationtextashtml>False</explanationtextashtml>
+          <fieldcaption>Product name</fieldcaption>
+          <fielddescriptionashtml>False</fielddescriptionashtml>
+          <kxp_schema_identifier>fe13f703-8744-4947-8c01-5f78bbd5039d</kxp_schema_identifier>
+        </properties>
+        <settings>
+          <controlname>Kentico.Administration.TextInput</controlname>
+        </settings>
+        <validationrulesdata>
+          <ValidationRuleConfiguration>
+            <ValidationRuleIdentifier>Kentico.Administration.RequiredValue</ValidationRuleIdentifier>
+            <RuleValues>
+              <ErrorMessage>Product name is required.</ErrorMessage>
+            </RuleValues>
+          </ValidationRuleConfiguration>
+        </validationrulesdata>
+      </field>
+      <field allowempty="true" column="ProductFieldDescription" columnprecision="0" columntype="richtexthtml" enabled="true" guid="a99007e1-b5d9-4866-af1e-655d48fec350" visible="true">
+        <properties>
+          <explanationtextashtml>False</explanationtextashtml>
+          <fieldcaption>Product description</fieldcaption>
+          <fielddescriptionashtml>False</fielddescriptionashtml>
+          <kxp_schema_identifier>fe13f703-8744-4947-8c01-5f78bbd5039d</kxp_schema_identifier>
+        </properties>
+        <settings>
+          <controlname>Kentico.Administration.RichTextEditor</controlname>
+        </settings>
+        <validationrulesdata>
+          <ValidationRuleConfiguration>
+            <ValidationRuleIdentifier>Kentico.Administration.RequiredValue</ValidationRuleIdentifier>
+            <RuleValues>
+              <ErrorMessage>Product description is required.</ErrorMessage>
+            </RuleValues>
+          </ValidationRuleConfiguration>
+        </validationrulesdata>
+      </field>
+      <field allowempty="true" column="ProductFieldImage" columnprecision="0" columntype="contentitemreference" enabled="true" guid="af37d29a-2fc8-4ead-82ef-d5ec6998f910" visible="true">
+        <properties>
+          <explanationtextashtml>False</explanationtextashtml>
+          <fieldcaption>Product image</fieldcaption>
+          <fielddescriptionashtml>False</fielddescriptionashtml>
+          <kxp_schema_identifier>fe13f703-8744-4947-8c01-5f78bbd5039d</kxp_schema_identifier>
+        </properties>
+        <settings>
+          <AllowedContentItemTypeIdentifiers>
+            <![CDATA[["fd1947a4-e04b-441b-a76c-1ed826fb766e"]]]>
+          </AllowedContentItemTypeIdentifiers>
+          <controlname>Kentico.Administration.ContentItemSelector</controlname>
+          <SelectionType>contentTypes</SelectionType>
+        </settings>
+        <validationrulesdata>
+          <ValidationRuleConfiguration>
+            <ValidationRuleIdentifier>Kentico.Administration.RequiredValue</ValidationRuleIdentifier>
+            <RuleValues>
+              <ErrorMessage>Product image is required.</ErrorMessage>
+            </RuleValues>
+          </ValidationRuleConfiguration>
+        </validationrulesdata>
+      </field>
+      <field allowempty="true" column="ProductFieldPrice" columnprecision="4" columnsize="19" columntype="decimal" enabled="true" guid="15b5a29e-6c4f-4614-be72-999627021af1" visible="true">
+        <properties>
+          <explanationtext>Enter price in US Dollar</explanationtext>
+          <explanationtextashtml>False</explanationtextashtml>
+          <fieldcaption>Product price</fieldcaption>
+          <fielddescriptionashtml>False</fielddescriptionashtml>
+          <kxp_schema_identifier>fe13f703-8744-4947-8c01-5f78bbd5039d</kxp_schema_identifier>
+        </properties>
+        <settings>
+          <controlname>Kentico.Administration.DecimalNumberInput</controlname>
+        </settings>
+        <validationrulesdata>
+          <ValidationRuleConfiguration>
+            <ValidationRuleIdentifier>Kentico.Administration.RequiredValue</ValidationRuleIdentifier>
+            <RuleValues>
+              <ErrorMessage>Product price is required.</ErrorMessage>
+            </RuleValues>
+          </ValidationRuleConfiguration>
+        </validationrulesdata>
+      </field>
+      <field allowempty="true" column="ProductFieldTags" columnprecision="0" columntype="taxonomy" enabled="true" guid="a3b6d816-b57b-4e96-bd98-3afdff882619" visible="true">
+        <properties>
+          <explanationtextashtml>False</explanationtextashtml>
+          <fieldcaption>Product tags</fieldcaption>
+          <fielddescriptionashtml>False</fielddescriptionashtml>
+          <kxp_schema_identifier>fe13f703-8744-4947-8c01-5f78bbd5039d</kxp_schema_identifier>
+        </properties>
+        <settings>
+          <controlname>Kentico.Administration.TagSelector</controlname>
+          <TaxonomyGroup>
+            <![CDATA[["1477faae-3c0b-4d40-baf0-e0d1315b8238"]]]>
+          </TaxonomyGroup>
+        </settings>
+      </field>
+      <field allowempty="true" column="ProductFieldCategory" columnprecision="0" columntype="taxonomy" enabled="true" guid="cea0a90d-d3f3-4f99-a9a3-c2c83821ba50" visible="true">
+        <properties>
+          <explanationtextashtml>False</explanationtextashtml>
+          <fieldcaption>Product category</fieldcaption>
+          <fielddescriptionashtml>False</fielddescriptionashtml>
+          <kxp_schema_identifier>fe13f703-8744-4947-8c01-5f78bbd5039d</kxp_schema_identifier>
+        </properties>
+        <settings>
+          <controlname>Kentico.Administration.TagSelector</controlname>
+          <TaxonomyGroup>
+            <![CDATA[["b54af6a7-0bff-40e0-a29b-e7580ce78c6a"]]]>
+          </TaxonomyGroup>
+        </settings>
+        <validationrulesdata>
+          <ValidationRuleConfiguration>
+            <ValidationRuleIdentifier>Kentico.Administration.RequiredValue</ValidationRuleIdentifier>
+            <RuleValues>
+              <ErrorMessage>Product category is required.</ErrorMessage>
+            </RuleValues>
+          </ValidationRuleConfiguration>
+        </validationrulesdata>
+      </field>
+      <schema guid="bfe46dfb-cdfc-40ad-a455-ecfefbfa0c61" name="ProductSKU">
+        <properties>
+          <fieldcaption>Product SKU</fieldcaption>
+        </properties>
+      </schema>
+      <field allowempty="true" column="ProductSKUCode" columnprecision="0" columnsize="50" columntype="text" enabled="true" guid="dd2ad8a7-17c3-4256-a60e-a175e84d3279" visible="true">
+        <properties>
+          <explanationtextashtml>False</explanationtextashtml>
+          <fieldcaption>Product SKU</fieldcaption>
+          <fielddescriptionashtml>False</fielddescriptionashtml>
+          <kxp_schema_identifier>bfe46dfb-cdfc-40ad-a455-ecfefbfa0c61</kxp_schema_identifier>
+        </properties>
+        <settings>
+          <controlname>Kentico.Administration.TextInput</controlname>
+        </settings>
+        <validationrulesdata>
+          <ValidationRuleConfiguration>
+            <ValidationRuleIdentifier>Kentico.Administration.RequiredValue</ValidationRuleIdentifier>
+            <RuleValues>
+              <ErrorMessage>Product SKU is required.</ErrorMessage>
+            </RuleValues>
+          </ValidationRuleConfiguration>
+          <ValidationRuleConfiguration>
+            <ValidationRuleIdentifier>DancingGoat.UniqueSkuValidationRule</ValidationRuleIdentifier>
+            <RuleValues>
+              <ErrorMessage>Product SKU must be unique.</ErrorMessage>
+            </RuleValues>
+          </ValidationRuleConfiguration>
+        </validationrulesdata>
+      </field>
+      <schema guid="08ef55b7-983d-4b8e-8bdf-f3fd066898c1" name="ProductManufacturer">
+        <properties>
+          <fieldcaption>Product manufacturer</fieldcaption>
+        </properties>
+      </schema>
+      <field allowempty="true" column="ProductManufacturerTag" columnprecision="0" columntype="taxonomy" enabled="true" guid="cfe7eb93-1275-4b7c-a6ab-fa48cc14d052" visible="true">
+        <properties>
+          <explanationtextashtml>False</explanationtextashtml>
+          <fieldcaption>Product manufacturer</fieldcaption>
+          <fielddescriptionashtml>False</fielddescriptionashtml>
+          <kxp_schema_identifier>08ef55b7-983d-4b8e-8bdf-f3fd066898c1</kxp_schema_identifier>
+        </properties>
+        <settings>
+          <controlname>Kentico.Administration.TagSelector</controlname>
+          <MaxSelectedTagsCount>1</MaxSelectedTagsCount>
+          <TaxonomyGroup>
+            <![CDATA[["d1e158ea-b068-436c-8d6f-eb0c9bfdcec2"]]]>
+          </TaxonomyGroup>
+        </settings>
+      </field>
+      <schema guid="824b9475-3e6c-444c-b1b9-6029aa53dc0c" name="ProductOptionAlphaSizes">
+        <properties>
+          <fieldcaption>Product option - Alpha sizes</fieldcaption>
+        </properties>
+      </schema>
+      <field allowempty="true" column="ProductOptionAlphaSize" columnprecision="0" columnsize="10" columntype="text" enabled="true" guid="867c52be-dbd3-4203-8712-6279abf35fe0" visible="true">
+        <properties>
+          <explanationtextashtml>False</explanationtextashtml>
+          <fieldcaption>Product option - Alpha size</fieldcaption>
+          <fielddescriptionashtml>False</fielddescriptionashtml>
+          <kxp_schema_identifier>824b9475-3e6c-444c-b1b9-6029aa53dc0c</kxp_schema_identifier>
+        </properties>
+        <settings>
+          <controlname>Kentico.Administration.DropDownSelector</controlname>
+          <Options>
+<![CDATA[
+XS
+S
+M
+L
+XL
+XXL
+]]>
+          </Options>
+          <OptionsValueSeparator>;</OptionsValueSeparator>
+        </settings>
+      </field>
+    </form>
+  </ClassFormDefinition>
+  <ClassGUID>a6581fb3-892a-45b4-981a-012ce4b50b43</ClassGUID>
+  <ClassHasUnmanagedDbSchema>False</ClassHasUnmanagedDbSchema>
+  <ClassName>CMS.ContentItemCommonData</ClassName>
+  <ClassResourceID>
+    <CodeName>CMS.ContentEngine</CodeName>
+    <GUID>eb76ebd1-752f-4969-a5b6-1fb984cae224</GUID>
+    <ObjectType>cms.resource</ObjectType>
+  </ClassResourceID>
+  <ClassTableName>CMS_ContentItemCommonData</ClassTableName>
+  <ClassType>Other</ClassType>
+</cms.class>

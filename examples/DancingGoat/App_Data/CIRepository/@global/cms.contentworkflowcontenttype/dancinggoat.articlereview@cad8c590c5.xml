@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<cms.contentworkflowcontenttype>
+  <Parent>
+    <CodeName>DancingGoat.ArticleReview</CodeName>
+    <GUID>20089af5-41ce-490b-a138-ea2910801c6a</GUID>
+    <ObjectType>cms.contentworkflow</ObjectType>
+  </Parent>
+  <Bindings>
+    <Binding id="cms.contenttype_DancingGoat.ArticlePage">
+      <ContentWorkflowContentTypeContentTypeID>
+        <CodeName>DancingGoat.ArticlePage</CodeName>
+        <GUID>9b5e6c86-ebd1-4471-8f5d-dca72e39b12b</GUID>
+        <ObjectType>cms.contenttype</ObjectType>
+      </ContentWorkflowContentTypeContentTypeID>
+    </Binding>
+  </Bindings>
+</cms.contentworkflowcontenttype>

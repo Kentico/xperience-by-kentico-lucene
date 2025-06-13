@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<cms.contentitemcommondata>
+  <ContentItemCommonDataContentItemID>
+    <CodeName>MazzerSuperJollyDR-owwiurdz</CodeName>
+    <GUID>acbdb61f-0fd8-4fd7-b57e-cc577cd0164a</GUID>
+    <ObjectType>cms.contentitem</ObjectType>
+  </ContentItemCommonDataContentItemID>
+  <ContentItemCommonDataContentLanguageID>
+    <CodeName>en</CodeName>
+    <GUID>e4a8fb12-ebc2-45d0-930f-c9fba2780c85</GUID>
+    <ObjectType>cms.contentlanguage</ObjectType>
+  </ContentItemCommonDataContentLanguageID>
+  <ContentItemCommonDataFirstPublishedWhen>2025-02-04 14:08:28Z</ContentItemCommonDataFirstPublishedWhen>
+  <ContentItemCommonDataGUID>80bb7197-89c3-495f-8bdb-2bbc56782f7a</ContentItemCommonDataGUID>
+  <ContentItemCommonDataIsLatest>True</ContentItemCommonDataIsLatest>
+  <ContentItemCommonDataLastPublishedWhen>2025-04-14 15:59:17Z</ContentItemCommonDataLastPublishedWhen>
+  <ContentItemCommonDataVersionStatus>2</ContentItemCommonDataVersionStatus>
+  <ProductFieldCategory>
+    <![CDATA[[{"Identifier":"4c3bece5-3552-461c-b8f0-29f4fca27684"}]]]>
+  </ProductFieldCategory>
+  <ProductFieldDescription>
+    <![CDATA[<p>If you are a pro or at least serious about making coffee, the Mazzer Super Jolly DR is a great choice. Luxury cars are powerful and spacious; it's the same with this grinder. It provides you with a large hopper and doser with high-rev strong steel burrs powered by a 350-Watt engine.<br><br>Even though it may seem very powerful, engineers constructed the grinder very carefully so that it's also very precise. Pull the dosing lever quickly and a pre-set amount of coffee dispenses into the portafilter. Besides that, any setting you can think of is an easy job for the Mazzer. Choose a drip coffee, an espresso or a French press, and just turn the grind adjustment disc under the hopper.</p><ul><li>Suitable for drip coffees, espressos, and French presses</li><li>Lot of possible settings</li><li>Lever to dispense a pre-set amount of coffee (5.5–9 g)</li><li>Plastic 2.7 lb (1.2 kg) hopper</li><li>0.7 lb (280 g) doser</li></ul>]]>
+  </ProductFieldDescription>
+  <ProductFieldImage>
+    <![CDATA[[{"Identifier":"85c64f44-4546-4327-a20a-a7934061c1b3"}]]]>
+  </ProductFieldImage>
+  <ProductFieldName>Mazzer Super Jolly DR</ProductFieldName>
+  <ProductFieldPrice>674.9</ProductFieldPrice>
+  <ProductFieldTags>
+    <![CDATA[[{"Identifier":"2fe7ed0f-2204-44c5-bcd2-3be0721b19c1"},{"Identifier":"6aafec28-dabc-4090-bf59-b9c1ba62dd24"}]]]>
+  </ProductFieldTags>
+  <ProductSKUCode>ACC-MAZ-JOLLY</ProductSKUCode>
+  <ContentItemReferences>
+    <cms.contentitemreference>
+      <ContentItemReferenceGroupGUID>af37d29a-2fc8-4ead-82ef-d5ec6998f910</ContentItemReferenceGroupGUID>
+      <ContentItemReferenceGUID>27c34da7-b7f8-4b6e-b79a-e67b0f1af896</ContentItemReferenceGUID>
+      <ContentItemReferenceSourceCommonDataID>
+        <GUID>80bb7197-89c3-495f-8bdb-2bbc56782f7a</GUID>
+        <ObjectType>cms.contentitemcommondata</ObjectType>
+      </ContentItemReferenceSourceCommonDataID>
+      <ContentItemReferenceTargetItemID>
+        <CodeName>MazzerSuperJollyDR-3vnbvawz</CodeName>
+        <GUID>85c64f44-4546-4327-a20a-a7934061c1b3</GUID>
+        <ObjectType>cms.contentitem</ObjectType>
+      </ContentItemReferenceTargetItemID>
+    </cms.contentitemreference>
+  </ContentItemReferences>
+</cms.contentitemcommondata>

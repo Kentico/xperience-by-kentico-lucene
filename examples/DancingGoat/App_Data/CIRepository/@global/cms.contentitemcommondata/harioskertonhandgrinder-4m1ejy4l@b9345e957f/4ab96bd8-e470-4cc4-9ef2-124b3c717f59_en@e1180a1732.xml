@@ -1,0 +1,51 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<cms.contentitemcommondata>
+  <ContentItemCommonDataContentItemID>
+    <CodeName>HarioSkertonHandGrinder-4m1ejy4l</CodeName>
+    <GUID>a9689fb8-e06f-4363-9aa1-b5c1b427a0ee</GUID>
+    <ObjectType>cms.contentitem</ObjectType>
+  </ContentItemCommonDataContentItemID>
+  <ContentItemCommonDataContentLanguageID>
+    <CodeName>en</CodeName>
+    <GUID>e4a8fb12-ebc2-45d0-930f-c9fba2780c85</GUID>
+    <ObjectType>cms.contentlanguage</ObjectType>
+  </ContentItemCommonDataContentLanguageID>
+  <ContentItemCommonDataFirstPublishedWhen>2025-02-04 14:08:24Z</ContentItemCommonDataFirstPublishedWhen>
+  <ContentItemCommonDataGUID>4ab96bd8-e470-4cc4-9ef2-124b3c717f59</ContentItemCommonDataGUID>
+  <ContentItemCommonDataIsLatest>True</ContentItemCommonDataIsLatest>
+  <ContentItemCommonDataLastPublishedWhen>2025-04-14 16:03:24Z</ContentItemCommonDataLastPublishedWhen>
+  <ContentItemCommonDataVersionStatus>2</ContentItemCommonDataVersionStatus>
+  <ProductFieldCategory>
+    <![CDATA[[{"Identifier":"c33dd46a-0896-4920-b326-7e80659f7600"}]]]>
+  </ProductFieldCategory>
+  <ProductFieldDescription>
+    <![CDATA[<p>This grinder is rather small, but it's quick, easy-to-use, and precise. Choose your favorite brewing method and those strong conical ceramic burrs of high quality with thick and durable glass assure you that you won't regret it. But this grinder not only makes good grounds, it's also a pleasure to use! On the bottom, there's anti-slip rubber, and the handle feels awesome. After use, just put it in the dishwasher or wash it by hand, it's so easy.<br><br>The Hario Skerton Hand Grinder is also usable if you are a traveler. With the included screw top cover, grounds stay fresh and inside the grinder, even on bumpy roads.</p>]]>
+  </ProductFieldDescription>
+  <ProductFieldImage>
+    <![CDATA[[{"Identifier":"3ba57ae1-9224-4faf-a604-a594821073a9"}]]]>
+  </ProductFieldImage>
+  <ProductFieldName>Hario Skerton Hand Grinder</ProductFieldName>
+  <ProductFieldPrice>37.9</ProductFieldPrice>
+  <ProductFieldTags>
+    <![CDATA[[{"Identifier":"2fe7ed0f-2204-44c5-bcd2-3be0721b19c1"}]]]>
+  </ProductFieldTags>
+  <ProductManufacturerTag>
+    <![CDATA[[{"Identifier":"887ff3b9-3b62-4382-91f1-ece3be3d2fc8"}]]]>
+  </ProductManufacturerTag>
+  <ProductSKUCode>ACC-HAR-SKERTN</ProductSKUCode>
+  <ContentItemReferences>
+    <cms.contentitemreference>
+      <ContentItemReferenceGroupGUID>af37d29a-2fc8-4ead-82ef-d5ec6998f910</ContentItemReferenceGroupGUID>
+      <ContentItemReferenceGUID>99b98d83-b802-4230-8c84-42dc83e334fb</ContentItemReferenceGUID>
+      <ContentItemReferenceSourceCommonDataID>
+        <GUID>4ab96bd8-e470-4cc4-9ef2-124b3c717f59</GUID>
+        <ObjectType>cms.contentitemcommondata</ObjectType>
+      </ContentItemReferenceSourceCommonDataID>
+      <ContentItemReferenceTargetItemID>
+        <CodeName>HarioSkertonHandGrinder-vyr2504q</CodeName>
+        <GUID>3ba57ae1-9224-4faf-a604-a594821073a9</GUID>
+        <ObjectType>cms.contentitem</ObjectType>
+      </ContentItemReferenceTargetItemID>
+    </cms.contentitemreference>
+  </ContentItemReferences>
+</cms.contentitemcommondata>

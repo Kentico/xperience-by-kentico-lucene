@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<cms.webpageitem>
+  <WebPageItemContentItemID>
+    <CodeName>Brewers-2b0azsbq</CodeName>
+    <GUID>9e54f0f7-0210-4697-a012-e6828424ee66</GUID>
+    <ObjectType>cms.contentitem</ObjectType>
+  </WebPageItemContentItemID>
+  <WebPageItemGUID>cdab2dee-be32-4f60-afa5-28077064101a</WebPageItemGUID>
+  <WebPageItemName>Brewers-2b0azsbq</WebPageItemName>
+  <WebPageItemOrder>4</WebPageItemOrder>
+  <WebPageItemParentID>
+    <CodeName>Store-vvy7dhrj</CodeName>
+    <GUID>8b427cf8-8b41-42bb-8637-6d872bd9a804</GUID>
+    <ObjectType>cms.webpageitem</ObjectType>
+  </WebPageItemParentID>
+  <WebPageItemTreePath>/Navigation_menu/Store/Brewers</WebPageItemTreePath>
+  <WebPageItemWebsiteChannelID>
+    <GUID>55e3ae4b-3843-46b8-95d5-79611c371d6f</GUID>
+    <ObjectType>cms.websitechannel</ObjectType>
+    <Parent>
+      <CodeName>DancingGoatPages</CodeName>
+      <GUID>c430f96d-bd56-4448-b6ab-bce41a58f186</GUID>
+      <ObjectType>cms.channel</ObjectType>
+    </Parent>
+  </WebPageItemWebsiteChannelID>
+</cms.webpageitem>

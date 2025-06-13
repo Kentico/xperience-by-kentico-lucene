@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<cms.webpageitem>
+  <WebPageItemContentItemID>
+    <CodeName>Grinders-znw6k3q1</CodeName>
+    <GUID>f95577fc-3c69-4868-a4da-6cb75f71e55c</GUID>
+    <ObjectType>cms.contentitem</ObjectType>
+  </WebPageItemContentItemID>
+  <WebPageItemGUID>2785a53f-3ebe-4403-8c2f-14455e7e2c60</WebPageItemGUID>
+  <WebPageItemName>Grinders-znw6k3q1</WebPageItemName>
+  <WebPageItemOrder>3</WebPageItemOrder>
+  <WebPageItemParentID>
+    <CodeName>Store-vvy7dhrj</CodeName>
+    <GUID>8b427cf8-8b41-42bb-8637-6d872bd9a804</GUID>
+    <ObjectType>cms.webpageitem</ObjectType>
+  </WebPageItemParentID>
+  <WebPageItemTreePath>/Navigation_menu/Store/Grinders</WebPageItemTreePath>
+  <WebPageItemWebsiteChannelID>
+    <GUID>55e3ae4b-3843-46b8-95d5-79611c371d6f</GUID>
+    <ObjectType>cms.websitechannel</ObjectType>
+    <Parent>
+      <CodeName>DancingGoatPages</CodeName>
+      <GUID>c430f96d-bd56-4448-b6ab-bce41a58f186</GUID>
+      <ObjectType>cms.channel</ObjectType>
+    </Parent>
+  </WebPageItemWebsiteChannelID>
+</cms.webpageitem>

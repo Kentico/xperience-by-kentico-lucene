@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<contentitemdata.dancinggoat.image>
+  <ContentItemDataCommonDataID>
+    <GUID>6a8450c3-1ad4-49f2-af30-bc040f661bf5</GUID>
+    <ObjectType>cms.contentitemcommondata</ObjectType>
+    <Parent>
+      <CodeName>NicaraguaDipilto_decaf-b29qag7q</CodeName>
+      <GUID>cc054677-d3ac-4c3d-ae10-a89b08e10d72</GUID>
+      <ObjectType>cms.contentitem</ObjectType>
+    </Parent>
+  </ContentItemDataCommonDataID>
+  <ContentItemDataGUID>a152e331-7b94-4117-8f18-40bfaf8d0ec7</ContentItemDataGUID>
+  <ImageFile>
+    <![CDATA[{"Original":{"Identifier":"6ea363d2-d174-41a8-ab66-647aff173c6c","Name":"nicaragua.jpg","Extension":".jpg","Size":16413,"Width":400,"Height":400,"LastModified":"2025-02-03T14:07:41.4634373Z"},"OptimizationParameters":{"OutputExtension":"webp","Quality":70},"Identifier":"c603e769-d76e-4d56-af3e-c7ac0e0bab93","Name":"nicaragua.webp","Extension":".webp","Size":6696,"Width":400,"Height":400,"LastModified":"2025-02-03T14:07:41.4976007Z"}]]>
+  </ImageFile>
+</contentitemdata.dancinggoat.image>

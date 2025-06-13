@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
+using CMS.DataEngine;
 using CMS.Websites;
 
 using DancingGoat;
@@ -20,48 +22,26 @@ namespace DancingGoat.Controllers
 {
     public class DancingGoatArticleController : Controller
     {
-        private readonly ArticlePageRepository articlePageRepository;
-        private readonly ArticlesSectionRepository articlesSectionRepository;
-        private readonly IWebPageUrlRetriever urlRetriever;
-        private readonly IWebPageDataContextRetriever webPageDataContextRetriever;
-        private readonly IPreferredLanguageRetriever currentLanguageRetriever;
+        private readonly IContentRetriever contentRetriever;
 
 
-        public DancingGoatArticleController(
-            ArticlePageRepository articlePageRepository,
-            ArticlesSectionRepository articlesSectionRepository,
-            IWebPageUrlRetriever urlRetriever,
-            IWebPageDataContextRetriever webPageDataContextRetriever,
-            IPreferredLanguageRetriever currentLanguageRetriever)
+        public DancingGoatArticleController(IContentRetriever contentRetriever)
         {
-            this.articlePageRepository = articlePageRepository;
-            this.articlesSectionRepository = articlesSectionRepository;
-            this.urlRetriever = urlRetriever;
-            this.webPageDataContextRetriever = webPageDataContextRetriever;
-            this.currentLanguageRetriever = currentLanguageRetriever;
+            this.contentRetriever = contentRetriever;
         }
 
 
         public async Task<IActionResult> Index()
         {
-            var languageName = currentLanguageRetriever.Get();
+            var articlesSection = await contentRetriever.RetrieveCurrentPage<ArticlesSection>(
+                HttpContext.RequestAborted
+            );
 
-            var webPage = webPageDataContextRetriever.Retrieve().WebPage;
+            var articles = await GetArticles(articlesSection);
 
-            var articlesSection = await articlesSectionRepository.GetArticlesSection(webPage.WebPageItemID, languageName, HttpContext.RequestAborted);
+            var models = articles.Select(ArticleViewModel.GetViewModel);
 
-            var articles = await articlePageRepository.GetArticles(articlesSection.SystemFields.WebPageItemTreePath, languageName, true, cancellationToken: HttpContext.RequestAborted);
-
-            var models = new List<ArticleViewModel>();
-            foreach (var article in articles)
-            {
-                var articleModel = await ArticleViewModel.GetViewModel(article, urlRetriever, languageName);
-                models.Add(articleModel);
-            }
-
-            var url = (await urlRetriever.Retrieve(articlesSection, languageName)).RelativePath;
-
-            var model = ArticlesSectionViewModel.GetViewModel(articlesSection, models, url);
+            var model = ArticlesSectionViewModel.GetViewModel(articlesSection, models, articlesSection.GetUrl().RelativePath);
 
             return View(model);
         }
@@ -69,19 +49,35 @@ namespace DancingGoat.Controllers
 
         public async Task<IActionResult> Article()
         {
-            var languageName = currentLanguageRetriever.Get();
-            var webPageItemId = webPageDataContextRetriever.Retrieve().WebPage.WebPageItemID;
-
-            var article = await articlePageRepository.GetArticle(webPageItemId, languageName, HttpContext.RequestAborted);
+            var article = await contentRetriever.RetrieveCurrentPage<ArticlePage>(
+                new RetrieveCurrentPageParameters { IncludeSecuredItems = true, LinkedItemsMaxLevel = 3 },
+                HttpContext.RequestAborted
+            );
 
             if (article is null)
             {
                 return NotFound();
             }
 
-            var model = await ArticleDetailViewModel.GetViewModel(article, languageName, urlRetriever);
+            var model = ArticleDetailViewModel.GetViewModel(article);
 
             return new TemplateResult(model);
+        }
+
+
+        private async Task<IEnumerable<ArticlePage>> GetArticles(ArticlesSection articlesSection)
+        {
+            return await contentRetriever.RetrievePages<ArticlePage>(
+                new RetrievePagesParameters
+                {
+                    PathMatch = PathMatch.Children(articlesSection.SystemFields.WebPageItemTreePath),
+                    IncludeSecuredItems = true,
+                    LinkedItemsMaxLevel = 1
+                },
+                query => query.OrderBy(OrderByColumn.Desc(nameof(ArticlePage.ArticlePagePublishDate))),
+                new RetrievalCacheSettings($"OrderBy_{nameof(ArticlePage.ArticlePagePublishDate)}_{nameof(OrderByColumn.Desc)}"),
+                HttpContext.RequestAborted
+            );
         }
     }
 }

@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<cms.contentitemcommondata>
+  <ContentItemCommonDataContentItemID>
+    <CodeName>PaperFiltersForChemex-48kfec4u</CodeName>
+    <GUID>7bbb0551-8c94-4216-857a-598d939c9861</GUID>
+    <ObjectType>cms.contentitem</ObjectType>
+  </ContentItemCommonDataContentItemID>
+  <ContentItemCommonDataContentLanguageID>
+    <CodeName>en</CodeName>
+    <GUID>e4a8fb12-ebc2-45d0-930f-c9fba2780c85</GUID>
+    <ObjectType>cms.contentlanguage</ObjectType>
+  </ContentItemCommonDataContentLanguageID>
+  <ContentItemCommonDataFirstPublishedWhen>2025-03-25 09:38:03Z</ContentItemCommonDataFirstPublishedWhen>
+  <ContentItemCommonDataGUID>0c05e955-9ee5-4da9-b9cd-d85943a0e7fe</ContentItemCommonDataGUID>
+  <ContentItemCommonDataIsLatest>True</ContentItemCommonDataIsLatest>
+  <ContentItemCommonDataLastPublishedWhen>2025-03-25 09:38:03Z</ContentItemCommonDataLastPublishedWhen>
+  <ContentItemCommonDataVersionStatus>2</ContentItemCommonDataVersionStatus>
+  <ContentItemReferences>
+    <cms.contentitemreference>
+      <ContentItemReferenceGroupGUID>a266f250-8c59-46ff-ad68-ca57a3b4ed86</ContentItemReferenceGroupGUID>
+      <ContentItemReferenceGUID>7ca67a37-f0cf-4d05-ae89-986aeb86f315</ContentItemReferenceGUID>
+      <ContentItemReferenceSourceCommonDataID>
+        <GUID>0c05e955-9ee5-4da9-b9cd-d85943a0e7fe</GUID>
+        <ObjectType>cms.contentitemcommondata</ObjectType>
+      </ContentItemReferenceSourceCommonDataID>
+      <ContentItemReferenceTargetItemID>
+        <CodeName>PaperFiltersForChemex-cxfh00c7</CodeName>
+        <GUID>c6e51fe4-74f6-41db-92fd-3e3b36141e6b</GUID>
+        <ObjectType>cms.contentitem</ObjectType>
+      </ContentItemReferenceTargetItemID>
+    </cms.contentitemreference>
+  </ContentItemReferences>
+</cms.contentitemcommondata>

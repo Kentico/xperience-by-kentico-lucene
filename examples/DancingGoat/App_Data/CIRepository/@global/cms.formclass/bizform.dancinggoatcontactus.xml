@@ -1,0 +1,152 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<cms.formclass>
+  <ClassContactMapping>
+    <form>
+      <field column="ContactFirstName" enabled="true" guid="a7a74f45-9c3c-46ad-8fbf-5c12d483ff5d" mappedtofield="userfirstname" visible="true" />
+      <field column="ContactLastName" enabled="true" guid="a810bb7e-5c7a-4e44-a356-e132284ae6eb" mappedtofield="userlastname" visible="true" />
+      <field column="ContactEmail" enabled="true" guid="a117cc6e-3a74-4363-8567-ba2da38c8fd6" mappedtofield="useremail" visible="true" />
+    </form>
+  </ClassContactMapping>
+  <ClassContactOverwriteEnabled>False</ClassContactOverwriteEnabled>
+  <ClassDisplayName>Contact Us</ClassDisplayName>
+  <ClassFormDefinition>
+    <form>
+      <field column="Form_2023_09_12_17_45ID" columntype="integer" enabled="true" guid="cb462b70-df56-4128-b325-82775472a590" isPK="true" />
+      <field column="FormInserted" columnprecision="7" columntype="datetime" enabled="true" guid="822a0bb6-aeda-4b88-8fc7-a2aa867ae364" system="true">
+        <properties>
+          <fieldcaption>Form inserted</fieldcaption>
+        </properties>
+      </field>
+      <field column="FormUpdated" columnprecision="7" columntype="datetime" enabled="true" guid="7546c609-459c-4ff7-8c5c-8462f4e130cf" system="true">
+        <properties>
+          <fieldcaption>Form updated</fieldcaption>
+        </properties>
+      </field>
+      <field allowempty="true" column="UserFirstName" columnsize="500" columntype="text" enabled="true" guid="dc5fd062-5601-4ba5-a4bd-75bc722f69c2" visible="true">
+        <properties>
+          <fieldcaption>First name</fieldcaption>
+          <smart>False</smart>
+        </properties>
+        <settings>
+          <componentidentifier>Kentico.TextInput</componentidentifier>
+        </settings>
+        <validationrulesdata>
+          <ValidationRuleConfiguration>
+            <Identifier>Kentico.MaximumLength</Identifier>
+            <ValidationRule>
+              <InstanceIdentifier>59c0bb49-c4e4-4f6b-9c42-ebda8b17337c</InstanceIdentifier>
+              <ErrorMessage>Maximum allowed length of the input text is 100.</ErrorMessage>
+              <MaximumLength>100</MaximumLength>
+            </ValidationRule>
+          </ValidationRuleConfiguration>
+        </validationrulesdata>
+      </field>
+      <field allowempty="true" column="UserLastName" columnsize="500" columntype="text" enabled="true" guid="a4b3216b-0b12-4c36-9147-0ea02477b40b" visible="true">
+        <properties>
+          <fieldcaption>Last name</fieldcaption>
+          <smart>False</smart>
+        </properties>
+        <settings>
+          <componentidentifier>Kentico.TextInput</componentidentifier>
+        </settings>
+        <validationrulesdata>
+          <ValidationRuleConfiguration>
+            <Identifier>Kentico.MaximumLength</Identifier>
+            <ValidationRule>
+              <InstanceIdentifier>a004a57d-a084-445e-bea6-f589aaea1548</InstanceIdentifier>
+              <ErrorMessage>Maximum allowed length of the input text is 100.</ErrorMessage>
+              <MaximumLength>100</MaximumLength>
+            </ValidationRule>
+          </ValidationRuleConfiguration>
+        </validationrulesdata>
+      </field>
+      <field column="UserEmail" columnsize="500" columntype="text" enabled="true" guid="daae1fe5-f5a2-48de-b9f5-03d49dca3a6e" visible="true">
+        <properties>
+          <fieldcaption>Email</fieldcaption>
+          <smart>False</smart>
+        </properties>
+        <settings>
+          <componentidentifier>Kentico.EmailInput</componentidentifier>
+        </settings>
+        <validationrulesdata>
+          <ValidationRuleConfiguration>
+            <Identifier>Kentico.MaximumLength</Identifier>
+            <ValidationRule>
+              <InstanceIdentifier>0e4f50f5-89fa-49fd-a4e3-9bb32ee6b244</InstanceIdentifier>
+              <ErrorMessage>Maximum allowed length of the input text is 254.</ErrorMessage>
+              <MaximumLength>254</MaximumLength>
+            </ValidationRule>
+          </ValidationRuleConfiguration>
+        </validationrulesdata>
+      </field>
+      <field column="UserMessage" columntype="longtext" enabled="true" guid="8b99a7b9-5001-4e61-a502-c0e32e6e2598" visible="true">
+        <properties>
+          <fieldcaption>Message</fieldcaption>
+          <smart>False</smart>
+        </properties>
+        <settings>
+          <componentidentifier>Kentico.TextArea</componentidentifier>
+        </settings>
+      </field>
+    </form>
+  </ClassFormDefinition>
+  <ClassGUID>bb692509-e657-445b-a0c5-f51d8cd8fc87</ClassGUID>
+  <ClassHasUnmanagedDbSchema>False</ClassHasUnmanagedDbSchema>
+  <ClassName>BizForm.DancingGoatContactUs</ClassName>
+  <ClassTableName>Form_Form_2023_09_12_17_45</ClassTableName>
+  <ClassType>Form</ClassType>
+  <ClassXmlSchema>
+<![CDATA[
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="NewDataSet" xmlns="" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+  <xs:element name="NewDataSet" msdata:IsDataSet="true" msdata:UseCurrentLocale="true">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="Form_Form_2023_09_12_17_45">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="Form_2023_09_12_17_45ID" msdata:ReadOnly="true" msdata:AutoIncrement="true" type="xs:int" />
+              <xs:element name="FormInserted" type="xs:dateTime" />
+              <xs:element name="FormUpdated" type="xs:dateTime" />
+              <xs:element name="UserFirstName" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="500" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="UserLastName" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="500" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="UserEmail">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="500" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="UserMessage">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="2147483647" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+    <xs:unique name="Constraint1" msdata:PrimaryKey="true">
+      <xs:selector xpath=".//Form_Form_2023_09_12_17_45" />
+      <xs:field xpath="Form_2023_09_12_17_45ID" />
+    </xs:unique>
+  </xs:element>
+</xs:schema>
+]]>
+  </ClassXmlSchema>
+</cms.formclass>

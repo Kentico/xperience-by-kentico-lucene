@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<cms.tag>
+  <TagGUID>5e0196c5-d7c2-4e66-80d5-a134ee708c58</TagGUID>
+  <TagMetadata>
+    <![CDATA[{"Translations":{"fc939370-8f94-4fc9-8cc4-bfdef6ab748c":{"Title":null,"Description":null}}}]]>
+  </TagMetadata>
+  <TagName>FirstTimeCustomerOffer</TagName>
+  <TagOrder>3</TagOrder>
+  <TagTaxonomyID>
+    <CodeName>CafePromotion</CodeName>
+    <GUID>0eb82e7d-4af6-496a-bfc2-c0b3419956b7</GUID>
+    <ObjectType>cms.taxonomy</ObjectType>
+  </TagTaxonomyID>
+  <TagTitle>First-Time Customer Offer</TagTitle>
+</cms.tag>

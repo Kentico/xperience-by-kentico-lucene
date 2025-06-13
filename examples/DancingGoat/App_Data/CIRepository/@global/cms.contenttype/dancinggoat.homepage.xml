@@ -1,0 +1,101 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<cms.contenttype>
+  <ClassContentTypeType>Website</ClassContentTypeType>
+  <ClassDisplayName>Home page</ClassDisplayName>
+  <ClassFormDefinition>
+    <form>
+      <field column="ContentItemDataID" columntype="integer" enabled="true" guid="e9f9ebe2-be0d-4148-bce4-249779f49000" isPK="true" />
+      <field column="ContentItemDataCommonDataID" columntype="integer" enabled="true" guid="0673c391-464a-4c31-b09c-9816e84fe922" refobjtype="cms.contentitemcommondata" reftype="Required" system="true" />
+      <field column="ContentItemDataGUID" columntype="guid" enabled="true" guid="c5e62f55-cbd9-49ad-a650-10be1af015b4" isunique="true" system="true" />
+      <field allowempty="true" column="HomePageBanner" columnprecision="0" columntype="contentitemreference" enabled="true" guid="56f58ce4-fb20-4220-823b-95115e46fdb9" visible="true">
+        <properties>
+          <explanationtextashtml>False</explanationtextashtml>
+          <fieldcaption>Banner</fieldcaption>
+          <fielddescriptionashtml>False</fielddescriptionashtml>
+        </properties>
+        <settings>
+          <AllowedContentItemTypeIdentifiers>
+            <![CDATA[["7aed617e-fcee-42fe-ac1d-74893d4fa9e0"]]]>
+          </AllowedContentItemTypeIdentifiers>
+          <controlname>Kentico.Administration.ContentItemSelector</controlname>
+        </settings>
+      </field>
+      <field allowempty="true" column="HomePageEvent" columnprecision="0" columntype="contentitemreference" enabled="true" guid="9088319d-f909-4f38-93aa-e8598c78382b" visible="true">
+        <properties>
+          <explanationtextashtml>False</explanationtextashtml>
+          <fieldcaption>Events</fieldcaption>
+          <fielddescriptionashtml>False</fielddescriptionashtml>
+        </properties>
+        <settings>
+          <AllowedContentItemTypeIdentifiers>
+            <![CDATA[["1f61cca9-7551-4634-82ed-dfb4e4db8c0e"]]]>
+          </AllowedContentItemTypeIdentifiers>
+          <controlname>Kentico.Administration.ContentItemSelector</controlname>
+        </settings>
+      </field>
+      <field column="HomePageOurStory" columnprecision="0" columntype="longtext" enabled="true" guid="63720e59-8be0-4233-b8d5-f585fd9fb044" visible="true">
+        <properties>
+          <explanationtextashtml>False</explanationtextashtml>
+          <fieldcaption>Our story</fieldcaption>
+          <fielddescriptionashtml>False</fielddescriptionashtml>
+        </properties>
+        <settings>
+          <controlname>Kentico.Administration.TextArea</controlname>
+          <CopyButtonVisible>False</CopyButtonVisible>
+          <MaxRowsNumber>5</MaxRowsNumber>
+          <MinRowsNumber>3</MinRowsNumber>
+        </settings>
+      </field>
+      <field allowempty="true" column="HomePageReference" columnprecision="0" columntype="contentitemreference" enabled="true" guid="cbb9f04b-4901-4773-b551-a17ad70ca6e6" visible="true">
+        <properties>
+          <explanationtextashtml>False</explanationtextashtml>
+          <fieldcaption>Reference</fieldcaption>
+          <fielddescriptionashtml>False</fielddescriptionashtml>
+        </properties>
+        <settings>
+          <AllowedContentItemTypeIdentifiers>
+            <![CDATA[["fd221dc3-2ad9-443a-88b4-b15d52873d7f"]]]>
+          </AllowedContentItemTypeIdentifiers>
+          <controlname>Kentico.Administration.ContentItemSelector</controlname>
+        </settings>
+      </field>
+      <field allowempty="true" column="HomePageCafesFolder" columnprecision="0" columntype="smartfolder" enabled="true" guid="25173fd0-abeb-4ff8-8e65-3a11f327b88e" visible="true">
+        <properties>
+          <explanationtextashtml>False</explanationtextashtml>
+          <fieldcaption>Cafes Folder</fieldcaption>
+          <fielddescriptionashtml>False</fielddescriptionashtml>
+        </properties>
+        <settings>
+          <AllowedContentTypeIdentifiers>
+            <![CDATA[["2f06d20b-3357-48e6-b0f8-2ca7ef737237"]]]>
+          </AllowedContentTypeIdentifiers>
+          <controlname>Kentico.Administration.SmartFolderSelector</controlname>
+          <SelectionType>contentTypes</SelectionType>
+        </settings>
+      </field>
+      <field allowempty="true" column="HomePageArticlesSection" columnprecision="0" columntype="webpages" enabled="true" guid="4d18ccea-4ea6-4ec1-88e9-bdbecc8e1ff5" visible="true">
+        <properties>
+          <explanationtextashtml>False</explanationtextashtml>
+          <fieldcaption>Articles Section</fieldcaption>
+          <fielddescriptionashtml>False</fielddescriptionashtml>
+        </properties>
+        <settings>
+          <controlname>Kentico.Administration.WebPageSelector</controlname>
+          <MaximumPages>1</MaximumPages>
+          <Sortable>False</Sortable>
+        </settings>
+      </field>
+      <schema guid="7c7b596d-5b91-40a5-8ded-f2e4757d8e66" name="7c7b596d-5b91-40a5-8ded-f2e4757d8e66">
+        <properties />
+      </schema>
+    </form>
+  </ClassFormDefinition>
+  <ClassGUID>92908e16-49f3-4576-b9c8-024461af012c</ClassGUID>
+  <ClassHasUnmanagedDbSchema>False</ClassHasUnmanagedDbSchema>
+  <ClassIconClass>xp-home</ClassIconClass>
+  <ClassName>DancingGoat.HomePage</ClassName>
+  <ClassShortName>DancingGoatHomePage</ClassShortName>
+  <ClassTableName>DancingGoat_HomePage</ClassTableName>
+  <ClassType>Content</ClassType>
+  <ClassWebPageHasUrl>True</ClassWebPageHasUrl>
+</cms.contenttype>

@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<contentitemdata.dancinggoat.productpage>
+  <ContentItemDataCommonDataID>
+    <GUID>2dfc757c-8bb2-409a-b82c-2b92f9b02e35</GUID>
+    <ObjectType>cms.contentitemcommondata</ObjectType>
+    <Parent>
+      <CodeName>HarioV60-ecsd7ayf</CodeName>
+      <GUID>1ed618bc-5d4c-42a3-87e4-e15940d2a37a</GUID>
+      <ObjectType>cms.contentitem</ObjectType>
+    </Parent>
+  </ContentItemDataCommonDataID>
+  <ContentItemDataGUID>d34071ae-e42b-40d9-9bf3-9de4c50e76bd</ContentItemDataGUID>
+  <ProductPageProduct>
+    <![CDATA[[{"Identifier":"e72cdfb0-f771-45a2-9864-7c5a9a740a40"}]]]>
+  </ProductPageProduct>
+</contentitemdata.dancinggoat.productpage>

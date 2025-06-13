@@ -20,7 +20,7 @@ namespace DancingGoat.Models
 	/// Represents a page of type <see cref="ConfirmationPage"/>.
 	/// </summary>
 	[RegisterContentTypeMapping(CONTENT_TYPE_NAME)]
-	public partial class ConfirmationPage : IWebPageFieldsSource, ISEOFields
+	public partial class ConfirmationPage : IWebPageFieldsSource
 	{
 		/// <summary>
 		/// Code name of the content type.
@@ -57,23 +57,5 @@ namespace DancingGoat.Models
 		/// ConfirmationPageArticlesSection.
 		/// </summary>
 		public IEnumerable<WebPageRelatedItem> ConfirmationPageArticlesSection { get; set; }
-
-
-		/// <summary>
-		/// SEOFieldsTitle.
-		/// </summary>
-		public string SEOFieldsTitle { get; set; }
-
-
-		/// <summary>
-		/// SEOFieldsDescription.
-		/// </summary>
-		public string SEOFieldsDescription { get; set; }
-
-
-		/// <summary>
-		/// SEOFieldsAllowSearchIndexing.
-		/// </summary>
-		public bool SEOFieldsAllowSearchIndexing { get; set; }
 	}
 }

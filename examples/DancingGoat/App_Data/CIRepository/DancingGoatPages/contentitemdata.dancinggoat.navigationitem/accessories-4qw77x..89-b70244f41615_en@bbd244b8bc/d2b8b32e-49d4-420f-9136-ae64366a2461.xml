@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<contentitemdata.dancinggoat.navigationitem>
+  <ContentItemDataCommonDataID>
+    <GUID>1f1f61e8-03b0-4a9b-8689-b70244f41615</GUID>
+    <ObjectType>cms.contentitemcommondata</ObjectType>
+    <Parent>
+      <CodeName>Accessories-4qw77x8o</CodeName>
+      <GUID>3101667f-7fe4-4dc1-8f25-02f3ab16fbc2</GUID>
+      <ObjectType>cms.contentitem</ObjectType>
+    </Parent>
+  </ContentItemDataCommonDataID>
+  <ContentItemDataGUID>d2b8b32e-49d4-420f-9136-ae64366a2461</ContentItemDataGUID>
+  <NavigationItemLink>
+    <![CDATA[[{"WebPageGuid":"42aed95a-2b28-4fa2-8f63-22380c5c51af"}]]]>
+  </NavigationItemLink>
+  <NavigationItemName>Accessories</NavigationItemName>
+</contentitemdata.dancinggoat.navigationitem>

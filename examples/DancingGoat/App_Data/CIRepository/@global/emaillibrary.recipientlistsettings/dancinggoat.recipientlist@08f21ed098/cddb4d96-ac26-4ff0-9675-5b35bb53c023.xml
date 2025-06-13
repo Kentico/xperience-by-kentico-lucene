@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<emaillibrary.recipientlistsettings>
+  <RecipientListSettingsAfterConfirmationPage>994c34c1-b46d-4877-b7bf-fdceca0045c4</RecipientListSettingsAfterConfirmationPage>
+  <RecipientListSettingsAfterUnsubscriptionPage>6a35be72-5b4b-4e9e-bc8b-b54b2ce52cdd</RecipientListSettingsAfterUnsubscriptionPage>
+  <RecipientListSettingsGUID>cddb4d96-ac26-4ff0-9675-5b35bb53c023</RecipientListSettingsGUID>
+  <RecipientListSettingsRecipientListID>
+    <CodeName>DancingGoat.RecipientList</CodeName>
+    <GUID>82c6d953-a0a7-4f85-b7e1-4bb29ded7680</GUID>
+    <ObjectType>om.recipientlist</ObjectType>
+  </RecipientListSettingsRecipientListID>
+  <RecipientListSettingsSendSubscriptionConfirmationEmail>True</RecipientListSettingsSendSubscriptionConfirmationEmail>
+  <RecipientListSettingsSendUnsubscriptionConfirmationEmail>True</RecipientListSettingsSendUnsubscriptionConfirmationEmail>
+  <RecipientListSettingsSubscriptionConfirmationEmailID>
+    <CodeName>DancingGoatSubscriptionConfirmation-72wdczqk</CodeName>
+    <GUID>d965243a-2cf6-426f-a359-11663b68d36f</GUID>
+    <ObjectType>emaillibrary.emailconfiguration</ObjectType>
+  </RecipientListSettingsSubscriptionConfirmationEmailID>
+  <RecipientListSettingsUnsubscriptionConfirmationEmailID>
+    <CodeName>DancingGoatUnsubscriptionConfirmation-iu3iyfou</CodeName>
+    <GUID>b90cdadc-735b-4f7e-a758-cec0a45b1d0c</GUID>
+    <ObjectType>emaillibrary.emailconfiguration</ObjectType>
+  </RecipientListSettingsUnsubscriptionConfirmationEmailID>
+</emaillibrary.recipientlistsettings>

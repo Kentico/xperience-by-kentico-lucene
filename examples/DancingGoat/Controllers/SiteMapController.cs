@@ -1,16 +1,18 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System;
+using System.Collections.Generic;
+using System.Net.Mime;
+using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
 
 using CMS.ContentEngine;
-using CMS.DataEngine;
+using CMS.Helpers;
 using CMS.Websites;
+using CMS.Websites.Routing;
 
 using DancingGoat.Models;
 
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DancingGoat.Controllers
@@ -20,21 +22,22 @@ namespace DancingGoat.Controllers
     /// </summary>
     public class SiteMapController : Controller
     {
-        private const string XML_TYPE = "application/xml";
-
         private readonly IContentQueryExecutor contentQueryExecutor;
-        private readonly IWebPageUrlRetriever urlRetriever;
-        private readonly IInfoProvider<ContentLanguageInfo> contentLanguageProvider;
-
+        private readonly IProgressiveCache progressiveCache;
+        private readonly IWebsiteChannelContext websiteChannelContext;
+        private static readonly double cacheMinutes = TimeSpan.FromDays(0).TotalMinutes;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SiteMapController"/> class.
         /// </summary>
-        public SiteMapController(IContentQueryExecutor contentQueryExecutor, IWebPageUrlRetriever urlRetriever, IInfoProvider<ContentLanguageInfo> contentLanguageProvider)
+        public SiteMapController(
+            IContentQueryExecutor contentQueryExecutor,
+            IProgressiveCache progressiveCache,
+            IWebsiteChannelContext websiteChannelContext)
         {
             this.contentQueryExecutor = contentQueryExecutor;
-            this.urlRetriever = urlRetriever;
-            this.contentLanguageProvider = contentLanguageProvider;
+            this.progressiveCache = progressiveCache;
+            this.websiteChannelContext = websiteChannelContext;
         }
 
 
@@ -42,76 +45,74 @@ namespace DancingGoat.Controllers
         [Route("/sitemap.xml")]
         public async Task<ContentResult> Index()
         {
+            var sitemapXml = await progressiveCache.LoadAsync(async _ => await GenerateSitemapXml(), GetCacheSettings());
+
+            return Content(sitemapXml, MediaTypeNames.Application.Xml);
+
+            CacheSettings GetCacheSettings() => new(cacheMinutes, $"{nameof(SiteMapController)}|{nameof(Index)}")
+            {
+                GetCacheDependency = () => CacheHelper.GetCacheDependency(
+                    [
+                        // Since we can't detect only reusable field schema-based page changes,
+                        // we need to respond to all changes in the content tree
+                        $"webpageitem|bychannel|{websiteChannelContext.WebsiteChannelName}|childrenofpath|/",
+                            // Since we can't detect only reusable field schema changes or
+                            // additions or removals within a content type definition,
+                            // we need to respond to all changes in content types
+                            "cms.contenttype|all"
+                    ])
+            };
+        }
+
+
+        private async Task<string> GenerateSitemapXml()
+        {
             var options = new ContentQueryExecutionOptions
             {
                 ForPreview = false,
                 IncludeSecuredItems = false
             };
 
-            var relativeUrls = new List<string>();
+            var builder = new ContentItemQueryBuilder()
+                // Get all pages with the SEO fields schema in the current website
+                .ForContentTypes(p => p.OfReusableSchema(ISEOFields.REUSABLE_FIELD_SCHEMA_NAME).ForWebsite())
+                .Parameters(p =>
+                    // Limit data to required columns
+                    p.UrlPathColumns()
+                    // Filter out pages that don't allow search indexing,
+                    // the default value is true, so null values are considered as true as well
+                    .Where(w =>
+                        w.WhereNull(nameof(ISEOFields.SEOFieldsAllowSearchIndexing))
+                            .Or().WhereTrue(nameof(ISEOFields.SEOFieldsAllowSearchIndexing))));
 
-            foreach (var language in contentLanguageProvider.Get().OrderByDescending(i => i.ContentLanguageIsDefault))
-            {
-                var builder = new ContentItemQueryBuilder().ForContentTypes(p => p.OfReusableSchema("SEOFields").ForWebsite())
-                                                           .InLanguage(language.ContentLanguageName, false)
-                                                           .Parameters(p => p.Columns(nameof(IWebPageContentQueryDataContainer.WebPageItemID))
-                                                                             .Where(w => w.WhereTrue(nameof(ISEOFields.SEOFieldsAllowSearchIndexing))));
+            var languagePaths = await contentQueryExecutor.GetMappedWebPageResult<IWebPageFieldsSource>(builder, options, HttpContext.RequestAborted);
 
-                var pageIdentifiers = await contentQueryExecutor.GetWebPageResult(builder, i => i.WebPageItemID, options, HttpContext.RequestAborted);
-                var languageUrls = await GetWebPageRelativeUrls(pageIdentifiers, language.ContentLanguageName);
-
-                relativeUrls.AddRange(languageUrls);
-            }
-
-            var absoluteUrls = GetAbsoluteUrls(relativeUrls);
-            var document = GetSitemap(absoluteUrls);
-
-            return Content(document.OuterXml, XML_TYPE);
+            return BuildSitemap(languagePaths, HttpContext.Request);
         }
 
 
-        private async Task<IEnumerable<string>> GetWebPageRelativeUrls(IEnumerable<int> pageIdentifiers, string languageName)
+        private string BuildSitemap(IEnumerable<IWebPageFieldsSource> pages, HttpRequest request)
         {
-            var relativeUrls = new List<string>();
-
-            foreach (var pageIdentifier in pageIdentifiers)
+            var stringBuilder = new StringBuilder();
+            using (var xmlWriter = XmlWriter.Create(stringBuilder, new XmlWriterSettings { Indent = true }))
             {
-                var webPageUrl = await urlRetriever.Retrieve(pageIdentifier, languageName, false, HttpContext.RequestAborted);
-                relativeUrls.Add(webPageUrl.RelativePath.TrimStart('~'));
+                xmlWriter.WriteStartDocument();
+                xmlWriter.WriteStartElement("urlset", "http://www.sitemaps.org/schemas/sitemap/0.9");
+
+                foreach (var page in pages)
+                {
+                    var pageUrl = page.GetUrl();
+
+                    xmlWriter.WriteStartElement("url");
+                    xmlWriter.WriteElementString("loc", pageUrl.AbsoluteUrl);
+                    xmlWriter.WriteEndElement();
+                }
+
+                xmlWriter.WriteEndElement();
+                xmlWriter.WriteEndDocument();
             }
 
-            return relativeUrls;
-        }
-
-
-        private IEnumerable<string> GetAbsoluteUrls(IEnumerable<string> relativeUrls)
-        {
-            var request = HttpContext.Request;
-
-            return relativeUrls.Select(i => UriHelper.BuildAbsolute(request.Scheme, request.Host, path: i)).OrderBy(i => i);
-        }
-
-
-        private static XmlDocument GetSitemap(IEnumerable<string> urls)
-        {
-            var document = new XmlDocument();
-
-            var urlSet = document.CreateElement("urlset");
-            urlSet.SetAttribute("xmlns", "http://www.sitemaps.org/schemas/sitemap/0.9");
-
-            foreach (var url in urls)
-            {
-                var element = document.CreateElement("url");
-                var location = document.CreateElement("loc");
-                location.InnerText = url;
-
-                element.AppendChild(location);
-                urlSet.AppendChild(element);
-            }
-
-            document.AppendChild(urlSet);
-
-            return document;
+            return stringBuilder.ToString();
         }
     }
 }

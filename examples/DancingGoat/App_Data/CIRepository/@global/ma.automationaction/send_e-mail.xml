@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ma.automationaction>
+  <ActionAssemblyName>CMS.Automation</ActionAssemblyName>
+  <ActionClass>CMS.Automation.Internal.EmailAction</ActionClass>
+  <ActionDescription>
+    <![CDATA[Using this step, you can automatically send out email messages according to the step's properties, where you can specify the recipients and the template the emails will be based on.]]>
+  </ActionDescription>
+  <ActionDisplayName>Send email</ActionDisplayName>
+  <ActionEnabled>True</ActionEnabled>
+  <ActionGUID>a578a254-b251-4f1e-abb7-533e5898f012</ActionGUID>
+  <ActionName>Send_e-mail</ActionName>
+  <ActionWorkflowType>3</ActionWorkflowType>
+</ma.automationaction>

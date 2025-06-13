@@ -1,0 +1,17 @@
+﻿@using Kentico.EmailBuilder.Web.Mvc
+@using Kentico.VisualBuilderComponents.Rcl.Components
+
+@namespace DancingGoat.EmailComponents
+
+@if (EmailContext.BuilderMode == EmailBuilderMode.Edit)
+{
+    <mj-text font-size="16px">
+        <RichTextInlineEditor PropertyName=@nameof(Properties.Text)/>
+    </mj-text>
+}
+else
+{
+    <mj-text font-size="16px">
+        @((MarkupString)Properties.Text)
+    </mj-text>
+}

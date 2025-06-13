@@ -1,0 +1,52 @@
+﻿@using CMS.Commerce
+@using DancingGoat.Commerce
+@using DancingGoat.Models
+@using Kentico.Content.Web.Mvc.Routing
+
+@inject IPreferredLanguageRetriever currentLanguageRetriever
+
+@model ShoppingCartViewModel
+
+@{
+    var languageName = currentLanguageRetriever.Get();
+}
+
+@foreach (var cartItem in Model.Items)
+{
+    <div class="row">
+        <div class="col-md-10">
+            @if (!string.IsNullOrEmpty(cartItem.ImageUrl))
+            {
+                <div class="cart-item-image">
+                    <a href="@cartItem.DetailUrl">
+                        <img src="@cartItem.ImageUrl" alt="@cartItem.Name" title="@cartItem.Name" />
+                    </a>
+                </div>
+            }
+            <div class="cart-item-info">
+                <a href="@cartItem.DetailUrl">
+                    @cartItem.Name
+                </a>
+            </div>
+            @{
+                var routeData = new Dictionary<string, string> { { "languageName", languageName } };
+                <form asp-action="HandleAddRemove" asp-controller="DancingGoatShoppingCart" asp-all-route-data="routeData" method="post">
+                    <div class="cart-item-amount">
+                        <span>Qty</span>
+                        <input type="hidden" name="contentItemId" value="@cartItem.ContentItemId" />
+                        <input type="hidden" name="variantId" value="@cartItem.VariantId" />
+                        <input type="number" name="quantity" value="@cartItem.Quantity" class="form-control" size="2" min="1" max="1000" />
+                        <button class="btn btn-default" name="action" value="Update">@HtmlLocalizer["Update"]</button>
+                        <button class="btn btn-default" name="action" value="RemoveAll">@HtmlLocalizer["Remove"]</button>
+                    </div>
+                </form>
+            }
+            
+            @Html.ValidationMessage(cartItem.ContentItemId.ToString(), new { @class = "red"})
+        </div>
+        <div class="col-md-2 cart-item-subtotal">
+            <price>@cartItem.TotalPrice</price>
+        </div>
+    </div>
+    <hr />
+}

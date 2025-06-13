@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<cms.webpageitem>
+  <WebPageItemContentItemID>
+    <CodeName>Coffees-x30u88a2</CodeName>
+    <GUID>653b32f3-6774-4ba6-a279-99781a8793d9</GUID>
+    <ObjectType>cms.contentitem</ObjectType>
+  </WebPageItemContentItemID>
+  <WebPageItemGUID>221b2da3-9225-4730-b880-657ac4d35b51</WebPageItemGUID>
+  <WebPageItemName>Coffees-x30u88a2</WebPageItemName>
+  <WebPageItemOrder>4</WebPageItemOrder>
+  <WebPageItemParentID>
+    <CodeName>Store-8gtyoz81</CodeName>
+    <GUID>888992c0-8702-4c4d-b50e-ac7c61f0a2fe</GUID>
+    <ObjectType>cms.webpageitem</ObjectType>
+  </WebPageItemParentID>
+  <WebPageItemTreePath>/Store/Coffees</WebPageItemTreePath>
+  <WebPageItemWebsiteChannelID>
+    <GUID>55e3ae4b-3843-46b8-95d5-79611c371d6f</GUID>
+    <ObjectType>cms.websitechannel</ObjectType>
+    <Parent>
+      <CodeName>DancingGoatPages</CodeName>
+      <GUID>c430f96d-bd56-4448-b6ab-bce41a58f186</GUID>
+      <ObjectType>cms.channel</ObjectType>
+    </Parent>
+  </WebPageItemWebsiteChannelID>
+</cms.webpageitem>

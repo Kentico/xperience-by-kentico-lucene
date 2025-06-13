@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<cms.contentitemcommondata>
+  <ContentItemCommonDataContentItemID>
+    <CodeName>NicaraguaDipilto_decaf-y42c4dsg</CodeName>
+    <GUID>4e72dc44-949c-4346-aec4-b0c84f1c9653</GUID>
+    <ObjectType>cms.contentitem</ObjectType>
+  </ContentItemCommonDataContentItemID>
+  <ContentItemCommonDataContentLanguageID>
+    <CodeName>en</CodeName>
+    <GUID>e4a8fb12-ebc2-45d0-930f-c9fba2780c85</GUID>
+    <ObjectType>cms.contentlanguage</ObjectType>
+  </ContentItemCommonDataContentLanguageID>
+  <ContentItemCommonDataFirstPublishedWhen>2025-02-04 14:08:30Z</ContentItemCommonDataFirstPublishedWhen>
+  <ContentItemCommonDataGUID>f6bff05e-d3f3-425e-a47c-c768347a995a</ContentItemCommonDataGUID>
+  <ContentItemCommonDataIsLatest>True</ContentItemCommonDataIsLatest>
+  <ContentItemCommonDataLastPublishedWhen>2025-04-14 15:58:41Z</ContentItemCommonDataLastPublishedWhen>
+  <ContentItemCommonDataVersionStatus>2</ContentItemCommonDataVersionStatus>
+  <ProductFieldCategory>
+    <![CDATA[[{"Identifier":"cfe8a882-9424-4d03-81a6-a941fd559cde"}]]]>
+  </ProductFieldCategory>
+  <ProductFieldDescription>
+    <![CDATA[<p>Quite a peculiar coffee bean, grown at the El Progresso farm in Nueva Segovie, which is one of Nicaragua's smallest municipalities. This region is next to the mountainous border with Honduras. The north is known for its pines, natural hot springs, amazing cliff-side views, and, of course, the quality of the locally produced coffee. This is partially thanks to the evenly distributed rainfall throughout the year and mild temperatures. Nicaragua Dipilto is grown by a cooperation created to protect the rights of local farming families in the region. Despite being more of an aggregate of family businesses, it has a central cupping lab that provides unified and modern quality control.</p><p>Dipilto is best prepared with a darker roast than most Central American varietals. It has a medium body with an aftertaste that might remind you of a rich, spicy tea. The coffee has excellent depth, strong and rich, but a balanced aroma. The beans themselves have a nut-butter like polish to them. The aroma will remind you of chocolate, caramel, and blooming spring flowers. The finish is uncommonly long.</p>]]>
+  </ProductFieldDescription>
+  <ProductFieldImage>
+    <![CDATA[[{"Identifier":"cc054677-d3ac-4c3d-ae10-a89b08e10d72"}]]]>
+  </ProductFieldImage>
+  <ProductFieldName>Nicaragua Dipilto (decaf)</ProductFieldName>
+  <ProductFieldPrice>5</ProductFieldPrice>
+  <ProductSKUCode>CAF-NIC-DIPI-D</ProductSKUCode>
+  <ContentItemReferences>
+    <cms.contentitemreference>
+      <ContentItemReferenceGroupGUID>af37d29a-2fc8-4ead-82ef-d5ec6998f910</ContentItemReferenceGroupGUID>
+      <ContentItemReferenceGUID>f820b343-a33b-4622-9cb6-764a2594368f</ContentItemReferenceGUID>
+      <ContentItemReferenceSourceCommonDataID>
+        <GUID>f6bff05e-d3f3-425e-a47c-c768347a995a</GUID>
+        <ObjectType>cms.contentitemcommondata</ObjectType>
+      </ContentItemReferenceSourceCommonDataID>
+      <ContentItemReferenceTargetItemID>
+        <CodeName>NicaraguaDipilto_decaf-b29qag7q</CodeName>
+        <GUID>cc054677-d3ac-4c3d-ae10-a89b08e10d72</GUID>
+        <ObjectType>cms.contentitem</ObjectType>
+      </ContentItemReferenceTargetItemID>
+    </cms.contentitemreference>
+  </ContentItemReferences>
+</cms.contentitemcommondata>

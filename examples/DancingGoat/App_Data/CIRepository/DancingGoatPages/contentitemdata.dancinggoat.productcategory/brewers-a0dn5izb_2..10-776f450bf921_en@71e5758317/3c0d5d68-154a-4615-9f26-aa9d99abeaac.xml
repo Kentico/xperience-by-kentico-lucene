@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<contentitemdata.dancinggoat.productcategory>
+  <ContentItemDataCommonDataID>
+    <GUID>2d352e36-777e-4e58-b110-776f450bf921</GUID>
+    <ObjectType>cms.contentitemcommondata</ObjectType>
+    <Parent>
+      <CodeName>Brewers-a0dn5izb</CodeName>
+      <GUID>946003ce-7f95-4f56-b7b1-9ac3a528e7e1</GUID>
+      <ObjectType>cms.contentitem</ObjectType>
+    </Parent>
+  </ContentItemDataCommonDataID>
+  <ContentItemDataGUID>3c0d5d68-154a-4615-9f26-aa9d99abeaac</ContentItemDataGUID>
+  <ProductType>DancingGoat.ProductBrewer</ProductType>
+</contentitemdata.dancinggoat.productcategory>

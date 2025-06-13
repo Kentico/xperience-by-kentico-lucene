@@ -1,0 +1,38 @@
+﻿@using DancingGoat.Models
+@using DancingGoat.Services
+
+@inject WebPageUrlProvider webPageUrlProvider
+
+@model CheckoutViewModel
+
+@{
+    ViewBag.Title = HtmlLocalizer["Customer details"].Value;
+
+    var shoppingCartPageUrl = await webPageUrlProvider.ShoppingCartPageUrl();
+}
+
+<div class="checkout-container">
+    <div class="cart">
+        <div class="checkout-back-link">
+            <a href="@shoppingCartPageUrl">&larr; @HtmlLocalizer["back to shopping cart"]</a>
+        </div>
+
+        <form asp-controller="DancingGoatCheckout" method="post" id="checkoutForm">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="customer-details">
+                        @Html.EditorFor(m => m.Customer)
+                        @Html.EditorFor(m => m.CustomerAddress)
+                    </div>
+                </div>
+                <div class="col-md-4 col-md-offset-4">
+                    <div class="cart-right-panel floating-box">
+                        <p>@HtmlLocalizer["Fill in your billing details and proceed to review your order."]</p>
+                        <input type="submit" class="btn btn-primary btn-default checkout-button" value="@HtmlLocalizer["review order"]" />
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

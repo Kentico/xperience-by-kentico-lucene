@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<contentitemdata.dancinggoat.productpage>
+  <ContentItemDataCommonDataID>
+    <GUID>fa398ad5-344e-43a0-b22f-bf8030ed8f90</GUID>
+    <ObjectType>cms.contentitemcommondata</ObjectType>
+    <Parent>
+      <CodeName>CupWithSaucer-yrpp7loq</CodeName>
+      <GUID>602b9697-9677-42c3-ac03-291bdb8945f3</GUID>
+      <ObjectType>cms.contentitem</ObjectType>
+    </Parent>
+  </ContentItemDataCommonDataID>
+  <ContentItemDataGUID>57ca2f70-b0c0-405f-b849-1c7d7a87f2f0</ContentItemDataGUID>
+  <ProductPageProduct>
+    <![CDATA[[{"Identifier":"3a34025f-ac1e-4a24-8720-f4ca9a181c15"}]]]>
+  </ProductPageProduct>
+</contentitemdata.dancinggoat.productpage>

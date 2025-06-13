@@ -1,0 +1,66 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<cms.contenttype>
+  <ClassContentTypeType>Reusable</ClassContentTypeType>
+  <ClassDisplayName>Reference</ClassDisplayName>
+  <ClassFormDefinition>
+    <form>
+      <field column="ContentItemDataID" columntype="integer" enabled="true" guid="18f8e93c-9f90-4c66-a061-99009d33bf03" isPK="true" />
+      <field column="ContentItemDataCommonDataID" columntype="integer" enabled="true" guid="0673c391-464a-4c31-b09c-9816e84fe922" refobjtype="cms.contentitemcommondata" reftype="Required" system="true" />
+      <field column="ContentItemDataGUID" columntype="guid" enabled="true" guid="49b43230-32ec-44ae-b803-86767219b9e1" isunique="true" system="true" />
+      <field column="ReferenceName" columnprecision="0" columnsize="200" columntype="text" enabled="true" guid="100875dd-73aa-4914-8548-565be2944283" visible="true">
+        <properties>
+          <explanationtextashtml>False</explanationtextashtml>
+          <fieldcaption>Name</fieldcaption>
+          <fielddescriptionashtml>False</fielddescriptionashtml>
+        </properties>
+        <settings>
+          <controlname>Kentico.Administration.TextInput</controlname>
+        </settings>
+      </field>
+      <field column="ReferenceDescription" columnprecision="0" columnsize="200" columntype="text" enabled="true" guid="c6c0a176-a78a-463e-ac4e-49d7dc09546e" visible="true">
+        <properties>
+          <explanationtextashtml>False</explanationtextashtml>
+          <fieldcaption>Author description</fieldcaption>
+          <fielddescriptionashtml>False</fielddescriptionashtml>
+        </properties>
+        <settings>
+          <controlname>Kentico.Administration.TextInput</controlname>
+        </settings>
+      </field>
+      <field column="ReferenceText" columnprecision="0" columntype="longtext" enabled="true" guid="aa4f813b-7262-471c-9bf9-315911fda266" visible="true">
+        <properties>
+          <explanationtextashtml>False</explanationtextashtml>
+          <fieldcaption>Text</fieldcaption>
+          <fielddescriptionashtml>False</fielddescriptionashtml>
+        </properties>
+        <settings>
+          <controlname>Kentico.Administration.TextArea</controlname>
+          <CopyButtonVisible>False</CopyButtonVisible>
+          <MaxRowsNumber>5</MaxRowsNumber>
+          <MinRowsNumber>3</MinRowsNumber>
+        </settings>
+      </field>
+      <field allowempty="true" column="ReferenceImage" columnprecision="0" columntype="contentitemreference" enabled="true" guid="4d963477-2f6f-4ad3-ba62-b5a60a1b0353" visible="true">
+        <properties>
+          <explanationtextashtml>False</explanationtextashtml>
+          <fieldcaption>Image</fieldcaption>
+          <fielddescriptionashtml>False</fielddescriptionashtml>
+        </properties>
+        <settings>
+          <AllowedContentItemTypeIdentifiers>
+            <![CDATA[["fd1947a4-e04b-441b-a76c-1ed826fb766e"]]]>
+          </AllowedContentItemTypeIdentifiers>
+          <controlname>Kentico.Administration.ContentItemSelector</controlname>
+        </settings>
+      </field>
+    </form>
+  </ClassFormDefinition>
+  <ClassGUID>fd221dc3-2ad9-443a-88b4-b15d52873d7f</ClassGUID>
+  <ClassHasUnmanagedDbSchema>False</ClassHasUnmanagedDbSchema>
+  <ClassIconClass>xp-right-double-quotation-mark</ClassIconClass>
+  <ClassName>DancingGoat.Reference</ClassName>
+  <ClassShortName>DancingGoatReference</ClassShortName>
+  <ClassTableName>DancingGoat_Reference</ClassTableName>
+  <ClassType>Content</ClassType>
+  <ClassWebPageHasUrl>False</ClassWebPageHasUrl>
+</cms.contenttype>

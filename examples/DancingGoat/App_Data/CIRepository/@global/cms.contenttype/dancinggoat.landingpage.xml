@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<cms.contenttype>
+  <ClassContentTypeType>Website</ClassContentTypeType>
+  <ClassDisplayName>Landing page</ClassDisplayName>
+  <ClassFormDefinition>
+    <form>
+      <field column="ContentItemDataID" columntype="integer" enabled="true" guid="0824f3c6-c999-4d41-a2e3-cd63dce0bc4e" isPK="true" />
+      <field column="ContentItemDataCommonDataID" columntype="integer" enabled="true" guid="0d331f7d-662c-423f-bbaa-552816f20d23" refobjtype="cms.contentitemcommondata" reftype="Required" system="true" />
+      <field column="ContentItemDataGUID" columntype="guid" enabled="true" guid="15969932-42aa-461a-a5bf-3789bed56c49" isunique="true" system="true" />
+      <schema guid="7c7b596d-5b91-40a5-8ded-f2e4757d8e66" name="7c7b596d-5b91-40a5-8ded-f2e4757d8e66">
+        <properties />
+      </schema>
+    </form>
+  </ClassFormDefinition>
+  <ClassGUID>ea41caaf-281d-4b7c-ae35-88313d57e339</ClassGUID>
+  <ClassHasUnmanagedDbSchema>False</ClassHasUnmanagedDbSchema>
+  <ClassIconClass>xp-accordion</ClassIconClass>
+  <ClassName>DancingGoat.LandingPage</ClassName>
+  <ClassShortName>DancingGoatLandingPage</ClassShortName>
+  <ClassTableName>DancingGoat_LandingPage</ClassTableName>
+  <ClassType>Content</ClassType>
+  <ClassWebPageHasUrl>True</ClassWebPageHasUrl>
+</cms.contenttype>

@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<cms.webpagescope>
+  <WebPageScopeGUID>f50715cc-1365-4eea-b80d-7659db575de8</WebPageScopeGUID>
+  <WebPageScopeIncludeChildren>False</WebPageScopeIncludeChildren>
+  <WebPageScopeWebPageItemID>
+    <CodeName>LandingPages-lohwgdiy</CodeName>
+    <GUID>ecf5e439-038d-46ff-bfca-e0ca1902e1ad</GUID>
+    <ObjectType>cms.webpageitem</ObjectType>
+  </WebPageScopeWebPageItemID>
+  <WebPageScopeWebsiteChannelID>
+    <GUID>55e3ae4b-3843-46b8-95d5-79611c371d6f</GUID>
+    <ObjectType>cms.websitechannel</ObjectType>
+    <Parent>
+      <CodeName>DancingGoatPages</CodeName>
+      <GUID>c430f96d-bd56-4448-b6ab-bce41a58f186</GUID>
+      <ObjectType>cms.channel</ObjectType>
+    </Parent>
+  </WebPageScopeWebsiteChannelID>
+</cms.webpagescope>

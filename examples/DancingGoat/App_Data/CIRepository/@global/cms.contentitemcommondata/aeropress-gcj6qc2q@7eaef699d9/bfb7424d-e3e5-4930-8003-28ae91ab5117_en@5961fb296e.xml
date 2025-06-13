@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<cms.contentitemcommondata>
+  <ContentItemCommonDataContentItemID>
+    <CodeName>AeroPress-gcj6qc2q</CodeName>
+    <GUID>0e4a9330-f652-4d03-a62b-a5a63a0079a0</GUID>
+    <ObjectType>cms.contentitem</ObjectType>
+  </ContentItemCommonDataContentItemID>
+  <ContentItemCommonDataContentLanguageID>
+    <CodeName>en</CodeName>
+    <GUID>e4a8fb12-ebc2-45d0-930f-c9fba2780c85</GUID>
+    <ObjectType>cms.contentlanguage</ObjectType>
+  </ContentItemCommonDataContentLanguageID>
+  <ContentItemCommonDataFirstPublishedWhen>2025-02-04 14:19:40Z</ContentItemCommonDataFirstPublishedWhen>
+  <ContentItemCommonDataGUID>bfb7424d-e3e5-4930-8003-28ae91ab5117</ContentItemCommonDataGUID>
+  <ContentItemCommonDataIsLatest>True</ContentItemCommonDataIsLatest>
+  <ContentItemCommonDataLastPublishedWhen>2025-04-14 16:13:22Z</ContentItemCommonDataLastPublishedWhen>
+  <ContentItemCommonDataVersionStatus>2</ContentItemCommonDataVersionStatus>
+  <ProductFieldCategory>
+    <![CDATA[[{"Identifier":"4c3bece5-3552-461c-b8f0-29f4fca27684"}]]]>
+  </ProductFieldCategory>
+  <ProductFieldDescription>
+    <![CDATA[<p>Presenting a coffee-making revolution, the AeroPress Coffee Maker.</p><p>Affordable and straightforward for producing top notch coffee with. If you enjoy delicious and smooth coffee, you've come to the right place. With the innovative AeroPress, you'll be enjoying your perfect cup in no time.</p><p>Using this device, you'll be amazed at how good your coffee can taste. Its ease of use will amaze you even more. Coffee making with the versatile brewing technique offered by AeroPress. Any kind of coffee, from any part of the world will taste its best when combined with AeroPress. If you just want to enjoy the perfect quick cup, or you enjoy tinkering with the delicacies of coffee brewing, the AeroPress Coffee Maker will hit the spot!</p><p>Each AeroPress comes with a pack of filters included in the box.</p>]]>
+  </ProductFieldDescription>
+  <ProductFieldImage>
+    <![CDATA[[{"Identifier":"1f81e4f8-5b31-4052-991f-b44aff87d5f7"}]]]>
+  </ProductFieldImage>
+  <ProductFieldName>AeroPress</ProductFieldName>
+  <ProductFieldPrice>25.9</ProductFieldPrice>
+  <ProductManufacturerTag>
+    <![CDATA[[{"Identifier":"c917079e-107b-449f-adbb-5a7fbf18913b"}]]]>
+  </ProductManufacturerTag>
+  <ProductSKUCode>ACC-AER-PRESS</ProductSKUCode>
+  <ContentItemReferences>
+    <cms.contentitemreference>
+      <ContentItemReferenceGroupGUID>af37d29a-2fc8-4ead-82ef-d5ec6998f910</ContentItemReferenceGroupGUID>
+      <ContentItemReferenceGUID>699c8f4e-40ce-4966-ae78-63d2ba4ab84c</ContentItemReferenceGUID>
+      <ContentItemReferenceSourceCommonDataID>
+        <GUID>bfb7424d-e3e5-4930-8003-28ae91ab5117</GUID>
+        <ObjectType>cms.contentitemcommondata</ObjectType>
+      </ContentItemReferenceSourceCommonDataID>
+      <ContentItemReferenceTargetItemID>
+        <CodeName>AeroPress-8qdnn1oj</CodeName>
+        <GUID>1f81e4f8-5b31-4052-991f-b44aff87d5f7</GUID>
+        <ObjectType>cms.contentitem</ObjectType>
+      </ContentItemReferenceTargetItemID>
+    </cms.contentitemreference>
+  </ContentItemReferences>
+</cms.contentitemcommondata>

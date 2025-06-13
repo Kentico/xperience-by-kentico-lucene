@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<cms.contentworkflowstep>
+  <ContentWorkflowStepDisplayName>Ready for publishing</ContentWorkflowStepDisplayName>
+  <ContentWorkflowStepGUID>9f9535e5-1593-4aa0-bba8-694b67fdfc20</ContentWorkflowStepGUID>
+  <ContentWorkflowStepIconClass>xp-clipboard-checklist</ContentWorkflowStepIconClass>
+  <ContentWorkflowStepName>DancingGoat.ReadyForPublishing</ContentWorkflowStepName>
+  <ContentWorkflowStepOrder>2</ContentWorkflowStepOrder>
+  <ContentWorkflowStepType>3</ContentWorkflowStepType>
+  <ContentWorkflowStepWorkflowID>
+    <CodeName>DancingGoat.ArticleReview</CodeName>
+    <GUID>20089af5-41ce-490b-a138-ea2910801c6a</GUID>
+    <ObjectType>cms.contentworkflow</ObjectType>
+  </ContentWorkflowStepWorkflowID>
+</cms.contentworkflowstep>

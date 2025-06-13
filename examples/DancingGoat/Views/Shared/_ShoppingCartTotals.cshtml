@@ -1,0 +1,16 @@
+﻿@using CMS.Commerce
+@using DancingGoat.Commerce
+@using DancingGoat.Models
+
+@model ShoppingCartViewModel
+
+<div class="cart-total">
+    <div class="cart-total-viewer">
+        <div class="label">
+            <span>@HtmlLocalizer["Total price"]</span>
+        </div>
+        <div class="value">
+            <price>@Model.TotalPrice</price>
+        </div>
+    </div>
+</div>

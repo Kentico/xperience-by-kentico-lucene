@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<cms.contentitem>
+  <ContentItemChannelID>
+    <CodeName>DancingGoatPages</CodeName>
+    <GUID>c430f96d-bd56-4448-b6ab-bce41a58f186</GUID>
+    <ObjectType>cms.channel</ObjectType>
+  </ContentItemChannelID>
+  <ContentItemContentTypeID>
+    <CodeName>DancingGoat.ArticlePage</CodeName>
+    <GUID>9b5e6c86-ebd1-4471-8f5d-dca72e39b12b</GUID>
+    <ObjectType>cms.contenttype</ObjectType>
+  </ContentItemContentTypeID>
+  <ContentItemGUID>9707bd21-cec6-49af-9681-e9cd6d826ffb</ContentItemGUID>
+  <ContentItemIsReusable>False</ContentItemIsReusable>
+  <ContentItemIsSecured>True</ContentItemIsSecured>
+  <ContentItemName>CoffeeBeveragesExplained-ouq66na8</ContentItemName>
+</cms.contentitem>

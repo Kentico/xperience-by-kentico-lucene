@@ -1,31 +1,48 @@
 ﻿using DancingGoat.Search.Services;
+
+using Kentico.Xperience.Lucene.Core.Search;
+
 using Microsoft.AspNetCore.Mvc;
 
 namespace DancingGoat.Search;
 
 [Route("[controller]")]
 [ApiController]
-public class SearchController : Controller
+public class SearchController(SimpleSearchService simpleSearchService, AdvancedSearchService advancedSearchService) : Controller
 {
-    private readonly SimpleSearchService simpleSearchService;
-    private readonly AdvancedSearchService advancedSearchService;
+    private readonly SimpleSearchService simpleSearchService = simpleSearchService;
+    private readonly AdvancedSearchService advancedSearchService = advancedSearchService;
 
-    public SearchController(SimpleSearchService simpleSearchService, AdvancedSearchService advancedSearchService)
-    {
-        this.simpleSearchService = simpleSearchService;
-        this.advancedSearchService = advancedSearchService;
-    }
-
-    public IActionResult Index(string? query, int pageSize = 10, int page = 1, string? facet = null, string? sortBy = null, string? indexName = null)
+    /// <summary>
+    /// Visit /search to see the search UI
+    /// </summary>
+    /// <param name="query"></param>
+    /// <param name="pageSize"></param>
+    /// <param name="page"></param>
+    /// <param name="facet"></param>
+    /// <param name="sortBy"></param>
+    /// <returns></returns>
+    public IActionResult Index(string? query, int pageSize = 10, int page = 1, string? facet = null, string? sortBy = null)
     {
         try
         {
-            var results = advancedSearchService.GlobalSearch(indexName ?? "Advanced", query, pageSize, page, facet, sortBy);
+            var results = advancedSearchService.GlobalSearch("Advanced", query, pageSize, page, facet, sortBy);
             return View(results);
         }
         catch
         {
-            return NotFound();
+            var results = new LuceneSearchResultModel<DancingGoatSearchResultModel>
+            {
+                Facet = "",
+                Facets = [],
+                Hits = [],
+                Page = page,
+                PageSize = pageSize,
+                Query = query,
+                TotalHits = 0,
+                TotalPages = 0,
+            };
+            return View(results);
         }
     }
 

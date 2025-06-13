@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
+﻿using System.Linq;
 using System.Threading.Tasks;
 
 using DancingGoat;
@@ -18,57 +16,35 @@ namespace DancingGoat.Controllers
 {
     public class DancingGoatContactsController : Controller
     {
-        private readonly ContactsPageRepository contactsPageRepository;
-        private readonly ContactRepository contactRepository;
-        private readonly CafeRepository cafeRepository;
-        private readonly IPreferredLanguageRetriever currentLanguageRetriever;
-        private readonly IWebPageDataContextRetriever webPageDataContextRetriever;
+        private readonly IContentRetriever contentRetriever;
 
-
-        public DancingGoatContactsController(ContactsPageRepository contactsPageRepository, ContactRepository contactRepository,
-            CafeRepository cafeRepository, IPreferredLanguageRetriever currentLanguageRetriever, IWebPageDataContextRetriever webPageDataContextRetriever)
+        public DancingGoatContactsController(IContentRetriever contentRetriever)
         {
-            this.contactsPageRepository = contactsPageRepository;
-            this.contactRepository = contactRepository;
-            this.cafeRepository = cafeRepository;
-            this.currentLanguageRetriever = currentLanguageRetriever;
-            this.webPageDataContextRetriever = webPageDataContextRetriever;
+            this.contentRetriever = contentRetriever;
         }
 
-
-        public async Task<ActionResult> Index(CancellationToken cancellationToken)
+        public async Task<IActionResult> Index()
         {
-            var webPage = webPageDataContextRetriever.Retrieve().WebPage;
+            var contactsPage = await contentRetriever.RetrieveCurrentPage<ContactsPage>();
 
-            var contactsPage = await contactsPageRepository.GetContactsPage(webPage.WebPageItemID, webPage.LanguageName, HttpContext.RequestAborted);
+            var cafes = await contentRetriever.RetrieveContent<Cafe>();
 
-            var model = await GetIndexViewModel(contactsPage, cancellationToken);
+            var contact = (await contentRetriever.RetrieveContent<Contact>(
+                HttpContext.RequestAborted
+            )).FirstOrDefault();
+
+            var companyCafes = cafes.Where(c => c.CafeIsCompanyCafe).OrderBy(c => c.CafeName).Select(CafeViewModel.GetViewModel).ToList();
+            var partnerCafes = cafes.Where(c => !c.CafeIsCompanyCafe).OrderBy(c => c.CafeCity).Select(CafeViewModel.GetViewModel).ToList();
+
+            var model = new ContactsIndexViewModel
+            {
+                WebPage = contactsPage,
+                CompanyContact = ContactViewModel.GetViewModel(contact),
+                CompanyCafes = companyCafes,
+                PartnerCafes = partnerCafes
+            };
 
             return View(model);
-        }
-
-
-        private async Task<ContactsIndexViewModel> GetIndexViewModel(ContactsPage contactsPage, CancellationToken cancellationToken)
-        {
-            var languageName = currentLanguageRetriever.Get();
-            var cafes = (await cafeRepository.GetCafes(0, languageName, cancellationToken)).ToList();
-            var companyCafes = cafes.Where(c => c.CafeIsCompanyCafe).OrderBy(c => c.CafeName);
-            var partnerCafes = cafes.Where(c => !c.CafeIsCompanyCafe).OrderBy(c => c.CafeCity);
-            var contact = await contactRepository.GetContact(languageName, HttpContext.RequestAborted);
-
-            return new ContactsIndexViewModel
-            {
-                CompanyContact = ContactViewModel.GetViewModel(contact),
-                CompanyCafes = GetCafesModel(companyCafes),
-                PartnerCafes = GetCafesModel(partnerCafes),
-                WebPage = contactsPage
-            };
-        }
-
-
-        private List<CafeViewModel> GetCafesModel(IEnumerable<Cafe> cafes)
-        {
-            return cafes.Select(cafe => CafeViewModel.GetViewModel(cafe)).ToList();
         }
     }
 }

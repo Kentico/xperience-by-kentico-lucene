@@ -4,12 +4,13 @@
 @import "./Form.less";
 @import "./Grid.less";
 @import "./Menu.less";
+@import "./Products.less";
+@import "./Checkout.less";
 @import "./icons-core.less";
+@import "./Controls.less";
 @import "./TrackingConsent.less";
 @import "./Buttons.less";
 @import "./Mixins.less";
-@import "./Products.less";
-@import "./Controls.less";
 
 /*# Page wrap #*/
 html, body {
@@ -1041,6 +1042,36 @@ a + .article-tile-info .article-tile-date {
         }
     }
 }
+
+/*# Category page #*/
+.category-menu {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #B1976B;
+
+    li {
+        float: left;
+
+        a {
+            display: block;
+            color: white;
+            padding: 1rem 1.25rem;
+            text-align: center;
+            text-decoration: none;
+        }
+
+        a:hover {
+            background-color: #8C7855;
+        }
+        
+        a.active {
+            background-color: @color-lightgold;
+        }
+    }
+}
+
 /*# Coffees #*/
 
 .coffees-page .row {
@@ -1078,6 +1109,21 @@ a + .article-tile-info .article-tile-date {
             width: 100%;
         }
     }
+}
+
+/*# Shopping cart #*/
+.shopping-cart-item {
+    margin: 1.5rem;
+}
+
+.shopping-cart-quantity {
+    padding: 0.5625rem 0.5rem;
+    width: 4rem;
+}
+
+.shopping-cart-img {
+    max-width: 14rem;
+    max-height: 14rem;
 }
 
 .coffee-detail-page {

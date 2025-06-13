@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<cms.contentitemcommondata>
+  <ContentItemCommonDataContentItemID>
+    <CodeName>PaperFiltersForChemex-cxfh00c7</CodeName>
+    <GUID>c6e51fe4-74f6-41db-92fd-3e3b36141e6b</GUID>
+    <ObjectType>cms.contentitem</ObjectType>
+  </ContentItemCommonDataContentItemID>
+  <ContentItemCommonDataContentLanguageID>
+    <CodeName>en</CodeName>
+    <GUID>e4a8fb12-ebc2-45d0-930f-c9fba2780c85</GUID>
+    <ObjectType>cms.contentlanguage</ObjectType>
+  </ContentItemCommonDataContentLanguageID>
+  <ContentItemCommonDataFirstPublishedWhen>2025-02-04 14:08:34Z</ContentItemCommonDataFirstPublishedWhen>
+  <ContentItemCommonDataGUID>d4d70688-ab49-4194-9b78-8dba6693ed7d</ContentItemCommonDataGUID>
+  <ContentItemCommonDataIsLatest>True</ContentItemCommonDataIsLatest>
+  <ContentItemCommonDataLastPublishedWhen>2025-04-14 15:57:23Z</ContentItemCommonDataLastPublishedWhen>
+  <ContentItemCommonDataVersionStatus>2</ContentItemCommonDataVersionStatus>
+  <ProductFieldCategory>
+    <![CDATA[[{"Identifier":"3c27e654-6c18-451f-863d-cfa093b49c49"}]]]>
+  </ProductFieldCategory>
+  <ProductFieldDescription>
+    <![CDATA[<p>Absolutely no grounds and easy-to-use filters? Yes, it is possible. These paper filters for Chemex coffee makers are different. Their thickness and shape may look strange, but the result will amaze you. Just wash them in hot water before starting and you're ready to go.</p>]]>
+  </ProductFieldDescription>
+  <ProductFieldImage>
+    <![CDATA[[{"Identifier":"2f87accd-1cca-48fb-bd0b-4f327f977684"}]]]>
+  </ProductFieldImage>
+  <ProductFieldName>Paper Filters for Chemex</ProductFieldName>
+  <ProductFieldPrice>4.5</ProductFieldPrice>
+  <ProductSKUCode>ACC-CHEM-FILT</ProductSKUCode>
+  <ContentItemReferences>
+    <cms.contentitemreference>
+      <ContentItemReferenceGroupGUID>af37d29a-2fc8-4ead-82ef-d5ec6998f910</ContentItemReferenceGroupGUID>
+      <ContentItemReferenceGUID>282130a3-4a22-4f20-9d2f-eb1fdecb93a6</ContentItemReferenceGUID>
+      <ContentItemReferenceSourceCommonDataID>
+        <GUID>d4d70688-ab49-4194-9b78-8dba6693ed7d</GUID>
+        <ObjectType>cms.contentitemcommondata</ObjectType>
+      </ContentItemReferenceSourceCommonDataID>
+      <ContentItemReferenceTargetItemID>
+        <CodeName>PaperFiltersForChemex-1bc35n01</CodeName>
+        <GUID>2f87accd-1cca-48fb-bd0b-4f327f977684</GUID>
+        <ObjectType>cms.contentitem</ObjectType>
+      </ContentItemReferenceTargetItemID>
+    </cms.contentitemreference>
+  </ContentItemReferences>
+</cms.contentitemcommondata>

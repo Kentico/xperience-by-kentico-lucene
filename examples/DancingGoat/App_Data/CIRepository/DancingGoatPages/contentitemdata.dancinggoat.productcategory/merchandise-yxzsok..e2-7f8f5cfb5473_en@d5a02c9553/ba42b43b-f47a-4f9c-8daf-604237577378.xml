@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<contentitemdata.dancinggoat.productcategory>
+  <ContentItemDataCommonDataID>
+    <GUID>3241a754-49a0-4ef6-bde2-7f8f5cfb5473</GUID>
+    <ObjectType>cms.contentitemcommondata</ObjectType>
+    <Parent>
+      <CodeName>Merchandise-yxzsokeq</CodeName>
+      <GUID>527e6079-945d-410f-81f4-3e5e9ecfdd78</GUID>
+      <ObjectType>cms.contentitem</ObjectType>
+    </Parent>
+  </ContentItemDataCommonDataID>
+  <ContentItemDataGUID>ba42b43b-f47a-4f9c-8daf-604237577378</ContentItemDataGUID>
+  <ProductCategoryTag>
+    <![CDATA[[{"Identifier":"8f44b1a7-d508-4dbb-987e-d3738a51272c"}]]]>
+  </ProductCategoryTag>
+  <ProductType>Other</ProductType>
+</contentitemdata.dancinggoat.productcategory>

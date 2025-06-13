@@ -1,0 +1,63 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<cms.form>
+  <FormBuilderLayout>
+<![CDATA[
+{
+  "editableAreas": [
+    {
+      "identifier": "DefaultFormBuilderArea",
+      "sections": [
+        {
+          "identifier": "00000000-0000-0000-0000-000000000000",
+          "type": "Kentico.DefaultSection",
+          "zones": [
+            {
+              "identifier": "bed055ba-1d92-4896-95bd-98e1e29df526",
+              "formComponents": [
+                {
+                  "identifier": "bb1b070e-a408-47e9-87c3-e640dd8a283c"
+                },
+                {
+                  "identifier": "a2def15e-ae04-4699-87e7-eb54a827e1be"
+                },
+                {
+                  "identifier": "52a41b77-905a-414e-8b31-bdabe1a251d8"
+                },
+                {
+                  "identifier": "ac9ea624-b61e-4385-b5d6-90d5bb005fde"
+                },
+                {
+                  "identifier": "c5a94a2f-75ee-4ca5-a6bb-1c1f5cd32dbc"
+                },
+                {
+                  "identifier": "af9c4572-5eac-4f1a-806e-fe50bbe826d4"
+                },
+                {
+                  "identifier": "16430203-ad38-41de-a41e-7b59365111d1"
+                },
+                {
+                  "identifier": "7c57d1b8-34b5-44ac-9113-8d1cdf810a81"
+                }
+              ]
+            }
+          ],
+          "properties": null
+        }
+      ]
+    }
+  ]
+}
+]]>
+  </FormBuilderLayout>
+  <FormClassID>
+    <CodeName>BizForm.DancingGoatCoffeeSampleList</CodeName>
+    <GUID>f1cb53b0-6b7e-45f2-86ae-5ff3e6cb8f96</GUID>
+    <ObjectType>cms.formclass</ObjectType>
+  </FormClassID>
+  <FormDisplayName>Coffee sample list</FormDisplayName>
+  <FormGUID>daaa080a-7b6b-489e-8150-290b1f24e715</FormGUID>
+  <FormItems>0</FormItems>
+  <FormLogActivity>True</FormLogActivity>
+  <FormName>DancingGoatCoffeeSampleList</FormName>
+  <FormSubmitButtonText>Taste the coffee</FormSubmitButtonText>
+</cms.form>

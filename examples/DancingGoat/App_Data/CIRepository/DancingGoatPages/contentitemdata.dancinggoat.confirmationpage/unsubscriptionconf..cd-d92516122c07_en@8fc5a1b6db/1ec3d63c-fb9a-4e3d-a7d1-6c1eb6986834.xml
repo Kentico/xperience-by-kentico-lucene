@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<contentitemdata.dancinggoat.confirmationpage>
+  <ConfirmationPageContent>
+    <![CDATA[<p>You will no longer receive emails from our newsletter.<br>Feel free to subscribe again at any time.</p>]]>
+  </ConfirmationPageContent>
+  <ConfirmationPageHeader>Sorry to see you go</ConfirmationPageHeader>
+  <ConfirmationPageTitle>Unsubscription confirmed</ConfirmationPageTitle>
+  <ContentItemDataCommonDataID>
+    <GUID>842b6440-edc3-490b-abcd-d92516122c07</GUID>
+    <ObjectType>cms.contentitemcommondata</ObjectType>
+    <Parent>
+      <CodeName>UnsubscriptionConfirmation-a0424pie</CodeName>
+      <GUID>ea3379f8-2f7a-4cf8-bb76-13407bea044d</GUID>
+      <ObjectType>cms.contentitem</ObjectType>
+    </Parent>
+  </ContentItemDataCommonDataID>
+  <ContentItemDataGUID>1ec3d63c-fb9a-4e3d-a7d1-6c1eb6986834</ContentItemDataGUID>
+</contentitemdata.dancinggoat.confirmationpage>

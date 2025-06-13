@@ -1,0 +1,16 @@
+﻿@using DancingGoat.Models
+
+@model CheckoutViewModel
+
+@{
+    ViewData["PageClass"] = "inverted";
+}
+
+@if (Model.Step == CheckoutStep.CheckoutCustomer) 
+{
+    <partial name="_CheckoutCustomer" model="Model" />
+}
+else if (Model.Step == CheckoutStep.OrderConfirmation)
+{
+    <partial name="_OrderConfirmation" model="Model" />
+}

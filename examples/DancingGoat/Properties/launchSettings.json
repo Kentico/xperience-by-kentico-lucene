@@ -3,7 +3,7 @@
     "windowsAuthentication": false, 
     "anonymousAuthentication": true, 
     "iisExpress": {
-      "applicationUrl": "http://localhost:55786",
+      "applicationUrl": "http://localhost:23626",
       "sslPort": 0
     }
   },
@@ -18,7 +18,7 @@
     "DancingGoat": {
       "commandName": "Project",
       "launchBrowser": true,
-      "applicationUrl": "http://localhost:55786",
+      "applicationUrl": "http://localhost:23626",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }

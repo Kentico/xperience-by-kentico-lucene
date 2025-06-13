@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<contentitemdata.dancinggoat.image>
+  <ContentItemDataCommonDataID>
+    <GUID>004195bf-3b60-4c2f-a11d-85e8d0dc980e</GUID>
+    <ObjectType>cms.contentitemcommondata</ObjectType>
+    <Parent>
+      <CodeName>T-shirtPurple-rrivq8y8</CodeName>
+      <GUID>1e4a3fe6-a9a9-471f-a431-200024051182</GUID>
+      <ObjectType>cms.contentitem</ObjectType>
+    </Parent>
+  </ContentItemDataCommonDataID>
+  <ContentItemDataGUID>7c066d94-d799-43c7-a8fe-2e64836dabb9</ContentItemDataGUID>
+  <ImageFile>
+    <![CDATA[{"Original":{"Identifier":"3a826fc6-3080-4b97-ad7b-80965056fa17","Name":"T-shirt Purple.png","Extension":".png","Size":3937736,"Width":2800,"Height":2549,"LastModified":"2025-03-27T07:23:25.6983722Z"},"OptimizationParameters":{"OutputExtension":"webp","Quality":70},"Variants":{},"FocalPoint":{"X":1234,"Y":1001},"Identifier":"3317f0da-bdcd-4ec8-88c3-838eaa5810b7","Name":"T-shirt Purple.webp","Extension":".webp","Size":122346,"Width":2800,"Height":2549,"LastModified":"2025-03-27T07:23:28.2277134Z"}]]>
+  </ImageFile>
+</contentitemdata.dancinggoat.image>

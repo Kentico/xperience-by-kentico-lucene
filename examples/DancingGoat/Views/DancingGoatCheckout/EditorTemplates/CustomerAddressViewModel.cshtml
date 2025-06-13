@@ -1,0 +1,109 @@
+﻿@using DancingGoat.Commerce
+@using DancingGoat.Models
+@using DancingGoat.Helpers
+
+@model CustomerAddressViewModel
+
+<h4>@HtmlLocalizer["Customer address"]</h4>
+
+@Html.ValidatedEditorFor(m => m.Line1)
+@Html.ValidatedEditorFor(m => m.Line2)
+@Html.ValidatedEditorFor(m => m.City)
+@Html.ValidatedEditorFor(m => m.PostalCode)
+
+@using (Html.BeginForm("Index", "DancingGoatCheckout", FormMethod.Post, new { id = "countryForm" }))
+{
+    <div class="form-group">
+        <div class="form-group-label">
+            @Html.LabelFor(m => m.CountryId)
+        </div>
+        <div class="form-group-input">
+            @Html.DropDownListFor(m => m.CountryId, Model.Countries, HtmlLocalizer["Select a country"].Value, new { @id = "countryDropdown", data_storage = $"CustomerAddress_{nameof(CustomerAddressViewModel.Country)}" })
+        </div>
+        <div class="message message-error error-label">
+            @Html.ValidationMessageFor(m => m.CountryId)
+        </div>
+    </div>
+
+    <div class="form-group" id="statesGroup">
+        <div class="form-group-label">
+            @Html.LabelFor(m => m.StateId)
+        </div>
+        <div class="form-group-input">
+            @Html.DropDownListFor(m => m.StateId, Model.States, HtmlLocalizer["Select a state"].Value, new { @id = "statesDropdown", data_storage = $"CustomerAddress_{nameof(CustomerAddressViewModel.State)}" })
+        </div>
+        <div class="message message-error error-label">
+            @Html.ValidationMessageFor(m => m.StateId)
+        </div>
+    </div>
+}
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var statesGroup = document.getElementById('statesGroup');
+        var statesDropdown = document.getElementById('statesDropdown');
+        var countryDropdown = document.getElementById('countryDropdown');
+
+        if (statesDropdown.children.length > 1) {
+            statesGroup.style.display = 'block';
+        } else {
+            statesGroup.style.display = 'none';
+        }
+
+        countryDropdown.addEventListener('change', function() {
+            const url = '@Url.Action(nameof(DancingGoatCheckoutController.GetStates), "DancingGoatCheckout")';
+            const formData = new FormData();
+            formData.append('CountryId', countryDropdown.value);
+
+            const urlEncodedData = new URLSearchParams(formData).toString();
+
+            fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                body: urlEncodedData
+            })
+                .then(response => {
+                    if (response.ok) {
+                        return response.json();
+                    }
+                    throw new Error('Network response was not ok.');
+                })
+                .then(states => {
+                    if (states.length > 0) {
+                        states.forEach(state => {
+                            const option = document.createElement('option');
+                            option.text = state.text;
+                            option.value = state.value;
+                            statesDropdown.appendChild(option);
+                        });
+
+                        const value = localStorage.getItem("CustomerAddress_@nameof(CustomerAddressViewModel.StateId)");
+                        if (states.some(state => state.value === value)) {
+                            statesDropdown.value = value;
+                            localStorage.setItem("CustomerAddress_@nameof(CustomerAddressViewModel.State)", statesDropdown.options[statesDropdown.selectedIndex].text);
+                        }
+                        else {
+                            localStorage.removeItem("CustomerAddress_@nameof(CustomerAddressViewModel.State)");
+                        }
+
+                    } else {
+                        while (statesDropdown.firstChild) {
+                            statesDropdown.removeChild(statesDropdown.firstChild);
+                        }
+                        localStorage.removeItem("CustomerAddress_@nameof(CustomerAddressViewModel.State)");
+                    }
+
+                    if (statesDropdown.children.length > 1) {
+                        statesGroup.style.display = 'block';
+                    } else {
+                        statesGroup.style.display = 'none';
+                    }
+                })
+                .catch(error => {
+                    console.error('Fetch error:', error);
+                });
+        });
+    });
+</script>

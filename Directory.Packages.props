@@ -6,25 +6,25 @@
     <DisableImplicitNuGetFallbackFolder>true</DisableImplicitNuGetFallbackFolder>
   </PropertyGroup>
   <ItemGroup>
-    <PackageVersion Include="Kentico.Xperience.Admin" Version="30.5.1" />
-    <PackageVersion Include="Kentico.Xperience.Azurestorage" Version="30.5.1" />
-    <PackageVersion Include="Kentico.Xperience.Cloud" Version="30.5.1" />
-    <PackageVersion Include="Kentico.Xperience.Core" Version="30.5.1" />
-    <PackageVersion Include="Kentico.Xperience.Imageprocessing" Version="30.5.1" />
-    <PackageVersion Include="Kentico.Xperience.WebApp" Version="30.5.1" />
-    <PackageVersion Include="Kentico.Xperience.Core.Tests" Version="30.5.1" />
+    <PackageVersion Include="Kentico.Xperience.Admin" Version="30.6.0" />
+    <PackageVersion Include="Kentico.Xperience.Azurestorage" Version="30.6.0" />
+    <PackageVersion Include="Kentico.Xperience.Cloud" Version="30.6.0" />
+    <PackageVersion Include="Kentico.Xperience.Core" Version="30.6.0" />
+    <PackageVersion Include="Kentico.Xperience.Imageprocessing" Version="30.6.0" />
+    <PackageVersion Include="kentico.xperience.mjml" Version="30.6.0" />
+    <PackageVersion Include="Kentico.Xperience.WebApp" Version="30.6.0" />
+    <PackageVersion Include="Kentico.Xperience.Core.Tests" Version="30.6.0" />
     <PackageVersion Include="Kentico.Xperience.Lucene" Version="" Condition="'$(LOCAL_NUGET)' == 'true'" />
     <PackageVersion Include="Lucene.Net" Version="4.8.0-beta00017" />
     <PackageVersion Include="Lucene.Net.Analysis.Common" Version="4.8.0-beta00017" />
     <PackageVersion Include="Lucene.Net.Facet" Version="4.8.0-beta00017" />
     <PackageVersion Include="SonarAnalyzer.CSharp" Version="9.17.0.82934" />
-    <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.8.0" />
-    <PackageVersion Include="NUnit" Version="4.0.1" />
-    <PackageVersion Include="NUnit3TestAdapter" Version="4.5.0" />
-    <PackageVersion Include="NUnit.Analyzers" Version="4.0.0" />
-    <PackageVersion Include="coverlet.collector" Version="6.0.0" />
-    <PackageVersion Include="NSubstitute" Version="5.1.0" />
-    <PackageVersion Include="FluentAssertions" Version="6.12.0" />
+    <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.14.1" />
+    <PackageVersion Include="NUnit" Version="4.3.2" />
+    <PackageVersion Include="NUnit3TestAdapter" Version="5.0.0" />
+    <PackageVersion Include="NUnit.Analyzers" Version="4.9.1" />
+    <PackageVersion Include="coverlet.collector" Version="6.0.4" />
+    <PackageVersion Include="NSubstitute" Version="5.3.0" />
     <PackageVersion Include="AutoFixture" Version="4.18.1" />
   </ItemGroup>
 </Project>

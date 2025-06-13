@@ -1,0 +1,10 @@
+﻿@using DancingGoat.Models
+
+@model ConfirmOrderViewModel
+
+@{
+    ViewBag.Title = HtmlLocalizer["Order created"].Value;
+    ViewData["PageClass"] = "inverted";
+}
+
+<h2>@HtmlLocalizer[$"Your order was created. Order number: {Model.OrderNumber}"]</h2>

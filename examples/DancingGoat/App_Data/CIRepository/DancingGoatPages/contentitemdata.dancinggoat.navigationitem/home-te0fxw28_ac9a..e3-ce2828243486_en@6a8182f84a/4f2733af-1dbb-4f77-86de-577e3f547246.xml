@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<contentitemdata.dancinggoat.navigationitem>
+  <ContentItemDataCommonDataID>
+    <GUID>ac9afc9a-32ad-4d8a-9be3-ce2828243486</GUID>
+    <ObjectType>cms.contentitemcommondata</ObjectType>
+    <Parent>
+      <CodeName>Home-te0fxw28</CodeName>
+      <GUID>e8f0de43-9baf-44cf-a79f-e944b51c5619</GUID>
+      <ObjectType>cms.contentitem</ObjectType>
+    </Parent>
+  </ContentItemDataCommonDataID>
+  <ContentItemDataGUID>4f2733af-1dbb-4f77-86de-577e3f547246</ContentItemDataGUID>
+  <NavigationItemLink>
+    <![CDATA[[{"WebPageGuid":"9276d053-d581-4d48-80c6-953b088ec5aa"}]]]>
+  </NavigationItemLink>
+  <NavigationItemName>Home</NavigationItemName>
+</contentitemdata.dancinggoat.navigationitem>

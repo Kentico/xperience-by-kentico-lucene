@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<contentitemdata.dancinggoat.productcoffee>
+  <ContentItemDataCommonDataID>
+    <GUID>8828056b-a55c-47d6-97fb-f65f3b47f4d7</GUID>
+    <ObjectType>cms.contentitemcommondata</ObjectType>
+    <Parent>
+      <CodeName>ColombiaCarlosImbachi-6pwcdcic</CodeName>
+      <GUID>d58c0fea-a530-46b7-a552-0bea6960025e</GUID>
+      <ObjectType>cms.contentitem</ObjectType>
+    </Parent>
+  </ContentItemDataCommonDataID>
+  <ContentItemDataGUID>562747f6-51a4-4fb4-b0d7-185ef9f16854</ContentItemDataGUID>
+</contentitemdata.dancinggoat.productcoffee>

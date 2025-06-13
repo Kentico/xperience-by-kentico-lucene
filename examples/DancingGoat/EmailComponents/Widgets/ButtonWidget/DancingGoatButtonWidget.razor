@@ -1,0 +1,24 @@
+﻿@using DancingGoat.EmailComponents.Enums
+
+@namespace DancingGoat.EmailComponents
+
+@if (Properties.ButtonType == nameof(DancingGoatButtonType.Button))
+{
+    <mj-button align="@Properties.ButtonHorizontalAlignment"
+               href="@Properties.Url"
+               background-color="#1E1A13"
+               color="#FFFFFF"
+               font-size="14px"
+               inner-padding="24px 64px"
+               border="none">
+        @Properties.Text
+    </mj-button>
+}
+else
+{
+    <mj-text align="@Properties.ButtonHorizontalAlignment" font-size="32px">
+        <a href="@Properties.Url">
+            @Properties.Text
+        </a>
+    </mj-text>
+}

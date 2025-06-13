@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<contentitemdata.dancinggoat.productaccessory>
+  <ContentItemDataCommonDataID>
+    <GUID>51696151-9777-4598-b4ca-c4619c96bdac</GUID>
+    <ObjectType>cms.contentitemcommondata</ObjectType>
+    <Parent>
+      <CodeName>BleachedPaperFiltersV60-01-le9u2786</CodeName>
+      <GUID>766e13db-b18a-4265-a0a3-2fbc5fb44412</GUID>
+      <ObjectType>cms.contentitem</ObjectType>
+    </Parent>
+  </ContentItemDataCommonDataID>
+  <ContentItemDataGUID>3b9c46de-54bf-4641-9381-28a9c1525c84</ContentItemDataGUID>
+</contentitemdata.dancinggoat.productaccessory>

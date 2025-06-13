@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<contentitemdata.dancinggoat.image>
+  <ContentItemDataCommonDataID>
+    <GUID>b08e659a-55f8-48d5-8deb-e4d1f5a6dcbb</GUID>
+    <ObjectType>cms.contentitemcommondata</ObjectType>
+    <Parent>
+      <CodeName>ColombiaCarlosImbachi-15k6oubq</CodeName>
+      <GUID>4a387a71-70fd-46f1-bb9a-c02bd53b1dd7</GUID>
+      <ObjectType>cms.contentitem</ObjectType>
+    </Parent>
+  </ContentItemDataCommonDataID>
+  <ContentItemDataGUID>86b496e6-1384-4b9d-a4cc-64f609a53f94</ContentItemDataGUID>
+  <ImageFile>
+    <![CDATA[{"Original":{"Identifier":"affb91aa-8e36-4b91-a1e2-fbd4f2b1f79b","Name":"colombia.jpg","Extension":".jpg","Size":16193,"Width":400,"Height":400,"LastModified":"2025-02-03T14:16:27.6769467Z"},"OptimizationParameters":{"OutputExtension":"webp","Quality":70},"Identifier":"f1f5e394-af6a-4e7f-9087-ca3dccd0d91f","Name":"colombia.webp","Extension":".webp","Size":6588,"Width":400,"Height":400,"LastModified":"2025-02-03T14:16:27.7209973Z"}]]>
+  </ImageFile>
+</contentitemdata.dancinggoat.image>

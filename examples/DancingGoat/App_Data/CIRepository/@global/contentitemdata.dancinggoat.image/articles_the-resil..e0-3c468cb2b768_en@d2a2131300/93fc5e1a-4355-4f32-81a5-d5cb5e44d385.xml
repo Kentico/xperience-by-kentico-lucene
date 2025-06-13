@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<contentitemdata.dancinggoat.image>
+  <ContentItemDataCommonDataID>
+    <GUID>10a3d38a-b037-4b14-a3e0-3c468cb2b768</GUID>
+    <ObjectType>cms.contentitemcommondata</ObjectType>
+    <Parent>
+      <CodeName>Articles_The-resilient-robusta.webp-5gxfjn8j</CodeName>
+      <GUID>7dd94187-f658-48cd-8a59-308e55b154f1</GUID>
+      <ObjectType>cms.contentitem</ObjectType>
+    </Parent>
+  </ContentItemDataCommonDataID>
+  <ContentItemDataGUID>93fc5e1a-4355-4f32-81a5-d5cb5e44d385</ContentItemDataGUID>
+  <ImageFile>
+    <![CDATA[{"Original":{"Identifier":"f464d854-39ae-4456-a43b-7a9b626425f0","Name":"the-resilient-robusta.jpg","Extension":".jpg","Size":200641,"Width":611,"Height":318,"LastModified":"2025-01-17T08:15:41.997287Z"},"OptimizationParameters":{"OutputExtension":"webp","Quality":70},"Identifier":"06a2415a-5459-470f-a83c-c21cae22d25a","Name":"the-resilient-robusta.webp","Extension":".webp","Size":39596,"Width":611,"Height":318,"LastModified":"2025-01-17T08:15:42.0232507Z"}]]>
+  </ImageFile>
+  <ImageShortDescription>Growing robusta beans.</ImageShortDescription>
+</contentitemdata.dancinggoat.image>

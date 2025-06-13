@@ -1,8 +1,9 @@
-﻿using System.Threading.Tasks;
+﻿using System.Linq;
+using System.Threading.Tasks;
 
 using DancingGoat.Models;
 
-using Kentico.Content.Web.Mvc.Routing;
+using Kentico.Content.Web.Mvc;
 
 using Microsoft.AspNetCore.Mvc;
 
@@ -10,21 +11,21 @@ namespace DancingGoat.ViewComponents
 {
     public class CompanyAddressViewComponent : ViewComponent
     {
-        private readonly ContactRepository contactRepository;
-        private readonly IPreferredLanguageRetriever currentLanguageRetriever;
+        private readonly IContentRetriever contentRetriever;
 
 
-        public CompanyAddressViewComponent(ContactRepository contactRepository, IPreferredLanguageRetriever currentLanguageRetriever)
+        public CompanyAddressViewComponent(IContentRetriever contentRetriever)
         {
-            this.contactRepository = contactRepository;
-            this.currentLanguageRetriever = currentLanguageRetriever;
+            this.contentRetriever = contentRetriever;
         }
 
 
         public async Task<IViewComponentResult> InvokeAsync()
         {
-            var languageName = currentLanguageRetriever.Get();
-            var contact = await contactRepository.GetContact(languageName, HttpContext.RequestAborted);
+            var contact = (await contentRetriever.RetrieveContent<Contact>(
+                HttpContext.RequestAborted
+            )).FirstOrDefault();
+
             var model = ContactViewModel.GetViewModel(contact);
 
             return View("~/Components/ViewComponents/CompanyAddress/Default.cshtml", model);

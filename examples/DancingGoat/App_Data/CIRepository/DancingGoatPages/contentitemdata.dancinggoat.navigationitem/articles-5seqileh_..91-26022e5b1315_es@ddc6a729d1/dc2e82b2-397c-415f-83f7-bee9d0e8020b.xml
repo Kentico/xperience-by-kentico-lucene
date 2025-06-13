@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<contentitemdata.dancinggoat.navigationitem>
+  <ContentItemDataCommonDataID>
+    <GUID>9cc7f5f7-2076-40f2-9991-26022e5b1315</GUID>
+    <ObjectType>cms.contentitemcommondata</ObjectType>
+    <Parent>
+      <CodeName>Articles-5seqileh</CodeName>
+      <GUID>2c1af9e2-3314-49aa-9029-ef43139a5c7b</GUID>
+      <ObjectType>cms.contentitem</ObjectType>
+    </Parent>
+  </ContentItemDataCommonDataID>
+  <ContentItemDataGUID>dc2e82b2-397c-415f-83f7-bee9d0e8020b</ContentItemDataGUID>
+  <NavigationItemLink>
+    <![CDATA[[{"WebPageGuid":"4c572828-78af-49ce-89e5-5a87a31ec2cd"}]]]>
+  </NavigationItemLink>
+  <NavigationItemName>Articulos</NavigationItemName>
+</contentitemdata.dancinggoat.navigationitem>

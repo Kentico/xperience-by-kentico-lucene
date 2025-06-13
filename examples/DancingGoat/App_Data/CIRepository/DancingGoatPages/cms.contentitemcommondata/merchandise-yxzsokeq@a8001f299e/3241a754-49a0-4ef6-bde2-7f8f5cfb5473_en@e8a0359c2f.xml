@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<cms.contentitemcommondata>
+  <ContentItemCommonDataContentItemID>
+    <CodeName>Merchandise-yxzsokeq</CodeName>
+    <GUID>527e6079-945d-410f-81f4-3e5e9ecfdd78</GUID>
+    <ObjectType>cms.contentitem</ObjectType>
+  </ContentItemCommonDataContentItemID>
+  <ContentItemCommonDataContentLanguageID>
+    <CodeName>en</CodeName>
+    <GUID>e4a8fb12-ebc2-45d0-930f-c9fba2780c85</GUID>
+    <ObjectType>cms.contentlanguage</ObjectType>
+  </ContentItemCommonDataContentLanguageID>
+  <ContentItemCommonDataFirstPublishedWhen>2025-02-13 13:14:15Z</ContentItemCommonDataFirstPublishedWhen>
+  <ContentItemCommonDataGUID>3241a754-49a0-4ef6-bde2-7f8f5cfb5473</ContentItemCommonDataGUID>
+  <ContentItemCommonDataIsLatest>True</ContentItemCommonDataIsLatest>
+  <ContentItemCommonDataLastPublishedWhen>2025-03-19 08:22:27Z</ContentItemCommonDataLastPublishedWhen>
+  <ContentItemCommonDataVersionStatus>2</ContentItemCommonDataVersionStatus>
+  <SEOFieldsAllowSearchIndexing>True</SEOFieldsAllowSearchIndexing>
+  <SEOFieldsDescription>
+    <![CDATA[Explore stylish merchandise like t-shirts at Dancing Goat Store. Show your love for coffee with our premium apparel. Shop online or visit us for exclusive designs.]]>
+  </SEOFieldsDescription>
+  <SEOFieldsTitle>Merchandise - Dancing Goat</SEOFieldsTitle>
+</cms.contentitemcommondata>
