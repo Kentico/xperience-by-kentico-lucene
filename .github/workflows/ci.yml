@@ -63,6 +63,11 @@ jobs:
         with:
           global-json-file: global.json
 
+      - name: "Install Node.js from package.json version"
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: "src/Kentico.Xperience.Lucene.Admin/Client/package.json"
+
       - name: Install dependencies
         run: dotnet restore --locked-mode
 
