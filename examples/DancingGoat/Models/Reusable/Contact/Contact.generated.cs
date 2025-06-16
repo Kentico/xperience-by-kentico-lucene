@@ -59,6 +59,12 @@ namespace DancingGoat.Models
 
 
 		/// <summary>
+		/// ContactUSState.
+		/// </summary>
+		public string ContactUSState { get; set; }
+
+
+		/// <summary>
 		/// ContactZipCode.
 		/// </summary>
 		public string ContactZipCode { get; set; }

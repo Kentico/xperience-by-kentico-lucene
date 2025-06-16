@@ -1,0 +1,100 @@
+﻿@using CMS.Commerce
+@using DancingGoat.Commerce
+@using DancingGoat.Models
+@using Kentico.Content.Web.Mvc.Routing
+
+@inject IPreferredLanguageRetriever currentLanguageRetriever
+
+@model ProductViewModel
+
+@{
+    ViewData["PageClass"] = "inverted";
+
+    var languageName = currentLanguageRetriever.Get();
+}
+
+<article class="product-detail">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="product-detail-header">
+                <h2>@Model.Name</h2>
+            </div>
+        </div>
+    </div>
+
+    <div class="row-fluid">
+        <div class="col-lg-7 col-md-6">
+            <div>
+                @if (@Model.Tag != null)
+                {
+                    <div class="product-tag">@Model.Tag</div>
+                }
+
+                @if (!string.IsNullOrEmpty(Model.ImagePath))
+                {
+                    <figure class="image">
+                        <img src="@Model.ImagePath" alt="@Model.Name" title="@Model.Name" />
+                    </figure>
+                }
+            </div>
+
+            <div class="description">
+                <p>
+                    @Html.Raw(Model.Description)
+                </p>
+
+                @if (Model.Parameters.Count > 0)
+                {
+                    <div class="product-detail-properties">
+                       <h4>@HtmlLocalizer["Parameters"]</h4>
+                        @foreach (var parameter in Model.Parameters)
+                        {
+                            <dl class="row">
+                                <dt class="col-xs-12 col-sm-4">@parameter.Key</dt>
+                                <dd class="col-xs-12 col-sm-8">@parameter.Value</dd>
+                            </dl>
+                        }
+                    </div>
+                }
+            </div>
+        </div>
+
+        <div class="col-lg-4 col-md-5 product-detail-right col-md-offset-1 col-lg-offset-1">
+            <div class="product-price">
+                <div class="price-details">
+                    @{
+                        var routeData = new Dictionary<string, string> { { "languageName", languageName } };
+                        <form method="post" asp-controller="DancingGoatShoppingCart" asp-action="Add" asp-all-route-data="routeData">
+                            @if (Model.Variants?.Count > 0)
+                            {
+                                <div class="row">
+                                    <label for="variantId">@HtmlLocalizer["Variant"]</label>
+                                </div>
+                                <div class="row">
+                                    <select id="variantId" name="variantId" class="product-variants">
+                                        @foreach (var variant in Model.Variants)
+                                        {
+                                            <option value="@variant.Key">@variant.Value</option>
+                                        }
+                                    </select>
+                                </div>
+                            }
+                            <div class="total-price-container row">
+                                <span class="total-price-label">@HtmlLocalizer["Unit price"]</span>
+                                <span class="total-price"><price>@Model.Price</price></span>
+                            </div>
+                            <div class="add-to-cart-container">
+                                <input type="hidden" id="contentItemId" name="contentItemId" value="@Model.ContentItemId" />
+                                <label class="units-label">@HtmlLocalizer["Quantity"]</label>
+                                <input class="add-to-cart-textbox" type="number" id="quantity" name="quantity" value="1" size="2" min="1" max="1000" />
+                                <button class="btn btn-primary add-to-cart-button" type="submit">@HtmlLocalizer["ADD TO CART"]</button>
+                            </div>
+                        </form>
+                    }
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</article>

@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<contentitemdata.dancinggoat.image>
+  <ContentItemDataCommonDataID>
+    <GUID>2e10549f-f1ba-482d-9a69-524353914bd5</GUID>
+    <ObjectType>cms.contentitemcommondata</ObjectType>
+    <Parent>
+      <CodeName>AnfimSuperCaimano-kzms3v5f</CodeName>
+      <GUID>7ab2f28d-752d-4289-a5d3-746f6e60de1f</GUID>
+      <ObjectType>cms.contentitem</ObjectType>
+    </Parent>
+  </ContentItemDataCommonDataID>
+  <ContentItemDataGUID>ace3204b-4506-4bd8-a5f7-975b1b68b79c</ContentItemDataGUID>
+  <ImageFile>
+    <![CDATA[{"Original":{"Identifier":"2d363003-6842-46ec-bcef-7bbbd74c7139","Name":"anfim-super-caimano.jpg","Extension":".jpg","Size":10768,"Width":400,"Height":400,"LastModified":"2025-02-03T14:29:31.103347Z"},"OptimizationParameters":{"OutputExtension":"webp","Quality":70},"Identifier":"79590d91-d3a3-4370-8438-09a58827b3fb","Name":"anfim-super-caimano.webp","Extension":".webp","Size":4468,"Width":400,"Height":400,"LastModified":"2025-02-03T14:29:31.1366405Z"}]]>
+  </ImageFile>
+</contentitemdata.dancinggoat.image>

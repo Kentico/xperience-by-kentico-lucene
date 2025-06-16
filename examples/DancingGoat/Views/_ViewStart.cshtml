@@ -3,7 +3,7 @@
 @using CMS.Websites;
 @using CMS.Websites.Routing;
 
-@inject IWebsiteChannelContext websiteChannelContext;
+@inject IWebsiteChannelContext websiteChannelContext
 
 @{
     if (string.Equals(websiteChannelContext.WebsiteChannelName, DancingGoatConstants.WEBSITE_CHANNEL_NAME, StringComparison.Ordinal))

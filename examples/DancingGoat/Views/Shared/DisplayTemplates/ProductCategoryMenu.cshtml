@@ -1,0 +1,14 @@
+﻿@using DancingGoat.Models
+
+@model IEnumerable<NavigationItemViewModel>
+
+<nav>
+    <ul class="category-menu">
+    @foreach (var item in Model) 
+    {
+        <li>
+            <a href="@item.RelativeUrl" asp-active="@item.RelativeUrl">@item.Caption</a>
+        </li>
+    }
+    </ul>
+</nav>

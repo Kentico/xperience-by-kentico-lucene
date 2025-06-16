@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<cms.contentitemcommondata>
+  <ContentItemCommonDataContentItemID>
+    <CodeName>KenyaGakuyuniAA-j2ujcs2m</CodeName>
+    <GUID>f284c286-b6d7-48b8-8241-72f27555f31e</GUID>
+    <ObjectType>cms.contentitem</ObjectType>
+  </ContentItemCommonDataContentItemID>
+  <ContentItemCommonDataContentLanguageID>
+    <CodeName>en</CodeName>
+    <GUID>e4a8fb12-ebc2-45d0-930f-c9fba2780c85</GUID>
+    <ObjectType>cms.contentlanguage</ObjectType>
+  </ContentItemCommonDataContentLanguageID>
+  <ContentItemCommonDataFirstPublishedWhen>2025-02-04 14:10:04Z</ContentItemCommonDataFirstPublishedWhen>
+  <ContentItemCommonDataGUID>823111e3-53e0-482c-bc18-0f383bfec0ea</ContentItemCommonDataGUID>
+  <ContentItemCommonDataIsLatest>True</ContentItemCommonDataIsLatest>
+  <ContentItemCommonDataLastPublishedWhen>2025-04-14 16:01:51Z</ContentItemCommonDataLastPublishedWhen>
+  <ContentItemCommonDataVersionStatus>2</ContentItemCommonDataVersionStatus>
+  <ProductFieldCategory>
+    <![CDATA[[{"Identifier":"cfe8a882-9424-4d03-81a6-a941fd559cde"}]]]>
+  </ProductFieldCategory>
+  <ProductFieldDescription>
+    <![CDATA[<p>What are the best beans for filtered coffees, you may ask? Well, what about a coffee with the sweet flavor of acidity, where you can also taste plums, rhubarb, or tangerines? Yes, this amazing coffee comes from Mt. Kenya in the Ngariama region of Kenya and will fulfill all your needs.</p><p>Gakuyuni AA is made by a small business where they grow a hybrid variety of the Arabica coffee plant, so you can be assured that you are drinking a rare and unique coffee.</p>]]>
+  </ProductFieldDescription>
+  <ProductFieldImage>
+    <![CDATA[[{"Identifier":"3b4372f2-6ab3-44a7-af83-1a897dd16afd"}]]]>
+  </ProductFieldImage>
+  <ProductFieldName>Kenya Gakuyuni AA</ProductFieldName>
+  <ProductFieldPrice>5.5</ProductFieldPrice>
+  <ProductSKUCode>CAF-KEN-GAKU</ProductSKUCode>
+  <ContentItemReferences>
+    <cms.contentitemreference>
+      <ContentItemReferenceGroupGUID>af37d29a-2fc8-4ead-82ef-d5ec6998f910</ContentItemReferenceGroupGUID>
+      <ContentItemReferenceGUID>34354656-a325-4455-98b8-dabe019e344a</ContentItemReferenceGUID>
+      <ContentItemReferenceSourceCommonDataID>
+        <GUID>823111e3-53e0-482c-bc18-0f383bfec0ea</GUID>
+        <ObjectType>cms.contentitemcommondata</ObjectType>
+      </ContentItemReferenceSourceCommonDataID>
+      <ContentItemReferenceTargetItemID>
+        <CodeName>KenyaGakuyuniAA-0g14dt96</CodeName>
+        <GUID>3b4372f2-6ab3-44a7-af83-1a897dd16afd</GUID>
+        <ObjectType>cms.contentitem</ObjectType>
+      </ContentItemReferenceTargetItemID>
+    </cms.contentitemreference>
+  </ContentItemReferences>
+</cms.contentitemcommondata>

@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<cms.applicationpermission>
+  <ApplicationName>Kentico.Xperience.Application.Orders</ApplicationName>
+  <ApplicationPermissionGuid>85955b9c-8196-4119-8e6c-00c2c0c7c44f</ApplicationPermissionGuid>
+  <PermissionName>Update</PermissionName>
+  <RoleID>
+    <CodeName>DancingGoat.StoreManager</CodeName>
+    <GUID>d0ec2aaf-4452-4eeb-94cd-4dfe4b2e983b</GUID>
+    <ObjectType>cms.role</ObjectType>
+  </RoleID>
+</cms.applicationpermission>

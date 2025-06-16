@@ -11,10 +11,6 @@
     <AdminOrgName>kentico</AdminOrgName>
     <RootNamespace>Kentico.Xperience.Lucene.Admin</RootNamespace>
     <NoWarn>$(NoWarn);S1075</NoWarn>
-    <LangVersion>latest</LangVersion>
-
-    <!-- Required to prevent type conflicts with existing types -->
-    <HotChocolateImplicitUsings>disable</HotChocolateImplicitUsings>
   </PropertyGroup>
 
   <ItemGroup>
@@ -28,7 +24,7 @@
 
     <!-- Requires that npm run build or npm run build:dev was executed _before_ the .NET build -->
     <AdminClientPath Include="Client\dist\**" Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-        <ProjectName>xperience-integrations-lucene-admin</ProjectName>
+      <ProjectName>xperience-integrations-lucene-admin</ProjectName>
     </AdminClientPath>
   </ItemGroup>
 
@@ -39,9 +35,9 @@
     <Exec Command="npm run build" WorkingDirectory="$(MSBuildProjectDirectory)\Client" />
 
     <ItemGroup>
-        <AdminClientPath Include="Client\dist\**">
-            <ProjectName>xperience-integrations-lucene-admin</ProjectName>
-		</AdminClientPath>
+      <AdminClientPath Include="Client\dist\**">
+        <ProjectName>xperience-integrations-lucene-admin</ProjectName>
+      </AdminClientPath>
     </ItemGroup>
   </Target>
   <ItemGroup>

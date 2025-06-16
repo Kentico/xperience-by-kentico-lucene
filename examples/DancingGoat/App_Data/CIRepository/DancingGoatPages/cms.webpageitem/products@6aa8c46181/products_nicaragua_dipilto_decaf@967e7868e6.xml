@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<cms.webpageitem>
+  <WebPageItemContentItemID>
+    <CodeName>NicaraguaDipilto_decaf-o3ddywff</CodeName>
+    <GUID>642ab002-1912-4122-a1ba-b86f0486254e</GUID>
+    <ObjectType>cms.contentitem</ObjectType>
+  </WebPageItemContentItemID>
+  <WebPageItemGUID>f6c61d6d-325d-41ac-9a5a-bab1b3c56835</WebPageItemGUID>
+  <WebPageItemName>NicaraguaDipilto_decaf-o3ddywff</WebPageItemName>
+  <WebPageItemOrder>26</WebPageItemOrder>
+  <WebPageItemParentID>
+    <CodeName>Products-iz96a4ch</CodeName>
+    <GUID>4a9d353d-1c47-4898-a43d-394536119afb</GUID>
+    <ObjectType>cms.webpageitem</ObjectType>
+  </WebPageItemParentID>
+  <WebPageItemTreePath>/Products/Nicaragua_Dipilto_decaf</WebPageItemTreePath>
+  <WebPageItemWebsiteChannelID>
+    <GUID>55e3ae4b-3843-46b8-95d5-79611c371d6f</GUID>
+    <ObjectType>cms.websitechannel</ObjectType>
+    <Parent>
+      <CodeName>DancingGoatPages</CodeName>
+      <GUID>c430f96d-bd56-4448-b6ab-bce41a58f186</GUID>
+      <ObjectType>cms.channel</ObjectType>
+    </Parent>
+  </WebPageItemWebsiteChannelID>
+</cms.webpageitem>

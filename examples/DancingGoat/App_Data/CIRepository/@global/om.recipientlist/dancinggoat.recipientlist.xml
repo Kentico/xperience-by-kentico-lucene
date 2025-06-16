@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<om.recipientlist>
+  <ContactGroupDescription>Contains contacts who subscribe to receive emails.</ContactGroupDescription>
+  <ContactGroupDisplayName>Dancing goat recipient list</ContactGroupDisplayName>
+  <ContactGroupEnabled>True</ContactGroupEnabled>
+  <ContactGroupGUID>82c6d953-a0a7-4f85-b7e1-4bb29ded7680</ContactGroupGUID>
+  <ContactGroupIsRecipientList>True</ContactGroupIsRecipientList>
+  <ContactGroupName>DancingGoat.RecipientList</ContactGroupName>
+</om.recipientlist>

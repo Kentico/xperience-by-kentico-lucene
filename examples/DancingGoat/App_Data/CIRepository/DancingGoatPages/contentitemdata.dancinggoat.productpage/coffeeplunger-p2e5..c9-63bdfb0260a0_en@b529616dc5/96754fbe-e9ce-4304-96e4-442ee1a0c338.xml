@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<contentitemdata.dancinggoat.productpage>
+  <ContentItemDataCommonDataID>
+    <GUID>0953ef5b-b0c6-4fa9-98c9-63bdfb0260a0</GUID>
+    <ObjectType>cms.contentitemcommondata</ObjectType>
+    <Parent>
+      <CodeName>CoffeePlunger-p2e57tss</CodeName>
+      <GUID>75cb2589-0d3b-4e44-89ad-bbdadab143b8</GUID>
+      <ObjectType>cms.contentitem</ObjectType>
+    </Parent>
+  </ContentItemDataCommonDataID>
+  <ContentItemDataGUID>96754fbe-e9ce-4304-96e4-442ee1a0c338</ContentItemDataGUID>
+  <ProductPageProduct>
+    <![CDATA[[{"Identifier":"3e105104-3b59-4edc-aad2-fb5fbd34deb1"}]]]>
+  </ProductPageProduct>
+</contentitemdata.dancinggoat.productpage>

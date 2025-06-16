@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<contentitemdata.dancinggoat.event>
+  <ContentItemDataCommonDataID>
+    <GUID>52e5490b-a54b-4ef9-a0ad-1834ed830870</GUID>
+    <ObjectType>cms.contentitemcommondata</ObjectType>
+    <Parent>
+      <CodeName>TheArtOfCoffeeCupping-pzodajb5</CodeName>
+      <GUID>febf0de7-f6d2-49c2-96ae-983c63ad8bad</GUID>
+      <ObjectType>cms.contentitem</ObjectType>
+    </Parent>
+  </ContentItemDataCommonDataID>
+  <ContentItemDataGUID>1193211d-f114-4160-9934-b7c7cb69f53e</ContentItemDataGUID>
+  <EventCafe>
+    <![CDATA[[{"Identifier":"4c84719d-689e-460e-8cc1-5495c367b249"}]]]>
+  </EventCafe>
+  <EventDate>2022-08-07 13:00:00Z</EventDate>
+  <EventHeroBannerImage>
+    <![CDATA[[{"Identifier":"5590dc48-6146-4f1b-bd28-e8fef896c52e"}]]]>
+  </EventHeroBannerImage>
+  <EventPromoText>
+<![CDATA[
+Discover new roasts and enjoy a range of new beverages in our coffee cupping workshop.
+Learn how to quality check coffee; the aspects involved in scoring coffee and how to identify different flavour profiles of coffee beans.
+]]>
+  </EventPromoText>
+  <EventTitle>The art of coffee cupping</EventTitle>
+</contentitemdata.dancinggoat.event>

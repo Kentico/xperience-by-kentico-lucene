@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<contentitemdata.dancinggoat.productcoffee>
+  <ContentItemDataCommonDataID>
+    <GUID>d4ec8ef5-47c6-470a-a1ad-d4d7bdf3f775</GUID>
+    <ObjectType>cms.contentitemcommondata</ObjectType>
+    <Parent>
+      <CodeName>BoliviaFincaIllimani-9nut1evb</CodeName>
+      <GUID>38d6115a-a102-4b4c-8f07-cf21ad100a57</GUID>
+      <ObjectType>cms.contentitem</ObjectType>
+    </Parent>
+  </ContentItemDataCommonDataID>
+  <ContentItemDataGUID>70210672-1393-46d9-87b6-b2c22d8446fc</ContentItemDataGUID>
+</contentitemdata.dancinggoat.productcoffee>

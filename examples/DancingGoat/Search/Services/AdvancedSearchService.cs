@@ -52,7 +52,7 @@ public class AdvancedSearchService
 
             foreach (string subFacet in subFacets)
             {
-                drillDownQuery.Add(nameof(AdvancedSearchIndexingStrategy.FACET_DIMENSION), subFacet);
+                drillDownQuery.Add(AdvancedSearchIndexingStrategy.FACET_DIMENSION, subFacet);
             }
 
             combinedQuery.Add(drillDownQuery, Occur.MUST);
@@ -84,13 +84,12 @@ public class AdvancedSearchService
                    PageSize = pageSize,
                    TotalPages = topDocs.TotalHits <= 0 ? 0 : ((topDocs.TotalHits - 1) / pageSize) + 1,
                    TotalHits = topDocs.TotalHits,
-                   Hits = topDocs.ScoreDocs
+                   Hits = [.. topDocs.ScoreDocs
                        .Skip(offset)
                        .Take(limit)
-                       .Select(d => MapToResultItem(searcher.Doc(d.Doc)))
-                       .ToList(),
+                       .Select(d => MapToResultItem(searcher.Doc(d.Doc)))],
                    Facet = facet,
-                   Facets = facets?.GetTopChildren(10, AdvancedSearchIndexingStrategy.FACET_DIMENSION, new string[] { })?.LabelValues.ToArray(),
+                   Facets = facets.GetTopChildren(10, AdvancedSearchIndexingStrategy.FACET_DIMENSION)?.LabelValues.ToArray() ?? [],
                };
            }
         );
@@ -132,18 +131,13 @@ public class AdvancedSearchService
         return new MatchAllDocsQuery();
     }
 
-    private SortField? GetSortOption(string? sortBy = null)
-    {
-        switch (sortBy)
+    private SortField? GetSortOption(string? sortBy = null) =>
+        sortBy switch
         {
-            case "a-z":
-                return new SortField(AdvancedSearchIndexingStrategy.SORTABLE_TITLE_FIELD_NAME, SortFieldType.STRING, false);
-            case "z-a":
-                return new SortField(AdvancedSearchIndexingStrategy.SORTABLE_TITLE_FIELD_NAME, SortFieldType.STRING, true);
-            default:
-                return null;
-        }
-    }
+            "a-z" => new SortField(AdvancedSearchIndexingStrategy.SORTABLE_TITLE_FIELD_NAME, SortFieldType.STRING, false),
+            "z-a" => new SortField(AdvancedSearchIndexingStrategy.SORTABLE_TITLE_FIELD_NAME, SortFieldType.STRING, true),
+            _ => null,
+        };
 
     private DancingGoatSearchResultModel MapToResultItem(Document doc) => new()
     {

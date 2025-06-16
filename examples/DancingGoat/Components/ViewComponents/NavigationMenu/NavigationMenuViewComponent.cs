@@ -22,7 +22,7 @@ namespace DancingGoat.ViewComponents
         {
             var languageName = currentLanguageRetriever.Get();
 
-            var navigationViewModels = await navigationService.GetNavigationItemViewModels(languageName, HttpContext.RequestAborted);
+            var navigationViewModels = await navigationService.GetSiteNavigationItemViewModels(languageName, HttpContext.RequestAborted);
 
             return View($"~/Components/ViewComponents/NavigationMenu/Default.cshtml", navigationViewModels);
         }

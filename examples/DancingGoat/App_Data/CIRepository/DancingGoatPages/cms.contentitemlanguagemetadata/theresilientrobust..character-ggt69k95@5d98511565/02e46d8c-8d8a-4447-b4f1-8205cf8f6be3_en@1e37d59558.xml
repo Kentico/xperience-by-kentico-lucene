@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<cms.contentitemlanguagemetadata>
+  <ContentItemLanguageMetadataContentItemID>
+    <CodeName>TheResilientRobusta_ACoffeeWithCharacter-ggt69k95</CodeName>
+    <GUID>5d820bad-6499-41a5-ba81-a237e9304a73</GUID>
+    <ObjectType>cms.contentitem</ObjectType>
+  </ContentItemLanguageMetadataContentItemID>
+  <ContentItemLanguageMetadataContentLanguageID>
+    <CodeName>en</CodeName>
+    <GUID>e4a8fb12-ebc2-45d0-930f-c9fba2780c85</GUID>
+    <ObjectType>cms.contentlanguage</ObjectType>
+  </ContentItemLanguageMetadataContentLanguageID>
+  <ContentItemLanguageMetadataContentWorkflowStepID>
+    <CodeName>Draft-u6kbnmcf</CodeName>
+    <GUID>7d48b55e-2c09-4f50-8c72-c43be38e594c</GUID>
+    <ObjectType>cms.contentworkflowstep</ObjectType>
+    <Parent>
+      <CodeName>DancingGoat.ArticleReview</CodeName>
+      <GUID>20089af5-41ce-490b-a138-ea2910801c6a</GUID>
+      <ObjectType>cms.contentworkflow</ObjectType>
+    </Parent>
+  </ContentItemLanguageMetadataContentWorkflowStepID>
+  <ContentItemLanguageMetadataCreatedByUserID>
+    <CodeName>administrator</CodeName>
+    <GUID>6415b8ce-8072-4bcd-8e48-9d7178b826b7</GUID>
+    <ObjectType>cms.user</ObjectType>
+  </ContentItemLanguageMetadataCreatedByUserID>
+  <ContentItemLanguageMetadataCreatedWhen>2025-01-17 07:23:18Z</ContentItemLanguageMetadataCreatedWhen>
+  <ContentItemLanguageMetadataDisplayName>The Resilient Robusta: A Coffee with Character</ContentItemLanguageMetadataDisplayName>
+  <ContentItemLanguageMetadataGUID>02e46d8c-8d8a-4447-b4f1-8205cf8f6be3</ContentItemLanguageMetadataGUID>
+  <ContentItemLanguageMetadataHasImageAsset>False</ContentItemLanguageMetadataHasImageAsset>
+  <ContentItemLanguageMetadataLatestVersionStatus>0</ContentItemLanguageMetadataLatestVersionStatus>
+  <ContentItemLanguageMetadataModifiedByUserID>
+    <CodeName>administrator</CodeName>
+    <GUID>6415b8ce-8072-4bcd-8e48-9d7178b826b7</GUID>
+    <ObjectType>cms.user</ObjectType>
+  </ContentItemLanguageMetadataModifiedByUserID>
+</cms.contentitemlanguagemetadata>

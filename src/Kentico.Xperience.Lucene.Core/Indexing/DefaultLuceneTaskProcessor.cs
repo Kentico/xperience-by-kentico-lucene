@@ -101,7 +101,7 @@ internal class DefaultLuceneTaskProcessor : ILuceneTaskProcessor
             }
             catch (Exception ex)
             {
-                eventLogService.LogError(nameof(DefaultLuceneTaskProcessor), nameof(ProcessLuceneTasks), ex.Message);
+                eventLogService.LogException(nameof(DefaultLuceneTaskProcessor), nameof(ProcessLuceneTasks), ex);
             }
         }
     }

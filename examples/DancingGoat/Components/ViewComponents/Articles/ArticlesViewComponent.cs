@@ -6,7 +6,7 @@ using CMS.Websites;
 
 using DancingGoat.Models;
 
-using Kentico.Content.Web.Mvc.Routing;
+using Kentico.Content.Web.Mvc;
 
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ViewComponents;
@@ -18,52 +18,56 @@ namespace DancingGoat.ViewComponents
     /// </summary>
     public class ArticlesViewComponent : ViewComponent
     {
-        private readonly ArticlePageRepository articlePageRepository;
-        private readonly ArticlesSectionRepository articlesSectionRepository;
-        private readonly IWebPageUrlRetriever urlRetriever;
-        private readonly IPreferredLanguageRetriever currentLanguageRetriever;
+        private readonly IContentRetriever contentRetriever;
 
         private const int ARTICLES_PER_VIEW = 5;
 
 
         public ArticlesViewComponent(
-            ArticlePageRepository articlePageRepository,
-            ArticlesSectionRepository articlesSectionRepository,
-            IWebPageUrlRetriever urlRetriever,
-            IPreferredLanguageRetriever currentLanguageRetriever)
+            IContentRetriever contentRetriever)
         {
-            this.articlePageRepository = articlePageRepository;
-            this.articlesSectionRepository = articlesSectionRepository;
-            this.urlRetriever = urlRetriever;
-            this.currentLanguageRetriever = currentLanguageRetriever;
+            this.contentRetriever = contentRetriever;
         }
 
 
         public async Task<ViewViewComponentResult> InvokeAsync(WebPageRelatedItem articlesSectionItem)
         {
-            var languageName = currentLanguageRetriever.Get();
+            var articlesSection = (await contentRetriever.RetrievePagesByGuids<ArticlesSection>(
+                [articlesSectionItem.WebPageGuid],
+                HttpContext.RequestAborted
+            )).FirstOrDefault();
 
-            var articlesSection = await articlesSectionRepository.GetArticlesSection(articlesSectionItem.WebPageGuid, languageName, HttpContext.RequestAborted);
             if (articlesSection == null)
             {
                 return View("~/Components/ViewComponents/Articles/Default.cshtml", ArticlesSectionViewModel.GetViewModel(null, Enumerable.Empty<ArticleViewModel>(), string.Empty));
             }
 
-            var articlePages = await articlePageRepository.GetArticles(articlesSection.SystemFields.WebPageItemTreePath,
-                languageName, false, ARTICLES_PER_VIEW, HttpContext.RequestAborted);
+            IEnumerable<ArticlePage> articlePages = await GetArticlePages(articlesSection);
 
             var models = new List<ArticleViewModel>();
             foreach (var article in articlePages)
             {
-                var model = await ArticleViewModel.GetViewModel(article, urlRetriever, languageName, HttpContext.RequestAborted);
+                var model = ArticleViewModel.GetViewModel(article);
                 models.Add(model);
             }
 
-            var url = (await urlRetriever.Retrieve(articlesSection, languageName, HttpContext.RequestAborted)).RelativePath;
-
-            var viewModel = ArticlesSectionViewModel.GetViewModel(articlesSection, models, url);
+            var viewModel = ArticlesSectionViewModel.GetViewModel(articlesSection, models, articlesSection.GetUrl().RelativePath);
 
             return View("~/Components/ViewComponents/Articles/Default.cshtml", viewModel);
+        }
+
+        private async Task<IEnumerable<ArticlePage>> GetArticlePages(ArticlesSection articlesSection)
+        {
+            return await contentRetriever.RetrievePages<ArticlePage>(
+                new RetrievePagesParameters
+                {
+                    LinkedItemsMaxLevel = 1,
+                    PathMatch = PathMatch.Children(articlesSection.SystemFields.WebPageItemTreePath)
+                },
+                query => query.TopN(ARTICLES_PER_VIEW),
+                new RetrievalCacheSettings($"TopN_{ARTICLES_PER_VIEW}"),
+                HttpContext.RequestAborted
+            );
         }
     }
 }

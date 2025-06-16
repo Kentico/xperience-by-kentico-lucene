@@ -1,0 +1,21 @@
+﻿@using DancingGoat.Models
+
+@model StoreViewModel
+
+@{
+    ViewData["PageClass"] = "inverted";
+}
+
+
+@Html.DisplayFor(m => @Model.CategoryMenuViewModel, "ProductCategoryMenu")
+
+<div class="product-page-container">
+    @foreach (var productList in Model?.SelectionProductList ?? [])
+    {
+        <div class="product-page row">
+            <div id="product-list" class="product-list">
+                <partial name="ProductsList" model="@productList" />
+            </div>
+        </div>
+    }
+</div>

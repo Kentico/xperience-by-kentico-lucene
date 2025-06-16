@@ -1,0 +1,15 @@
+﻿@using DancingGoat.Models
+
+@model CheckoutViewModel
+
+<input type="hidden" name="Customer.FirstName" value="@Model.Customer.FirstName" />
+<input type="hidden" name="Customer.LastName" value="@Model.Customer.LastName" />
+<input type="hidden" name="Customer.Company" value="@Model.Customer.Company" />
+<input type="hidden" name="Customer.Email" value="@Model.Customer.Email" />
+<input type="hidden" name="Customer.PhoneNumber" value="@Model.Customer.PhoneNumber" />
+<input type="hidden" name="CustomerAddress.Line1" value="@Model.CustomerAddress.Line1" />
+<input type="hidden" name="CustomerAddress.Line2" value="@Model.CustomerAddress.Line2" />
+<input type="hidden" name="CustomerAddress.City" value="@Model.CustomerAddress.City" />
+<input type="hidden" name="CustomerAddress.PostalCode" value="@Model.CustomerAddress.PostalCode" />
+<input type="hidden" name="CustomerAddress.StateId" value="@Model.CustomerAddress.StateId" />
+<input type="hidden" name="CustomerAddress.CountryId" value="@Model.CustomerAddress.CountryId" />

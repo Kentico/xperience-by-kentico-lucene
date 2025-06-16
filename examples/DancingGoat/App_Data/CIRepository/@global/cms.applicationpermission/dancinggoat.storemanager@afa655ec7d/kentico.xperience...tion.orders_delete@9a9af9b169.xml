@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<cms.applicationpermission>
+  <ApplicationName>Kentico.Xperience.Application.Orders</ApplicationName>
+  <ApplicationPermissionGuid>32c4951f-9a29-4d81-a45d-87bf41eba87d</ApplicationPermissionGuid>
+  <PermissionName>Delete</PermissionName>
+  <RoleID>
+    <CodeName>DancingGoat.StoreManager</CodeName>
+    <GUID>d0ec2aaf-4452-4eeb-94cd-4dfe4b2e983b</GUID>
+    <ObjectType>cms.role</ObjectType>
+  </RoleID>
+</cms.applicationpermission>

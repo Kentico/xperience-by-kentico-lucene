@@ -4336,6 +4336,9 @@ p {
 .icon-file-sln:before {
   content: "\e6ff";
 }
+.icon-file-svg:before {
+  content: "\e633";
+}
 .icon-file-swf:before {
   content: "\e636";
 }
@@ -4356,6 +4359,9 @@ p {
 }
 .icon-file-webm:before {
   content: "\e636";
+}
+.icon-file-webp:before {
+  content: "\e633";
 }
 .icon-file-wma:before {
   content: "\e71c";

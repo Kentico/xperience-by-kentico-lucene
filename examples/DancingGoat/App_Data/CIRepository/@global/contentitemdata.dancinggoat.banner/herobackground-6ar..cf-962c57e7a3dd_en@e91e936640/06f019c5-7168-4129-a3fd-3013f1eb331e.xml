@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<contentitemdata.dancinggoat.banner>
+  <BannerBackgroundImage>
+    <![CDATA[[{"Identifier":"b5881f66-102a-4b14-99dd-d713cde77584"}]]]>
+  </BannerBackgroundImage>
+  <BannerHeaderText>Roasting Premium Coffee</BannerHeaderText>
+  <BannerText>
+    <![CDATA[Discover the fascinating world of Dancing Goat high-quality coffee and you will never miss a single coffee break again.]]>
+  </BannerText>
+  <ContentItemDataCommonDataID>
+    <GUID>a949155e-12e0-4731-9fcf-962c57e7a3dd</GUID>
+    <ObjectType>cms.contentitemcommondata</ObjectType>
+    <Parent>
+      <CodeName>HeroBackground-6arlimda</CodeName>
+      <GUID>a2725352-5eeb-446e-98dc-c244234337f2</GUID>
+      <ObjectType>cms.contentitem</ObjectType>
+    </Parent>
+  </ContentItemDataCommonDataID>
+  <ContentItemDataGUID>06f019c5-7168-4129-a3fd-3013f1eb331e</ContentItemDataGUID>
+</contentitemdata.dancinggoat.banner>

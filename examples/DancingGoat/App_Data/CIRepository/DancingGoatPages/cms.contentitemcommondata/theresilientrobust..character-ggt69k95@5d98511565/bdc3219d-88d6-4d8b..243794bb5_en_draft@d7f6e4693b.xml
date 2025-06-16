@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<cms.contentitemcommondata>
+  <ContentItemCommonDataContentItemID>
+    <CodeName>TheResilientRobusta_ACoffeeWithCharacter-ggt69k95</CodeName>
+    <GUID>5d820bad-6499-41a5-ba81-a237e9304a73</GUID>
+    <ObjectType>cms.contentitem</ObjectType>
+  </ContentItemCommonDataContentItemID>
+  <ContentItemCommonDataContentLanguageID>
+    <CodeName>en</CodeName>
+    <GUID>e4a8fb12-ebc2-45d0-930f-c9fba2780c85</GUID>
+    <ObjectType>cms.contentlanguage</ObjectType>
+  </ContentItemCommonDataContentLanguageID>
+  <ContentItemCommonDataGUID>bdc3219d-88d6-4d8b-b6ac-a18243794bb5</ContentItemCommonDataGUID>
+  <ContentItemCommonDataIsLatest>True</ContentItemCommonDataIsLatest>
+  <ContentItemCommonDataVersionStatus>0</ContentItemCommonDataVersionStatus>
+  <ContentItemCommonDataVisualBuilderTemplateConfiguration>
+    <![CDATA[{"identifier":"DancingGoat.Article","properties":null,"fieldIdentifiers":null}]]>
+  </ContentItemCommonDataVisualBuilderTemplateConfiguration>
+  <SEOFieldsAllowSearchIndexing>True</SEOFieldsAllowSearchIndexing>
+  <SEOFieldsDescription>
+    <![CDATA[Robusta coffee, long overshadowed by Arabica, is being rediscovered for its bold flavor and resilience, with high-quality varieties now earning recognition among the world’s finest.]]>
+  </SEOFieldsDescription>
+  <SEOFieldsTitle>
+    <![CDATA[The Resilient Robusta: A Coffee with Character - Dancing Goat]]>
+  </SEOFieldsTitle>
+  <ContentItemReferences>
+    <cms.contentitemreference>
+      <ContentItemReferenceGroupGUID>04b5735c-f3b6-4dba-af49-1c748e952820</ContentItemReferenceGroupGUID>
+      <ContentItemReferenceGUID>28afa462-f85d-439d-8400-f6aa7e66bf3e</ContentItemReferenceGUID>
+      <ContentItemReferenceSourceCommonDataID>
+        <GUID>bdc3219d-88d6-4d8b-b6ac-a18243794bb5</GUID>
+        <ObjectType>cms.contentitemcommondata</ObjectType>
+      </ContentItemReferenceSourceCommonDataID>
+      <ContentItemReferenceTargetItemID>
+        <CodeName>Articles_The-resilient-robusta.webp-5gxfjn8j</CodeName>
+        <GUID>7dd94187-f658-48cd-8a59-308e55b154f1</GUID>
+        <ObjectType>cms.contentitem</ObjectType>
+      </ContentItemReferenceTargetItemID>
+    </cms.contentitemreference>
+  </ContentItemReferences>
+</cms.contentitemcommondata>

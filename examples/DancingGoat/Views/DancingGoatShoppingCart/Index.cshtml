@@ -1,0 +1,57 @@
+﻿@using CMS.Websites
+@using CMS.Websites.Routing
+@using DancingGoat.Models
+@using DancingGoat.Services
+@using Kentico.Content.Web.Mvc.Routing
+
+@inject WebPageUrlProvider webPageUrlProvider
+
+@model ShoppingCartViewModel
+
+@{
+    ViewBag.Title = HtmlLocalizer["Shopping cart"].Value;
+    ViewData["PageClass"] = "inverted";
+
+    var checkoutPageUrl = await webPageUrlProvider.CheckoutPageUrl();
+    var storePageUrl = await webPageUrlProvider.StorePageUrl();
+}
+
+<div class="checkout-container">
+    <div class="cart">
+        <div class="continue-shopping-link">
+            <a href="@storePageUrl">&larr; @HtmlLocalizer["continue shopping"]</a>
+        </div>
+
+        <h2>@HtmlLocalizer["Your shopping cart"]</h2>
+        <div class="col-md-8 cart-content">
+            <hr class="first-separator" />
+            @if (!Model.Items.Any())
+            {
+                <span>@HtmlLocalizer["Shopping cart is empty"]</span>
+                <hr class="last-separator" />
+            }
+            else
+            {
+                <partial name="_ShoppingCartContentEdit" />
+            }
+        </div>
+
+    </div>
+
+    @if (Model.Items.Any())
+    {
+        <div class="col-md-4">
+            <div class="cart-right-panel floating-box">
+                <form>
+                    <div id="shoppingCartTotals">
+                        <partial name="_ShoppingCartTotals" model="Model" />
+                    </div>
+
+                    <p>@HtmlLocalizer["Review your shopping cart and checkout"]</p>
+
+                    <a href="@checkoutPageUrl"><input type="button" value="@HtmlLocalizer["checkout"]" class="btn-primary checkout-button btn btn-default" /></a>
+                </form>
+            </div>
+        </div>
+    }
+</div>

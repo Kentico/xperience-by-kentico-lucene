@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<cms.contenttype>
+  <ClassContentTypeType>Website</ClassContentTypeType>
+  <ClassDisplayName>Checkout</ClassDisplayName>
+  <ClassFormDefinition>
+    <form>
+      <field column="ContentItemDataID" columntype="integer" enabled="true" guid="7319f175-28a2-4863-8de2-a48c8cd3a701" isPK="true" />
+      <field column="ContentItemDataCommonDataID" columntype="integer" enabled="true" guid="d59083d2-adf8-42b2-9422-7ad8c6f6b9a1" refobjtype="cms.contentitemcommondata" reftype="Required" system="true" />
+      <field column="ContentItemDataGUID" columntype="guid" enabled="true" guid="abefd789-57c8-406d-be24-12a0fcbbe54d" isunique="true" system="true" />
+    </form>
+  </ClassFormDefinition>
+  <ClassGUID>3b7f7552-c8c0-4377-99e7-41af886ccae1</ClassGUID>
+  <ClassHasUnmanagedDbSchema>False</ClassHasUnmanagedDbSchema>
+  <ClassIconClass>xp-checklist</ClassIconClass>
+  <ClassName>DancingGoat.Checkout</ClassName>
+  <ClassShortName>DancingGoatCheckout</ClassShortName>
+  <ClassTableName>DancingGoat_Checkout</ClassTableName>
+  <ClassType>Content</ClassType>
+  <ClassWebPageHasUrl>True</ClassWebPageHasUrl>
+</cms.contenttype>

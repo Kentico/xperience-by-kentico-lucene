@@ -27,9 +27,8 @@ namespace DancingGoat.Controllers
 
         private readonly IConsentAgreementService consentAgreementService;
         private readonly IInfoProvider<ConsentInfo> consentInfoProvider;
+        private readonly IContentRetriever contentRetriever;
         private readonly IPreferredLanguageRetriever currentLanguageRetriever;
-        private readonly IWebPageDataContextRetriever webPageDataContextRetriever;
-        private readonly PrivacyPageRepository privacyPageRepository;
         private ContactInfo currentContact;
 
 
@@ -47,21 +46,18 @@ namespace DancingGoat.Controllers
         }
 
 
-        public DancingGoatPrivacyController(PrivacyPageRepository privacyPageRepository, IConsentAgreementService consentAgreementService, IInfoProvider<ConsentInfo> consentInfoProvider, IPreferredLanguageRetriever currentLanguageRetriever, IWebPageDataContextRetriever webPageDataContextRetriever)
+        public DancingGoatPrivacyController(IContentRetriever contentRetriever, IConsentAgreementService consentAgreementService, IInfoProvider<ConsentInfo> consentInfoProvider, IPreferredLanguageRetriever currentLanguageRetriever)
         {
-            this.privacyPageRepository = privacyPageRepository;
+            this.contentRetriever = contentRetriever;
             this.consentAgreementService = consentAgreementService;
             this.consentInfoProvider = consentInfoProvider;
             this.currentLanguageRetriever = currentLanguageRetriever;
-            this.webPageDataContextRetriever = webPageDataContextRetriever;
         }
 
 
         public async Task<IActionResult> Index()
         {
-            var webPage = webPageDataContextRetriever.Retrieve().WebPage;
-
-            var privacyPage = await privacyPageRepository.GetPrivacyPage(webPage.WebPageItemID, webPage.LanguageName, HttpContext.RequestAborted);
+            var privacyPage = await contentRetriever.RetrieveCurrentPage<PrivacyPage>(HttpContext.RequestAborted);
 
             var model = new PrivacyViewModel { WebPage = privacyPage };
 

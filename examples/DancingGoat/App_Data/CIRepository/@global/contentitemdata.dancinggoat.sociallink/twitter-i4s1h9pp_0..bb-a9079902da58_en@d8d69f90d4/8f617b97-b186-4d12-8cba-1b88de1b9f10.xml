@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<contentitemdata.dancinggoat.sociallink>
+  <ContentItemDataCommonDataID>
+    <GUID>047d2ad1-8ba1-4ef6-89bb-a9079902da58</GUID>
+    <ObjectType>cms.contentitemcommondata</ObjectType>
+    <Parent>
+      <CodeName>Twitter-i4s1h9pp</CodeName>
+      <GUID>015129c5-8972-47b8-963c-e3d52ef69e7e</GUID>
+      <ObjectType>cms.contentitem</ObjectType>
+    </Parent>
+  </ContentItemDataCommonDataID>
+  <ContentItemDataGUID>8f617b97-b186-4d12-8cba-1b88de1b9f10</ContentItemDataGUID>
+  <SocialLinkIcon>
+    <![CDATA[[{"Identifier":"c29dd2f8-d5e2-4d2c-8f7f-a0fb7c09ebed"}]]]>
+  </SocialLinkIcon>
+  <SocialLinkTitle>Follow us on Twitter</SocialLinkTitle>
+  <SocialLinkUrl>https://twitter.com/DancingGoat78</SocialLinkUrl>
+</contentitemdata.dancinggoat.sociallink>
