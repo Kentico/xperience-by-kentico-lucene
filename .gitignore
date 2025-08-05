@@ -136,3 +136,7 @@ nuget-local/*.snupkg
 **/App_Data/AzureCache/*
 **/App_Data/AzureTemp/*
 **/App_Data/LuceneSearch/*
+
+# MCP server definitions
+claude_desktop_config.json
+mcp_config.json
