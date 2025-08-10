@@ -23,8 +23,7 @@ Use `Kentico.Xperience.Lucene.Admin` in your Xperience by Kentico Administration
 
 **Important Compatibility Notice**  
 This Lucene integration **requires persistent file system access** to store and manage indexes.
-It is **not compatible with Kentico Xperience SaaS**, which restricts file system access.
-If you plan to run this in the cloud, ensure your environment supports persistent disk writes — such as a self-hosted VM, container with mounted volume, or a traditional server.
+In environments like **Kentico Xperience SaaS**, which do not provide persistent file system storage for indexes, the index data can be lost during deployments or restarts. As a result, indexes may need to be rebuilt manually after some deployments.
 
 ## Screenshots
 
