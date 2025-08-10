@@ -14,4 +14,9 @@ public sealed class LuceneSearchOptions
     /// If true, the items that require authentication will be included in the indexing process.
     /// </summary>
     public bool IncludeSecuredItems { get; set; } = false;
+
+    /// <summary>
+    /// Modifies the options for reindexing operations performed after application startup.
+    /// </summary>
+    public AutomaticReindexingOptions? PostStartupReindexingOptions { get; set; }
 }

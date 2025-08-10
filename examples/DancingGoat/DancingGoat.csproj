@@ -1,10 +1,11 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
   <PropertyGroup>
     <TargetFramework Condition="'$(TargetFramework)' == ''">net8.0</TargetFramework>
     <RootNamespace>DancingGoat</RootNamespace>
     <UserSecretsId>ecf97e0b-2de4-4b70-a247-e9e3ab70b113</UserSecretsId>
     <SeparatedAdmin Condition="'$(SeparatedAdmin)' == ''">false</SeparatedAdmin>
     <Nullable>annotations</Nullable>
+	<VersionSuffix>$([System.DateTime]::UtcNow.ToString("yyyyMMdd.HHmmss"))</VersionSuffix>
     <RunAnalyzersDuringBuild>false</RunAnalyzersDuringBuild>
   </PropertyGroup>
   <ItemGroup>

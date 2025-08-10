@@ -971,7 +971,7 @@
         "type": "Project",
         "dependencies": {
           "Kentico.Xperience.Admin": "[30.6.0, )",
-          "Kentico.Xperience.Lucene.Core": "[12.3.1, )"
+          "Kentico.Xperience.Lucene.Core": "[12.4.0, )"
         }
       },
       "kentico.xperience.lucene.core": {

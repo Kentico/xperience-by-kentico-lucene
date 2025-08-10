@@ -21,6 +21,7 @@ public class LuceneModuleInstaller(IInfoProvider<ResourceInfo> resourceProvider)
         InstallLuceneIndexPathItemInfo(resource);
         InstallLuceneContentTypeItemInfo(resource);
         InstallLuceneReusableContentTypeItemInfo(resource);
+        InstallLuceneIndexAssemblyVersionItemInfo(resource);
     }
 
     public ResourceInfo InitializeResource(ResourceInfo resource)
@@ -177,6 +178,61 @@ public class LuceneModuleInstaller(IInfoProvider<ResourceInfo> resourceProvider)
             ReferenceType = ObjectDependencyEnum.Required
         };
 
+        formInfo.AddFormItem(formItem);
+
+        SetFormDefinition(info, formInfo);
+
+        if (info.HasChanged)
+        {
+            DataClassInfoProvider.SetDataClassInfo(info);
+        }
+    }
+
+    public void InstallLuceneIndexAssemblyVersionItemInfo(ResourceInfo resource)
+    {
+        var info = DataClassInfoProvider.GetDataClassInfo(LuceneIndexAssemblyVersionItemInfo.OBJECT_TYPE) ?? DataClassInfo.New(LuceneIndexAssemblyVersionItemInfo.OBJECT_TYPE);
+
+        info.ClassName = LuceneIndexAssemblyVersionItemInfo.TYPEINFO.ObjectClassName;
+        info.ClassTableName = LuceneIndexAssemblyVersionItemInfo.TYPEINFO.ObjectClassName.Replace(".", "_");
+        info.ClassDisplayName = "Lucene Index Assembly Version Item";
+        info.ClassType = ClassType.OTHER;
+        info.ClassResourceID = resource.ResourceID;
+
+        var formInfo = FormHelper.GetBasicFormDefinition(nameof(LuceneIndexAssemblyVersionItemInfo.LuceneIndexAssemblyVersionItemID));
+
+        var formItem = new FormFieldInfo
+        {
+            Name = nameof(LuceneIndexAssemblyVersionItemInfo.LuceneIndexAssemblyVersionItemGuid),
+            AllowEmpty = false,
+            Visible = true,
+            Precision = 0,
+            DataType = "guid",
+            Enabled = true,
+        };
+        formInfo.AddFormItem(formItem);
+
+        formItem = new FormFieldInfo
+        {
+            Name = nameof(LuceneIndexAssemblyVersionItemInfo.LuceneIndexAssemblyVersionItemAssemblyVersion),
+            AllowEmpty = false,
+            Visible = true,
+            Precision = 0,
+            Size = 100,
+            DataType = "text",
+            Enabled = true
+        };
+        formInfo.AddFormItem(formItem);
+
+        formItem = new FormFieldInfo
+        {
+            Name = nameof(LuceneIndexAssemblyVersionItemInfo.LuceneIndexAssemblyVersionItemIndexItemId),
+            AllowEmpty = false,
+            Visible = true,
+            Precision = 0,
+            DataType = "integer",
+            ReferenceToObjectType = LuceneIndexItemInfo.OBJECT_TYPE,
+            ReferenceType = ObjectDependencyEnum.Required
+        };
         formInfo.AddFormItem(formItem);
 
         SetFormDefinition(info, formInfo);
