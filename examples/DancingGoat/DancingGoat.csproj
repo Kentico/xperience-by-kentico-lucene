@@ -5,7 +5,6 @@
     <UserSecretsId>ecf97e0b-2de4-4b70-a247-e9e3ab70b113</UserSecretsId>
     <SeparatedAdmin Condition="'$(SeparatedAdmin)' == ''">false</SeparatedAdmin>
     <Nullable>annotations</Nullable>
-	<VersionSuffix>$([System.DateTime]::UtcNow.ToString("yyyyMMdd.HHmmss"))</VersionSuffix>
     <RunAnalyzersDuringBuild>false</RunAnalyzersDuringBuild>
   </PropertyGroup>
   <ItemGroup>
