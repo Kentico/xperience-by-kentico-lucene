@@ -16,7 +16,7 @@ public class ReusableContentItemsIndexingStrategy : DefaultLuceneIndexingStrateg
 {
     public const string SORTABLE_TITLE_FIELD_NAME = "SortableTitle";
 
-    private readonly IWebPageQueryResultMapper webPageMapper;
+    private readonly IContentQueryResultMapper contentQueryResultMapper;
     private readonly IContentQueryExecutor queryExecutor;
     private readonly IWebPageUrlRetriever urlRetriever;
     private readonly WebScraperHtmlSanitizer htmlSanitizer;
@@ -27,7 +27,7 @@ public class ReusableContentItemsIndexingStrategy : DefaultLuceneIndexingStrateg
     public const string CRAWLER_CONTENT_FIELD_NAME = "Content";
 
     public ReusableContentItemsIndexingStrategy(
-        IWebPageQueryResultMapper webPageMapper,
+        IContentQueryResultMapper contentQueryResultMapper,
         IContentQueryExecutor queryExecutor,
         IWebPageUrlRetriever urlRetriever,
         WebScraperHtmlSanitizer htmlSanitizer,
@@ -35,10 +35,10 @@ public class ReusableContentItemsIndexingStrategy : DefaultLuceneIndexingStrateg
     )
     {
         this.urlRetriever = urlRetriever;
-        this.webPageMapper = webPageMapper;
         this.queryExecutor = queryExecutor;
         this.htmlSanitizer = htmlSanitizer;
         this.webCrawler = webCrawler;
+        this.contentQueryResultMapper = contentQueryResultMapper;
     }
 
     public override async Task<Document?> MapToLuceneDocumentOrNull(IIndexEventItemModel item)
@@ -75,7 +75,7 @@ public class ReusableContentItemsIndexingStrategy : DefaultLuceneIndexingStrateg
                     .Linking(nameof(HomePage.HomePageBanner), new[] { indexedItem.ItemID }))
         .InLanguage(indexedItem.LanguageName);
 
-        var associatedWebPageItem = (await queryExecutor.GetWebPageResult(query, webPageMapper.Map<HomePage>)).First();
+        var associatedWebPageItem = (await queryExecutor.GetWebPageResult(query, contentQueryResultMapper.Map<HomePage>)).First();
         string url = string.Empty;
         try
         {

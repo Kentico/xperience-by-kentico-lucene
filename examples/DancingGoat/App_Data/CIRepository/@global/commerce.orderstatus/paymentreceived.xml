@@ -1,8 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<commerce.orderstatus>
-  <OrderStatusDisplayName>Payment received</OrderStatusDisplayName>
-  <OrderStatusGUID>cba7d890-1c87-4796-85e3-ae1f8ddd2e22</OrderStatusGUID>
-  <OrderStatusInternalNotificationEnabled>False</OrderStatusInternalNotificationEnabled>
-  <OrderStatusName>PaymentReceived</OrderStatusName>
-  <OrderStatusOrder>3</OrderStatusOrder>
-</commerce.orderstatus>

@@ -24,6 +24,6 @@ To enable the automatic assembly check and index rebuilding, add the following c
     "PostStartupReindexingOptions": {
         "Enabled": true,
         "IndexesExcludedFromAutomaticReindexing": [ "ExampleExcludedIndex" ], // Indexes to exclude from automatic rebuilding and version checks.
-        "CheckIntervalMinutes": 2 // Frequency of assembly version checks (in minutes). Default is 2 minutes.
+        "CheckIntervalMinutes": 2 // Frequency of assembly version checks (in minutes). Default is 1 minute and the value can not be less than one minute.
     }
 }

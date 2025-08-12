@@ -1,8 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<commerce.orderstatus>
-  <OrderStatusDisplayName>Fulfilled</OrderStatusDisplayName>
-  <OrderStatusGUID>c433fb1a-e3de-43cf-9851-4e6fa3cb579e</OrderStatusGUID>
-  <OrderStatusInternalNotificationEnabled>False</OrderStatusInternalNotificationEnabled>
-  <OrderStatusName>Fulfilled</OrderStatusName>
-  <OrderStatusOrder>5</OrderStatusOrder>
-</commerce.orderstatus>
