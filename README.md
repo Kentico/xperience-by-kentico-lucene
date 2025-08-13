@@ -22,9 +22,7 @@ Use `Kentico.Xperience.Lucene.Core` in your Xperience by Kentico project for Luc
 Use `Kentico.Xperience.Lucene.Admin` in your Xperience by Kentico Administration project for Lucene Search Administration UI managment.
 
 **Important Compatibility Notice**  
-This Lucene integration **requires persistent file system access** to store and manage indexes.
-It is **not compatible with Kentico Xperience SaaS**, which restricts file system access.
-If you plan to run this in the cloud, ensure your environment supports persistent disk writes — such as a self-hosted VM, container with mounted volume, or a traditional server.
+Lucene integration **requires persistent file system access** to store and manage indexes. In environments like **Kentico Xperience SaaS**, which do not provide persistent file system storage for indexes, the index data is lost during deployments or restarts. As a result, indexes must be rebuilt after each deployment to ensure correct search functionality.
 
 ## Screenshots
 
