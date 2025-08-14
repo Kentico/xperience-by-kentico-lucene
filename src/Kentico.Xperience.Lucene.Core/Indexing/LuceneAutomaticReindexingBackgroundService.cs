@@ -7,6 +7,12 @@ using Microsoft.Extensions.Options;
 
 namespace Kentico.Xperience.Lucene.Core.Indexing;
 
+/// <summary>
+/// A background service that automatically reindexes Lucene indexes when the assembly version changes.
+/// </summary>
+/// <remarks>This service periodically checks if the assembly version of the application differs from the version
+/// associated with the Lucene indexes. If a difference is detected, the affected indexes are rebuilt. The service is
+/// configured using the <see cref="LuceneSearchOptions.PostStartupReindexingOptions"/> settings.</remarks>
 internal sealed class LuceneAutomaticReindexingBackgroundService : ApplicationLifecycleBackgroundService
 {
     private readonly IInfoProvider<LuceneIndexAssemblyVersionItemInfo> luceneAssemblyVersionInfoProvider;
@@ -16,6 +22,7 @@ internal sealed class LuceneAutomaticReindexingBackgroundService : ApplicationLi
     private readonly IEventLogService eventLogService;
     private readonly TimeSpan assemblyVersionCheckInterval;
     private const int MinimumCheckIntervalMinutes = 1;
+
 
     public LuceneAutomaticReindexingBackgroundService(
         IInfoProvider<LuceneIndexAssemblyVersionItemInfo> luceneAssemblyVersionInfoProvider,
@@ -33,6 +40,8 @@ internal sealed class LuceneAutomaticReindexingBackgroundService : ApplicationLi
         assemblyVersionCheckInterval = TimeSpan.FromMinutes(reindexingOptions?.CheckIntervalMinutes ?? 0);
     }
 
+
+    /// <inheritdoc/>
     protected override async Task ExecuteInternal(CancellationToken stoppingToken)
     {
         if (reindexingOptions is null || !reindexingOptions.Enabled || reindexingOptions.CheckIntervalMinutes < MinimumCheckIntervalMinutes)
@@ -52,6 +61,7 @@ internal sealed class LuceneAutomaticReindexingBackgroundService : ApplicationLi
             await RebuildIndexesIfAssemblyVersionsDiffer(stoppingToken);
         }
     }
+
 
     private async Task RebuildIndexesIfAssemblyVersionsDiffer(CancellationToken cancellationToken)
     {
@@ -82,6 +92,7 @@ internal sealed class LuceneAutomaticReindexingBackgroundService : ApplicationLi
         }
     }
 
+
     private static string GetAppBuildVersion()
     {
         var assembly = Assembly.GetEntryAssembly() ?? Assembly.GetExecutingAssembly();
@@ -89,6 +100,7 @@ internal sealed class LuceneAutomaticReindexingBackgroundService : ApplicationLi
             .GetCustomAttribute<AssemblyInformationalVersionAttribute>()?.InformationalVersion
             ?? "1.0.0";
     }
+
 
     private async Task<bool> SetIfLuceneIndexAssemblyVersionDiffersAsync(LuceneIndex index, IEnumerable<LuceneIndexAssemblyVersionItemInfo> luceneAssemblyVersionItems, string assemblyName, CancellationToken cancellationToken)
     {

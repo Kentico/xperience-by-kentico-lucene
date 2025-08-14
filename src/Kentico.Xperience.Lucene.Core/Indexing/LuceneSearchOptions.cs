@@ -10,10 +10,12 @@ public sealed class LuceneSearchOptions
     /// </summary>
     public const string CMS_LUCENE_SEARCH_SECTION_NAME = "CMSLuceneSearch";
 
+
     /// <summary>
     /// If true, the items that require authentication will be included in the indexing process.
     /// </summary>
     public bool IncludeSecuredItems { get; set; } = false;
+
 
     /// <summary>
     /// Modifies the options for reindexing operations performed after application startup.
