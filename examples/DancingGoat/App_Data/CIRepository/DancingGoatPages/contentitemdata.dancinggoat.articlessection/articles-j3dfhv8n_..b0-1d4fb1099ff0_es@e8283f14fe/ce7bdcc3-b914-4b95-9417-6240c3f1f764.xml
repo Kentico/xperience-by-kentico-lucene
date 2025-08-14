@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<contentitemdata.dancinggoat.articlessection>
+  <ContentItemDataCommonDataID>
+    <GUID>9b2b99c4-5e12-485c-b4b0-1d4fb1099ff0</GUID>
+    <ObjectType>cms.contentitemcommondata</ObjectType>
+    <Parent>
+      <CodeName>Articles-j3dfhv8n</CodeName>
+      <GUID>55eed5b7-8436-4e9f-88c0-17ebce5eff2d</GUID>
+      <ObjectType>cms.contentitem</ObjectType>
+    </Parent>
+  </ContentItemDataCommonDataID>
+  <ContentItemDataGUID>ce7bdcc3-b914-4b95-9417-6240c3f1f764</ContentItemDataGUID>
+</contentitemdata.dancinggoat.articlessection>

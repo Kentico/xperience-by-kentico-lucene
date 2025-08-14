@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<contentitemdata.dancinggoat.productssection>
+  <ContentItemDataCommonDataID>
+    <GUID>a08df4df-3389-4c7d-967c-f7b15f23cbe9</GUID>
+    <ObjectType>cms.contentitemcommondata</ObjectType>
+    <Parent>
+      <CodeName>Products-iz96a4ch</CodeName>
+      <GUID>0dbe85e9-9769-4920-8eb8-57094b023747</GUID>
+      <ObjectType>cms.contentitem</ObjectType>
+    </Parent>
+  </ContentItemDataCommonDataID>
+  <ContentItemDataGUID>31b8f718-0d9e-43a6-a805-781ee212da2e</ContentItemDataGUID>
+</contentitemdata.dancinggoat.productssection>

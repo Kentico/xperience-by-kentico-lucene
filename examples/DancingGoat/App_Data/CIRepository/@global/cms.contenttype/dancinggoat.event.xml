@@ -1,0 +1,80 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<cms.contenttype>
+  <ClassContentTypeType>Reusable</ClassContentTypeType>
+  <ClassDisplayName>Event</ClassDisplayName>
+  <ClassFormDefinition>
+    <form>
+      <field column="ContentItemDataID" columntype="integer" enabled="true" guid="b9298aad-bb50-49f5-b52c-e9ca0818ab17" isPK="true" />
+      <field column="ContentItemDataCommonDataID" columntype="integer" enabled="true" guid="0673c391-464a-4c31-b09c-9816e84fe922" refobjtype="cms.contentitemcommondata" reftype="Required" system="true" />
+      <field column="ContentItemDataGUID" columntype="guid" enabled="true" guid="b8bb5e02-1c9c-4e5d-8518-ecb922d4ea37" isunique="true" system="true" />
+      <field column="EventTitle" columnprecision="0" columnsize="200" columntype="text" enabled="true" guid="1fbd92f4-b509-4374-ab03-e8031fd62a75" visible="true">
+        <properties>
+          <explanationtextashtml>False</explanationtextashtml>
+          <fieldcaption>Title</fieldcaption>
+          <fielddescriptionashtml>False</fielddescriptionashtml>
+        </properties>
+        <settings>
+          <controlname>Kentico.Administration.TextInput</controlname>
+        </settings>
+      </field>
+      <field allowempty="true" column="EventHeroBannerImage" columnprecision="0" columntype="contentitemreference" enabled="true" guid="0bf8c2b0-092b-46f5-97a4-03279e7aa3be" visible="true">
+        <properties>
+          <explanationtextashtml>False</explanationtextashtml>
+          <fieldcaption>Hero banner image</fieldcaption>
+          <fielddescriptionashtml>False</fielddescriptionashtml>
+        </properties>
+        <settings>
+          <AllowedContentItemTypeIdentifiers>
+            <![CDATA[["fd1947a4-e04b-441b-a76c-1ed826fb766e"]]]>
+          </AllowedContentItemTypeIdentifiers>
+          <controlname>Kentico.Administration.ContentItemSelector</controlname>
+        </settings>
+      </field>
+      <field column="EventPromoText" columnprecision="0" columnsize="300" columntype="text" enabled="true" guid="895485b8-fcc7-4729-a3a8-213dc002c7e8" visible="true">
+        <properties>
+          <explanationtextashtml>False</explanationtextashtml>
+          <fieldcaption>Promo text</fieldcaption>
+          <fielddescriptionashtml>False</fielddescriptionashtml>
+        </properties>
+        <settings>
+          <controlname>Kentico.Administration.TextArea</controlname>
+          <CopyButtonVisible>False</CopyButtonVisible>
+          <MaxRowsNumber>5</MaxRowsNumber>
+          <MinRowsNumber>3</MinRowsNumber>
+        </settings>
+      </field>
+      <field column="EventDate" columnprecision="0" columntype="datetime" enabled="true" guid="a8d9d89c-089a-4581-805d-b2db474c6fa9" visible="true">
+        <properties>
+          <explanationtext>{$base.forms.datetimeinput.explanation$}</explanationtext>
+          <explanationtextashtml>False</explanationtextashtml>
+          <fieldcaption>Date</fieldcaption>
+          <fielddescriptionashtml>False</fielddescriptionashtml>
+        </properties>
+        <settings>
+          <controlname>Kentico.Administration.DateTimeInput</controlname>
+        </settings>
+      </field>
+      <field allowempty="true" column="EventCafe" columnprecision="0" columntype="contentitemreference" enabled="true" guid="869e6371-44dc-4066-b31c-380a11f49fc3" visible="true">
+        <properties>
+          <explanationtextashtml>False</explanationtextashtml>
+          <fieldcaption>Cafe</fieldcaption>
+          <fielddescriptionashtml>False</fielddescriptionashtml>
+        </properties>
+        <settings>
+          <AllowedContentItemTypeIdentifiers>
+            <![CDATA[["2f06d20b-3357-48e6-b0f8-2ca7ef737237"]]]>
+          </AllowedContentItemTypeIdentifiers>
+          <controlname>Kentico.Administration.ContentItemSelector</controlname>
+        </settings>
+      </field>
+    </form>
+  </ClassFormDefinition>
+  <ClassGUID>1f61cca9-7551-4634-82ed-dfb4e4db8c0e</ClassGUID>
+  <ClassHasUnmanagedDbSchema>False</ClassHasUnmanagedDbSchema>
+  <ClassIconClass>xp-calendar-number</ClassIconClass>
+  <ClassName>DancingGoat.Event</ClassName>
+  <ClassShortName>DancingGoatEvent</ClassShortName>
+  <ClassTableName>DancingGoat_Event</ClassTableName>
+  <ClassType>Content</ClassType>
+  <ClassWebPageHasUrl>False</ClassWebPageHasUrl>
+</cms.contenttype>

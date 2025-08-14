@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<cms.webpageitem>
+  <WebPageItemContentItemID>
+    <CodeName>EthiopiaYirgacheffe_decaf-gv4k2na5</CodeName>
+    <GUID>4b68fb92-4557-4858-9298-6b523498ccff</GUID>
+    <ObjectType>cms.contentitem</ObjectType>
+  </WebPageItemContentItemID>
+  <WebPageItemGUID>7db69c12-89ac-417e-a42c-3dc6294fc09a</WebPageItemGUID>
+  <WebPageItemName>EthiopiaYirgacheffe_decaf-gv4k2na5</WebPageItemName>
+  <WebPageItemOrder>15</WebPageItemOrder>
+  <WebPageItemParentID>
+    <CodeName>Products-iz96a4ch</CodeName>
+    <GUID>4a9d353d-1c47-4898-a43d-394536119afb</GUID>
+    <ObjectType>cms.webpageitem</ObjectType>
+  </WebPageItemParentID>
+  <WebPageItemTreePath>/Products/Ethiopia_Yirgacheffe_decaf</WebPageItemTreePath>
+  <WebPageItemWebsiteChannelID>
+    <GUID>55e3ae4b-3843-46b8-95d5-79611c371d6f</GUID>
+    <ObjectType>cms.websitechannel</ObjectType>
+    <Parent>
+      <CodeName>DancingGoatPages</CodeName>
+      <GUID>c430f96d-bd56-4448-b6ab-bce41a58f186</GUID>
+      <ObjectType>cms.channel</ObjectType>
+    </Parent>
+  </WebPageItemWebsiteChannelID>
+</cms.webpageitem>

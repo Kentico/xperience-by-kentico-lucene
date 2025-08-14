@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<cms.contentworkflowstep>
+  <ContentWorkflowStepDisplayName>Final</ContentWorkflowStepDisplayName>
+  <ContentWorkflowStepGUID>6032deb1-e98d-4e77-a364-092dd0a6ea62</ContentWorkflowStepGUID>
+  <ContentWorkflowStepIconClass />
+  <ContentWorkflowStepName>Final-h2z0rb4h</ContentWorkflowStepName>
+  <ContentWorkflowStepOrder>100</ContentWorkflowStepOrder>
+  <ContentWorkflowStepType>4</ContentWorkflowStepType>
+  <ContentWorkflowStepWorkflowID>
+    <CodeName>DancingGoat.ArticleReview</CodeName>
+    <GUID>20089af5-41ce-490b-a138-ea2910801c6a</GUID>
+    <ObjectType>cms.contentworkflow</ObjectType>
+  </ContentWorkflowStepWorkflowID>
+</cms.contentworkflowstep>

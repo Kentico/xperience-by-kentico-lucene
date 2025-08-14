@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<cms.workspacedatapermission>
+  <WorkspaceDataPermissionApplicationName>Kentico.Xperience.Application.ContentHub</WorkspaceDataPermissionApplicationName>
+  <WorkspaceDataPermissionGUID>cc4af00b-93f4-4cf9-86ce-0481d3c9f844</WorkspaceDataPermissionGUID>
+  <WorkspaceDataPermissionPermissionName>Create</WorkspaceDataPermissionPermissionName>
+  <WorkspaceDataPermissionRoleID>
+    <CodeName>DancingGoat.ArticleReviewer</CodeName>
+    <GUID>4c5783ce-57d3-41f7-9ae9-baaf875e91aa</GUID>
+    <ObjectType>cms.role</ObjectType>
+  </WorkspaceDataPermissionRoleID>
+  <WorkspaceDataPermissionWorkspaceID>
+    <CodeName>DancingGoat.DancingGoatEvents</CodeName>
+    <GUID>ec4b090a-a67e-40e8-aec2-fcfbc37067bd</GUID>
+    <ObjectType>cms.workspace</ObjectType>
+  </WorkspaceDataPermissionWorkspaceID>
+</cms.workspacedatapermission>

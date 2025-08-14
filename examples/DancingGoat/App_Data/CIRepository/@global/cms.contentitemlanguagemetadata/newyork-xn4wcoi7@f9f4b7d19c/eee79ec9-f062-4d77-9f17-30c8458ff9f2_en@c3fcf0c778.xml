@@ -1,0 +1,57 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<cms.contentitemlanguagemetadata>
+  <ContentItemLanguageMetadataContentItemID>
+    <CodeName>NewYork-xn4wcoi7</CodeName>
+    <GUID>9b401e70-fbc7-4d70-b848-19778172e3f1</GUID>
+    <ObjectType>cms.contentitem</ObjectType>
+  </ContentItemLanguageMetadataContentItemID>
+  <ContentItemLanguageMetadataContentLanguageID>
+    <CodeName>en</CodeName>
+    <GUID>e4a8fb12-ebc2-45d0-930f-c9fba2780c85</GUID>
+    <ObjectType>cms.contentlanguage</ObjectType>
+  </ContentItemLanguageMetadataContentLanguageID>
+  <ContentItemLanguageMetadataCreatedByUserID>
+    <CodeName>administrator</CodeName>
+    <GUID>6415b8ce-8072-4bcd-8e48-9d7178b826b7</GUID>
+    <ObjectType>cms.user</ObjectType>
+  </ContentItemLanguageMetadataCreatedByUserID>
+  <ContentItemLanguageMetadataCreatedWhen>2023-07-10 11:27:42Z</ContentItemLanguageMetadataCreatedWhen>
+  <ContentItemLanguageMetadataDisplayName>New York</ContentItemLanguageMetadataDisplayName>
+  <ContentItemLanguageMetadataGUID>eee79ec9-f062-4d77-9f17-30c8458ff9f2</ContentItemLanguageMetadataGUID>
+  <ContentItemLanguageMetadataHasImageAsset>False</ContentItemLanguageMetadataHasImageAsset>
+  <ContentItemLanguageMetadataLatestVersionStatus>2</ContentItemLanguageMetadataLatestVersionStatus>
+  <ContentItemLanguageMetadataModifiedByUserID>
+    <CodeName>administrator</CodeName>
+    <GUID>6415b8ce-8072-4bcd-8e48-9d7178b826b7</GUID>
+    <ObjectType>cms.user</ObjectType>
+  </ContentItemLanguageMetadataModifiedByUserID>
+  <ContentItemTags>
+    <cms.contentitemtag>
+      <ContentItemTagContentItemLanguageMetadataID>
+        <GUID>eee79ec9-f062-4d77-9f17-30c8458ff9f2</GUID>
+        <ObjectType>cms.contentitemlanguagemetadata</ObjectType>
+      </ContentItemTagContentItemLanguageMetadataID>
+      <ContentItemTagFieldGUID>fab42a26-dde5-4c5b-8b7d-2c3fb440a83a</ContentItemTagFieldGUID>
+      <ContentItemTagGUID>939f9648-8a93-453b-80e3-1a453d885be8</ContentItemTagGUID>
+      <ContentItemTagTagGUID>31fb0b68-a2a1-4196-bdd8-d4ae441996e8</ContentItemTagTagGUID>
+    </cms.contentitemtag>
+    <cms.contentitemtag>
+      <ContentItemTagContentItemLanguageMetadataID>
+        <GUID>eee79ec9-f062-4d77-9f17-30c8458ff9f2</GUID>
+        <ObjectType>cms.contentitemlanguagemetadata</ObjectType>
+      </ContentItemTagContentItemLanguageMetadataID>
+      <ContentItemTagFieldGUID>fab42a26-dde5-4c5b-8b7d-2c3fb440a83a</ContentItemTagFieldGUID>
+      <ContentItemTagGUID>a1b63b87-c9e5-4863-84da-71b5f97e1ad2</ContentItemTagGUID>
+      <ContentItemTagTagGUID>9966ec69-20f5-40f3-9833-9122ea53e416</ContentItemTagTagGUID>
+    </cms.contentitemtag>
+    <cms.contentitemtag>
+      <ContentItemTagContentItemLanguageMetadataID>
+        <GUID>eee79ec9-f062-4d77-9f17-30c8458ff9f2</GUID>
+        <ObjectType>cms.contentitemlanguagemetadata</ObjectType>
+      </ContentItemTagContentItemLanguageMetadataID>
+      <ContentItemTagFieldGUID>fab42a26-dde5-4c5b-8b7d-2c3fb440a83a</ContentItemTagFieldGUID>
+      <ContentItemTagGUID>01c60164-e120-4e35-98b0-d1bee83fdfd5</ContentItemTagGUID>
+      <ContentItemTagTagGUID>5e0196c5-d7c2-4e66-80d5-a134ee708c58</ContentItemTagTagGUID>
+    </cms.contentitemtag>
+  </ContentItemTags>
+</cms.contentitemlanguagemetadata>

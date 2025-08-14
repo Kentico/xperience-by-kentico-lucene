@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<contentitemdata.dancinggoat.productpage>
+  <ContentItemDataCommonDataID>
+    <GUID>68513199-bfda-4397-9815-348ddc56e36b</GUID>
+    <ObjectType>cms.contentitemcommondata</ObjectType>
+    <Parent>
+      <CodeName>NicaraguaDipilto_decaf-o3ddywff</CodeName>
+      <GUID>642ab002-1912-4122-a1ba-b86f0486254e</GUID>
+      <ObjectType>cms.contentitem</ObjectType>
+    </Parent>
+  </ContentItemDataCommonDataID>
+  <ContentItemDataGUID>3d978130-1385-4fac-b353-7aa1091a7524</ContentItemDataGUID>
+  <ProductPageProduct>
+    <![CDATA[[{"Identifier":"4e72dc44-949c-4346-aec4-b0c84f1c9653"}]]]>
+  </ProductPageProduct>
+</contentitemdata.dancinggoat.productpage>

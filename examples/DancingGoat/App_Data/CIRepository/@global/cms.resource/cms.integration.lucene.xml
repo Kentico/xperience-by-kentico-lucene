@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<cms.resource>
+  <ResourceDescription>Kentico Lucene custom data</ResourceDescription>
+  <ResourceDisplayName>Kentico Integration - Lucene</ResourceDisplayName>
+  <ResourceGUID>db123306-e319-4c72-b2b1-6f3644d0db4a</ResourceGUID>
+  <ResourceIsInDevelopment>False</ResourceIsInDevelopment>
+  <ResourceName>CMS.Integration.Lucene</ResourceName>
+</cms.resource>

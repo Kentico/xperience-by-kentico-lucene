@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<contentitemdata.dancinggoat.navigationitem>
+  <ContentItemDataCommonDataID>
+    <GUID>8c1d27a8-b0fb-4d98-997d-5eb0f1ec6139</GUID>
+    <ObjectType>cms.contentitemcommondata</ObjectType>
+    <Parent>
+      <CodeName>Coffee-zdxxr7zc</CodeName>
+      <GUID>53eb9a6c-54ae-4f11-8fef-ea468c442f87</GUID>
+      <ObjectType>cms.contentitem</ObjectType>
+    </Parent>
+  </ContentItemDataCommonDataID>
+  <ContentItemDataGUID>a3e81dc5-ed42-419c-bada-61cdad3cd1f3</ContentItemDataGUID>
+  <NavigationItemLink>
+    <![CDATA[[{"WebPageGuid":"221b2da3-9225-4730-b880-657ac4d35b51"}]]]>
+  </NavigationItemLink>
+  <NavigationItemName>Coffee</NavigationItemName>
+</contentitemdata.dancinggoat.navigationitem>

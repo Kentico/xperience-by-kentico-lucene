@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<contentitemdata.dancinggoat.landingpage>
+  <ContentItemDataCommonDataID>
+    <GUID>ce143368-4752-470a-b8f7-0124b3416a31</GUID>
+    <ObjectType>cms.contentitemcommondata</ObjectType>
+    <Parent>
+      <CodeName>CoffeeSamples-joncqzvf</CodeName>
+      <GUID>ddd8fd89-7656-4374-a681-fdf6cb149b67</GUID>
+      <ObjectType>cms.contentitem</ObjectType>
+    </Parent>
+  </ContentItemDataCommonDataID>
+  <ContentItemDataGUID>ec187dd2-4071-4a14-967b-f57f263094e5</ContentItemDataGUID>
+</contentitemdata.dancinggoat.landingpage>

@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<contentitemdata.dancinggoat.email>
+  <BannerLogo>
+    <![CDATA[[{"Identifier":"96aaf7e4-b57b-4fb4-ae2c-25e8191e7079"}]]]>
+  </BannerLogo>
+  <Content>
+    <![CDATA[<h1>Thank you for subscribing</h1><p>Please click the button below to complete the subscription.<br>Thanks!</p><p class="styled-button">{!ResolveSubscriptionConfirmationLink("CONFIRM","82c6d953-a0a7-4f85-b7e1-4bb29ded7680")!}</p><p>If you have any questions, contact us at <a href="mailto:dancinggoat@localhost.local">dancinggoat@localhost.local</a></p>]]>
+  </Content>
+  <ContentItemDataCommonDataID>
+    <GUID>7ef67852-1675-4912-ac31-807ac7f7d7c3</GUID>
+    <ObjectType>cms.contentitemcommondata</ObjectType>
+    <Parent>
+      <CodeName>DancingGoatSubscriptionAutoresponder-xxnnooiw</CodeName>
+      <GUID>8412b646-42fc-488b-b597-2250ef9f2b36</GUID>
+      <ObjectType>cms.contentitem</ObjectType>
+    </Parent>
+  </ContentItemDataCommonDataID>
+  <ContentItemDataGUID>8995a738-8037-4ece-b75e-7de4030001db</ContentItemDataGUID>
+  <EmailSenderID>
+    <CodeName>no-reply</CodeName>
+    <GUID>3631fdc8-9e83-4e36-b217-68a97e41a6c1</GUID>
+    <ObjectType>emaillibrary.emailchannelsender</ObjectType>
+    <Parent>
+      <GUID>be820547-d1e2-4f46-a9b3-c3a6780953d2</GUID>
+      <ObjectType>emaillibrary.emailchannel</ObjectType>
+      <Parent>
+        <CodeName>DancingGoatEmails</CodeName>
+        <GUID>85813214-7d3e-4ec9-8d92-e762fd61dc81</GUID>
+        <ObjectType>cms.channel</ObjectType>
+      </Parent>
+    </Parent>
+  </EmailSenderID>
+  <EmailSubject>Subscription confirmation</EmailSubject>
+  <EmailTemplateID>
+    <CodeName>DancingGoatTemplate</CodeName>
+    <GUID>01c0871f-cafe-4e34-a650-5ae19c8ab92d</GUID>
+    <ObjectType>emaillibrary.emailtemplate</ObjectType>
+  </EmailTemplateID>
+  <SocialPlatforms>
+    <![CDATA[[{"Identifier":"28ec44a4-17e5-4aa9-a8f3-63e6c23e93b1"},{"Identifier":"015129c5-8972-47b8-963c-e3d52ef69e7e"}]]]>
+  </SocialPlatforms>
+</contentitemdata.dancinggoat.email>

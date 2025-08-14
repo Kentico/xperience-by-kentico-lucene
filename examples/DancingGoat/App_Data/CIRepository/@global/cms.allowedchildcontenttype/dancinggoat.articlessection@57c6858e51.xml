@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<cms.allowedchildcontenttype>
+  <Parent>
+    <CodeName>DancingGoat.ArticlesSection</CodeName>
+    <GUID>d4f5b41b-4c36-4bc1-9e3f-6ae34235f559</GUID>
+    <ObjectType>cms.contenttype</ObjectType>
+  </Parent>
+  <Bindings>
+    <Binding id="cms.contenttype_DancingGoat.ArticlePage">
+      <AllowedChildContentTypeChildID>
+        <CodeName>DancingGoat.ArticlePage</CodeName>
+        <GUID>9b5e6c86-ebd1-4471-8f5d-dca72e39b12b</GUID>
+        <ObjectType>cms.contenttype</ObjectType>
+      </AllowedChildContentTypeChildID>
+    </Binding>
+    <Binding id="cms.contenttype_DancingGoat.ArticlesSection">
+      <AllowedChildContentTypeChildID>
+        <CodeName>DancingGoat.ArticlesSection</CodeName>
+        <GUID>d4f5b41b-4c36-4bc1-9e3f-6ae34235f559</GUID>
+        <ObjectType>cms.contenttype</ObjectType>
+      </AllowedChildContentTypeChildID>
+    </Binding>
+  </Bindings>
+</cms.allowedchildcontenttype>

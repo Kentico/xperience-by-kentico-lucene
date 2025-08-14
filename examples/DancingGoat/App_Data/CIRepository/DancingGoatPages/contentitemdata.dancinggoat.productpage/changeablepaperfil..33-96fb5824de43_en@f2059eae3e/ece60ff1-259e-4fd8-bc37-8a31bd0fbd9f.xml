@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<contentitemdata.dancinggoat.productpage>
+  <ContentItemDataCommonDataID>
+    <GUID>7893e631-a23f-48fc-a133-96fb5824de43</GUID>
+    <ObjectType>cms.contentitemcommondata</ObjectType>
+    <Parent>
+      <CodeName>ChangeablePaperFiltersForVacuumPot-98ufktiv</CodeName>
+      <GUID>3e8644bc-a8ac-4204-9354-7c6b3a740ed4</GUID>
+      <ObjectType>cms.contentitem</ObjectType>
+    </Parent>
+  </ContentItemDataCommonDataID>
+  <ContentItemDataGUID>ece60ff1-259e-4fd8-bc37-8a31bd0fbd9f</ContentItemDataGUID>
+  <ProductPageProduct>
+    <![CDATA[[{"Identifier":"e3489756-0ed6-4f46-b540-7573b3f1c152"}]]]>
+  </ProductPageProduct>
+</contentitemdata.dancinggoat.productpage>

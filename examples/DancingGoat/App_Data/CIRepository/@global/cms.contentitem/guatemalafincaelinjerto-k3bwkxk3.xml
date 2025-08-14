@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<cms.contentitem>
+  <ContentItemContentFolderID>
+    <CodeName>Root-DancingGoat.DancingGoatCommerce</CodeName>
+    <GUID>0fed3213-91dd-459d-ac4d-27f9cca1e3e4</GUID>
+    <ObjectType>cms.contentfolder</ObjectType>
+  </ContentItemContentFolderID>
+  <ContentItemContentTypeID>
+    <CodeName>DancingGoat.ProductCoffee</CodeName>
+    <GUID>7f74020d-0a9e-46fd-bfcc-50b893e94451</GUID>
+    <ObjectType>cms.contenttype</ObjectType>
+  </ContentItemContentTypeID>
+  <ContentItemGUID>afcda734-fd14-4b2b-8d79-b4ab0178dafe</ContentItemGUID>
+  <ContentItemIsReusable>True</ContentItemIsReusable>
+  <ContentItemIsSecured>False</ContentItemIsSecured>
+  <ContentItemName>GuatemalaFincaElInjerto-k3bwkxk3</ContentItemName>
+  <ContentItemWorkspaceID>
+    <CodeName>DancingGoat.DancingGoatCommerce</CodeName>
+    <GUID>83f1d3be-89d2-4cb2-9ff4-80890517b58e</GUID>
+    <ObjectType>cms.workspace</ObjectType>
+  </ContentItemWorkspaceID>
+</cms.contentitem>

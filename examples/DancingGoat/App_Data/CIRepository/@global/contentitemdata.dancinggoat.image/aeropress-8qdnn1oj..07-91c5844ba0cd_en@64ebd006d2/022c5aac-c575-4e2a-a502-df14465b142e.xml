@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<contentitemdata.dancinggoat.image>
+  <ContentItemDataCommonDataID>
+    <GUID>513f3fde-8895-4fc3-9707-91c5844ba0cd</GUID>
+    <ObjectType>cms.contentitemcommondata</ObjectType>
+    <Parent>
+      <CodeName>AeroPress-8qdnn1oj</CodeName>
+      <GUID>1f81e4f8-5b31-4052-991f-b44aff87d5f7</GUID>
+      <ObjectType>cms.contentitem</ObjectType>
+    </Parent>
+  </ContentItemDataCommonDataID>
+  <ContentItemDataGUID>022c5aac-c575-4e2a-a502-df14465b142e</ContentItemDataGUID>
+  <ImageFile>
+    <![CDATA[{"Original":{"Identifier":"fb8ad96f-715a-4a96-896d-ad2d57e4efa4","Name":"aeropress.jpg","Extension":".jpg","Size":11932,"Width":400,"Height":400,"LastModified":"2025-02-03T14:28:03.6262871Z"},"OptimizationParameters":{"OutputExtension":"webp","Quality":70},"Identifier":"2b91cdd5-1baf-42dc-bc0d-338377dff2b9","Name":"aeropress.webp","Extension":".webp","Size":4796,"Width":400,"Height":400,"LastModified":"2025-02-03T14:28:03.653746Z"}]]>
+  </ImageFile>
+</contentitemdata.dancinggoat.image>

@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<contentitemdata.dancinggoat.productgrinder>
+  <ContentItemDataCommonDataID>
+    <GUID>356cd46a-56df-4ecd-913f-b6d54e8a6ce5</GUID>
+    <ObjectType>cms.contentitemcommondata</ObjectType>
+    <Parent>
+      <CodeName>MacapM4D-pn5sz83u</CodeName>
+      <GUID>be4d5437-dce6-48d7-ba89-f827705bbf45</GUID>
+      <ObjectType>cms.contentitem</ObjectType>
+    </Parent>
+  </ContentItemDataCommonDataID>
+  <ContentItemDataGUID>7edca2b5-06ac-4501-b4f9-863ecc6283de</ContentItemDataGUID>
+  <GrinderPower>250</GrinderPower>
+  <GrinderType>Electric</GrinderType>
+</contentitemdata.dancinggoat.productgrinder>

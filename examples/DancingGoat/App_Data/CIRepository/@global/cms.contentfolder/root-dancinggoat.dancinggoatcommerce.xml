@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<cms.contentfolder>
+  <ContentFolderCreatedWhen>2025-02-03 14:00:42Z</ContentFolderCreatedWhen>
+  <ContentFolderDisplayName>Root</ContentFolderDisplayName>
+  <ContentFolderGUID>0fed3213-91dd-459d-ac4d-27f9cca1e3e4</ContentFolderGUID>
+  <ContentFolderModifiedByUserID>
+    <CodeName>administrator</CodeName>
+    <GUID>6415b8ce-8072-4bcd-8e48-9d7178b826b7</GUID>
+    <ObjectType>cms.user</ObjectType>
+  </ContentFolderModifiedByUserID>
+  <ContentFolderName>Root-DancingGoat.DancingGoatCommerce</ContentFolderName>
+  <ContentFolderTreePath>/</ContentFolderTreePath>
+  <ContentFolderWorkspaceID>
+    <CodeName>DancingGoat.DancingGoatCommerce</CodeName>
+    <GUID>83f1d3be-89d2-4cb2-9ff4-80890517b58e</GUID>
+    <ObjectType>cms.workspace</ObjectType>
+  </ContentFolderWorkspaceID>
+</cms.contentfolder>

@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<contentitemdata.dancinggoat.image>
+  <ContentItemDataCommonDataID>
+    <GUID>ac865a5f-40d7-4a03-b0b2-fd30e800ce2c</GUID>
+    <ObjectType>cms.contentitemcommondata</ObjectType>
+    <Parent>
+      <CodeName>EthiopiaYirgacheffe_decaf-6yjsxzc3</CodeName>
+      <GUID>2cecc982-dd1d-43a4-a115-fd17e732ee73</GUID>
+      <ObjectType>cms.contentitem</ObjectType>
+    </Parent>
+  </ContentItemDataCommonDataID>
+  <ContentItemDataGUID>ddfa155a-c5ba-4c32-8ce7-059ce253cb62</ContentItemDataGUID>
+  <ImageFile>
+    <![CDATA[{"Original":{"Identifier":"fadff195-5c71-4c86-a112-07737624a41d","Name":"ethiopia.jpg","Extension":".jpg","Size":16042,"Width":400,"Height":400,"LastModified":"2025-02-03T14:13:37.5414446Z"},"OptimizationParameters":{"OutputExtension":"webp","Quality":70},"Identifier":"65eadbfc-6bd7-4fbe-8543-daffd92654a7","Name":"ethiopia.webp","Extension":".webp","Size":6536,"Width":400,"Height":400,"LastModified":"2025-02-03T14:13:37.5759501Z"}]]>
+  </ImageFile>
+</contentitemdata.dancinggoat.image>

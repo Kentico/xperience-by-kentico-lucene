@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<contentitemdata.dancinggoat.productpage>
+  <ContentItemDataCommonDataID>
+    <GUID>bc926e12-f592-4284-82e0-69e13aaf0a05</GUID>
+    <ObjectType>cms.contentitemcommondata</ObjectType>
+    <Parent>
+      <CodeName>T-shirtPurple-t4ptq848</CodeName>
+      <GUID>9e1c08e3-4125-476a-8a79-b9394dab3187</GUID>
+      <ObjectType>cms.contentitem</ObjectType>
+    </Parent>
+  </ContentItemDataCommonDataID>
+  <ContentItemDataGUID>10af1f5e-713b-4ac5-a047-d4da9cd74bcb</ContentItemDataGUID>
+  <ProductPageProduct>
+    <![CDATA[[{"Identifier":"b14c90ac-d702-4dc9-874c-e8f9f16fe997"}]]]>
+  </ProductPageProduct>
+</contentitemdata.dancinggoat.productpage>

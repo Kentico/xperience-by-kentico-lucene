@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<contentitemdata.dancinggoat.event>
+  <ContentItemDataCommonDataID>
+    <GUID>020f5ccf-62fd-4bdc-8072-a6bc3fb7c11a</GUID>
+    <ObjectType>cms.contentitemcommondata</ObjectType>
+    <Parent>
+      <CodeName>LiveCoffeeQ_A-41x0diet</CodeName>
+      <GUID>70b5147b-e567-49ad-a3ff-dce8b07c97e9</GUID>
+      <ObjectType>cms.contentitem</ObjectType>
+    </Parent>
+  </ContentItemDataCommonDataID>
+  <ContentItemDataGUID>db390289-a299-4960-a144-7186fcb95ca4</ContentItemDataGUID>
+  <EventDate>2022-08-21 14:30:00Z</EventDate>
+  <EventHeroBannerImage>
+    <![CDATA[[{"Identifier":"b971d8d3-6d3a-4cdd-a129-41b61e0522d5"}]]]>
+  </EventHeroBannerImage>
+  <EventPromoText>
+    <![CDATA[Join our experts as they reveal everything all new partners need to succeed. We’re ready to answer any questions you have about the world of coffee.]]>
+  </EventPromoText>
+  <EventTitle />
+</contentitemdata.dancinggoat.event>
