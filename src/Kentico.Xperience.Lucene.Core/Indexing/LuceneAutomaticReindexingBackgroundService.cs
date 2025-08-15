@@ -16,11 +16,23 @@ namespace Kentico.Xperience.Lucene.Core.Indexing;
 internal sealed class LuceneAutomaticReindexingBackgroundService : ApplicationLifecycleBackgroundService
 {
     private readonly IInfoProvider<LuceneIndexAssemblyVersionItemInfo> luceneAssemblyVersionInfoProvider;
+
+
     private readonly ILuceneClient luceneClient;
+
+
     private readonly AutomaticReindexingOptions? reindexingOptions;
+
+
     private readonly ILuceneIndexManager luceneIndexManager;
+
+
     private readonly IEventLogService eventLogService;
+
+
     private readonly TimeSpan assemblyVersionCheckInterval;
+
+
     private const int MinimumCheckIntervalMinutes = 1;
 
 
