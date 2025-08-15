@@ -53,6 +53,7 @@ drop table KenticoLucene_LuceneContentTypeItem
 drop table KenticoLucene_LuceneIncludedPathItem
 drop table KenticoLucene_LuceneIndexLanguageItem
 drop table KenticoLucene_LuceneIndexItem
+drop table KenticoLucene_LuceneIndexAssemblyVersionItem
 
 delete
 FROM [dbo].[CMS_Class] where ClassName like 'kenticolucene%'

@@ -13,15 +13,15 @@ namespace DancingGoat.Search;
 
 public class SimpleSearchIndexingStrategy : DefaultLuceneIndexingStrategy
 {
-    private readonly IWebPageQueryResultMapper webPageMapper;
+    private readonly IContentQueryResultMapper contentQueryResultMapper;
     private readonly IContentQueryExecutor queryExecutor;
 
     public SimpleSearchIndexingStrategy(
-        IWebPageQueryResultMapper webPageMapper,
+        IContentQueryResultMapper contentQueryResultMapper,
         IContentQueryExecutor queryExecutor
     )
     {
-        this.webPageMapper = webPageMapper;
+        this.contentQueryResultMapper = contentQueryResultMapper;
         this.queryExecutor = queryExecutor;
     }
 
@@ -80,7 +80,7 @@ public class SimpleSearchIndexingStrategy : DefaultLuceneIndexingStrategy
                         .TopN(1))
             .InLanguage(languageName);
 
-        var result = await queryExecutor.GetWebPageResult(query, webPageMapper.Map<T>);
+        var result = await queryExecutor.GetWebPageResult(query, contentQueryResultMapper.Map<T>);
 
         return result.FirstOrDefault();
     }

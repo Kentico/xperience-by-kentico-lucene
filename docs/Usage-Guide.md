@@ -55,6 +55,10 @@ You can score indexed items by "freshness" or "recency" using several techniques
 
 See [Auto-Scaling](Auto-Scaling.md)
 
+## Auto-reindexing after Deployment
+
+See [Auto-Reindexing](Auto-Reindexing-After-Deployment.md)
+
 ## Upgrades and Uninstalling
 
 See [Upgrades](Upgrades.md)

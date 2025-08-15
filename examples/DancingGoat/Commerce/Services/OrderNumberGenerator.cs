@@ -6,7 +6,6 @@ using System.Text.RegularExpressions;
 using CMS.Commerce;
 using CMS.DataEngine;
 
-#pragma warning disable KXE0002 // Commerce feature is for evaluation purposes only and is subject to change or removal in future updates. Suppress this diagnostic to proceed.
 namespace DancingGoat.Commerce;
 
 /// <summary>
@@ -78,4 +77,3 @@ public sealed partial class OrderNumberGenerator
     [GeneratedRegex(@"-(\d+)$")]
     private static partial Regex LastNumberRegex();
 }
-#pragma warning restore KXE0002 // Commerce feature is for evaluation purposes only and is subject to change or removal in future updates. Suppress this diagnostic to proceed.

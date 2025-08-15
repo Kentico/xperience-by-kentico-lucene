@@ -25,7 +25,7 @@ namespace DancingGoat
 
         private static void AddCommerceServices(IServiceCollection services)
         {
-            services.AddSingleton<ContentItemEventHandlers>();
+            services.AddSingleton<ProductSkuValidationEventHandler>();
 
             services.AddSingleton<OrderService>();
             services.AddSingleton<CustomerDataRetriever>();

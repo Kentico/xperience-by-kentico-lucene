@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -62,7 +62,8 @@ namespace DancingGoat.Models
                 new RetrievePagesParameters
                 {
                     LinkedItemsMaxLevel = 1,
-                    PathMatch = PathMatch.Children(DancingGoatConstants.PRODUCTS_PAGE_TREE_PATH)
+                    PathMatch = PathMatch.Children(DancingGoatConstants.PRODUCTS_PAGE_TREE_PATH),
+                    IncludeSecuredItems = true,
                 },
                 query => query.Linking(nameof(ProductPage.ProductPageProduct), productIds),
                 new RetrievalCacheSettings($"Linking_{nameof(ProductPage.ProductPageProduct)}_{string.Join("_", productIds)}"),
