@@ -7,6 +7,7 @@ namespace Kentico.Xperience.Lucene.Core;
 /// <summary>
 /// Provides functionality to install and configure the Lucene module for Kentico Xperience.
 /// </summary>
+/// <param name="resourceProvider">The <see cref="IInfoProvider{ResourceInfo}"/> used to retrieve <see cref="ResourceInfo"/>.</param>
 public class LuceneModuleInstaller(IInfoProvider<ResourceInfo> resourceProvider)
 {
     private readonly IInfoProvider<ResourceInfo> resourceProvider = resourceProvider;

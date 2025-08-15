@@ -36,6 +36,18 @@ internal sealed class LuceneAutomaticReindexingBackgroundService : ApplicationLi
     private const int MinimumCheckIntervalMinutes = 1;
 
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="LuceneAutomaticReindexingBackgroundService"/> class.
+    /// </summary>
+    /// <remarks>This service is responsible for managing the automatic reindexing of Lucene indexes in the
+    /// background. It uses the provided dependencies to check the assembly version of indexes, determine if reindexing
+    /// is needed, and perform reindexing operations as necessary. The reindexing behavior is configured through the
+    /// provided <paramref name="luceneSearchOptions"/>.</remarks>
+    /// <param name="luceneAssemblyVersionInfoProvider">The <see cref="IInfoProvider{LuceneIndexAssemblyVersionItemInfo}"/> provides information about the assembly version of <see cref="LuceneIndex"/>s. Used to determine if reindexing is required.</param>
+    /// <param name="luceneClient">The <see cref="ILuceneClient"/> used to interact with the Lucene search infrastructure.</param>
+    /// <param name="luceneIndexManager">The <see cref="ILuceneIndexManager"/> which manages <see cref="LuceneIndex"/>s, including operations such as creating, updating, and deleting indexes.</param>
+    /// <param name="eventLogService">The <see cref="IEventLogService"/> logs events and errors related to the reindexing process.</param>
+    /// <param name="luceneSearchOptions"><see cref="IOptions{LuceneSearchOptions}"/> for Lucene search, including settings for post-startup reindexing.</param>
     public LuceneAutomaticReindexingBackgroundService(
         IInfoProvider<LuceneIndexAssemblyVersionItemInfo> luceneAssemblyVersionInfoProvider,
         ILuceneClient luceneClient,
