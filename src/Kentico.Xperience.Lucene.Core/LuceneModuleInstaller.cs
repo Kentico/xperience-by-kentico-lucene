@@ -77,18 +77,6 @@ public class LuceneModuleInstaller(IInfoProvider<ResourceInfo> resourceProvider)
 
         formItem = new FormFieldInfo
         {
-            Name = nameof(LuceneIndexItemInfo.LuceneIndexItemChannelName),
-            AllowEmpty = false,
-            Visible = true,
-            Precision = 0,
-            Size = 100,
-            DataType = "text",
-            Enabled = true
-        };
-        formInfo.AddFormItem(formItem);
-
-        formItem = new FormFieldInfo
-        {
             Name = nameof(LuceneIndexItemInfo.LuceneIndexItemStrategyName),
             AllowEmpty = false,
             Visible = true,
@@ -163,6 +151,18 @@ public class LuceneModuleInstaller(IInfoProvider<ResourceInfo> resourceProvider)
             Size = 100,
             DataType = "text",
             Enabled = true,
+        };
+        formInfo.AddFormItem(formItem);
+
+        formItem = new FormFieldInfo
+        {
+            Name = nameof(LuceneIncludedPathItemInfo.LuceneIncludedPathItemChannelName),
+            AllowEmpty = false,
+            Visible = true,
+            Precision = 0,
+            Size = 100,
+            DataType = "text",
+            Enabled = true
         };
         formInfo.AddFormItem(formItem);
 

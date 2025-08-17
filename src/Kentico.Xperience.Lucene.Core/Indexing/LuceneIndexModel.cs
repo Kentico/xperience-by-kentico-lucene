@@ -1,4 +1,6 @@
-﻿namespace Kentico.Xperience.Lucene.Core.Indexing;
+﻿using CMS.ContentEngine;
+
+namespace Kentico.Xperience.Lucene.Core.Indexing;
 
 public class LuceneIndexModel
 {
@@ -18,6 +20,8 @@ public class LuceneIndexModel
 
     public IEnumerable<LuceneIndexIncludedPath> Paths { get; set; } = Enumerable.Empty<LuceneIndexIncludedPath>();
 
+    public IEnumerable<LuceneIndexChannelConfiguration> Channels { get; set; } = Enumerable.Empty<LuceneIndexChannelConfiguration>();
+
     public IEnumerable<string> ReusableContentTypeNames { get; set; } = Enumerable.Empty<string>();
 
     public LuceneIndexModel() { }
@@ -27,12 +31,12 @@ public class LuceneIndexModel
         IEnumerable<LuceneIndexLanguageItemInfo> indexLanguages,
         IEnumerable<LuceneIncludedPathItemInfo> indexPaths,
         IEnumerable<LuceneIndexContentType> contentTypes,
-        IEnumerable<LuceneReusableContentTypeItemInfo> reusableContentTypes
+        IEnumerable<LuceneReusableContentTypeItemInfo> reusableContentTypes,
+        IEnumerable<ChannelInfo> channelInfos
     )
     {
         Id = index.LuceneIndexItemId;
         IndexName = index.LuceneIndexItemIndexName;
-        ChannelName = index.LuceneIndexItemChannelName;
         RebuildHook = index.LuceneIndexItemRebuildHook;
         StrategyName = index.LuceneIndexItemStrategyName;
         AnalyzerName = index.LuceneIndexItemAnalyzerName;
@@ -49,6 +53,11 @@ public class LuceneIndexModel
             .Select(p => new LuceneIndexIncludedPath(p,
                 contentTypes.Where(x => x.LucenePathItemId == p.LuceneIncludedPathItemId))
             )
+            .ToList();
+        Channels = indexPaths
+            .Where(p => p.LuceneIncludedPathItemIndexItemId == index.LuceneIndexItemId)
+            .GroupBy(x => x.LuceneIncludedPathItemChannelName)
+            .Select(x => new LuceneIndexChannelConfiguration(x.ToList(), contentTypes, channelInfos))
             .ToList();
     }
 }

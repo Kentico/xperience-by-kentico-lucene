@@ -2,6 +2,7 @@ using System.Data;
 using System.Runtime.Serialization;
 
 using CMS;
+using CMS.ContentEngine;
 using CMS.DataEngine;
 using CMS.Helpers;
 
@@ -32,6 +33,7 @@ public partial class LuceneIncludedPathItemInfo : AbstractInfo<LuceneIncludedPat
         DependsOn = new List<ObjectDependency>()
         {
             new(nameof(LuceneIncludedPathItemIndexItemId), LuceneIndexItemInfo.OBJECT_TYPE, ObjectDependencyEnum.Required),
+            new(nameof(LuceneIncludedPathItemChannelName), ChannelInfo.OBJECT_TYPE, ObjectDependencyEnum.Required)
         },
         ContinuousIntegrationSettings =
         {
@@ -69,6 +71,17 @@ public partial class LuceneIncludedPathItemInfo : AbstractInfo<LuceneIncludedPat
     {
         get => ValidationHelper.GetString(GetValue(nameof(LuceneIncludedPathItemAliasPath)), String.Empty);
         set => SetValue(nameof(LuceneIncludedPathItemAliasPath), value);
+    }
+
+
+    /// <summary>
+    /// Channel name.
+    /// </summary>
+    [DatabaseField]
+    public virtual string LuceneIncludedPathItemChannelName
+    {
+        get => ValidationHelper.GetString(GetValue(nameof(LuceneIncludedPathItemChannelName)), String.Empty);
+        set => SetValue(nameof(LuceneIncludedPathItemChannelName), value);
     }
 
 

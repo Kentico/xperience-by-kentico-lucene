@@ -185,7 +185,7 @@ internal class DefaultLuceneClient : ILuceneClient
         };
 
         var indexedItems = new List<IIndexEventItemModel>();
-        foreach (var includedPathAttribute in luceneIndex.IncludedPaths)
+        foreach (var includedPathAttribute in luceneIndex.ChannelConfigurations)
         {
             var pathMatch =
                 includedPathAttribute.AliasPath.EndsWith("/%", StringComparison.OrdinalIgnoreCase)

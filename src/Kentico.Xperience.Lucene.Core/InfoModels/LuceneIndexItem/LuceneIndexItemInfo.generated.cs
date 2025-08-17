@@ -70,17 +70,6 @@ public partial class LuceneIndexItemInfo : AbstractInfo<LuceneIndexItemInfo, IIn
 
 
     /// <summary>
-    /// Channel name.
-    /// </summary>
-    [DatabaseField]
-    public virtual string LuceneIndexItemChannelName
-    {
-        get => ValidationHelper.GetString(GetValue(nameof(LuceneIndexItemChannelName)), String.Empty);
-        set => SetValue(nameof(LuceneIndexItemChannelName), value);
-    }
-
-
-    /// <summary>
     /// Strategy name.
     /// </summary>
     [DatabaseField]

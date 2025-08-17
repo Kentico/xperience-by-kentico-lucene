@@ -29,38 +29,13 @@ import Select, {
   components,
 } from 'react-select';
 import { Tooltip } from 'react-tooltip';
-
-export interface LuceneIndexContentType {
-  contentTypeName: string;
-  contentTypeDisplayName: string;
-}
-
-export interface IncludedPath {
-  aliasPath: string | null;
-  contentTypes: LuceneIndexContentType[];
-  identifier: string | null;
-}
-
-export interface LuceneIndexConfigurationComponentClientProperties
-  extends FormComponentProps {
-  value: IncludedPath[];
-  possibleContentTypeItems: LuceneIndexContentType[] | null;
-}
-
-interface OptionType {
-  value: string;
-  label: string;
-}
-
-export interface TextAreaCell extends TableCell {
-  /**
-   * Value of the cell.
-   */
-  value: HTMLTextAreaElement;
-}
+import { LuceneIndexContentType } from '../models/LuceneIndexContentType';
+import { IncludedPath } from '../models/IncludedPath';
+import { LuceneIndexConfigurationComponentClientProperties } from '../models/LuceneIndexConfigurationComponentClientProperties';
+import { OptionType } from '../models/OptionType';
 
 export const LuceneIndexConfigurationFormComponent = (
-  props: LuceneIndexConfigurationComponentClientProperties,
+    props: LuceneIndexConfigurationComponentClientProperties,
 ): JSX.Element => {
   const [rows, setRows] = useState<TableRow[]>([]);
   const [showPathEdit, setShowPathEdit] = useState<boolean>(false);

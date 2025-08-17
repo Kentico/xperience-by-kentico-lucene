@@ -49,7 +49,7 @@ public sealed class LuceneIndex
     /// </summary>
     public IndexStorageContext StorageContext { get; }
 
-    internal IEnumerable<LuceneIndexIncludedPath> IncludedPaths { get; set; }
+    internal IEnumerable<LuceneIndexChannelConfiguration> ChannelConfigurations { get; set; }
 
     internal LuceneIndex(LuceneIndexModel indexConfiguration, Dictionary<string, Type> strategies, Dictionary<string, Type> analyzers, LuceneVersion matchVersion)
     {
@@ -58,7 +58,7 @@ public sealed class LuceneIndex
         WebSiteChannelName = indexConfiguration.ChannelName;
         LanguageNames = indexConfiguration.LanguageNames.ToList();
         IncludedReusableContentTypes = indexConfiguration.ReusableContentTypeNames.ToList();
-        IncludedPaths = indexConfiguration.Paths;
+        ChannelConfigurations = indexConfiguration.Channels.ToList();
 
         var strategy = typeof(DefaultLuceneIndexingStrategy);
 

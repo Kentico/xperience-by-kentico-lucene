@@ -46,7 +46,7 @@ internal static class IndexedItemModelExtensions
             return false;
         }
 
-        return luceneIndex.IncludedPaths.Any(path =>
+        return luceneIndex.ChannelConfigurations.Any(path =>
         {
             bool matchesContentType = path.ContentTypes.Exists(x => string.Equals(x.ContentTypeName, item.ContentTypeName));
 
