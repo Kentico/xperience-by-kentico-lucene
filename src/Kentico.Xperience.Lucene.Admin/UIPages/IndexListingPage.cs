@@ -68,7 +68,6 @@ internal class IndexListingPage : ListingPage
         PageConfiguration.ColumnConfigurations
             .AddColumn(nameof(LuceneIndexItemInfo.LuceneIndexItemId), "ID", defaultSortDirection: SortTypeEnum.Asc, sortable: true)
             .AddColumn(nameof(LuceneIndexItemInfo.LuceneIndexItemIndexName), "Name", sortable: true, searchable: true)
-            .AddColumn(nameof(LuceneIndexItemInfo.LuceneIndexItemChannelName), "Channel", searchable: true, sortable: true)
             .AddColumn(nameof(LuceneIndexItemInfo.LuceneIndexItemStrategyName), "Index Strategy", searchable: true, sortable: true)
             .AddColumn(nameof(LuceneIndexItemInfo.LuceneIndexItemAnalyzerName), "Lucene Analyzer", searchable: true, sortable: true)
             // Placeholder field which will be replaced with a customized value

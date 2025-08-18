@@ -43,9 +43,9 @@ public class LuceneIndexConfigurationNewComponent : FormComponent<LuceneIndexCon
     public override void SetValue(IEnumerable<LuceneIndexChannelConfiguration> value) => Value = value.ToList();
 
     [FormComponentCommand]
-    public Task<ICommandResponse<RowActionResult>> DeleteChannelConfiguration(string channelName)
+    public Task<ICommandResponse<RowActionResult>> DeleteWebsiteChannelConfiguration(string channelName)
     {
-        var toRemove = Value?.Find(x => Equals(x.ChannelName == channelName, StringComparison.OrdinalIgnoreCase));
+        var toRemove = Value?.Find(x => Equals(x.WebsiteChannelName == channelName, StringComparison.OrdinalIgnoreCase));
         if (toRemove != null)
         {
             Value?.Remove(toRemove);
@@ -55,9 +55,9 @@ public class LuceneIndexConfigurationNewComponent : FormComponent<LuceneIndexCon
     }
 
     [FormComponentCommand]
-    public Task<ICommandResponse<RowActionResult>> SaveChannelConfiguration(LuceneIndexChannelConfiguration channelConfiguration)
+    public Task<ICommandResponse<RowActionResult>> SaveWebsiteChannelConfiguration(LuceneIndexChannelConfiguration channelConfiguration)
     {
-        var value = Value?.SingleOrDefault(x => Equals(x.ChannelName == channelConfiguration.ChannelName, StringComparison.OrdinalIgnoreCase));
+        var value = Value?.SingleOrDefault(x => Equals(x.WebsiteChannelName == channelConfiguration.WebsiteChannelName, StringComparison.OrdinalIgnoreCase));
 
         if (value is not null)
         {
@@ -70,20 +70,20 @@ public class LuceneIndexConfigurationNewComponent : FormComponent<LuceneIndexCon
     }
 
     [FormComponentCommand]
-    public Task<ICommandResponse<RowActionResult>> AddChannelConfiguration(string channelName)
+    public Task<ICommandResponse<RowActionResult>> AddWebsiteChannelConfiguration(string websiteChannelName)
     {
-        var channel = ChannelInfoProvider.ProviderObject
+        var websiteChannel = ChannelInfoProvider.ProviderObject
             .Get()
-            .WhereEquals(nameof(ChannelInfo.ChannelName), channelName)
+            .WhereEquals(nameof(ChannelInfo.ChannelName), websiteChannelName)
             .FirstOrDefault();
 
-        if (channel is null || (Value?.Exists(x => x.ChannelName == channelName) ?? false))
+        if (websiteChannel is null || (Value?.Exists(x => x.WebsiteChannelName == websiteChannelName) ?? false))
         {
             return Task.FromResult(ResponseFrom(new RowActionResult(false)));
         }
         else
         {
-            Value?.Add(new LuceneIndexChannelConfiguration(channelName, channel.ChannelDisplayName));
+            Value?.Add(new LuceneIndexChannelConfiguration(websiteChannelName, websiteChannel.ChannelDisplayName));
             return Task.FromResult(ResponseFrom(new RowActionResult(false)));
         }
     }

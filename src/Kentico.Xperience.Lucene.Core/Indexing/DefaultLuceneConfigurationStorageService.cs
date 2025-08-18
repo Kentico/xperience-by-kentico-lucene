@@ -78,7 +78,7 @@ internal class DefaultLuceneConfigurationStorageService : ILuceneConfigurationSt
                 {
                     var pathInfo = new LuceneIncludedPathItemInfo()
                     {
-                        LuceneIncludedPathItemChannelName = channel.ChannelName,
+                        LuceneIncludedPathItemChannelName = channel.WebsiteChannelName,
                         LuceneIncludedPathItemAliasPath = path.AliasPath,
                         LuceneIncludedPathItemIndexItemId = newInfo.LuceneIndexItemId
                     };

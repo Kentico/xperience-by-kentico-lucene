@@ -36,7 +36,7 @@ internal static class IndexedItemModelExtensions
             return false;
         }
 
-        if (!string.Equals(item.WebsiteChannelName, luceneIndex.WebSiteChannelName))
+        if (!luceneIndex.ChannelConfigurations.Any(x => string.Equals(item.WebsiteChannelName, x.WebsiteChannelName)))
         {
             return false;
         }
@@ -46,7 +46,9 @@ internal static class IndexedItemModelExtensions
             return false;
         }
 
-        return luceneIndex.ChannelConfigurations.Any(path =>
+        var paths = luceneIndex.ChannelConfigurations.SelectMany(x => x.IncludedPaths);
+
+        return paths.Any(path =>
         {
             bool matchesContentType = path.ContentTypes.Exists(x => string.Equals(x.ContentTypeName, item.ContentTypeName));
 

@@ -20,11 +20,6 @@ public sealed class LuceneIndex
     public string IndexName { get; }
 
     /// <summary>
-    /// The Name of the WebSiteChannel.
-    /// </summary>
-    public string WebSiteChannelName { get; }
-
-    /// <summary>
     /// The Language used on the WebSite on the Channel which is indexed.
     /// </summary>
     public List<string> LanguageNames { get; }
@@ -55,7 +50,6 @@ public sealed class LuceneIndex
     {
         Identifier = indexConfiguration.Id;
         IndexName = indexConfiguration.IndexName;
-        WebSiteChannelName = indexConfiguration.ChannelName;
         LanguageNames = indexConfiguration.LanguageNames.ToList();
         IncludedReusableContentTypes = indexConfiguration.ReusableContentTypeNames.ToList();
         ChannelConfigurations = indexConfiguration.Channels.ToList();

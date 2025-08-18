@@ -31,9 +31,6 @@ public class LuceneConfigurationModel
     [GeneralSelectorComponent(dataProviderType: typeof(LanguageOptionsProvider), Label = "Indexed Languages", Order = 4)]
     public IEnumerable<string> LanguageNames { get; set; } = Enumerable.Empty<string>();
 
-    [DropDownComponent(Label = "Channel Name", DataProviderType = typeof(ChannelOptionsProvider), Order = 5)]
-    public string ChannelName { get; set; } = "";
-
     [DropDownComponent(Label = "Indexing Strategy", DataProviderType = typeof(IndexingStrategyOptionsProvider), Order = 6)]
     public string StrategyName { get; set; } = "";
 
@@ -52,7 +49,6 @@ public class LuceneConfigurationModel
         Id = luceneModel.Id;
         IndexName = luceneModel.IndexName;
         LanguageNames = luceneModel.LanguageNames;
-        ChannelName = luceneModel.ChannelName;
         StrategyName = luceneModel.StrategyName;
         AnalyzerName = luceneModel.AnalyzerName;
         RebuildHook = luceneModel.RebuildHook;
@@ -67,7 +63,6 @@ public class LuceneConfigurationModel
             Id = Id,
             IndexName = IndexName,
             LanguageNames = LanguageNames,
-            ChannelName = ChannelName,
             AnalyzerName = AnalyzerName,
             StrategyName = StrategyName,
             RebuildHook = RebuildHook,

@@ -185,35 +185,39 @@ internal class DefaultLuceneClient : ILuceneClient
         };
 
         var indexedItems = new List<IIndexEventItemModel>();
-        foreach (var includedPathAttribute in luceneIndex.ChannelConfigurations)
+        foreach (var channelConfiguration in luceneIndex.ChannelConfigurations)
         {
-            var pathMatch =
-                includedPathAttribute.AliasPath.EndsWith("/%", StringComparison.OrdinalIgnoreCase)
-                    ? PathMatch.Children(includedPathAttribute.AliasPath[..^2])
-                    : PathMatch.Single(includedPathAttribute.AliasPath);
-
-            foreach (string language in luceneIndex.LanguageNames)
+            foreach (var path in channelConfiguration.IncludedPaths)
             {
-                if (includedPathAttribute.ContentTypes != null && includedPathAttribute.ContentTypes.Count > 0)
+                var pathMatch =
+                    path.AliasPath.EndsWith("/%", StringComparison.OrdinalIgnoreCase)
+                        ? PathMatch.Children(path.AliasPath[..^2])
+                        : PathMatch.Single(path.AliasPath);
+
+                foreach (string language in luceneIndex.LanguageNames)
                 {
-                    var queryBuilder = new ContentItemQueryBuilder();
-
-                    foreach (var contentType in includedPathAttribute.ContentTypes)
+                    if (path.ContentTypes != null && path.ContentTypes.Count > 0)
                     {
-                        queryBuilder.ForContentType(contentType.ContentTypeName, config => config.ForWebsite(luceneIndex.WebSiteChannelName, includeUrlPath: true, pathMatch: pathMatch));
-                    }
+                        var queryBuilder = new ContentItemQueryBuilder();
 
-                    queryBuilder.InLanguage(language);
+                        foreach (var contentType in path.ContentTypes)
+                        {
+                            queryBuilder.ForContentType(contentType.ContentTypeName,
+                                config => config.ForWebsite(channelConfiguration.WebsiteChannelName, includeUrlPath: true, pathMatch: pathMatch));
+                        }
 
-                    var webpages = await executor.GetWebPageResult(queryBuilder,
-                        container => container,
-                        options: contentQueryExecutionOptions,
-                        cancellationToken: cancellationToken ?? default);
+                        queryBuilder.InLanguage(language);
 
-                    foreach (var page in webpages)
-                    {
-                        var item = await MapToEventItem(page);
-                        indexedItems.Add(item);
+                        var webpages = await executor.GetWebPageResult(queryBuilder,
+                            container => container,
+                            options: contentQueryExecutionOptions,
+                            cancellationToken: cancellationToken ?? default);
+
+                        foreach (var page in webpages)
+                        {
+                            var item = await MapToEventItem(page, channelConfiguration.WebsiteChannelName);
+                            indexedItems.Add(item);
+                        }
                     }
                 }
             }
@@ -254,15 +258,11 @@ internal class DefaultLuceneClient : ILuceneClient
         indexedItems.ForEach(item => LuceneQueueWorker.EnqueueLuceneQueueItem(new LuceneQueueItem(item, LuceneTaskType.PUBLISH_INDEX, luceneIndex.IndexName)));
     }
 
-    private async Task<IndexEventWebPageItemModel> MapToEventItem(IWebPageContentQueryDataContainer content)
+    private async Task<IndexEventWebPageItemModel> MapToEventItem(IWebPageContentQueryDataContainer content, string websiteChannelName)
     {
         var languages = await GetAllLanguages();
 
         string languageName = languages.FirstOrDefault(l => l.ContentLanguageID == content.ContentItemCommonDataContentLanguageID)?.ContentLanguageName ?? string.Empty;
-
-        var websiteChannels = await GetAllWebsiteChannels();
-
-        string channelName = websiteChannels.FirstOrDefault(c => c.WebsiteChannelID == content.WebPageItemWebsiteChannelID).ChannelName ?? string.Empty;
 
         var item = new IndexEventWebPageItemModel(
             content.WebPageItemID,
@@ -273,7 +273,7 @@ internal class DefaultLuceneClient : ILuceneClient
             content.ContentItemIsSecured,
             content.ContentItemContentTypeID,
             content.ContentItemCommonDataContentLanguageID,
-            channelName,
+            websiteChannelName,
             content.WebPageItemTreePath,
             content.WebPageItemOrder);
 
@@ -401,28 +401,4 @@ internal class DefaultLuceneClient : ILuceneClient
 
             return results;
         }, new CacheSettings(5, nameof(DefaultLuceneClient), nameof(GetAllLanguages)));
-
-    private Task<IEnumerable<(int WebsiteChannelID, string ChannelName)>> GetAllWebsiteChannels() =>
-        cache.LoadAsync(async cs =>
-        {
-
-            var results = await channelProvider.Get()
-                .Source(s => s.Join<WebsiteChannelInfo>(nameof(ChannelInfo.ChannelID), nameof(WebsiteChannelInfo.WebsiteChannelChannelID)))
-                .Columns(nameof(WebsiteChannelInfo.WebsiteChannelID), nameof(ChannelInfo.ChannelName))
-                .GetDataContainerResultAsync();
-
-            cs.GetCacheDependency = () => CacheHelper.GetCacheDependency(new[] { $"{ChannelInfo.OBJECT_TYPE}|all", $"{WebsiteChannelInfo.OBJECT_TYPE}|all" });
-
-            var items = new List<(int WebsiteChannelID, string ChannelName)>();
-
-            foreach (var item in results)
-            {
-                if (item.TryGetValue(nameof(WebsiteChannelInfo.WebsiteChannelID), out object channelID) && item.TryGetValue(nameof(ChannelInfo.ChannelName), out object channelName))
-                {
-                    items.Add(new(conversionService.GetInteger(channelID, 0), conversionService.GetString(channelName, string.Empty)));
-                }
-            }
-
-            return items.AsEnumerable();
-        }, new CacheSettings(5, nameof(DefaultLuceneClient), nameof(GetAllWebsiteChannels)));
 }
