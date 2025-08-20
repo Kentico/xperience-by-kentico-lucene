@@ -57,7 +57,7 @@ internal class IndexListingPage : ListingPage
                 new()
                 {
                     Headline = "No indexes",
-                    Content = "No Lucene indexes registered. See <a target='_blank' href='https://github.com/Kentico/kentico-xperience-lucene'>our instructions</a> to read more about creating and registering Lucene indexes.",
+                    Content = "No Lucene indexes registered. See <a target='_blank' href='https://github.com/Kentico/xperience-by-kentico-lucene'>our instructions</a> to read more about creating and registering Lucene indexes.",
                     ContentAsHtml = true,
                     Type = CalloutType.FriendlyWarning,
                     Placement = CalloutPlacement.OnDesk
