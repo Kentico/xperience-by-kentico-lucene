@@ -8,7 +8,7 @@ using IFormItemCollectionProvider = Kentico.Xperience.Admin.Base.Forms.Internal.
 
 namespace Kentico.Xperience.Lucene.Admin;
 
-internal abstract class BaseIndexEditPage : ModelEditPage<LuceneConfigurationModel>
+public abstract class BaseIndexEditPage : ModelEditPage<LuceneConfigurationModel>
 {
     protected readonly ILuceneConfigurationStorageService StorageService;
 
@@ -68,7 +68,7 @@ internal abstract class BaseIndexEditPage : ModelEditPage<LuceneConfigurationMod
     }
 }
 
-internal enum IndexModificationResult
+public enum IndexModificationResult
 {
     Success,
     Failure
