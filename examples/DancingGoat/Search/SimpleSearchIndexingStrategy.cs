@@ -27,6 +27,7 @@ public class SimpleSearchIndexingStrategy : DefaultLuceneIndexingStrategy
     /// Initializes a new instance of the <see cref="SimpleSearchIndexingStrategy"/> class.
     /// <param name="contentQueryResultMapper">The <see cref="IContentQueryResultMapper"/></param>
     /// <param name="queryExecutor">The <see cref="IContentQueryExecutor"/></param>
+    /// </summary>
     public SimpleSearchIndexingStrategy(
         IContentQueryResultMapper contentQueryResultMapper,
         IContentQueryExecutor queryExecutor
