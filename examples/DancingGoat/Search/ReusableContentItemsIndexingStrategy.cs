@@ -12,9 +12,34 @@ using Lucene.Net.Facet;
 
 namespace DancingGoat.Search;
 
+/// <summary>
+/// Provides a custom indexing strategy for reusable content items, enabling their integration into Lucene Search.
+/// </summary>
 public class ReusableContentItemsIndexingStrategy : DefaultLuceneIndexingStrategy
 {
+    /// <summary>
+    /// Represents the name of the field used for storing a sortable version of a title.
+    /// </summary>
     public const string SORTABLE_TITLE_FIELD_NAME = "SortableTitle";
+
+
+    /// <summary>
+    /// Represents the facet dimension used to categorize content by type.
+    /// </summary>
+    public const string FACET_DIMENSION = "ContentType";
+
+
+    /// <summary>
+    /// Represents the name of the indexed <see cref="WebsiteChannelInfo"/> used for content categorization.
+    /// </summary>
+    public const string INDEXED_WEBSITECHANNEL_NAME = "DancingGoatPages";
+
+
+    /// <summary>
+    /// Represents the name of the field used for storing content crawled from web pages.
+    /// </summary>
+    public const string CRAWLER_CONTENT_FIELD_NAME = "Content";
+
 
     private readonly IContentQueryResultMapper contentQueryResultMapper;
     private readonly IContentQueryExecutor queryExecutor;
@@ -22,10 +47,15 @@ public class ReusableContentItemsIndexingStrategy : DefaultLuceneIndexingStrateg
     private readonly WebScraperHtmlSanitizer htmlSanitizer;
     private readonly WebCrawlerService webCrawler;
 
-    public const string FACET_DIMENSION = "ContentType";
-    public const string INDEXED_WEBSITECHANNEL_NAME = "DancingGoatPages";
-    public const string CRAWLER_CONTENT_FIELD_NAME = "Content";
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="ReusableContentItemsIndexingStrategy"/> class.
+    /// </summary>
+    /// <param name="contentQueryResultMapper">The <see cref="IContentQueryResultMapper"/></param>
+    /// <param name="queryExecutor">The <see cref="IContentQueryExecutor"/></param>
+    /// <param name="urlRetriever">The <see cref="IWebPageUrlRetriever"/></param>
+    /// <param name="htmlSanitizer">The <see cref="WebScraperHtmlSanitizer"/></param>
+    /// <param name="webCrawler">The <see cref="WebCrawlerService"/></param>
     public ReusableContentItemsIndexingStrategy(
         IContentQueryResultMapper contentQueryResultMapper,
         IContentQueryExecutor queryExecutor,
@@ -41,6 +71,8 @@ public class ReusableContentItemsIndexingStrategy : DefaultLuceneIndexingStrateg
         this.contentQueryResultMapper = contentQueryResultMapper;
     }
 
+
+    /// <inheritdoc/>
     public override async Task<Document?> MapToLuceneDocumentOrNull(IIndexEventItemModel item)
     {
         var document = new Document();
@@ -102,6 +134,8 @@ public class ReusableContentItemsIndexingStrategy : DefaultLuceneIndexingStrateg
         return document;
     }
 
+
+    /// <inheritdoc/>
     public override FacetsConfig FacetsConfigFactory()
     {
         var facetConfig = new FacetsConfig();

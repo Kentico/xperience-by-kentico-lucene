@@ -11,11 +11,20 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace DancingGoat.Search;
 
+
+/// <summary>
+/// Provides a custom indexing strategy for simple search, enabling the indexing of <see cref="HomePage"/> items.
+/// </summary>
 public class SimpleSearchIndexingStrategy : DefaultLuceneIndexingStrategy
 {
     private readonly IContentQueryResultMapper contentQueryResultMapper;
     private readonly IContentQueryExecutor queryExecutor;
 
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="SimpleSearchIndexingStrategy"/> class.
+    /// <param name="contentQueryResultMapper">The <see cref="IContentQueryResultMapper"/></param>
+    /// <param name="queryExecutor">The <see cref="IContentQueryExecutor"/></param>
     public SimpleSearchIndexingStrategy(
         IContentQueryResultMapper contentQueryResultMapper,
         IContentQueryExecutor queryExecutor
@@ -25,11 +34,13 @@ public class SimpleSearchIndexingStrategy : DefaultLuceneIndexingStrategy
         this.queryExecutor = queryExecutor;
     }
 
+
+    /// <inheritdoc/>
     public override async Task<Document?> MapToLuceneDocumentOrNull(IIndexEventItemModel item)
     {
         var document = new Document();
 
-        string title = string.Empty;
+        string title;
 
         // IIndexEventItemModel could be a reusable content item or a web page item, so we use
         // pattern matching to get access to the web page item specific type and fields
@@ -66,6 +77,7 @@ public class SimpleSearchIndexingStrategy : DefaultLuceneIndexingStrategy
 
         return document;
     }
+
 
     private async Task<T?> GetPage<T>(Guid id, string channelName, string languageName, string contentTypeName)
         where T : IWebPageFieldsSource, new()
