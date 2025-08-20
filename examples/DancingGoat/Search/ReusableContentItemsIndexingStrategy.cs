@@ -42,9 +42,17 @@ public class ReusableContentItemsIndexingStrategy : DefaultLuceneIndexingStrateg
 
 
     private readonly IContentQueryResultMapper contentQueryResultMapper;
+
+
     private readonly IContentQueryExecutor queryExecutor;
+
+
     private readonly IWebPageUrlRetriever urlRetriever;
+
+
     private readonly WebScraperHtmlSanitizer htmlSanitizer;
+
+
     private readonly WebCrawlerService webCrawler;
 
 

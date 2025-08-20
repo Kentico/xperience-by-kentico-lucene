@@ -18,6 +18,8 @@ namespace DancingGoat.Search;
 public class SimpleSearchIndexingStrategy : DefaultLuceneIndexingStrategy
 {
     private readonly IContentQueryResultMapper contentQueryResultMapper;
+
+
     private readonly IContentQueryExecutor queryExecutor;
 
 
