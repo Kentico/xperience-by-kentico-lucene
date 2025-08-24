@@ -1,9 +1,11 @@
 import { FormComponentProps } from "@kentico/xperience-admin-base";
-import { IncludedPath } from "./IncludedPath";
 import { LuceneIndexContentType } from "./LuceneIndexContentType";
+import { LuceneIndexChannelConfiguration } from "./LuceneIndexChannelConfiguration";
+import { LuceneIndexChannel } from "./LuceneIndexChannel";
 
 export interface LuceneIndexConfigurationComponentClientProperties
     extends FormComponentProps {
-    value: IncludedPath[];
+    value: LuceneIndexChannelConfiguration[];
     possibleContentTypeItems: LuceneIndexContentType[] | null;
+    possibleChannels: LuceneIndexChannel[] | null;
 }

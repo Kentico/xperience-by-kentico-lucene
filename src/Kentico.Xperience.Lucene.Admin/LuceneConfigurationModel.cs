@@ -19,10 +19,7 @@ public class LuceneConfigurationModel
     [MinLength(1)]
     public string IndexName { get; set; } = "";
 
-    [LuceneIndexConfigurationComponent(Label = "Included Paths", Order = 2)]
-    public IEnumerable<LuceneIndexIncludedPath> Paths { get; set; } = Enumerable.Empty<LuceneIndexIncludedPath>();
-
-    [LuceneIndexConfigurationNewComponent(Label = "Configured Channels", Order = 2)]
+    [LuceneIndexConfigurationComponent(Label = "Configured Channels", Order = 2)]
     public IEnumerable<LuceneIndexChannelConfiguration> Channels { get; set; } = Enumerable.Empty<LuceneIndexChannelConfiguration>();
 
     [GeneralSelectorComponent(dataProviderType: typeof(ReusableContentOptionsProvider), Label = "Included Reusable Content Types", Order = 3)]
@@ -52,7 +49,6 @@ public class LuceneConfigurationModel
         StrategyName = luceneModel.StrategyName;
         AnalyzerName = luceneModel.AnalyzerName;
         RebuildHook = luceneModel.RebuildHook;
-        Paths = luceneModel.Paths;
         Channels = luceneModel.Channels;
         ReusableContentTypeNames = luceneModel.ReusableContentTypeNames;
     }
@@ -66,7 +62,6 @@ public class LuceneConfigurationModel
             AnalyzerName = AnalyzerName,
             StrategyName = StrategyName,
             RebuildHook = RebuildHook,
-            Paths = Paths,
             Channels = Channels,
             ReusableContentTypeNames = ReusableContentTypeNames
         };

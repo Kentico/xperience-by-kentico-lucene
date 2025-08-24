@@ -1,4 +1,3 @@
-import { type FormComponentProps } from '@kentico/xperience-admin-base';
 import {
   type ActionCell,
   Button,
@@ -29,23 +28,23 @@ import Select, {
   components,
 } from 'react-select';
 import { Tooltip } from 'react-tooltip';
-import { OptionType } from '../models/OptionType';
-import { IncludedPath } from '../models/IncludedPath';
 import { LuceneIndexContentType } from '../models/LuceneIndexContentType';
-import { LuceneIndexConfigurationNewComponentClientProperties } from 'src/models/LuceneIndexConfigurationNewComponentClientProperties';
+import { IncludedPath } from '../models/IncludedPath';
+import { LuceneIncludedPathConfigurationProperties } from '../models/LuceneIncludedPathConfigurationProperties';
+import { OptionType } from '../models/OptionType';
 
-export const LuceneIndexConfigurationNewFormComponent = (
-    props: LuceneIndexConfigurationNewComponentClientProperties,
+export const LuceneIncludedPathConfiguration = (
+    props: LuceneIncludedPathConfigurationProperties,
 ): JSX.Element => {
   const [rows, setRows] = useState<TableRow[]>([]);
-    const [showPathEdit, setShowPathEdit] = useState<boolean>(false);
-    const [contentTypesValue, setContentTypesValue] = useState<OptionType[]>([]);
+  const [showPathEdit, setShowPathEdit] = useState<boolean>(false);
+  const [contentTypesValue, setContentTypesValue] = useState<OptionType[]>([]);
   const [path, setPath] = useState<string>('');
   const [editedIdentifier, setEditedIdentifier] = useState<string>('');
   const [showAddNewPath, setShowAddNewPath] = useState<boolean>(true);
   const [isClearIndicatorHover, setIsClearIndicatorHover] = useState(false);
 
-    const prepareRows = (paths: IncludedPath[]): TableRow[] => {
+  const prepareRows = (paths: IncludedPath[]): TableRow[] => {
     if (paths === undefined) {
       return [];
     }
@@ -189,8 +188,8 @@ export const LuceneIndexConfigurationNewFormComponent = (
           const newPath: IncludedPath = {
             aliasPath: path,
             identifier: null,
-              contentTypes: contentTypesValue.map((x) => {
-                  const contentType: LuceneIndexContentType = {
+            contentTypes: contentTypesValue.map((x) => {
+              const contentType: LuceneIndexContentType = {
                 contentTypeDisplayName: x.label,
                 contentTypeName: x.value,
               };
@@ -224,8 +223,8 @@ export const LuceneIndexConfigurationNewFormComponent = (
       const updatedPath: IncludedPath = {
         aliasPath: path,
         identifier: props.value[propPathIndex].identifier,
-          contentTypes: contentTypesValue.map((x) => {
-              const contentType: LuceneIndexContentType = {
+        contentTypes: contentTypesValue.map((x) => {
+          const contentType: LuceneIndexContentType = {
             contentTypeDisplayName: x.label,
             contentTypeName: x.value,
           };

@@ -1,106 +1,124 @@
-import { type FormComponentProps } from '@kentico/xperience-admin-base';
 import {
-  type ActionCell,
+  ActionCell,
   Button,
   ButtonType,
   CellType,
   ColumnContentType,
-  Input,
   Stack,
-  type StringCell,
+  StringCell,
   Table,
-  type TableAction,
-  type TableCell,
-  type TableColumn,
-  type TableRow,
+  TableAction,
+  TableCell,
+  TableColumn,
+  TableRow
 } from '@kentico/xperience-admin-components';
-import React, { type CSSProperties, useEffect, useState } from 'react';
-import { IoCheckmarkSharp } from 'react-icons/io5';
-import { MdOutlineCancel } from 'react-icons/md';
-import { RxCross1 } from 'react-icons/rx';
-import Select, {
-  type CSSObjectWithLabel,
-  type ClearIndicatorProps,
-  type GroupBase,
-  type MultiValue,
-  type MultiValueRemoveProps,
-  type OptionProps,
-  type StylesConfig,
-  components,
-} from 'react-select';
-import { Tooltip } from 'react-tooltip';
-import { LuceneIndexContentType } from '../models/LuceneIndexContentType';
-import { IncludedPath } from '../models/IncludedPath';
+import React, { useEffect, useState } from 'react';
+import Select, { SingleValue } from 'react-select';
 import { LuceneIndexConfigurationComponentClientProperties } from '../models/LuceneIndexConfigurationComponentClientProperties';
+import { LuceneIndexChannelConfiguration } from '../models/LuceneIndexChannelConfiguration';
 import { OptionType } from '../models/OptionType';
+import { IncludedPath } from '../models/IncludedPath';
+import { LuceneIndexChannel } from '../models/LuceneIndexChannel';
 
 export const LuceneIndexConfigurationFormComponent = (
-    props: LuceneIndexConfigurationComponentClientProperties,
+    props: LuceneIndexConfigurationComponentClientProperties
 ): JSX.Element => {
   const [rows, setRows] = useState<TableRow[]>([]);
-  const [showPathEdit, setShowPathEdit] = useState<boolean>(false);
-  const [contentTypesValue, setContentTypesValue] = useState<OptionType[]>([]);
-  const [path, setPath] = useState<string>('');
-  const [editedIdentifier, setEditedIdentifier] = useState<string>('');
-  const [showAddNewPath, setShowAddNewPath] = useState<boolean>(true);
-  const [isClearIndicatorHover, setIsClearIndicatorHover] = useState(false);
+  const [showChannelEdit, setShowChannelEdit] = useState<boolean>(false);
+  const [showAddNewChannelConfiguration, setShowAddNewChannelConfiguration] = useState<boolean>(true);
 
-  const prepareRows = (paths: IncludedPath[]): TableRow[] => {
-    if (paths === undefined) {
+  const getEmptyChannel = (): LuceneIndexChannelConfiguration => {
+    const emptyChannel: LuceneIndexChannelConfiguration = {
+      channelDisplayName: null,
+      websiteChannelName: null,
+      includedPaths: []
+    };
+
+    return emptyChannel;
+  };
+  const getUnconfiguredChannelOptions = (): OptionType[] => {
+    const filteredOptions: OptionType[] =
+    props.possibleChannels
+    ?.filter(
+      (possibleChannel) =>
+        !props.value.some(
+          (existingChannel) =>
+            existingChannel.websiteChannelName === possibleChannel.channelName
+        )
+    )
+    .map((channel) => {
+      const option: OptionType = {
+        value: channel.channelName,
+        label: channel.channelDisplayName,
+      };
+      return option;
+    }) ?? [];
+
+    return filteredOptions;
+  };
+
+  const [channel, setChannel] = useState<LuceneIndexChannelConfiguration>(getEmptyChannel());
+  const [selectedChannelOption, setSelectedChannelOption] = useState<OptionType | null>(null);
+  const [channelOptions, setChannelOptions] = useState<OptionType[]>(getUnconfiguredChannelOptions());
+
+  const prepareRows = (channels: LuceneIndexChannelConfiguration[]): TableRow[] => {
+    if (channels === undefined) {
       return [];
     }
-    const getCells = (path: IncludedPath): TableCell[] => {
-      const pathVal: string = path.aliasPath?.toString() ?? '';
-      if (path.aliasPath === null) {
+
+    const getCells = (channel: LuceneIndexChannelConfiguration): TableCell[] => {
+      const channelName = channel.websiteChannelName?.toString() ?? '';
+      if (channelName === null) {
         return [];
       }
       const cell: StringCell = {
         type: CellType.String,
-        value: pathVal,
+        value: channelName
       };
       const deleteAction: TableAction = {
         label: 'delete',
         icon: 'xp-bin',
         disabled: false,
-        destructive: true,
+        destructive: true
       };
 
-      const deletePath: () => Promise<void> = async () => {
+      const deleteWebsiteChannelConfiguration: () => Promise<void> = async () => {
         await new Promise(() => {
-          props.value = props.value.filter((x) => x.aliasPath !== pathVal);
+          props.value = props.value.filter((x) => x.websiteChannelName !== channelName) ?? [];
 
-          if (props.onChange !== null && props.onChange !== undefined) {
+          if (props.onChange) {
             props.onChange(props.value);
           }
 
           setRows(prepareRows(props.value));
-          setShowPathEdit(false);
-          setContentTypesValue([]);
-          setEditedIdentifier('');
-          setPath('');
-          setShowAddNewPath(true);
+          setShowChannelEdit(false);
+          setChannelOptions(getUnconfiguredChannelOptions());
+          setShowAddNewChannelConfiguration(true);
+          setEmptyChannel();
         });
       };
 
       const deletePathCell: ActionCell = {
         actions: [deleteAction],
         type: CellType.Action,
-        onInvokeAction: deletePath,
+        onInvokeAction: deleteWebsiteChannelConfiguration,
       };
 
       const cells: TableCell[] = [cell, deletePathCell];
       return cells;
-    };
+    }
 
-    return paths.map((path) => {
+    return channels.map((channel) => {
       const row: TableRow = {
-        identifier: path.aliasPath ?? '',
-        cells: getCells(path),
-        disabled: false,
+        identifier: channel.websiteChannelName ?? '',
+        cells: getCells(channel),
+        disabled: false
       };
+
       return row;
     });
   };
+
   useEffect(() => {
     if (props.value === null || props.value === undefined) {
       props.value = [];
@@ -110,36 +128,44 @@ export const LuceneIndexConfigurationFormComponent = (
     }
     setRows(() => prepareRows(props.value));
   }, [props?.value]);
+
   const prepareColumns = (): TableColumn[] => {
-    const columns: TableColumn[] = [];
-
-    const column: TableColumn = {
-      name: 'Path',
-      visible: true,
-      contentType: ColumnContentType.Text,
-      caption: '',
-      minWidth: 0,
-      maxWidth: 1000,
-      sortable: true,
-      searchable: true,
-    };
-
-    const actionColumn: TableColumn = {
-      name: 'Actions',
-      visible: true,
-      contentType: ColumnContentType.Action,
-      caption: '',
-      minWidth: 0,
-      maxWidth: 1000,
-      sortable: false,
-      searchable: false,
-    };
-
-    columns.push(column);
-    columns.push(actionColumn);
-    return columns;
+      const columns: TableColumn[] = [];
+  
+      const column: TableColumn = {
+        name: 'Website Channel',
+        visible: true,
+        contentType: ColumnContentType.Text,
+        caption: '',
+        minWidth: 0,
+        maxWidth: 1000,
+        sortable: true,
+        searchable: true,
+      };
+  
+      const actionColumn: TableColumn = {
+        name: 'Actions',
+        visible: true,
+        contentType: ColumnContentType.Action,
+        caption: '',
+        minWidth: 0,
+        maxWidth: 1000,
+        sortable: false,
+        searchable: false,
+      };
+  
+      columns.push(column);
+      columns.push(actionColumn);
+      return columns;
   };
-  const showContentItems = (identifier: unknown): void => {
+
+  const addNewChannelConfiguration = (): void => {
+    setShowChannelEdit(true);
+    setShowAddNewChannelConfiguration(false);
+    setEmptyChannel();
+  };
+
+  const showChannelDetail = (identifier: unknown): void => {
     let rowIndex = -1;
     for (let i = 0; i < rows.length; i++) {
       if ((rows[i].identifier as string) === (identifier as string)) {
@@ -147,66 +173,54 @@ export const LuceneIndexConfigurationFormComponent = (
       }
     }
     const row = rows[rowIndex];
+    if (!showChannelEdit) {
+      const selectedChannelName = (row.cells[0] as StringCell).value
+      const selectedChannel = props.value.find(
+        (x) => x.websiteChannelName === selectedChannelName
+      ) as LuceneIndexChannelConfiguration;
 
-    setPath((row.cells[0] as StringCell).value);
-
-    if (!showPathEdit) {
-      setEditedIdentifier((row.cells[0] as StringCell).value);
+      setChannel(selectedChannel);
+      
+      const option: OptionType = selectChannelOption(selectedChannelName);
+      
+      const filteredOptions: OptionType[] = getUnconfiguredChannelOptions();
+      filteredOptions.push(option);
+      setChannelOptions(filteredOptions);
     } else {
-      setEditedIdentifier('');
+      setEmptyChannel();
     }
 
-    const contentTypes: OptionType[] =
-      props.value
-        .find((x) => x.aliasPath === identifier)
-        ?.contentTypes.map((x) => {
-          const option: OptionType = {
-            value: x.contentTypeName,
-            label: x.contentTypeDisplayName,
-          };
-          return option;
-        }) ?? [];
-
-    setContentTypesValue(contentTypes ?? []);
-    setShowPathEdit(!showPathEdit);
-    setShowAddNewPath(!showAddNewPath);
+    setShowChannelEdit(!showChannelEdit);
+    setShowAddNewChannelConfiguration(!showAddNewChannelConfiguration);
   };
-  const handleInputChange = (
-    event: React.ChangeEvent<HTMLInputElement>,
-  ): void => {
-    setPath(event.target.value);
-  };
-  const savePath = (): void => {
-    if (editedIdentifier === '') {
-      if (
-        !rows.some((x) => {
-          return x.identifier === path;
-        })
-      ) {
-        if (path === '') {
-          alert('Invalid path');
-        } else {
-          const newPath: IncludedPath = {
-            aliasPath: path,
-            identifier: null,
-            contentTypes: contentTypesValue.map((x) => {
-              const contentType: LuceneIndexContentType = {
-                contentTypeDisplayName: x.label,
-                contentTypeName: x.value,
-              };
 
-              return contentType;
-            }),
-          };
-          props.value.push(newPath);
-          setRows(prepareRows(props.value));
-        }
-      } else {
-        alert('This path already exists!');
-      }
+  const selectChannelOption = (selectedChannelName: string): OptionType => {
+    const selectedChannel: LuceneIndexChannel = props.possibleChannels?.find((x) => x.channelName === selectedChannelName) as LuceneIndexChannel;
+
+    const selectedOption: OptionType = {
+      value: selectedChannel.channelName,
+      label: selectedChannel.channelDisplayName
+    };
+
+    setSelectedChannelOption(selectedOption);
+    return selectedOption;
+  };
+
+  const setEmptyChannel = (): void => {
+    const emptyChannel = getEmptyChannel();
+    setChannel(emptyChannel);
+    setSelectedChannelOption(null);
+  };
+
+  const saveChannelConfiguration = (): void => {
+    if(!rows.some((x) => {
+      return x.identifier === channel.websiteChannelName;
+    })) {
+      props.value.push(channel);
+      setRows(prepareRows(props.value));
     } else {
       const rowIndex = rows.findIndex((x) => {
-        return x.identifier === editedIdentifier;
+        return x.identifier === channel.websiteChannelName;
       });
 
       if (rowIndex === -1) {
@@ -215,193 +229,45 @@ export const LuceneIndexConfigurationFormComponent = (
 
       const newRows = rows;
       const editedRow = rows[rowIndex];
-      const pathCellInNewRow = rows[rowIndex].cells[0] as StringCell;
-      pathCellInNewRow.value = path;
+      const cellInNewRow = rows[rowIndex].cells[0] as StringCell;
+      cellInNewRow.value = channel.websiteChannelName ?? '';
       const propPathIndex = props.value.findIndex(
-        (p) => p.aliasPath === editedIdentifier,
+        (x) => { return x.websiteChannelName === channel.websiteChannelName; }
       );
 
-      const updatedPath: IncludedPath = {
-        aliasPath: path,
-        identifier: props.value[propPathIndex].identifier,
-        contentTypes: contentTypesValue.map((x) => {
-          const contentType: LuceneIndexContentType = {
-            contentTypeDisplayName: x.label,
-            contentTypeName: x.value,
-          };
-
-          return contentType;
-        }),
+      const updatedChannel: LuceneIndexChannelConfiguration = {
+        websiteChannelName: channel.websiteChannelName,
+        channelDisplayName: channel.channelDisplayName,
+        includedPaths: channel.includedPaths
       };
+      props.value[propPathIndex] = updatedChannel;
 
-      props.value[propPathIndex] = updatedPath;
-
-      editedRow.cells[0] = pathCellInNewRow;
-      editedRow.identifier = path;
+      editedRow.cells[0] = cellInNewRow;
+      editedRow.identifier = channel.websiteChannelName ?? '';
 
       newRows[rowIndex] = editedRow;
       setRows(newRows);
     }
 
-    setEditedIdentifier('');
-    setShowPathEdit(false);
-    setShowAddNewPath(true);
-  };
-  const addNewPath = (): void => {
-    setShowPathEdit(true);
-    setContentTypesValue([]);
-    setPath('');
-    setEditedIdentifier('');
-    setShowAddNewPath(false);
-  };
-  const options: OptionType[] =
-    props.possibleContentTypeItems?.map((x) => {
-      const option: OptionType = {
-        value: x.contentTypeName,
-        label: x.contentTypeDisplayName,
-      };
-      return option;
-    }) ?? [];
-  const selectContentTypes = (newValue: MultiValue<OptionType>): void => {
-    setContentTypesValue(newValue as OptionType[]);
+    setShowAddNewChannelConfiguration(true);
+    setEmptyChannel();
+    setShowChannelEdit(false);
+    setChannelOptions(getUnconfiguredChannelOptions());
   };
 
-  /* eslint-disable @typescript-eslint/naming-convention */
-  const customStyle: StylesConfig<OptionType, true, GroupBase<OptionType>> = {
-    control: (styles, { isFocused }) =>
-      ({
-        ...styles,
-        backgroundColor: 'white',
-        borderColor: isFocused ? 'black' : 'gray',
-        '&:hover': {
-          borderColor: 'black',
-        },
-        borderRadius: 20,
-        boxShadow: 'gray',
-        padding: 2,
-        minHeight: 'fit-content',
-      }) as CSSObjectWithLabel,
-    option: (styles, { isSelected }) => {
-      return {
-        ...styles,
-        backgroundColor: isSelected ? '#bab4f0' : 'white',
-        '&:hover': {
-          backgroundColor: isSelected ? '#a097f7' : 'lightgray',
-        },
-        color: isSelected ? 'purple' : 'black',
-        cursor: 'pointer',
-      } as CSSObjectWithLabel;
-    },
-    input: (styles) => ({ ...styles }),
-    container: (styles) =>
-      ({ ...styles, borderColor: 'gray' }) as CSSObjectWithLabel,
-    placeholder: (styles) => ({ ...styles }),
-    multiValue: (styles) =>
-      ({
-        ...styles,
-        backgroundColor: '#287ab5',
-        borderRadius: 10,
-        height: 35,
-        alignItems: 'center',
-      }) as CSSObjectWithLabel,
-    multiValueLabel: (styles) =>
-      ({
-        ...styles,
-        color: 'white',
-        fontSize: 14,
-        alignContent: 'center',
-      }) as CSSObjectWithLabel,
-    indicatorSeparator: () => ({}),
-    dropdownIndicator: (styles, state): CSSObjectWithLabel =>
-      ({
-        ...styles,
-        transform: state.selectProps.menuIsOpen
-          ? 'rotate(180deg)'
-          : 'rotate(0deg)',
-      }) as CSSObjectWithLabel,
-    multiValueRemove: (styles) =>
-      ({
-        ...styles,
-        '&:hover': {
-          background: '#287ab5',
-          borderRadius: 10,
-          cursor: 'pointer',
-          filter: 'grayscale(40%)',
-          height: '100%',
-        },
-      }) as CSSObjectWithLabel,
-    /* eslint-enable @typescript-eslint/naming-convention */
-  };
+  const selectChannel = (newValue: SingleValue<OptionType>): void => {
+    if (!newValue) {
+      setEmptyChannel();
+      return;
+    }
 
-  const MultiValueRemoveStyle: CSSProperties = {
-    color: 'white',
-    height: '20',
-    width: '30',
-  };
-  const MultiValueRemove = (
-    props: MultiValueRemoveProps<OptionType>,
-  ): JSX.Element => {
-    return (
-      <components.MultiValueRemove {...props}>
-        <RxCross1 style={MultiValueRemoveStyle} />
-      </components.MultiValueRemove>
-    );
-  };
+    setChannel((prev) => ({
+      ...prev,
+      websiteChannelName: newValue.value,
+      channelDisplayName: newValue.label
+    }));
 
-  const Option = (
-    props: OptionProps<OptionType, true, GroupBase<OptionType>>,
-  ): JSX.Element => {
-    return (
-      <components.Option {...props}>
-        {props.isSelected ? (
-          <IoCheckmarkSharp style={{ width: 30, alignContent: 'center' }} />
-        ) : (
-          <span style={{ width: 30, display: 'inline-block' }}></span>
-        )}
-        {props.children}
-      </components.Option>
-    );
-  };
-
-  const handleMouseEnter = (): void => {
-    setIsClearIndicatorHover(true);
-  };
-  const handleMouseLeave = (): void => {
-    setIsClearIndicatorHover(false);
-  };
-  const IndicatorStyle: CSSProperties = {
-    color: 'black',
-    width: '80%',
-    height: '80%',
-  };
-  const ClearIndicator = (
-    props: ClearIndicatorProps<OptionType>,
-  ): JSX.Element => {
-    return (
-      <components.ClearIndicator {...props}>
-        <Tooltip id="clear-content-type-select-tooltip-1" />
-        <span
-          style={{
-            background: isClearIndicatorHover ? 'lightgray' : 'white',
-            width: 25,
-            height: 25,
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            borderRadius: 5,
-            cursor: isClearIndicatorHover ? 'pointer' : 'default',
-          }}
-        >
-          <MdOutlineCancel
-            style={IndicatorStyle}
-            onMouseEnter={handleMouseEnter}
-            onMouseLeave={handleMouseLeave}
-            data-tooltip-id="clear-content-type-select-tooltip-1"
-            data-tooltip-content="Clear selection"
-          />
-        </span>
-      </components.ClearIndicator>
-    );
+    selectChannelOption(newValue.value);
   };
 
   return (
@@ -409,51 +275,33 @@ export const LuceneIndexConfigurationFormComponent = (
       <Table
         columns={prepareColumns()}
         rows={rows}
-        onRowClick={showContentItems}
+        onRowClick={showChannelDetail}
       />
-      {showPathEdit && (
+      {showChannelEdit && (
         <div>
           <br></br>
-          <Input
-            label="Included Path"
-            value={path}
-            onChange={handleInputChange}
-          />
-          <br></br>
-          <div className="label-wrapper___AcszK">
-            <label className="label___WET63">Included content types</label>
-          </div>
           <Select
-            isMulti
-            closeMenuOnSelect={false}
-            defaultValue={contentTypesValue}
-            placeholder="Select content types"
-            options={options}
-            onChange={selectContentTypes}
-            styles={customStyle}
-            hideSelectedOptions={false}
-            components={{ MultiValueRemove, ClearIndicator, Option }}
-            theme={(theme) => ({
-              ...theme,
-              height: 40,
-              borderRadius: 0,
-              borderColor: 'gray',
-            })}
+            closeMenuOnSelect={true}
+            isMulti={false}
+            placeholder="Select website channel"
+            value={selectedChannelOption}
+            options={channelOptions}
+            onChange={selectChannel}
           />
           <br></br>
           <Button
             type={ButtonType.Button}
-            label="Save Path"
-            onClick={savePath}
+            label="Save website channel configuration"
+            onClick={saveChannelConfiguration}
           ></Button>
         </div>
       )}
       <br></br>
-      {showAddNewPath && (
+      {showAddNewChannelConfiguration && (
         <Button
           type={ButtonType.Button}
-          label="Add new path"
-          onClick={addNewPath}
+          label="Add new website channel configuration"
+          onClick={addNewChannelConfiguration}
         ></Button>
       )}
     </Stack>
