@@ -13,12 +13,12 @@ import {
   TableRow
 } from '@kentico/xperience-admin-components';
 import React, { useEffect, useState } from 'react';
-import Select, { SingleValue } from 'react-select';
+import Select, { CSSObjectWithLabel, GroupBase, SingleValue, StylesConfig } from 'react-select';
 import { LuceneIndexConfigurationComponentClientProperties } from '../models/LuceneIndexConfigurationComponentClientProperties';
 import { LuceneIndexChannelConfiguration } from '../models/LuceneIndexChannelConfiguration';
 import { OptionType } from '../models/OptionType';
-import { IncludedPath } from '../models/IncludedPath';
 import { LuceneIndexChannel } from '../models/LuceneIndexChannel';
+import { LuceneIncludedPathConfiguration } from './LuceneIncludedPathConfiguration';
 
 export const LuceneIndexConfigurationFormComponent = (
     props: LuceneIndexConfigurationComponentClientProperties
@@ -26,6 +26,7 @@ export const LuceneIndexConfigurationFormComponent = (
   const [rows, setRows] = useState<TableRow[]>([]);
   const [showChannelEdit, setShowChannelEdit] = useState<boolean>(false);
   const [showAddNewChannelConfiguration, setShowAddNewChannelConfiguration] = useState<boolean>(true);
+  const [showPathConfiguration, setShowPathConfiguration] = useState<boolean>(false);
 
   const getEmptyChannel = (): LuceneIndexChannelConfiguration => {
     const emptyChannel: LuceneIndexChannelConfiguration = {
@@ -159,10 +160,12 @@ export const LuceneIndexConfigurationFormComponent = (
       return columns;
   };
 
-  const addNewChannelConfiguration = (): void => {
+  const addWebsiteChannelConfiguration = (): void => {
     setShowChannelEdit(true);
     setShowAddNewChannelConfiguration(false);
     setEmptyChannel();
+    const filteredOptions: OptionType[] = getUnconfiguredChannelOptions();
+    setChannelOptions(filteredOptions);
   };
 
   const showChannelDetail = (identifier: unknown): void => {
@@ -203,6 +206,7 @@ export const LuceneIndexConfigurationFormComponent = (
     };
 
     setSelectedChannelOption(selectedOption);
+    setShowPathConfiguration(true);
     return selectedOption;
   };
 
@@ -212,12 +216,17 @@ export const LuceneIndexConfigurationFormComponent = (
     setSelectedChannelOption(null);
   };
 
-  const saveChannelConfiguration = (): void => {
+  const saveWebsiteChannelConfiguration = (): void => {
     if(!rows.some((x) => {
       return x.identifier === channel.websiteChannelName;
     })) {
-      props.value.push(channel);
-      setRows(prepareRows(props.value));
+      if (channel.websiteChannelName === '' || !channel.websiteChannelName) {
+        alert('Invalid Channel');
+      }
+      else {
+        props.value.push(channel);
+        setRows(prepareRows(props.value));
+      }
     } else {
       const rowIndex = rows.findIndex((x) => {
         return x.identifier === channel.websiteChannelName;
@@ -270,6 +279,49 @@ export const LuceneIndexConfigurationFormComponent = (
     selectChannelOption(newValue.value);
   };
 
+  const customStyle: StylesConfig<OptionType, false, GroupBase<OptionType>> = {
+      control: (styles, { isFocused }) =>
+        ({
+          ...styles,
+          backgroundColor: 'white',
+          borderColor: isFocused ? 'black' : 'gray',
+          '&:hover': {
+            borderColor: 'black',
+          },
+          borderRadius: 20,
+          boxShadow: 'gray',
+          padding: 2,
+          minHeight: 'fit-content',
+        }) as CSSObjectWithLabel,
+      option: (styles, { isSelected }) => {
+        return {
+          ...styles,
+          backgroundColor: isSelected ? '#bab4f0' : 'white',
+          '&:hover': {
+            backgroundColor: isSelected ? '#a097f7' : 'lightgray',
+          },
+          color: isSelected ? 'purple' : 'black',
+          cursor: 'pointer',
+        } as CSSObjectWithLabel;
+      },
+      input: (styles) => ({ ...styles }),
+      container: (styles) =>
+        ({ ...styles, borderColor: 'gray' }) as CSSObjectWithLabel,
+      placeholder: (styles) => ({ ...styles }),
+      dropdownIndicator: (styles, state): CSSObjectWithLabel =>
+        ({
+          ...styles,
+          transform: state.selectProps.menuIsOpen
+            ? 'rotate(180deg)'
+            : 'rotate(0deg)',
+        }) as CSSObjectWithLabel,
+      menu: (styles) => ({
+        ...styles,
+        zIndex: 9999
+      }),
+      /* eslint-enable @typescript-eslint/naming-convention */
+    };
+
   return (
     <Stack>
       <Table
@@ -287,12 +339,24 @@ export const LuceneIndexConfigurationFormComponent = (
             value={selectedChannelOption}
             options={channelOptions}
             onChange={selectChannel}
+            styles={customStyle}
           />
+          {showPathConfiguration && (
+            <div style={{ maxWidth: '95%', margin: '0 auto' }}>
+              <br></br>
+              <br></br>
+              <LuceneIncludedPathConfiguration
+                possibleContentTypeItems={props.possibleContentTypeItems}
+                value={channel.includedPaths}
+              />
+              <br></br>
+            </div>
+          )}
           <br></br>
           <Button
             type={ButtonType.Button}
             label="Save website channel configuration"
-            onClick={saveChannelConfiguration}
+            onClick={saveWebsiteChannelConfiguration}
           ></Button>
         </div>
       )}
@@ -301,7 +365,7 @@ export const LuceneIndexConfigurationFormComponent = (
         <Button
           type={ButtonType.Button}
           label="Add new website channel configuration"
-          onClick={addNewChannelConfiguration}
+          onClick={addWebsiteChannelConfiguration}
         ></Button>
       )}
     </Stack>

@@ -10,10 +10,10 @@ public class LuceneIndexChannelConfiguration
     public IEnumerable<LuceneIndexIncludedPath> IncludedPaths { get; set; } = [];
 
     [JsonConstructor]
-    public LuceneIndexChannelConfiguration(string websiteChannelName, string websiteChannelDisplayName)
+    public LuceneIndexChannelConfiguration(string websiteChannelName, string channelDisplayName)
     {
         WebsiteChannelName = websiteChannelName;
-        ChannelDisplayName = websiteChannelDisplayName;
+        ChannelDisplayName = channelDisplayName;
     }
 
     public LuceneIndexChannelConfiguration(IEnumerable<LuceneIncludedPathItemInfo> paths, IEnumerable<LuceneIndexContentType> contentTypes, IEnumerable<ChannelInfo> channelInfos)
