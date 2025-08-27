@@ -18,7 +18,6 @@ using Kentico.Content.Web.Mvc.Routing;
 
 using Microsoft.AspNetCore.Mvc;
 
-#pragma warning disable KXE0002 // Commerce feature is for evaluation purposes only and is subject to change or removal in future updates. Suppress this diagnostic to proceed.
 [assembly: RegisterWebPageRoute(ShoppingCart.CONTENT_TYPE_NAME, typeof(DancingGoatShoppingCartController), WebsiteChannelNames = new[] { DancingGoatConstants.WEBSITE_CHANNEL_NAME })]
 
 namespace DancingGoat.Commerce;
@@ -28,18 +27,21 @@ namespace DancingGoat.Commerce;
 /// </summary>
 public sealed class DancingGoatShoppingCartController : Controller
 {
-    private readonly ICurrentShoppingCartService currentShoppingCartService;
+    private readonly ICurrentShoppingCartRetriever currentShoppingCartRetriever;
+    private readonly ICurrentShoppingCartCreator currentShoppingCartCreator;
     private readonly ProductVariantsExtractor productVariantsExtractor;
     private readonly WebPageUrlProvider webPageUrlProvider;
     private readonly ProductRepository productRepository;
 
     public DancingGoatShoppingCartController(
-        ICurrentShoppingCartService currentShoppingCartService,
+        ICurrentShoppingCartRetriever currentShoppingCartRetriever,
+        ICurrentShoppingCartCreator currentShoppingCartCreator,
         ProductVariantsExtractor productVariantsExtractor,
         WebPageUrlProvider webPageUrlProvider,
         ProductRepository productRepository)
     {
-        this.currentShoppingCartService = currentShoppingCartService;
+        this.currentShoppingCartRetriever = currentShoppingCartRetriever;
+        this.currentShoppingCartCreator = currentShoppingCartCreator;
         this.productVariantsExtractor = productVariantsExtractor;
         this.webPageUrlProvider = webPageUrlProvider;
         this.productRepository = productRepository;
@@ -48,7 +50,7 @@ public sealed class DancingGoatShoppingCartController : Controller
 
     public async Task<IActionResult> Index(CancellationToken cancellationToken)
     {
-        var shoppingCart = await currentShoppingCartService.Get(cancellationToken);
+        var shoppingCart = await currentShoppingCartRetriever.Get(cancellationToken);
         if (shoppingCart == null)
         {
             return View(new ShoppingCartViewModel(new List<ShoppingCartItemViewModel>(), 0));
@@ -162,11 +164,10 @@ public sealed class DancingGoatShoppingCartController : Controller
     /// </summary>
     private async Task<ShoppingCartInfo> GetCurrentShoppingCart()
     {
-        var shoppingCart = await currentShoppingCartService.Get();
+        var shoppingCart = await currentShoppingCartRetriever.Get();
 
-        shoppingCart ??= await currentShoppingCartService.Create(null);
+        shoppingCart ??= await currentShoppingCartCreator.Create();
 
         return shoppingCart;
     }
 }
-#pragma warning restore KXE0002 // Commerce feature is for evaluation purposes only and is subject to change or removal in future updates. Suppress this diagnostic to proceed.

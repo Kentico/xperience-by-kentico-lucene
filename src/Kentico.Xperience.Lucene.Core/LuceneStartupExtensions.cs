@@ -75,7 +75,8 @@ public static class LuceneStartupExtensions
             .AddSingleton<ILuceneIndexService, DefaultLuceneIndexService>()
             .AddSingleton<ILuceneSearchService, DefaultLuceneSearchService>()
             .AddSingleton<ILuceneIndexManager, DefaultLuceneIndexManager>()
-            .AddTransient<DefaultLuceneIndexingStrategy>();
+            .AddTransient<DefaultLuceneIndexingStrategy>()
+            .AddHostedService<LuceneAutomaticReindexingBackgroundService>();
 
         return services;
     }
