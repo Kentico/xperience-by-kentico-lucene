@@ -25,6 +25,7 @@ namespace DancingGoat.Models
 
             var selection = new ProductSectionListViewModel(null,
                 products
+                    .Where(product => productPageUrls.ContainsKey((product as IContentItemFieldsSource).SystemFields.ContentItemID))
                     .Select(product =>
                     {
                         productPageUrls.TryGetValue((product as IContentItemFieldsSource).SystemFields.ContentItemID, out string pageUrl);

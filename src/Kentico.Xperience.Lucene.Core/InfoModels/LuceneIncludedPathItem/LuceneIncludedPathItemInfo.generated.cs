@@ -15,7 +15,6 @@ namespace Kentico.Xperience.Lucene.Core;
 /// <summary>
 /// Data container class for <see cref="LuceneIncludedPathItemInfo"/>.
 /// </summary>
-[Serializable]
 public partial class LuceneIncludedPathItemInfo : AbstractInfo<LuceneIncludedPathItemInfo, IInfoProvider<LuceneIncludedPathItemInfo>>
 {
     /// <summary>

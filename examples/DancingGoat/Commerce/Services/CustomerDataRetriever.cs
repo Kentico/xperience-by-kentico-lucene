@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using CMS.Commerce;
 using CMS.DataEngine;
 
-#pragma warning disable KXE0002 // Commerce feature is for evaluation purposes only and is subject to change or removal in future updates. Suppress this diagnostic to proceed.
 namespace DancingGoat.Commerce;
 
 /// <summary>
@@ -51,4 +50,3 @@ public sealed class CustomerDataRetriever
             .FirstOrDefault();
     }
 }
-#pragma warning restore KXE0002 // Type is for evaluation purposes only and is subject to change or removal in future updates. Suppress this diagnostic to proceed.
