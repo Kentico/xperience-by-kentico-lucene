@@ -68,8 +68,8 @@ export const LuceneIncludedPathConfiguration = (
         await new Promise(() => {
           props.value = props.value.filter((x) => x.aliasPath !== pathVal);
 
-          if (props.onChange !== null && props.onChange !== undefined) {
-            props.onChange(props.value);
+          if (props.OnChange !== null && props.OnChange !== undefined) {
+            props.OnChange(props.value);
           }
 
           setRows(prepareRows(props.value));
@@ -104,8 +104,8 @@ export const LuceneIncludedPathConfiguration = (
     if (props.value === null || props.value === undefined) {
       props.value = [];
     }
-    if (props.onChange !== null && props.onChange !== undefined) {
-      props.onChange(props.value);
+    if (props.OnChange !== null && props.OnChange !== undefined) {
+      props.OnChange(props.value);
     }
     setRows(() => prepareRows(props.value));
   }, [props?.value]);
@@ -177,69 +177,50 @@ export const LuceneIncludedPathConfiguration = (
   };
   const savePath = (): void => {
     if (editedIdentifier === '') {
-      if (
-        !rows.some((x) => {
-          return x.identifier === path;
-        })
-      ) {
+      if (!rows.some((x) => x.identifier === path)) {
         if (path === '') {
           alert('Invalid path');
         } else {
           const newPath: IncludedPath = {
             aliasPath: path,
             identifier: null,
-            contentTypes: contentTypesValue.map((x) => {
-              const contentType: LuceneIndexContentType = {
-                contentTypeDisplayName: x.label,
-                contentTypeName: x.value,
-              };
-
-              return contentType;
-            }),
+            contentTypes: contentTypesValue.map((x) => ({
+              contentTypeDisplayName: x.label,
+              contentTypeName: x.value,
+            })),
           };
-          props.value.push(newPath);
-          setRows(prepareRows(props.value));
+          // Create a new array instead of mutating props.value
+          const newPaths = [...props.value, newPath];
+          if (props.OnChange) {
+            props.OnChange(newPaths);
+          }
+          setRows(prepareRows(newPaths));
         }
       } else {
         alert('This path already exists!');
       }
     } else {
-      const rowIndex = rows.findIndex((x) => {
-        return x.identifier === editedIdentifier;
-      });
-
-      if (rowIndex === -1) {
+      const propPathIndex = props.value.findIndex((p) => p.aliasPath === editedIdentifier);
+      if (propPathIndex === -1) {
         alert('Invalid edit');
+        return;
       }
-
-      const newRows = rows;
-      const editedRow = rows[rowIndex];
-      const pathCellInNewRow = rows[rowIndex].cells[0] as StringCell;
-      pathCellInNewRow.value = path;
-      const propPathIndex = props.value.findIndex(
-        (p) => p.aliasPath === editedIdentifier,
-      );
-
       const updatedPath: IncludedPath = {
         aliasPath: path,
         identifier: props.value[propPathIndex].identifier,
-        contentTypes: contentTypesValue.map((x) => {
-          const contentType: LuceneIndexContentType = {
-            contentTypeDisplayName: x.label,
-            contentTypeName: x.value,
-          };
-
-          return contentType;
-        }),
+        contentTypes: contentTypesValue.map((x) => ({
+          contentTypeDisplayName: x.label,
+          contentTypeName: x.value,
+        })),
       };
-
-      props.value[propPathIndex] = updatedPath;
-
-      editedRow.cells[0] = pathCellInNewRow;
-      editedRow.identifier = path;
-
-      newRows[rowIndex] = editedRow;
-      setRows(newRows);
+      // Create a new array with the updated path
+      const newPaths = props.value.map((p, idx) =>
+        idx === propPathIndex ? updatedPath : p
+      );
+      if (props.OnChange) {
+        props.OnChange(newPaths);
+      }
+      setRows(prepareRows(newPaths));
     }
 
     setEditedIdentifier('');

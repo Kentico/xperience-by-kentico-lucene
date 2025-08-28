@@ -279,6 +279,7 @@ export const LuceneIndexConfigurationFormComponent = (
     selectChannelOption(newValue.value);
   };
 
+  /* eslint-disable @typescript-eslint/naming-convention */
   const customStyle: StylesConfig<OptionType, false, GroupBase<OptionType>> = {
       control: (styles, { isFocused }) =>
         ({
@@ -348,6 +349,10 @@ export const LuceneIndexConfigurationFormComponent = (
               <LuceneIncludedPathConfiguration
                 possibleContentTypeItems={props.possibleContentTypeItems}
                 value={channel.includedPaths}
+                OnChange={(newPaths) => setChannel((prev) => ({
+                  ...prev,
+                  includedPaths: newPaths
+                }))}
               />
               <br></br>
             </div>
