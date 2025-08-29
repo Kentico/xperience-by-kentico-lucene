@@ -46,13 +46,12 @@ internal static class IndexedItemModelExtensions
             return false;
         }
 
-        var paths = luceneIndex.ChannelConfigurations.SelectMany(x => x.IncludedPaths);
-
-        return paths.Any(path =>
+        return luceneIndex.ChannelConfigurations.Any(channel => channel.IncludedPaths.Any(path =>
         {
             bool matchesContentType = path.ContentTypes.Exists(x => string.Equals(x.ContentTypeName, item.ContentTypeName));
+            bool matchesChannel = string.Equals(channel.WebsiteChannelName, item.WebsiteChannelName);
 
-            if (!matchesContentType)
+            if (!matchesContentType || !matchesChannel)
             {
                 return false;
             }
@@ -67,7 +66,7 @@ internal static class IndexedItemModelExtensions
             }
 
             return item.WebPageItemTreePath.Equals(path.AliasPath, StringComparison.OrdinalIgnoreCase);
-        });
+        }));
     }
 
     /// <summary>

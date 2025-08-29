@@ -28,7 +28,6 @@ import Select, {
   components,
 } from 'react-select';
 import { Tooltip } from 'react-tooltip';
-import { LuceneIndexContentType } from '../models/LuceneIndexContentType';
 import { IncludedPath } from '../models/IncludedPath';
 import { LuceneIncludedPathConfigurationProperties } from '../models/LuceneIncludedPathConfigurationProperties';
 import { OptionType } from '../models/OptionType';
