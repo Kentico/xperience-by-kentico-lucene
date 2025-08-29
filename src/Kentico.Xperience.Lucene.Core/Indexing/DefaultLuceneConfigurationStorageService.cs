@@ -9,11 +9,22 @@ namespace Kentico.Xperience.Lucene.Core.Indexing;
 internal class DefaultLuceneConfigurationStorageService : ILuceneConfigurationStorageService
 {
     private readonly IInfoProvider<LuceneIndexItemInfo> indexProvider;
+
+
     private readonly IInfoProvider<LuceneIncludedPathItemInfo> pathProvider;
+
+
     private readonly IInfoProvider<LuceneContentTypeItemInfo> contentTypeProvider;
+
+
     private readonly IInfoProvider<LuceneReusableContentTypeItemInfo> reusableContentTypeProvider;
+
+
     private readonly IInfoProvider<LuceneIndexLanguageItemInfo> languageProvider;
+
+
     private readonly IInfoProvider<ChannelInfo> channelProvider;
+
 
     public DefaultLuceneConfigurationStorageService(
         IInfoProvider<LuceneIndexItemInfo> indexProvider,
@@ -32,6 +43,8 @@ internal class DefaultLuceneConfigurationStorageService : ILuceneConfigurationSt
         this.channelProvider = channelProvider;
     }
 
+
+    /// <inheritdoc />
     public bool TryCreateIndex(LuceneIndexModel configuration)
     {
         var existingIndex = indexProvider.Get()
@@ -119,6 +132,7 @@ internal class DefaultLuceneConfigurationStorageService : ILuceneConfigurationSt
     }
 
 
+    /// <inheritdoc />
     public async Task<LuceneIndexModel?> GetIndexDataOrNullAsync(int indexId)
     {
         var indexInfo = indexProvider.Get().WithID(indexId).FirstOrDefault();
@@ -141,6 +155,7 @@ internal class DefaultLuceneConfigurationStorageService : ILuceneConfigurationSt
     }
 
 
+    /// <inheritdoc />
     public async Task<LuceneIndexModel?> GetIndexDataOrNullAsync(string indexName)
     {
         var indexInfo = indexProvider.Get().WhereEquals(nameof(LuceneIndexItemInfo.LuceneIndexItemIndexName), indexName).FirstOrDefault();
@@ -163,12 +178,15 @@ internal class DefaultLuceneConfigurationStorageService : ILuceneConfigurationSt
     }
 
 
+    /// <inheritdoc />
     public List<string> GetExistingIndexNames() => indexProvider.Get().Select(x => x.LuceneIndexItemIndexName).ToList();
 
 
+    /// <inheritdoc />
     public List<int> GetIndexIds() => indexProvider.Get().Select(x => x.LuceneIndexItemId).ToList();
 
 
+    /// <inheritdoc />
     public async Task<IEnumerable<LuceneIndexModel>> GetAllIndexDataAsync()
     {
         var indexInfos = indexProvider.Get().GetEnumerableTypedResult().ToList();
@@ -191,6 +209,7 @@ internal class DefaultLuceneConfigurationStorageService : ILuceneConfigurationSt
     }
 
 
+    /// <inheritdoc />
     public async Task<bool> TryEditIndexAsync(LuceneIndexModel configuration)
     {
         configuration.IndexName = RemoveWhitespacesUsingStringBuilder(configuration.IndexName ?? string.Empty);
@@ -231,6 +250,7 @@ internal class DefaultLuceneConfigurationStorageService : ILuceneConfigurationSt
     }
 
 
+    /// <inheritdoc />
     public bool TryDeleteIndex(int id)
     {
         indexProvider.BulkDelete(new WhereCondition($"{nameof(LuceneIndexItemInfo.LuceneIndexItemId)} = {id}"));
@@ -243,6 +263,7 @@ internal class DefaultLuceneConfigurationStorageService : ILuceneConfigurationSt
     }
 
 
+    /// <inheritdoc />
     public bool TryDeleteIndex(LuceneIndexModel configuration)
     {
         indexProvider.BulkDelete(new WhereCondition($"{nameof(LuceneIndexItemInfo.LuceneIndexItemId)} = {configuration.Id}"));

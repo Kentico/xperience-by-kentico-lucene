@@ -23,18 +23,40 @@ namespace Kentico.Xperience.Lucene.Core.Indexing;
 internal class DefaultLuceneClient : ILuceneClient
 {
     private readonly ILuceneIndexService luceneIndexService;
+
+
     private readonly ILuceneSearchService luceneSearchService;
+
+
     private readonly IContentQueryExecutor executor;
+
+
     private readonly IServiceProvider serviceProvider;
+
+
     private readonly IInfoProvider<ContentLanguageInfo> languageProvider;
+
+
     private readonly IProgressiveCache cache;
+
+
     private readonly IEventLogService log;
+
+
     private readonly ICacheAccessor cacheAccessor;
+
+
     private readonly ILuceneIndexManager indexManager;
+
+
     private readonly IWebFarmService webFarmService;
+
+
     private readonly LuceneSearchOptions luceneSearchOptions;
 
+
     internal const string CACHEKEY_STATISTICS = "Lucene|ListIndices";
+
 
     public DefaultLuceneClient(
         ICacheAccessor cacheAccessor,
