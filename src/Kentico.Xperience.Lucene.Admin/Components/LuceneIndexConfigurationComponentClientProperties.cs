@@ -7,7 +7,7 @@ namespace Kentico.Xperience.Lucene.Admin;
 /// <summary>
 /// Represents the client properties for configuring a Lucene index component.
 /// </summary>
-public class LuceneIndexConfigurationComponentClientProperties : FormComponentClientProperties<IEnumerable<LuceneIndexChannelConfiguration>>
+internal sealed class LuceneIndexConfigurationComponentClientProperties : FormComponentClientProperties<IEnumerable<LuceneIndexChannelConfiguration>>
 {
     /// <summary>
     /// Possible content type items associated with the Lucene index.
@@ -16,7 +16,7 @@ public class LuceneIndexConfigurationComponentClientProperties : FormComponentCl
 
 
     /// <summary>
-    /// 
+    /// The possible website channels in the system that can be indexed.
     /// </summary>
     public IEnumerable<LuceneIndexChannel>? PossibleChannels { get; set; }
 }

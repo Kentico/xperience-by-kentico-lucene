@@ -14,10 +14,10 @@ using Kentico.Xperience.Lucene.Core.Indexing;
 namespace Kentico.Xperience.Lucene.Admin;
 
 /// <summary>
-/// Represents a form component for configuring Lucene index channels and their associated properties.
+/// Represents a form component for configuring Lucene index channels and their associ  ated properties.
 /// </summary>
 [ComponentAttribute(typeof(LuceneIndexConfigurationComponentAttribute))]
-public class LuceneIndexConfigurationComponent : FormComponent<LuceneIndexConfigurationComponentProperties, LuceneIndexConfigurationComponentClientProperties, IEnumerable<LuceneIndexChannelConfiguration>>
+internal sealed class LuceneIndexConfigurationComponent : FormComponent<LuceneIndexConfigurationComponentProperties, LuceneIndexConfigurationComponentClientProperties, IEnumerable<LuceneIndexChannelConfiguration>>
 {
     /// <summary>
     /// Represents the unique identifier for the Lucene index configuration in the Kentico Xperience integrations.
@@ -48,7 +48,7 @@ public class LuceneIndexConfigurationComponent : FormComponent<LuceneIndexConfig
     [FormComponentCommand]
     public Task<ICommandResponse<RowActionResult>> DeleteWebsiteChannelConfiguration(string channelName)
     {
-        var toRemove = Value?.Find(x => Equals(x.WebsiteChannelName == channelName, StringComparison.OrdinalIgnoreCase));
+        var toRemove = Value?.Find(x => string.Equals(x.WebsiteChannelName, channelName, StringComparison.OrdinalIgnoreCase));
         if (toRemove != null)
         {
             Value?.Remove(toRemove);
@@ -66,7 +66,7 @@ public class LuceneIndexConfigurationComponent : FormComponent<LuceneIndexConfig
     [FormComponentCommand]
     public Task<ICommandResponse<RowActionResult>> SaveWebsiteChannelConfiguration(LuceneIndexChannelConfiguration channelConfiguration)
     {
-        var value = Value?.SingleOrDefault(x => Equals(x.WebsiteChannelName == channelConfiguration.WebsiteChannelName, StringComparison.OrdinalIgnoreCase));
+        var value = Value?.SingleOrDefault(x => string.Equals(x.WebsiteChannelName, channelConfiguration.WebsiteChannelName, StringComparison.OrdinalIgnoreCase));
 
         if (value is not null)
         {

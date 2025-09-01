@@ -3,7 +3,7 @@
 /// <summary>
 /// The configuration for a specific website channel associated with a Lucene index.
 /// </summary>
-public class LuceneIndexChannel
+public sealed class LuceneIndexChannel
 {
     /// <summary>
     /// The code name of the website channel.
@@ -23,7 +23,11 @@ public class LuceneIndexChannel
     public LuceneIndexChannel()
     { }
 
-
+    /// <summary>
+    /// The constructor initializing all properties.
+    /// </summary>
+    /// <param name="channelName">The <see cref="CMS.ContentEngine.ChannelInfo.ChannelName"/>.</param>
+    /// <param name="channelDisplayName">The <see cref="CMS.ContentEngine.ChannelInfo.ChannelDisplayName"/>.</param>
     public LuceneIndexChannel(string channelName, string channelDisplayName)
     {
         ChannelName = channelName;

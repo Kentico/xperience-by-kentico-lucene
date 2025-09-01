@@ -10,7 +10,7 @@ namespace Kentico.Xperience.Lucene.Admin;
 /// <summary>
 /// Represents the configuration model for a Lucene index.
 /// </summary>
-public class LuceneConfigurationModel
+internal sealed class LuceneConfigurationModel
 {
     /// <summary>
     /// The unique identifier.
