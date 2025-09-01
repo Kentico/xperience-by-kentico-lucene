@@ -23,20 +23,40 @@ namespace Kentico.Xperience.Lucene.Core.Indexing;
 internal class DefaultLuceneClient : ILuceneClient
 {
     private readonly ILuceneIndexService luceneIndexService;
+
+
     private readonly ILuceneSearchService luceneSearchService;
+
+
     private readonly IContentQueryExecutor executor;
+
+
     private readonly IServiceProvider serviceProvider;
+
+
     private readonly IInfoProvider<ContentLanguageInfo> languageProvider;
-    private readonly IInfoProvider<ChannelInfo> channelProvider;
-    private readonly IConversionService conversionService;
+
+
     private readonly IProgressiveCache cache;
+
+
     private readonly IEventLogService log;
+
+
     private readonly ICacheAccessor cacheAccessor;
+
+
     private readonly ILuceneIndexManager indexManager;
+
+
     private readonly IWebFarmService webFarmService;
+
+
     private readonly LuceneSearchOptions luceneSearchOptions;
 
+
     internal const string CACHEKEY_STATISTICS = "Lucene|ListIndices";
+
 
     public DefaultLuceneClient(
         ICacheAccessor cacheAccessor,
@@ -45,8 +65,6 @@ internal class DefaultLuceneClient : ILuceneClient
         IContentQueryExecutor executor,
         IServiceProvider serviceProvider,
         IInfoProvider<ContentLanguageInfo> languageProvider,
-        IInfoProvider<ChannelInfo> channelProvider,
-        IConversionService conversionService,
         IProgressiveCache cache,
         IEventLogService log,
         ILuceneIndexManager indexManager,
@@ -60,8 +78,6 @@ internal class DefaultLuceneClient : ILuceneClient
         this.executor = executor;
         this.serviceProvider = serviceProvider;
         this.languageProvider = languageProvider;
-        this.channelProvider = channelProvider;
-        this.conversionService = conversionService;
         this.cache = cache;
         this.log = log;
         this.indexManager = indexManager;

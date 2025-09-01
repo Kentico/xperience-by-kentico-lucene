@@ -69,12 +69,13 @@ export const LuceneIndexConfigurationFormComponent = (
 
     const getCells = (channel: LuceneIndexChannelConfiguration): TableCell[] => {
       const channelName = channel.websiteChannelName?.toString() ?? '';
+      const channelDisplayName = channel.channelDisplayName?.toString() ?? '';
       if (channelName === null) {
         return [];
       }
       const cell: StringCell = {
         type: CellType.String,
-        value: channelName
+        value: channelDisplayName
       };
       const deleteAction: TableAction = {
         label: 'delete',
@@ -169,15 +170,8 @@ export const LuceneIndexConfigurationFormComponent = (
   };
 
   const showChannelDetail = (identifier: unknown): void => {
-    let rowIndex = -1;
-    for (let i = 0; i < rows.length; i++) {
-      if ((rows[i].identifier as string) === (identifier as string)) {
-        rowIndex = i;
-      }
-    }
-    const row = rows[rowIndex];
     if (!showChannelEdit) {
-      const selectedChannelName = (row.cells[0] as StringCell).value
+      const selectedChannelName = identifier as string;
       const selectedChannel = props.value.find(
         (x) => x.websiteChannelName === selectedChannelName
       ) as LuceneIndexChannelConfiguration;
@@ -279,6 +273,7 @@ export const LuceneIndexConfigurationFormComponent = (
     selectChannelOption(newValue.value);
   };
 
+  /* eslint-disable @typescript-eslint/naming-convention */
   const customStyle: StylesConfig<OptionType, false, GroupBase<OptionType>> = {
       control: (styles, { isFocused }) =>
         ({
@@ -348,6 +343,10 @@ export const LuceneIndexConfigurationFormComponent = (
               <LuceneIncludedPathConfiguration
                 possibleContentTypeItems={props.possibleContentTypeItems}
                 value={channel.includedPaths}
+                OnChange={(newPaths) => setChannel((prev) => ({
+                  ...prev,
+                  includedPaths: newPaths
+                }))}
               />
               <br></br>
             </div>
