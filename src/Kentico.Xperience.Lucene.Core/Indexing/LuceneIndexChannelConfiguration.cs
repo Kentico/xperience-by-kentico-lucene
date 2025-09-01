@@ -18,10 +18,10 @@ public class LuceneIndexChannelConfiguration
 
     public LuceneIndexChannelConfiguration(IEnumerable<LuceneIncludedPathItemInfo> paths, IEnumerable<LuceneIndexContentType> contentTypes, IEnumerable<ChannelInfo> channelInfos)
     {
-        var representant = paths.First();
+        var representativePath = paths.First();
 
-        ChannelDisplayName = channelInfos.First(x => x.ChannelName == representant.LuceneIncludedPathItemChannelName).ChannelDisplayName;
-        WebsiteChannelName = representant.LuceneIncludedPathItemChannelName;
+        ChannelDisplayName = channelInfos.First(x => x.ChannelName == representativePath.LuceneIncludedPathItemChannelName).ChannelDisplayName;
+        WebsiteChannelName = representativePath.LuceneIncludedPathItemChannelName;
         IncludedPaths = paths.Select(p => new LuceneIndexIncludedPath(p,
             contentTypes.Where(x => x.LucenePathItemId == p.LuceneIncludedPathItemId))
         );
