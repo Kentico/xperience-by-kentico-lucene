@@ -14,37 +14,52 @@ public sealed class LuceneIndex
     /// </summary>
     public int Identifier { get; set; }
 
+
     /// <summary>
     /// The code name of the Lucene index.
     /// </summary>
     public string IndexName { get; }
+
+
+    /// <summary>
+    /// The Name of the WebSiteChannel.
+    /// </summary>
+    [Obsolete("This property is no longer used. WebsiteChannelName is now used within Kentico.Xperience.Lucene.Core.Indexing.LuceneIndexChannelConfiguration and is a property of each channel configuration.")]
+    public string WebSiteChannelName { get; } = string.Empty;
+
 
     /// <summary>
     /// The Language used on the WebSite on the Channel which is indexed.
     /// </summary>
     public List<string> LanguageNames { get; }
 
+
     /// <summary>
     /// A list of reusable content types that will be indexed.
     /// </summary>
     public List<string> IncludedReusableContentTypes { get; }
+
 
     /// <summary>
     /// Lucene Analyzer used for indexing.
     /// </summary>
     public Analyzer LuceneAnalyzer { get; }
 
+
     /// <summary>
     /// The type of the class which extends <see cref="ILuceneIndexingStrategy"/>.
     /// </summary>
     public Type LuceneIndexingStrategyType { get; }
+
 
     /// <summary>
     /// Index storage context, employs picked storage strategy
     /// </summary>
     public IndexStorageContext StorageContext { get; }
 
+
     internal IEnumerable<LuceneIndexChannelConfiguration> ChannelConfigurations { get; set; }
+
 
     internal LuceneIndex(LuceneIndexModel indexConfiguration, Dictionary<string, Type> strategies, Dictionary<string, Type> analyzers, LuceneVersion matchVersion)
     {

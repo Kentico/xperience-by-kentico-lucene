@@ -41,7 +41,7 @@ internal static class IndexedItemModelExtensions
             return false;
         }
 
-        if (!luceneIndex.LanguageNames.Exists(x => x == item.LanguageName))
+        if (!luceneIndex.LanguageNames.Exists(x => string.Equals(x, item.LanguageName)))
         {
             return false;
         }
@@ -97,7 +97,7 @@ internal static class IndexedItemModelExtensions
             return false;
         }
 
-        if (luceneIndex.LanguageNames.Exists(x => x == item.LanguageName))
+        if (luceneIndex.LanguageNames.Exists(x => string.Equals(x, item.LanguageName)))
         {
             return true;
         }

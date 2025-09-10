@@ -4,7 +4,7 @@
 /// <summary>
 /// The service that provides storage and retrieval of Lucene index configurations.
 /// </summary>
-internal interface ILuceneConfigurationStorageService
+public interface ILuceneConfigurationStorageService
 {
     /// <summary>
     /// Tries to create a new index configuration.

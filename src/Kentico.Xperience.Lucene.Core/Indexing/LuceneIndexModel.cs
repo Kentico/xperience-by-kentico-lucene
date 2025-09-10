@@ -1,5 +1,4 @@
 ﻿using CMS.ContentEngine;
-using CMS.DataEngine;
 
 using Lucene.Net.Analysis;
 
@@ -53,7 +52,7 @@ public sealed class LuceneIndexModel
 
 
     /// <summary>
-    /// The collection of <see cref="DataClassInfoBase{DataClassInfoBase}.ClassName"/> names representing the reusable content types associated with the index, derived from <see cref="LuceneReusableContentTypeItemInfo.LuceneReusableContentTypeItemContentTypeName"/>.
+    /// The collection of <see cref="CMS.DataEngine.DataClassInfoBase{DataClassInfoBase}.ClassName"/> names representing the reusable content types associated with the index, derived from <see cref="LuceneReusableContentTypeItemInfo.LuceneReusableContentTypeItemContentTypeName"/>.
     /// </summary>
     public IEnumerable<string> ReusableContentTypeNames { get; set; } = Enumerable.Empty<string>();
 
@@ -72,14 +71,14 @@ public sealed class LuceneIndexModel
     /// <param name="indexPaths">The paths configured for the index.</param>
     /// <param name="contentTypes">The content types configured for the index.</param>
     /// <param name="reusableContentTypes">The reusable content types configured for the index.</param>
-    /// <param name="channelInfos">All <see cref="ChannelInfo"/> objects configured in the application.</param>
+    /// <param name="channels">All <see cref="ChannelInfo"/> objects configured in the application.</param>
     public LuceneIndexModel(
         LuceneIndexItemInfo index,
         IEnumerable<LuceneIndexLanguageItemInfo> indexLanguages,
         IEnumerable<LuceneIncludedPathItemInfo> indexPaths,
         IEnumerable<LuceneIndexContentType> contentTypes,
         IEnumerable<LuceneReusableContentTypeItemInfo> reusableContentTypes,
-        IEnumerable<ChannelInfo> channelInfos
+        IEnumerable<ChannelInfo> channels
     )
     {
         Id = index.LuceneIndexItemId;
@@ -98,7 +97,7 @@ public sealed class LuceneIndexModel
         Channels = indexPaths
             .Where(p => p.LuceneIncludedPathItemIndexItemId == index.LuceneIndexItemId)
             .GroupBy(x => x.LuceneIncludedPathItemChannelName)
-            .Select(x => new LuceneIndexChannelConfiguration([.. x], contentTypes, channelInfos))
+            .Select(x => new LuceneIndexChannelConfiguration([.. x], contentTypes, channels))
             .ToList();
     }
 }

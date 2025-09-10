@@ -8,13 +8,13 @@ public sealed class LuceneIndexChannel
     /// <summary>
     /// The code name of the website channel.
     /// </summary>
-    public string ChannelName { get; set; } = string.Empty;
+    public string ChannelName { get; init; } = string.Empty;
 
 
     /// <summary>
     /// The display name of the website channel.
     /// </summary>
-    public string ChannelDisplayName { get; set; } = string.Empty;
+    public string ChannelDisplayName { get; init; } = string.Empty;
 
 
     /// <summary>
