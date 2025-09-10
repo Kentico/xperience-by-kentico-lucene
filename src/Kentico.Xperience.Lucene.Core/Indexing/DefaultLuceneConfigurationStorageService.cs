@@ -3,6 +3,7 @@
 using CMS.Base;
 using CMS.ContentEngine;
 using CMS.DataEngine;
+using CMS.DataEngine.CollectionExtensions;
 
 namespace Kentico.Xperience.Lucene.Core.Indexing;
 
@@ -238,8 +239,11 @@ internal class DefaultLuceneConfigurationStorageService : ILuceneConfigurationSt
         await SetNewIndexReusableContentTypeItemsAsync(configuration, indexInfo);
 
         await RemoveUnusedIndexPathsAsync(configuration);
+
+        var existingPathIds = GetExistingIndexPathIds(configuration);
+        SetNewIndexPaths(configuration, existingPathIds, indexInfo);
+
         var existingPaths = await GetExistingIndexPathsAsync(configuration);
-        SetNewIndexPaths(configuration, existingPaths, indexInfo);
         UpdateEditedIndexPaths(configuration, existingPaths);
 
         var existingContentTypes = await GetExistingIndexContentTypesAsync(configuration);
@@ -389,6 +393,14 @@ internal class DefaultLuceneConfigurationStorageService : ILuceneConfigurationSt
     }
 
 
+    private HashSet<int> GetExistingIndexPathIds(LuceneIndexModel configuration)
+        => pathProvider
+            .Get()
+            .WhereEquals(nameof(LuceneIncludedPathItemInfo.LuceneIncludedPathItemIndexItemId), configuration.Id)
+            .Select(x => x.LuceneIncludedPathItemIndexItemId)
+            .ToHashSetCollection();
+
+
     private async Task<IEnumerable<LuceneIncludedPathItemInfo>> GetExistingIndexPathsAsync(LuceneIndexModel configuration)
         => await pathProvider
             .Get()
@@ -396,11 +408,11 @@ internal class DefaultLuceneConfigurationStorageService : ILuceneConfigurationSt
             .GetEnumerableTypedResultAsync();
 
 
-    private void SetNewIndexPaths(LuceneIndexModel configuration, IEnumerable<LuceneIncludedPathItemInfo> existingPaths, LuceneIndexItemInfo indexInfo)
+    private void SetNewIndexPaths(LuceneIndexModel configuration, HashSet<int> existingPathIds, LuceneIndexItemInfo indexInfo)
     {
         foreach (var channel in configuration.Channels)
         {
-            var newPaths = channel.IncludedPaths.Where(x => !existingPaths.Any(y => y.LuceneIncludedPathItemId == x.Identifier));
+            var newPaths = channel.IncludedPaths.ExceptBy(existingPathIds, path => path.Identifier ?? 0);
 
             foreach (var path in newPaths)
             {
@@ -449,13 +461,7 @@ internal class DefaultLuceneConfigurationStorageService : ILuceneConfigurationSt
 
     private void RemoveUnusedIndexContentTypesFromEditedPaths(IEnumerable<LuceneContentTypeItemInfo> allExistingContentTypes, LuceneIndexModel configuration)
     {
-        int[] removedContentTypeIdsFromEditedPaths = allExistingContentTypes
-                .Where(x => !configuration.Channels.SelectMany(x => x.IncludedPaths)
-                    .Any(y => y.ContentTypes
-                        .Exists(z => x.LuceneContentTypeItemIncludedPathItemId == y.Identifier && x.LuceneContentTypeItemContentTypeName == z.ContentTypeName))
-                )
-                .Select(x => x.LuceneContentTypeItemId)
-                .ToArray();
+        int[] removedContentTypeIdsFromEditedPaths = [.. allExistingContentTypes.GetIdsOfExistingContentTypesNotInNewChannelConfigurations(configuration.Channels)];
 
         contentTypeProvider.BulkDelete(contentTypeProvider.Get().WhereIn(nameof(LuceneContentTypeItemInfo.LuceneContentTypeItemId), removedContentTypeIdsFromEditedPaths));
     }
@@ -465,7 +471,7 @@ internal class DefaultLuceneConfigurationStorageService : ILuceneConfigurationSt
     {
         foreach (var path in existingPaths)
         {
-            path.LuceneIncludedPathItemAliasPath = configuration.Channels.SelectMany(x => x.IncludedPaths).Single(x => x.Identifier == path.LuceneIncludedPathItemId).AliasPath;
+            path.LuceneIncludedPathItemAliasPath = configuration.GetAliasPath(path.LuceneIncludedPathItemIndexItemId);
             path.Update();
         }
     }
@@ -475,12 +481,7 @@ internal class DefaultLuceneConfigurationStorageService : ILuceneConfigurationSt
     {
         foreach (var path in existingPaths)
         {
-            foreach (var contentType in configuration.Channels.SelectMany(x => x.IncludedPaths)
-                .Single(x => x.Identifier == path.LuceneIncludedPathItemId)
-                .ContentTypes
-                .Where(x => !existingContentTypes
-                    .Any(y => y.LuceneContentTypeItemContentTypeName == x.ContentTypeName && y.LuceneContentTypeItemIncludedPathItemId == path.LuceneIncludedPathItemId)
-                )
+            foreach (var contentType in configuration.Channels.GetContentTypesOfAPathConfigurationNotInExisting(path, existingContentTypes)
             )
             {
                 var contentInfo = new LuceneContentTypeItemInfo()
