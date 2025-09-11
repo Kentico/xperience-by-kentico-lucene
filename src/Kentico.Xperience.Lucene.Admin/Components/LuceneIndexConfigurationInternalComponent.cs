@@ -1,9 +1,7 @@
 ﻿using CMS.ContentEngine;
 using CMS.DataEngine;
-using CMS.Membership.Internal;
 
 using Kentico.Xperience.Admin.Base;
-using Kentico.Xperience.Admin.Base.Authentication;
 using Kentico.Xperience.Admin.Base.Forms;
 using Kentico.Xperience.Lucene.Admin;
 using Kentico.Xperience.Lucene.Core.Indexing;
