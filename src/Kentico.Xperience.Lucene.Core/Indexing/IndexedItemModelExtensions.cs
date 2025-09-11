@@ -57,7 +57,7 @@ internal static class IndexedItemModelExtensions
             }
 
             // Supports wildcard matching
-            if (path.AliasPath.EndsWith("/%", StringComparison.OrdinalIgnoreCase))
+            if (LucenePathHelper.EndsWithWildcard(path.AliasPath))
             {
                 string pathToMatch = path.AliasPath[..^2];
                 var pathsOnPath = TreePathUtils.GetTreePathsOnPath(item.WebPageItemTreePath, true, false).ToHashSet();

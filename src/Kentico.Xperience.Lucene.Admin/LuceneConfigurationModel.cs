@@ -10,7 +10,7 @@ namespace Kentico.Xperience.Lucene.Admin;
 /// <summary>
 /// Represents the configuration model for a Lucene index.
 /// </summary>
-internal sealed class LuceneConfigurationModel
+public sealed class LuceneConfigurationModel
 {
     /// <summary>
     /// The unique identifier.
@@ -28,6 +28,10 @@ internal sealed class LuceneConfigurationModel
     [Required]
     [MinLength(1)]
     public string IndexName { get; set; } = "";
+
+
+    [Obsolete("The property is not used anymore. Use IncludedPaths on items of the Channels collection instead.")]
+    public IEnumerable<LuceneIndexIncludedPath> Paths { get; set; } = Enumerable.Empty<LuceneIndexIncludedPath>();
 
 
     /// <summary>
@@ -81,7 +85,6 @@ internal sealed class LuceneConfigurationModel
     /// <summary>
     /// Initializes a new instance of the <see cref="LuceneConfigurationModel"/> class based on an existing <see cref="LuceneIndexModel"/>.
     /// </summary>
-    /// <param name="luceneModel"></param>
     /// <returns><see cref="LuceneConfigurationModel"/></returns>
     public LuceneConfigurationModel(
         LuceneIndexModel luceneModel

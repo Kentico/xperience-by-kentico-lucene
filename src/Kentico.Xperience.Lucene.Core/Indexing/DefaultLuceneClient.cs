@@ -206,7 +206,7 @@ internal class DefaultLuceneClient : ILuceneClient
             foreach (var path in channelConfiguration.IncludedPaths)
             {
                 var pathMatch =
-                    path.AliasPath.EndsWith("/%", StringComparison.OrdinalIgnoreCase)
+                    LucenePathHelper.EndsWithWildcard(path.AliasPath)
                         ? PathMatch.Children(path.AliasPath[..^2])
                         : PathMatch.Single(path.AliasPath);
 

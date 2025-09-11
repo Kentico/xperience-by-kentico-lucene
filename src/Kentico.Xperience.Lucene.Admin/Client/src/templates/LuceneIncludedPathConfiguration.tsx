@@ -29,11 +29,11 @@ import Select, {
 } from 'react-select';
 import { Tooltip } from 'react-tooltip';
 import { IncludedPath } from '../models/IncludedPath';
-import { LuceneIncludedPathConfigurationProperties } from '../models/LuceneIncludedPathConfigurationProperties';
+import { LuceneIncludedPathConfigurationProps } from '../models/LuceneIncludedPathConfigurationProps';
 import { OptionType } from '../models/OptionType';
 
 export const LuceneIncludedPathConfiguration = (
-    props: LuceneIncludedPathConfigurationProperties,
+    props: LuceneIncludedPathConfigurationProps,
 ): JSX.Element => {
   const [rows, setRows] = useState<TableRow[]>([]);
   const [showPathEdit, setShowPathEdit] = useState<boolean>(false);
@@ -64,11 +64,11 @@ export const LuceneIncludedPathConfiguration = (
       };
 
       const deletePath: () => Promise<void> = async () => {
-        await new Promise(() => {
-          props.value = props.value.filter((x) => x.aliasPath !== pathVal);
+          await new Promise(() => {
+          const newValue = props.value.filter((x) => x.aliasPath !== pathVal);
 
-          if (props.OnChange !== null && props.OnChange !== undefined) {
-            props.OnChange(props.value);
+          if (props.onChange !== null && props.onChange !== undefined) {
+            props.onChange(newValue);
           }
 
           setRows(prepareRows(props.value));
@@ -103,8 +103,8 @@ export const LuceneIncludedPathConfiguration = (
     if (props.value === null || props.value === undefined) {
       props.value = [];
     }
-    if (props.OnChange !== null && props.OnChange !== undefined) {
-      props.OnChange(props.value);
+    if (props.onChange !== null && props.onChange !== undefined) {
+      props.onChange(props.value);
     }
     setRows(() => prepareRows(props.value));
   }, [props?.value]);
@@ -190,8 +190,8 @@ export const LuceneIncludedPathConfiguration = (
           };
           // Create a new array instead of mutating props.value
           const newPaths = [...props.value, newPath];
-          if (props.OnChange) {
-            props.OnChange(newPaths);
+          if (props.onChange) {
+            props.onChange(newPaths);
           }
           setRows(prepareRows(newPaths));
         }
@@ -216,8 +216,8 @@ export const LuceneIncludedPathConfiguration = (
       const newPaths = props.value.map((p, idx) =>
         idx === propPathIndex ? updatedPath : p
       );
-      if (props.OnChange) {
-        props.OnChange(newPaths);
+      if (props.onChange) {
+        props.onChange(newPaths);
       }
       setRows(prepareRows(newPaths));
     }

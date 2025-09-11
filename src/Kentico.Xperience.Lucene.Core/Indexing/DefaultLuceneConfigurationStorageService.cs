@@ -150,7 +150,7 @@ internal class DefaultLuceneConfigurationStorageService : ILuceneConfigurationSt
 
         var reusableContentTypes = reusableContentTypeProvider.Get().WhereEquals(nameof(LuceneReusableContentTypeItemInfo.LuceneReusableContentTypeItemIndexItemId), indexInfo.LuceneIndexItemId).GetEnumerableTypedResult();
 
-        var channelInfos = await channelProvider.Get().WhereEquals(nameof(ChannelInfo.ChannelType), ChannelType.Website.ToString()).GetEnumerableTypedResultAsync();
+        var channelInfos = await GetChannelInfos();
 
         return new LuceneIndexModel(indexInfo, languages, paths, webPageContentTypes, reusableContentTypes, channelInfos);
     }
@@ -173,7 +173,7 @@ internal class DefaultLuceneConfigurationStorageService : ILuceneConfigurationSt
 
         var reusableContentTypes = reusableContentTypeProvider.Get().WhereEquals(nameof(LuceneReusableContentTypeItemInfo.LuceneReusableContentTypeItemIndexItemId), indexInfo.LuceneIndexItemId).GetEnumerableTypedResult();
 
-        var channelInfos = await channelProvider.Get().WhereEquals(nameof(ChannelInfo.ChannelType), ChannelType.Website.ToString()).GetEnumerableTypedResultAsync();
+        var channelInfos = await GetChannelInfos();
 
         return new LuceneIndexModel(indexInfo, languages, paths, webPageContentTypes, reusableContentTypes, channelInfos);
     }
@@ -204,7 +204,7 @@ internal class DefaultLuceneConfigurationStorageService : ILuceneConfigurationSt
 
         var reusableContentTypes = reusableContentTypeProvider.Get().ToList();
 
-        var channelInfos = await channelProvider.Get().WhereEquals(nameof(ChannelInfo.ChannelType), ChannelType.Website.ToString()).GetEnumerableTypedResultAsync();
+        var channelInfos = await GetChannelInfos();
 
         return indexInfos.Select(index => new LuceneIndexModel(index, languages, paths, webPageContentTypes, reusableContentTypes, channelInfos));
     }
@@ -241,9 +241,9 @@ internal class DefaultLuceneConfigurationStorageService : ILuceneConfigurationSt
         await RemoveUnusedIndexPathsAsync(configuration);
 
         var existingPathIds = GetExistingIndexPathIds(configuration);
-        SetNewIndexPaths(configuration, existingPathIds, indexInfo);
-
         var existingPaths = await GetExistingIndexPathsAsync(configuration);
+
+        SetNewIndexPaths(configuration, existingPathIds, indexInfo);
         UpdateEditedIndexPaths(configuration, existingPaths);
 
         var existingContentTypes = await GetExistingIndexContentTypesAsync(configuration);
@@ -383,7 +383,7 @@ internal class DefaultLuceneConfigurationStorageService : ILuceneConfigurationSt
         var removePathsQuery = pathProvider
             .Get()
             .WhereEquals(nameof(LuceneIncludedPathItemInfo.LuceneIncludedPathItemIndexItemId), configuration.Id)
-            .WhereNotIn(nameof(LuceneIncludedPathItemInfo.LuceneIncludedPathItemId), configuration.Channels.SelectMany(x => x.IncludedPaths).Select(x => x.Identifier ?? 0).ToArray());
+            .WhereNotIn(nameof(LuceneIncludedPathItemInfo.LuceneIncludedPathItemId), configuration.Channels.GetIdsOfAllIncludedPaths());
 
         var removedPaths = await removePathsQuery.GetEnumerableTypedResultAsync();
 
@@ -397,7 +397,7 @@ internal class DefaultLuceneConfigurationStorageService : ILuceneConfigurationSt
         => pathProvider
             .Get()
             .WhereEquals(nameof(LuceneIncludedPathItemInfo.LuceneIncludedPathItemIndexItemId), configuration.Id)
-            .Select(x => x.LuceneIncludedPathItemIndexItemId)
+            .Select(x => x.LuceneIncludedPathItemId)
             .ToHashSetCollection();
 
 
@@ -455,7 +455,7 @@ internal class DefaultLuceneConfigurationStorageService : ILuceneConfigurationSt
     private async Task<IEnumerable<LuceneContentTypeItemInfo>> GetExistingIndexContentTypesAsync(LuceneIndexModel configuration)
         => await contentTypeProvider
         .Get()
-        .WhereIn(nameof(LuceneContentTypeItemInfo.LuceneContentTypeItemIncludedPathItemId), configuration.Channels.SelectMany(x => x.IncludedPaths).Select(x => x.Identifier ?? 0).ToArray())
+        .WhereIn(nameof(LuceneContentTypeItemInfo.LuceneContentTypeItemIncludedPathItemId), configuration.Channels.GetIdsOfAllIncludedPaths())
         .GetEnumerableTypedResultAsync();
 
 
@@ -471,7 +471,7 @@ internal class DefaultLuceneConfigurationStorageService : ILuceneConfigurationSt
     {
         foreach (var path in existingPaths)
         {
-            path.LuceneIncludedPathItemAliasPath = configuration.GetAliasPath(path.LuceneIncludedPathItemIndexItemId);
+            path.LuceneIncludedPathItemAliasPath = configuration.GetAliasPath(path.LuceneIncludedPathItemId);
             path.Update();
         }
     }
@@ -509,4 +509,7 @@ internal class DefaultLuceneConfigurationStorageService : ILuceneConfigurationSt
         }
         return source.Length == builder.Length ? source : builder.ToString();
     }
+
+    private async Task<IEnumerable<ChannelInfo>> GetChannelInfos()
+        => await channelProvider.Get().WhereEquals(nameof(ChannelInfo.ChannelType), ChannelType.Website.ToString()).GetEnumerableTypedResultAsync();
 }

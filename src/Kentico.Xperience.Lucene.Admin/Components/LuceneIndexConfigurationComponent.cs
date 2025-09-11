@@ -1,54 +1,42 @@
-﻿using CMS.ContentEngine;
-using CMS.DataEngine;
+﻿using CMS.DataEngine;
 
 using Kentico.Xperience.Admin.Base;
 using Kentico.Xperience.Admin.Base.Forms;
-using Kentico.Xperience.Lucene.Admin;
 using Kentico.Xperience.Lucene.Core.Indexing;
-
-[assembly: RegisterFormComponent(
-    identifier: LuceneIndexConfigurationComponent.IDENTIFIER,
-    componentType: typeof(LuceneIndexConfigurationComponent),
-    name: "Lucene Search Index Configuration")]
 
 namespace Kentico.Xperience.Lucene.Admin;
 
-/// <summary>
-/// Represents a form component for configuring Lucene index channels and their associ  ated properties.
-/// </summary>
-[ComponentAttribute(typeof(LuceneIndexConfigurationComponentAttribute))]
-internal sealed class LuceneIndexConfigurationComponent : FormComponent<LuceneIndexConfigurationComponentProperties, LuceneIndexConfigurationComponentClientProperties, IEnumerable<LuceneIndexChannelConfiguration>>
+#pragma warning disable IDE0079 // Remove unnecessary suppression
+#pragma warning disable S2094 // intentionally empty class
+[Obsolete("The class is no longer used because the LuceneIndexConfigurationComponent is not used anymore.")]
+#pragma warning restore IDE0079 // Remove unnecessary suppression
+public class LuceneIndexConfigurationComponentProperties : FormComponentProperties
 {
-    /// <summary>
-    /// Represents the unique identifier for the Lucene index configuration in the Kentico Xperience integrations.
-    /// </summary>
+}
+#pragma warning restore
+
+[Obsolete("The class is no longer used because the LuceneIndexConfigurationComponent is not used anymore.")]
+public class LuceneIndexConfigurationComponentClientProperties : FormComponentClientProperties<IEnumerable<LuceneIndexIncludedPath>>
+{
+    public IEnumerable<LuceneIndexContentType>? PossibleContentTypeItems { get; set; }
+}
+
+[Obsolete("The component is no longer used.")]
+public class LuceneIndexConfigurationComponent : FormComponent<LuceneIndexConfigurationComponentProperties, LuceneIndexConfigurationComponentClientProperties, IEnumerable<LuceneIndexIncludedPath>>
+{
     public const string IDENTIFIER = "kentico.xperience-integrations-lucene-admin.lucene-index-configuration";
 
+    internal List<LuceneIndexIncludedPath>? Value { get; set; }
 
-    internal List<LuceneIndexChannelConfiguration>? Value { get; set; }
-
-
-    /// <inheritdoc/>
     public override string ClientComponentName => "@kentico/xperience-integrations-lucene-admin/LuceneIndexConfiguration";
 
+    public override IEnumerable<LuceneIndexIncludedPath> GetValue() => Value ?? [];
+    public override void SetValue(IEnumerable<LuceneIndexIncludedPath> value) => Value = value.ToList();
 
-    /// <inheritdoc/>
-    public override IEnumerable<LuceneIndexChannelConfiguration> GetValue() => Value ?? [];
-
-
-    /// <inheritdoc/>
-    public override void SetValue(IEnumerable<LuceneIndexChannelConfiguration> value) => Value = value.ToList();
-
-
-    /// <summary>
-    /// Deletes the <see cref="LuceneIndexChannelConfiguration"/> with the specified channel name.
-    /// </summary>
-    /// <param name="channelName">The name of the channel to be removed.</param>
-    /// <returns>The <see cref="ICommandResponse{RowActionResult}"/>.</returns>
     [FormComponentCommand]
-    public Task<ICommandResponse<RowActionResult>> DeleteWebsiteChannelConfiguration(string channelName)
+    public Task<ICommandResponse<RowActionResult>> DeletePath(string path)
     {
-        var toRemove = Value?.Find(x => string.Equals(x.WebsiteChannelName, channelName, StringComparison.OrdinalIgnoreCase));
+        var toRemove = Value?.Find(x => Equals(x.AliasPath == path, StringComparison.OrdinalIgnoreCase));
         if (toRemove != null)
         {
             Value?.Remove(toRemove);
@@ -57,62 +45,37 @@ internal sealed class LuceneIndexConfigurationComponent : FormComponent<LuceneIn
         return Task.FromResult(ResponseFrom(new RowActionResult(false)));
     }
 
-
-    /// <summary>
-    /// Saves the specified website channel configuration by updating or adding it to the current collection.
-    /// </summary>
-    /// <param name="channelConfiguration">The <see cref="LuceneIndexChannelConfiguration"/> object representing the website channel configuration to save.</param>
-    /// <returns>The <see cref="ICommandResponse{RowActionResult}"/>.</returns>
     [FormComponentCommand]
-    public Task<ICommandResponse<RowActionResult>> SaveWebsiteChannelConfiguration(LuceneIndexChannelConfiguration channelConfiguration)
+    public Task<ICommandResponse<RowActionResult>> SavePath(LuceneIndexIncludedPath path)
     {
-        var value = Value?.SingleOrDefault(x => string.Equals(x.WebsiteChannelName, channelConfiguration.WebsiteChannelName, StringComparison.OrdinalIgnoreCase));
+        var value = Value?.SingleOrDefault(x => Equals(x.AliasPath == path.AliasPath, StringComparison.OrdinalIgnoreCase));
 
         if (value is not null)
         {
             Value?.Remove(value);
         }
 
-        Value?.Add(channelConfiguration);
+        Value?.Add(path);
 
         return Task.FromResult(ResponseFrom(new RowActionResult(false)));
     }
 
-
-    /// <summary>
-    /// Adds a website channel configuration to the current collection if it does not already exist.
-    /// </summary>
-    /// <param name="websiteChannelName">The name of the website channel to add.</param>
-    /// <returns>The <see cref="ICommandResponse{RowActionResult}"/>.</returns>
     [FormComponentCommand]
-    public Task<ICommandResponse<RowActionResult>> AddWebsiteChannelConfiguration(string websiteChannelName)
+    public Task<ICommandResponse<RowActionResult>> AddPath(string path)
     {
-        var websiteChannel = ChannelInfoProvider.ProviderObject
-            .Get()
-            .WhereEquals(nameof(ChannelInfo.ChannelName), websiteChannelName)
-            .FirstOrDefault();
-
-        if (websiteChannel is null || (Value?.Exists(x => x.WebsiteChannelName == websiteChannelName) ?? false))
+        if (Value?.Exists(x => x.AliasPath == path) ?? false)
         {
             return Task.FromResult(ResponseFrom(new RowActionResult(false)));
         }
         else
         {
-            Value?.Add(new LuceneIndexChannelConfiguration(websiteChannelName, websiteChannel.ChannelDisplayName));
+            Value?.Add(new LuceneIndexIncludedPath(path));
             return Task.FromResult(ResponseFrom(new RowActionResult(false)));
         }
     }
 
-
-    /// <inheritdoc/>
     protected override async Task ConfigureClientProperties(LuceneIndexConfigurationComponentClientProperties properties)
     {
-        var allWebsiteChannels = (await ChannelInfoProvider.ProviderObject
-            .Get()
-            .WhereEquals(nameof(ChannelInfo.ChannelType), ChannelType.Website.ToString())
-            .GetEnumerableTypedResultAsync())
-            .Select(x => new LuceneIndexChannel(x.ChannelName, x.ChannelDisplayName));
-
         var allWebsiteContentTypes = DataClassInfoProvider.ProviderObject
             .Get()
             .WhereEquals(nameof(DataClassInfo.ClassContentTypeType), "Website")
@@ -121,7 +84,6 @@ internal sealed class LuceneIndexConfigurationComponent : FormComponent<LuceneIn
 
         properties.Value = Value ?? [];
         properties.PossibleContentTypeItems = allWebsiteContentTypes.ToList();
-        properties.PossibleChannels = allWebsiteChannels.ToList();
 
         await base.ConfigureClientProperties(properties);
     }

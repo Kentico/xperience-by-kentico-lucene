@@ -8,7 +8,7 @@ namespace Kentico.Xperience.Lucene.Admin;
 /// <summary>
 /// Represents the configuration properties for a Lucene index component.
 /// </summary>
-public class LuceneIndexConfigurationComponentProperties : FormComponentProperties
+public class LuceneIndexConfigurationInternalComponentProperties : FormComponentProperties
 #pragma warning restore IDE0079 // Remove unnecessary suppression
 {
 }

@@ -14,14 +14,14 @@ import {
 } from '@kentico/xperience-admin-components';
 import React, { useEffect, useState } from 'react';
 import Select, { CSSObjectWithLabel, GroupBase, SingleValue, StylesConfig } from 'react-select';
-import { LuceneIndexConfigurationComponentClientProperties } from '../models/LuceneIndexConfigurationComponentClientProperties';
+import { LuceneIndexConfigurationFormComponentProps } from '../models/LuceneIndexConfigurationFormComponentProps';
 import { LuceneIndexChannelConfiguration } from '../models/LuceneIndexChannelConfiguration';
 import { OptionType } from '../models/OptionType';
 import { LuceneIndexChannel } from '../models/LuceneIndexChannel';
 import { LuceneIncludedPathConfiguration } from './LuceneIncludedPathConfiguration';
 
-export const LuceneIndexConfigurationFormComponent = (
-    props: LuceneIndexConfigurationComponentClientProperties
+export const LuceneIndexConfigurationInternalFormComponent = (
+    props: LuceneIndexConfigurationFormComponentProps
 ): JSX.Element => {
   const [rows, setRows] = useState<TableRow[]>([]);
   const [showChannelEdit, setShowChannelEdit] = useState<boolean>(false);
@@ -343,7 +343,7 @@ export const LuceneIndexConfigurationFormComponent = (
               <LuceneIncludedPathConfiguration
                 possibleContentTypeItems={props.possibleContentTypeItems}
                 value={channel.includedPaths}
-                OnChange={(newPaths) => setChannel((prev) => ({
+                onChange={(newPaths) => setChannel((prev) => ({
                   ...prev,
                   includedPaths: newPaths
                 }))}

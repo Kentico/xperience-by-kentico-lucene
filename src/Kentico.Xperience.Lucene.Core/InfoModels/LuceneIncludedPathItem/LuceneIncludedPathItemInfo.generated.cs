@@ -32,7 +32,6 @@ public partial class LuceneIncludedPathItemInfo : AbstractInfo<LuceneIncludedPat
         DependsOn = new List<ObjectDependency>()
         {
             new(nameof(LuceneIncludedPathItemIndexItemId), LuceneIndexItemInfo.OBJECT_TYPE, ObjectDependencyEnum.Required),
-            new(nameof(LuceneIncludedPathItemChannelName), ChannelInfo.OBJECT_TYPE, ObjectDependencyEnum.Required)
         },
         ContinuousIntegrationSettings =
         {
