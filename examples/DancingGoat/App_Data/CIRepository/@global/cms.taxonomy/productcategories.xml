@@ -1,9 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<cms.taxonomy>
-  <TaxonomyGUID>b54af6a7-0bff-40e0-a29b-e7580ce78c6a</TaxonomyGUID>
-  <TaxonomyMetadata>
-    <![CDATA[{"Translations":{"fc939370-8f94-4fc9-8cc4-bfdef6ab748c":{"Title":null}}}]]>
-  </TaxonomyMetadata>
-  <TaxonomyName>ProductCategories</TaxonomyName>
-  <TaxonomyTitle>Product categories</TaxonomyTitle>
-</cms.taxonomy>
