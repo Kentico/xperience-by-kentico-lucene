@@ -20,7 +20,7 @@ import { OptionType } from '../models/OptionType';
 import { LuceneIndexChannel } from '../models/LuceneIndexChannel';
 import { LuceneIncludedPathConfiguration } from './LuceneIncludedPathConfiguration';
 
-export const LuceneIndexConfigurationInternalFormComponent = (
+export const LuceneSearchIndexConfigurationFormComponent = (
     props: LuceneIndexConfigurationFormComponentProps
 ): JSX.Element => {
   const [rows, setRows] = useState<TableRow[]>([]);

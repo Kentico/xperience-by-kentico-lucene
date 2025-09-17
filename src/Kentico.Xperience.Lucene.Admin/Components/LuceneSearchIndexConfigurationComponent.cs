@@ -7,8 +7,8 @@ using Kentico.Xperience.Lucene.Admin;
 using Kentico.Xperience.Lucene.Core.Indexing;
 
 [assembly: RegisterFormComponent(
-    identifier: LuceneIndexConfigurationInternalComponent.IDENTIFIER,
-    componentType: typeof(LuceneIndexConfigurationInternalComponent),
+    identifier: LuceneSearchIndexConfigurationComponent.IDENTIFIER,
+    componentType: typeof(LuceneSearchIndexConfigurationComponent),
     name: "Lucene Search Index Configuration")]
 
 namespace Kentico.Xperience.Lucene.Admin;
@@ -16,8 +16,8 @@ namespace Kentico.Xperience.Lucene.Admin;
 /// <summary>
 /// Represents a form component for configuring Lucene index channels and their associated properties.
 /// </summary>
-[ComponentAttribute(typeof(LuceneIndexConfigurationComponentAttribute))]
-internal sealed class LuceneIndexConfigurationInternalComponent : FormComponent<LuceneIndexConfigurationInternalComponentProperties, LuceneIndexConfigurationFormComponentClientProperties, IEnumerable<LuceneIndexChannelConfiguration>>
+[ComponentAttribute(typeof(LuceneSearchIndexConfigurationComponentAttribute))]
+internal sealed class LuceneSearchIndexConfigurationComponent : FormComponent<FormComponentProperties, LuceneIndexConfigurationFormComponentClientProperties, IEnumerable<LuceneIndexChannelConfiguration>>
 {
     private readonly IInfoProvider<ChannelInfo> channelProvider;
 
@@ -25,14 +25,14 @@ internal sealed class LuceneIndexConfigurationInternalComponent : FormComponent<
     /// <summary>
     /// Represents the unique identifier for the Lucene index configuration in the Kentico Xperience integrations.
     /// </summary>
-    public const string IDENTIFIER = "kentico.xperience-integrations-lucene-admin.lucene-index-configuration-internal";
+    public const string IDENTIFIER = "kentico.xperience-integrations-lucene-admin.lucene-search-index-configuration";
 
 
-    internal List<LuceneIndexChannelConfiguration>? Value { get; set; }
+    private List<LuceneIndexChannelConfiguration>? Value { get; set; }
 
 
     /// <inheritdoc/>
-    public override string ClientComponentName => "@kentico/xperience-integrations-lucene-admin/LuceneIndexConfigurationInternal";
+    public override string ClientComponentName => "@kentico/xperience-integrations-lucene-admin/LuceneSearchIndexConfiguration";
 
 
     /// <inheritdoc/>
@@ -44,9 +44,9 @@ internal sealed class LuceneIndexConfigurationInternalComponent : FormComponent<
 
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="LuceneIndexConfigurationInternalComponent"/> class.
+    /// Initializes a new instance of the <see cref="LuceneSearchIndexConfigurationComponent"/> class.
     /// </summary>
-    public LuceneIndexConfigurationInternalComponent(IInfoProvider<ChannelInfo> channelProvider)
+    public LuceneSearchIndexConfigurationComponent(IInfoProvider<ChannelInfo> channelProvider)
         => this.channelProvider = channelProvider;
 
 

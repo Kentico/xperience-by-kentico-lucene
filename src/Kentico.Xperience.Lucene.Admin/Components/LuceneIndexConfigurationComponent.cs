@@ -21,7 +21,7 @@ public class LuceneIndexConfigurationComponentClientProperties : FormComponentCl
     public IEnumerable<LuceneIndexContentType>? PossibleContentTypeItems { get; set; }
 }
 
-[Obsolete("The component is no longer used.")]
+[Obsolete("The component is no longer used. Use Kentico.Xperience.Lucene.Admin.LuceneSearchIndexConfigurationComponent instead.")]
 public class LuceneIndexConfigurationComponent : FormComponent<LuceneIndexConfigurationComponentProperties, LuceneIndexConfigurationComponentClientProperties, IEnumerable<LuceneIndexIncludedPath>>
 {
     public const string IDENTIFIER = "kentico.xperience-integrations-lucene-admin.lucene-index-configuration";

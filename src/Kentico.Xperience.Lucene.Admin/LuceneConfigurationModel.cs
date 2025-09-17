@@ -30,6 +30,10 @@ public sealed class LuceneConfigurationModel
     public string IndexName { get; set; } = "";
 
 
+    [Obsolete("The property is not used anymore. Use WebsiteChannelName on items of the Channels collection instead.")]
+    public string ChannelName { get; set; } = "";
+
+
     [Obsolete("The property is not used anymore. Use IncludedPaths on items of the Channels collection instead.")]
     public IEnumerable<LuceneIndexIncludedPath> Paths { get; set; } = Enumerable.Empty<LuceneIndexIncludedPath>();
 
@@ -37,7 +41,7 @@ public sealed class LuceneConfigurationModel
     /// <summary>
     /// The configurations for different website channels associated with the index.
     /// </summary>
-    [LuceneIndexConfigurationComponent(Label = "Configured Channels", Order = 2)]
+    [LuceneSearchIndexConfigurationComponent(Label = "Configured Channels", Order = 2)]
     public IEnumerable<LuceneIndexChannelConfiguration> Channels { get; set; } = Enumerable.Empty<LuceneIndexChannelConfiguration>();
 
 
@@ -96,6 +100,10 @@ public sealed class LuceneConfigurationModel
         StrategyName = luceneModel.StrategyName;
         AnalyzerName = luceneModel.AnalyzerName;
         RebuildHook = luceneModel.RebuildHook;
+#pragma warning disable CS0618 // Type or member is obsolete
+        Paths = luceneModel.Paths;
+        ChannelName = luceneModel.ChannelName;
+#pragma warning restore CS0618 // Type or member is obsolete
         Channels = luceneModel.Channels;
         ReusableContentTypeNames = luceneModel.ReusableContentTypeNames;
     }

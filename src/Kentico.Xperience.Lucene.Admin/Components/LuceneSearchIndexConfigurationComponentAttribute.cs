@@ -5,7 +5,6 @@ namespace Kentico.Xperience.Lucene.Admin;
 /// <summary>
 /// Represents an attribute used to mark a form component as a Lucene index configuration component.
 /// </summary>
-[Obsolete("The class is no longer used because the LuceneIndexConfigurationComponent is not used anymore.")]
-public sealed class LuceneIndexConfigurationComponentAttribute : FormComponentAttribute
+internal class LuceneSearchIndexConfigurationComponentAttribute : FormComponentAttribute
 {
 }

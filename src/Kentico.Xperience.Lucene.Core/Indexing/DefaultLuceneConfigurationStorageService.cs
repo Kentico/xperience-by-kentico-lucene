@@ -510,6 +510,6 @@ internal class DefaultLuceneConfigurationStorageService : ILuceneConfigurationSt
         return source.Length == builder.Length ? source : builder.ToString();
     }
 
-    private async Task<IEnumerable<ChannelInfo>> GetChannelInfos()
-        => await channelProvider.Get().WhereEquals(nameof(ChannelInfo.ChannelType), ChannelType.Website.ToString()).GetEnumerableTypedResultAsync();
+    private Task<IEnumerable<ChannelInfo>> GetChannelInfos()
+        => channelProvider.Get().WhereEquals(nameof(ChannelInfo.ChannelType), ChannelType.Website.ToString()).GetEnumerableTypedResultAsync();
 }

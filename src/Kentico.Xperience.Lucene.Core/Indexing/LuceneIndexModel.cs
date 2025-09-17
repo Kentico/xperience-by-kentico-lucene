@@ -27,6 +27,10 @@ public sealed class LuceneIndexModel
     public IEnumerable<string> LanguageNames { get; set; } = Enumerable.Empty<string>();
 
 
+    [Obsolete("The property is not used anymore. Use WebsiteChannelName on items of the Channels collection instead.")]
+    public string ChannelName { get; set; } = "";
+
+
     /// <summary>
     /// The name if the selected <see cref="ILuceneIndexingStrategy"/>.
     /// </summary>
@@ -43,6 +47,10 @@ public sealed class LuceneIndexModel
     /// The <see cref="LuceneIndexItemInfo.LuceneIndexItemRebuildHook"/>.
     /// </summary>
     public string RebuildHook { get; set; } = "";
+
+
+    [Obsolete("The property is not used anymore. Use IncludedPaths on items of the Channels collection instead.")]
+    public IEnumerable<LuceneIndexIncludedPath> Paths { get; set; } = Enumerable.Empty<LuceneIndexIncludedPath>();
 
 
     /// <summary>
@@ -98,6 +106,37 @@ public sealed class LuceneIndexModel
             .Where(p => p.LuceneIncludedPathItemIndexItemId == index.LuceneIndexItemId)
             .GroupBy(x => x.LuceneIncludedPathItemChannelName)
             .Select(x => new LuceneIndexChannelConfiguration([.. x], contentTypes, channels))
+            .ToList();
+    }
+
+
+    [Obsolete("Constructor is obsolete, because the Paths and ChannelName properties are not used anymore.")]
+    public LuceneIndexModel(
+        LuceneIndexItemInfo index,
+        IEnumerable<LuceneIndexLanguageItemInfo> indexLanguages,
+        IEnumerable<LuceneIncludedPathItemInfo> indexPaths,
+        IEnumerable<LuceneIndexContentType> contentTypes,
+        IEnumerable<LuceneReusableContentTypeItemInfo> reusableContentTypes)
+    {
+        Id = index.LuceneIndexItemId;
+        IndexName = index.LuceneIndexItemIndexName;
+        ChannelName = index.LuceneIndexItemChannelName;
+        RebuildHook = index.LuceneIndexItemRebuildHook;
+        StrategyName = index.LuceneIndexItemStrategyName;
+        AnalyzerName = index.LuceneIndexItemAnalyzerName;
+        LanguageNames = indexLanguages
+            .Where(l => l.LuceneIndexLanguageItemIndexItemId == index.LuceneIndexItemId)
+            .Select(l => l.LuceneIndexLanguageItemName)
+            .ToList();
+        ReusableContentTypeNames = reusableContentTypes
+            .Where(c => c.LuceneReusableContentTypeItemIndexItemId == index.LuceneIndexItemId)
+            .Select(c => c.LuceneReusableContentTypeItemContentTypeName)
+            .ToList();
+        Paths = indexPaths
+            .Where(p => p.LuceneIncludedPathItemIndexItemId == index.LuceneIndexItemId)
+            .Select(p => new LuceneIndexIncludedPath(p,
+                contentTypes.Where(x => x.LucenePathItemId == p.LuceneIncludedPathItemId))
+            )
             .ToList();
     }
 }
