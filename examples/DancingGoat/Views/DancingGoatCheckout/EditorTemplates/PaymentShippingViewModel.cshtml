@@ -1,0 +1,31 @@
+﻿@using DancingGoat.Models
+
+@model PaymentShippingViewModel
+
+<h4>@HtmlLocalizer["Shipping and payment"]</h4>
+
+<div class="form-group" id="shippingGroup">
+    <div class="form-group-label">
+        @Html.LabelFor(m => m.ShippingMethodId)
+    </div>
+    <div class="form-group-input">
+        @Html.DropDownListFor(m => m.ShippingMethodId, Model.Shippings, HtmlLocalizer["Select a shipping method"].Value, 
+            new { @id = "shippingDropdown", data_storage = $"PaymentShipping_{nameof(PaymentShippingViewModel.ShippingMethod)}" })
+    </div>
+    <div class="message message-error error-label">
+        @Html.ValidationMessageFor(m => m.ShippingMethodId)
+    </div>
+</div>
+
+<div class="form-group">
+    <div class="form-group-label">
+        @Html.LabelFor(m => m.PaymentMethodId)
+    </div>
+    <div class="form-group-input">
+        @Html.DropDownListFor(m => m.PaymentMethodId, Model.Payments, HtmlLocalizer["Select a payment method"].Value, 
+            new { @id = "paymentDropdown", data_storage = $"PaymentShipping_{nameof(PaymentShippingViewModel.PaymentMethod)}" })
+    </div>
+    <div class="message message-error error-label">
+        @Html.ValidationMessageFor(m => m.PaymentMethodId)
+    </div>
+</div>

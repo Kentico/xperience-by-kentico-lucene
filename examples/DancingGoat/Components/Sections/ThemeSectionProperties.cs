@@ -1,4 +1,5 @@
 ﻿using Kentico.PageBuilder.Web.Mvc;
+using Kentico.Xperience.Admin.Base;
 using Kentico.Xperience.Admin.Base.FormAnnotations;
 
 namespace DancingGoat.Sections
@@ -12,6 +13,7 @@ namespace DancingGoat.Sections
         /// Theme of the section.
         /// </summary>
         [DropDownComponent(Label = "Color scheme", Order = 1, Options = ";None\nsection-white;Flat white\nsection-cappuccino;Cappuccino")]
+        [ExcludeFromAiraTranslation]
         public string Theme { get; set; }
     }
 }

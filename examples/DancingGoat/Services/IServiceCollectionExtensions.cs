@@ -36,6 +36,8 @@ namespace DancingGoat
             services.AddSingleton<ProductVariantsExtractor>();
             services.AddSingleton<CountryStateRepository>();
             services.AddSingleton<ProductRepository>();
+            services.AddSingleton<PaymentRepository>();
+            services.AddSingleton<ShippingRepository>();
 
             // Register extractors for product types
             services.AddSingleton<IProductTypeParametersExtractor, ProductManufacturerExtractor>();

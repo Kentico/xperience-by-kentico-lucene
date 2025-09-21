@@ -391,49 +391,51 @@ export const LuceneIncludedPathConfiguration = (
         onRowClick={showContentItems}
       />
       {showPathEdit && (
-        <div>
-          <br></br>
+        <div style={{ marginTop: '20px' }}>
           <Input
             label="Included Path"
             value={path}
             onChange={handleInputChange}
           />
-          <br></br>
-          <div className="label-wrapper___AcszK">
-            <label className="label___WET63">Included content types</label>
+          <div style={{ marginTop: '20px' }}>
+            <div className="label-wrapper___AcszK">
+              <label className="label___WET63">Included content types</label>
+            </div>
+            <Select
+              isMulti
+              closeMenuOnSelect={false}
+              defaultValue={contentTypesValue}
+              placeholder="Select content types"
+              options={options}
+              onChange={selectContentTypes}
+              styles={customStyle}
+              hideSelectedOptions={false}
+              components={{ MultiValueRemove, ClearIndicator, Option }}
+              theme={(theme) => ({
+                ...theme,
+                height: 40,
+                borderRadius: 0,
+                borderColor: 'gray',
+              })}
+            />
           </div>
-          <Select
-            isMulti
-            closeMenuOnSelect={false}
-            defaultValue={contentTypesValue}
-            placeholder="Select content types"
-            options={options}
-            onChange={selectContentTypes}
-            styles={customStyle}
-            hideSelectedOptions={false}
-            components={{ MultiValueRemove, ClearIndicator, Option }}
-            theme={(theme) => ({
-              ...theme,
-              height: 40,
-              borderRadius: 0,
-              borderColor: 'gray',
-            })}
-          />
-          <br></br>
-          <Button
-            type={ButtonType.Button}
-            label="Save Path"
-            onClick={savePath}
-          ></Button>
+          <div style={{ marginTop: '20px' }}>
+            <Button
+              type={ButtonType.Button}
+              label="Save Path"
+              onClick={savePath}
+            ></Button>
+          </div>
         </div>
       )}
-      <br></br>
       {showAddNewPath && (
-        <Button
-          type={ButtonType.Button}
-          label="Add new path"
-          onClick={addNewPath}
-        ></Button>
+        <div style={{ marginTop: '20px' }}>
+          <Button
+            type={ButtonType.Button}
+            label="Add new path"
+            onClick={addNewPath}
+          ></Button>
+        </div>
       )}
     </Stack>
   );

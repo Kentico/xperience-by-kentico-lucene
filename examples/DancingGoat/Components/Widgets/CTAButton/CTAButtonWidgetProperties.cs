@@ -1,5 +1,5 @@
-﻿using Kentico.Forms.Web.Mvc;
-using Kentico.PageBuilder.Web.Mvc;
+﻿using Kentico.PageBuilder.Web.Mvc;
+using Kentico.Xperience.Admin.Base;
 using Kentico.Xperience.Admin.Base.FormAnnotations;
 using Kentico.Xperience.Admin.Websites.FormAnnotations;
 
@@ -20,6 +20,7 @@ namespace DancingGoat.Widgets
         /// Page where the button points to.
         /// </summary>
         [UrlSelectorComponent(Label = "Link URL", Order = 1)]
+        [ExcludeFromAiraTranslation]
         public string LinkUrl { get; set; }
 
 

@@ -12,6 +12,7 @@ import {
   TableColumn,
   TableRow
 } from '@kentico/xperience-admin-components';
+import { useFormComponentCommandProvider } from '@kentico/xperience-admin-base';
 import React, { useEffect, useState } from 'react';
 import Select, { CSSObjectWithLabel, GroupBase, SingleValue, StylesConfig } from 'react-select';
 import { LuceneIndexConfigurationFormComponentProps } from '../models/LuceneIndexConfigurationFormComponentProps';
@@ -19,6 +20,7 @@ import { LuceneIndexChannelConfiguration } from '../models/LuceneIndexChannelCon
 import { OptionType } from '../models/OptionType';
 import { LuceneIndexChannel } from '../models/LuceneIndexChannel';
 import { LuceneIncludedPathConfiguration } from './LuceneIncludedPathConfiguration';
+import { RowActionSuccessResult } from '../models/RowActionSuccessResult';
 
 export const LuceneSearchIndexConfigurationFormComponent = (
     props: LuceneIndexConfigurationFormComponentProps
@@ -27,6 +29,7 @@ export const LuceneSearchIndexConfigurationFormComponent = (
   const [showChannelEdit, setShowChannelEdit] = useState<boolean>(false);
   const [showAddNewChannelConfiguration, setShowAddNewChannelConfiguration] = useState<boolean>(true);
   const [showPathConfiguration, setShowPathConfiguration] = useState<boolean>(false);
+  const {executeCommand} = useFormComponentCommandProvider();
 
   const getEmptyChannel = (): LuceneIndexChannelConfiguration => {
     const emptyChannel: LuceneIndexChannelConfiguration = {
@@ -85,19 +88,23 @@ export const LuceneSearchIndexConfigurationFormComponent = (
       };
 
       const deleteWebsiteChannelConfiguration: () => Promise<void> = async () => {
-        await new Promise(() => {
-          props.value = props.value.filter((x) => x.websiteChannelName !== channelName) ?? [];
+        const response = await executeCommand<RowActionSuccessResult, string>(props, 'DeleteWebsiteChannelConfiguration', channelName);
+        if (!response?.success)
+        {
+          return;
+        }
 
-          if (props.onChange) {
-            props.onChange(props.value);
-          }
+        props.value = props.value.filter((x) => x.websiteChannelName !== channelName) ?? [];
 
-          setRows(prepareRows(props.value));
-          setShowChannelEdit(false);
-          setChannelOptions(getUnconfiguredChannelOptions());
-          setShowAddNewChannelConfiguration(true);
-          setEmptyChannel();
-        });
+        if (props.onChange) {
+          props.onChange(props.value);
+        }
+
+        setRows(prepareRows(props.value));
+        setShowChannelEdit(false);
+        setChannelOptions(getUnconfiguredChannelOptions());
+        setShowAddNewChannelConfiguration(true);
+        setEmptyChannel();
       };
 
       const deletePathCell: ActionCell = {
@@ -210,7 +217,7 @@ export const LuceneSearchIndexConfigurationFormComponent = (
     setSelectedChannelOption(null);
   };
 
-  const saveWebsiteChannelConfiguration = (): void => {
+  const saveWebsiteChannelConfiguration = async (): Promise<void> => {
     if(!rows.some((x) => {
       return x.identifier === channel.websiteChannelName;
     })) {
@@ -218,6 +225,12 @@ export const LuceneSearchIndexConfigurationFormComponent = (
         alert('Invalid Channel');
       }
       else {
+        const response = await executeCommand<RowActionSuccessResult, string>(props, 'AddWebsiteChannelConfiguration', channel.websiteChannelName);
+        if (!response?.success)
+        {
+          return;
+        }
+
         props.value.push(channel);
         setRows(prepareRows(props.value));
       }
@@ -243,6 +256,13 @@ export const LuceneSearchIndexConfigurationFormComponent = (
         channelDisplayName: channel.channelDisplayName,
         includedPaths: channel.includedPaths
       };
+
+      const response = await executeCommand<RowActionSuccessResult, LuceneIndexChannelConfiguration>(props, 'SaveWebsiteChannelConfiguration', updatedChannel);
+      if (!response?.success)
+      {
+        return;
+      }
+
       props.value[propPathIndex] = updatedChannel;
 
       editedRow.cells[0] = cellInNewRow;
@@ -325,8 +345,7 @@ export const LuceneSearchIndexConfigurationFormComponent = (
         onRowClick={showChannelDetail}
       />
       {showChannelEdit && (
-        <div>
-          <br></br>
+        <div style={{ marginTop: '20px' }}>
           <Select
             closeMenuOnSelect={true}
             isMulti={false}
@@ -337,35 +356,36 @@ export const LuceneSearchIndexConfigurationFormComponent = (
             styles={customStyle}
           />
           {showPathConfiguration && (
-            <div style={{ maxWidth: '95%', margin: '0 auto' }}>
-              <br></br>
-              <br></br>
+            <div style={{ maxWidth: '95%', margin: '20px auto' }}>
               <LuceneIncludedPathConfiguration
                 possibleContentTypeItems={props.possibleContentTypeItems}
                 value={channel.includedPaths}
-                onChange={(newPaths) => setChannel((prev) => ({
-                  ...prev,
-                  includedPaths: newPaths
-                }))}
+                onChange={(newPaths) =>
+                  setChannel((prev) => ({
+                    ...prev,
+                    includedPaths: newPaths,
+                  }))
+                }
               />
-              <br></br>
             </div>
           )}
-          <br></br>
-          <Button
-            type={ButtonType.Button}
-            label="Save website channel configuration"
-            onClick={saveWebsiteChannelConfiguration}
-          ></Button>
+          <div style={{ marginTop: '20px' }}>
+            <Button
+              type={ButtonType.Button}
+              label="Save website channel configuration"
+              onClick={saveWebsiteChannelConfiguration}
+            ></Button>
+          </div>
         </div>
       )}
-      <br></br>
       {showAddNewChannelConfiguration && (
-        <Button
-          type={ButtonType.Button}
-          label="Add new website channel configuration"
-          onClick={addWebsiteChannelConfiguration}
-        ></Button>
+        <div style={{ marginTop: '20px' }}>
+          <Button
+            type={ButtonType.Button}
+            label="Add new website channel configuration"
+            onClick={addWebsiteChannelConfiguration}
+          ></Button>
+        </div>
       )}
     </Stack>
   );

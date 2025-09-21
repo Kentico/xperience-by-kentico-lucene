@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 
 using CMS.Activities;
-using CMS.ContactManagement;
 using CMS.DataEngine;
 using CMS.DataProtection;
 using CMS.Globalization;
@@ -18,8 +17,6 @@ namespace Samples.DancingGoat
         private readonly IInfoProvider<CountryInfo> countryInfoProvider;
         private readonly IInfoProvider<StateInfo> stateInfoProvider;
         private readonly IInfoProvider<ConsentAgreementInfo> consentAgreementInfoProvider;
-        private readonly IInfoProvider<AccountContactInfo> accountContactInfoProvider;
-        private readonly IInfoProvider<AccountInfo> accountInfoProvider;
         private readonly IInfoProvider<BizFormInfo> bizFormInfoProvider;
 
 
@@ -30,24 +27,18 @@ namespace Samples.DancingGoat
         /// <param name="countryInfoProvider">Country info provider.</param>
         /// <param name="stateInfoProvider">State info provider.</param>
         /// <param name="consentAgreementInfoProvider">Consent agreement info provider.</param>
-        /// <param name="accountContactInfoProvider">Account contact info provider.</param>
-        /// <param name="accountInfoProvider">Account info provider.</param>
         /// <param name="bizFormInfoProvider">BizForm info provider.</param>
         public SampleContactDataCollector(
             IInfoProvider<ActivityInfo> activityInfoProvider,
             IInfoProvider<CountryInfo> countryInfoProvider,
             IInfoProvider<StateInfo> stateInfoProvider,
             IInfoProvider<ConsentAgreementInfo> consentAgreementInfoProvider,
-            IInfoProvider<AccountContactInfo> accountContactInfoProvider,
-            IInfoProvider<AccountInfo> accountInfoProvider,
             IInfoProvider<BizFormInfo> bizFormInfoProvider)
         {
             this.activityInfoProvider = activityInfoProvider;
             this.countryInfoProvider = countryInfoProvider;
             this.stateInfoProvider = stateInfoProvider;
             this.consentAgreementInfoProvider = consentAgreementInfoProvider;
-            this.accountContactInfoProvider = accountContactInfoProvider;
-            this.accountInfoProvider = accountInfoProvider;
             this.bizFormInfoProvider = bizFormInfoProvider;
         }
 
@@ -62,8 +53,7 @@ namespace Samples.DancingGoat
         {
             using (var writer = CreateWriter(outputFormat))
             {
-                var dataCollector = new SampleContactDataCollectorCore(writer, activityInfoProvider, countryInfoProvider, stateInfoProvider, consentAgreementInfoProvider,
-                    accountContactInfoProvider, accountInfoProvider, bizFormInfoProvider);
+                var dataCollector = new SampleContactDataCollectorCore(writer, activityInfoProvider, countryInfoProvider, stateInfoProvider, consentAgreementInfoProvider, bizFormInfoProvider);
                 return new PersonalDataCollectorResult
                 {
                     Text = dataCollector.CollectData(identities)
