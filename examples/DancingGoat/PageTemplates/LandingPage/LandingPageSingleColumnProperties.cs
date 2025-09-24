@@ -1,4 +1,5 @@
 ﻿using Kentico.PageBuilder.Web.Mvc.PageTemplates;
+using Kentico.Xperience.Admin.Base;
 using Kentico.Xperience.Admin.Base.FormAnnotations;
 
 namespace DancingGoat.PageTemplates
@@ -17,6 +18,7 @@ namespace DancingGoat.PageTemplates
         /// </summary>
         [RequiredValidationRule]
         [DropDownComponent(Label = "Background color of header", Order = 2, Options = "first-color;Chocolate\r\nsecond-color;Gold\r\nthird-color;Espresso")]
+        [ExcludeFromAiraTranslation]
         public string HeaderColorCssClass { get; set; } = "first-color";
     }
 }

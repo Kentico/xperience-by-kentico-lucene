@@ -7,7 +7,7 @@ using static DancingGoat.Models.CheckoutFormConstants;
 
 namespace DancingGoat.Models;
 
-public sealed record CustomerAddressViewModel
+public record CustomerAddressViewModel
 {
     public CustomerAddressViewModel()
     {

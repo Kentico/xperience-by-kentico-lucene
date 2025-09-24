@@ -53,10 +53,12 @@ public sealed record CustomerViewModel
     }
 
 
-    public CustomerDto ToCustomerDto(CustomerAddressViewModel customerAddressViewModel)
+    public CustomerDto ToCustomerDto(CustomerAddressViewModel billingAddressViewModel, ShippingAddressViewModel shippingAddressViewModel)
     {
-        int.TryParse(customerAddressViewModel.CountryId, out int countryId);
-        int.TryParse(customerAddressViewModel.StateId, out int stateId);
+        int.TryParse(billingAddressViewModel.CountryId, out int billingCountryId);
+        int.TryParse(billingAddressViewModel.StateId, out int billingStateId);
+        int.TryParse(shippingAddressViewModel.CountryId, out int shippingCountryId);
+        int.TryParse(shippingAddressViewModel.StateId, out int shippingStateId);
 
         return new CustomerDto
         {
@@ -66,12 +68,19 @@ public sealed record CustomerViewModel
             PhoneNumber = PhoneNumber,
 
             Company = Company,
-            AddressLine1 = customerAddressViewModel.Line1,
-            AddressLine2 = customerAddressViewModel.Line2,
-            AddressCity = customerAddressViewModel.City,
-            AddressPostalCode = customerAddressViewModel.PostalCode,
-            AddressCountryId = countryId,
-            AddressStateId = stateId
+            BillingAddressLine1 = billingAddressViewModel.Line1,
+            BillingAddressLine2 = billingAddressViewModel.Line2,
+            BillingAddressCity = billingAddressViewModel.City,
+            BillingAddressPostalCode = billingAddressViewModel.PostalCode,
+            BillingAddressCountryId = billingCountryId,
+            BillingAddressStateId = billingStateId,
+
+            ShippingAddressLine1 = shippingAddressViewModel.IsSameAsBilling ? billingAddressViewModel.Line1 : shippingAddressViewModel.Line1,
+            ShippingAddressLine2 = shippingAddressViewModel.IsSameAsBilling ? billingAddressViewModel.Line2 : shippingAddressViewModel.Line2,
+            ShippingAddressCity = shippingAddressViewModel.IsSameAsBilling ? billingAddressViewModel.City : shippingAddressViewModel.City,
+            ShippingAddressPostalCode = shippingAddressViewModel.IsSameAsBilling ? billingAddressViewModel.PostalCode : shippingAddressViewModel.PostalCode,
+            ShippingAddressCountryId = shippingAddressViewModel.IsSameAsBilling ? billingCountryId : shippingCountryId,
+            ShippingAddressStateId = shippingAddressViewModel.IsSameAsBilling ? billingStateId : shippingStateId,
         };
     }
 }

@@ -1,4 +1,3 @@
-import { type FormComponentProps } from '@kentico/xperience-admin-base';
 import {
   type ActionCell,
   Button,
@@ -29,38 +28,12 @@ import Select, {
   components,
 } from 'react-select';
 import { Tooltip } from 'react-tooltip';
+import { IncludedPath } from '../models/IncludedPath';
+import { LuceneIncludedPathConfigurationProps } from '../models/LuceneIncludedPathConfigurationProps';
+import { OptionType } from '../models/OptionType';
 
-export interface LuceneIndexContentType {
-  contentTypeName: string;
-  contentTypeDisplayName: string;
-}
-
-export interface IncludedPath {
-  aliasPath: string | null;
-  contentTypes: LuceneIndexContentType[];
-  identifier: string | null;
-}
-
-export interface LuceneIndexConfigurationComponentClientProperties
-  extends FormComponentProps {
-  value: IncludedPath[];
-  possibleContentTypeItems: LuceneIndexContentType[] | null;
-}
-
-interface OptionType {
-  value: string;
-  label: string;
-}
-
-export interface TextAreaCell extends TableCell {
-  /**
-   * Value of the cell.
-   */
-  value: HTMLTextAreaElement;
-}
-
-export const LuceneIndexConfigurationFormComponent = (
-  props: LuceneIndexConfigurationComponentClientProperties,
+export const LuceneIncludedPathConfiguration = (
+    props: LuceneIncludedPathConfigurationProps,
 ): JSX.Element => {
   const [rows, setRows] = useState<TableRow[]>([]);
   const [showPathEdit, setShowPathEdit] = useState<boolean>(false);
@@ -91,11 +64,11 @@ export const LuceneIndexConfigurationFormComponent = (
       };
 
       const deletePath: () => Promise<void> = async () => {
-        await new Promise(() => {
-          props.value = props.value.filter((x) => x.aliasPath !== pathVal);
+          await new Promise(() => {
+          const newValue = props.value.filter((x) => x.aliasPath !== pathVal);
 
           if (props.onChange !== null && props.onChange !== undefined) {
-            props.onChange(props.value);
+            props.onChange(newValue);
           }
 
           setRows(prepareRows(props.value));
@@ -203,69 +176,50 @@ export const LuceneIndexConfigurationFormComponent = (
   };
   const savePath = (): void => {
     if (editedIdentifier === '') {
-      if (
-        !rows.some((x) => {
-          return x.identifier === path;
-        })
-      ) {
+      if (!rows.some((x) => x.identifier === path)) {
         if (path === '') {
           alert('Invalid path');
         } else {
           const newPath: IncludedPath = {
             aliasPath: path,
             identifier: null,
-            contentTypes: contentTypesValue.map((x) => {
-              const contentType: LuceneIndexContentType = {
-                contentTypeDisplayName: x.label,
-                contentTypeName: x.value,
-              };
-
-              return contentType;
-            }),
+            contentTypes: contentTypesValue.map((x) => ({
+              contentTypeDisplayName: x.label,
+              contentTypeName: x.value,
+            })),
           };
-          props.value.push(newPath);
-          setRows(prepareRows(props.value));
+          // Create a new array instead of mutating props.value
+          const newPaths = [...props.value, newPath];
+          if (props.onChange) {
+            props.onChange(newPaths);
+          }
+          setRows(prepareRows(newPaths));
         }
       } else {
         alert('This path already exists!');
       }
     } else {
-      const rowIndex = rows.findIndex((x) => {
-        return x.identifier === editedIdentifier;
-      });
-
-      if (rowIndex === -1) {
+      const propPathIndex = props.value.findIndex((p) => p.aliasPath === editedIdentifier);
+      if (propPathIndex === -1) {
         alert('Invalid edit');
+        return;
       }
-
-      const newRows = rows;
-      const editedRow = rows[rowIndex];
-      const pathCellInNewRow = rows[rowIndex].cells[0] as StringCell;
-      pathCellInNewRow.value = path;
-      const propPathIndex = props.value.findIndex(
-        (p) => p.aliasPath === editedIdentifier,
-      );
-
       const updatedPath: IncludedPath = {
         aliasPath: path,
         identifier: props.value[propPathIndex].identifier,
-        contentTypes: contentTypesValue.map((x) => {
-          const contentType: LuceneIndexContentType = {
-            contentTypeDisplayName: x.label,
-            contentTypeName: x.value,
-          };
-
-          return contentType;
-        }),
+        contentTypes: contentTypesValue.map((x) => ({
+          contentTypeDisplayName: x.label,
+          contentTypeName: x.value,
+        })),
       };
-
-      props.value[propPathIndex] = updatedPath;
-
-      editedRow.cells[0] = pathCellInNewRow;
-      editedRow.identifier = path;
-
-      newRows[rowIndex] = editedRow;
-      setRows(newRows);
+      // Create a new array with the updated path
+      const newPaths = props.value.map((p, idx) =>
+        idx === propPathIndex ? updatedPath : p
+      );
+      if (props.onChange) {
+        props.onChange(newPaths);
+      }
+      setRows(prepareRows(newPaths));
     }
 
     setEditedIdentifier('');
@@ -437,49 +391,51 @@ export const LuceneIndexConfigurationFormComponent = (
         onRowClick={showContentItems}
       />
       {showPathEdit && (
-        <div>
-          <br></br>
+        <div style={{ marginTop: '20px' }}>
           <Input
             label="Included Path"
             value={path}
             onChange={handleInputChange}
           />
-          <br></br>
-          <div className="label-wrapper___AcszK">
-            <label className="label___WET63">Included content types</label>
+          <div style={{ marginTop: '20px' }}>
+            <div className="label-wrapper___AcszK">
+              <label className="label___WET63">Included content types</label>
+            </div>
+            <Select
+              isMulti
+              closeMenuOnSelect={false}
+              defaultValue={contentTypesValue}
+              placeholder="Select content types"
+              options={options}
+              onChange={selectContentTypes}
+              styles={customStyle}
+              hideSelectedOptions={false}
+              components={{ MultiValueRemove, ClearIndicator, Option }}
+              theme={(theme) => ({
+                ...theme,
+                height: 40,
+                borderRadius: 0,
+                borderColor: 'gray',
+              })}
+            />
           </div>
-          <Select
-            isMulti
-            closeMenuOnSelect={false}
-            defaultValue={contentTypesValue}
-            placeholder="Select content types"
-            options={options}
-            onChange={selectContentTypes}
-            styles={customStyle}
-            hideSelectedOptions={false}
-            components={{ MultiValueRemove, ClearIndicator, Option }}
-            theme={(theme) => ({
-              ...theme,
-              height: 40,
-              borderRadius: 0,
-              borderColor: 'gray',
-            })}
-          />
-          <br></br>
-          <Button
-            type={ButtonType.Button}
-            label="Save Path"
-            onClick={savePath}
-          ></Button>
+          <div style={{ marginTop: '20px' }}>
+            <Button
+              type={ButtonType.Button}
+              label="Save Path"
+              onClick={savePath}
+            ></Button>
+          </div>
         </div>
       )}
-      <br></br>
       {showAddNewPath && (
-        <Button
-          type={ButtonType.Button}
-          label="Add new path"
-          onClick={addNewPath}
-        ></Button>
+        <div style={{ marginTop: '20px' }}>
+          <Button
+            type={ButtonType.Button}
+            label="Add new path"
+            onClick={addNewPath}
+          ></Button>
+        </div>
       )}
     </Stack>
   );

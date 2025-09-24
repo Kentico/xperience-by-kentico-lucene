@@ -36,12 +36,39 @@
 
                     <br />
 
-                    <div>@Model.CustomerAddress.Line1</div>
-                    <div>@Model.CustomerAddress.Line2</div>
-                    <div>@Model.CustomerAddress.City</div>
+                    <div>@Model.BillingAddress.Line1</div>
+                    <div>@Model.BillingAddress.Line2</div>
+                    <div>@Model.BillingAddress.City</div>
 
-                    <div><span>@Model.CustomerAddress.PostalCode</span> <span>@Model.CustomerAddress.State</span></div>
-                    <div>@Model.CustomerAddress.Country</div>
+                    <div><span>@Model.BillingAddress.PostalCode</span> <span>@Model.BillingAddress.State</span></div>
+                    <div>@Model.BillingAddress.Country</div>
+                </div>
+
+                <div class="col-md-6">
+                    <h2>@HtmlLocalizer["Shipping details"]</h2>
+
+                    @{
+                        if (Model.ShippingAddress.IsSameAsBilling)
+                        {
+                            <div>@HtmlLocalizer["Same as billing"]</div>
+                        }
+                        else
+                        {
+                            <div><span>@Model.Customer.FirstName</span> <span>@Model.Customer.LastName</span></div>
+                            <div>@Model.Customer.Company</div>
+                            <div>@Model.Customer.Email</div>
+                            <div>@Model.Customer.PhoneNumber</div>
+
+                            <br />
+
+                            <div>@Model.ShippingAddress.Line1</div>
+                            <div>@Model.ShippingAddress.Line2</div>
+                            <div>@Model.ShippingAddress.City</div>
+
+                            <div><span>@Model.ShippingAddress.PostalCode</span> <span>@Model.ShippingAddress.State</span></div>
+                            <div>@Model.ShippingAddress.Country</div>
+                        }
+                    }
                 </div>
             </div>
             <div class="row">
@@ -57,7 +84,7 @@
                 <form asp-action="ConfirmOrder" asp-controller="DancingGoatCheckout" asp-all-route-data="routeData" method="post" id="checkoutForm">
                     <div class="cart-right-panel floating-box">
                         <div id="shoppingCartTotals">
-                            <partial name="_ShoppingCartTotals" model="Model.ShoppingCart" />
+                            <partial name="_ShoppingCartTotalsConfirmation" model="Model" />
                         </div>
 
                         <input type="submit" value="@HtmlLocalizer["Confirm order"]" class="btn-primary checkout-button btn btn-default" />
