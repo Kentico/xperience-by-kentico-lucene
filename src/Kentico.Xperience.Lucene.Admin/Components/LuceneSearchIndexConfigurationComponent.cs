@@ -178,18 +178,18 @@ internal sealed class LuceneSearchIndexConfigurationComponent : FormComponent<Fo
         properties.Value = Value ?? [];
         properties.PossibleContentTypeItems = allWebsiteContentTypes.ToList();
 
-        var userPermitedChannels = new List<LuceneIndexChannel>();
+        var userPermittedChannels = new List<LuceneIndexChannel>();
         var user = await authenticatedUserAccessor.Get();
 
         foreach (var channel in allWebsiteChannels)
         {
             if (CheckUserPermissionForChannel(channel.ChannelGUID, user, SystemPermissions.VIEW))
             {
-                userPermitedChannels.Add(new LuceneIndexChannel(channel.ChannelName, channel.ChannelDisplayName));
+                userPermittedChannels.Add(new LuceneIndexChannel(channel.ChannelName, channel.ChannelDisplayName));
             }
         }
 
-        properties.PossibleChannels = userPermitedChannels;
+        properties.PossibleChannels = userPermittedChannels;
 
         await base.ConfigureClientProperties(properties);
     }

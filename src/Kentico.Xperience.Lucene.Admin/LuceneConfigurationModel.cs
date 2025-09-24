@@ -122,6 +122,10 @@ public sealed class LuceneConfigurationModel
             AnalyzerName = AnalyzerName,
             StrategyName = StrategyName,
             RebuildHook = RebuildHook,
+#pragma warning disable CS0618 // Type or member is obsolete
+            Paths = Paths,
+            ChannelName = ChannelName,
+#pragma warning restore CS0618 // Type or member is obsolete
             Channels = Channels,
             ReusableContentTypeNames = ReusableContentTypeNames
         };

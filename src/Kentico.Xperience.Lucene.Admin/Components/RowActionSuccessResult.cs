@@ -13,6 +13,6 @@ internal class RowActionSuccessResult : RowActionResult
     public bool Success { get; init; }
 
     /// <inheritdoc/>
-    public RowActionSuccessResult(bool reload, bool success, bool refatchAll = false) : base(reload, refatchAll)
+    public RowActionSuccessResult(bool reload, bool success, bool refetchAll = false) : base(reload, refetchAll)
     => Success = success;
 }
