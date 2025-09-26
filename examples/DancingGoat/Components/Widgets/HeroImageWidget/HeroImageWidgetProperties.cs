@@ -2,8 +2,8 @@
 
 using CMS.ContentEngine;
 
-using Kentico.Forms.Web.Mvc;
 using Kentico.PageBuilder.Web.Mvc;
+using Kentico.Xperience.Admin.Base;
 using Kentico.Xperience.Admin.Base.FormAnnotations;
 
 namespace DancingGoat.Widgets
@@ -37,6 +37,7 @@ namespace DancingGoat.Widgets
         /// </summary>
         [TextInputComponent(Label = "Button target", Order = 2)]
         [UrlValidationRule(AllowRelativeUrl = true, AllowFragmentUrl = true)]
+        [ExcludeFromAiraTranslation]
         public string ButtonTarget { get; set; }
 
 
@@ -44,6 +45,7 @@ namespace DancingGoat.Widgets
         /// Theme of the widget.
         /// </summary>
         [DropDownComponent(Label = "Color scheme", Order = 3, Options = "light;Light\ndark;Dark")]
+        [ExcludeFromAiraTranslation]
         public string Theme { get; set; } = "dark";
     }
 }

@@ -23,12 +23,22 @@ namespace Kentico.Xperience.Lucene.Admin;
 internal class IndexListingPage : ListingPage
 {
     private readonly ILuceneClient luceneClient;
+
+
     private readonly IPageLinkGenerator pageLinkGenerator;
+
+
     private readonly ILuceneConfigurationStorageService configurationStorageService;
+
+
     private readonly IConversionService conversionService;
+
+
     private readonly ILuceneIndexManager indexManager;
 
+
     protected override string ObjectType => LuceneIndexItemInfo.OBJECT_TYPE;
+
 
     /// <summary>
     /// Initializes a new instance of the <see cref="IndexListingPage"/> class.
@@ -46,6 +56,7 @@ internal class IndexListingPage : ListingPage
         this.conversionService = conversionService;
         this.indexManager = indexManager;
     }
+
 
     /// <inheritdoc/>
     public override async Task ConfigurePage()
@@ -68,7 +79,6 @@ internal class IndexListingPage : ListingPage
         PageConfiguration.ColumnConfigurations
             .AddColumn(nameof(LuceneIndexItemInfo.LuceneIndexItemId), "ID", defaultSortDirection: SortTypeEnum.Asc, sortable: true)
             .AddColumn(nameof(LuceneIndexItemInfo.LuceneIndexItemIndexName), "Name", sortable: true, searchable: true)
-            .AddColumn(nameof(LuceneIndexItemInfo.LuceneIndexItemChannelName), "Channel", searchable: true, sortable: true)
             .AddColumn(nameof(LuceneIndexItemInfo.LuceneIndexItemStrategyName), "Index Strategy", searchable: true, sortable: true)
             .AddColumn(nameof(LuceneIndexItemInfo.LuceneIndexItemAnalyzerName), "Lucene Analyzer", searchable: true, sortable: true)
             // Placeholder field which will be replaced with a customized value
@@ -83,6 +93,8 @@ internal class IndexListingPage : ListingPage
         await base.ConfigurePage();
     }
 
+
+    /// <inheritdoc/>
     protected override async Task<LoadDataResult> LoadData(LoadDataSettings settings, CancellationToken cancellationToken)
     {
         var result = await base.LoadData(settings, cancellationToken);
@@ -126,6 +138,7 @@ internal class IndexListingPage : ListingPage
         return result;
     }
 
+
     private LuceneIndexStatisticsModel? GetStatistic(Row row, ICollection<LuceneIndexStatisticsModel> statistics)
     {
         int indexID = conversionService.GetInteger(row.Identifier, 0);
@@ -136,12 +149,14 @@ internal class IndexListingPage : ListingPage
         return statistics.FirstOrDefault(s => string.Equals(s.Name, indexName, StringComparison.OrdinalIgnoreCase));
     }
 
+
     /// <summary>
     /// A page command which rebuilds an Lucene index. Runs the rebuild on all application instances in case of vertical scaling.
     /// </summary>
     /// <param name="id">The ID of the row whose action was performed, which corresponds with the internal
     /// <see cref="LuceneIndex.Identifier"/> to rebuild.</param>
     /// <param name="cancellationToken">The cancellation token for the action.</param>
+    /// <returns>The <see cref="ICommandResponse{RowActionResult}"/>.</returns>
     [PageCommand(Permission = LuceneIndexPermissions.REBUILD)]
     public async Task<ICommandResponse<RowActionResult>> Rebuild(int id, CancellationToken cancellationToken)
     {
@@ -167,6 +182,12 @@ internal class IndexListingPage : ListingPage
         }
     }
 
+
+    /// <summary>
+    /// A page command which deletes a Lucene index. Runs the delete on all application instances in case of vertical scaling.
+    /// </summary>
+    /// <param name="id">The id of the index to delete.</param>
+    /// <returns>The <see cref="ICommandResponse{RowActionResult}"/>.</returns>
     [PageCommand(Permission = SystemPermissions.DELETE)]
     public async Task<ICommandResponse> Delete(int id, CancellationToken _)
     {
@@ -193,6 +214,7 @@ internal class IndexListingPage : ListingPage
 
         return await Task.FromResult<ICommandResponse>(response);
     }
+
 
     private static void AddMissingStatistics(ref ICollection<LuceneIndexStatisticsModel> statistics, ILuceneIndexManager indexManager)
     {

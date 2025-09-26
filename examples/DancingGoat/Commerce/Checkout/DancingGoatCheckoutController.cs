@@ -19,10 +19,10 @@ using Kentico.Membership;
 
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Localization;
 
-#pragma warning disable KXE0002 // Commerce feature is for evaluation purposes only and is subject to change or removal in future updates. Suppress this diagnostic to proceed.
 [assembly: RegisterWebPageRoute(Checkout.CONTENT_TYPE_NAME, typeof(DancingGoatCheckoutController), WebsiteChannelNames = new[] { DancingGoatConstants.WEBSITE_CHANNEL_NAME })]
 
 namespace DancingGoat.Commerce;
@@ -34,7 +34,8 @@ public sealed class DancingGoatCheckoutController : Controller
 {
     private readonly CountryStateRepository countryStateRepository;
     private readonly WebPageUrlProvider webPageUrlProvider;
-    private readonly ICurrentShoppingCartService currentShoppingCartService;
+    private readonly ICurrentShoppingCartRetriever currentShoppingCartRetriever;
+    private readonly ICurrentShoppingCartDiscardHandler currentShoppingCartDiscardHandler;
     private readonly UserManager<ApplicationUser> userManager;
     private readonly CustomerDataRetriever customerDataRetriever;
     private readonly IPreferredLanguageRetriever currentLanguageRetriever;
@@ -42,22 +43,28 @@ public sealed class DancingGoatCheckoutController : Controller
     private readonly IStringLocalizer<SharedResources> localizer;
     private readonly ProductNameProvider productNameProvider;
     private readonly ProductRepository productRepository;
+    private readonly PaymentRepository paymentRepository;
+    private readonly ShippingRepository shippingRepository;
 
     public DancingGoatCheckoutController(
         CountryStateRepository countryStateRepository,
         WebPageUrlProvider webPageUrlProvider,
-        ICurrentShoppingCartService currentShoppingCartService,
+        ICurrentShoppingCartRetriever currentShoppingCartRetriever,
+        ICurrentShoppingCartDiscardHandler currentShoppingCartDiscardHandler,
         UserManager<ApplicationUser> userManager,
         CustomerDataRetriever customerDataRetriever,
         IPreferredLanguageRetriever currentLanguageRetriever,
         OrderService orderService,
         IStringLocalizer<SharedResources> localizer,
         ProductNameProvider productNameProvider,
-        ProductRepository productRepository)
+        ProductRepository productRepository,
+        PaymentRepository paymentRepository,
+        ShippingRepository shippingRepository)
     {
         this.countryStateRepository = countryStateRepository;
         this.webPageUrlProvider = webPageUrlProvider;
-        this.currentShoppingCartService = currentShoppingCartService;
+        this.currentShoppingCartRetriever = currentShoppingCartRetriever;
+        this.currentShoppingCartDiscardHandler = currentShoppingCartDiscardHandler;
         this.userManager = userManager;
         this.customerDataRetriever = customerDataRetriever;
         this.currentLanguageRetriever = currentLanguageRetriever;
@@ -65,42 +72,39 @@ public sealed class DancingGoatCheckoutController : Controller
         this.localizer = localizer;
         this.productNameProvider = productNameProvider;
         this.productRepository = productRepository;
+        this.paymentRepository = paymentRepository;
+        this.shippingRepository = shippingRepository;
     }
 
 
     [HttpGet]
     public async Task<IActionResult> Index(CancellationToken cancellationToken)
     {
-        return View(await GetCheckoutViewModel(CheckoutStep.CheckoutCustomer, null, null, null, cancellationToken));
+        return View(await GetCheckoutViewModel(CheckoutStep.CheckoutCustomer, null, null, null, null, null, cancellationToken));
     }
 
 
     [HttpPost]
-    public async Task<IActionResult> Index(CustomerViewModel customer, CustomerAddressViewModel customerAddress, CheckoutStep checkoutStep, CancellationToken cancellationToken)
+    public async Task<IActionResult> Index(CustomerViewModel customer, CustomerAddressViewModel billingAddress, ShippingAddressViewModel shippingAddress, PaymentShippingViewModel paymentShipping, CheckoutStep checkoutStep, CancellationToken cancellationToken)
     {
-        // Validate state selection based on the selected country
-        int.TryParse(customerAddress.CountryId, out int countryId);
-        var countryStates = await countryStateRepository.GetStates(countryId, cancellationToken);
-        bool selectedStateValidationResult = !countryStates.Any() || !string.IsNullOrEmpty(customerAddress.StateId);
-        if (!selectedStateValidationResult)
+        if (!await IsValid(billingAddress, shippingAddress, cancellationToken) || checkoutStep == CheckoutStep.CheckoutCustomer)
         {
-            ModelState.AddModelError($"{nameof(customerAddress)}.{nameof(CustomerAddressViewModel.StateId)}", CheckoutFormConstants.REQUIRED_FIELD_ERROR_MESSAGE);
+            return View(await GetCheckoutViewModel(CheckoutStep.CheckoutCustomer, customer, billingAddress, shippingAddress, null, paymentShipping, cancellationToken));
         }
 
-        if (!ModelState.IsValid || checkoutStep == CheckoutStep.CheckoutCustomer)
-        {
-            return View(await GetCheckoutViewModel(CheckoutStep.CheckoutCustomer, customer, customerAddress, null, cancellationToken));
-        }
-
-        var shoppingCart = await currentShoppingCartService.Get(cancellationToken);
+        var shoppingCart = await currentShoppingCartRetriever.Get(cancellationToken);
         if (shoppingCart == null)
         {
-            return View(await GetCheckoutViewModel(CheckoutStep.OrderConfirmation, customer, customerAddress, new ShoppingCartViewModel(new List<ShoppingCartItemViewModel>(), 0), cancellationToken));
+            return View(await GetCheckoutViewModel(CheckoutStep.OrderConfirmation, customer, billingAddress, shippingAddress, new ShoppingCartViewModel(new List<ShoppingCartItemViewModel>(), 0), paymentShipping, cancellationToken));
         }
 
-        var shoppingCartViewModel = await GetShoppingCartViewModel(shoppingCart, cancellationToken);
+        var checkoutViewModel = await GetCheckoutViewModel(CheckoutStep.OrderConfirmation, customer, billingAddress, shippingAddress, null, paymentShipping, cancellationToken);
+        checkoutViewModel = checkoutViewModel with
+        {
+            ShoppingCart = await GetShoppingCartViewModel(shoppingCart, checkoutViewModel.PaymentShipping, cancellationToken)
+        };
 
-        return View(await GetCheckoutViewModel(CheckoutStep.OrderConfirmation, customer, customerAddress, shoppingCartViewModel, cancellationToken));
+        return View(checkoutViewModel);
     }
 
 
@@ -123,7 +127,7 @@ public sealed class DancingGoatCheckoutController : Controller
 
     [HttpPost]
     [Route("{languageName}/OrderConfirmation/ConfirmOrder")]
-    public async Task<IActionResult> ConfirmOrder(CustomerViewModel customer, CustomerAddressViewModel customerAddress, string languageName, CancellationToken cancellationToken)
+    public async Task<IActionResult> ConfirmOrder(CustomerViewModel customer, CustomerAddressViewModel billingAddress, ShippingAddressViewModel shippingAddress, string languageName, PaymentShippingViewModel paymentShipping, CancellationToken cancellationToken)
     {
         // Add the current language to the route values in order to tell XbyK what the current language is
         // since this route is not handled by the XbyK content-tree-based routing
@@ -136,25 +140,63 @@ public sealed class DancingGoatCheckoutController : Controller
 
         var user = await GetAuthenticatedUser();
 
-        var shoppingCart = await currentShoppingCartService.Get(cancellationToken);
+        var shoppingCart = await currentShoppingCartRetriever.Get(cancellationToken);
         if (shoppingCart == null)
         {
             return Content(localizer["Order not created. The shopping cart could not be found."]);
         }
 
-        var customerDto = customer.ToCustomerDto(customerAddress);
+        var customerDto = customer.ToCustomerDto(billingAddress, shippingAddress);
         var shoppingCartData = shoppingCart.GetShoppingCartDataModel();
 
-        var orderNumber = await orderService.CreateOrder(shoppingCartData, customerDto, user?.Id ?? 0, cancellationToken);
+        int.TryParse(paymentShipping.PaymentMethodId, out var paymentMethodId);
+        int.TryParse(paymentShipping.ShippingMethodId, out var shippingMethodId);
 
-        await currentShoppingCartService.Discard(cancellationToken);
+        var orderNumber = await orderService.CreateOrder(shoppingCartData, customerDto, user?.Id ?? 0, paymentMethodId, shippingMethodId, cancellationToken);
+
+        await currentShoppingCartDiscardHandler.Discard(cancellationToken);
 
         return View(new ConfirmOrderViewModel(orderNumber));
     }
 
 
-    private async Task<CheckoutViewModel> GetCheckoutViewModel(CheckoutStep step, CustomerViewModel customerViewModel, CustomerAddressViewModel customerAddressViewModel, ShoppingCartViewModel shoppingCartViewModel,
-        CancellationToken cancellationToken)
+    private async Task<bool> IsValid(CustomerAddressViewModel billingAddress, ShippingAddressViewModel shippingAddress, CancellationToken cancellationToken)
+    {
+        // Validate state selection based on the selected country for billing address
+        int.TryParse(billingAddress.CountryId, out int billingCountryId);
+        var billingCountryStates = await countryStateRepository.GetStates(billingCountryId, cancellationToken);
+        bool selectedStateValidationResult = !billingCountryStates.Any() || !string.IsNullOrEmpty(billingAddress.StateId);
+        if (!selectedStateValidationResult)
+        {
+            ModelState.AddModelError($"{nameof(billingAddress)}.{nameof(CustomerAddressViewModel.StateId)}", CheckoutFormConstants.REQUIRED_FIELD_ERROR_MESSAGE);
+        }
+
+        if (shippingAddress.IsSameAsBilling)
+        {
+            ModelState.Remove($"{nameof(shippingAddress)}.{nameof(shippingAddress.Line1)}");
+            ModelState.Remove($"{nameof(shippingAddress)}.{nameof(shippingAddress.Line2)}");
+            ModelState.Remove($"{nameof(shippingAddress)}.{nameof(shippingAddress.City)}");
+            ModelState.Remove($"{nameof(shippingAddress)}.{nameof(shippingAddress.PostalCode)}");
+            ModelState.Remove($"{nameof(shippingAddress)}.{nameof(shippingAddress.CountryId)}");
+            ModelState.Remove($"{nameof(shippingAddress)}.{nameof(shippingAddress.StateId)}");
+        }
+        else
+        {
+            // Validate state selection based on the selected country for shipping address
+            int.TryParse(shippingAddress.CountryId, out int shippingCountryId);
+            var shippingCountryStates = billingCountryId == shippingCountryId ? billingCountryStates : await countryStateRepository.GetStates(billingCountryId, cancellationToken);
+            bool billingStateValidationResult = !shippingCountryStates.Any() || !string.IsNullOrEmpty(shippingAddress.StateId);
+            if (!billingStateValidationResult)
+            {
+                ModelState.AddModelError($"{nameof(shippingAddress)}.{nameof(ShippingAddressViewModel.StateId)}", CheckoutFormConstants.REQUIRED_FIELD_ERROR_MESSAGE);
+            }
+        }
+        return ModelState.IsValid;
+    }
+
+
+    private async Task<CheckoutViewModel> GetCheckoutViewModel(CheckoutStep step, CustomerViewModel customerViewModel, CustomerAddressViewModel billingAddressViewModel, ShippingAddressViewModel shippingAddressViewModel,
+        ShoppingCartViewModel shoppingCartViewModel, PaymentShippingViewModel paymentShippingViewModel, CancellationToken cancellationToken)
     {
         var user = await GetAuthenticatedUser();
 
@@ -181,37 +223,57 @@ public sealed class DancingGoatCheckoutController : Controller
                 {
                     customerViewModel.Company = customerAddress.CustomerAddressCompany;
 
-                    customerAddressViewModel ??= new CustomerAddressViewModel();
-                    customerAddressViewModel.Line1 = customerAddress.CustomerAddressLine1;
-                    customerAddressViewModel.Line2 = customerAddress.CustomerAddressLine2;
-                    customerAddressViewModel.City = customerAddress.CustomerAddressCity;
-                    customerAddressViewModel.PostalCode = customerAddress.CustomerAddressZip;
-                    customerAddressViewModel.CountryId = customerAddress.CustomerAddressCountryID.ToString();
-                    customerAddressViewModel.StateId = customerAddress.CustomerAddressStateID.ToString();
+                    billingAddressViewModel ??= new CustomerAddressViewModel();
+                    billingAddressViewModel.Line1 = customerAddress.CustomerAddressLine1;
+                    billingAddressViewModel.Line2 = customerAddress.CustomerAddressLine2;
+                    billingAddressViewModel.City = customerAddress.CustomerAddressCity;
+                    billingAddressViewModel.PostalCode = customerAddress.CustomerAddressZip;
+                    billingAddressViewModel.CountryId = customerAddress.CustomerAddressCountryID.ToString();
+                    billingAddressViewModel.StateId = customerAddress.CustomerAddressStateID.ToString();
                 }
             }
         }
 
         customerViewModel ??= new CustomerViewModel();
-        customerAddressViewModel ??= new CustomerAddressViewModel();
+        billingAddressViewModel ??= new CustomerAddressViewModel();
+        shippingAddressViewModel ??= new ShippingAddressViewModel();
+        paymentShippingViewModel ??= new PaymentShippingViewModel();
 
-        int.TryParse(customerAddressViewModel.CountryId, out var countryId);
-        int.TryParse(customerAddressViewModel.StateId, out var stateId);
+        int.TryParse(billingAddressViewModel.CountryId, out var billingCountryId);
+        int.TryParse(billingAddressViewModel.StateId, out var billingStateId);
         var countries = await countryStateRepository.GetCountries(cancellationToken);
-        var states = await countryStateRepository.GetStates(countryId, cancellationToken);
+        var billingStates = await countryStateRepository.GetStates(billingCountryId, cancellationToken);
         var countriesSelectList = countries.Select(x => new SelectListItem() { Text = x.CountryDisplayName, Value = x.CountryID.ToString() });
 
-        customerAddressViewModel.Countries = countriesSelectList;
-        customerAddressViewModel.Country = countriesSelectList.FirstOrDefault(country => country.Value == countryId.ToString())?.Text;
+        billingAddressViewModel.Countries = countriesSelectList;
+        billingAddressViewModel.Country = countriesSelectList.FirstOrDefault(country => country.Value == billingCountryId.ToString())?.Text;
 
-        customerAddressViewModel.States = states.Select(x => new SelectListItem() { Text = x.StateDisplayName, Value = x.StateID.ToString() }).ToList();
-        customerAddressViewModel.State = states.FirstOrDefault(state => state.StateID == stateId)?.StateDisplayName;
+        billingAddressViewModel.States = billingStates.Select(x => new SelectListItem() { Text = x.StateDisplayName, Value = x.StateID.ToString() }).ToList();
+        billingAddressViewModel.State = billingStates.FirstOrDefault(state => state.StateID == billingStateId)?.StateDisplayName;
 
-        return new CheckoutViewModel(step, customerViewModel, customerAddressViewModel, shoppingCartViewModel);
+        int.TryParse(shippingAddressViewModel.CountryId, out var shippingCountryId);
+        int.TryParse(shippingAddressViewModel.StateId, out var shippingStateId);
+        var shippingStates = billingCountryId == shippingCountryId ? billingStates : await countryStateRepository.GetStates(shippingCountryId, cancellationToken);
+
+        shippingAddressViewModel.Countries = countriesSelectList;
+        shippingAddressViewModel.Country = countriesSelectList.FirstOrDefault(country => country.Value == shippingCountryId.ToString())?.Text;
+
+        shippingAddressViewModel.States = shippingStates.Select(x => new SelectListItem() { Text = x.StateDisplayName, Value = x.StateID.ToString() }).ToList();
+        shippingAddressViewModel.State = shippingStates.FirstOrDefault(state => state.StateID == shippingStateId)?.StateDisplayName;
+
+        var payment = await paymentRepository.GetPayments(cancellationToken);
+        var shipping = await shippingRepository.GetShipping(cancellationToken);
+
+        paymentShippingViewModel.Payments = payment.Select(x => new SelectListItem() { Text = x.PaymentMethodDisplayName, Value = x.PaymentMethodID.ToString() });
+        paymentShippingViewModel.Shippings = shipping.Select(x => new SelectListItem() { Text = x.ShippingMethodDisplayName, Value = x.ShippingMethodID.ToString() });
+
+        paymentShippingViewModel.ShippingPrice = shipping.FirstOrDefault(s => s.ShippingMethodID.ToString() == paymentShippingViewModel.ShippingMethodId)?.ShippingMethodPrice ?? 0;
+
+        return new CheckoutViewModel(step, customerViewModel, billingAddressViewModel, shippingAddressViewModel, shoppingCartViewModel, paymentShippingViewModel);
     }
 
 
-    private async Task<ShoppingCartViewModel> GetShoppingCartViewModel(ShoppingCartInfo shoppingCart, CancellationToken cancellationToken)
+    private async Task<ShoppingCartViewModel> GetShoppingCartViewModel(ShoppingCartInfo shoppingCart, PaymentShippingViewModel paymentShipping, CancellationToken cancellationToken)
     {
         var languageName = currentLanguageRetriever.Get();
         var shoppingCartData = shoppingCart.GetShoppingCartDataModel();
@@ -221,6 +283,7 @@ public sealed class DancingGoatCheckoutController : Controller
         var productPageUrls = await productRepository.GetProductPageUrls(products.Cast<IContentItemFieldsSource>().Select(p => p.SystemFields.ContentItemID), cancellationToken);
 
         var totalPrice = CalculationService.CalculateTotalPrice(shoppingCartData, products);
+        var grandTotalPrice = totalPrice + paymentShipping.ShippingPrice;
 
         return new ShoppingCartViewModel(
             shoppingCartData.Items.Select(item =>
@@ -243,7 +306,7 @@ public sealed class DancingGoatCheckoutController : Controller
             })
             .Where(x => x != null)
             .ToList(),
-            totalPrice);
+            grandTotalPrice);
     }
 
 
@@ -253,5 +316,3 @@ public sealed class DancingGoatCheckoutController : Controller
     /// <seealso cref="MemberInfo"/>"/>
     private async Task<ApplicationUser> GetAuthenticatedUser() => await userManager.GetUserAsync(User);
 }
-
-#pragma warning restore KXE0002 // Commerce feature is for evaluation purposes only and is subject to change or removal in future updates. Suppress this diagnostic to proceed.

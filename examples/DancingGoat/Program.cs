@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 
 using DancingGoat;
-using DancingGoat.Commerce;
 using DancingGoat.EmailComponents;
 using DancingGoat.Helpers.Generators;
 using DancingGoat.Models;
+using DancingGoat.Search;
 
 using CMS;
 using CMS.Base;
@@ -31,7 +31,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using DancingGoat.Search;
 
 using Samples.DancingGoat;
 
@@ -59,9 +58,7 @@ builder.Services.AddKentico(features =>
     features.UseEmailMarketing();
     features.UseEmailStatisticsLogging();
     features.UseActivityTracking();
-#pragma warning disable KXE0002 // Commerce feature is for evaluation purposes only and is subject to change or removal in future updates. Suppress this diagnostic to proceed.
     features.UseCommerce();
-#pragma warning restore KXE0002 // Commerce feature is for evaluation purposes only and is subject to change or removal in future updates. Suppress this diagnostic to proceed.
 });
 
 builder.Services.Configure<RouteOptions>(options => options.LowercaseUrls = true);
@@ -69,10 +66,7 @@ builder.Services.Configure<RouteOptions>(options => options.LowercaseUrls = true
 builder.Services.AddLocalization()
     .AddControllersWithViews()
     .AddViewLocalization()
-    .AddDataAnnotationsLocalization(options =>
-    {
-        options.DataAnnotationLocalizerProvider = (type, factory) => factory.Create(typeof(SharedResources));
-    });
+    .AddDataAnnotationsLocalization(options => options.DataAnnotationLocalizerProvider = (type, factory) => factory.Create(typeof(SharedResources)));
 
 builder.Services.AddDancingGoatServices();
 
@@ -92,7 +86,7 @@ var app = builder.Build();
 
 app.InitKentico();
 
-Initialize(app.Services);
+app.InitializeDancingGoat();
 
 app.UseStaticFiles();
 
@@ -183,13 +177,6 @@ static void ConfigureMembershipServices(IServiceCollection services)
     });
 
     services.AddAuthorization();
-}
-
-
-static void Initialize(IServiceProvider serviceProvider)
-{
-    var contentItemEventHandlers = serviceProvider.GetRequiredService<ContentItemEventHandlers>();
-    contentItemEventHandlers.Initialize();
 }
 
 

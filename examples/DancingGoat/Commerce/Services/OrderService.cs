@@ -9,7 +9,8 @@ using CMS.DataEngine;
 
 using DancingGoat.Models;
 
-#pragma warning disable KXE0002 // Commerce feature is for evaluation purposes only and is subject to change or removal in future updates. Suppress this diagnostic to proceed.
+using Microsoft.Extensions.Logging;
+
 namespace DancingGoat.Commerce;
 
 /// <summary>
@@ -29,7 +30,9 @@ public sealed class OrderService
     private readonly ProductRepository productRepository;
     private readonly IInfoProvider<OrderStatusInfo> orderStatusInfoProvider;
     private readonly IOrderNotificationService orderNotificationService;
-
+    private readonly ILogger<OrderService> logger;
+    private readonly IInfoProvider<ShippingMethodInfo> shippingMethodInfoProvider;
+    private readonly IInfoProvider<PaymentMethodInfo> paymentMethodInfoProvider;
 
     public OrderService(
         ProductVariantsExtractor productVariantsExtractor,
@@ -43,7 +46,10 @@ public sealed class OrderService
         OrderNumberGenerator orderNumberGenerator,
         ProductRepository productRepository,
         IInfoProvider<OrderStatusInfo> orderStatusInfoProvider,
-        IOrderNotificationService orderNotificationService)
+        IOrderNotificationService orderNotificationService,
+        ILogger<OrderService> logger,
+        IInfoProvider<ShippingMethodInfo> shippingMethodInfoProvider,
+        IInfoProvider<PaymentMethodInfo> paymentMethodInfoProvider)
     {
         this.productVariantsExtractor = productVariantsExtractor;
         this.productNameProvider = productNameProvider;
@@ -57,6 +63,9 @@ public sealed class OrderService
         this.productRepository = productRepository;
         this.orderStatusInfoProvider = orderStatusInfoProvider;
         this.orderNotificationService = orderNotificationService;
+        this.logger = logger;
+        this.shippingMethodInfoProvider = shippingMethodInfoProvider;
+        this.paymentMethodInfoProvider = paymentMethodInfoProvider;
     }
 
 
@@ -64,12 +73,14 @@ public sealed class OrderService
     /// Creates an order based on the provided shopping cart and customer information.
     /// </summary>
     /// <returns>Returns order number of newly create order.</returns>
-    public async Task<string> CreateOrder(ShoppingCartDataModel shoppingCartData, CustomerDto customerDto, int memberId, CancellationToken cancellationToken)
+    public async Task<string> CreateOrder(ShoppingCartDataModel shoppingCartData, CustomerDto customerDto, int memberId, int paymentMethodId, int shippingMethodId, CancellationToken cancellationToken)
     {
 
         var products = await productRepository.GetProductsByIds(shoppingCartData.Items.Select(item => item.ContentItemId), cancellationToken);
 
+        var shipping = await shippingMethodInfoProvider.GetAsync(shippingMethodId, cancellationToken);
         var totalPrice = CalculationService.CalculateTotalPrice(shoppingCartData, products);
+        var grandTotalPrice = totalPrice + shipping.ShippingMethodPrice;
 
         using (var scope = new CMSTransactionScope())
         {
@@ -78,6 +89,8 @@ public sealed class OrderService
             var orderNumber = await orderNumberGenerator.GenerateOrderNumber(cancellationToken);
             var orderStatusId = await GetInitialOrderStatusId(cancellationToken);
 
+            var payment = await paymentMethodInfoProvider.GetAsync(paymentMethodId, cancellationToken);
+
             var order = new OrderInfo()
             {
                 OrderCreatedWhen = DateTime.Now,
@@ -85,29 +98,52 @@ public sealed class OrderService
                 OrderOrderStatusID = orderStatusId,
                 OrderTotalPrice = totalPrice,
                 OrderTotalTax = 0,
-                OrderTotalShipping = 0,
-                OrderGrandTotal = totalPrice,
-                OrderCustomerID = customerId
+                OrderTotalShipping = shipping.ShippingMethodPrice,
+                OrderGrandTotal = grandTotalPrice,
+                OrderCustomerID = customerId,
+                OrderShippingMethodPrice = shipping.ShippingMethodPrice,
+                OrderShippingMethodDisplayName = shipping.ShippingMethodDisplayName,
+                OrderShippingMethodID = shipping.ShippingMethodID,
+                OrderPaymentMethodDisplayName = payment.PaymentMethodDisplayName,
+                OrderPaymentMethodID = payment.PaymentMethodID,
             };
             await orderInfoProvider.SetAsync(order);
 
-            var orderAddress = new OrderAddressInfo()
+            var billingOrderAddress = new OrderAddressInfo()
             {
                 OrderAddressFirstName = customerDto.FirstName,
                 OrderAddressLastName = customerDto.LastName,
                 OrderAddressCompany = customerDto.Company,
                 OrderAddressPhone = customerDto.PhoneNumber,
                 OrderAddressEmail = customerDto.Email,
-                OrderAddressCity = customerDto.AddressCity,
-                OrderAddressLine1 = customerDto.AddressLine1,
-                OrderAddressLine2 = customerDto.AddressLine2,
-                OrderAddressZip = customerDto.AddressPostalCode,
-                OrderAddressCountryID = customerDto.AddressCountryId,
-                OrderAddressStateID = customerDto.AddressStateId,
+                OrderAddressCity = customerDto.BillingAddressCity,
+                OrderAddressLine1 = customerDto.BillingAddressLine1,
+                OrderAddressLine2 = customerDto.BillingAddressLine2,
+                OrderAddressZip = customerDto.BillingAddressPostalCode,
+                OrderAddressCountryID = customerDto.BillingAddressCountryId,
+                OrderAddressStateID = customerDto.BillingAddressStateId,
                 OrderAddressOrderID = order.OrderID,
-                OrderAddressType = "Billing",
+                OrderAddressType = OrderAddressType.Billing,
             };
-            await orderAddressInfoProvider.SetAsync(orderAddress);
+            await orderAddressInfoProvider.SetAsync(billingOrderAddress);
+
+            var shippingOrderAddress = new OrderAddressInfo()
+            {
+                OrderAddressFirstName = customerDto.FirstName,
+                OrderAddressLastName = customerDto.LastName,
+                OrderAddressCompany = customerDto.Company,
+                OrderAddressPhone = customerDto.PhoneNumber,
+                OrderAddressEmail = customerDto.Email,
+                OrderAddressCity = customerDto.ShippingAddressCity,
+                OrderAddressLine1 = customerDto.ShippingAddressLine1,
+                OrderAddressLine2 = customerDto.ShippingAddressLine2,
+                OrderAddressZip = customerDto.ShippingAddressPostalCode,
+                OrderAddressCountryID = customerDto.ShippingAddressCountryId,
+                OrderAddressStateID = customerDto.ShippingAddressStateId,
+                OrderAddressOrderID = order.OrderID,
+                OrderAddressType = OrderAddressType.Shipping,
+            };
+            await orderAddressInfoProvider.SetAsync(shippingOrderAddress);
 
             foreach (var item in shoppingCartData.Items)
             {
@@ -120,7 +156,7 @@ public sealed class OrderService
                 var orderItem = new OrderItemInfo()
                 {
                     OrderItemOrderID = order.OrderID,
-                    OrderItemUnitCount = item.Quantity,
+                    OrderItemQuantity = item.Quantity,
                     OrderItemUnitPrice = unitPrice,
                     OrderItemTotalPrice = CalculationService.CalculateItemPrice(item.Quantity, unitPrice),
                     OrderItemSKU = variantSKU ?? (product as IProductSKU).ProductSKUCode,
@@ -131,7 +167,14 @@ public sealed class OrderService
 
             scope.Commit();
 
-            await orderNotificationService.SendNotification(order.OrderID, cancellationToken);
+            try
+            {
+                await orderNotificationService.SendNotification(order.OrderID, cancellationToken);
+            }
+            catch (OrderNotificationSendException ex)
+            {
+                logger.LogError(ex, "Failed to send notification for order ID {OrderID}", order.OrderID);
+            }
 
             return orderNumber;
         }
@@ -185,12 +228,12 @@ public sealed class OrderService
         customerAddress.CustomerAddressCompany = customerDto.Company;
         customerAddress.CustomerAddressEmail = customerDto.Email;
         customerAddress.CustomerAddressPhone = customerDto.PhoneNumber;
-        customerAddress.CustomerAddressLine1 = customerDto.AddressLine1;
-        customerAddress.CustomerAddressLine2 = customerDto.AddressLine2;
-        customerAddress.CustomerAddressCity = customerDto.AddressCity;
-        customerAddress.CustomerAddressZip = customerDto.AddressPostalCode;
-        customerAddress.CustomerAddressCountryID = customerDto.AddressCountryId;
-        customerAddress.CustomerAddressStateID = customerDto.AddressStateId;
+        customerAddress.CustomerAddressLine1 = customerDto.BillingAddressLine1;
+        customerAddress.CustomerAddressLine2 = customerDto.BillingAddressLine2;
+        customerAddress.CustomerAddressCity = customerDto.BillingAddressCity;
+        customerAddress.CustomerAddressZip = customerDto.BillingAddressPostalCode;
+        customerAddress.CustomerAddressCountryID = customerDto.BillingAddressCountryId;
+        customerAddress.CustomerAddressStateID = customerDto.BillingAddressStateId;
 
         await customerAddressInfoProvider.SetAsync(customerAddress);
 
@@ -209,4 +252,3 @@ public sealed class OrderService
               .Column(nameof(OrderStatusInfo.OrderStatusID))
               .GetScalarResultAsync<int>(cancellationToken: cancellationToken);
 }
-#pragma warning restore KXE0002 // Commerce feature is for evaluation purposes only and is subject to change or removal in future updates. Suppress this diagnostic to proceed.

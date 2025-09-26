@@ -36,27 +36,28 @@ internal static class IndexedItemModelExtensions
             return false;
         }
 
-        if (!string.Equals(item.WebsiteChannelName, luceneIndex.WebSiteChannelName))
+        if (!luceneIndex.ChannelConfigurations.Any(x => string.Equals(item.WebsiteChannelName, x.WebsiteChannelName)))
         {
             return false;
         }
 
-        if (!luceneIndex.LanguageNames.Exists(x => x == item.LanguageName))
+        if (!luceneIndex.LanguageNames.Exists(x => string.Equals(x, item.LanguageName)))
         {
             return false;
         }
 
-        return luceneIndex.IncludedPaths.Any(path =>
+        return luceneIndex.ChannelConfigurations.Any(channel => channel.IncludedPaths.Any(path =>
         {
             bool matchesContentType = path.ContentTypes.Exists(x => string.Equals(x.ContentTypeName, item.ContentTypeName));
+            bool matchesChannel = string.Equals(channel.WebsiteChannelName, item.WebsiteChannelName);
 
-            if (!matchesContentType)
+            if (!matchesContentType || !matchesChannel)
             {
                 return false;
             }
 
             // Supports wildcard matching
-            if (path.AliasPath.EndsWith("/%", StringComparison.OrdinalIgnoreCase))
+            if (LucenePathHelper.EndsWithWildcard(path.AliasPath))
             {
                 string pathToMatch = path.AliasPath[..^2];
                 var pathsOnPath = TreePathUtils.GetTreePathsOnPath(item.WebPageItemTreePath, true, false).ToHashSet();
@@ -65,7 +66,7 @@ internal static class IndexedItemModelExtensions
             }
 
             return item.WebPageItemTreePath.Equals(path.AliasPath, StringComparison.OrdinalIgnoreCase);
-        });
+        }));
     }
 
     /// <summary>
@@ -96,7 +97,7 @@ internal static class IndexedItemModelExtensions
             return false;
         }
 
-        if (luceneIndex.LanguageNames.Exists(x => x == item.LanguageName))
+        if (luceneIndex.LanguageNames.Exists(x => string.Equals(x, item.LanguageName)))
         {
             return true;
         }

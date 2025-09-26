@@ -79,7 +79,8 @@ namespace DancingGoat.Controllers
                     new RetrieveContentOfReusableSchemasParameters
                     {
                         LinkedItemsMaxLevel = 1,
-                        WorkspaceNames = [DancingGoatConstants.COMMERCE_WORKSPACE_NAME]
+                        WorkspaceNames = [DancingGoatConstants.COMMERCE_WORKSPACE_NAME],
+                        IncludeSecuredItems = User.Identity.IsAuthenticated
                     },
                     query => query.Where(where => where.WhereContainsTags(PRODUCT_CATEGORY_FIELD_NAME, tagCollection)),
                     new RetrievalCacheSettings($"WhereContainsTags_{PRODUCT_CATEGORY_FIELD_NAME}_{string.Join("_", tagCollection.TagIdentifiers)}"),
@@ -90,7 +91,8 @@ namespace DancingGoat.Controllers
                     new RetrieveContentOfContentTypesParameters
                     {
                         LinkedItemsMaxLevel = 1,
-                        WorkspaceNames = [DancingGoatConstants.COMMERCE_WORKSPACE_NAME]
+                        WorkspaceNames = [DancingGoatConstants.COMMERCE_WORKSPACE_NAME],
+                        IncludeSecuredItems = User.Identity.IsAuthenticated
                     },
                     query => query.Where(where => where.WhereContainsTags(PRODUCT_CATEGORY_FIELD_NAME, tagCollection)),
                     new RetrievalCacheSettings($"WhereContainsTags_{PRODUCT_CATEGORY_FIELD_NAME}_{string.Join("_", tagCollection.TagIdentifiers)}"),

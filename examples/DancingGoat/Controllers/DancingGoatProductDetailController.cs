@@ -47,7 +47,11 @@ namespace DancingGoat.Controllers
         {
             var languageName = currentLanguageRetriever.Get();
             var productPage = await contentRetriever.RetrieveCurrentPage<ProductPage>(
-                new RetrieveCurrentPageParameters { LinkedItemsMaxLevel = 2 },
+                new RetrieveCurrentPageParameters
+                {
+                    LinkedItemsMaxLevel = 2,
+                    IncludeSecuredItems = User.Identity.IsAuthenticated
+                },
                 cancellationToken
             );
 
