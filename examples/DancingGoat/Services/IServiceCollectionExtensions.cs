@@ -25,7 +25,7 @@ namespace DancingGoat
 
         private static void AddCommerceServices(IServiceCollection services)
         {
-            services.AddSingleton<ContentItemEventHandlers>();
+            services.AddSingleton<ProductSkuValidationEventHandler>();
 
             services.AddSingleton<OrderService>();
             services.AddSingleton<CustomerDataRetriever>();
@@ -36,6 +36,8 @@ namespace DancingGoat
             services.AddSingleton<ProductVariantsExtractor>();
             services.AddSingleton<CountryStateRepository>();
             services.AddSingleton<ProductRepository>();
+            services.AddSingleton<PaymentRepository>();
+            services.AddSingleton<ShippingRepository>();
 
             // Register extractors for product types
             services.AddSingleton<IProductTypeParametersExtractor, ProductManufacturerExtractor>();

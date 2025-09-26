@@ -18,15 +18,20 @@ Fill out the search index form, populating the fields with your custom values.
 - Included Reusable Content Types - these are the reusable content types that will be processed by your custom indexing strategy.
 If no option is selected, no items will be processed.
 - Indexed Languages - the index will only include content in the selected languages.
-- Channel Name - the index will only be triggered by web page item creation or modification in the selected website channel.
 - Indexing Strategy - the indexing strategy specified in code during dependency registration of a custom indexing strategies.
   - In case you do not want the default strategy to appear here, use the builder and set the `IncludeDefaultStrategy` property to `false`.
 - Lucene Analyzer - the Lucene analyzer which indexes use to analyze text.
   - In case you do not want the default `Standard` analyzer to appear here, use the builder and set the `IncludeDefaultAnalyzer` property to `false`.
 - Rebuild Hook - for validating a request rebuild of the search index from an external source (ex: API request).
 
-Now, configure the web page paths and content types that the search index depends on by clicking the Add New Path button
-or clicking an existing path in the table at the top of the index configuration form.
+Now, configure the website channels by clicking the Add New Website Channel Configuration button
+or clicking an existing website channel in the table at the top of the index configuration form.
+The index will only be triggered by web page item creation or modification in the selected website channel.
+
+![Administration search index edit website channel form](/images/xperience-administration-search-index-edit-form-channel-configuration-edit.jpg)
+
+Now, configure the web page paths and content types of the selected website channel that the search index depends on by clicking the Add New Path Configuration button
+or clicking an existing path in the table under the website channel selector.
 
 ![Administration search index edit paths form](/images/xperience-administration-search-index-edit-form-paths-edit.jpg)
 

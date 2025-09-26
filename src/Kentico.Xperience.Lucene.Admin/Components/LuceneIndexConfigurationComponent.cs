@@ -1,34 +1,27 @@
 ﻿using CMS.DataEngine;
 
 using Kentico.Xperience.Admin.Base;
-using Kentico.Xperience.Admin.Base.FormAnnotations;
 using Kentico.Xperience.Admin.Base.Forms;
-using Kentico.Xperience.Lucene.Admin;
 using Kentico.Xperience.Lucene.Core.Indexing;
-
-[assembly: RegisterFormComponent(
-    identifier: LuceneIndexConfigurationComponent.IDENTIFIER,
-    componentType: typeof(LuceneIndexConfigurationComponent),
-    name: "Lucene Search Index Configuration")]
 
 namespace Kentico.Xperience.Lucene.Admin;
 
+#pragma warning disable IDE0079 // Remove unnecessary suppression
 #pragma warning disable S2094 // intentionally empty class
+[Obsolete("The class is no longer used because the LuceneIndexConfigurationComponent is not used anymore.")]
+#pragma warning restore IDE0079 // Remove unnecessary suppression
 public class LuceneIndexConfigurationComponentProperties : FormComponentProperties
 {
 }
 #pragma warning restore
 
+[Obsolete("The class is no longer used because the LuceneIndexConfigurationComponent is not used anymore.")]
 public class LuceneIndexConfigurationComponentClientProperties : FormComponentClientProperties<IEnumerable<LuceneIndexIncludedPath>>
 {
     public IEnumerable<LuceneIndexContentType>? PossibleContentTypeItems { get; set; }
 }
 
-public sealed class LuceneIndexConfigurationComponentAttribute : FormComponentAttribute
-{
-}
-
-[ComponentAttribute(typeof(LuceneIndexConfigurationComponentAttribute))]
+[Obsolete("The component is no longer used. Use Kentico.Xperience.Lucene.Admin.LuceneSearchIndexConfigurationComponent instead.")]
 public class LuceneIndexConfigurationComponent : FormComponent<LuceneIndexConfigurationComponentProperties, LuceneIndexConfigurationComponentClientProperties, IEnumerable<LuceneIndexIncludedPath>>
 {
     public const string IDENTIFIER = "kentico.xperience-integrations-lucene-admin.lucene-index-configuration";

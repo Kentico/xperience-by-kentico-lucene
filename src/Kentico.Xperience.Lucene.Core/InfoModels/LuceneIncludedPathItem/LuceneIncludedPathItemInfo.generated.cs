@@ -2,6 +2,7 @@ using System.Data;
 using System.Runtime.Serialization;
 
 using CMS;
+using CMS.ContentEngine;
 using CMS.DataEngine;
 using CMS.Helpers;
 
@@ -14,7 +15,6 @@ namespace Kentico.Xperience.Lucene.Core;
 /// <summary>
 /// Data container class for <see cref="LuceneIncludedPathItemInfo"/>.
 /// </summary>
-[Serializable]
 public partial class LuceneIncludedPathItemInfo : AbstractInfo<LuceneIncludedPathItemInfo, IInfoProvider<LuceneIncludedPathItemInfo>>
 {
     /// <summary>
@@ -69,6 +69,17 @@ public partial class LuceneIncludedPathItemInfo : AbstractInfo<LuceneIncludedPat
     {
         get => ValidationHelper.GetString(GetValue(nameof(LuceneIncludedPathItemAliasPath)), String.Empty);
         set => SetValue(nameof(LuceneIncludedPathItemAliasPath), value);
+    }
+
+
+    /// <summary>
+    /// Channel name.
+    /// </summary>
+    [DatabaseField]
+    public virtual string LuceneIncludedPathItemChannelName
+    {
+        get => ValidationHelper.GetString(GetValue(nameof(LuceneIncludedPathItemChannelName)), String.Empty);
+        set => SetValue(nameof(LuceneIncludedPathItemChannelName), value);
     }
 
 

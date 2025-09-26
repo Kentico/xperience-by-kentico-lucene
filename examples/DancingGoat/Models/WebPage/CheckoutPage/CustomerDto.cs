@@ -15,15 +15,27 @@ public sealed record CustomerDto
 
     public string Company { get; set; }
 
-    public string AddressLine1 { get; set; }
+    public string BillingAddressLine1 { get; set; }
 
-    public string AddressLine2 { get; set; }
+    public string BillingAddressLine2 { get; set; }
 
-    public string AddressCity { get; set; }
+    public string BillingAddressCity { get; set; }
 
-    public string AddressPostalCode { get; set; }
+    public string BillingAddressPostalCode { get; set; }
 
-    public int AddressCountryId { get; set; }
+    public int BillingAddressCountryId { get; set; }
 
-    public int AddressStateId { get; set; }
+    public int BillingAddressStateId { get; set; }
+
+    public string ShippingAddressLine1 { get; set; }
+
+    public string ShippingAddressLine2 { get; set; }
+
+    public string ShippingAddressCity { get; set; }
+
+    public string ShippingAddressPostalCode { get; set; }
+
+    public int ShippingAddressCountryId { get; set; }
+
+    public int ShippingAddressStateId { get; set; }
 }

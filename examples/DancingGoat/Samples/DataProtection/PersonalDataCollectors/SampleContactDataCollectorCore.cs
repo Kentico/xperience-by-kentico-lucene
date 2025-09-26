@@ -24,8 +24,6 @@ namespace Samples.DancingGoat
         private readonly IInfoProvider<CountryInfo> countryInfoProvider;
         private readonly IInfoProvider<StateInfo> stateInfoProvider;
         private readonly IInfoProvider<ConsentAgreementInfo> consentAgreementInfoProvider;
-        private readonly IInfoProvider<AccountContactInfo> accountContactInfoProvider;
-        private readonly IInfoProvider<AccountInfo> accountInfoProvider;
         private readonly IInfoProvider<BizFormInfo> bizFormInfoProvider;
 
         // Lists store Tuples of database column names and their corresponding display names.
@@ -80,21 +78,6 @@ namespace Samples.DancingGoat
             new CollectedColumn("ActivityUrl", "URL"),
             new CollectedColumn("ActivityTitle", "Title"),
             new CollectedColumn("ActivityItemId", "")
-        };
-
-
-        private readonly List<CollectedColumn> accountInfoColumns = new List<CollectedColumn> {
-            new CollectedColumn("AccountName", "Name"),
-            new CollectedColumn("AccountAddress1", "Address"),
-            new CollectedColumn("AccountAddress2", "Address 2"),
-            new CollectedColumn("AccountCity", "City"),
-            new CollectedColumn("AccountZip", "ZIP"),
-            new CollectedColumn("AccountWebSite", "Web site"),
-            new CollectedColumn("AccountEmail", "Email"),
-            new CollectedColumn("AccountPhone", "Phone"),
-            new CollectedColumn("AccountFax", "Fax"),
-            new CollectedColumn("AccountNotes", "Notes"),
-            new CollectedColumn("AccountGUID", "GUID")
         };
 
 
@@ -320,8 +303,6 @@ namespace Samples.DancingGoat
         /// <param name="countryInfoProvider">Country info provider.</param>
         /// <param name="stateInfoProvider">State info provider.</param>
         /// <param name="consentAgreementInfoProvider">Consent agreement info provider.</param>
-        /// <param name="accountContactInfoProvider">Account contact info provider.</param>
-        /// <param name="accountInfoProvider">Account info provider.</param>
         /// <param name="bizFormInfoProvider">BizForm info provider.</param>
         public SampleContactDataCollectorCore(
             IPersonalDataWriter writer,
@@ -329,8 +310,6 @@ namespace Samples.DancingGoat
             IInfoProvider<CountryInfo> countryInfoProvider,
             IInfoProvider<StateInfo> stateInfoProvider,
             IInfoProvider<ConsentAgreementInfo> consentAgreementInfoProvider,
-            IInfoProvider<AccountContactInfo> accountContactInfoProvider,
-            IInfoProvider<AccountInfo> accountInfoProvider,
             IInfoProvider<BizFormInfo> bizFormInfoProvider)
         {
             this.writer = writer;
@@ -338,8 +317,6 @@ namespace Samples.DancingGoat
             this.countryInfoProvider = countryInfoProvider;
             this.stateInfoProvider = stateInfoProvider;
             this.consentAgreementInfoProvider = consentAgreementInfoProvider;
-            this.accountContactInfoProvider = accountContactInfoProvider;
-            this.accountInfoProvider = accountInfoProvider;
             this.bizFormInfoProvider = bizFormInfoProvider;
         }
 
@@ -376,7 +353,6 @@ namespace Samples.DancingGoat
             WriteContacts(contacts);
             WriteConsents(contactIDs);
             WriteContactActivities(contactActivities);
-            WriteContactAccounts(contactIDs);
             WriteContactGroups(contactContactGroups);
             WriteDancingGoatSubmittedFormsData(contactEmails, contactIDs);
 
@@ -631,54 +607,6 @@ namespace Samples.DancingGoat
                 writer.WriteStartSection(ActivityInfo.OBJECT_TYPE, "Activity");
 
                 writer.WriteBaseInfo(contactActivityInfo, activityInfoColumns);
-
-                writer.WriteEndSection();
-            }
-        }
-
-
-        /// <summary>
-        /// Gets and writes all contact accounts for specified <paramref name="contactIDs"/>.
-        /// </summary>
-        /// <param name="contactIDs">List of contact IDs.</param>
-        private void WriteContactAccounts(ICollection<int> contactIDs)
-        {
-            var accountIDs = accountContactInfoProvider.Get()
-                .WhereIn("ContactID", contactIDs)
-                .Column("AccountID")
-                .Distinct();
-            var accountInfos = accountInfoProvider.Get()
-                .Columns(accountInfoColumns.Select(t => t.Name))
-                .WhereIn("AccountID", accountIDs)
-                .ToList();
-
-            var countryInfos = countryInfoProvider.Get()
-                .WhereIn("CountryID", accountInfos.Select(r => r.AccountCountryID).ToList())
-                .ToDictionary(ci => ci.CountryID);
-            var stateInfos = stateInfoProvider.Get()
-                .WhereIn("StateID", accountInfos.Select(r => r.AccountStateID).ToList())
-                .ToDictionary(si => si.StateID);
-
-            foreach (var accountInfo in accountInfos)
-            {
-                CountryInfo countryInfo;
-                StateInfo stateInfo;
-                countryInfos.TryGetValue(accountInfo.AccountCountryID, out countryInfo);
-                stateInfos.TryGetValue(accountInfo.AccountStateID, out stateInfo);
-
-                writer.WriteStartSection(AccountInfo.OBJECT_TYPE, "Account");
-
-                writer.WriteBaseInfo(accountInfo, accountInfoColumns);
-
-                if (countryInfo != null)
-                {
-                    writer.WriteBaseInfo(countryInfo, countryInfoColumns);
-                }
-
-                if (stateInfo != null)
-                {
-                    writer.WriteBaseInfo(stateInfo, stateInfoColumns);
-                }
 
                 writer.WriteEndSection();
             }

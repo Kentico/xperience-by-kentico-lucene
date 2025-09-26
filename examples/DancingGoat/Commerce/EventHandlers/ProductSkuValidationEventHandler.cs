@@ -10,15 +10,15 @@ namespace DancingGoat.Commerce;
 /// <summary>
 /// Handles events related to content items.
 /// </summary>
-internal sealed class ContentItemEventHandlers
+internal sealed class ProductSkuValidationEventHandler
 {
     private readonly ProductSkuValidator productSkuValidator;
 
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="ContentItemEventHandlers"/> class.
+    /// Initializes a new instance of the <see cref="ProductSkuValidationEventHandler"/> class.
     /// </summary>
-    public ContentItemEventHandlers(ProductSkuValidator productSkuValidator)
+    public ProductSkuValidationEventHandler(ProductSkuValidator productSkuValidator)
     {
         this.productSkuValidator = productSkuValidator;
     }

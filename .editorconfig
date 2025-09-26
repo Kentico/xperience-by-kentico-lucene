@@ -633,6 +633,9 @@ dotnet_diagnostic.IDE0110.severity                                        = warn
 # IDE1006: Naming Styles
 dotnet_diagnostic.IDE1006.severity                                        = error
 
+# KXE0004: Type is for evaluation purposes only and is subject to change or removal in future updates. Suppress this diagnostic to proceed.
+dotnet_diagnostic.KXE0004.severity                                        = silent
+
 # Naming Conventions
 dotnet_naming_symbols.const_field_symbols.applicable_kinds                = field
 dotnet_naming_symbols.const_field_symbols.required_modifiers              = const

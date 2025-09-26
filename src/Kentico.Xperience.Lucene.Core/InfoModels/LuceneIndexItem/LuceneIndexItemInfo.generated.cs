@@ -14,7 +14,6 @@ namespace Kentico.Xperience.Lucene.Core;
 /// <summary>
 /// Data container class for <see cref="LuceneIndexItemInfo"/>.
 /// </summary>
-[Serializable]
 public partial class LuceneIndexItemInfo : AbstractInfo<LuceneIndexItemInfo, IInfoProvider<LuceneIndexItemInfo>>
 {
     /// <summary>
@@ -73,6 +72,7 @@ public partial class LuceneIndexItemInfo : AbstractInfo<LuceneIndexItemInfo, IIn
     /// Channel name.
     /// </summary>
     [DatabaseField]
+    [Obsolete]
     public virtual string LuceneIndexItemChannelName
     {
         get => ValidationHelper.GetString(GetValue(nameof(LuceneIndexItemChannelName)), String.Empty);

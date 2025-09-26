@@ -1,5 +1,11 @@
 # Upgrades
 
+## 12.5.0 -> 13.0.0
+
+The core custom module tables have been changed to add the multi channel search support.
+
+After installing the v13.0.0 NuGet package your index definitions will need to be re-created.
+
 ## 3.0.0 -> 4.0.0
 
 The core custom module tables have been renamed to align with Kentico's naming conventions.
@@ -53,6 +59,7 @@ drop table KenticoLucene_LuceneContentTypeItem
 drop table KenticoLucene_LuceneIncludedPathItem
 drop table KenticoLucene_LuceneIndexLanguageItem
 drop table KenticoLucene_LuceneIndexItem
+drop table KenticoLucene_LuceneIndexAssemblyVersionItem
 
 delete
 FROM [dbo].[CMS_Class] where ClassName like 'kenticolucene%'

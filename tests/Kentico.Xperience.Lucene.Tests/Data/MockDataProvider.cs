@@ -41,9 +41,11 @@ internal static class MockDataProvider
         new LuceneIndexModel()
         {
             IndexName = DefaultIndex,
-            ChannelName = DefaultChannel,
+            Channels = [new(DefaultChannel, DefaultChannel)
+            {
+                IncludedPaths = [Path]
+            }],
             LanguageNames = [EnglishLanguageName, CzechLanguageName],
-            Paths = [Path],
             AnalyzerName = DefaultAnalyzer
         },
         [],
@@ -64,9 +66,11 @@ internal static class MockDataProvider
         {
             Id = id,
             IndexName = indexName,
-            ChannelName = DefaultChannel,
-            LanguageNames = [EnglishLanguageName, CzechLanguageName],
-            Paths = [Path],
+            Channels = [new(DefaultChannel, DefaultChannel)
+            {
+                IncludedPaths = [Path]
+            }],
+            LanguageNames = [EnglishLanguageName, CzechLanguageName]
         },
         [],
         [],
