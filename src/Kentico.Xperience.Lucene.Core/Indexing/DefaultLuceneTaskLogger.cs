@@ -51,6 +51,8 @@ internal class DefaultLuceneTaskLogger : ILuceneTaskLogger
     /// <inheritdoc />
     public async Task HandleReusableItemEvent(IndexEventReusableItemModel reusableItem, string eventName)
     {
+        var taskType = GetTaskType(eventName);
+
         foreach (var luceneIndex in indexManager.GetAllIndices())
         {
             if (!reusableItem.IsIndexedByIndex(eventLogService, indexManager, luceneIndex.IndexName, eventName))
@@ -63,9 +65,13 @@ internal class DefaultLuceneTaskLogger : ILuceneTaskLogger
 
             if (toReindex is not null)
             {
-                foreach (var item in toReindex)
+                if (taskType == LuceneTaskType.DELETE)
                 {
-                    LogIndexTaskInternal(item, LuceneTaskType.UPDATE, luceneIndex.IndexName);
+                    LogIndexTaskInternal(reusableItem, LuceneTaskType.DELETE, luceneIndex.IndexName);
+                }
+                else
+                {
+                    LogIndexTaskInternal(reusableItem, LuceneTaskType.UPDATE, luceneIndex.IndexName);
                 }
             }
         }
@@ -176,13 +182,16 @@ internal class DefaultLuceneTaskLogger : ILuceneTaskLogger
 
     private static LuceneTaskType GetTaskType(string eventName)
     {
-        if (eventName.Equals(WebPageEvents.Publish.Name, StringComparison.OrdinalIgnoreCase))
+        if (eventName.Equals(WebPageEvents.Publish.Name, StringComparison.OrdinalIgnoreCase)
+            || eventName.Equals(ContentItemEvents.Publish.Name, StringComparison.OrdinalIgnoreCase))
         {
             return LuceneTaskType.UPDATE;
         }
 
         if (eventName.Equals(WebPageEvents.Delete.Name, StringComparison.OrdinalIgnoreCase) ||
-            eventName.Equals(WebPageEvents.Unpublish.Name, StringComparison.OrdinalIgnoreCase))
+            eventName.Equals(WebPageEvents.Unpublish.Name, StringComparison.OrdinalIgnoreCase) ||
+            eventName.Equals(ContentItemEvents.Delete.Name, StringComparison.OrdinalIgnoreCase) ||
+            eventName.Equals(ContentItemEvents.Unpublish.Name, StringComparison.OrdinalIgnoreCase))
         {
             return LuceneTaskType.DELETE;
         }
