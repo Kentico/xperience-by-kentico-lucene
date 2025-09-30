@@ -9,7 +9,7 @@ To address this issue, a new configuration option has been introduced to enable 
 **Note:** For this feature to work correctly, your project must have a build-time assembly version that changes with each deployment. One approach is to add the following to your `.csproj` file:
 ```xml
 <PropertyGroup>
-    <VersionSuffix>$([System.DateTime]::UtcNow.ToString("yyyyMMdd.HHmmss"))</VersionSuffix>
+    <VersionSuffix>$([System.DateTime]::UtcNow.ToString("yyyyMMdd-HHmmss"))</VersionSuffix>
 </PropertyGroup>
 ```
 You can also use any other assembly versioning method, as long as it produces a unique value for each deployment.
