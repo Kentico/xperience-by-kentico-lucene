@@ -23,7 +23,7 @@ namespace Kentico.Xperience.Lucene.Admin;
 [UIPermission(SystemPermissions.UPDATE)]
 [UIPermission(SystemPermissions.DELETE)]
 [UIPermission(LuceneIndexPermissions.REBUILD, "Rebuild")]
-internal class LuceneApplicationPage : ApplicationPage
+public class LuceneApplicationPage : ApplicationPage
 {
     public const string IDENTIFIER = "Kentico.Xperience.Integrations.Lucene.Admin";
 }

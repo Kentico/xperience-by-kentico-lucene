@@ -16,7 +16,7 @@ using Kentico.Xperience.Lucene.Core.Indexing;
 namespace Kentico.Xperience.Lucene.Admin;
 
 [UIEvaluatePermission(SystemPermissions.UPDATE)]
-internal class IndexEditPage : BaseIndexEditPage
+public class IndexEditPage : BaseIndexEditPage
 {
     private LuceneConfigurationModel? model = null;
 

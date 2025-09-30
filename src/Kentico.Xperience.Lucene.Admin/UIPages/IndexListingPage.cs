@@ -20,7 +20,7 @@ namespace Kentico.Xperience.Lucene.Admin;
 /// An admin UI page that displays statistics about the registered Lucene indexes.
 /// </summary>
 [UIEvaluatePermission(SystemPermissions.VIEW)]
-internal class IndexListingPage : ListingPage
+public class IndexListingPage : ListingPage
 {
     private readonly ILuceneClient luceneClient;
 

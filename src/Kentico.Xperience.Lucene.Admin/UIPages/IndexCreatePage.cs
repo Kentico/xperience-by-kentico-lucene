@@ -18,7 +18,7 @@ using IFormItemCollectionProvider = Kentico.Xperience.Admin.Base.Forms.Internal.
 namespace Kentico.Xperience.Lucene.Admin;
 
 [UIEvaluatePermission(SystemPermissions.CREATE)]
-internal class IndexCreatePage : BaseIndexEditPage
+public class IndexCreatePage : BaseIndexEditPage
 {
     private readonly IPageLinkGenerator pageLinkGenerator;
     private readonly ILuceneIndexManager indexManager;
