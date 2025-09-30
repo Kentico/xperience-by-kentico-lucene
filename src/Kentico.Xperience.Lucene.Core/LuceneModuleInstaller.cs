@@ -1,4 +1,5 @@
-﻿using CMS.DataEngine;
+﻿using CMS.ContentEngine;
+using CMS.DataEngine;
 using CMS.FormEngine;
 using CMS.Modules;
 
@@ -30,6 +31,9 @@ public class LuceneModuleInstaller(IInfoProvider<ResourceInfo> resourceProvider)
         InstallLuceneContentTypeItemInfo(resource);
         InstallLuceneReusableContentTypeItemInfo(resource);
         InstallLuceneIndexAssemblyVersionItemInfo(resource);
+        
+        // Migrate existing data to populate missing channel names
+        MigrateExistingData();
     }
 
 
@@ -130,6 +134,22 @@ public class LuceneModuleInstaller(IInfoProvider<ResourceInfo> resourceProvider)
             DataType = "text",
             Enabled = true
         };
+        formInfo.AddFormItem(formItem);
+
+        // Add obsolete channel name field to handle legacy data gracefully
+        // Make it optional and hidden to avoid UI issues
+#pragma warning disable CS0612 // Type or member is obsolete
+        formItem = new FormFieldInfo
+        {
+            Name = nameof(LuceneIndexItemInfo.LuceneIndexItemChannelName),
+            AllowEmpty = true,
+            Visible = false,
+            Precision = 0,
+            Size = 100,
+            DataType = "text",
+            Enabled = false
+        };
+#pragma warning restore CS0612 // Type or member is obsolete
         formInfo.AddFormItem(formItem);
 
         SetFormDefinition(info, formInfo);
@@ -491,6 +511,51 @@ public class LuceneModuleInstaller(IInfoProvider<ResourceInfo> resourceProvider)
         else
         {
             info.ClassFormDefinition = form.GetXmlDefinition();
+        }
+    }
+
+    /// <summary>
+    /// Migrates existing data to ensure compatibility with channel configuration changes.
+    /// Populates missing channel names in LuceneIncludedPathItemInfo records.
+    /// </summary>
+    private void MigrateExistingData()
+    {
+        try
+        {
+            // Get all included path items without a channel name
+            var pathsWithoutChannel = LuceneIncludedPathItemInfo.Provider.Get()
+                .WhereEmpty(nameof(LuceneIncludedPathItemInfo.LuceneIncludedPathItemChannelName))
+                .Or()
+                .WhereNull(nameof(LuceneIncludedPathItemInfo.LuceneIncludedPathItemChannelName))
+                .ToList();
+
+            if (!pathsWithoutChannel.Any())
+            {
+                return; // No migration needed
+            }
+
+            // Get the first available website channel to use as default
+            var defaultChannel = ChannelInfo.Provider.Get()
+                .WhereEquals(nameof(ChannelInfo.ChannelType), ChannelType.Website.ToString())
+                .TopN(1)
+                .FirstOrDefault();
+
+            if (defaultChannel == null)
+            {
+                return; // No website channels available, migration cannot proceed
+            }
+
+            // Update all paths without channel names to use the default channel
+            foreach (var pathItem in pathsWithoutChannel)
+            {
+                pathItem.LuceneIncludedPathItemChannelName = defaultChannel.ChannelName;
+                pathItem.Update();
+            }
+        }
+        catch
+        {
+            // Migration is best-effort - don't fail installation if migration encounters issues
+            // The constructor changes should handle these cases gracefully anyway
         }
     }
 }

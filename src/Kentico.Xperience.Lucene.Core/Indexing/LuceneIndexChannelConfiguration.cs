@@ -12,13 +12,13 @@ public sealed class LuceneIndexChannelConfiguration
     /// <summary>
     /// The code name of the website channel associated with this configuration.
     /// </summary>
-    public string WebsiteChannelName { get; init; }
+    public string WebsiteChannelName { get; init; } = string.Empty;
 
 
     /// <summary>
     /// The display name of the website channel.
     /// </summary>
-    public string ChannelDisplayName { get; init; }
+    public string ChannelDisplayName { get; init; } = string.Empty;
 
 
     /// <summary>
@@ -53,10 +53,31 @@ public sealed class LuceneIndexChannelConfiguration
         var representativePath = paths.FirstOrDefault() ??
             throw new InvalidOperationException($"The {nameof(paths)} collection must contain at least one path.");
 
-        ChannelDisplayName = channels.FirstOrDefault(x => string.Equals(x.ChannelName, representativePath.LuceneIncludedPathItemChannelName, StringComparison.InvariantCultureIgnoreCase))?.ChannelDisplayName ??
-            throw new ArgumentException($"There must exist a channel for which the {nameof(paths)} are configured.");
+        // Handle case where channel name is missing (for migration scenarios)
+        var channelName = representativePath.LuceneIncludedPathItemChannelName;
+        if (string.IsNullOrEmpty(channelName))
+        {
+            // Try to use the first available channel as a fallback
+            var firstChannel = channels.FirstOrDefault();
+            if (firstChannel != null)
+            {
+                channelName = firstChannel.ChannelName;
+                ChannelDisplayName = firstChannel.ChannelDisplayName;
+            }
+            else
+            {
+                // If no channels are available, create a placeholder
+                channelName = "DefaultChannel";
+                ChannelDisplayName = "Default Channel";
+            }
+        }
+        else
+        {
+            var foundChannel = channels.FirstOrDefault(x => string.Equals(x.ChannelName, channelName, StringComparison.InvariantCultureIgnoreCase));
+            ChannelDisplayName = foundChannel?.ChannelDisplayName ?? $"{channelName} (Channel Not Found)";
+        }
 
-        WebsiteChannelName = representativePath.LuceneIncludedPathItemChannelName;
+        WebsiteChannelName = channelName ?? string.Empty;
 
         IncludedPaths = paths.Select(p => new LuceneIndexIncludedPath(p,
             contentTypes.Where(x => x.LucenePathItemId == p.LuceneIncludedPathItemId))
