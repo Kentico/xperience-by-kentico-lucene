@@ -136,22 +136,6 @@ public class LuceneModuleInstaller(IInfoProvider<ResourceInfo> resourceProvider)
         };
         formInfo.AddFormItem(formItem);
 
-        // Add obsolete channel name field to handle legacy data gracefully
-        // Make it optional and hidden to avoid UI issues
-#pragma warning disable CS0612 // Type or member is obsolete
-        formItem = new FormFieldInfo
-        {
-            Name = nameof(LuceneIndexItemInfo.LuceneIndexItemChannelName),
-            AllowEmpty = true,
-            Visible = false,
-            Precision = 0,
-            Size = 100,
-            DataType = "text",
-            Enabled = false
-        };
-#pragma warning restore CS0612 // Type or member is obsolete
-        formInfo.AddFormItem(formItem);
-
         SetFormDefinition(info, formInfo);
 
         if (info.HasChanged)
@@ -516,46 +500,52 @@ public class LuceneModuleInstaller(IInfoProvider<ResourceInfo> resourceProvider)
 
     /// <summary>
     /// Migrates existing data to ensure compatibility with channel configuration changes.
-    /// Populates missing channel names in LuceneIncludedPathItemInfo records.
+    /// Transfers channel names from LuceneIndexItemInfo to LuceneIncludedPathItemInfo records.
     /// </summary>
     private void MigrateExistingData()
     {
         try
         {
-            // Get all included path items without a channel name
-            var pathsWithoutChannel = LuceneIncludedPathItemInfo.Provider.Get()
-                .WhereEmpty(nameof(LuceneIncludedPathItemInfo.LuceneIncludedPathItemChannelName))
-                .Or()
-                .WhereNull(nameof(LuceneIncludedPathItemInfo.LuceneIncludedPathItemChannelName))
+            // Get all index items that have a channel name set
+            var indexItemsWithChannels = LuceneIndexItemInfo.Provider.Get()
+                .WhereNotEmpty(nameof(LuceneIndexItemInfo.LuceneIndexItemChannelName))
+                .WhereNotNull(nameof(LuceneIndexItemInfo.LuceneIndexItemChannelName))
                 .ToList();
 
-            if (!pathsWithoutChannel.Any())
+            foreach (var indexItem in indexItemsWithChannels)
             {
-                return; // No migration needed
+                // Get all path items for this index that don't have a channel name yet
+                var pathItemsToUpdate = LuceneIncludedPathItemInfo.Provider.Get()
+                    .WhereEquals(nameof(LuceneIncludedPathItemInfo.LuceneIncludedPathItemIndexItemId), indexItem.LuceneIndexItemId)
+                    .Where(p => string.IsNullOrEmpty(p.LuceneIncludedPathItemChannelName))
+                    .ToList();
+
+                // Set the channel name from the index item to all its path items
+                foreach (var pathItem in pathItemsToUpdate)
+                {
+                    pathItem.LuceneIncludedPathItemChannelName = indexItem.LuceneIndexItemChannelName;
+                    pathItem.Update();
+                }
             }
 
-            // Get the first available website channel to use as default
-            var defaultChannel = ChannelInfo.Provider.Get()
-                .WhereEquals(nameof(ChannelInfo.ChannelType), ChannelType.Website.ToString())
-                .TopN(1)
-                .FirstOrDefault();
-
-            if (defaultChannel == null)
+            // Remove the obsolete LuceneIndexItemChannelName column from the database
+            // This is done by updating the data class to not include the obsolete field
+            var indexDataClass = DataClassInfoProvider.GetDataClassInfo(LuceneIndexItemInfo.OBJECT_TYPE);
+            if (indexDataClass != null)
             {
-                return; // No website channels available, migration cannot proceed
-            }
-
-            // Update all paths without channel names to use the default channel
-            foreach (var pathItem in pathsWithoutChannel)
-            {
-                pathItem.LuceneIncludedPathItemChannelName = defaultChannel.ChannelName;
-                pathItem.Update();
+                var formInfo = new FormInfo(indexDataClass.ClassFormDefinition);
+                var obsoleteField = formInfo.GetFormField(nameof(LuceneIndexItemInfo.LuceneIndexItemChannelName));
+                if (obsoleteField != null)
+                {
+                    formInfo.RemoveFormField(nameof(LuceneIndexItemInfo.LuceneIndexItemChannelName));
+                    indexDataClass.ClassFormDefinition = formInfo.GetXmlDefinition();
+                    DataClassInfoProvider.SetDataClassInfo(indexDataClass);
+                }
             }
         }
         catch
         {
             // Migration is best-effort - don't fail installation if migration encounters issues
-            // The constructor changes should handle these cases gracefully anyway
         }
     }
 }
