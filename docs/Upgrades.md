@@ -1,10 +1,28 @@
 # Upgrades
 
-## 12.5.0 -> 13.0.0
+## 12.5.0 -> 13.0.1
 
-The core custom module tables have been changed to add the multi channel search support.
+The core custom module tables have been updated to add multi-channel search support.
 
-After installing the v13.0.0 NuGet package your index definitions will need to be re-created.
+After installing the v13.0.1 NuGet package, you will need to remove the existing Lucene database tables and resources. Your index definitions will then need to be re-created. You can clean up the old data by running the following SQL:
+
+```sql
+drop table KenticoLucene_LuceneContentTypeItem
+drop table KenticoLucene_LuceneIncludedPathItem
+drop table KenticoLucene_LuceneIndexLanguageItem
+drop table KenticoLucene_LuceneIndexItem
+drop table KenticoLucene_LuceneIndexAssemblyVersionItem
+drop table KenticoLucene_LuceneReusableContentTypeItem
+ 
+ 
+delete
+FROM [dbo].[CMS_Class] where ClassName like 'KenticoLucene%'
+ 
+delete
+from [CMS_Resource] where ResourceName = 'CMS.Integration.Lucene'
+```
+
+After cleaning up the old data, restart the application. This will install new tables for the Lucene Search integration. You can then re-create your indexes. If you use the same names for the indexes, they should retain the indexed data from the previous versions.
 
 ## 3.0.0 -> 4.0.0
 
