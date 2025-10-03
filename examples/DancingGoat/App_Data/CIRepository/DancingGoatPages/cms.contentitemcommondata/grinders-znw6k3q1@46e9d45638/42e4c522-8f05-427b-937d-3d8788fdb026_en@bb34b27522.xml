@@ -15,4 +15,19 @@
   <ContentItemCommonDataIsLatest>True</ContentItemCommonDataIsLatest>
   <ContentItemCommonDataLastPublishedWhen>2025-02-28 12:15:26Z</ContentItemCommonDataLastPublishedWhen>
   <ContentItemCommonDataVersionStatus>2</ContentItemCommonDataVersionStatus>
+  <ContentItemReferences>
+    <cms.contentitemreference>
+      <ContentItemReferenceGroupGUID>0e40b158-c4c5-4c7d-8b77-3c86e2c84770</ContentItemReferenceGroupGUID>
+      <ContentItemReferenceGUID>28885c11-da55-4189-bcac-cdfc724f4593</ContentItemReferenceGUID>
+      <ContentItemReferenceSourceCommonDataID>
+        <GUID>42e4c522-8f05-427b-937d-3d8788fdb026</GUID>
+        <ObjectType>cms.contentitemcommondata</ObjectType>
+      </ContentItemReferenceSourceCommonDataID>
+      <ContentItemReferenceTargetItemID>
+        <CodeName>Grinders-1tqsds4b</CodeName>
+        <GUID>f567fffb-5989-4d95-842f-8d4195c502ad</GUID>
+        <ObjectType>cms.contentitem</ObjectType>
+      </ContentItemReferenceTargetItemID>
+    </cms.contentitemreference>
+  </ContentItemReferences>
 </cms.contentitemcommondata>

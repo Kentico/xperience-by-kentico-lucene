@@ -11,6 +11,6 @@
   </ContentItemDataCommonDataID>
   <ContentItemDataGUID>ace3204b-4506-4bd8-a5f7-975b1b68b79c</ContentItemDataGUID>
   <ImageFile>
-    <![CDATA[{"Original":{"Identifier":"2d363003-6842-46ec-bcef-7bbbd74c7139","Name":"anfim-super-caimano.jpg","Extension":".jpg","Size":10768,"Width":400,"Height":400,"LastModified":"2025-02-03T14:29:31.103347Z"},"OptimizationParameters":{"OutputExtension":"webp","Quality":70},"Identifier":"79590d91-d3a3-4370-8438-09a58827b3fb","Name":"anfim-super-caimano.webp","Extension":".webp","Size":4468,"Width":400,"Height":400,"LastModified":"2025-02-03T14:29:31.1366405Z"}]]>
+    <![CDATA[{"Original":{"Identifier":"2d363003-6842-46ec-bcef-7bbbd74c7139","Name":"anfim-super-caimano.jpg","Extension":".jpg","Size":10768,"Width":400,"Height":400,"LastModified":"2025-02-03T14:29:31.103347Z"},"OptimizationParameters":{"OutputExtension":"webp","Quality":70,"WidthLimit":null,"HeightLimit":null},"Variants":{},"FocalPoint":{"X":200,"Y":200},"Identifier":"79590d91-d3a3-4370-8438-09a58827b3fb","Name":"anfim-super-caimano.webp","Extension":".webp","Size":4468,"Width":400,"Height":400,"LastModified":"2025-02-03T14:29:31.1366405Z"}]]>
   </ImageFile>
 </contentitemdata.dancinggoat.image>

@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<commerce.paymentmethod>
+  <PaymentMethodDisplayName>Bank transfer</PaymentMethodDisplayName>
+  <PaymentMethodEnabled>True</PaymentMethodEnabled>
+  <PaymentMethodGUID>192986cd-7af7-4ba6-9f39-6ead6a0bd954</PaymentMethodGUID>
+  <PaymentMethodName>BankTransfer</PaymentMethodName>
+</commerce.paymentmethod>

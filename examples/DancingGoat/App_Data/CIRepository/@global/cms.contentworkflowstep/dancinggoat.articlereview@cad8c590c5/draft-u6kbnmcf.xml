@@ -3,6 +3,7 @@
   <ContentWorkflowStepDisplayName>Draft</ContentWorkflowStepDisplayName>
   <ContentWorkflowStepGUID>7d48b55e-2c09-4f50-8c72-c43be38e594c</ContentWorkflowStepGUID>
   <ContentWorkflowStepIconClass />
+  <ContentWorkflowStepIsNotificationEnabled>False</ContentWorkflowStepIsNotificationEnabled>
   <ContentWorkflowStepName>Draft-u6kbnmcf</ContentWorkflowStepName>
   <ContentWorkflowStepOrder>0</ContentWorkflowStepOrder>
   <ContentWorkflowStepType>1</ContentWorkflowStepType>

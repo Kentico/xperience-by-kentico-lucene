@@ -11,6 +11,6 @@
   </ContentItemDataCommonDataID>
   <ContentItemDataGUID>92c26ec8-7180-4b2f-8b28-0cb41c7c4082</ContentItemDataGUID>
   <ImageFile>
-    <![CDATA[{"Original":{"Identifier":"159ab181-3c40-499a-ba61-8dad22b023d0","Name":"porlex-tall-ceramic-burr-grinder.jpg","Extension":".jpg","Size":12736,"Width":400,"Height":400,"LastModified":"2025-02-03T14:39:30.3920678Z"},"OptimizationParameters":{"OutputExtension":"webp","Quality":70},"Identifier":"b45bef27-fafe-455f-b555-4dbf1263f731","Name":"porlex-tall-ceramic-burr-grinder.webp","Extension":".webp","Size":5746,"Width":400,"Height":400,"LastModified":"2025-02-03T14:39:30.4238583Z"}]]>
+    <![CDATA[{"Original":{"Identifier":"159ab181-3c40-499a-ba61-8dad22b023d0","Name":"porlex-tall-ceramic-burr-grinder.jpg","Extension":".jpg","Size":12736,"Width":400,"Height":400,"LastModified":"2025-02-03T14:39:30.3920678Z"},"OptimizationParameters":{"OutputExtension":"webp","Quality":70,"WidthLimit":null,"HeightLimit":null},"Variants":{},"FocalPoint":{"X":200,"Y":200},"Identifier":"b45bef27-fafe-455f-b555-4dbf1263f731","Name":"porlex-tall-ceramic-burr-grinder.webp","Extension":".webp","Size":5746,"Width":400,"Height":400,"LastModified":"2025-02-03T14:39:30.4238583Z"}]]>
   </ImageFile>
 </contentitemdata.dancinggoat.image>

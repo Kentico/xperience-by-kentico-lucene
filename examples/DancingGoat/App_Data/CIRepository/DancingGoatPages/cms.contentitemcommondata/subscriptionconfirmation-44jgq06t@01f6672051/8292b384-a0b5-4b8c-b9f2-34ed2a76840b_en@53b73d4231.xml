@@ -15,4 +15,19 @@
   <ContentItemCommonDataLastPublishedWhen>2024-03-07 12:32:23Z</ContentItemCommonDataLastPublishedWhen>
   <ContentItemCommonDataVersionStatus>2</ContentItemCommonDataVersionStatus>
   <ProductFieldCategory />
+  <ContentItemReferences>
+    <cms.contentitemreference>
+      <ContentItemReferenceGroupGUID>9f8f086c-a825-4741-b031-e29fc640d94d</ContentItemReferenceGroupGUID>
+      <ContentItemReferenceGUID>69479db6-0d27-4085-87bf-91fbbc63eb6c</ContentItemReferenceGUID>
+      <ContentItemReferenceSourceCommonDataID>
+        <GUID>8292b384-a0b5-4b8c-b9f2-34ed2a76840b</GUID>
+        <ObjectType>cms.contentitemcommondata</ObjectType>
+      </ContentItemReferenceSourceCommonDataID>
+      <ContentItemReferenceTargetItemID>
+        <CodeName>Articles-j3dfhv8n</CodeName>
+        <GUID>55eed5b7-8436-4e9f-88c0-17ebce5eff2d</GUID>
+        <ObjectType>cms.contentitem</ObjectType>
+      </ContentItemReferenceTargetItemID>
+    </cms.contentitemreference>
+  </ContentItemReferences>
 </cms.contentitemcommondata>

@@ -14,4 +14,19 @@
   <ContentItemCommonDataIsLatest>True</ContentItemCommonDataIsLatest>
   <ContentItemCommonDataVersionStatus>2</ContentItemCommonDataVersionStatus>
   <ProductFieldCategory />
+  <ContentItemReferences>
+    <cms.contentitemreference>
+      <ContentItemReferenceGroupGUID>0e40b158-c4c5-4c7d-8b77-3c86e2c84770</ContentItemReferenceGroupGUID>
+      <ContentItemReferenceGUID>52cfbd19-94fb-4dcd-83df-da7e22fc6783</ContentItemReferenceGUID>
+      <ContentItemReferenceSourceCommonDataID>
+        <GUID>9cc7f5f7-2076-40f2-9991-26022e5b1315</GUID>
+        <ObjectType>cms.contentitemcommondata</ObjectType>
+      </ContentItemReferenceSourceCommonDataID>
+      <ContentItemReferenceTargetItemID>
+        <CodeName>Articles-j3dfhv8n</CodeName>
+        <GUID>55eed5b7-8436-4e9f-88c0-17ebce5eff2d</GUID>
+        <ObjectType>cms.contentitem</ObjectType>
+      </ContentItemReferenceTargetItemID>
+    </cms.contentitemreference>
+  </ContentItemReferences>
 </cms.contentitemcommondata>

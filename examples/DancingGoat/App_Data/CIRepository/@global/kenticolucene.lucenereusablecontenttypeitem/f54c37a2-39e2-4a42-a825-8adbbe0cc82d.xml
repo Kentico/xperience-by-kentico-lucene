@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<kenticolucene.lucenereusablecontenttypeitem>
+  <LuceneReusableContentTypeItemContentTypeName>DancingGoat.Contact</LuceneReusableContentTypeItemContentTypeName>
+  <LuceneReusableContentTypeItemGuid>f54c37a2-39e2-4a42-a825-8adbbe0cc82d</LuceneReusableContentTypeItemGuid>
+  <LuceneReusableContentTypeItemIndexItemId>
+    <CodeName>Advanced</CodeName>
+    <GUID>44980d16-2cd1-4a49-ad33-7fa763176e05</GUID>
+    <ObjectType>kenticolucene.luceneindexitem</ObjectType>
+  </LuceneReusableContentTypeItemIndexItemId>
+</kenticolucene.lucenereusablecontenttypeitem>

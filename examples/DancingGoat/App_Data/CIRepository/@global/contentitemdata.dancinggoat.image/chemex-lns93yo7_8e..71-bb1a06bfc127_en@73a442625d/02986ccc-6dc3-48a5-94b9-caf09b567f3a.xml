@@ -11,6 +11,6 @@
   </ContentItemDataCommonDataID>
   <ContentItemDataGUID>02986ccc-6dc3-48a5-94b9-caf09b567f3a</ContentItemDataGUID>
   <ImageFile>
-    <![CDATA[{"Original":{"Identifier":"b1237f76-b4d8-438b-90a0-981a3cf179cc","Name":"chemex.jpg","Extension":".jpg","Size":11308,"Width":400,"Height":400,"LastModified":"2025-02-03T14:27:00.331914Z"},"OptimizationParameters":{"OutputExtension":"webp","Quality":70},"Identifier":"ebf5faf5-56fc-4699-a5fe-bb7804d2c067","Name":"chemex.webp","Extension":".webp","Size":4056,"Width":400,"Height":400,"LastModified":"2025-02-03T14:27:00.3620052Z"}]]>
+    <![CDATA[{"Original":{"Identifier":"b1237f76-b4d8-438b-90a0-981a3cf179cc","Name":"chemex.jpg","Extension":".jpg","Size":11308,"Width":400,"Height":400,"LastModified":"2025-02-03T14:27:00.331914Z"},"OptimizationParameters":{"OutputExtension":"webp","Quality":70,"WidthLimit":null,"HeightLimit":null},"Variants":{},"FocalPoint":{"X":200,"Y":200},"Identifier":"ebf5faf5-56fc-4699-a5fe-bb7804d2c067","Name":"chemex.webp","Extension":".webp","Size":4056,"Width":400,"Height":400,"LastModified":"2025-02-03T14:27:00.3620052Z"}]]>
   </ImageFile>
 </contentitemdata.dancinggoat.image>

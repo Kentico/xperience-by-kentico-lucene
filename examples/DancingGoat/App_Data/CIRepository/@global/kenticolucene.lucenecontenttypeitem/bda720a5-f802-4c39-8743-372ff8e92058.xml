@@ -1,14 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <kenticolucene.lucenecontenttypeitem>
-  <LuceneContentTypeItemContentTypeName>DancingGoat.HomePage</LuceneContentTypeItemContentTypeName>
-  <LuceneContentTypeItemGuid>7d22f717-0e67-403d-a154-0909ecffd90e</LuceneContentTypeItemGuid>
+  <LuceneContentTypeItemContentTypeName>DancingGoat.ArticlePage</LuceneContentTypeItemContentTypeName>
+  <LuceneContentTypeItemGuid>bda720a5-f802-4c39-8743-372ff8e92058</LuceneContentTypeItemGuid>
   <LuceneContentTypeItemIncludedPathItemId>
-    <GUID>07a3fc65-bd7b-4f7b-8446-f0fe0ad17104</GUID>
+    <GUID>6c32004d-a4e5-4ea7-9ddb-06f892f14868</GUID>
     <ObjectType>kenticolucene.luceneincludedpathitem</ObjectType>
   </LuceneContentTypeItemIncludedPathItemId>
   <LuceneContentTypeItemIndexItemId>
     <CodeName>Advanced</CodeName>
-    <GUID>ed303da7-311d-49fd-a924-a66730305519</GUID>
+    <GUID>44980d16-2cd1-4a49-ad33-7fa763176e05</GUID>
     <ObjectType>kenticolucene.luceneindexitem</ObjectType>
   </LuceneContentTypeItemIndexItemId>
 </kenticolucene.lucenecontenttypeitem>

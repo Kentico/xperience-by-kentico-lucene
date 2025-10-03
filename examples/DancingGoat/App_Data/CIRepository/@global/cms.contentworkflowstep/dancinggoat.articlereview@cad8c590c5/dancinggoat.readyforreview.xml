@@ -3,6 +3,7 @@
   <ContentWorkflowStepDisplayName>Ready for review</ContentWorkflowStepDisplayName>
   <ContentWorkflowStepGUID>c5d4e2cf-b7f3-43f6-842c-5636182ea04b</ContentWorkflowStepGUID>
   <ContentWorkflowStepIconClass>xp-magnifier</ContentWorkflowStepIconClass>
+  <ContentWorkflowStepIsNotificationEnabled>False</ContentWorkflowStepIsNotificationEnabled>
   <ContentWorkflowStepName>DancingGoat.ReadyForReview</ContentWorkflowStepName>
   <ContentWorkflowStepOrder>1</ContentWorkflowStepOrder>
   <ContentWorkflowStepType>3</ContentWorkflowStepType>

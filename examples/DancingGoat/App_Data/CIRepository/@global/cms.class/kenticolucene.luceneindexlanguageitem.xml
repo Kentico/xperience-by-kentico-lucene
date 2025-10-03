@@ -3,18 +3,18 @@
   <ClassDisplayName>Lucene Indexed Language Item</ClassDisplayName>
   <ClassFormDefinition>
     <form>
-      <field column="LuceneIndexLanguageItemID" columntype="integer" enabled="true" guid="44adf803-4c1f-4361-b63a-2c9c2204c42d" isPK="true" />
-      <field column="LuceneIndexLanguageItemName" columnprecision="0" columnsize="100" columntype="text" enabled="true" guid="8a08a438-c89b-4164-bba2-2bbb7be97098" visible="true" />
-      <field column="LuceneIndexLanguageItemGuid" columnprecision="0" columntype="guid" enabled="true" guid="9d267017-67d3-4bcf-a64a-87818949b09d" visible="true" />
-      <field column="LuceneIndexLanguageItemIndexItemId" columnprecision="0" columntype="integer" enabled="true" guid="7f3a04ca-db33-4fce-8f6a-ee4f586593a5" refobjtype="kenticolucene.luceneindexitem" reftype="Required" visible="true" />
+      <field column="LuceneIndexLanguageItemID" columntype="integer" enabled="true" guid="0310fc62-d539-42fc-8317-676c6741be94" isPK="true" />
+      <field column="LuceneIndexLanguageItemName" columnprecision="0" columnsize="100" columntype="text" enabled="true" guid="d3affe72-95b4-4d11-abb3-8913f0554dff" visible="true" />
+      <field column="LuceneIndexLanguageItemGuid" columnprecision="0" columntype="guid" enabled="true" guid="d10c3c60-09b3-4a92-91b4-cbbde5816695" visible="true" />
+      <field column="LuceneIndexLanguageItemIndexItemId" columnprecision="0" columntype="integer" enabled="true" guid="56c9cd88-c14e-4099-90c6-bda51a081bf0" refobjtype="kenticolucene.luceneindexitem" reftype="Required" visible="true" />
     </form>
   </ClassFormDefinition>
-  <ClassGUID>62a10624-c827-4b3c-879d-5ccd2fb53ec7</ClassGUID>
+  <ClassGUID>a1826778-f981-41e9-a25d-14d16c1e4fdf</ClassGUID>
   <ClassHasUnmanagedDbSchema>False</ClassHasUnmanagedDbSchema>
   <ClassName>KenticoLucene.LuceneIndexLanguageItem</ClassName>
   <ClassResourceID>
     <CodeName>CMS.Integration.Lucene</CodeName>
-    <GUID>db123306-e319-4c72-b2b1-6f3644d0db4a</GUID>
+    <GUID>7005973e-b64d-4a69-8ed6-64460b292752</GUID>
     <ObjectType>cms.resource</ObjectType>
   </ClassResourceID>
   <ClassTableName>KenticoLucene_LuceneIndexLanguageItem</ClassTableName>

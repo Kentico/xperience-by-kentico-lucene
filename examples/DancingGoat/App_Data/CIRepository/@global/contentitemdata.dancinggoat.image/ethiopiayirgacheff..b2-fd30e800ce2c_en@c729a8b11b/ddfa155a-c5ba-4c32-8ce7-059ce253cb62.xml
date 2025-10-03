@@ -11,6 +11,6 @@
   </ContentItemDataCommonDataID>
   <ContentItemDataGUID>ddfa155a-c5ba-4c32-8ce7-059ce253cb62</ContentItemDataGUID>
   <ImageFile>
-    <![CDATA[{"Original":{"Identifier":"fadff195-5c71-4c86-a112-07737624a41d","Name":"ethiopia.jpg","Extension":".jpg","Size":16042,"Width":400,"Height":400,"LastModified":"2025-02-03T14:13:37.5414446Z"},"OptimizationParameters":{"OutputExtension":"webp","Quality":70},"Identifier":"65eadbfc-6bd7-4fbe-8543-daffd92654a7","Name":"ethiopia.webp","Extension":".webp","Size":6536,"Width":400,"Height":400,"LastModified":"2025-02-03T14:13:37.5759501Z"}]]>
+    <![CDATA[{"Original":{"Identifier":"fadff195-5c71-4c86-a112-07737624a41d","Name":"ethiopia.jpg","Extension":".jpg","Size":16042,"Width":400,"Height":400,"LastModified":"2025-02-03T14:13:37.5414446Z"},"OptimizationParameters":{"OutputExtension":"webp","Quality":70,"WidthLimit":null,"HeightLimit":null},"Variants":{},"FocalPoint":{"X":200,"Y":200},"Identifier":"65eadbfc-6bd7-4fbe-8543-daffd92654a7","Name":"ethiopia.webp","Extension":".webp","Size":6536,"Width":400,"Height":400,"LastModified":"2025-02-03T14:13:37.5759501Z"}]]>
   </ImageFile>
 </contentitemdata.dancinggoat.image>

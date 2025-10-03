@@ -1,5 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <commerce.orderstatus>
+  <OrderStatusCustomerNotificationEmailConfigurationID>
+    <CodeName>OrderCreated-w4fh5iu4</CodeName>
+    <GUID>fc5895e3-c696-4e30-8103-7328252c7789</GUID>
+    <ObjectType>emaillibrary.emailconfiguration</ObjectType>
+  </OrderStatusCustomerNotificationEmailConfigurationID>
+  <OrderStatusCustomerNotificationEnabled>True</OrderStatusCustomerNotificationEnabled>
   <OrderStatusDisplayName>Pending</OrderStatusDisplayName>
   <OrderStatusGUID>e2f3b1a4-5c7d-4c8b-9f0e-2a6d1f3b5c8e</OrderStatusGUID>
   <OrderStatusInternalNotificationEnabled>False</OrderStatusInternalNotificationEnabled>

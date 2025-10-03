@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<kenticolucene.lucenereusablecontenttypeitem>
+  <LuceneReusableContentTypeItemContentTypeName>DancingGoat.ProductBrewer</LuceneReusableContentTypeItemContentTypeName>
+  <LuceneReusableContentTypeItemGuid>a04a3862-ad09-413e-9435-d0b6bb0de11b</LuceneReusableContentTypeItemGuid>
+  <LuceneReusableContentTypeItemIndexItemId>
+    <CodeName>Simple</CodeName>
+    <GUID>42d69c41-d4f2-480c-b218-6aebbd4edf01</GUID>
+    <ObjectType>kenticolucene.luceneindexitem</ObjectType>
+  </LuceneReusableContentTypeItemIndexItemId>
+</kenticolucene.lucenereusablecontenttypeitem>

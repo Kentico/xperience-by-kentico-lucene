@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<kenticolucene.lucenecontenttypeitem>
+  <LuceneContentTypeItemContentTypeName>DancingGoat.ConfirmationPage</LuceneContentTypeItemContentTypeName>
+  <LuceneContentTypeItemGuid>0cc6ff52-5e8a-4b17-b647-4215ef001d4d</LuceneContentTypeItemGuid>
+  <LuceneContentTypeItemIncludedPathItemId>
+    <GUID>0b7243c0-3761-4555-be57-4bd217d5810c</GUID>
+    <ObjectType>kenticolucene.luceneincludedpathitem</ObjectType>
+  </LuceneContentTypeItemIncludedPathItemId>
+  <LuceneContentTypeItemIndexItemId>
+    <CodeName>Simple</CodeName>
+    <GUID>42d69c41-d4f2-480c-b218-6aebbd4edf01</GUID>
+    <ObjectType>kenticolucene.luceneindexitem</ObjectType>
+  </LuceneContentTypeItemIndexItemId>
+</kenticolucene.lucenecontenttypeitem>

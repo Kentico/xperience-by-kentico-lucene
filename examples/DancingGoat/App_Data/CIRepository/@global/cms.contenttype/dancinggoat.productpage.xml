@@ -28,6 +28,14 @@
               <ErrorMessage>Choose a product.</ErrorMessage>
             </RuleValues>
           </ValidationRuleConfiguration>
+          <ValidationRuleConfiguration>
+            <ValidationRuleIdentifier>DancingGoat.ProductLinkedOnce</ValidationRuleIdentifier>
+            <RuleValues>
+              <ErrorMessage>
+                <![CDATA[This product is already linked to a different page. Each product can only be linked to one page.]]>
+              </ErrorMessage>
+            </RuleValues>
+          </ValidationRuleConfiguration>
         </validationrulesdata>
       </field>
     </form>

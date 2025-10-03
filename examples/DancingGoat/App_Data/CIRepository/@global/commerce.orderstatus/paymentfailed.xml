@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <commerce.orderstatus>
+  <OrderStatusCustomerNotificationEnabled>False</OrderStatusCustomerNotificationEnabled>
   <OrderStatusDisplayName>Payment failed</OrderStatusDisplayName>
   <OrderStatusGUID>5cec47bf-ad4a-405b-8731-83a3e139038e</OrderStatusGUID>
   <OrderStatusInternalNotificationEnabled>False</OrderStatusInternalNotificationEnabled>

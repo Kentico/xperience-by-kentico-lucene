@@ -11,6 +11,6 @@
   </ContentItemDataCommonDataID>
   <ContentItemDataGUID>8f7b7b64-15e1-4211-a3af-36dfe51557d6</ContentItemDataGUID>
   <ImageFile>
-    <![CDATA[{"Original":{"Identifier":"ca0823c1-33eb-47cd-b18f-a97df18d55a1","Name":"bleached-paper-filters.jpg","Extension":".jpg","Size":8898,"Width":400,"Height":400,"LastModified":"2025-02-03T14:43:59.1752072Z"},"OptimizationParameters":{"OutputExtension":"webp","Quality":70},"Identifier":"d71aea3a-df33-44c5-b398-d6d63c26169d","Name":"bleached-paper-filters.webp","Extension":".webp","Size":2502,"Width":400,"Height":400,"LastModified":"2025-02-03T14:43:59.2035143Z"}]]>
+    <![CDATA[{"Original":{"Identifier":"ca0823c1-33eb-47cd-b18f-a97df18d55a1","Name":"bleached-paper-filters.jpg","Extension":".jpg","Size":8898,"Width":400,"Height":400,"LastModified":"2025-02-03T14:43:59.1752072Z"},"OptimizationParameters":{"OutputExtension":"webp","Quality":70,"WidthLimit":null,"HeightLimit":null},"Variants":{},"FocalPoint":{"X":200,"Y":200},"Identifier":"d71aea3a-df33-44c5-b398-d6d63c26169d","Name":"bleached-paper-filters.webp","Extension":".webp","Size":2502,"Width":400,"Height":400,"LastModified":"2025-02-03T14:43:59.2035143Z"}]]>
   </ImageFile>
 </contentitemdata.dancinggoat.image>

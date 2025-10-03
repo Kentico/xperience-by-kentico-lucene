@@ -11,6 +11,6 @@
   </ContentItemDataCommonDataID>
   <ContentItemDataGUID>778d7aa9-1902-4814-8a09-9d9743210b50</ContentItemDataGUID>
   <ImageFile>
-    <![CDATA[{"Original":{"Identifier":"9953a7ab-d44e-4a80-b232-a48e142a6c3c","Name":"hario-skerton.jpg","Extension":".jpg","Size":11378,"Width":400,"Height":400,"LastModified":"2025-02-03T14:36:42.0669894Z"},"OptimizationParameters":{"OutputExtension":"webp","Quality":70},"Identifier":"489b0b16-24ff-4225-aed8-ecca3fcc7cc1","Name":"hario-skerton.webp","Extension":".webp","Size":4346,"Width":400,"Height":400,"LastModified":"2025-02-03T14:36:42.1024867Z"}]]>
+    <![CDATA[{"Original":{"Identifier":"9953a7ab-d44e-4a80-b232-a48e142a6c3c","Name":"hario-skerton.jpg","Extension":".jpg","Size":11378,"Width":400,"Height":400,"LastModified":"2025-02-03T14:36:42.0669894Z"},"OptimizationParameters":{"OutputExtension":"webp","Quality":70,"WidthLimit":null,"HeightLimit":null},"Variants":{},"FocalPoint":{"X":200,"Y":200},"Identifier":"489b0b16-24ff-4225-aed8-ecca3fcc7cc1","Name":"hario-skerton.webp","Extension":".webp","Size":4346,"Width":400,"Height":400,"LastModified":"2025-02-03T14:36:42.1024867Z"}]]>
   </ImageFile>
 </contentitemdata.dancinggoat.image>

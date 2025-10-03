@@ -11,6 +11,6 @@
   </ContentItemDataCommonDataID>
   <ContentItemDataGUID>3d6229e5-cc31-4e7c-a728-25d4bb86daad</ContentItemDataGUID>
   <ImageFile>
-    <![CDATA[{"Original":{"Identifier":"60435178-fada-448e-83b1-01ba4b3754d0","Name":"cup-personalized-small.jpg","Extension":".jpg","Size":8205,"Width":400,"Height":400,"LastModified":"2025-02-03T14:46:17.5867652Z"},"OptimizationParameters":{"OutputExtension":"webp","Quality":70},"Identifier":"e04247b2-eb69-464d-8d4f-ac599908c586","Name":"cup-personalized-small.webp","Extension":".webp","Size":2366,"Width":400,"Height":400,"LastModified":"2025-02-03T14:46:17.6113019Z"}]]>
+    <![CDATA[{"Original":{"Identifier":"60435178-fada-448e-83b1-01ba4b3754d0","Name":"cup-personalized-small.jpg","Extension":".jpg","Size":8205,"Width":400,"Height":400,"LastModified":"2025-02-03T14:46:17.5867652Z"},"OptimizationParameters":{"OutputExtension":"webp","Quality":70,"WidthLimit":null,"HeightLimit":null},"Variants":{},"FocalPoint":{"X":200,"Y":200},"Identifier":"e04247b2-eb69-464d-8d4f-ac599908c586","Name":"cup-personalized-small.webp","Extension":".webp","Size":2366,"Width":400,"Height":400,"LastModified":"2025-02-03T14:46:17.6113019Z"}]]>
   </ImageFile>
 </contentitemdata.dancinggoat.image>

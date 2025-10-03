@@ -11,6 +11,6 @@
   </ContentItemDataCommonDataID>
   <ContentItemDataGUID>a152e331-7b94-4117-8f18-40bfaf8d0ec7</ContentItemDataGUID>
   <ImageFile>
-    <![CDATA[{"Original":{"Identifier":"6ea363d2-d174-41a8-ab66-647aff173c6c","Name":"nicaragua.jpg","Extension":".jpg","Size":16413,"Width":400,"Height":400,"LastModified":"2025-02-03T14:07:41.4634373Z"},"OptimizationParameters":{"OutputExtension":"webp","Quality":70},"Identifier":"c603e769-d76e-4d56-af3e-c7ac0e0bab93","Name":"nicaragua.webp","Extension":".webp","Size":6696,"Width":400,"Height":400,"LastModified":"2025-02-03T14:07:41.4976007Z"}]]>
+    <![CDATA[{"Original":{"Identifier":"6ea363d2-d174-41a8-ab66-647aff173c6c","Name":"nicaragua.jpg","Extension":".jpg","Size":16413,"Width":400,"Height":400,"LastModified":"2025-02-03T14:07:41.4634373Z"},"OptimizationParameters":{"OutputExtension":"webp","Quality":70,"WidthLimit":null,"HeightLimit":null},"Variants":{},"FocalPoint":{"X":200,"Y":200},"Identifier":"c603e769-d76e-4d56-af3e-c7ac0e0bab93","Name":"nicaragua.webp","Extension":".webp","Size":6696,"Width":400,"Height":400,"LastModified":"2025-02-03T14:07:41.4976007Z"}]]>
   </ImageFile>
 </contentitemdata.dancinggoat.image>
