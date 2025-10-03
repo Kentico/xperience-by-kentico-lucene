@@ -24,6 +24,11 @@ from [CMS_Resource] where ResourceName = 'CMS.Integration.Lucene'
 
 After cleaning up the old data, restart the application. This will install new tables for the Lucene Search integration. You can then re-create your indexes. If you use the same names for the indexes, they should retain the indexed data from the previous versions.
 
+## 12.5.0 → 13.0.0
+
+The 13.0.0 package was published but contains issues with the Lucene Search integration.
+We recommend upgrading directly to 13.0.1 instead of installing 13.0.0.
+
 ## 3.0.0 -> 4.0.0
 
 The core custom module tables have been renamed to align with Kentico's naming conventions.

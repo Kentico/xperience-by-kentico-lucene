@@ -72,7 +72,7 @@ public partial class LuceneIndexItemInfo : AbstractInfo<LuceneIndexItemInfo, IIn
     /// Channel name.
     /// </summary>
     [DatabaseField]
-    [Obsolete]
+    [Obsolete("This property is not used anymore. Use LuceneIncludedPathItemInfo.LuceneIncludedPathItemChannelName instead.")]
     public virtual string LuceneIndexItemChannelName
     {
         get => ValidationHelper.GetString(GetValue(nameof(LuceneIndexItemChannelName)), String.Empty);
