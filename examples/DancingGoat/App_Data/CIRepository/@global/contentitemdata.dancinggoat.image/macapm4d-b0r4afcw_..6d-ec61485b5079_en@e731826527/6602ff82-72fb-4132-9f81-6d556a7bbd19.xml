@@ -11,6 +11,6 @@
   </ContentItemDataCommonDataID>
   <ContentItemDataGUID>6602ff82-72fb-4132-9f81-6d556a7bbd19</ContentItemDataGUID>
   <ImageFile>
-    <![CDATA[{"Original":{"Identifier":"a312c0de-5e56-4a1d-99b9-75a638cbe2e8","Name":"macap-m4d.jpg","Extension":".jpg","Size":10218,"Width":400,"Height":400,"LastModified":"2025-02-03T14:31:41.2042795Z"},"OptimizationParameters":{"OutputExtension":"webp","Quality":70},"Identifier":"e29338af-b945-4fdc-9a6f-482308d85022","Name":"macap-m4d.webp","Extension":".webp","Size":3806,"Width":400,"Height":400,"LastModified":"2025-02-03T14:31:41.2345509Z"}]]>
+    <![CDATA[{"Original":{"Identifier":"a312c0de-5e56-4a1d-99b9-75a638cbe2e8","Name":"macap-m4d.jpg","Extension":".jpg","Size":10218,"Width":400,"Height":400,"LastModified":"2025-02-03T14:31:41.2042795Z"},"OptimizationParameters":{"OutputExtension":"webp","Quality":70,"WidthLimit":null,"HeightLimit":null},"Variants":{},"FocalPoint":{"X":200,"Y":200},"Identifier":"e29338af-b945-4fdc-9a6f-482308d85022","Name":"macap-m4d.webp","Extension":".webp","Size":3806,"Width":400,"Height":400,"LastModified":"2025-02-03T14:31:41.2345509Z"}]]>
   </ImageFile>
 </contentitemdata.dancinggoat.image>

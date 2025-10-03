@@ -23,6 +23,7 @@
           <explanationtextashtml>False</explanationtextashtml>
           <fieldcaption>Link</fieldcaption>
           <fielddescriptionashtml>False</fielddescriptionashtml>
+          <includeintranslation>False</includeintranslation>
         </properties>
         <settings>
           <controlname>Kentico.Administration.TextInput</controlname>

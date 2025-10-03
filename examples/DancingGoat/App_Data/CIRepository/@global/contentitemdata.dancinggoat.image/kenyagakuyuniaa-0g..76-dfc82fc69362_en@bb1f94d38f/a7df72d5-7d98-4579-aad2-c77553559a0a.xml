@@ -11,6 +11,6 @@
   </ContentItemDataCommonDataID>
   <ContentItemDataGUID>a7df72d5-7d98-4579-aad2-c77553559a0a</ContentItemDataGUID>
   <ImageFile>
-    <![CDATA[{"Original":{"Identifier":"4ae9d5a4-e9e2-4d1c-8d80-a2b7c6c4fda2","Name":"kenya.jpg","Extension":".jpg","Size":16001,"Width":400,"Height":400,"LastModified":"2025-02-03T14:10:18.8941924Z"},"OptimizationParameters":{"OutputExtension":"webp","Quality":70},"Identifier":"686320a4-5b9b-4548-8e66-78e57fe59562","Name":"kenya.webp","Extension":".webp","Size":6432,"Width":400,"Height":400,"LastModified":"2025-02-03T14:10:18.9335659Z"}]]>
+    <![CDATA[{"Original":{"Identifier":"4ae9d5a4-e9e2-4d1c-8d80-a2b7c6c4fda2","Name":"kenya.jpg","Extension":".jpg","Size":16001,"Width":400,"Height":400,"LastModified":"2025-02-03T14:10:18.8941924Z"},"OptimizationParameters":{"OutputExtension":"webp","Quality":70,"WidthLimit":null,"HeightLimit":null},"Variants":{},"FocalPoint":{"X":200,"Y":200},"Identifier":"686320a4-5b9b-4548-8e66-78e57fe59562","Name":"kenya.webp","Extension":".webp","Size":6432,"Width":400,"Height":400,"LastModified":"2025-02-03T14:10:18.9335659Z"}]]>
   </ImageFile>
 </contentitemdata.dancinggoat.image>

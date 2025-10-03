@@ -11,6 +11,6 @@
   </ContentItemDataCommonDataID>
   <ContentItemDataGUID>86b496e6-1384-4b9d-a4cc-64f609a53f94</ContentItemDataGUID>
   <ImageFile>
-    <![CDATA[{"Original":{"Identifier":"affb91aa-8e36-4b91-a1e2-fbd4f2b1f79b","Name":"colombia.jpg","Extension":".jpg","Size":16193,"Width":400,"Height":400,"LastModified":"2025-02-03T14:16:27.6769467Z"},"OptimizationParameters":{"OutputExtension":"webp","Quality":70},"Identifier":"f1f5e394-af6a-4e7f-9087-ca3dccd0d91f","Name":"colombia.webp","Extension":".webp","Size":6588,"Width":400,"Height":400,"LastModified":"2025-02-03T14:16:27.7209973Z"}]]>
+    <![CDATA[{"Original":{"Identifier":"affb91aa-8e36-4b91-a1e2-fbd4f2b1f79b","Name":"colombia.jpg","Extension":".jpg","Size":16193,"Width":400,"Height":400,"LastModified":"2025-02-03T14:16:27.6769467Z"},"OptimizationParameters":{"OutputExtension":"webp","Quality":70,"WidthLimit":null,"HeightLimit":null},"Variants":{},"FocalPoint":{"X":200,"Y":200},"Identifier":"f1f5e394-af6a-4e7f-9087-ca3dccd0d91f","Name":"colombia.webp","Extension":".webp","Size":6588,"Width":400,"Height":400,"LastModified":"2025-02-03T14:16:27.7209973Z"}]]>
   </ImageFile>
 </contentitemdata.dancinggoat.image>

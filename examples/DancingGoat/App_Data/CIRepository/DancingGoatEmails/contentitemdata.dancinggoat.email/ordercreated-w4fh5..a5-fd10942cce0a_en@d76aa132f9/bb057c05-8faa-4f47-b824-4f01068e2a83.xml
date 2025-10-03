@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<contentitemdata.dancinggoat.email>
+  <BannerLogo>
+    <![CDATA[[{"Identifier":"96aaf7e4-b57b-4fb4-ae2c-25e8191e7079"}]]]>
+  </BannerLogo>
+  <Content>
+    <![CDATA[<h1>Thank You! Your Order Has Been Placed</h1><p><br></p><table width="100%" style="width: 100%; border-collapse: collapse"><tbody><tr><th align="left">Order number</th><td>{!ResolveDynamicText("Commerce.OrderNumber","","nonHTML")!}</td><th align="left">Order status</th><td>{!ResolveDynamicText("Commerce.OrderStatus","","nonHTML")!}</td></tr></tbody></table><p>We're paying full attention to your order. Wheather it's a fresh bag of beans or your new favorite mug, we'll ensure everything is right before it gets to you.</p><p><br></p><p><strong>Order summary</strong></p><table width="100%" style="width: 100%; border-collapse: collapse"><tbody><tr><td>Order number<br></td><td>{!ResolveDynamicText("Commerce.OrderNumber","","nonHTML")!}</td></tr><tr><td>Order status<br></td><td>{!ResolveDynamicText("Commerce.OrderStatus","","nonHTML")!}</td></tr><tr><td>Date created<br></td><td>{!ResolveDynamicText("Commerce.OrderCreated","","nonHTML")!}</td></tr><tr><td>Total price<br></td><td>{!ResolveDynamicText("Commerce.OrderGrandTotal","","nonHTML")!}</td></tr><tr><td>Payment method</td><td>{!ResolveDynamicText("Commerce.PaymentMethod","","nonHTML")!}</td></tr><tr><td>Shipping method</td><td>{!ResolveDynamicText("Commerce.ShippingMethod","","nonHTML")!}</td></tr></tbody></table><p><br></p><p><strong>Ordered items</strong></p><p>{!ResolveDynamicText("Commerce.OrderItems","","nonHTML")!}</p><table width="100%" style="width: 100%; border-collapse: collapse"><tbody><tr><td colspan="2"><hr></td></tr><tr><td>Subtotal</td><td>{!ResolveDynamicText("Commerce.OrderTotalPrice","","nonHTML")!}</td></tr><tr><td>Shipping and handling</td><td>{!ResolveDynamicText("Commerce.OrderTotalShipping","","nonHTML")!}</td></tr><tr><td>Tax</td><td>{!ResolveDynamicText("Commerce.OrderTotalTax","","nonHTML")!}</td></tr><tr><td colspan="2"><hr></td></tr><tr><td>Order total</td><td>{!ResolveDynamicText("Commerce.OrderGrandTotal","","nonHTML")!}</td></tr></tbody></table><p><br></p><p><strong>Delivery address</strong></p><table style="border-collapse: collapse; width: 100%"><tbody><tr><td>{!ResolveDynamicText("Commerce.ShippingAddressFirstName","","nonHTML")!} {!ResolveDynamicText("Commerce.ShippingAddressLastName","","nonHTML")!}</td></tr><tr><td>{!ResolveDynamicText("Commerce.ShippingAddressLine1","","nonHTML")!}</td></tr><tr><td>{!ResolveDynamicText("Commerce.ShippingAddressCity","","nonHTML")!}, {!ResolveDynamicText("Commerce.ShippingAddressState","","nonHTML")!} {!ResolveDynamicText("Commerce.ShippingAddressZip","","nonHTML")!}</td></tr><tr><td>{!ResolveDynamicText("Commerce.ShippingAddressCountry","","nonHTML")!}</td></tr></tbody></table>]]>
+  </Content>
+  <ContentItemDataCommonDataID>
+    <GUID>f055f306-7825-4e83-9aa5-fd10942cce0a</GUID>
+    <ObjectType>cms.contentitemcommondata</ObjectType>
+    <Parent>
+      <CodeName>OrderCreated-w4fh5iu4</CodeName>
+      <GUID>1ea9fc97-a120-45b7-a499-ea4620cb4e12</GUID>
+      <ObjectType>cms.contentitem</ObjectType>
+    </Parent>
+  </ContentItemDataCommonDataID>
+  <ContentItemDataGUID>bb057c05-8faa-4f47-b824-4f01068e2a83</ContentItemDataGUID>
+  <EmailPlainText />
+  <EmailPreviewText />
+  <EmailSenderID>
+    <CodeName>no-reply</CodeName>
+    <GUID>3631fdc8-9e83-4e36-b217-68a97e41a6c1</GUID>
+    <ObjectType>emaillibrary.emailchannelsender</ObjectType>
+    <Parent>
+      <GUID>be820547-d1e2-4f46-a9b3-c3a6780953d2</GUID>
+      <ObjectType>emaillibrary.emailchannel</ObjectType>
+      <Parent>
+        <CodeName>DancingGoatEmails</CodeName>
+        <GUID>85813214-7d3e-4ec9-8d92-e762fd61dc81</GUID>
+        <ObjectType>cms.channel</ObjectType>
+      </Parent>
+    </Parent>
+  </EmailSenderID>
+  <EmailSubject>Order created</EmailSubject>
+  <EmailTemplateID>
+    <CodeName>DancingGoatTemplate</CodeName>
+    <GUID>01c0871f-cafe-4e34-a650-5ae19c8ab92d</GUID>
+    <ObjectType>emaillibrary.emailtemplate</ObjectType>
+  </EmailTemplateID>
+</contentitemdata.dancinggoat.email>

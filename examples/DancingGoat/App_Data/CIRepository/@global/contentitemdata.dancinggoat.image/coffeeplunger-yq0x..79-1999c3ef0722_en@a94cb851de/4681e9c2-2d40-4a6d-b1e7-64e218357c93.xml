@@ -11,6 +11,6 @@
   </ContentItemDataCommonDataID>
   <ContentItemDataGUID>4681e9c2-2d40-4a6d-b1e7-64e218357c93</ContentItemDataGUID>
   <ImageFile>
-    <![CDATA[{"Original":{"Identifier":"ffbc8017-09d0-47b5-a146-77b641295e77","Name":"coffee-plunger.jpg","Extension":".jpg","Size":12437,"Width":400,"Height":400,"LastModified":"2025-02-03T14:24:17.406224Z"},"OptimizationParameters":{"OutputExtension":"webp","Quality":70},"Identifier":"05f381e1-5a6e-4117-80ab-010e42490263","Name":"coffee-plunger.webp","Extension":".webp","Size":4866,"Width":400,"Height":400,"LastModified":"2025-02-03T14:24:17.4403617Z"}]]>
+    <![CDATA[{"Original":{"Identifier":"ffbc8017-09d0-47b5-a146-77b641295e77","Name":"coffee-plunger.jpg","Extension":".jpg","Size":12437,"Width":400,"Height":400,"LastModified":"2025-02-03T14:24:17.406224Z"},"OptimizationParameters":{"OutputExtension":"webp","Quality":70,"WidthLimit":null,"HeightLimit":null},"Variants":{},"FocalPoint":{"X":200,"Y":200},"Identifier":"05f381e1-5a6e-4117-80ab-010e42490263","Name":"coffee-plunger.webp","Extension":".webp","Size":4866,"Width":400,"Height":400,"LastModified":"2025-02-03T14:24:17.4403617Z"}]]>
   </ImageFile>
 </contentitemdata.dancinggoat.image>

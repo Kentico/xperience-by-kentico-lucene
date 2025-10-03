@@ -11,6 +11,6 @@
   </ContentItemDataCommonDataID>
   <ContentItemDataGUID>8449c7bc-38ce-4912-912f-1768893b7925</ContentItemDataGUID>
   <ImageFile>
-    <![CDATA[{"Original":{"Identifier":"1621fef4-6e40-4294-820a-24265f8167ee","Name":"clever-dripper.jpg","Extension":".jpg","Size":10837,"Width":400,"Height":400,"LastModified":"2025-02-03T14:25:55.2231662Z"},"OptimizationParameters":{"OutputExtension":"webp","Quality":70},"Identifier":"abbcfb96-1449-41b7-80b8-4063ce8bb642","Name":"clever-dripper.webp","Extension":".webp","Size":3444,"Width":400,"Height":400,"LastModified":"2025-02-03T14:25:55.252409Z"}]]>
+    <![CDATA[{"Original":{"Identifier":"1621fef4-6e40-4294-820a-24265f8167ee","Name":"clever-dripper.jpg","Extension":".jpg","Size":10837,"Width":400,"Height":400,"LastModified":"2025-02-03T14:25:55.2231662Z"},"OptimizationParameters":{"OutputExtension":"webp","Quality":70,"WidthLimit":null,"HeightLimit":null},"Variants":{},"FocalPoint":{"X":200,"Y":200},"Identifier":"abbcfb96-1449-41b7-80b8-4063ce8bb642","Name":"clever-dripper.webp","Extension":".webp","Size":3444,"Width":400,"Height":400,"LastModified":"2025-02-03T14:25:55.252409Z"}]]>
   </ImageFile>
 </contentitemdata.dancinggoat.image>

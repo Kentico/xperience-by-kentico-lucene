@@ -11,6 +11,6 @@
   </ContentItemDataCommonDataID>
   <ContentItemDataGUID>1756c3eb-6fa8-4ee1-a0b9-7860512e9a62</ContentItemDataGUID>
   <ImageFile>
-    <![CDATA[{"Original":{"Identifier":"95c1a620-5d6f-4e4d-b634-d7240bc99960","Name":"hario-buono-kettle.jpg","Extension":".jpg","Size":11458,"Width":400,"Height":400,"LastModified":"2025-02-03T14:48:05.367422Z"},"OptimizationParameters":{"OutputExtension":"webp","Quality":70},"Identifier":"5e5e32ed-995a-4fee-84f7-97f1246c54be","Name":"hario-buono-kettle.webp","Extension":".webp","Size":4348,"Width":400,"Height":400,"LastModified":"2025-02-03T14:48:05.3990404Z"}]]>
+    <![CDATA[{"Original":{"Identifier":"95c1a620-5d6f-4e4d-b634-d7240bc99960","Name":"hario-buono-kettle.jpg","Extension":".jpg","Size":11458,"Width":400,"Height":400,"LastModified":"2025-02-03T14:48:05.367422Z"},"OptimizationParameters":{"OutputExtension":"webp","Quality":70,"WidthLimit":null,"HeightLimit":null},"Variants":{},"FocalPoint":{"X":200,"Y":200},"Identifier":"5e5e32ed-995a-4fee-84f7-97f1246c54be","Name":"hario-buono-kettle.webp","Extension":".webp","Size":4348,"Width":400,"Height":400,"LastModified":"2025-02-03T14:48:05.3990404Z"}]]>
   </ImageFile>
 </contentitemdata.dancinggoat.image>

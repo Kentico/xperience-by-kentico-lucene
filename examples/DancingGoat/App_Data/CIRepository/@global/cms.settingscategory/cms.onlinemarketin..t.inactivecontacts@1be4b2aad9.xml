@@ -1,13 +1,15 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <cms.settingscategory>
   <CategoryDisplayName>
-    <![CDATA[{$settingscategory.cmsonlinemarketingcontactmanagementinactivecontacts$}]]>
+    <![CDATA[{$digitalmarketing.settings.settingscategory.cmsonlinemarketing.contactmanagement.inactivecontacts$}]]>
   </CategoryDisplayName>
   <CategoryIconPath />
   <CategoryIsCustom>False</CategoryIsCustom>
-  <CategoryIsGroup>False</CategoryIsGroup>
-  <CategoryName>CMS.OnlineMarketing.InactiveContacts</CategoryName>
-  <CategoryOrder>4</CategoryOrder>
+  <CategoryIsGroup>True</CategoryIsGroup>
+  <CategoryName>
+    <![CDATA[CMS.OnlineMarketing.ContactManagement.InactiveContacts]]>
+  </CategoryName>
+  <CategoryOrder>2</CategoryOrder>
   <CategoryParentID>
     <CodeName>CMS.OnlineMarketing.ContactManagement</CodeName>
     <ObjectType>cms.settingscategory</ObjectType>

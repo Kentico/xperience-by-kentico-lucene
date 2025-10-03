@@ -196,6 +196,7 @@
           <explanationtextashtml>False</explanationtextashtml>
           <fieldcaption>Product SKU</fieldcaption>
           <fielddescriptionashtml>False</fielddescriptionashtml>
+          <includeintranslation>False</includeintranslation>
           <kxp_schema_identifier>bfe46dfb-cdfc-40ad-a455-ecfefbfa0c61</kxp_schema_identifier>
         </properties>
         <settings>
@@ -246,6 +247,7 @@
           <explanationtextashtml>False</explanationtextashtml>
           <fieldcaption>Product option - Alpha size</fieldcaption>
           <fielddescriptionashtml>False</fielddescriptionashtml>
+          <includeintranslation>False</includeintranslation>
           <kxp_schema_identifier>824b9475-3e6c-444c-b1b9-6029aa53dc0c</kxp_schema_identifier>
         </properties>
         <settings>

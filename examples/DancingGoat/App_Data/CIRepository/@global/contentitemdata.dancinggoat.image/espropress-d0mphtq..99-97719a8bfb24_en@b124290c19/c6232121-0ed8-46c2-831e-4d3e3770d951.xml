@@ -11,6 +11,6 @@
   </ContentItemDataCommonDataID>
   <ContentItemDataGUID>c6232121-0ed8-46c2-831e-4d3e3770d951</ContentItemDataGUID>
   <ImageFile>
-    <![CDATA[{"Original":{"Identifier":"bf84d41d-7952-4c06-b0c1-1612d0c84637","Name":"espro-press.jpg","Extension":".jpg","Size":12249,"Width":400,"Height":400,"LastModified":"2025-02-03T14:23:03.1401324Z"},"OptimizationParameters":{"OutputExtension":"webp","Quality":70},"Identifier":"b5acea30-530f-468f-88e0-7f1e109f3ed9","Name":"espro-press.webp","Extension":".webp","Size":4382,"Width":400,"Height":400,"LastModified":"2025-02-03T14:23:03.1829547Z"}]]>
+    <![CDATA[{"Original":{"Identifier":"bf84d41d-7952-4c06-b0c1-1612d0c84637","Name":"espro-press.jpg","Extension":".jpg","Size":12249,"Width":400,"Height":400,"LastModified":"2025-02-03T14:23:03.1401324Z"},"OptimizationParameters":{"OutputExtension":"webp","Quality":70,"WidthLimit":null,"HeightLimit":null},"Variants":{},"FocalPoint":{"X":200,"Y":200},"Identifier":"b5acea30-530f-468f-88e0-7f1e109f3ed9","Name":"espro-press.webp","Extension":".webp","Size":4382,"Width":400,"Height":400,"LastModified":"2025-02-03T14:23:03.1829547Z"}]]>
   </ImageFile>
 </contentitemdata.dancinggoat.image>

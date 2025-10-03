@@ -1,10 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <kenticolucene.luceneindexlanguageitem>
-  <LuceneIndexLanguageItemGuid>d941b151-ad8d-4343-870b-dc755bafc539</LuceneIndexLanguageItemGuid>
+  <LuceneIndexLanguageItemGuid>8ebf0451-a17e-472b-a764-19b8a34d8b74</LuceneIndexLanguageItemGuid>
   <LuceneIndexLanguageItemIndexItemId>
-    <CodeName>Simple</CodeName>
-    <GUID>e66e452b-8319-4173-a219-000c4ac8461c</GUID>
+    <CodeName>Advanced</CodeName>
+    <GUID>44980d16-2cd1-4a49-ad33-7fa763176e05</GUID>
     <ObjectType>kenticolucene.luceneindexitem</ObjectType>
   </LuceneIndexLanguageItemIndexItemId>
-  <LuceneIndexLanguageItemName>en</LuceneIndexLanguageItemName>
+  <LuceneIndexLanguageItemName>es</LuceneIndexLanguageItemName>
 </kenticolucene.luceneindexlanguageitem>

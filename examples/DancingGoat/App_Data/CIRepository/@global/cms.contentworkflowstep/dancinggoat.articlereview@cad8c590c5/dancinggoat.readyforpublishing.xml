@@ -3,6 +3,7 @@
   <ContentWorkflowStepDisplayName>Ready for publishing</ContentWorkflowStepDisplayName>
   <ContentWorkflowStepGUID>9f9535e5-1593-4aa0-bba8-694b67fdfc20</ContentWorkflowStepGUID>
   <ContentWorkflowStepIconClass>xp-clipboard-checklist</ContentWorkflowStepIconClass>
+  <ContentWorkflowStepIsNotificationEnabled>False</ContentWorkflowStepIsNotificationEnabled>
   <ContentWorkflowStepName>DancingGoat.ReadyForPublishing</ContentWorkflowStepName>
   <ContentWorkflowStepOrder>2</ContentWorkflowStepOrder>
   <ContentWorkflowStepType>3</ContentWorkflowStepType>

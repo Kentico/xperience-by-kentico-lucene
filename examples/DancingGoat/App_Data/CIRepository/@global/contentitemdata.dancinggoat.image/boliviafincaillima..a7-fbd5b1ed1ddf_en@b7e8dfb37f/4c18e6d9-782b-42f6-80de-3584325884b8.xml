@@ -11,6 +11,6 @@
   </ContentItemDataCommonDataID>
   <ContentItemDataGUID>4c18e6d9-782b-42f6-80de-3584325884b8</ContentItemDataGUID>
   <ImageFile>
-    <![CDATA[{"Original":{"Identifier":"160fcfd6-b9a6-4976-9480-14de059fba36","Name":"bolivia.jpg","Extension":".jpg","Size":16028,"Width":400,"Height":400,"LastModified":"2025-02-03T14:18:41.7743016Z"},"OptimizationParameters":{"OutputExtension":"webp","Quality":70},"Identifier":"ff93411f-e9cc-48e4-9469-950d5e2688bc","Name":"bolivia.webp","Extension":".webp","Size":6464,"Width":400,"Height":400,"LastModified":"2025-02-03T14:18:41.8029765Z"}]]>
+    <![CDATA[{"Original":{"Identifier":"160fcfd6-b9a6-4976-9480-14de059fba36","Name":"bolivia.jpg","Extension":".jpg","Size":16028,"Width":400,"Height":400,"LastModified":"2025-02-03T14:18:41.7743016Z"},"OptimizationParameters":{"OutputExtension":"webp","Quality":70,"WidthLimit":null,"HeightLimit":null},"Variants":{},"FocalPoint":{"X":200,"Y":200},"Identifier":"ff93411f-e9cc-48e4-9469-950d5e2688bc","Name":"bolivia.webp","Extension":".webp","Size":6464,"Width":400,"Height":400,"LastModified":"2025-02-03T14:18:41.8029765Z"}]]>
   </ImageFile>
 </contentitemdata.dancinggoat.image>

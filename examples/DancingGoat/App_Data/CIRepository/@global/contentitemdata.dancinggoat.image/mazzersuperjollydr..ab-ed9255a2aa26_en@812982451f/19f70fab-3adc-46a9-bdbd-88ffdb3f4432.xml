@@ -11,6 +11,6 @@
   </ContentItemDataCommonDataID>
   <ContentItemDataGUID>19f70fab-3adc-46a9-bdbd-88ffdb3f4432</ContentItemDataGUID>
   <ImageFile>
-    <![CDATA[{"Original":{"Identifier":"d14c568b-6def-4055-b46f-e4b51eb77dd4","Name":"mazer-super-jolly-dr.jpg","Extension":".jpg","Size":10050,"Width":400,"Height":400,"LastModified":"2025-02-03T14:35:24.2194998Z"},"OptimizationParameters":{"OutputExtension":"webp","Quality":70},"Identifier":"9d620211-e1ac-4fd4-8f1e-6db2320bf11a","Name":"mazer-super-jolly-dr.webp","Extension":".webp","Size":3356,"Width":400,"Height":400,"LastModified":"2025-02-03T14:35:24.2731439Z"}]]>
+    <![CDATA[{"Original":{"Identifier":"d14c568b-6def-4055-b46f-e4b51eb77dd4","Name":"mazer-super-jolly-dr.jpg","Extension":".jpg","Size":10050,"Width":400,"Height":400,"LastModified":"2025-02-03T14:35:24.2194998Z"},"OptimizationParameters":{"OutputExtension":"webp","Quality":70,"WidthLimit":null,"HeightLimit":null},"Variants":{},"FocalPoint":{"X":200,"Y":200},"Identifier":"9d620211-e1ac-4fd4-8f1e-6db2320bf11a","Name":"mazer-super-jolly-dr.webp","Extension":".webp","Size":3356,"Width":400,"Height":400,"LastModified":"2025-02-03T14:35:24.2731439Z"}]]>
   </ImageFile>
 </contentitemdata.dancinggoat.image>

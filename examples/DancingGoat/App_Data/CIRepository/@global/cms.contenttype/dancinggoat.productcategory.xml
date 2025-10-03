@@ -12,6 +12,7 @@
           <explanationtextashtml>False</explanationtextashtml>
           <fieldcaption>Product type</fieldcaption>
           <fielddescriptionashtml>False</fielddescriptionashtml>
+          <includeintranslation>False</includeintranslation>
         </properties>
         <settings>
           <controlname>Kentico.Administration.DropDownSelector</controlname>

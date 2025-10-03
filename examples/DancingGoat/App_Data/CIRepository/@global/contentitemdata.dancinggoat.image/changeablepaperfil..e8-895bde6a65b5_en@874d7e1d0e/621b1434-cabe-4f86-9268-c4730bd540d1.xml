@@ -11,6 +11,6 @@
   </ContentItemDataCommonDataID>
   <ContentItemDataGUID>621b1434-cabe-4f86-9268-c4730bd540d1</ContentItemDataGUID>
   <ImageFile>
-    <![CDATA[{"Original":{"Identifier":"83073a75-38dd-45d0-bd3d-1a085b7ef28f","Name":"vacuum-pot-filters.jpg","Extension":".jpg","Size":10731,"Width":400,"Height":400,"LastModified":"2025-02-03T14:40:48.100017Z"},"OptimizationParameters":{"OutputExtension":"webp","Quality":70},"Identifier":"fa8da873-5344-4176-b5b9-ed450a138412","Name":"vacuum-pot-filters.webp","Extension":".webp","Size":3572,"Width":400,"Height":400,"LastModified":"2025-02-03T14:40:48.1308045Z"}]]>
+    <![CDATA[{"Original":{"Identifier":"83073a75-38dd-45d0-bd3d-1a085b7ef28f","Name":"vacuum-pot-filters.jpg","Extension":".jpg","Size":10731,"Width":400,"Height":400,"LastModified":"2025-02-03T14:40:48.100017Z"},"OptimizationParameters":{"OutputExtension":"webp","Quality":70,"WidthLimit":null,"HeightLimit":null},"Variants":{},"FocalPoint":{"X":200,"Y":200},"Identifier":"fa8da873-5344-4176-b5b9-ed450a138412","Name":"vacuum-pot-filters.webp","Extension":".webp","Size":3572,"Width":400,"Height":400,"LastModified":"2025-02-03T14:40:48.1308045Z"}]]>
   </ImageFile>
 </contentitemdata.dancinggoat.image>

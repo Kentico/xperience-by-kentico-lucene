@@ -11,6 +11,6 @@
   </ContentItemDataCommonDataID>
   <ContentItemDataGUID>0cda0ccb-9982-4e8a-a287-7a7e3f2c4d9c</ContentItemDataGUID>
   <ImageFile>
-    <![CDATA[{"Original":{"Identifier":"868dce03-882f-4503-8d9d-c6f775e8758f","Name":"T-shirt White.jpg","Extension":".jpg","Size":449961,"Width":2800,"Height":2549,"LastModified":"2025-03-27T07:23:06.3092433Z"},"OptimizationParameters":{"OutputExtension":"webp","Quality":70},"Variants":{},"FocalPoint":{"X":1308,"Y":841},"Identifier":"d45b355b-26a6-444f-aeb7-14d2ca1187a2","Name":"T-shirt White.webp","Extension":".webp","Size":123750,"Width":2800,"Height":2549,"LastModified":"2025-03-27T07:23:09.6909001Z"}]]>
+    <![CDATA[{"Original":{"Identifier":"868dce03-882f-4503-8d9d-c6f775e8758f","Name":"T-shirt White.jpg","Extension":".jpg","Size":449961,"Width":2800,"Height":2549,"LastModified":"2025-03-27T07:23:06.3092433Z"},"OptimizationParameters":{"OutputExtension":"webp","Quality":70,"WidthLimit":null,"HeightLimit":null},"Variants":{},"FocalPoint":{"X":1308,"Y":841},"Identifier":"d45b355b-26a6-444f-aeb7-14d2ca1187a2","Name":"T-shirt White.webp","Extension":".webp","Size":123750,"Width":2800,"Height":2549,"LastModified":"2025-03-27T07:23:09.6909001Z"}]]>
   </ImageFile>
 </contentitemdata.dancinggoat.image>

@@ -3,18 +3,19 @@
   <ClassDisplayName>Lucene Path Item</ClassDisplayName>
   <ClassFormDefinition>
     <form>
-      <field column="LuceneIncludedPathItemId" columntype="integer" enabled="true" guid="9cf5068e-aed4-4908-9efa-958bcc3ab48d" isPK="true" />
-      <field column="LuceneIncludedPathItemGuid" columnprecision="0" columntype="guid" enabled="true" guid="c3f2d213-eade-485c-b19a-2036830fbdc8" visible="true" />
-      <field column="LuceneIncludedPathItemAliasPath" columnprecision="0" columnsize="100" columntype="text" enabled="true" guid="2a7bf9d7-9ea5-4af7-9e8a-786262720295" visible="true" />
-      <field column="LuceneIncludedPathItemIndexItemId" columnprecision="0" columntype="integer" enabled="true" guid="1ddf25e8-b9b0-4222-857a-28aee275ae8b" refobjtype="kenticolucene.luceneindexitem" reftype="Required" visible="true" />
+      <field column="LuceneIncludedPathItemId" columntype="integer" enabled="true" guid="7e242c22-2619-41d0-8a1d-4ca2d748831f" isPK="true" />
+      <field column="LuceneIncludedPathItemGuid" columnprecision="0" columntype="guid" enabled="true" guid="33f6cb82-3034-458c-a95f-a49f6d896ddf" visible="true" />
+      <field column="LuceneIncludedPathItemAliasPath" columnprecision="0" columnsize="100" columntype="text" enabled="true" guid="d1a80274-5eac-4eda-899f-c9f031cac72c" visible="true" />
+      <field column="LuceneIncludedPathItemChannelName" columnprecision="0" columnsize="100" columntype="text" enabled="true" guid="bc8c5b9b-7f2f-4ab5-b415-4b28e8b328f4" visible="true" />
+      <field column="LuceneIncludedPathItemIndexItemId" columnprecision="0" columntype="integer" enabled="true" guid="bfb29289-92f6-4554-a2fb-8f96f2b305e4" refobjtype="kenticolucene.luceneindexitem" reftype="Required" visible="true" />
     </form>
   </ClassFormDefinition>
-  <ClassGUID>656c9cda-6387-4cd0-84db-342130db57d9</ClassGUID>
+  <ClassGUID>67738748-d274-4abc-ac50-b7e37d069f9c</ClassGUID>
   <ClassHasUnmanagedDbSchema>False</ClassHasUnmanagedDbSchema>
   <ClassName>KenticoLucene.LuceneIncludedPathItem</ClassName>
   <ClassResourceID>
     <CodeName>CMS.Integration.Lucene</CodeName>
-    <GUID>db123306-e319-4c72-b2b1-6f3644d0db4a</GUID>
+    <GUID>7005973e-b64d-4a69-8ed6-64460b292752</GUID>
     <ObjectType>cms.resource</ObjectType>
   </ClassResourceID>
   <ClassTableName>KenticoLucene_LuceneIncludedPathItem</ClassTableName>

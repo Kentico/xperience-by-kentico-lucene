@@ -1210,15 +1210,15 @@
       "kentico.xperience.lucene": {
         "type": "Project",
         "dependencies": {
-          "Kentico.Xperience.Lucene.Admin": "[12.5.0, )",
-          "Kentico.Xperience.Lucene.Core": "[12.5.0, )"
+          "Kentico.Xperience.Lucene.Admin": "[13.0.0, )",
+          "Kentico.Xperience.Lucene.Core": "[13.0.0, )"
         }
       },
       "kentico.xperience.lucene.admin": {
         "type": "Project",
         "dependencies": {
           "Kentico.Xperience.Admin": "[30.9.0, )",
-          "Kentico.Xperience.Lucene.Core": "[12.5.0, )"
+          "Kentico.Xperience.Lucene.Core": "[13.0.0, )"
         }
       },
       "kentico.xperience.lucene.core": {

@@ -3,6 +3,7 @@
   <ContentWorkflowStepDisplayName>Final</ContentWorkflowStepDisplayName>
   <ContentWorkflowStepGUID>6032deb1-e98d-4e77-a364-092dd0a6ea62</ContentWorkflowStepGUID>
   <ContentWorkflowStepIconClass />
+  <ContentWorkflowStepIsNotificationEnabled>False</ContentWorkflowStepIsNotificationEnabled>
   <ContentWorkflowStepName>Final-h2z0rb4h</ContentWorkflowStepName>
   <ContentWorkflowStepOrder>100</ContentWorkflowStepOrder>
   <ContentWorkflowStepType>4</ContentWorkflowStepType>

@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<kenticolucene.lucenereusablecontenttypeitem>
+  <LuceneReusableContentTypeItemContentTypeName>DancingGoat.Cafe</LuceneReusableContentTypeItemContentTypeName>
+  <LuceneReusableContentTypeItemGuid>0fc0cb2d-8e5d-41f8-ab1a-46fe851710b0</LuceneReusableContentTypeItemGuid>
+  <LuceneReusableContentTypeItemIndexItemId>
+    <CodeName>Advanced</CodeName>
+    <GUID>44980d16-2cd1-4a49-ad33-7fa763176e05</GUID>
+    <ObjectType>kenticolucene.luceneindexitem</ObjectType>
+  </LuceneReusableContentTypeItemIndexItemId>
+</kenticolucene.lucenereusablecontenttypeitem>

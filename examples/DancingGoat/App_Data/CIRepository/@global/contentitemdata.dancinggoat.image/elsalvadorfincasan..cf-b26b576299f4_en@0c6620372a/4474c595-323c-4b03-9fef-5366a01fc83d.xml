@@ -11,6 +11,6 @@
   </ContentItemDataCommonDataID>
   <ContentItemDataGUID>4474c595-323c-4b03-9fef-5366a01fc83d</ContentItemDataGUID>
   <ImageFile>
-    <![CDATA[{"Original":{"Identifier":"427b0779-f1dd-4828-8a98-d389a577dbec","Name":"salvador.jpg","Extension":".jpg","Size":16399,"Width":400,"Height":400,"LastModified":"2025-02-03T14:14:52.2680435Z"},"OptimizationParameters":{"OutputExtension":"webp","Quality":70},"Identifier":"d2cd5ac0-445b-4f04-963f-f7f0178dd92c","Name":"salvador.webp","Extension":".webp","Size":6726,"Width":400,"Height":400,"LastModified":"2025-02-03T14:14:52.3102248Z"}]]>
+    <![CDATA[{"Original":{"Identifier":"427b0779-f1dd-4828-8a98-d389a577dbec","Name":"salvador.jpg","Extension":".jpg","Size":16399,"Width":400,"Height":400,"LastModified":"2025-02-03T14:14:52.2680435Z"},"OptimizationParameters":{"OutputExtension":"webp","Quality":70,"WidthLimit":null,"HeightLimit":null},"Variants":{},"FocalPoint":{"X":200,"Y":200},"Identifier":"d2cd5ac0-445b-4f04-963f-f7f0178dd92c","Name":"salvador.webp","Extension":".webp","Size":6726,"Width":400,"Height":400,"LastModified":"2025-02-03T14:14:52.3102248Z"}]]>
   </ImageFile>
 </contentitemdata.dancinggoat.image>

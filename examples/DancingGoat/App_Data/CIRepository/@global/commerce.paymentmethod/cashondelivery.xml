@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<commerce.paymentmethod>
+  <PaymentMethodDisplayName>Cash on delivery</PaymentMethodDisplayName>
+  <PaymentMethodEnabled>True</PaymentMethodEnabled>
+  <PaymentMethodGUID>0ef07c2a-47de-4304-88a0-c58359291ba1</PaymentMethodGUID>
+  <PaymentMethodName>CashOnDelivery</PaymentMethodName>
+</commerce.paymentmethod>

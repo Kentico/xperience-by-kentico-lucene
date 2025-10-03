@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<cms.contentitemcommondata>
+  <ContentItemCommonDataContentItemID>
+    <CodeName>OrderCreated-w4fh5iu4</CodeName>
+    <GUID>1ea9fc97-a120-45b7-a499-ea4620cb4e12</GUID>
+    <ObjectType>cms.contentitem</ObjectType>
+  </ContentItemCommonDataContentItemID>
+  <ContentItemCommonDataContentLanguageID>
+    <CodeName>en</CodeName>
+    <GUID>e4a8fb12-ebc2-45d0-930f-c9fba2780c85</GUID>
+    <ObjectType>cms.contentlanguage</ObjectType>
+  </ContentItemCommonDataContentLanguageID>
+  <ContentItemCommonDataFirstPublishedWhen>2025-07-11 08:02:36Z</ContentItemCommonDataFirstPublishedWhen>
+  <ContentItemCommonDataGUID>f055f306-7825-4e83-9aa5-fd10942cce0a</ContentItemCommonDataGUID>
+  <ContentItemCommonDataIsLatest>True</ContentItemCommonDataIsLatest>
+  <ContentItemCommonDataLastPublishedWhen>2025-07-25 08:48:13Z</ContentItemCommonDataLastPublishedWhen>
+  <ContentItemCommonDataVersionStatus>2</ContentItemCommonDataVersionStatus>
+  <ContentItemReferences>
+    <cms.contentitemreference>
+      <ContentItemReferenceGroupGUID>8cc584c3-2a5f-4c45-9267-c946f766399a</ContentItemReferenceGroupGUID>
+      <ContentItemReferenceGUID>36aef8d4-aa3f-4ab0-b015-a4ab0aa69bba</ContentItemReferenceGUID>
+      <ContentItemReferenceSourceCommonDataID>
+        <GUID>f055f306-7825-4e83-9aa5-fd10942cce0a</GUID>
+        <ObjectType>cms.contentitemcommondata</ObjectType>
+      </ContentItemReferenceSourceCommonDataID>
+      <ContentItemReferenceTargetItemID>
+        <CodeName>Logos_Logo-dancing-goat.png-1gxova27</CodeName>
+        <GUID>96aaf7e4-b57b-4fb4-ae2c-25e8191e7079</GUID>
+        <ObjectType>cms.contentitem</ObjectType>
+      </ContentItemReferenceTargetItemID>
+    </cms.contentitemreference>
+  </ContentItemReferences>
+</cms.contentitemcommondata>

@@ -48,6 +48,19 @@
       </ContentItemReferenceTargetItemID>
     </cms.contentitemreference>
     <cms.contentitemreference>
+      <ContentItemReferenceGroupGUID>4d18ccea-4ea6-4ec1-88e9-bdbecc8e1ff5</ContentItemReferenceGroupGUID>
+      <ContentItemReferenceGUID>9e9c6316-6a13-4628-a839-44084cdeb797</ContentItemReferenceGUID>
+      <ContentItemReferenceSourceCommonDataID>
+        <GUID>52c47d26-697c-4e56-90fc-e7f1d8164429</GUID>
+        <ObjectType>cms.contentitemcommondata</ObjectType>
+      </ContentItemReferenceSourceCommonDataID>
+      <ContentItemReferenceTargetItemID>
+        <CodeName>Articles-j3dfhv8n</CodeName>
+        <GUID>55eed5b7-8436-4e9f-88c0-17ebce5eff2d</GUID>
+        <ObjectType>cms.contentitem</ObjectType>
+      </ContentItemReferenceTargetItemID>
+    </cms.contentitemreference>
+    <cms.contentitemreference>
       <ContentItemReferenceGroupGUID>9088319d-f909-4f38-93aa-e8598c78382b</ContentItemReferenceGroupGUID>
       <ContentItemReferenceGUID>9e264205-4dda-477d-9e4c-453166513f98</ContentItemReferenceGUID>
       <ContentItemReferenceSourceCommonDataID>

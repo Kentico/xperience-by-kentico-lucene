@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <commerce.orderstatus>
+  <OrderStatusCustomerNotificationEnabled>False</OrderStatusCustomerNotificationEnabled>
   <OrderStatusDisplayName>Processing</OrderStatusDisplayName>
   <OrderStatusGUID>7c57e651-a52d-4487-b18e-1eb1d22d34ec</OrderStatusGUID>
   <OrderStatusInternalNotificationEnabled>False</OrderStatusInternalNotificationEnabled>
