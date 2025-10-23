@@ -77,6 +77,11 @@ internal class DefaultLuceneTaskLogger : ILuceneTaskLogger
                     }
                 }
             }
+
+            if (taskType == LuceneTaskType.DELETE)
+            {
+                LogIndexTaskInternal(reusableItem, LuceneTaskType.DELETE, luceneIndex.IndexName);
+            }
         }
     }
 
