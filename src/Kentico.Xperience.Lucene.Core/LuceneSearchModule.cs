@@ -28,6 +28,7 @@ internal class LuceneSearchModule : Module
     private LuceneSearchOptions luceneSearchOptions = null!;
     private IServiceProvider serviceProvider = null!;
     private ILuceneIndexManager indexManager = null!;
+    private IEventLogService eventLogService = null!;
 
     private const string APP_SETTINGS_KEY_INDEXING_DISABLED = "CMSLuceneSearchDisableIndexing";
 
@@ -69,6 +70,7 @@ internal class LuceneSearchModule : Module
         webFarmService = services.GetRequiredService<IWebFarmService>();
         serviceProvider = services;
         indexManager = services.GetRequiredService<ILuceneIndexManager>();
+        eventLogService = services.GetRequiredService<IEventLogService>();
 
         luceneSearchOptions = new LuceneSearchOptions
         {
@@ -166,9 +168,11 @@ internal class LuceneSearchModule : Module
                 }
                 indexedItemModel.RelatedItems = relatedItems;
             }
-            catch
+            catch (Exception ex)
             {
-                // Silently fail to avoid disrupting the deletion process
+                // Log the error but don't disrupt the deletion process
+                eventLogService.LogException(nameof(LuceneSearchModule), nameof(HandleEvent), ex, 
+                    "Failed to capture related items for web page deletion event. Related items may not be re-indexed.");
             }
         }
 
@@ -222,9 +226,11 @@ internal class LuceneSearchModule : Module
                 }
                 indexedContentItemModel.RelatedItems = relatedItems;
             }
-            catch
+            catch (Exception ex)
             {
-                // Silently fail to avoid disrupting the deletion process
+                // Log the error but don't disrupt the deletion process
+                eventLogService.LogException(nameof(LuceneSearchModule), nameof(HandleContentItemEvent), ex, 
+                    "Failed to capture related items for content item deletion event. Related items may not be re-indexed.");
             }
         }
 
