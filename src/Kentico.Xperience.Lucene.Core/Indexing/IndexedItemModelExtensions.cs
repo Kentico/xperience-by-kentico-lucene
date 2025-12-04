@@ -97,7 +97,7 @@ internal static class IndexedItemModelExtensions
             return false;
         }
 
-        bool matchesContentType = luceneIndex.IncludedReusableContentTypes.Exists(x => string.Equals(x, item.ContentTypeName));
+        bool matchesContentType = luceneIndex.IncludedReusableContentTypes.Exists(x => string.Equals(x, item.ContentTypeName, StringComparison.OrdinalIgnoreCase));
 
         if (!matchesContentType)
         {
