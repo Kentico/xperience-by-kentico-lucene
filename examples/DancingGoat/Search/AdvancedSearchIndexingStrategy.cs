@@ -162,6 +162,19 @@ public class AdvancedSearchIndexingStrategy(
 
         if (string.Equals(changedItem.ContentTypeName, Banner.CONTENT_TYPE_NAME, StringComparison.OrdinalIgnoreCase))
         {
+            // Note: For deletion events, the changedItem.RelatedItems property is automatically populated
+            // with information about items that reference the deleted item. You can use this instead of
+            // querying, which would return empty results for deleted items.
+            // Example:
+            // if (changedItem.RelatedItems.Any())
+            // {
+            //     foreach (var relatedItem in changedItem.RelatedItems)
+            //     {
+            //         reindexedItems.Add(new IndexEventWebPageItemModel(...));
+            //     }
+            //     return reindexedItems;
+            // }
+
             var result = await contentRetriever.RetrievePages<HomePage>(
                 new RetrievePagesParameters() { LanguageName = changedItem.LanguageName, LinkedItemsMaxLevel = 4, ChannelName = INDEXED_WEBSITECHANNEL_NAME, IsForPreview = false },
                 q => q.Linking(nameof(HomePage.HomePageBanner), [changedItem.ItemID]),

@@ -60,8 +60,34 @@ internal class DefaultLuceneTaskLogger : ILuceneTaskLogger
                 continue;
             }
 
-            var strategy = serviceProvider.GetRequiredStrategy(luceneIndex);
-            var toReindex = await strategy.FindItemsToReindex(reusableItem);
+            IEnumerable<IIndexEventItemModel>? toReindex = null;
+
+            // For delete events, use pre-captured RelatedItems if available to avoid querying deleted items
+            if (taskType == LuceneTaskType.DELETE && reusableItem.RelatedItems.Any())
+            {
+                // Convert RelatedItemInfo to IndexEventItemModel instances
+                var relatedItemModels = new List<IIndexEventItemModel>();
+                foreach (var relatedInfo in reusableItem.RelatedItems)
+                {
+                    // Create a minimal model for re-indexing - the actual data will be fetched during indexing
+                    relatedItemModels.Add(new IndexEventReusableItemModel(
+                        relatedInfo.ItemID,
+                        relatedInfo.ItemGuid,
+                        relatedInfo.LanguageName,
+                        relatedInfo.ContentTypeName,
+                        string.Empty, // Name not needed for re-indexing
+                        false, // IsSecured will be determined during re-indexing
+                        0, // ContentTypeID will be determined during re-indexing
+                        0 // ContentLanguageID will be determined during re-indexing
+                    ));
+                }
+                toReindex = relatedItemModels;
+            }
+            else
+            {
+                var strategy = serviceProvider.GetRequiredStrategy(luceneIndex);
+                toReindex = await strategy.FindItemsToReindex(reusableItem);
+            }
 
             if (toReindex is not null)
             {
@@ -163,8 +189,38 @@ internal class DefaultLuceneTaskLogger : ILuceneTaskLogger
                 continue;
             }
 
-            var strategy = serviceProvider.GetRequiredStrategy(luceneIndex);
-            var toReindex = await strategy.FindItemsToReindex(webpageItem);
+            IEnumerable<IIndexEventItemModel>? toReindex = null;
+
+            // For delete events, use pre-captured RelatedItems if available to avoid querying deleted items
+            if (taskType == LuceneTaskType.DELETE && webpageItem.RelatedItems.Any())
+            {
+                // Convert RelatedItemInfo to IndexEventItemModel instances
+                var relatedItemModels = new List<IIndexEventItemModel>();
+                foreach (var relatedInfo in webpageItem.RelatedItems)
+                {
+                    // Create a minimal model for re-indexing - the actual data will be fetched during indexing
+                    relatedItemModels.Add(new IndexEventWebPageItemModel(
+                        relatedInfo.ItemID,
+                        relatedInfo.ItemGuid,
+                        relatedInfo.LanguageName,
+                        relatedInfo.ContentTypeName,
+                        string.Empty, // Name not needed for re-indexing
+                        false, // IsSecured will be determined during re-indexing
+                        0, // ContentTypeID will be determined during re-indexing
+                        0, // ContentLanguageID will be determined during re-indexing
+                        string.Empty, // WebsiteChannelName will be determined during re-indexing
+                        string.Empty, // WebPageItemTreePath will be determined during re-indexing
+                        0, // Order will be determined during re-indexing
+                        null // ParentID will be determined during re-indexing
+                    ));
+                }
+                toReindex = relatedItemModels;
+            }
+            else
+            {
+                var strategy = serviceProvider.GetRequiredStrategy(luceneIndex);
+                toReindex = await strategy.FindItemsToReindex(webpageItem);
+            }
 
             if (toReindex is not null)
             {
