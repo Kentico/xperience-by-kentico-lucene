@@ -36,7 +36,7 @@ or clicking an existing path in the table under the website channel selector.
 ![Administration search index edit paths form](/images/xperience-administration-search-index-edit-form-paths-edit.jpg)
 
 - Included Path - can be an exact relative path of a web page item, (ex: `/path/to/my/page`), or a wildcard path (ex: `/parent-path/%`)
-  - To determine a web page path, select the web page in the website channel page tree, then view the "Current URL" in the Content tab of the web page. The path will be the relative path excluding the domain
+  - To determine a web page path, select the web page in the website channel page tree, then view the "Tree Path" property in the web page's properties. Use the Tree Path value (not the "Current URL") as it accurately represents the page's location in the content tree structure
 - Included ContentType items - these are the web page content types that can be selected for the path. Each content type in the multi-select enables modification to web pages of that type to trigger an event that your custom indexing strategy can process. If no option is selected, no web pages will trigger these events.
 
 ## Indexing reusable content items
