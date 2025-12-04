@@ -26,6 +26,8 @@ internal class LuceneSearchModule : Module
     private IWebFarmService webFarmService = null!;
     private LuceneModuleInstaller installer = null!;
     private LuceneSearchOptions luceneSearchOptions = null!;
+    private IServiceProvider serviceProvider = null!;
+    private ILuceneIndexManager indexManager = null!;
 
     private const string APP_SETTINGS_KEY_INDEXING_DISABLED = "CMSLuceneSearchDisableIndexing";
 
@@ -65,6 +67,8 @@ internal class LuceneSearchModule : Module
         appSettingsService = services.GetRequiredService<IAppSettingsService>();
         conversionService = services.GetRequiredService<IConversionService>();
         webFarmService = services.GetRequiredService<IWebFarmService>();
+        serviceProvider = services;
+        indexManager = services.GetRequiredService<ILuceneIndexManager>();
 
         luceneSearchOptions = new LuceneSearchOptions
         {
@@ -137,6 +141,37 @@ internal class LuceneSearchModule : Module
             publishedEvent.Order)
         { };
 
+        // For delete events, capture related items while the item still exists in the database
+        if (e.CurrentHandler.Name.Equals(WebPageEvents.Delete.Name, StringComparison.OrdinalIgnoreCase))
+        {
+            try
+            {
+                var relatedItems = new List<RelatedItemInfo>();
+                foreach (var luceneIndex in indexManager.GetAllIndices())
+                {
+                    var strategy = serviceProvider.GetRequiredStrategy(luceneIndex);
+                    var toReindex = strategy.FindItemsToReindex(indexedItemModel).GetAwaiter().GetResult();
+                    if (toReindex != null)
+                    {
+                        foreach (var item in toReindex)
+                        {
+                            relatedItems.Add(new RelatedItemInfo(
+                                item.ItemID,
+                                item.ItemGuid,
+                                item.ContentTypeName,
+                                item.LanguageName
+                            ));
+                        }
+                    }
+                }
+                indexedItemModel.RelatedItems = relatedItems;
+            }
+            catch
+            {
+                // Silently fail to avoid disrupting the deletion process
+            }
+        }
+
         luceneTaskLogger?.HandleEvent(indexedItemModel, e.CurrentHandler.Name).GetAwaiter().GetResult();
     }
 
@@ -161,6 +196,37 @@ internal class LuceneSearchModule : Module
             publishedEvent.ContentTypeID,
             publishedEvent.ContentLanguageID
         );
+
+        // For delete events, capture related items while the item still exists in the database
+        if (e.CurrentHandler.Name.Equals(ContentItemEvents.Delete.Name, StringComparison.OrdinalIgnoreCase))
+        {
+            try
+            {
+                var relatedItems = new List<RelatedItemInfo>();
+                foreach (var luceneIndex in indexManager.GetAllIndices())
+                {
+                    var strategy = serviceProvider.GetRequiredStrategy(luceneIndex);
+                    var toReindex = strategy.FindItemsToReindex(indexedContentItemModel).GetAwaiter().GetResult();
+                    if (toReindex != null)
+                    {
+                        foreach (var item in toReindex)
+                        {
+                            relatedItems.Add(new RelatedItemInfo(
+                                item.ItemID,
+                                item.ItemGuid,
+                                item.ContentTypeName,
+                                item.LanguageName
+                            ));
+                        }
+                    }
+                }
+                indexedContentItemModel.RelatedItems = relatedItems;
+            }
+            catch
+            {
+                // Silently fail to avoid disrupting the deletion process
+            }
+        }
 
         luceneTaskLogger?.HandleReusableItemEvent(indexedContentItemModel, e.CurrentHandler.Name).GetAwaiter().GetResult();
     }
