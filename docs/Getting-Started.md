@@ -347,7 +347,7 @@ namespace YourProject.Search
             var index = luceneIndexManager.GetRequiredIndex(indexName);
             
             // Build the query
-            var query = CreateQuery(searchText);
+            var query = CreateQuery(index, searchText);
 
             // Execute the search
             var result = luceneSearchService.UseSearcher(
@@ -385,7 +385,7 @@ namespace YourProject.Search
             return result;
         }
 
-        private Query CreateQuery(string searchText)
+        private Query CreateQuery(LuceneIndex index, string searchText)
         {
             if (string.IsNullOrWhiteSpace(searchText))
             {
@@ -393,25 +393,29 @@ namespace YourProject.Search
                 return new MatchAllDocsQuery();
             }
 
-            // Create a multi-field query parser
-            var parser = new MultiFieldQueryParser(
-                LuceneVersion.LUCENE_48,
-                new[] {
-                    nameof(ArticleSearchResultModel.Title),
-                    ArticleSearchIndexingStrategy.SUMMARY_FIELD,
-                    "Content"
-                },
-                index.Analyzer
-            );
-
-            // Boost title matches higher than content matches
-            parser.SetMultiTermRewriteMethod(MultiTermQuery.SCORING_BOOLEAN_REWRITE);
+            // Define fields and their boost values
+            var fields = new[] {
+                nameof(ArticleSearchResultModel.Title),
+                ArticleSearchIndexingStrategy.SUMMARY_FIELD,
+                "Content"
+            };
+            
             var boosts = new Dictionary<string, float>
             {
                 { nameof(ArticleSearchResultModel.Title), 3.0f },
                 { ArticleSearchIndexingStrategy.SUMMARY_FIELD, 2.0f },
                 { "Content", 1.0f }
             };
+
+            // Create a multi-field query parser with boost values
+            var parser = new MultiFieldQueryParser(
+                LuceneVersion.LUCENE_48,
+                fields,
+                index.Analyzer,
+                boosts
+            );
+
+            parser.SetMultiTermRewriteMethod(MultiTermQuery.SCORING_BOOLEAN_REWRITE);
 
             // Parse the search text into a query
             try
