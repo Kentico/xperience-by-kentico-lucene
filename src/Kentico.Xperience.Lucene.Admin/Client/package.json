@@ -1,6 +1,6 @@
 {
   "name": "kentico-lucene-web-admin",
-  "version": "13.0.2",
+  "version": "14.0.0",
   "description": "Xperience by Kentico Lucene administration project.",
   "private": true,
   "scripts": {
