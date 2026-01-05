@@ -97,6 +97,13 @@ internal static class IndexedItemModelExtensions
             return false;
         }
 
+        bool matchesContentType = luceneIndex.IncludedReusableContentTypes.Exists(x => string.Equals(x, item.ContentTypeName, StringComparison.OrdinalIgnoreCase));
+
+        if (!matchesContentType)
+        {
+            return false;
+        }
+
         if (luceneIndex.LanguageNames.Exists(x => string.Equals(x, item.LanguageName)))
         {
             return true;
