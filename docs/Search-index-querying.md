@@ -35,7 +35,7 @@ The `ILuceneSearchService` provides three methods for different search scenarios
 
 - **`UseSearcher`** - Use for basic search without facets.
 - **`UseSearcherWithFacets`** - Use for faceted search when you need to collect facet information.
-- **`UseSearcherWithDrillSideways`** - Use for advanced faceted search with drill-down capabilities. This works well for dynamic facet counts across multiple facet dimensions.
+- **`UseSearcherWithDrillSideways`** - Use for advanced faceted search with drill-down capabilities and dynamic facet counts across multiple facet dimensions.
 
 ```csharp
 public class SearchService
