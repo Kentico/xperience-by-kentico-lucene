@@ -189,7 +189,7 @@ public LuceneSearchResultModel<GlobalSearchResultModel> DrillSidewaysSearch(
                 string[] subFacets = facet.Split(';', StringSplitOptions.RemoveEmptyEntries);
                 foreach (string subFacet in subFacets)
                 {
-                    drillDownQuery.Add(nameof(GlobalSearchResultModel.Taxonomy), subFacet);
+                    drillDownQuery.Add(strategy.FacetDimension, subFacet);
                 }
             }
 
