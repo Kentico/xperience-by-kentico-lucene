@@ -59,6 +59,10 @@ public class IndexEventReusableItemModel : IIndexEventItemModel
     public IndexEventItemModelType IndexEventItemModelType { get; } = IndexEventItemModelType.ReusableItem;
 
 
+    /// <inheritdoc/>
+    public IEnumerable<RelatedItemInfo> RelatedItems { get; set; } = [];
+
+
     public IndexEventReusableItemModel() { }
 
 
