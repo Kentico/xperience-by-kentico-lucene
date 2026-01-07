@@ -24,6 +24,7 @@ internal class DefaultLuceneSearchService : ILuceneSearchService
         this.serviceProvider = serviceProvider;
     }
 
+
     /// <inheritdoc />
     public TResult UseSearcher<TResult>(LuceneIndex index, Func<IndexSearcher, TResult> useIndexSearcher)
     {
@@ -43,6 +44,7 @@ internal class DefaultLuceneSearchService : ILuceneSearchService
         var searcher = new IndexSearcher(reader);
         return useIndexSearcher(searcher);
     }
+
 
     /// <inheritdoc />
     public TResult UseSearcherWithFacets<TResult>(LuceneIndex index, Query query, int n, Func<IndexSearcher, MultiFacets, TResult> useIndexSearcher)
@@ -79,6 +81,7 @@ internal class DefaultLuceneSearchService : ILuceneSearchService
 
         return results;
     }
+
 
     /// <inheritdoc />
     public TResult UseSearcherWithDrillSideways<TResult>(LuceneIndex index, Func<IndexSearcher, DrillSideways, TResult> useIndexSearcher)

@@ -19,6 +19,7 @@ public interface ILuceneSearchService
     /// <returns>The result of the search operation.</returns>
     TResult UseSearcher<TResult>(LuceneIndex index, Func<IndexSearcher, TResult> useIndexSearcher);
 
+
     /// <summary>
     /// Executes a search operation with faceted search capabilities using <see cref="MultiFacets"/>.
     /// </summary>
@@ -29,6 +30,7 @@ public interface ILuceneSearchService
     /// <param name="useIndexSearcher">A function that performs the search using the <see cref="IndexSearcher"/> and <see cref="MultiFacets"/>.</param>
     /// <returns>The result of the search operation with facet information.</returns>
     TResult UseSearcherWithFacets<TResult>(LuceneIndex index, Query query, int n, Func<IndexSearcher, MultiFacets, TResult> useIndexSearcher);
+
 
     /// <summary>
     /// Executes a search operation with drill-sideways faceted search capabilities using <see cref="DrillSideways"/>.
