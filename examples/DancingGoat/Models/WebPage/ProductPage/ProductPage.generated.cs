@@ -38,6 +38,6 @@ namespace DancingGoat.Models
 		/// <summary>
 		/// ProductPageProduct.
 		/// </summary>
-		public IEnumerable<IContentItemFieldsSource> ProductPageProduct { get; set; }
+		public IEnumerable<IProductFields> ProductPageProduct { get; set; }
 	}
 }

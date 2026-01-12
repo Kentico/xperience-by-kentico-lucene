@@ -9,7 +9,7 @@ namespace DancingGoat.PageTemplates
         /// <summary>
         /// Indicates if logo should be shown.
         /// </summary>
-        [CheckBoxComponent(Label = "Display logo", Order = 1)]
+        [CheckBoxComponent(Label = "{$dancinggoat.landingpagesinglecolumn.showlogo.label$}", Order = 1)]
         public bool ShowLogo { get; set; } = true;
 
 
@@ -17,7 +17,8 @@ namespace DancingGoat.PageTemplates
         /// Background color CSS class of the header.
         /// </summary>
         [RequiredValidationRule]
-        [DropDownComponent(Label = "Background color of header", Order = 2, Options = "first-color;Chocolate\r\nsecond-color;Gold\r\nthird-color;Espresso")]
+        [DropDownComponent(Label = "{$dancinggoat.landingpagesinglecolumn.headercolor.label$}", Order = 2,
+            Options = "first-color;{$dancinggoat.landingpagesinglecolumn.headercolor.option.chocolate$}\nsecond-color;{$dancinggoat.landingpagesinglecolumn.headercolor.option.gold$}\nthird-color;{$dancinggoat.landingpagesinglecolumn.headercolor.option.espresso$}")]
         [ExcludeFromAiraTranslation]
         public string HeaderColorCssClass { get; set; } = "first-color";
     }

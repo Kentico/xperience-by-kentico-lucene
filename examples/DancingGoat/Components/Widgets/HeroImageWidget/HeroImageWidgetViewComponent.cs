@@ -10,7 +10,7 @@ using Kentico.PageBuilder.Web.Mvc;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ViewComponents;
 
-[assembly: RegisterWidget(HeroImageWidgetViewComponent.IDENTIFIER, typeof(HeroImageWidgetViewComponent), "Hero image", typeof(HeroImageWidgetProperties), Description = "Displays an image, text, and a CTA button.", IconClass = "icon-badge")]
+[assembly: RegisterWidget(HeroImageWidgetViewComponent.IDENTIFIER, typeof(HeroImageWidgetViewComponent), "{$dancinggoat.heroimagewidget.title$}", typeof(HeroImageWidgetProperties), Description = "{$dancinggoat.heroimagewidget.description$}", IconClass = "icon-badge")]
 
 namespace DancingGoat.Widgets
 {

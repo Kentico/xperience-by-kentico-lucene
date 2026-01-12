@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Components;
 
 [assembly: RegisterEmailTemplate(
     identifier: DancingGoatEmailBuilderTemplate.IDENTIFIER,
-    name: "Dancing Goat Regular Template (Email Builder)",
+    name: "{$dancinggoat.emailbuildertemplate.title$}",
     componentType: typeof(DancingGoatEmailBuilderTemplate),
     ContentTypeNames = ["DancingGoat.BuilderEmail"])
 ]

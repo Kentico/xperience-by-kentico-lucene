@@ -72,7 +72,7 @@ namespace DancingGoat.ViewComponents
                         urls[x.NavigationItemLink.First().WebPageGuid].RelativePath
                     ));
                 },
-                new CacheSettings(10, $"NavigationItems_{treePath}"), cancellationToken);
+                new CacheSettings(10, $"NavigationItems_{treePath}_{languageName}"), cancellationToken);
             }
         }
     }

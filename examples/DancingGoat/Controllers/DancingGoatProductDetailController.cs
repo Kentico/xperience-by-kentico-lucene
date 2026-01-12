@@ -26,6 +26,7 @@ namespace DancingGoat.Controllers
         private readonly ProductVariantsExtractor productVariantsExtractor;
         private readonly TagTitleRetriever tagTitleRetriever;
         private readonly IPreferredLanguageRetriever currentLanguageRetriever;
+        private readonly CalculationService calculationService;
 
 
         public DancingGoatProductDetailController(
@@ -33,13 +34,15 @@ namespace DancingGoat.Controllers
             ProductParametersExtractor productParametersExtractor,
             ProductVariantsExtractor productVariantsExtractor,
             TagTitleRetriever tagTitleRetriever,
-            IPreferredLanguageRetriever currentLanguageRetriever)
+            IPreferredLanguageRetriever currentLanguageRetriever,
+            CalculationService calculationService)
         {
             this.contentRetriever = contentRetriever;
             this.productParametersExtractor = productParametersExtractor;
             this.productVariantsExtractor = productVariantsExtractor;
             this.tagTitleRetriever = tagTitleRetriever;
             this.currentLanguageRetriever = currentLanguageRetriever;
+            this.calculationService = calculationService;
         }
 
 
@@ -70,7 +73,11 @@ namespace DancingGoat.Controllers
 
             int contentItemId = (productItem as IContentItemFieldsSource).SystemFields.ContentItemID;
 
-            return View(new ProductViewModel(productItem.ProductFieldName, productItem.ProductFieldDescription, productItem.ProductFieldImage.FirstOrDefault()?.ImageFile.Url, productItem.ProductFieldPrice, tag, contentItemId, parameters, variantValues));
+            var calculationResultItem = (await calculationService.CalculateCatalogPrices([productItem], cancellationToken)).First();
+
+            var appliedCandidate = calculationResultItem.PromotionData.CatalogPromotionCandidates.FirstOrDefault(c => c.Applied)?.PromotionCandidate as DancingGoatCatalogPromotionCandidate;
+
+            return View(new ProductViewModel(productItem.ProductFieldName, productItem.ProductFieldDescription, productItem.ProductFieldImage.FirstOrDefault()?.ImageFile.Url, calculationResultItem.LineSubtotalAfterLineDiscount, productItem.ProductFieldPrice, appliedCandidate, tag, contentItemId, parameters, variantValues));
         }
     }
 }

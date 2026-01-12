@@ -47,7 +47,7 @@ namespace DancingGoat.Commerce
         /// Extract product variants SKU code and update the dictionary of variants.
         /// </summary>
         /// <param name="product">Product to process.</param>
-        /// <returns>Dictionary containing product variants SKU code.</returns>
+        /// <returns>Dictionary containing product variant identifier as a key and product variant SKU code as a value.</returns>
         public IDictionary<int, string> ExtractVariantsSKUCode(IProductFields product)
         {
             var result = new Dictionary<int, string>();

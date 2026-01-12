@@ -71,7 +71,7 @@ namespace DancingGoat.Models
             );
 
             var productPageUrls = productPages.ToDictionary(
-                p => p.ProductPageProduct.First().SystemFields.ContentItemID,
+                p => (p.ProductPageProduct.First() as IContentItemFieldsSource).SystemFields.ContentItemID,
                 p => p.GetUrl().RelativePath
             );
 

@@ -4,6 +4,10 @@
 
 @model ProductListItemViewModel
 
+@{
+    var isDiscounted = Model.ListPrice > 0 && Model.ListPrice > Model.Price && Model.AppliedPromotion is not null;
+}
+
 <article class="product-tile">
     <a href="@Model.Url">
         <h1 class="product-heading">@Model.Name</h1>
@@ -19,9 +23,21 @@
         </figure>
 
         <div class="product-tile-info">
-            <span class="product-tile-price">
+            @if (isDiscounted)
+            {
+                <span class="product-tile-discount-tag">
+                    -@Model.AppliedPromotion.PromotionDisplayLabel
+                </span>
+            }
+            <span class="product-tile-price @(isDiscounted ? "product-tile--red" : "")">
                 <price>@Model.Price</price>
             </span>
+            @if (isDiscounted)
+            {
+                <span class="product-tile-list-price">
+                    <price>@Model.ListPrice</price>
+                </span>
+            }
         </div>
     </a>
 </article>

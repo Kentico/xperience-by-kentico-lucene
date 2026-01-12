@@ -31,7 +31,22 @@
             @Html.ValidationMessage(cartItem.ContentItemId.ToString(), new { @class = "red"} )
         </div>
         <div class="col-md-2 cart-item-subtotal">
-            <price>@cartItem.TotalPrice</price>
+            @if (cartItem.ListPrice > cartItem.TotalPrice && cartItem.AppliedPromotion is not null)
+            {
+                <span class="cart-item-discounted">
+                    <price>@cartItem.TotalPrice</price>
+                </span>
+                <span class="cart-item-discount-value cart-item-discount-value--desktop">
+                    -@cartItem.AppliedPromotion.PromotionDisplayLabel
+                </span>
+                <span class="cart-item-discount-value cart-item-discount-value--mobile">
+                    @(cartItem.AppliedPromotion.PromotionDisplayLabel)&nbsp;@HtmlLocalizer["off"]
+                </span>
+            }
+            else
+            {
+                <price>@cartItem.TotalPrice</price>
+            }
         </div>
     </div>
     <hr />

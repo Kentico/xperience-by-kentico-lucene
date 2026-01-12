@@ -15,7 +15,7 @@ namespace DancingGoat.Widgets
         /// <summary>
         /// Selected products.
         /// </summary>
-        [ContentItemSelectorComponent(typeof(ProductCardSchemaFilter), Label = "Selected products", Order = 1)]
+        [ContentItemSelectorComponent(typeof(ProductCardSchemaFilter), Label = "{$dancinggoat.productcardwidget.selectedproducts.label$}", Order = 1)]
         public IEnumerable<ContentItemReference> SelectedProducts { get; set; } = new List<ContentItemReference>();
     }
 }

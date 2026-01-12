@@ -11,6 +11,7 @@
     ViewData["PageClass"] = "inverted";
 
     var languageName = currentLanguageRetriever.Get();
+    var isDiscounted = Model.ListPrice > Model.Price && Model.AppliedPromotion is not null;
 }
 
 <article class="product-detail">
@@ -81,7 +82,21 @@
                             }
                             <div class="total-price-container row">
                                 <span class="total-price-label">@HtmlLocalizer["Unit price"]</span>
-                                <span class="total-price"><price>@Model.Price</price></span>
+                                <div class="total-price-values">
+                                    @if (isDiscounted)
+                                    {
+                                        <div>
+                                            <span class="discount-value">-@Model.AppliedPromotion.PromotionDisplayLabel</span>
+                                        </div>
+                                    }
+                                    <div class="total-price-prices">
+                                        @if (isDiscounted)
+                                        {
+                                            <span class="list-price"><price>@Model.ListPrice</price></span>
+                                        }
+                                        <span class="total-price @(isDiscounted ? "red" : "")"><price>@Model.Price</price></span>
+                                    </div>
+                                </div>
                             </div>
                             <div class="add-to-cart-container">
                                 <input type="hidden" id="contentItemId" name="contentItemId" value="@Model.ContentItemId" />
