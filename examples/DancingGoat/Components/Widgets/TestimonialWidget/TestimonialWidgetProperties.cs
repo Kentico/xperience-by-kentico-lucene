@@ -1,4 +1,4 @@
-﻿using Kentico.PageBuilder.Web.Mvc;
+using Kentico.PageBuilder.Web.Mvc;
 using Kentico.Xperience.Admin.Base;
 
 namespace DancingGoat.Widgets

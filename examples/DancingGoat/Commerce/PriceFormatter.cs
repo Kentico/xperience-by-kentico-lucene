@@ -3,10 +3,6 @@
 using CMS;
 using CMS.Commerce;
 
-using DancingGoat.Commerce;
-
-[assembly: RegisterImplementation(typeof(IPriceFormatter), typeof(PriceFormatter))]
-
 namespace DancingGoat.Commerce;
 
 /// <summary>

@@ -14,7 +14,7 @@ using Kentico.PageBuilder.Web.Mvc;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ViewComponents;
 
-[assembly: RegisterWidget(ProductCardWidgetViewComponent.IDENTIFIER, typeof(ProductCardWidgetViewComponent), "Product cards", typeof(ProductCardProperties), Description = "Displays products.", IconClass = "icon-box")]
+[assembly: RegisterWidget(ProductCardWidgetViewComponent.IDENTIFIER, typeof(ProductCardWidgetViewComponent), "{$dancinggoat.productcardwidget.title$}", typeof(ProductCardProperties), Description = "{$dancinggoat.productcardwidget.description$}", IconClass = "icon-box")]
 
 namespace DancingGoat.Widgets
 {

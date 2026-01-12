@@ -1,0 +1,411 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="dancinggoat.articletemplate.description" xml:space="preserve">
+    <value>Displays an article detail with related articles underneath.</value>
+  </data>
+  <data name="dancinggoat.articletemplate.title" xml:space="preserve">
+    <value>Article detail</value>
+  </data>
+  <data name="dancinggoat.articlewithsidebartemplate.description" xml:space="preserve">
+    <value>Displays an article detail with sidebar.</value>
+  </data>
+  <data name="dancinggoat.articlewithsidebartemplate.title" xml:space="preserve">
+    <value>Article detail with sidebar</value>
+  </data>
+  <data name="dancinggoat.buttonwidget.alignment.explanationtext" xml:space="preserve">
+    <value>Select how you want to position the button</value>
+  </data>
+  <data name="dancinggoat.buttonwidget.alignment.label" xml:space="preserve">
+    <value>Alignment</value>
+  </data>
+  <data name="dancinggoat.buttonwidget.alignment.option.center" xml:space="preserve">
+    <value>Center</value>
+  </data>
+  <data name="dancinggoat.buttonwidget.alignment.option.left" xml:space="preserve">
+    <value>Left</value>
+  </data>
+  <data name="dancinggoat.buttonwidget.alignment.option.right" xml:space="preserve">
+    <value>Right</value>
+  </data>
+  <data name="dancinggoat.buttonwidget.buttontype.explanationtext" xml:space="preserve">
+    <value>Choose how the button is displayed.</value>
+  </data>
+  <data name="dancinggoat.buttonwidget.buttontype.label" xml:space="preserve">
+    <value>Button type</value>
+  </data>
+  <data name="dancinggoat.buttonwidget.buttontype.option.button" xml:space="preserve">
+    <value>Button</value>
+  </data>
+  <data name="dancinggoat.buttonwidget.buttontype.option.link" xml:space="preserve">
+    <value>Link</value>
+  </data>
+  <data name="dancinggoat.buttonwidget.description" xml:space="preserve">
+    <value>Displays a button that opens a specified URL when clicked.</value>
+  </data>
+  <data name="dancinggoat.buttonwidget.linkurl.explanationtext" xml:space="preserve">
+    <value>Select the page to link to.</value>
+  </data>
+  <data name="dancinggoat.buttonwidget.linkurl.label" xml:space="preserve">
+    <value>Link URL</value>
+  </data>
+  <data name="dancinggoat.buttonwidget.text.explanationtext" xml:space="preserve">
+    <value>Enter the text displayed as the button's caption.</value>
+  </data>
+  <data name="dancinggoat.buttonwidget.text.label" xml:space="preserve">
+    <value>Button text</value>
+  </data>
+  <data name="dancinggoat.buttonwidget.title" xml:space="preserve">
+    <value>Button</value>
+  </data>
+  <data name="dancinggoat.cardwidget.description" xml:space="preserve">
+    <value>Displays an image with a centered text.</value>
+  </data>
+  <data name="dancinggoat.cardwidget.image.label" xml:space="preserve">
+    <value>Image</value>
+  </data>
+  <data name="dancinggoat.cardwidget.title" xml:space="preserve">
+    <value>Card</value>
+  </data>
+  <data name="dancinggoat.catalogpromotionrule.productcategories.label" xml:space="preserve">
+    <value>Product categories</value>
+  </data>
+  <data name="dancinggoat.catalogpromotionrule.products.label" xml:space="preserve">
+    <value>Products</value>
+  </data>
+  <data name="dancinggoat.catalogpromotionrule.producttags.label" xml:space="preserve">
+    <value>Product tags</value>
+  </data>
+  <data name="dancinggoat.catalogpromotionrule.sample.name" xml:space="preserve">
+    <value>Sample catalog promotion rule</value>
+  </data>
+  <data name="dancinggoat.catalogpromotionrule.scope.label" xml:space="preserve">
+    <value>Scope</value>
+  </data>
+  <data name="dancinggoat.catalogpromotionrule.scope.options.categories" xml:space="preserve">
+    <value>Categories</value>
+  </data>
+  <data name="dancinggoat.catalogpromotionrule.scope.options.products" xml:space="preserve">
+    <value>Products</value>
+  </data>
+  <data name="dancinggoat.catalogpromotionrule.scope.options.tags" xml:space="preserve">
+    <value>Tags</value>
+  </data>
+  <data name="dancinggoat.catalogpromotionrule.valueandscope" xml:space="preserve">
+    <value>Promotion value and scope</value>
+  </data>
+  <data name="dancinggoat.ctabuttonwidget.description" xml:space="preserve">
+    <value>Call to action button with configurable target page.</value>
+  </data>
+  <data name="dancinggoat.ctabuttonwidget.linkurl.label" xml:space="preserve">
+    <value>Link URL</value>
+  </data>
+  <data name="dancinggoat.ctabuttonwidget.openinnewtab.label" xml:space="preserve">
+    <value>Open in a new tab</value>
+  </data>
+  <data name="dancinggoat.ctabuttonwidget.title" xml:space="preserve">
+    <value>CTA button</value>
+  </data>
+  <data name="dancinggoat.emailbuildertemplate.title" xml:space="preserve">
+    <value>Dancing Goat Regular Template (Email Builder)</value>
+  </data>
+  <data name="dancinggoat.fullwidthemailsection.title" xml:space="preserve">
+    <value>Full-width section</value>
+  </data>
+  <data name="dancinggoat.heroimagewidget.buttontarget.label" xml:space="preserve">
+    <value>Button target</value>
+  </data>
+  <data name="dancinggoat.heroimagewidget.description" xml:space="preserve">
+    <value>Displays an image, text, and a CTA button.</value>
+  </data>
+  <data name="dancinggoat.heroimagewidget.image.label" xml:space="preserve">
+    <value>Image</value>
+  </data>
+  <data name="dancinggoat.heroimagewidget.theme.label" xml:space="preserve">
+    <value>Color scheme</value>
+  </data>
+  <data name="dancinggoat.heroimagewidget.theme.option.dark" xml:space="preserve">
+    <value>Dark</value>
+  </data>
+  <data name="dancinggoat.heroimagewidget.theme.option.light" xml:space="preserve">
+    <value>Light</value>
+  </data>
+  <data name="dancinggoat.heroimagewidget.title" xml:space="preserve">
+    <value>Hero image</value>
+  </data>
+  <data name="dancinggoat.imagewidget.alignment.explanationtext" xml:space="preserve">
+    <value>Select how you want to position the image</value>
+  </data>
+  <data name="dancinggoat.imagewidget.alignment.label" xml:space="preserve">
+    <value>Alignment</value>
+  </data>
+  <data name="dancinggoat.imagewidget.alignment.option.center" xml:space="preserve">
+    <value>Center</value>
+  </data>
+  <data name="dancinggoat.imagewidget.alignment.option.left" xml:space="preserve">
+    <value>Left</value>
+  </data>
+  <data name="dancinggoat.imagewidget.alignment.option.right" xml:space="preserve">
+    <value>Right</value>
+  </data>
+  <data name="dancinggoat.imagewidget.description" xml:space="preserve">
+    <value>Displays an image, which can be selected from images stored as assets in Content hub.</value>
+  </data>
+  <data name="dancinggoat.imagewidget.height.explanationtext" xml:space="preserve">
+    <value>Enter the height of the image in pixels.</value>
+  </data>
+  <data name="dancinggoat.imagewidget.height.label" xml:space="preserve">
+    <value>Height</value>
+  </data>
+  <data name="dancinggoat.imagewidget.image.explanationtext" xml:space="preserve">
+    <value>Select the image from assets stored in the Content hub.</value>
+  </data>
+  <data name="dancinggoat.imagewidget.image.label" xml:space="preserve">
+    <value>Image</value>
+  </data>
+  <data name="dancinggoat.imagewidget.title" xml:space="preserve">
+    <value>Image</value>
+  </data>
+  <data name="dancinggoat.imagewidget.width.explanationtext" xml:space="preserve">
+    <value>Enter the width of the image in pixels.</value>
+  </data>
+  <data name="dancinggoat.imagewidget.width.label" xml:space="preserve">
+    <value>Width</value>
+  </data>
+  <data name="dancinggoat.isinccontactgroup.contactgroups.label" xml:space="preserve">
+    <value>Contact groups</value>
+  </data>
+  <data name="dancinggoat.isinccontactgroup.description" xml:space="preserve">
+    <value>Evaluates if the current contact is in one of the contact groups.</value>
+  </data>
+  <data name="dancinggoat.isinccontactgroup.hint" xml:space="preserve">
+    <value>Display to visitors who match at least one of the selected contact groups:</value>
+  </data>
+  <data name="dancinggoat.isinccontactgroup.title" xml:space="preserve">
+    <value>Is in contact group</value>
+  </data>
+  <data name="dancinggoat.landingpagesinglecolumn.headercolor.label" xml:space="preserve">
+    <value>Background color of header</value>
+  </data>
+  <data name="dancinggoat.landingpagesinglecolumn.headercolor.option.chocolate" xml:space="preserve">
+    <value>Chocolate</value>
+  </data>
+  <data name="dancinggoat.landingpagesinglecolumn.headercolor.option.espresso" xml:space="preserve">
+    <value>Espresso</value>
+  </data>
+  <data name="dancinggoat.landingpagesinglecolumn.headercolor.option.gold" xml:space="preserve">
+    <value>Gold</value>
+  </data>
+  <data name="dancinggoat.landingpagesinglecolumn.showlogo.label" xml:space="preserve">
+    <value>Display logo</value>
+  </data>
+  <data name="dancinggoat.landingpagesinglecolumntemplate.description" xml:space="preserve">
+    <value>A default single column page template with two sections differentiated by a background color.</value>
+  </data>
+  <data name="dancinggoat.landingpagesinglecolumntemplate.title" xml:space="preserve">
+    <value>Single column landing page</value>
+  </data>
+  <data name="dancinggoat.orderpromotionrule.sample.name" xml:space="preserve">
+    <value>Sample order promotion rule</value>
+  </data>
+  <data name="dancinggoat.productcardwidget.description" xml:space="preserve">
+    <value>Displays products.</value>
+  </data>
+  <data name="dancinggoat.productcardwidget.pleaseselectaproduct" xml:space="preserve">
+    <value>Please select a product.</value>
+  </data>
+  <data name="dancinggoat.productcardwidget.selectedproducts.label" xml:space="preserve">
+    <value>Selected products</value>
+  </data>
+  <data name="dancinggoat.productcardwidget.title" xml:space="preserve">
+    <value>Product cards</value>
+  </data>
+  <data name="dancinggoat.section2575.description" xml:space="preserve">
+    <value>Two-column section with zones layout 25% + 75%.</value>
+  </data>
+  <data name="dancinggoat.section2575.title" xml:space="preserve">
+    <value>2 columns - 25/75</value>
+  </data>
+  <data name="dancinggoat.section7525.description" xml:space="preserve">
+    <value>Two-column section with zones layout 75% + 25%.</value>
+  </data>
+  <data name="dancinggoat.section7525.title" xml:space="preserve">
+    <value>2 columns - 75/25</value>
+  </data>
+  <data name="dancinggoat.singlecolumnsection.description" xml:space="preserve">
+    <value>Single-column section with one full-width zone.</value>
+  </data>
+  <data name="dancinggoat.singlecolumnsection.title" xml:space="preserve">
+    <value>1 column</value>
+  </data>
+  <data name="dancinggoat.testimonialwidget.description" xml:space="preserve">
+    <value>Displays a quotation with its author.</value>
+  </data>
+  <data name="dancinggoat.testimonialwidget.title" xml:space="preserve">
+    <value>Testimonial</value>
+  </data>
+  <data name="dancinggoat.texteditor.placeholdertext" xml:space="preserve">
+    <value>Type your text</value>
+  </data>
+  <data name="dancinggoat.textwidget.description" xml:space="preserve">
+    <value>Allows add and format text content.</value>
+  </data>
+  <data name="dancinggoat.textwidget.title" xml:space="preserve">
+    <value>Text</value>
+  </data>
+  <data name="dancinggoat.themesection.theme.label" xml:space="preserve">
+    <value>Color scheme</value>
+  </data>
+  <data name="dancinggoat.themesection.theme.option.cappuccino" xml:space="preserve">
+    <value>Cappuccino</value>
+  </data>
+  <data name="dancinggoat.themesection.theme.option.none" xml:space="preserve">
+    <value>None</value>
+  </data>
+  <data name="dancinggoat.themesection.theme.option.white" xml:space="preserve">
+    <value>Flat white</value>
+  </data>
+  <data name="dancinggoat.threecolumnsection.description" xml:space="preserve">
+    <value>Three-column section with zones layout 33% + 33% + 33%.</value>
+  </data>
+  <data name="dancinggoat.threecolumnsection.title" xml:space="preserve">
+    <value>3 columns - 33/33/33</value>
+  </data>
+  <data name="dancinggoat.threecolumnsection.title.label" xml:space="preserve">
+    <value>Title</value>
+  </data>
+  <data name="dancinggoat.titledsection.description" xml:space="preserve">
+    <value>Single-column section with one zone and an editable title</value>
+  </data>
+  <data name="dancinggoat.titledsection.title" xml:space="preserve">
+    <value>Section with title</value>
+  </data>
+  <data name="dancinggoat.titledsection.title.label" xml:space="preserve">
+    <value>Title</value>
+  </data>
+  <data name="dancinggoat.twocolumneemailsection.title" xml:space="preserve">
+    <value>Two-column section</value>
+  </data>
+  <data name="dancinggoat.twocolumnsection.description" xml:space="preserve">
+    <value>Two-column section with zones layout 50% + 50%.</value>
+  </data>
+  <data name="dancinggoat.twocolumnsection.title" xml:space="preserve">
+    <value>2 columns - 50/50</value>
+  </data>
+</root>

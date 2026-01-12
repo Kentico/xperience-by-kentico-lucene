@@ -5,6 +5,8 @@ using System.Linq;
 using CMS.ContentEngine;
 using CMS.Websites;
 
+using DancingGoat.Commerce;
+
 namespace DancingGoat.Models
 {
     public record StoreViewModel(IEnumerable<ProductSectionListViewModel> SelectionProductList, IEnumerable<NavigationItemViewModel> CategoryMenuViewModel) : IWebPageBasedViewModel
@@ -18,12 +20,13 @@ namespace DancingGoat.Models
         /// </summary>
         /// <param name="store">Store page.</param>
         /// <param name="products">Products to be displayed.</param>
+        /// <param name="calculationResultItems">Price calculation results.</param>
         /// <param name="productPageUrls">Product page URLs.</param>
         /// <param name="productSectionTagNames">Tag names that define separate sets of product to be displayed.</param>
         /// <param name="productTagsTaxonomy">"Product tags" taxonomy data</param>
         /// <param name="languageName">Language name to map.</param>
         /// <param name="categoryMenuViewModel">Category menu view model to map.</param>
-        public static StoreViewModel GetViewModel(Store store, IEnumerable<IProductFields> products, IDictionary<int, string> productPageUrls, IEnumerable<string> productSectionTagNames, TaxonomyData productTagsTaxonomy, string languageName, IEnumerable<NavigationItemViewModel> categoryMenuViewModel)
+        public static StoreViewModel GetViewModel(Store store, IEnumerable<IProductFields> products, IEnumerable<DancingGoatPriceCalculationResultItem> calculationResultItems, IDictionary<int, string> productPageUrls, IEnumerable<string> productSectionTagNames, TaxonomyData productTagsTaxonomy, string languageName, IEnumerable<NavigationItemViewModel> categoryMenuViewModel)
         {
             var productSections = new List<ProductSectionListViewModel>();
 
@@ -36,16 +39,20 @@ namespace DancingGoat.Models
                 productSections.Add(new ProductSectionListViewModel(
                     productSectionTag.Title,
                     products
-                        .Where(product => product.ProductFieldTags.Any(t => t.Identifier == productSectionTag.Identifier))
+                        .Where(product => product.ProductFieldTags.Any(t => t.Identifier == productSectionTag.Identifier)
+                            && productPageUrls.ContainsKey((product as IContentItemFieldsSource).SystemFields.ContentItemID))
                         .Select(product =>
                         {
                             productPageUrls.TryGetValue((product as IContentItemFieldsSource).SystemFields.ContentItemID, out var pageUrl);
+                            var productCalculationItem = calculationResultItems.FirstOrDefault(item => item.ProductIdentifier.Identifier == (product as IContentItemFieldsSource).SystemFields.ContentItemID);
 
                             return new ProductListItemViewModel(
                                 product.ProductFieldName,
                                 product.ProductFieldImage.FirstOrDefault()?.ImageFile.Url,
                                 pageUrl,
+                                productCalculationItem?.LineSubtotalAfterLineDiscount ?? product.ProductFieldPrice,
                                 product.ProductFieldPrice,
+                                productCalculationItem?.PromotionData.CatalogPromotionCandidates.FirstOrDefault(c => c.Applied)?.PromotionCandidate as DancingGoatCatalogPromotionCandidate,
                                 null);
                         })
                 ));

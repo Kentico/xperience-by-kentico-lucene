@@ -6,11 +6,11 @@ using Microsoft.AspNetCore.Components;
 
 [assembly: RegisterEmailWidget(
     identifier: DancingGoatTextWidget.IDENTIFIER,
-    name: "Text",
+    name: "{$dancinggoat.textwidget.title$}",
     componentType: typeof(DancingGoatTextWidget),
     PropertiesType = typeof(DancingGoatTextWidgetProperties),
     IconClass = "icon-l-header-text",
-    Description = "Allows add and format text content."
+    Description = "{$dancinggoat.textwidget.description$}"
     )]
 
 namespace DancingGoat.EmailComponents;

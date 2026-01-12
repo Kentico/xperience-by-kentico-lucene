@@ -4,6 +4,8 @@ using System.Linq;
 using CMS.ContentEngine;
 using CMS.Websites;
 
+using DancingGoat.Commerce;
+
 namespace DancingGoat.Models
 {
     public record ProductListingViewModel(ProductSectionListViewModel SelectionProductListViewModel, IEnumerable<NavigationItemViewModel> CategoryMenuViewModel) : IWebPageBasedViewModel
@@ -15,7 +17,7 @@ namespace DancingGoat.Models
         /// <summary>
         /// Validates and maps <see cref="ProductCategory"/> to a <see cref="ProductListingViewModel"/>.
         /// </summary>
-        public static ProductListingViewModel GetViewModel(ProductCategory productCategory, IEnumerable<IProductFields> products, IDictionary<int, string> productPageUrls, TaxonomyData productTagsTaxonomy,
+        public static ProductListingViewModel GetViewModel(ProductCategory productCategory, IEnumerable<IProductFields> products, IEnumerable<DancingGoatPriceCalculationResultItem> calculationResultItems, IDictionary<int, string> productPageUrls, TaxonomyData productTagsTaxonomy,
             IEnumerable<NavigationItemViewModel> categoryMenu, string languageName)
         {
             if (productCategory == null)
@@ -30,10 +32,13 @@ namespace DancingGoat.Models
                     {
                         productPageUrls.TryGetValue((product as IContentItemFieldsSource).SystemFields.ContentItemID, out string pageUrl);
 
+                        var productCalculationItem = calculationResultItems.FirstOrDefault(item => item.ProductIdentifier.Identifier == (product as IContentItemFieldsSource).SystemFields.ContentItemID);
+
                         return ProductListItemViewModel.GetViewModel(
-                        product,
-                        pageUrl,
-                        productTagsTaxonomy.Tags.FirstOrDefault(tag => tag.Identifier == product.ProductFieldTags.FirstOrDefault()?.Identifier)?.Title);
+                            product,
+                            productCalculationItem,
+                            pageUrl,
+                            productTagsTaxonomy.Tags.FirstOrDefault(tag => tag.Identifier == product.ProductFieldTags.FirstOrDefault()?.Identifier)?.Title);
                     })
                     .OrderBy(product => product.Name));
 

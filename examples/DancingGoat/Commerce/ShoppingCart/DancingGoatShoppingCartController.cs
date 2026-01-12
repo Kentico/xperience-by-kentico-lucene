@@ -32,19 +32,22 @@ public sealed class DancingGoatShoppingCartController : Controller
     private readonly ProductVariantsExtractor productVariantsExtractor;
     private readonly WebPageUrlProvider webPageUrlProvider;
     private readonly ProductRepository productRepository;
+    private readonly CalculationService calculationService;
 
     public DancingGoatShoppingCartController(
         ICurrentShoppingCartRetriever currentShoppingCartRetriever,
         ICurrentShoppingCartCreator currentShoppingCartCreator,
         ProductVariantsExtractor productVariantsExtractor,
         WebPageUrlProvider webPageUrlProvider,
-        ProductRepository productRepository)
+        ProductRepository productRepository,
+        CalculationService calculationService)
     {
         this.currentShoppingCartRetriever = currentShoppingCartRetriever;
         this.currentShoppingCartCreator = currentShoppingCartCreator;
         this.productVariantsExtractor = productVariantsExtractor;
         this.webPageUrlProvider = webPageUrlProvider;
         this.productRepository = productRepository;
+        this.calculationService = calculationService;
     }
 
 
@@ -53,39 +56,51 @@ public sealed class DancingGoatShoppingCartController : Controller
         var shoppingCart = await currentShoppingCartRetriever.Get(cancellationToken);
         if (shoppingCart == null)
         {
-            return View(new ShoppingCartViewModel(new List<ShoppingCartItemViewModel>(), 0));
+            return View(new ShoppingCartViewModel(new List<ShoppingCartItemViewModel>(), 0, 0, 0, 0));
         }
 
         var shoppingCartData = shoppingCart.GetShoppingCartDataModel();
 
-        var products = await productRepository.GetProductsByIds(shoppingCartData.Items.Select(item => item.ContentItemId), cancellationToken);
+        var products = await productRepository.GetProductsByIds(shoppingCartData.Items.Select(item => item.ProductIdentifier.Identifier), cancellationToken);
 
         var productPageUrls = await productRepository.GetProductPageUrls(products.Cast<IContentItemFieldsSource>().Select(p => p.SystemFields.ContentItemID), cancellationToken);
 
-        var totalPrice = CalculationService.CalculateTotalPrice(shoppingCartData, products);
+        var calculationResult = await calculationService.CalculateShoppingCart(shoppingCartData, cancellationToken);
+
+        var totalWithoutTax = calculationResult.Items.Sum(x => x.LineSubtotalAfterAllDiscounts);
+        var subtotal = calculationResult.Items.Sum(x => x.LineSubtotalAfterLineDiscount);
+
+        var orderDiscount = calculationResult.PromotionData.OrderPromotionCandidates.FirstOrDefault()?.PromotionCandidate.OrderDiscountAmount ?? 0;
 
         return View(new ShoppingCartViewModel(
             shoppingCartData.Items.Select(item =>
             {
-                var product = products.FirstOrDefault(product => (product as IContentItemFieldsSource)?.SystemFields.ContentItemID == item.ContentItemId);
+                var product = products.FirstOrDefault(product => (product as IContentItemFieldsSource)?.SystemFields.ContentItemID == item.ProductIdentifier.Identifier);
                 var variantValues = product == null ? null : productVariantsExtractor.ExtractVariantsValue(product);
-                productPageUrls.TryGetValue(item.ContentItemId, out var pageUrl);
+                var calculationItem = calculationResult.Items.FirstOrDefault(i => i.ProductIdentifier.Identifier == item.ProductIdentifier.Identifier && i.ProductIdentifier.VariantIdentifier == item.ProductIdentifier.VariantIdentifier);
+
+                productPageUrls.TryGetValue(item.ProductIdentifier.Identifier, out var pageUrl);
 
                 return product == null
                     ? null
                     : new ShoppingCartItemViewModel(
-                        item.ContentItemId,
-                        FormatProductName(product.ProductFieldName, variantValues, item.VariantId),
+                        item.ProductIdentifier.Identifier,
+                        FormatProductName(product.ProductFieldName, variantValues, item.ProductIdentifier.VariantIdentifier),
                         product.ProductFieldImage.FirstOrDefault()?.ImageFile.Url,
                         pageUrl,
                         item.Quantity,
-                        product.ProductFieldPrice,
-                        item.Quantity * product.ProductFieldPrice,
-                        item.VariantId);
+                        calculationItem.LineSubtotalAfterLineDiscount / calculationItem.Quantity,
+                        calculationItem?.LineSubtotalAfterLineDiscount ?? product.ProductFieldPrice,
+                        product.ProductFieldPrice * item.Quantity,
+                        calculationItem.PromotionData.CatalogPromotionCandidates.FirstOrDefault(c => c.Applied)?.PromotionCandidate as DancingGoatCatalogPromotionCandidate,
+                        item.ProductIdentifier.VariantIdentifier);
             })
             .Where(x => x != null)
             .ToList(),
-            totalPrice));
+            totalWithoutTax,
+            subtotal,
+            calculationResult.TotalTax,
+            orderDiscount));
     }
 
 
@@ -104,7 +119,7 @@ public sealed class DancingGoatShoppingCartController : Controller
 
         var shoppingCart = await GetCurrentShoppingCart();
 
-        UpdateQuantity(shoppingCart, contentItemId, quantity, variantId, setAbsoluteValue: new[] { "RemoveAll", "Update" }.Contains(action));
+        UpdateQuantity(shoppingCart, new ProductVariantIdentifier { Identifier = contentItemId, VariantIdentifier = variantId }, quantity, setAbsoluteValue: new[] { "RemoveAll", "Update" }.Contains(action));
 
         shoppingCart.Update();
 
@@ -118,7 +133,7 @@ public sealed class DancingGoatShoppingCartController : Controller
     {
         var shoppingCart = await GetCurrentShoppingCart();
 
-        UpdateQuantity(shoppingCart, contentItemId, quantity, variantId);
+        UpdateQuantity(shoppingCart, new ProductVariantIdentifier { Identifier = contentItemId, VariantIdentifier = variantId }, quantity);
 
         shoppingCart.Update();
 
@@ -137,11 +152,11 @@ public sealed class DancingGoatShoppingCartController : Controller
     /// <summary>
     /// Updates the quantity of the product in the shopping cart.
     /// </summary>
-    private static void UpdateQuantity(ShoppingCartInfo shoppingCart, int contentItemId, int quantity, int? variantId, bool setAbsoluteValue = false)
+    private static void UpdateQuantity(ShoppingCartInfo shoppingCart, ProductVariantIdentifier productIdentifier, int quantity, bool setAbsoluteValue = false)
     {
         var shoppingCartData = shoppingCart.GetShoppingCartDataModel();
 
-        var productItem = shoppingCartData.Items.FirstOrDefault(x => x.ContentItemId == contentItemId && x.VariantId == variantId);
+        var productItem = shoppingCartData.Items.FirstOrDefault(x => x.ProductIdentifier == productIdentifier);
         if (productItem != null)
         {
             productItem.Quantity = setAbsoluteValue ? quantity : Math.Max(0, productItem.Quantity + quantity);
@@ -152,7 +167,11 @@ public sealed class DancingGoatShoppingCartController : Controller
         }
         else if (quantity > 0)
         {
-            shoppingCartData.Items.Add(new ShoppingCartDataItem { ContentItemId = contentItemId, Quantity = quantity, VariantId = variantId });
+            shoppingCartData.Items.Add(new ShoppingCartDataItem
+            {
+                ProductIdentifier = productIdentifier,
+                Quantity = quantity
+            });
         }
 
         shoppingCart.StoreShoppingCartDataModel(shoppingCartData);

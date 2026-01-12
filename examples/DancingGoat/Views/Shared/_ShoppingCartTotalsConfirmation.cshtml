@@ -7,12 +7,43 @@
 <div class="cart-total">
     <div class="cart-item-viewer">
         <div class="label">
+            <span>@HtmlLocalizer["Subtotal"]</span>
+        </div>
+        <div class="value">
+            <price>@Model.ShoppingCart.SubtotalPrice</price>
+        </div>
+    </div>
+
+    @if (Model.ShoppingCart.Discount > 0)
+    {
+        <div class="cart-item-viewer">
+            <div class="label">
+                <span>@HtmlLocalizer["Discount"]</span>
+            </div>
+            <div class="value">
+                <price>-@Model.ShoppingCart.Discount</price>
+            </div>
+        </div>
+    }
+
+    <div class="cart-item-viewer">
+        <div class="label">
             <span>@HtmlLocalizer["Shipping"]</span>
         </div>
         <div class="value">
             <price>@Model.PaymentShipping.ShippingPrice</price>
         </div>
     </div>
+    
+    <div class="cart-item-viewer">
+        <div class="label">
+            <span>@HtmlLocalizer["Tax"]</span>
+        </div>
+        <div class="value">
+            <price>@Model.ShoppingCart.TotalTax</price>
+        </div>
+    </div>
+
     <hr />
     <div class="cart-total-viewer">
         <div class="label">

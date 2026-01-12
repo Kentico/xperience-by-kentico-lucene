@@ -1,9 +1,16 @@
 ﻿@model DancingGoat.Widgets.ProductCardListViewModel
 
+@inject Kentico.Builder.Web.Mvc.IAdminBuildersLocalizationService localizationService
+
 <div class="content-wrapper" style="padding: 0 2.4rem 2em 2.4rem;">
     @if (@Model.Products.Count() == 0)
     {
-        <h3 style="text-align: center">Please select a product.</h3>
+        @if (Context.Kentico().PageBuilder().EditMode)
+        {
+            <h3 style="text-align: center">
+                @localizationService.LocalizeString("{$dancinggoat.productcardwidget.pleaseselectaproduct$}")
+            </h3>
+        }
     }
     else
     {
@@ -15,14 +22,15 @@
                         <div style="text-align: center;">
                             @if (!string.IsNullOrEmpty(@product.ImagePath))
                             {
-                                <img src="@Url.Content(product.ImagePath)" alt="@product.Heading" title="@product.Heading" loading="lazy" />
+                                <img src="@Url.Content(product.ImagePath)" alt="@product.Heading" title="@product.Heading"
+                                    loading="lazy" />
                             }
                             <h3>@product.Heading</h3>
 
                             @if (!string.IsNullOrEmpty(product.Text))
                             {
                                 <div class="product-card-text">
-                                @Html.Raw(product.Text)
+                                    @Html.Raw(product.Text)
                                 </div>
                             }
                         </div>

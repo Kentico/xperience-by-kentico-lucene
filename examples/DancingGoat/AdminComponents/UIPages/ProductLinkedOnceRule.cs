@@ -51,18 +51,17 @@ public sealed class ProductLinkedOnceRule : ValidationRule<ProductLinkedOnceRule
     /// <returns>Returns the validation result.</returns>
     public override async Task<ValidationResult> Validate(IEnumerable<ContentItemReference> value, IFormFieldValueProvider formFieldValueProvider)
     {
-        var contentItemFormContext = FormContext as IContentItemFormContextBase;
-        if (contentItemFormContext == null)
+        if (FormContext is not IContentItemFormContextBase contentItemFormContext)
         {
             throw new InvalidOperationException("The validation rule can only be used in a content item form context.");
         }
 
-        if (!value.Any())
+        if (!(value?.Any() ?? false))
         {
             return await ValidationResult.FailResult();
         }
 
-        int contentItemId = contentItemFormContext.ItemId;
+        var contentItemId = contentItemFormContext.ItemId;
 
         var identifier = value.First().Identifier;
 
@@ -71,7 +70,7 @@ public sealed class ProductLinkedOnceRule : ValidationRule<ProductLinkedOnceRule
             .Parameters(p => p.Where(x => x.WhereEquals(nameof(IContentItemFieldsSource.SystemFields.ContentItemGUID), identifier))
                 .Columns(nameof(IContentItemFieldsSource.SystemFields.ContentItemID)));
 
-        var contentItem = (await executor.GetMappedResult<IContentItemFieldsSource>(contentQueryBuilder, new ContentQueryExecutionOptions { ForPreview = true })).FirstOrDefault();
+        var contentItem = (await executor.GetMappedResult<IContentItemFieldsSource>(contentQueryBuilder, new ContentQueryExecutionOptions { ForPreview = true, IncludeSecuredItems = true })).FirstOrDefault();
 
         if (contentItem == null)
         {
@@ -84,7 +83,7 @@ public sealed class ProductLinkedOnceRule : ValidationRule<ProductLinkedOnceRule
                 .Where(x => x.WhereNotEquals(nameof(IContentItemFieldsSource.SystemFields.ContentItemID), contentItemId))
         );
 
-        var duplicateRecords = await executor.GetMappedResult<object>(queryBuilder, new ContentQueryExecutionOptions { ForPreview = true });
+        var duplicateRecords = await executor.GetMappedResult<object>(queryBuilder, new ContentQueryExecutionOptions { ForPreview = true, IncludeSecuredItems = true });
 
         if (duplicateRecords.Any())
         {

@@ -49,7 +49,8 @@
                                   padding="0 6px"
                                   href="@link.SocialLinkUrl"
                                   src="@link.SocialLinkIcon.FirstOrDefault().ImageFile.Url"
-                                  alt="@link.SocialLinkTitle" />
+                                  alt="@link.SocialLinkTitle"
+                                  title="@link.SocialLinkTitle" />
                     </mj-column>
                 }
             }
@@ -60,7 +61,7 @@
             <mj-column>
                 <mj-text align="center" color="#000000">
                     Don't want to receive these emails?
-                    <a href="@EmailRecipientContext?.UnsubscriptionUrl" style="text-decoration: none;">Unsubscribe</a>
+                    <a href="@EmailRecipientContext?.UnsubscriptionUrl" style="text-decoration: none;" data-click-tracking="false">Unsubscribe</a>
                 </mj-text>
             </mj-column>
         </mj-section>
