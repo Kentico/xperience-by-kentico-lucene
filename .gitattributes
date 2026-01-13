@@ -48,3 +48,5 @@ tsconfig.json       linguist-language=JSON-with-Comments
 
 *.woff              binary
 *.woff2             binary
+
+*.zip               binary
