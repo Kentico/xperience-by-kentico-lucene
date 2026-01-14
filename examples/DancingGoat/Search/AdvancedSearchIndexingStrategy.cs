@@ -9,8 +9,6 @@ using Kentico.Xperience.Lucene.Core.Indexing;
 using Lucene.Net.Documents;
 using Lucene.Net.Facet;
 
-using Microsoft.IdentityModel.Tokens;
-
 namespace DancingGoat.Search;
 
 public class AdvancedSearchIndexingStrategy(
@@ -76,7 +74,7 @@ public class AdvancedSearchIndexingStrategy(
                 return null;
             }
 
-            if (page.HomePageBanner.IsNullOrEmpty())
+            if (page.HomePageBanner?.Any() != true)
             {
                 return null;
             }

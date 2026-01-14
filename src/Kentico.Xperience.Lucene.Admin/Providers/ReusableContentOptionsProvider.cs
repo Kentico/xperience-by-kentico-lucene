@@ -4,6 +4,7 @@ using Kentico.Xperience.Admin.Base.FormAnnotations;
 using Kentico.Xperience.Admin.Base.Forms;
 
 namespace Kentico.Xperience.Lucene.Admin.Providers;
+
 internal class ReusableContentOptionsProvider : IGeneralSelectorDataProvider
 {
     public async Task<PagedSelectListItems<string>> GetItemsAsync(string searchTerm, int pageIndex, CancellationToken cancellationToken)

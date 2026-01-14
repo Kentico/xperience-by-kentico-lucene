@@ -24,6 +24,8 @@ internal class DefaultLuceneSearchService : ILuceneSearchService
         this.serviceProvider = serviceProvider;
     }
 
+
+    /// <inheritdoc />
     public TResult UseSearcher<TResult>(LuceneIndex index, Func<IndexSearcher, TResult> useIndexSearcher)
     {
         var storage = index.StorageContext.GetPublishedIndex();
@@ -43,6 +45,8 @@ internal class DefaultLuceneSearchService : ILuceneSearchService
         return useIndexSearcher(searcher);
     }
 
+
+    /// <inheritdoc />
     public TResult UseSearcherWithFacets<TResult>(LuceneIndex index, Query query, int n, Func<IndexSearcher, MultiFacets, TResult> useIndexSearcher)
     {
         var storage = index.StorageContext.GetPublishedIndex();
@@ -76,6 +80,38 @@ internal class DefaultLuceneSearchService : ILuceneSearchService
         var results = useIndexSearcher(searcher, facets);
 
         return results;
+    }
 
+
+    /// <inheritdoc />
+    public TResult UseSearcherWithDrillSideways<TResult>(LuceneIndex index, Func<IndexSearcher, DrillSideways, TResult> useIndexSearcher)
+    {
+        var storage = index.StorageContext.GetPublishedIndex();
+        if (!System.IO.Directory.Exists(storage.Path))
+        {
+            // ensure index
+            indexService.UseIndexAndTaxonomyWriter(index, (writer, tw) =>
+            {
+                writer.Commit();
+                tw.Commit();
+                return true;
+            }, storage);
+        }
+
+        using LuceneDirectory indexDir = FSDirectory.Open(storage.Path);
+        using var reader = DirectoryReader.Open(indexDir);
+        var searcher = new IndexSearcher(reader);
+
+        using var taxonomyDir = FSDirectory.Open(storage.TaxonomyPath);
+        using var taxonomyReader = new DirectoryTaxonomyReader(taxonomyDir);
+
+        var strategy = serviceProvider.GetRequiredStrategy(index);
+        var config = strategy?.FacetsConfigFactory() ?? new FacetsConfig();
+
+        var drillSideways = new DrillSideways(searcher, config, taxonomyReader);
+
+        var results = useIndexSearcher(searcher, drillSideways);
+
+        return results;
     }
 }

@@ -7,8 +7,6 @@ using Kentico.Xperience.Lucene.Core.Indexing;
 
 using Lucene.Net.Documents;
 
-using Microsoft.IdentityModel.Tokens;
-
 namespace DancingGoat.Search;
 
 
@@ -64,7 +62,7 @@ public class SimpleSearchIndexingStrategy : DefaultLuceneIndexingStrategy
                 return null;
             }
 
-            if (page.HomePageBanner.IsNullOrEmpty())
+            if (page.HomePageBanner?.Any() != true)
             {
                 return null;
             }

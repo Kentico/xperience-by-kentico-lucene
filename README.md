@@ -36,6 +36,7 @@ Lucene integration **requires persistent file system access** to store and manag
 
 | Xperience Version   | Library Version |
 | ------------------- | --------------- |
+| >= 31.0.0           | >= 14.0.0       |
 | >= 30.9.0           | >= 13.0.0       |
 | >= 30.8.0           | >= 12.5.0       |
 | >= 30.6.0           | >= 12.4.0       |

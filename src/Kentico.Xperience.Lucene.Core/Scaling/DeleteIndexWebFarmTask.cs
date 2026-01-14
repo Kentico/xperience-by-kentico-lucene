@@ -4,6 +4,7 @@ using CMS.Core;
 using Kentico.Xperience.Lucene.Core.Indexing;
 
 namespace Kentico.Xperience.Lucene.Core.Scaling;
+
 internal class DeleteIndexWebFarmTask : WebFarmTaskBase
 {
     private readonly IEventLogService eventLog;

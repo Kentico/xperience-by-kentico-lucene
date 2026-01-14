@@ -28,7 +28,14 @@ public class GlobalSearchResultModel
 
 Execute a search with a customized Lucene `Query` (like the `MatchAllDocsQuery`) using the ILuceneSearchService.
 You can use your `GlobalSearchResultModel` as a generic parameter of prepared class template `LuceneSearchResultModel<T>` class to retrieve the most often desired data from `ILuceneSearchService`.
-If you don't want to use [facets](Custom-index-strategy.md#Add-facets), use `UseSearcher` instead of `UseSearcherWithFacets` to query lucene indexes.
+
+### Search Methods
+
+The `ILuceneSearchService` provides three methods for different search scenarios:
+
+- **`UseSearcher`** - Use for basic search without facets.
+- **`UseSearcherWithFacets`** - Use for faceted search when you need to collect facet information.
+- **`UseSearcherWithDrillSideways`** - Use for advanced faceted search with drill-down capabilities and dynamic facet counts across multiple facet dimensions.
 
 ```csharp
 public class SearchService
@@ -149,6 +156,83 @@ public class SearchService
         Url = doc.Get("Url"),
         ContentType = doc.Get(nameof(GlobalSearchResultModel.ContentType)),
     };
+}
+```
+
+### Using Drill-Sideways Search
+
+For advanced faceted search with drill-down capabilities, use `UseSearcherWithDrillSideways`. This method enables you to perform drill-down queries while maintaining facet counts for unchosen facets, allowing users to see what results would be available if they chose different facet values.
+
+```csharp
+public LuceneSearchResultModel<GlobalSearchResultModel> DrillSidewaysSearch(
+    string indexName,
+    string searchText,
+    int pageSize = 20,
+    int page = 1,
+    string? facet = null,
+    string? sortBy = null)
+{
+    var index = luceneIndexManager.GetRequiredIndex(indexName);
+
+    // This query should contain term query, base filtering, scoring, etc... but NOT your facet filtering.
+    var query = GetTermQuery(searchText);
+
+    var result = luceneSearchService.UseSearcherWithDrillSideways(
+        index,
+        (searcher, drillSideways) =>
+        {
+            // DrillDownQuery wraps your base query.
+            var drillDownQuery = new DrillDownQuery(strategy.FacetsConfigFactory(), query);
+
+            if (!string.IsNullOrEmpty(facet))
+            {
+                string[] subFacets = facet.Split(';', StringSplitOptions.RemoveEmptyEntries);
+                foreach (string subFacet in subFacets)
+                {
+                    drillDownQuery.Add(strategy.FacetDimension, subFacet);
+                }
+            }
+
+            var sortOptions = GetSortOption(sortBy);
+            DrillSidewaysResult drillSidewaysResult;
+
+            if (sortOptions != null)
+            {
+                drillSidewaysResult = drillSideways.Search(drillDownQuery, MAX_RESULTS, new Sort(sortOptions));
+            }
+            else
+            {
+                drillSidewaysResult = drillSideways.Search(drillDownQuery, MAX_RESULTS);
+            }
+
+            var topDocs = drillSidewaysResult.Hits;
+            var facets = drillSidewaysResult.Facets;
+
+            pageSize = Math.Max(1, pageSize);
+            page = Math.Max(1, page);
+            int offset = pageSize * (page - 1);
+            int limit = pageSize;
+
+            return new LuceneSearchResultModel<GlobalSearchResultModel>
+            {
+                Query = searchText ?? string.Empty,
+                Page = page,
+                PageSize = pageSize,
+                TotalPages = topDocs.TotalHits <= 0 ? 0 : ((topDocs.TotalHits - 1) / pageSize) + 1,
+                TotalHits = topDocs.TotalHits,
+                Hits = topDocs.ScoreDocs
+                    .Skip(offset)
+                    .Take(limit)
+                    .Select(d => MapToResultItem(searcher.Doc(d.Doc)))
+                    .ToList(),
+                Facet = facet,
+                // Get facet counts for the dimension, including counts for unchosen facets
+                Facets = facets?.GetTopChildren(10, strategy.FacetDimension)?.LabelValues.ToArray() ?? []
+            };
+        }
+    );
+
+    return result;
 }
 ```
 
