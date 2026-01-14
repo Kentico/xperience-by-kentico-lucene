@@ -59,4 +59,12 @@ public interface IIndexEventItemModel
     /// The representation of the type of this <see cref="IIndexEventItemModel"/>.
     /// </summary>
     IndexEventItemModelType IndexEventItemModelType { get; }
+
+
+    /// <summary>
+    /// Collection of related item references. This is populated during deletion events
+    /// to provide information about items that reference the deleted item, enabling
+    /// re-indexing of those related items.
+    /// </summary>
+    IEnumerable<RelatedItemInfo> RelatedItems { get; set; }
 }
