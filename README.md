@@ -90,9 +90,31 @@ This section is relevant for each Lucene NuGet. Steps number 3 and 4 are only re
 6. Execute a search with a customized Lucene `Query` (like the `MatchAllDocsQuery`) using the `ILuceneSearchService`.
 7. Display the results on your site with a Razor View 👍.
 
-## Full Instructions
+## Documentation
 
-View the [Usage Guide](./docs/Usage-Guide.md) for more detailed instructions.
+### Getting Started
+
+**New to Lucene search?** Start here:
+
+- **[Getting Started Guide](./docs/Getting-Started.md)** - Complete walkthrough from installation to displaying search results
+- **[Terminology Guide](./docs/Terminology.md)** - Understand key concepts and terms used in Lucene search
+
+### Core Documentation
+
+- **[Usage Guide](./docs/Usage-Guide.md)** - Overview and integration steps
+- **[Custom index strategy](./docs/Custom-index-strategy.md)** - Define how content is indexed
+- **[Managing Indexes](./docs/Managing-Indexes.md)** - Configure indexes in the admin UI
+- **[Search index querying](./docs/Search-index-querying.md)** - Execute queries and display results
+
+### Advanced Topics
+
+- **[Text analyzing](./docs/Text-analyzing.md)** - Using Lucene analyzers
+- **[Scraping web page content](./docs/Scraping-web-page-content.md)** - Index rendered HTML with web crawler
+- **[Indexing Secured Items](./docs/Indexing-Secured-Items.md)** - Handle secured content
+- **[Auto-Scaling](./docs/Auto-Scaling.md)** - Multi-instance deployment support
+- **[Auto-Reindexing After Deployment](./docs/Auto-Reindexing-After-Deployment.md)** - SaaS environment support
+
+### Example Project
 
 You can view and start the DancingGoat example project.
 For advanced [Strategy usage](./docs/Custom-index-strategy.md) add your website url base to the `WebCrawlerBaseUrl` `appsettings.json`
