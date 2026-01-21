@@ -68,6 +68,13 @@ stages:
               feedsToUse: select
               restoreArguments: --locked-mode
 
+          - task: GetAzureAuthToken@5
+            name: KeyVaultToken
+            displayName: Get token to code signing certificate
+            inputs:
+              ServiceConnection: Code signer
+              AccessScopes: https://vault.azure.net/.default
+
           - task: DotNetCoreCLI@2
             displayName: Build
             inputs:
@@ -76,7 +83,7 @@ stages:
               configuration: ${{ variables.Configuration }}
               arguments: --no-restore
             env:
-              AuthenticodeClientSecret: $(AuthenticodeClientSecret)
+              AuthenticodeAccessToken: $(KeyVaultToken.AuthToken)
               # Roll-forward behavior set for AzureSignTool dotnet tool (see .config\dotnet-tools.json) which requires .Net 6.0 runtime
               DOTNET_ROLL_FORWARD: Major
 
