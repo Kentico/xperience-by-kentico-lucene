@@ -1,5 +1,5 @@
 <Project>
-    <Target Name="SignAssemblyWithAuthenticodeSignature" AfterTargets="AfterBuild" Condition="'$(MSBuildProjectFullPath.Contains(&quot;node_modules&quot;))' == 'false' And $(Configuration) == 'Release' And $(SIGN_FILE) != 'false'">
+    <Target Name="SignAssemblyWithAuthenticodeSignature" AfterTargets="AfterBuild" Condition="'$(MSBuildProjectFullPath.Contains(&quot;node_modules&quot;))' == 'false' And $(Configuration) == 'Release' And $(SIGN_FILE) == 'true'">
         <PropertyGroup>
             <XmlSerializersTargetPath>$(TargetDir)$(TargetName).XmlSerializers.dll</XmlSerializersTargetPath>
         </PropertyGroup>
@@ -9,6 +9,6 @@
             <AssemblyToSign Include="$(XmlSerializersTargetPath)" Condition="Exists('$(XmlSerializersTargetPath)')" />
         </ItemGroup>
 
-        <Exec Command="dotnet AzureSignTool sign --azure-key-vault-url $(AuthenticodeKeyVaultUrl) --azure-key-vault-tenant-id $(AuthenticodeTenantId) --azure-key-vault-client-id $(AuthenticodeClientId) --azure-key-vault-client-secret $(AuthenticodeClientSecret) --azure-key-vault-certificate $(AuthenticodeCertificateName) --timestamp-rfc3161 $(TimestampServerUrl) --skip-signed %(AssemblyToSign.Identity)" />
+        <Exec Command="dotnet AzureSignTool sign --azure-key-vault-url $(AuthenticodeKeyVaultUrl) --azure-key-vault-accesstoken $(AuthenticodeAccessToken) --azure-key-vault-certificate $(AuthenticodeCertificateName) --timestamp-rfc3161 $(TimestampServerUrl) --skip-signed %(AssemblyToSign.Identity)" />
     </Target>
 </Project>
