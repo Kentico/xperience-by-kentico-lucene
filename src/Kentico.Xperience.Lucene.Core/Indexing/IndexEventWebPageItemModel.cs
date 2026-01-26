@@ -83,6 +83,10 @@ public class IndexEventWebPageItemModel : IIndexEventItemModel
     public IndexEventItemModelType IndexEventItemModelType { get; } = IndexEventItemModelType.WebPageItem;
 
 
+    /// <inheritdoc/>
+    public IEnumerable<RelatedItemInfo> RelatedItems { get; set; } = [];
+
+
     public IndexEventWebPageItemModel() { }
 
 

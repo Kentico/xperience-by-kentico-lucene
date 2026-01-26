@@ -60,8 +60,36 @@ internal class DefaultLuceneTaskLogger : ILuceneTaskLogger
                 continue;
             }
 
-            var strategy = serviceProvider.GetRequiredStrategy(luceneIndex);
-            var toReindex = await strategy.FindItemsToReindex(reusableItem);
+            IEnumerable<IIndexEventItemModel>? toReindex = null;
+
+            // For delete events, use pre-captured RelatedItems if available to avoid querying deleted items
+            if (taskType == LuceneTaskType.DELETE && reusableItem.RelatedItems.Any())
+            {
+                // Convert RelatedItemInfo to IndexEventItemModel instances
+                var relatedItemModels = new List<IIndexEventItemModel>();
+                foreach (var relatedInfo in reusableItem.RelatedItems)
+                {
+                    // Create a minimal model for re-indexing - the actual data will be fetched during indexing.
+                    // Only ItemID, ItemGuid, LanguageName, and ContentTypeName are needed to identify the item.
+                    // Other fields use default values as they're not required for the re-indexing identification process.
+                    relatedItemModels.Add(new IndexEventReusableItemModel(
+                        relatedInfo.ItemID,
+                        relatedInfo.ItemGuid,
+                        relatedInfo.LanguageName,
+                        relatedInfo.ContentTypeName,
+                        string.Empty, // Name - not needed for identifying item to re-index
+                        false, // IsSecured - will be determined when item is fetched during indexing
+                        0, // ContentTypeID - will be determined when item is fetched during indexing
+                        0 // ContentLanguageID - will be determined when item is fetched during indexing
+                    ));
+                }
+                toReindex = relatedItemModels;
+            }
+            else
+            {
+                var strategy = serviceProvider.GetRequiredStrategy(luceneIndex);
+                toReindex = await strategy.FindItemsToReindex(reusableItem);
+            }
 
             if (toReindex is not null)
             {
@@ -163,8 +191,40 @@ internal class DefaultLuceneTaskLogger : ILuceneTaskLogger
                 continue;
             }
 
-            var strategy = serviceProvider.GetRequiredStrategy(luceneIndex);
-            var toReindex = await strategy.FindItemsToReindex(webpageItem);
+            IEnumerable<IIndexEventItemModel>? toReindex = null;
+
+            // For delete events, use pre-captured RelatedItems if available to avoid querying deleted items
+            if (taskType == LuceneTaskType.DELETE && webpageItem.RelatedItems.Any())
+            {
+                // Convert RelatedItemInfo to IndexEventItemModel instances
+                var relatedItemModels = new List<IIndexEventItemModel>();
+                foreach (var relatedInfo in webpageItem.RelatedItems)
+                {
+                    // Create a minimal model for re-indexing - the actual data will be fetched during indexing.
+                    // Only ItemID, ItemGuid, LanguageName, and ContentTypeName are needed to identify the item.
+                    // Other fields use default values as they're not required for the re-indexing identification process.
+                    relatedItemModels.Add(new IndexEventWebPageItemModel(
+                        relatedInfo.ItemID,
+                        relatedInfo.ItemGuid,
+                        relatedInfo.LanguageName,
+                        relatedInfo.ContentTypeName,
+                        string.Empty, // Name - not needed for identifying item to re-index
+                        false, // IsSecured - will be determined when item is fetched during indexing
+                        0, // ContentTypeID - will be determined when item is fetched during indexing
+                        0, // ContentLanguageID - will be determined when item is fetched during indexing
+                        string.Empty, // WebsiteChannelName - will be determined when item is fetched during indexing
+                        string.Empty, // WebPageItemTreePath - will be determined when item is fetched during indexing
+                        0, // Order - will be determined when item is fetched during indexing
+                        null // ParentID - will be determined when item is fetched during indexing
+                    ));
+                }
+                toReindex = relatedItemModels;
+            }
+            else
+            {
+                var strategy = serviceProvider.GetRequiredStrategy(luceneIndex);
+                toReindex = await strategy.FindItemsToReindex(webpageItem);
+            }
 
             if (toReindex is not null)
             {
