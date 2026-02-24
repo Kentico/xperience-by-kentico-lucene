@@ -2,11 +2,11 @@ using Lucene.Net.Store;
 
 using CmsDirectory = CMS.IO.Directory;
 using CmsFile = CMS.IO.File;
+using CmsFileAccess = CMS.IO.FileAccess;
+using CmsFileMode = CMS.IO.FileMode;
+using CmsFileShare = CMS.IO.FileShare;
 using CmsFileStream = CMS.IO.FileStream;
 using CmsPath = CMS.IO.Path;
-using CmsFileMode = CMS.IO.FileMode;
-using CmsFileAccess = CMS.IO.FileAccess;
-using CmsFileShare = CMS.IO.FileShare;
 
 namespace Kentico.Xperience.Lucene.Core.Search;
 
@@ -167,31 +167,28 @@ public class CmsIOLock : Lock
     /// </summary>
     protected override void Dispose(bool disposing)
     {
-        if (disposing)
+        if (disposing && lockStream != null)
         {
-            if (lockStream != null)
+            try
             {
-                try
-                {
-                    lockStream.Dispose();
-                }
-                finally
-                {
-                    lockStream = null;
-                }
+                lockStream.Dispose();
+            }
+            finally
+            {
+                lockStream = null;
+            }
 
-                // Try to delete the lock file
-                try
+            // Try to delete the lock file
+            try
+            {
+                if (CmsFile.Exists(lockPath))
                 {
-                    if (CmsFile.Exists(lockPath))
-                    {
-                        CmsFile.Delete(lockPath);
-                    }
+                    CmsFile.Delete(lockPath);
                 }
-                catch (IOException)
-                {
-                    // Ignore - file may be immediately grabbed by another process
-                }
+            }
+            catch (IOException)
+            {
+                // Ignore - file may be immediately grabbed by another process
             }
         }
     }

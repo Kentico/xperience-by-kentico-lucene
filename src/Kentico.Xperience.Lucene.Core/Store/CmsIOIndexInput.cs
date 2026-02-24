@@ -1,10 +1,10 @@
 using Lucene.Net.Store;
 
-using IOContext = Lucene.Net.Store.IOContext;
-using CmsFileStream = CMS.IO.FileStream;
-using CmsFileMode = CMS.IO.FileMode;
 using CmsFileAccess = CMS.IO.FileAccess;
+using CmsFileMode = CMS.IO.FileMode;
 using CmsFileShare = CMS.IO.FileShare;
+using CmsFileStream = CMS.IO.FileStream;
+using IOContext = Lucene.Net.Store.IOContext;
 
 namespace Kentico.Xperience.Lucene.Core.Search;
 
@@ -16,9 +16,9 @@ namespace Kentico.Xperience.Lucene.Core.Search;
 public class CmsIOIndexInput : BufferedIndexInput
 {
     private readonly string path;
+    private readonly object streamLock = new();
     private CmsFileStream? stream;
     private readonly long length;
-    private bool isClone;
     private bool isDisposed;
 
     /// <summary>
@@ -33,7 +33,6 @@ public class CmsIOIndexInput : BufferedIndexInput
 
         stream = CmsFileStream.New(path, CmsFileMode.Open, CmsFileAccess.Read, CmsFileShare.ReadWrite);
         length = stream.Length;
-        isClone = false;
     }
 
     /// <summary>
@@ -45,7 +44,6 @@ public class CmsIOIndexInput : BufferedIndexInput
         this.path = path;
         this.stream = stream;
         this.length = length;
-        isClone = true;
     }
 
     /// <summary>
@@ -57,14 +55,14 @@ public class CmsIOIndexInput : BufferedIndexInput
     /// Reads bytes from the file into the buffer at the specified position.
     /// This is the core read method called by BufferedIndexInput.
     /// </summary>
-    protected override void ReadInternal(byte[] b, int offset, int len)
+    protected override void ReadInternal(byte[] b, int offset, int length)
     {
         if (isDisposed || stream == null)
         {
             throw new ObjectDisposedException(GetType().FullName);
         }
 
-        lock (stream)
+        lock (streamLock)
         {
             long position = Position; // Use Position property from BufferedIndexInput
             if (position != stream.Position)
@@ -73,9 +71,9 @@ public class CmsIOIndexInput : BufferedIndexInput
             }
 
             int totalRead = 0;
-            while (totalRead < len)
+            while (totalRead < length)
             {
-                int bytesRead = stream.Read(b, offset + totalRead, len - totalRead);
+                int bytesRead = stream.Read(b, offset + totalRead, length - totalRead);
                 if (bytesRead == 0)
                 {
                     throw new EndOfStreamException($"Read past EOF: {this}");
@@ -106,8 +104,6 @@ public class CmsIOIndexInput : BufferedIndexInput
     /// </summary>
     public override object Clone()
     {
-        var clone = (CmsIOIndexInput)base.Clone();
-
         // Create a new stream for the clone to allow independent positioning
         var cloneStream = CmsFileStream.New(path, CmsFileMode.Open, CmsFileAccess.Read, CmsFileShare.ReadWrite);
 
@@ -116,10 +112,7 @@ public class CmsIOIndexInput : BufferedIndexInput
             path,
             cloneStream,
             length,
-            BufferSize)
-        {
-            isClone = true
-        };
+            BufferSize);
     }
 
     /// <summary>

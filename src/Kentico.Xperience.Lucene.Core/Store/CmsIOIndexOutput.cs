@@ -1,9 +1,9 @@
 using Lucene.Net.Store;
 
-using CmsFileStream = CMS.IO.FileStream;
-using CmsFileMode = CMS.IO.FileMode;
 using CmsFileAccess = CMS.IO.FileAccess;
+using CmsFileMode = CMS.IO.FileMode;
 using CmsFileShare = CMS.IO.FileShare;
+using CmsFileStream = CMS.IO.FileStream;
 
 namespace Kentico.Xperience.Lucene.Core.Search;
 
@@ -14,9 +14,8 @@ namespace Kentico.Xperience.Lucene.Core.Search;
 /// </summary>
 public class CmsIOIndexOutput : BufferedIndexOutput
 {
-    private readonly string path;
     private readonly CmsFileStream stream;
-    private readonly CRC32 crc = new();
+    private readonly Crc32 crc = new();
     private long bytesWritten;
 
     /// <summary>
@@ -26,7 +25,6 @@ public class CmsIOIndexOutput : BufferedIndexOutput
     public CmsIOIndexOutput(string path)
         : base()
     {
-        this.path = path;
         stream = CmsFileStream.New(path, CmsFileMode.Create, CmsFileAccess.Write, CmsFileShare.None);
         bytesWritten = 0;
     }
@@ -39,7 +37,6 @@ public class CmsIOIndexOutput : BufferedIndexOutput
     public CmsIOIndexOutput(string path, int bufferSize)
         : base(bufferSize)
     {
-        this.path = path;
         stream = CmsFileStream.New(path, CmsFileMode.Create, CmsFileAccess.Write, CmsFileShare.None);
         bytesWritten = 0;
     }
@@ -101,13 +98,15 @@ public class CmsIOIndexOutput : BufferedIndexOutput
                 stream?.Dispose();
             }
         }
+
+        base.Dispose(disposing);
     }
 }
 
 /// <summary>
 /// Simple CRC32 implementation for checksum calculation.
 /// </summary>
-internal class CRC32
+internal class Crc32
 {
     private static readonly uint[] table = CreateTable();
     private uint crc = 0xFFFFFFFF;
