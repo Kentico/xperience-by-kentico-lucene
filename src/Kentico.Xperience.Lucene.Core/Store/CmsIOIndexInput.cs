@@ -6,7 +6,7 @@ using CmsFileMode = CMS.IO.FileMode;
 using CmsFileAccess = CMS.IO.FileAccess;
 using CmsFileShare = CMS.IO.FileShare;
 
-namespace Kentico.Xperience.Lucene.Core.Search;
+namespace Kentico.Xperience.Lucene.Core.Store;
 
 /// <summary>
 /// A Lucene IndexInput implementation that reads from CMS.IO FileStream.
@@ -16,9 +16,9 @@ namespace Kentico.Xperience.Lucene.Core.Search;
 public class CmsIOIndexInput : BufferedIndexInput
 {
     private readonly string path;
+    private readonly object streamLock = new();
     private CmsFileStream? stream;
     private readonly long length;
-    private bool isClone;
     private bool isDisposed;
 
     /// <summary>
@@ -33,7 +33,6 @@ public class CmsIOIndexInput : BufferedIndexInput
 
         stream = CmsFileStream.New(path, CmsFileMode.Open, CmsFileAccess.Read, CmsFileShare.ReadWrite);
         length = stream.Length;
-        isClone = false;
     }
 
     /// <summary>
@@ -45,7 +44,6 @@ public class CmsIOIndexInput : BufferedIndexInput
         this.path = path;
         this.stream = stream;
         this.length = length;
-        isClone = true;
     }
 
     /// <summary>
@@ -57,15 +55,20 @@ public class CmsIOIndexInput : BufferedIndexInput
     /// Reads bytes from the file into the buffer at the specified position.
     /// This is the core read method called by BufferedIndexInput.
     /// </summary>
-    protected override void ReadInternal(byte[] b, int offset, int len)
+    protected override void ReadInternal(byte[] b, int offset, int length)
     {
-        if (isDisposed || stream == null)
+        if (isDisposed)
         {
             throw new ObjectDisposedException(GetType().FullName);
         }
 
-        lock (stream)
+        lock (streamLock)
         {
+            if (stream == null)
+            {
+                throw new ObjectDisposedException(GetType().FullName);
+            }
+
             long position = Position; // Use Position property from BufferedIndexInput
             if (position != stream.Position)
             {
@@ -73,9 +76,9 @@ public class CmsIOIndexInput : BufferedIndexInput
             }
 
             int totalRead = 0;
-            while (totalRead < len)
+            while (totalRead < length)
             {
-                int bytesRead = stream.Read(b, offset + totalRead, len - totalRead);
+                int bytesRead = stream.Read(b, offset + totalRead, length - totalRead);
                 if (bytesRead == 0)
                 {
                     throw new EndOfStreamException($"Read past EOF: {this}");
@@ -106,20 +109,19 @@ public class CmsIOIndexInput : BufferedIndexInput
     /// </summary>
     public override object Clone()
     {
-        var clone = (CmsIOIndexInput)base.Clone();
-
         // Create a new stream for the clone to allow independent positioning
         var cloneStream = CmsFileStream.New(path, CmsFileMode.Open, CmsFileAccess.Read, CmsFileShare.ReadWrite);
 
-        return new CmsIOIndexInput(
+        var clone = new CmsIOIndexInput(
             $"CmsIOIndexInput(path=\"{path}\") [clone]",
             path,
             cloneStream,
             length,
-            BufferSize)
-        {
-            isClone = true
-        };
+            BufferSize);
+
+        clone.Seek(Position);
+
+        return clone;
     }
 
     /// <summary>
@@ -134,14 +136,17 @@ public class CmsIOIndexInput : BufferedIndexInput
 
         if (disposing)
         {
-            try
+            lock (streamLock)
             {
-                stream?.Dispose();
-            }
-            finally
-            {
-                stream = null;
-                isDisposed = true;
+                try
+                {
+                    stream?.Dispose();
+                }
+                finally
+                {
+                    stream = null;
+                    isDisposed = true;
+                }
             }
         }
     }
@@ -155,8 +160,8 @@ public class CmsIOIndexInput : BufferedIndexInput
     {
         IOContext.UsageContext.MERGE => 64 * 1024,  // 64KB for merges
         IOContext.UsageContext.READ => 16 * 1024,   // 16KB for normal reads (reduces cache validation overhead)
-        IOContext.UsageContext.DEFAULT => throw new NotImplementedException(),
-        IOContext.UsageContext.FLUSH => throw new NotImplementedException(),
+        IOContext.UsageContext.DEFAULT => BUFFER_SIZE,
+        IOContext.UsageContext.FLUSH => BUFFER_SIZE,
         _ => 8 * 1024                                // 8KB default
     };
 }

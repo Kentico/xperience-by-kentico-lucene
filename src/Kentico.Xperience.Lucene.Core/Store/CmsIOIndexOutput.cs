@@ -5,18 +5,18 @@ using CmsFileMode = CMS.IO.FileMode;
 using CmsFileAccess = CMS.IO.FileAccess;
 using CmsFileShare = CMS.IO.FileShare;
 
-namespace Kentico.Xperience.Lucene.Core.Search;
+namespace Kentico.Xperience.Lucene.Core.Store;
 
 /// <summary>
 /// A Lucene IndexOutput implementation that writes to CMS.IO FileStream.
 /// This allows Lucene to write index files through the CMS.IO abstraction layer,
 /// enabling storage on Azure Blob Storage or other custom storage providers.
 /// </summary>
-public class CmsIOIndexOutput : BufferedIndexOutput
+public sealed class CmsIOIndexOutput : BufferedIndexOutput
 {
-    private readonly string path;
     private readonly CmsFileStream stream;
-    private readonly CRC32 crc = new();
+    private readonly Crc32 crc = new();
+    private bool isDisposed;
     private long bytesWritten;
 
     /// <summary>
@@ -26,7 +26,6 @@ public class CmsIOIndexOutput : BufferedIndexOutput
     public CmsIOIndexOutput(string path)
         : base()
     {
-        this.path = path;
         stream = CmsFileStream.New(path, CmsFileMode.Create, CmsFileAccess.Write, CmsFileShare.None);
         bytesWritten = 0;
     }
@@ -39,7 +38,6 @@ public class CmsIOIndexOutput : BufferedIndexOutput
     public CmsIOIndexOutput(string path, int bufferSize)
         : base(bufferSize)
     {
-        this.path = path;
         stream = CmsFileStream.New(path, CmsFileMode.Create, CmsFileAccess.Write, CmsFileShare.None);
         bytesWritten = 0;
     }
@@ -67,6 +65,11 @@ public class CmsIOIndexOutput : BufferedIndexOutput
     /// </summary>
     protected override void FlushBuffer(byte[] b, int offset, int len)
     {
+        if (isDisposed)
+        {
+            throw new ObjectDisposedException(GetType().FullName);
+        }
+
         if (len > 0)
         {
             stream.Write(b, offset, len);
@@ -80,6 +83,11 @@ public class CmsIOIndexOutput : BufferedIndexOutput
     /// </summary>
     public override void Flush()
     {
+        if (isDisposed)
+        {
+            return;
+        }
+
         base.Flush();
         stream.Flush();
     }
@@ -89,17 +97,24 @@ public class CmsIOIndexOutput : BufferedIndexOutput
     /// </summary>
     protected override void Dispose(bool disposing)
     {
-        if (disposing)
+        if (isDisposed)
         {
-            // Ensure all data is flushed before closing
-            try
-            {
-                Flush();
-            }
-            finally
-            {
-                stream?.Dispose();
-            }
+            return;
+        }
+
+        if (!disposing)
+        {
+            return;
+        }
+
+        try
+        {
+            Flush();
+        }
+        finally
+        {
+            stream.Dispose();
+            isDisposed = true;
         }
     }
 }
@@ -107,7 +122,7 @@ public class CmsIOIndexOutput : BufferedIndexOutput
 /// <summary>
 /// Simple CRC32 implementation for checksum calculation.
 /// </summary>
-internal class CRC32
+internal class Crc32
 {
     private static readonly uint[] table = CreateTable();
     private uint crc = 0xFFFFFFFF;

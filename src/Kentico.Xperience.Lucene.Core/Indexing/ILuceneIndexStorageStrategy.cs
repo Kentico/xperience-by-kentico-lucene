@@ -4,6 +4,10 @@ using System.Text.RegularExpressions;
 
 using CMS.Core;
 
+using CmsDirectory = CMS.IO.Directory;
+using CmsDirectoryInfo = CMS.IO.DirectoryInfo;
+using CmsPath = CMS.IO.Path;
+
 namespace Kentico.Xperience.Lucene.Core.Indexing;
 
 public interface ILuceneIndexStorageStrategy
@@ -65,16 +69,15 @@ internal class GenerationStorageStrategy : ILuceneIndexStorageStrategy
 
     public IEnumerable<IndexStorageModel> GetExistingIndices(string indexStoragePath)
     {
-        if (!Directory.Exists(indexStoragePath))
+        if (!CmsDirectory.Exists(indexStoragePath))
         {
             yield break;
         }
 
-        var grouped = Directory.GetDirectories(indexStoragePath)
+        var grouped = CmsDirectory.GetDirectories(indexStoragePath)
             .Select(ParseIndexStorageModel)
             .Where(x => x.Success)
             .GroupBy(x => x.Result?.Generation ?? -1);
-
 
         foreach (var result in grouped)
         {
@@ -89,12 +92,12 @@ internal class GenerationStorageStrategy : ILuceneIndexStorageStrategy
         }
     }
 
-    public string FormatPath(string indexRoot, int generation, bool isPublished) => Path.Combine(indexRoot, $"i-g{generation:0000000}-p_{isPublished}");
-    public string FormatTaxonomyPath(string indexRoot, int generation, bool isPublished) => Path.Combine(indexRoot, $"i-g{generation:0000000}-p_{isPublished}_taxonomy");
+    public string FormatPath(string indexRoot, int generation, bool isPublished) => CmsPath.Combine(indexRoot, $"i-g{generation:0000000}-p_{isPublished}");
+    public string FormatTaxonomyPath(string indexRoot, int generation, bool isPublished) => CmsPath.Combine(indexRoot, $"i-g{generation:0000000}-p_{isPublished}_taxonomy");
 
     public void PublishIndex(IndexStorageModel storage)
     {
-        string root = Path.Combine(storage.Path, "..");
+        string root = CmsPath.Combine(storage.Path, "..");
         var published = storage with
         {
             IsPublished = true,
@@ -102,11 +105,11 @@ internal class GenerationStorageStrategy : ILuceneIndexStorageStrategy
             TaxonomyPath = FormatTaxonomyPath(root, storage.Generation, true)
         };
 
-        Directory.Move(storage.Path, published.Path);
+        CmsDirectory.Move(storage.Path, published.Path);
 
-        if (Directory.Exists(storage.TaxonomyPath))
+        if (CmsDirectory.Exists(storage.TaxonomyPath))
         {
-            Directory.Move(storage.TaxonomyPath, published.TaxonomyPath);
+            CmsDirectory.Move(storage.TaxonomyPath, published.TaxonomyPath);
         }
     }
 
@@ -114,13 +117,13 @@ internal class GenerationStorageStrategy : ILuceneIndexStorageStrategy
     {
         (string? path, string? taxonomyPath, int generation, bool _) = storage;
 
-        string delBase = Path.Combine(path, "..", IndexDeletionDirectoryName);
-        Directory.CreateDirectory(delBase);
+        string delBase = CmsPath.Combine(path, "..", IndexDeletionDirectoryName);
+        CmsDirectory.CreateDirectory(delBase);
 
-        string delPath = Path.Combine(path, "..", IndexDeletionDirectoryName, $"{generation:0000000}");
+        string delPath = CmsPath.Combine(path, "..", IndexDeletionDirectoryName, $"{generation:0000000}");
         try
         {
-            Directory.Move(path, delPath);
+            CmsDirectory.Move(path, delPath);
             Trace.WriteLine($"OP={path} NP={delPath}: removal scheduled", $"GenerationStorageStrategy.ScheduleRemoval");
         }
         catch (IOException ioex)
@@ -130,12 +133,12 @@ internal class GenerationStorageStrategy : ILuceneIndexStorageStrategy
             return false;
         }
 
-        if (!string.IsNullOrWhiteSpace(taxonomyPath) && Directory.Exists(taxonomyPath))
+        if (!string.IsNullOrWhiteSpace(taxonomyPath) && CmsDirectory.Exists(taxonomyPath))
         {
-            string delPathTaxon = Path.Combine(path, "..", IndexDeletionDirectoryName, $"{generation:0000000}_taxon");
+            string delPathTaxon = CmsPath.Combine(path, "..", IndexDeletionDirectoryName, $"{generation:0000000}_taxon");
             try
             {
-                Directory.Move(taxonomyPath, delPathTaxon);
+                CmsDirectory.Move(taxonomyPath, delPathTaxon);
                 Trace.WriteLine($"OP={taxonomyPath} NP={delPathTaxon}: removal scheduled", $"GenerationStorageStrategy.ScheduleRemoval");
             }
             catch (IOException ioex)
@@ -144,7 +147,7 @@ internal class GenerationStorageStrategy : ILuceneIndexStorageStrategy
                 Trace.WriteLine($"OP={taxonomyPath} NP={delPathTaxon}: {ioex}", $"GenerationStorageStrategy.ScheduleRemoval");
 
                 // restore index
-                Directory.Move(delPath, path);
+                CmsDirectory.Move(delPath, path);
                 return false;
             }
         }
@@ -154,9 +157,7 @@ internal class GenerationStorageStrategy : ILuceneIndexStorageStrategy
 
     public async Task<bool> DeleteIndex(string indexStoragePath)
     {
-        var deleteDir = new DirectoryInfo(indexStoragePath);
-
-        if (!deleteDir.Exists)
+        if (!CmsDirectory.Exists(indexStoragePath))
         {
             return true;
         }
@@ -169,8 +170,8 @@ internal class GenerationStorageStrategy : ILuceneIndexStorageStrategy
         {
             try
             {
-                Trace.WriteLine($"D={deleteDir.Name}: delete *.*", $"GenerationStorageStrategy.DeleteIndex");
-                deleteDir.Delete(true);
+                Trace.WriteLine($"D={CmsPath.GetFileName(indexStoragePath)}: delete *.*", $"GenerationStorageStrategy.DeleteIndex");
+                CmsDirectory.DeleteDirectoryStructure(indexStoragePath);
                 return true;
             }
             catch
@@ -184,8 +185,8 @@ internal class GenerationStorageStrategy : ILuceneIndexStorageStrategy
         }
         try
         {
-            Trace.WriteLine($"D={deleteDir.Name}: delete *.*", $"GenerationStorageStrategy.DeleteIndex");
-            deleteDir.Delete(true);
+            Trace.WriteLine($"D={CmsPath.GetFileName(indexStoragePath)}: delete *.*", $"GenerationStorageStrategy.DeleteIndex");
+            CmsDirectory.DeleteDirectoryStructure(indexStoragePath);
         }
         catch (Exception ex)
         {
@@ -198,15 +199,15 @@ internal class GenerationStorageStrategy : ILuceneIndexStorageStrategy
 
     public bool PerformCleanup(string indexStoragePath)
     {
-        string toDeleteDir = Path.Combine(indexStoragePath, IndexDeletionDirectoryName);
-        var thrashDir = new DirectoryInfo(toDeleteDir);
+        string toDeleteDir = CmsPath.Combine(indexStoragePath, IndexDeletionDirectoryName);
+        if (!CmsDirectory.Exists(toDeleteDir))
+        {
+            return true;
+        }
+
         try
         {
-            if (!thrashDir.Exists)
-            {
-                return true;
-            }
-
+            var thrashDir = CmsDirectoryInfo.New(toDeleteDir);
             foreach (var file in thrashDir.GetFiles())
             {
                 try
@@ -225,7 +226,7 @@ internal class GenerationStorageStrategy : ILuceneIndexStorageStrategy
                 try
                 {
                     Trace.WriteLine($"D={dir.Name}: delete *.*", $"GenerationStorageStrategy.PerformCleanup");
-                    dir.Delete(true);
+                    CmsDirectory.DeleteDirectoryStructure(dir.FullName);
                 }
                 catch
                 {
@@ -257,7 +258,7 @@ internal class GenerationStorageStrategy : ILuceneIndexStorageStrategy
 
         try
         {
-            var dirInfo = new DirectoryInfo(directoryPath);
+            var dirInfo = CmsDirectoryInfo.New(directoryPath);
             if (dirInfo.Name is { Length: > 0 } directoryName)
             {
                 var matchResult = Regex.Match(directoryName, "i-g(?<generation>[0-9]*)-p_(?<published>(true)|(false))(_(?<taxonomy>[a-z0-9]*)){0,1}", RegexOptions.IgnoreCase | RegexOptions.Singleline);

@@ -1,4 +1,6 @@
-﻿using Lucene.Net.Analysis;
+﻿using Kentico.Xperience.Lucene.Core.Store;
+
+using Lucene.Net.Analysis;
 using Lucene.Net.Analysis.Standard;
 using Lucene.Net.Util;
 
@@ -65,9 +67,9 @@ public sealed class LuceneIndex
     {
         Identifier = indexConfiguration.Id;
         IndexName = indexConfiguration.IndexName;
-        LanguageNames = indexConfiguration.LanguageNames.ToList();
-        IncludedReusableContentTypes = indexConfiguration.ReusableContentTypeNames.ToList();
-        ChannelConfigurations = indexConfiguration.Channels.ToList();
+        LanguageNames = [.. indexConfiguration.LanguageNames];
+        IncludedReusableContentTypes = [.. indexConfiguration.ReusableContentTypeNames];
+        ChannelConfigurations = [.. indexConfiguration.Channels];
 
         var strategy = typeof(DefaultLuceneIndexingStrategy);
 
@@ -93,7 +95,7 @@ public sealed class LuceneIndex
 
         LuceneIndexingStrategyType = strategy;
 
-        string indexStoragePath = Path.Combine(Environment.CurrentDirectory, "App_Data", "LuceneSearch", indexConfiguration.IndexName);
+        string indexStoragePath = CMS.IO.Path.Combine(LuceneStorageOptions.LUCENE_INDEX_PATH, indexConfiguration.IndexName);
         StorageContext = new IndexStorageContext(new GenerationStorageStrategy(), indexStoragePath, new IndexRetentionPolicy(0));
     }
 }

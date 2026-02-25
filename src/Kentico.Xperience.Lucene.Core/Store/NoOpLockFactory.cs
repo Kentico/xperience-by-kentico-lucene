@@ -1,6 +1,6 @@
 using Lucene.Net.Store;
 
-namespace Kentico.Xperience.Lucene.Core.Search;
+namespace Kentico.Xperience.Lucene.Core.Store;
 
 /// <summary>
 /// A no-op lock factory for use when external locking (e.g., FileLock) handles

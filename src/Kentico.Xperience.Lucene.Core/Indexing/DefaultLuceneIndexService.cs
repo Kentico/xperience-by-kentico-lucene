@@ -1,7 +1,9 @@
-﻿using Lucene.Net.Facet.Taxonomy;
+﻿using Kentico.Xperience.Lucene.Core.Store;
+using Kentico.Xperience.Lucene.Core.Search;
+
+using Lucene.Net.Facet.Taxonomy;
 using Lucene.Net.Facet.Taxonomy.Directory;
 using Lucene.Net.Index;
-using Lucene.Net.Store;
 
 using LuceneDirectory = Lucene.Net.Store.Directory;
 
@@ -11,7 +13,7 @@ public class DefaultLuceneIndexService : ILuceneIndexService
 {
     public T UseIndexAndTaxonomyWriter<T>(LuceneIndex index, Func<IndexWriter, ITaxonomyWriter, T> useIndexWriter, IndexStorageModel storage, OpenMode openMode = OpenMode.CREATE_OR_APPEND)
     {
-        using LuceneDirectory indexDir = FSDirectory.Open(storage.Path);
+        using LuceneDirectory indexDir = new CmsIODirectory(storage.Path);
 
         var analyzer = index.LuceneAnalyzer;
 
@@ -22,7 +24,7 @@ public class DefaultLuceneIndexService : ILuceneIndexService
         };
         using var writer = new IndexWriter(indexDir, indexConfig);
 
-        using LuceneDirectory taxonomyDir = FSDirectory.Open(storage.TaxonomyPath);
+        using LuceneDirectory taxonomyDir = new CmsIODirectory(storage.TaxonomyPath);
         using var taxonomyWriter = new DirectoryTaxonomyWriter(taxonomyDir);
 
         return useIndexWriter(writer, taxonomyWriter);
@@ -30,7 +32,7 @@ public class DefaultLuceneIndexService : ILuceneIndexService
 
     public TResult UseWriter<TResult>(LuceneIndex index, Func<IndexWriter, TResult> useIndexWriter, IndexStorageModel storage, OpenMode openMode = OpenMode.CREATE_OR_APPEND)
     {
-        using LuceneDirectory indexDir = FSDirectory.Open(storage.Path);
+        using LuceneDirectory indexDir = new CmsIODirectory(storage.Path);
 
         var analyzer = index.LuceneAnalyzer;
 
