@@ -1,11 +1,13 @@
+using System.IO;
+
 using Lucene.Net.Store;
 using Lucene.Net.Util;
 
-using CmsPath = CMS.IO.Path;
-using CmsFileStream = CMS.IO.FileStream;
-using CmsFileMode = CMS.IO.FileMode;
 using CmsFileAccess = CMS.IO.FileAccess;
+using CmsFileMode = CMS.IO.FileMode;
 using CmsFileShare = CMS.IO.FileShare;
+using CmsFileStream = CMS.IO.FileStream;
+using CmsPath = CMS.IO.Path;
 using IOContext = Lucene.Net.Store.IOContext;
 
 namespace Kentico.Xperience.Lucene.Core.Store;
@@ -71,67 +73,67 @@ public class CmsIOMemoryMapDirectory : CmsIODirectory
     {
         EnsureOpen();
         string path = CmsPath.Combine(Directory, name);
-        var fc = CmsFileStream.New(path, CmsFileMode.Open, CmsFileAccess.Read, CmsFileShare.ReadWrite);
-        return new CmsIOMemoryMapIndexInput($"CmsIOMMapIndexInput(path=\"{path}\")", fc, context, chunkSizePower);
+        //var fc = CmsFileStream.New(path, CmsFileMode.Open, CmsFileAccess.Read, CmsFileShare.ReadWrite);
+        return new CmsIOIndexInput(path, context);
     }
 
-    public override IndexInputSlicer CreateSlicer(string name, IOContext context)
-    {
-        EnsureOpen();
-        string path = CmsPath.Combine(Directory, name);
-        var fc = CmsFileStream.New(path, CmsFileMode.Open, CmsFileAccess.Read, CmsFileShare.ReadWrite);
-        return new IndexInputSlicerAnonymousClass(this, context, path, fc);
-    }
+    //public override IndexInputSlicer CreateSlicer(string name, IOContext context)
+    //{
+    //    EnsureOpen();
+    //    string path = CmsPath.Combine(Directory, name);
+    //    var fc = CmsFileStream.New(path, CmsFileMode.Open, CmsFileAccess.Read, CmsFileShare.ReadWrite);
+    //    return new IndexInputSlicerAnonymousClass(this, context, path, fc);
+    //}
 
-    private sealed class IndexInputSlicerAnonymousClass : IndexInputSlicer
-    {
-        private readonly CmsIOMemoryMapDirectory outerInstance;
-        private readonly IOContext context;
-        private readonly string path;
-        private readonly CmsFileStream descriptor;
-        private int disposed = 0;
+    //private sealed class IndexInputSlicerAnonymousClass : IndexInputSlicer
+    //{
+    //    private readonly CmsIOMemoryMapDirectory outerInstance;
+    //    private readonly IOContext context;
+    //    private readonly string path;
+    //    private readonly CmsFileStream descriptor;
+    //    private int disposed = 0;
 
-        public IndexInputSlicerAnonymousClass(CmsIOMemoryMapDirectory outerInstance, IOContext context, string path, CmsFileStream descriptor)
-        {
-            this.outerInstance = outerInstance;
-            this.context = context;
-            this.path = path;
-            this.descriptor = descriptor;
-        }
+    //    public IndexInputSlicerAnonymousClass(CmsIOMemoryMapDirectory outerInstance, IOContext context, string path, CmsFileStream descriptor)
+    //    {
+    //        this.outerInstance = outerInstance;
+    //        this.context = context;
+    //        this.path = path;
+    //        this.descriptor = descriptor;
+    //    }
 
-        public override IndexInput OpenSlice(string sliceDescription, long offset, long length)
-        {
-            outerInstance.EnsureOpen();
-            return new CmsIOMemoryMapIndexInput(
-                $"CmsIOMMapIndexInput({sliceDescription} in path=\"{path}\" slice={offset}:{offset + length})",
-                descriptor,
-                offset,
-                length,
-                BufferedIndexInput.GetBufferSize(context),
-                outerInstance.chunkSizePower);
-        }
+    //    public override IndexInput OpenSlice(string sliceDescription, long offset, long length)
+    //    {
+    //        //outerInstance.EnsureOpen();
+    //        //return new CmsIOMemoryMapIndexInput(
+    //        //    $"CmsIOMMapIndexInput({sliceDescription} in path=\"{path}\" slice={offset}:{offset + length})",
+    //        //    descriptor,
+    //        //    offset,
+    //        //    length,
+    //        //    BufferedIndexInput.GetBufferSize(context),
+    //        //    outerInstance.chunkSizePower);
+    //    }
 
-        [Obsolete("Only for reading CFS files from 3.x indexes.")]
-        public override IndexInput OpenFullSlice()
-        {
-            outerInstance.EnsureOpen();
+    //    [Obsolete("Only for reading CFS files from 3.x indexes.")]
+    //    public override IndexInput OpenFullSlice()
+    //    {
+    //        outerInstance.EnsureOpen();
 
-            return OpenSlice("full-slice", 0, descriptor.Length);
-        }
+    //        return OpenSlice("full-slice", 0, descriptor.Length);
+    //    }
 
-        protected override void Dispose(bool disposing)
-        {
-            if (0 != Interlocked.CompareExchange(ref disposed, 1, 0))
-            {
-                return;
-            }
+    //    protected override void Dispose(bool disposing)
+    //    {
+    //        if (0 != Interlocked.CompareExchange(ref disposed, 1, 0))
+    //        {
+    //            return;
+    //        }
 
-            if (disposing)
-            {
-                descriptor.Dispose();
-            }
-        }
-    }
+    //        if (disposing)
+    //        {
+    //            descriptor.Dispose();
+    //        }
+    //    }
+    //}
 
 
     /// <summary>
@@ -189,26 +191,28 @@ public class CmsIOMemoryMapDirectory : CmsIODirectory
 
         protected override void ReadInternal(byte[] b, int offset, int length)
         {
-            long position = m_off + Position;
-
-            if (position + length > m_end)
+            lock (m_channel)
             {
-                throw new IOException("read past EOF: " + this);
-            }
-
-            try
-            {
-                m_channel.Seek(position, SeekOrigin.Begin);
-                int total = m_channel.Read(b, offset, length);
-
-                if (total != length)
+                long position = m_off + Position;
+                if (position + length > m_end)
                 {
-                    throw new IOException($"read past EOF: {this} off: {offset} len: {length} total: {total}");
+                    throw new IOException("read past EOF: " + this);
                 }
-            }
-            catch (Exception ioe)
-            {
-                throw new IOException(ioe.ToString() + ": " + this, ioe);
+
+                try
+                {
+                    m_channel.Seek(position, SeekOrigin.Begin);
+                    int total = m_channel.Read(b, offset, length);
+
+                    if (total != length)
+                    {
+                        throw new IOException($"read past EOF: {this} off: {offset} len: {length} total: {total}");
+                    }
+                }
+                catch (Exception ioe)
+                {
+                    throw new IOException(ioe.ToString() + ": " + this, ioe);
+                }
             }
         }
 
@@ -216,20 +220,20 @@ public class CmsIOMemoryMapDirectory : CmsIODirectory
         {
         }
 
-        internal IndexInput Slice(string sliceDescription, long offset, long length)
-        {
-            if (offset < 0 || length < 0 || offset + length > Length)
-            {
-                throw new ArgumentException($"slice() {sliceDescription} out of bounds: {this}");
-            }
+        //internal IndexInput Slice(string sliceDescription, long offset, long length)
+        //{
+        //    if (offset < 0 || length < 0 || offset + length > Length)
+        //    {
+        //        throw new ArgumentException($"slice() {sliceDescription} out of bounds: {this}");
+        //    }
 
-            return new CmsIOMemoryMapIndexInput(
-                sliceDescription,
-                m_channel,
-                m_off + offset,
-                length,
-                BufferSize,
-                chunkSizePower);
-        }
+        //    return new CmsIOMemoryMapIndexInput(
+        //        sliceDescription,
+        //        m_channel,
+        //        m_off + offset,
+        //        length,
+        //        BufferSize,
+        //        chunkSizePower);
+        //}
     }
 }

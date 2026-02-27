@@ -13,6 +13,7 @@ using CmsFileMode = CMS.IO.FileMode;
 using CmsFileAccess = CMS.IO.FileAccess;
 using CmsFileShare = CMS.IO.FileShare;
 using IOContext = Lucene.Net.Store.IOContext;
+using CMS.IO;
 
 namespace Kentico.Xperience.Lucene.Core.Store;
 
@@ -79,7 +80,8 @@ public abstract class CmsIODirectory : BaseDirectory
     /// <param name="lockFactory">The lock factory to use, or null for the default</param>
     protected CmsIODirectory(string path, LockFactory? lockFactory)
     {
-        lockFactory ??= new CmsIONativeFSLockFactory();
+        lockFactory ??= StorageHelper.IsExternalStorage(path) ? NoOpLockFactory.Instance :
+            new CmsIOLockFactory(path);
 
         DirectoryPath = ResolvePath(path);
 

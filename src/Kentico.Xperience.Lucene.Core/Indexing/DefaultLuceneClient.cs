@@ -84,7 +84,6 @@ internal class DefaultLuceneClient : ILuceneClient
         this.cache = cache;
         this.log = log;
         this.indexManager = indexManager;
-        this.indexManager = indexManager;
         this.webFarmService = webFarmService;
         this.luceneSearchOptions = luceneSearchOptions.Value;
     }
@@ -118,7 +117,7 @@ internal class DefaultLuceneClient : ILuceneClient
             });
 
             var dir = CmsDirectoryInfo.New(i.StorageContext.GetPublishedIndex().Path);
-            statistics.UpdatedAt = dir.LastWriteTime;
+            statistics.UpdatedAt = GetLastWriteTime(dir);
             return statistics;
         }).ToList();
 
@@ -426,4 +425,28 @@ internal class DefaultLuceneClient : ILuceneClient
 
             return results;
         }, new CacheSettings(5, nameof(DefaultLuceneClient), nameof(GetAllLanguages)));
+
+    private static DateTime GetLastWriteTime(CmsDirectoryInfo dir)
+    {
+        try
+        {
+            var lastWriteTime = dir.LastWriteTime;
+            if (lastWriteTime != DateTime.MinValue)
+            {
+                return lastWriteTime;
+            }
+
+            var files = dir.GetFiles();
+            if (files.Length == 0)
+            {
+                return DateTime.MinValue;
+            }
+
+            return files.Max(f => f.LastWriteTime);
+        }
+        catch
+        {
+            return DateTime.MinValue;
+        }
+    }
 }

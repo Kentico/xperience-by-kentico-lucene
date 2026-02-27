@@ -29,7 +29,7 @@ internal class CmsIOIndexOutput : BufferedIndexOutput
         Name = name;
         file = CmsFileStream.New(
             CmsPath.Combine(parent.InternalDirectoryPath, name),
-            CmsFileMode.OpenOrCreate,
+            CmsFileMode.Create,
             CmsFileAccess.Write,
             CmsFileShare.ReadWrite);
         isOpen = true;
