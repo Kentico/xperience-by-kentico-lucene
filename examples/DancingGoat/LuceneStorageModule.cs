@@ -78,6 +78,7 @@ public class LuceneStorageModule : Module
     protected override void OnInit()
     {
         base.OnInit();
+        MapAzureStoragePath($"~/{LuceneStorageOptions.LUCENE_INDEX_PATH}/");
 
         if (Environment.IsQa() ||
             Environment.IsUat() ||
@@ -86,12 +87,12 @@ public class LuceneStorageModule : Module
             Environment.IsProduction())
         {
             // Map Lucene indexes to Azure Blob Storage in cloud environments
-            MapAzureStoragePath($"~/{LuceneStorageOptions.LUCENE_INDEX_PATH}/");
+
         }
         else
         {
             // Map Lucene indexes to local filesystem in development
-            MapLocalStoragePath($"~/{LuceneStorageOptions.LUCENE_INDEX_PATH}/");
+            //MapLocalStoragePath($"~/{LuceneStorageOptions.LUCENE_INDEX_PATH}/");
         }
     }
 
@@ -116,7 +117,7 @@ public class LuceneStorageModule : Module
     /// <summary>
     /// Maps a virtual path to local filesystem storage.
     /// </summary>
-    /// <param name="path">The path to map (e.g., "lucene/indexes").</param>
+    /// <param name="path">The path to map (e.g., "indexes").</param>
     private static void MapLocalStoragePath(string path)
     {
         // Creates a new StorageProvider instance for local storage

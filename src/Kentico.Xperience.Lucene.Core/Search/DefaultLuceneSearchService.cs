@@ -40,7 +40,7 @@ internal class DefaultLuceneSearchService : ILuceneSearchService
             }, storage);
         }
 
-        using LuceneDirectory indexDir = new CmsIODirectory(storage.Path);
+        using LuceneDirectory indexDir = CmsIODirectory.Open(storage.Path);
         using var reader = DirectoryReader.Open(indexDir);
         var searcher = new IndexSearcher(reader);
         return useIndexSearcher(searcher);
@@ -62,11 +62,11 @@ internal class DefaultLuceneSearchService : ILuceneSearchService
             }, storage);
         }
 
-        using LuceneDirectory indexDir = new CmsIODirectory(storage.Path);
+        using LuceneDirectory indexDir = CmsIODirectory.Open(storage.Path);
         using var reader = DirectoryReader.Open(indexDir);
         var searcher = new IndexSearcher(reader);
 
-        using var taxonomyDir = new CmsIODirectory(storage.TaxonomyPath);
+        using var taxonomyDir = CmsIODirectory.Open(storage.TaxonomyPath);
 
         using var taxonomyReader = new DirectoryTaxonomyReader(taxonomyDir);
         var facetsCollector = new FacetsCollector();
@@ -99,11 +99,11 @@ internal class DefaultLuceneSearchService : ILuceneSearchService
             }, storage);
         }
 
-        using LuceneDirectory indexDir = new CmsIODirectory(storage.Path);
+        using LuceneDirectory indexDir = CmsIODirectory.Open(storage.Path);
         using var reader = DirectoryReader.Open(indexDir);
         var searcher = new IndexSearcher(reader);
 
-        using var taxonomyDir = new CmsIODirectory(storage.TaxonomyPath);
+        using var taxonomyDir = CmsIODirectory.Open(storage.TaxonomyPath);
         using var taxonomyReader = new DirectoryTaxonomyReader(taxonomyDir);
 
         var strategy = serviceProvider.GetRequiredStrategy(index);

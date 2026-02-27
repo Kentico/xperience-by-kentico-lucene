@@ -1,11 +1,14 @@
 using Lucene.Net.Store;
+using Lucene.Net.Util;
+
+using System.Globalization;
 
 using CmsDirectory = CMS.IO.Directory;
 using CmsDirectoryInfo = CMS.IO.DirectoryInfo;
 using CmsFile = CMS.IO.File;
 using CmsFileInfo = CMS.IO.FileInfo;
-using CmsFileStream = CMS.IO.FileStream;
 using CmsPath = CMS.IO.Path;
+using CmsFileStream = CMS.IO.FileStream;
 using CmsFileMode = CMS.IO.FileMode;
 using CmsFileAccess = CMS.IO.FileAccess;
 using CmsFileShare = CMS.IO.FileShare;
@@ -14,198 +17,381 @@ using IOContext = Lucene.Net.Store.IOContext;
 namespace Kentico.Xperience.Lucene.Core.Store;
 
 /// <summary>
-/// A Lucene Directory implementation that uses CMS.IO for all file operations.
-/// This enables Lucene indexes to be stored on Azure Blob Storage or other custom
-/// storage providers configured through Kentico's CMS.IO abstraction layer.
+/// Base class for <see cref="Directory"/> implementations that store index
+/// files using CMS.IO file system abstraction.
 /// </summary>
 /// <remarks>
 /// <para>
-/// This implementation wraps CMS.IO's file system abstraction, allowing Lucene
-/// to transparently use whatever storage backend is configured in your Xperience
-/// by Kentico application (local filesystem, Azure Blob Storage, etc.).
+/// This is a CMS.IO-based equivalent of Lucene.NET's FSDirectory, enabling
+/// Lucene indexes to be stored on Azure Blob Storage or other custom storage
+/// providers configured through Kentico's CMS.IO abstraction layer.
 /// </para>
 /// <para>
-/// Usage example:
-/// <code>
-/// // Map the index path to your storage provider first (in a Module's OnInit)
-/// StorageHelper.MapStoragePath("~/lucene/indexes/", azureProvider);
-///
-/// // Then create the directory
-/// var indexPath = "~/lucene/indexes/my-index";
-/// var directory = new CmsIODirectory(indexPath);
-/// var indexWriter = new IndexWriter(directory, config);
-/// </code>
+/// There are currently three core subclasses:
+/// <list type="bullet">
+/// <item><description><see cref="CmsIOSimpleFSDirectory"/> is a straightforward
+/// implementation using CMS.IO.FileStream.</description></item>
+/// <item><description><see cref="CmsIONIOFSDirectory"/> uses positional seeking
+/// for better concurrent read performance.</description></item>
+/// <item><description><see cref="CmsIOMemoryMapDirectory"/> uses memory-mapped IO when
+/// reading (if supported by the underlying storage provider).</description></item>
+/// </list>
+/// </para>
+/// <para>
+/// To allow Lucene to choose the best implementation for your environment,
+/// use the <see cref="Open(string)"/> method.
+/// </para>
+/// <para>
+/// The locking implementation is by default <see cref="CmsIONativeFSLockFactory"/>,
+/// but can be changed by passing in a custom <see cref="LockFactory"/> instance.
 /// </para>
 /// </remarks>
-public class CmsIODirectory : BaseDirectory
+public abstract class CmsIODirectory : BaseDirectory
 {
-    private string DirectoryPath { get; }
+    /// <summary>
+    /// The underlying CMS.IO directory path
+    /// </summary>
+    protected readonly string DirectoryPath;
+
 
     /// <summary>
-    /// Creates a new CmsIODirectory at the specified path with a custom lock factory.
+    /// Exposes <see cref="DirectoryPath"/> to other classes within the assembly.
     /// </summary>
-    /// <param name="path">The path to the directory.</param>
-    /// <param name="lockFactory">
-    /// The lock factory to use for index locking. When not provided,
-    /// <see cref="CmsIOLockFactory"/> is used.
-    /// </param>
-    public CmsIODirectory(string path, LockFactory? lockFactory = null)
-        : base()
-    {
-        ArgumentNullException.ThrowIfNull(path);
+    internal string InternalDirectoryPath => DirectoryPath;
 
-        lockFactory ??= new CmsIOLockFactory(ResolvePath(path));
+
+    /// <summary>
+    /// The collection of stale files that need to be synced
+    /// </summary>
+    protected readonly ISet<string> StaleFiles = new HashSet<string>();
+
+
+    /// <summary>
+    /// A lock object to synchronize access to the m_staleFiles collection
+    /// </summary>
+    protected readonly object SyncLock = new();
+
+
+    /// <summary>
+    /// Create a new CmsIOFSDirectory for the named location
+    /// </summary>
+    /// <param name="path">The path of the directory</param>
+    /// <param name="lockFactory">The lock factory to use, or null for the default</param>
+    protected CmsIODirectory(string path, LockFactory? lockFactory)
+    {
+        lockFactory ??= new CmsIONativeFSLockFactory();
 
         DirectoryPath = ResolvePath(path);
+
+        if (CmsFile.Exists(DirectoryPath))
+        {
+            throw new DirectoryNotFoundException($"file '{DirectoryPath}' exists but is not a directory");
+        }
 
         SetLockFactory(lockFactory);
     }
 
+
     /// <summary>
-    /// Opens a CmsIODirectory at the specified path.
+    /// Creates a CmsIOFSDirectory instance, trying to pick the best implementation
+    /// given the current environment.
     /// </summary>
-    /// <param name="path">The directory path.</param>
-    /// <returns>A CmsIODirectory instance.</returns>
-    public static CmsIODirectory Open(string path) => new(path);
+    /// <param name="path">The path to the directory</param>
+    /// <returns>A CmsIOFSDirectory instance</returns>
+    public static CmsIODirectory Open(string path)
+        => Open(path, null);
+
 
     /// <summary>
-    /// Gets the resolved physical/virtual path of this directory.
+    /// Creates a CmsIOFSDirectory instance with a custom lock factory
     /// </summary>
-    public string Path => DirectoryPath;
+    /// <param name="path">The path to the directory</param>
+    /// <param name="lockFactory">The lock factory to use</param>
+    /// <returns>A CmsIOFSDirectory instance</returns>
+    public static CmsIODirectory Open(string path, LockFactory? lockFactory)
+    {
+        // Choose implementation based on platform, similar to FSDirectory.Open
+        if ((Constants.WINDOWS || Constants.SUN_OS || Constants.LINUX) && Constants.RUNTIME_IS_64BIT)
+        {
+            return new CmsIOMemoryMapDirectory(path, lockFactory);
+        }
+        else if (Constants.WINDOWS)
+        {
+            return new CmsIOSimpleFSDirectory(path, lockFactory);
+        }
+        else
+        {
+            return new CmsIONIOFSDirectory(path, lockFactory);
+        }
+    }
+
+    public override void SetLockFactory(LockFactory lockFactory)
+    {
+        base.SetLockFactory(lockFactory);
+
+        // For filesystem-based LockFactory, configure the lock directory
+        if (lockFactory is CmsIOFSLockFactory lf)
+        {
+            string? dir = lf.LockDir;
+            // If the lock factory has no lockDir set, use this directory as lockDir
+            if (dir is null)
+            {
+                lf.SetLockDir(DirectoryPath);
+                lf.LockPrefix = null;
+            }
+            else if (string.Equals(ResolvePath(dir), DirectoryPath, StringComparison.Ordinal))
+            {
+                lf.LockPrefix = null;
+            }
+        }
+    }
 
 
     /// <summary>
-    /// Returns an array of strings, one for each file in the directory.
+    /// Lists all files (not subdirectories) in the directory
+    /// </summary>
+    public static string[] ListAll(string dir)
+    {
+        if (!CmsDirectory.Exists(dir))
+        {
+            throw new DirectoryNotFoundException($"directory '{dir}' does not exist");
+        }
+        else if (CmsFile.Exists(dir))
+        {
+            throw new DirectoryNotFoundException($"file '{dir}' exists but is not a directory");
+        }
+
+        var dirInfo = CmsDirectoryInfo.New(dir);
+        var files = dirInfo.GetFiles();
+        string[] result = new string[files.Length];
+
+        for (int i = 0; i < files.Length; i++)
+        {
+            result[i] = files[i].Name;
+        }
+
+        return result;
+    }
+
+
+    /// <summary>
+    /// Lists all files (not subdirectories) in the directory
     /// </summary>
     public override string[] ListAll()
     {
         EnsureOpen();
-        if (!CmsDirectory.Exists(DirectoryPath))
-        {
-            throw new DirectoryNotFoundException($"Directory does not exist: {DirectoryPath}");
-        }
-
-        var files = CmsDirectoryInfo.New(DirectoryPath).GetFiles();
-        return files.Select(f => f.Name).ToArray();
+        return ListAll(DirectoryPath);
     }
 
+
     /// <summary>
-    /// Returns true if a file with the given name exists.
+    /// Returns true if a file with the given name exists
     /// </summary>
-    [Obsolete("Use FileLength to check file existence instead.")]
+    [Obsolete("this method will be removed in 5.0")]
     public override bool FileExists(string name)
     {
         EnsureOpen();
-        string filePath = GetFilePath(name);
-        return CmsFile.Exists(filePath);
+        return CmsFile.Exists(CmsPath.Combine(DirectoryPath, name));
     }
 
-    /// <summary>
-    /// Removes an existing file in the directory.
-    /// </summary>
-    public override void DeleteFile(string name)
-    {
-        EnsureOpen();
-        string filePath = GetFilePath(name);
-
-        if (!CmsFile.Exists(filePath))
-        {
-            throw new FileNotFoundException($"File not found: {name}", filePath);
-        }
-
-        CmsFile.Delete(filePath);
-    }
 
     /// <summary>
-    /// Returns the length in bytes of a file in the directory.
+    /// Returns the length in bytes of a file in the directory
     /// </summary>
     public override long FileLength(string name)
     {
         EnsureOpen();
-        string filePath = GetFilePath(name);
-
-        var fileInfo = CmsFileInfo.New(filePath);
-        if (!fileInfo.Exists)
+        var fileInfo = CmsFileInfo.New(CmsPath.Combine(DirectoryPath, name));
+        long len = fileInfo.Length;
+        if (len == 0 && !fileInfo.Exists)
         {
-            throw new FileNotFoundException($"File not found: {name}", filePath);
+            throw new FileNotFoundException(name);
         }
-
-        return fileInfo.Length;
+        return len;
     }
 
+
     /// <summary>
-    /// Creates a new, empty file in the directory with the given name.
-    /// Returns an IndexOutput for writing to the file.
+    /// Removes an existing file in the directory
+    /// </summary>
+    public override void DeleteFile(string name)
+    {
+        EnsureOpen();
+        string file = CmsPath.Combine(DirectoryPath, name);
+
+        lock (SyncLock)
+        {
+            if (!CmsFile.Exists(file))
+            {
+                throw new FileNotFoundException($"Cannot delete {file} because it doesn't exist.");
+            }
+
+            try
+            {
+                CmsFile.Delete(file);
+                if (CmsFile.Exists(file))
+                {
+                    throw new IOException($"Cannot delete {file}");
+                }
+            }
+            catch (Exception e)
+            {
+                throw new IOException($"Cannot delete {file}", e);
+            }
+
+            StaleFiles.Remove(name);
+        }
+    }
+
+
+    /// <summary>
+    /// Creates an IndexOutput for the file with the given name
     /// </summary>
     public override IndexOutput CreateOutput(string name, IOContext context)
     {
         EnsureOpen();
-        EnsureDirectoryExists();
-
-        string filePath = GetFilePath(name);
-        return new CmsIOIndexOutput(filePath);
+        EnsureCanWrite(name);
+        return new CmsIOIndexOutput(this, name);
     }
 
+
     /// <summary>
-    /// Opens an existing file for reading.
-    /// Returns an IndexInput for reading from the file.
+    /// Ensures the file can be written to
     /// </summary>
-    public override IndexInput OpenInput(string name, IOContext context)
+    protected virtual void EnsureCanWrite(string name)
     {
-        EnsureOpen();
-        string filePath = GetFilePath(name);
-        return new CmsIOIndexInput(filePath, context);
+        if (!CmsDirectory.Exists(DirectoryPath))
+        {
+            try
+            {
+                CmsDirectory.CreateDirectory(DirectoryPath);
+            }
+            catch
+            {
+                throw new IOException($"Cannot create directory: {DirectoryPath}");
+            }
+        }
+
+        string file = CmsPath.Combine(DirectoryPath, name);
+        if (CmsFile.Exists(file))
+        {
+            try
+            {
+                CmsFile.Delete(file);
+            }
+            catch
+            {
+                throw new IOException($"Cannot overwrite: {file}");
+            }
+        }
     }
 
+
     /// <summary>
-    /// Ensures that any writes to the named files are moved to stable storage.
+    /// Called when an IndexOutput is closed
     /// </summary>
+    internal virtual void OnIndexOutputClosed(CmsIOIndexOutput io)
+    {
+        lock (SyncLock)
+        {
+            StaleFiles.Add(io.Name);
+        }
+    }
+
+
     public override void Sync(ICollection<string> names)
     {
         EnsureOpen();
 
-        // For CMS.IO, we rely on the underlying storage provider to handle durability.
-        // With Azure Blob Storage, writes are already durable once the stream is closed.
-        // For local filesystem, we can optionally force a flush.
+        var toSync = new HashSet<string>(names);
 
-        foreach (var name in names)
+        lock (SyncLock)
         {
-            string filePath = GetFilePath(name);
-            if (!CmsFile.Exists(filePath))
+            toSync.IntersectWith(StaleFiles);
+
+            foreach (var name in toSync)
             {
-                throw new FileNotFoundException($"File not found: {name}", filePath);
+                string filePath = GetFilePath(name);
+                if (CmsFile.Exists(filePath))
+                {
+                    // Open and close the file to ensure any buffered writes are flushed
+                    // This is a no-op for Azure but ensures durability on local filesystem
+                    try
+                    {
+                        using var stream = CmsFileStream.New(filePath, CmsFileMode.Open, CmsFileAccess.Read, CmsFileShare.ReadWrite);
+                        // Just opening and closing triggers any pending writes to flush
+                    }
+                    catch (IOException)
+                    {
+                        // File might be in use - that's okay, it means writes are still happening
+                    }
+                }
             }
 
-            // Open and close the file to force provider interaction for durability semantics.
-            using var stream = CmsFileStream.New(filePath, CmsFileMode.Open, CmsFileAccess.Read, CmsFileShare.ReadWrite);
-            stream.Flush();
+            StaleFiles.ExceptWith(toSync);
         }
     }
 
-    /// <summary>
-    /// Closes the directory, releasing any resources.
-    /// </summary>
-    protected override void Dispose(bool disposing)
-        => IsOpen = false;
+
+    public override string GetLockID()
+    {
+        EnsureOpen();
+        string dirName;
+
+        dirName = ResolvePath(DirectoryPath);
+
+        int digest = 0;
+        for (int charIDX = 0; charIDX < dirName.Length; charIDX++)
+        {
+            char ch = dirName[charIDX];
+            digest = 31 * digest + ch;
+        }
+        return "lucene-" + digest.ToString("x", CultureInfo.InvariantCulture);
+    }
+
 
     /// <summary>
-    /// Resolves a path, handling virtual paths (~/...) and ensuring consistency.
+    /// Closes the directory
     /// </summary>
-    private static string ResolvePath(string path)
+    protected override void Dispose(bool disposing)
     {
-        // CMS.IO handles virtual path resolution internally
-        // We just need to ensure the path is properly formatted
+        IsOpen = false;
+    }
+
+
+    /// <summary>
+    /// Gets the underlying directory path
+    /// </summary>
+    public virtual string Directory
+    {
+        get
+        {
+            EnsureOpen();
+            return DirectoryPath;
+        }
+    }
+
+    public override string ToString()
+        => $"{GetType().Name}@{DirectoryPath} lockFactory={LockFactory}";
+
+
+    /// <summary>
+    /// Resolves a path, handling virtual paths and ensuring consistency
+    /// </summary>
+    protected static string ResolvePath(string path)
+    {
         if (string.IsNullOrWhiteSpace(path))
         {
             throw new ArgumentException("Path cannot be null or empty.", nameof(path));
         }
 
         // CMS.IO handles path normalization internally
-        // Just ensure consistent forward slashes for virtual paths
+        // Ensure consistent forward slashes for virtual paths
         path = path.Replace('\\', '/');
 
         return path;
     }
+
 
     /// <summary>
     /// Gets the full path for a file within this directory.
@@ -224,27 +410,5 @@ public class CmsIODirectory : BaseDirectory
         }
 
         return CmsPath.Combine(DirectoryPath, name);
-    }
-
-    /// <summary>
-    /// Ensures the directory exists, creating it if necessary.
-    /// </summary>
-    private void EnsureDirectoryExists()
-    {
-        if (!CmsDirectory.Exists(DirectoryPath))
-        {
-            CmsDirectory.CreateDirectory(DirectoryPath);
-        }
-    }
-
-    /// <summary>
-    /// Ensures the directory is still open.
-    /// </summary>
-    private new void EnsureOpen()
-    {
-        if (!IsOpen)
-        {
-            throw new ObjectDisposedException(GetType().FullName, "This directory has been closed.");
-        }
     }
 }

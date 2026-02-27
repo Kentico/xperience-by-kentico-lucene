@@ -74,7 +74,7 @@ internal class GenerationStorageStrategy : ILuceneIndexStorageStrategy
             yield break;
         }
 
-        var grouped = CmsDirectory.GetDirectories(indexStoragePath)
+        var grouped = CmsDirectory.EnumerateDirectories(indexStoragePath)
             .Select(ParseIndexStorageModel)
             .Where(x => x.Success)
             .GroupBy(x => x.Result?.Generation ?? -1);
@@ -84,10 +84,12 @@ internal class GenerationStorageStrategy : ILuceneIndexStorageStrategy
             var indexDir = result.FirstOrDefault(x => string.IsNullOrWhiteSpace(x.Result?.TaxonomyName));
             var taxonomyDir = result.FirstOrDefault(x => !string.IsNullOrWhiteSpace(x.Result?.TaxonomyName));
 
-            if (indexDir is { Success: true, Result: var (indexPath, generation, published, _) })
+            if (indexDir is { Success: true, Result: var (_, generation, published, _) })
             {
-                string taxonomyPath = taxonomyDir?.Result?.Path ?? FormatTaxonomyPath(indexStoragePath, generation, false);
-                yield return new IndexStorageModel(indexPath, taxonomyPath, generation, published);
+                string taxonomyPath = string.IsNullOrEmpty(taxonomyDir?.Result?.Path) ? FormatTaxonomyPath(indexStoragePath, generation, false)
+                    : FormatTaxonomyPath(indexStoragePath, generation, published);
+                string relativePath = FormatPath(indexStoragePath, generation, published);
+                yield return new IndexStorageModel(relativePath, taxonomyPath, generation, published);
             }
         }
     }
@@ -171,7 +173,7 @@ internal class GenerationStorageStrategy : ILuceneIndexStorageStrategy
             try
             {
                 Trace.WriteLine($"D={CmsPath.GetFileName(indexStoragePath)}: delete *.*", $"GenerationStorageStrategy.DeleteIndex");
-                CmsDirectory.DeleteDirectoryStructure(indexStoragePath);
+                CmsDirectory.Delete(indexStoragePath, true);
                 return true;
             }
             catch
@@ -186,7 +188,7 @@ internal class GenerationStorageStrategy : ILuceneIndexStorageStrategy
         try
         {
             Trace.WriteLine($"D={CmsPath.GetFileName(indexStoragePath)}: delete *.*", $"GenerationStorageStrategy.DeleteIndex");
-            CmsDirectory.DeleteDirectoryStructure(indexStoragePath);
+            CmsDirectory.Delete(indexStoragePath, true);
         }
         catch (Exception ex)
         {

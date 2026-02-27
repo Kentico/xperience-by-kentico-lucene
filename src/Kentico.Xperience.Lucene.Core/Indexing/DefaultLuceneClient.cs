@@ -3,6 +3,7 @@ using CMS.Core;
 using CMS.DataEngine;
 using CMS.Helpers;
 using CMS.Helpers.Caching.Abstractions;
+using CMS.IO;
 using CMS.Websites;
 
 using Kentico.Xperience.Lucene.Core.Scaling;
@@ -14,6 +15,8 @@ using Lucene.Net.Search;
 
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
+
+using CmsDirectoryInfo = CMS.IO.DirectoryInfo;
 
 namespace Kentico.Xperience.Lucene.Core.Indexing;
 
@@ -114,7 +117,7 @@ internal class DefaultLuceneClient : ILuceneClient
                 Entries = s.IndexReader.NumDocs
             });
 
-            var dir = new DirectoryInfo(i.StorageContext.GetPublishedIndex().Path);
+            var dir = CmsDirectoryInfo.New(i.StorageContext.GetPublishedIndex().Path);
             statistics.UpdatedAt = dir.LastWriteTime;
             return statistics;
         }).ToList();
@@ -153,11 +156,14 @@ internal class DefaultLuceneClient : ILuceneClient
 
     public async Task<bool> DeleteIndex(LuceneIndex luceneIndex)
     {
-        webFarmService.CreateTask(new DeleteIndexWebFarmTask
+        if (!StorageHelper.IsExternalStorage(luceneIndex.StorageContext.GetPublishedIndex().Path))
         {
-            IndexName = luceneIndex.IndexName,
-            CreatorName = webFarmService.ServerName
-        });
+            webFarmService.CreateTask(new DeleteIndexWebFarmTask
+            {
+                IndexName = luceneIndex.IndexName,
+                CreatorName = webFarmService.ServerName
+            });
+        }
 
         return await luceneIndex.StorageContext.DeleteIndex();
     }
@@ -187,11 +193,14 @@ internal class DefaultLuceneClient : ILuceneClient
         // Clear statistics cache so listing displays updated data after rebuild
         cacheAccessor.Remove(CACHEKEY_STATISTICS);
 
-        webFarmService.CreateTask(new ResetIndexWebFarmTask
+        if (!StorageHelper.IsExternalStorage(luceneIndex.StorageContext.GetPublishedIndex().Path))
         {
-            IndexName = luceneIndex.IndexName,
-            CreatorName = webFarmService.ServerName
-        });
+            webFarmService.CreateTask(new ResetIndexWebFarmTask
+            {
+                IndexName = luceneIndex.IndexName,
+                CreatorName = webFarmService.ServerName
+            });
+        }
 
         luceneIndexService.ResetIndex(luceneIndex);
 
