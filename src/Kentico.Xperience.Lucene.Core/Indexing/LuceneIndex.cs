@@ -88,8 +88,18 @@ public sealed class LuceneIndex
             Constructor = x,
             Parameters = x.GetParameters()
         });
-        var constructor = constructorParameters.First(x => x.Parameters.Length == 1 && x.Parameters.Single().ParameterType == typeof(LuceneVersion)).Constructor;
-        LuceneAnalyzer = (Analyzer)constructor.Invoke([matchVersion]);
+
+        var versionedConstructor = constructorParameters.FirstOrDefault(x => x.Parameters.Length == 1 && x.Parameters.Single().ParameterType == typeof(LuceneVersion));
+        if (versionedConstructor is not null)
+        {
+            LuceneAnalyzer = (Analyzer)versionedConstructor.Constructor.Invoke([matchVersion]);
+        }
+        else
+        {
+            var parameterlessConstructor = constructorParameters.FirstOrDefault(x => x.Parameters.Length == 0)
+                ?? throw new InvalidOperationException($"Analyzer type '{analyzerType.FullName}' must have either a constructor accepting a '{nameof(LuceneVersion)}' parameter or a parameterless constructor.");
+            LuceneAnalyzer = (Analyzer)parameterlessConstructor.Constructor.Invoke([]);
+        }
 
         LuceneIndexingStrategyType = strategy;
 
