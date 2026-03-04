@@ -1,5 +1,5 @@
 using Kentico.Xperience.Lucene.Core.Indexing;
-using Kentico.Xperience.Lucene.Core.POC;
+using Kentico.Xperience.Lucene.Core.Store;
 
 using Lucene.Net.Facet;
 using Lucene.Net.Facet.Taxonomy;

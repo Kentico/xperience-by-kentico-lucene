@@ -1,7 +1,5 @@
 using Lucene.Net.Store;
-using Lucene.Net.Util;
 
-using CmsPath = CMS.IO.Path;
 using CmsFileStream = CMS.IO.FileStream;
 using CmsFileMode = CMS.IO.FileMode;
 using CmsFileAccess = CMS.IO.FileAccess;
@@ -10,98 +8,155 @@ using CmsFileShare = CMS.IO.FileShare;
 namespace Kentico.Xperience.Lucene.Core.Store;
 
 /// <summary>
-/// FSIndexOutput implementation using CMS.IO
+/// A Lucene IndexOutput implementation that writes to CMS.IO FileStream.
+/// This allows Lucene to write index files through the CMS.IO abstraction layer,
+/// enabling storage on Azure Blob Storage or other custom storage providers.
 /// </summary>
 internal class CmsIOIndexOutput : BufferedIndexOutput
 {
-    private const int CHUNK_SIZE = DEFAULT_BUFFER_SIZE;
-
-    private readonly CmsIODirectory parent;
-    internal readonly string Name;
-    private readonly CmsFileStream file;
-    private volatile bool isOpen;
+    private readonly CmsFileStream stream;
     private readonly Crc32 crc = new();
+    private long bytesWritten;
 
-    public CmsIOIndexOutput(CmsIODirectory parent, string name)
-        : base(CHUNK_SIZE)
+
+    /// <summary>
+    /// Creates a new CmsIOIndexOutput for writing to the specified file.
+    /// </summary>
+    /// <param name="path">The full path to the file to write.</param>
+    public CmsIOIndexOutput(string path)
+        : base()
     {
-        this.parent = parent;
-        Name = name;
-        file = CmsFileStream.New(
-            CmsPath.Combine(parent.InternalDirectoryPath, name),
-            CmsFileMode.Create,
-            CmsFileAccess.Write,
-            CmsFileShare.ReadWrite);
-        isOpen = true;
+        stream = CmsFileStream.New(path, CmsFileMode.Create, CmsFileAccess.Write, CmsFileShare.None);
+        bytesWritten = 0;
     }
 
-    public override void WriteByte(byte b)
+
+    /// <summary>
+    /// Creates a new CmsIOIndexOutput with a specified buffer size.
+    /// </summary>
+    /// <param name="path">The full path to the file to write.</param>
+    /// <param name="bufferSize">The buffer size to use.</param>
+    public CmsIOIndexOutput(string path, int bufferSize)
+        : base(bufferSize)
     {
-        if (!isOpen)
+        stream = CmsFileStream.New(path, CmsFileMode.Create, CmsFileAccess.Write, CmsFileShare.None);
+        bytesWritten = 0;
+    }
+
+
+    /// <summary>
+    /// Gets the current length of data written.
+    /// </summary>
+    public override long Length => bytesWritten;
+
+
+    /// <summary>
+    /// Gets the checksum of all data written so far.
+    /// </summary>
+    public override long Checksum
+    {
+        get
         {
-            throw new ObjectDisposedException(GetType().FullName, "This CmsIOFSIndexOutput is disposed.");
+            Flush();
+            return crc.Value;
         }
-
-        crc.Update([b], 0, 1);
-        file.WriteByte(b);
     }
 
-    public override void WriteBytes(byte[] b, int offset, int length)
+
+    /// <summary>
+    /// Writes bytes from the buffer to the underlying stream.
+    /// This is the core write method called by BufferedIndexOutput.
+    /// </summary>
+    protected override void FlushBuffer(byte[] b, int offset, int len)
     {
-        if (!isOpen)
+        if (len > 0)
         {
-            throw new ObjectDisposedException(GetType().FullName, "This CmsIOFSIndexOutput is disposed.");
+            stream.Write(b, offset, len);
+            crc.Update(b, offset, len);
+            bytesWritten += len;
         }
-
-        crc.Update(b, offset, length);
-        file.Write(b, offset, length);
     }
 
-    protected override void FlushBuffer(byte[] b, int offset, int size)
-    {
-        if (!isOpen)
-        {
-            throw new ObjectDisposedException(GetType().FullName, "This CmsIOFSIndexOutput is disposed.");
-        }
 
-        crc.Update(b, offset, size);
-        file.Write(b, offset, size);
-    }
-
+    /// <summary>
+    /// Flushes all buffered data to the underlying stream and then to storage.
+    /// </summary>
     public override void Flush()
     {
-        if (!isOpen)
-        {
-            throw new ObjectDisposedException(GetType().FullName, "This CmsIOFSIndexOutput is disposed.");
-        }
-
-        file.Flush();
+        base.Flush();
+        stream.Flush();
     }
 
+
+    /// <summary>
+    /// Disposes of the underlying stream resources.
+    /// </summary>
     protected override void Dispose(bool disposing)
     {
         if (disposing)
         {
-            parent.OnIndexOutputClosed(this);
-            if (isOpen)
+            // Ensure all data is flushed before closing
+            try
             {
-                Exception? priorE = null;
-                try
-                {
-                    file.Flush();
-                }
-                finally
-                {
-                    isOpen = false;
-                    IOUtils.DisposeWhileHandlingException(priorE, file);
-                }
+                Flush();
+            }
+            finally
+            {
+                stream?.Dispose();
             }
         }
     }
+}
 
-    public override long Length => file.Length;
 
-    public override long Checksum => crc.Value;
+/// <summary>
+/// Simple CRC32 implementation for checksum calculation.
+/// </summary>
+internal class Crc32
+{
+    private static readonly uint[] table = CreateTable();
+    private uint crc = 0xFFFFFFFF;
 
-    public override long Position => file.Position;
+    public long Value => crc ^ 0xFFFFFFFF;
+
+
+    public void Update(byte[] buffer, int offset, int length)
+    {
+        for (int i = offset; i < offset + length; i++)
+        {
+            crc = (crc >> 8) ^ table[(crc ^ buffer[i]) & 0xFF];
+        }
+    }
+
+
+    public void Reset()
+    {
+        crc = 0xFFFFFFFF;
+    }
+
+
+    private static uint[] CreateTable()
+    {
+        var newTable = new uint[256];
+        const uint polynomial = 0xEDB88320;
+
+        for (uint i = 0; i < 256; i++)
+        {
+            uint entry = i;
+            for (int j = 0; j < 8; j++)
+            {
+                if ((entry & 1) == 1)
+                {
+                    entry = (entry >> 1) ^ polynomial;
+                }
+                else
+                {
+                    entry >>= 1;
+                }
+            }
+            newTable[i] = entry;
+        }
+
+        return newTable;
+    }
 }

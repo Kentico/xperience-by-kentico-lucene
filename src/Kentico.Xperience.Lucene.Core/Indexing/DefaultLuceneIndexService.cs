@@ -1,4 +1,4 @@
-﻿using Kentico.Xperience.Lucene.Core.POC;
+﻿using Kentico.Xperience.Lucene.Core.Store;
 
 using Lucene.Net.Facet.Taxonomy;
 using Lucene.Net.Facet.Taxonomy.Directory;

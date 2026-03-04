@@ -1,4 +1,4 @@
-﻿using Lucene.Net.Store;
+using Lucene.Net.Store;
 
 using IOContext = Lucene.Net.Store.IOContext;
 using CmsFileStream = CMS.IO.FileStream;
@@ -13,13 +13,17 @@ namespace Kentico.Xperience.Lucene.Core.Store;
 /// This allows Lucene to read index files through the CMS.IO abstraction layer,
 /// enabling storage on Azure Blob Storage or other custom storage providers.
 /// </summary>
-public class CmsIOIndexInput : BufferedIndexInput
+internal class CmsIOIndexInput : BufferedIndexInput
 {
+    private const string RESOURCE_NAME = "CmsIOIndexInput";
+
     private readonly string path;
-    private CmsFileStream? stream;
     private readonly long length;
-    private readonly bool isClone;
+
+    private CmsFileStream? stream;
     private bool isDisposed;
+    private readonly bool isClone;
+
 
     /// <summary>
     /// Creates a new CmsIOIndexInput for reading the specified file.
@@ -27,12 +31,14 @@ public class CmsIOIndexInput : BufferedIndexInput
     /// <param name="path">The full path to the file to read.</param>
     /// <param name="context">The IO context for buffer size hints.</param>
     public CmsIOIndexInput(string path, IOContext context)
-        : base($"CmsIOIndexInput(path=\"{path}\")", DetermineBufferSize(context))
+        : base($"{RESOURCE_NAME}(path=\"{path}\")", DetermineBufferSize(context))
     {
         this.path = path;
+
         stream = CmsFileStream.New(path, CmsFileMode.Open, CmsFileAccess.Read, CmsFileShare.ReadWrite);
         length = stream.Length;
     }
+
 
     /// <summary>
     /// Private constructor for cloning.
@@ -46,16 +52,18 @@ public class CmsIOIndexInput : BufferedIndexInput
         isClone = true;
     }
 
+
     /// <summary>
     /// Gets the total length of the file in bytes.
     /// </summary>
     public override long Length => length;
 
+
     /// <summary>
     /// Reads bytes from the file into the buffer at the specified position.
     /// This is the core read method called by BufferedIndexInput.
     /// </summary>
-    protected override void ReadInternal(byte[] b, int offset, int len)
+    protected override void ReadInternal(byte[] b, int offset, int length)
     {
         if (isDisposed || stream == null)
         {
@@ -71,9 +79,9 @@ public class CmsIOIndexInput : BufferedIndexInput
             }
 
             int totalRead = 0;
-            while (totalRead < len)
+            while (totalRead < length)
             {
-                int bytesRead = stream.Read(b, offset + totalRead, len - totalRead);
+                int bytesRead = stream.Read(b, offset + totalRead, length - totalRead);
                 if (bytesRead == 0)
                 {
                     throw new EndOfStreamException($"Read past EOF: {this}");
@@ -83,12 +91,15 @@ public class CmsIOIndexInput : BufferedIndexInput
         }
     }
 
+
     /// <summary>
     /// Seeks to a position in the file. BufferedIndexInput handles buffering,
     /// so this just needs to track the logical position.
     /// </summary>
     protected override void SeekInternal(long pos)
     {
+        // BufferedIndexInput handles the actual seeking through ReadInternal
+        // We just need to ensure the position is valid
         if (pos < 0 || pos > length)
         {
             throw new ArgumentOutOfRangeException(nameof(pos),
@@ -109,6 +120,7 @@ public class CmsIOIndexInput : BufferedIndexInput
             length,
             BufferSize);
     }
+
 
     /// <summary>
     /// Disposes of the underlying stream resources.
@@ -138,6 +150,7 @@ public class CmsIOIndexInput : BufferedIndexInput
         }
     }
 
+
     /// <summary>
     /// Determines the appropriate buffer size based on the IOContext.
     /// Larger buffers reduce the number of read operations, which is important
@@ -145,12 +158,12 @@ public class CmsIOIndexInput : BufferedIndexInput
     /// </summary>
     private static int DetermineBufferSize(IOContext context)
     {
-#pragma warning disable IDE0072
+#pragma warning disable IDE0072 // Missing cases are intentional here to provide specific buffer sizes for known contexts
         return context.Context switch
         {
-            IOContext.UsageContext.MERGE => 64 * 1024,
-            IOContext.UsageContext.READ => 16 * 1024,
-            _ => 8 * 1024
+            IOContext.UsageContext.MERGE => 64 * 1024,  // 64KB for merges
+            IOContext.UsageContext.READ => 16 * 1024,   // 16KB for normal reads (reduces cache validation overhead)
+            _ => 8 * 1024                                // 8KB default
         };
 #pragma warning restore IDE0072
     }
