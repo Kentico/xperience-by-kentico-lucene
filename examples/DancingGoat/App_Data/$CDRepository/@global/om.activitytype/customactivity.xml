@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<om.activitytype>
+  <ActivityTypeDescription>Custom activity.</ActivityTypeDescription>
+  <ActivityTypeDisplayName>Custom activity</ActivityTypeDisplayName>
+  <ActivityTypeEnabled>True</ActivityTypeEnabled>
+  <ActivityTypeIsCustom>True</ActivityTypeIsCustom>
+  <ActivityTypeName>customactivity</ActivityTypeName>
+</om.activitytype>

@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<kenticolucene.lucenereusablecontenttypeitem>
+  <LuceneReusableContentTypeItemContentTypeName>DancingGoat.Event</LuceneReusableContentTypeItemContentTypeName>
+  <LuceneReusableContentTypeItemGuid>f590c34c-c196-4ed4-9ddd-ce3d207afba4</LuceneReusableContentTypeItemGuid>
+  <LuceneReusableContentTypeItemIndexItemId>
+    <CodeName>ddddd</CodeName>
+    <GUID>8aa09988-da06-4237-8bdd-460b79ddad39</GUID>
+    <ObjectType>kenticolucene.luceneindexitem</ObjectType>
+  </LuceneReusableContentTypeItemIndexItemId>
+</kenticolucene.lucenereusablecontenttypeitem>

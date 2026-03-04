@@ -1,12 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using Lucene.Net.Store;
-
-using static Lucene.Net.Util.OfflineSorter;
+﻿using Lucene.Net.Store;
 
 using IOContext = Lucene.Net.Store.IOContext;
 using CmsFileStream = CMS.IO.FileStream;
@@ -26,7 +18,7 @@ public class CmsIOIndexInput : BufferedIndexInput
     private readonly string path;
     private CmsFileStream? stream;
     private readonly long length;
-    private bool isClone;
+    private readonly bool isClone;
     private bool isDisposed;
 
     /// <summary>
@@ -38,9 +30,8 @@ public class CmsIOIndexInput : BufferedIndexInput
         : base($"CmsIOIndexInput(path=\"{path}\")", DetermineBufferSize(context))
     {
         this.path = path;
-        this.stream = CmsFileStream.New(path, CmsFileMode.Open, CmsFileAccess.Read, CmsFileShare.ReadWrite);
-        this.length = stream.Length;
-        this.isClone = false;
+        stream = CmsFileStream.New(path, CmsFileMode.Open, CmsFileAccess.Read, CmsFileShare.ReadWrite);
+        length = stream.Length;
     }
 
     /// <summary>
@@ -52,7 +43,7 @@ public class CmsIOIndexInput : BufferedIndexInput
         this.path = path;
         this.stream = stream;
         this.length = length;
-        this.isClone = true;
+        isClone = true;
     }
 
     /// <summary>
@@ -73,10 +64,10 @@ public class CmsIOIndexInput : BufferedIndexInput
 
         lock (stream)
         {
-            long position = Position; // Use Position property from BufferedIndexInput
+            long position = Position;
             if (position != stream.Position)
             {
-                stream.Seek(position, System.IO.SeekOrigin.Begin);
+                stream.Seek(position, SeekOrigin.Begin);
             }
 
             int totalRead = 0;
@@ -85,7 +76,7 @@ public class CmsIOIndexInput : BufferedIndexInput
                 int bytesRead = stream.Read(b, offset + totalRead, len - totalRead);
                 if (bytesRead == 0)
                 {
-                    throw new System.IO.EndOfStreamException($"Read past EOF: {this}");
+                    throw new EndOfStreamException($"Read past EOF: {this}");
                 }
                 totalRead += bytesRead;
             }
@@ -98,8 +89,6 @@ public class CmsIOIndexInput : BufferedIndexInput
     /// </summary>
     protected override void SeekInternal(long pos)
     {
-        // BufferedIndexInput handles the actual seeking through ReadInternal
-        // We just need to ensure the position is valid
         if (pos < 0 || pos > length)
         {
             throw new ArgumentOutOfRangeException(nameof(pos),
@@ -109,24 +98,16 @@ public class CmsIOIndexInput : BufferedIndexInput
 
     /// <summary>
     /// Creates a clone of this IndexInput that can be used from another thread.
-    /// The clone operates on the same underlying file but maintains its own position.
+    /// The clone shares the same underlying stream but maintains its own position.
     /// </summary>
     public override object Clone()
     {
-        var clone = (CmsIOIndexInput)base.Clone();
-
-        // Create a new stream for the clone to allow independent positioning
-        var cloneStream = CmsFileStream.New(path, CmsFileMode.Open, CmsFileAccess.Read, CmsFileShare.ReadWrite);
-
         return new CmsIOIndexInput(
             $"CmsIOIndexInput(path=\"{path}\") [clone]",
             path,
-            cloneStream,
+            stream!,
             length,
-            BufferSize)
-        {
-            isClone = true
-        };
+            BufferSize);
     }
 
     /// <summary>
@@ -139,7 +120,7 @@ public class CmsIOIndexInput : BufferedIndexInput
             return;
         }
 
-        if (disposing)
+        if (disposing && !isClone)
         {
             try
             {
@@ -151,6 +132,10 @@ public class CmsIOIndexInput : BufferedIndexInput
                 isDisposed = true;
             }
         }
+        else
+        {
+            isDisposed = true;
+        }
     }
 
     /// <summary>
@@ -160,11 +145,13 @@ public class CmsIOIndexInput : BufferedIndexInput
     /// </summary>
     private static int DetermineBufferSize(IOContext context)
     {
+#pragma warning disable IDE0072
         return context.Context switch
         {
-            IOContext.UsageContext.MERGE => 64 * 1024,  // 64KB for merges
-            IOContext.UsageContext.READ => 16 * 1024,   // 16KB for normal reads (reduces cache validation overhead)
-            _ => 8 * 1024                                // 8KB default
+            IOContext.UsageContext.MERGE => 64 * 1024,
+            IOContext.UsageContext.READ => 16 * 1024,
+            _ => 8 * 1024
         };
+#pragma warning restore IDE0072
     }
 }

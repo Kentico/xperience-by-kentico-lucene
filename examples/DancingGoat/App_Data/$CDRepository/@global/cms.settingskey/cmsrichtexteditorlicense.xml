@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<cms.settingskey>
+  <KeyCategoryID>
+    <CodeName>CMS.Content.General</CodeName>
+    <ObjectType>cms.settingscategory</ObjectType>
+  </KeyCategoryID>
+  <KeyDescription />
+  <KeyDisplayName>{$settingkey.richtexteditorlicense$}</KeyDisplayName>
+  <KeyExplanationText />
+  <KeyGUID>fca0ad94-9233-428e-b46a-0fe64d745cdc</KeyGUID>
+  <KeyIsCustom>False</KeyIsCustom>
+  <KeyIsHidden>True</KeyIsHidden>
+  <KeyName>CMSRichTextEditorLicense</KeyName>
+  <KeyOrder>5</KeyOrder>
+  <KeyType>string</KeyType>
+  <KeyValue>
+    <![CDATA[Ja2A4wD4B1F2B1D4I4nDc2YRTYKg1Dc2a1JVVG1VJKKYLMPvA1E1H1A1B8C7B5E1F5E4==]]>
+  </KeyValue>
+</cms.settingskey>

@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<kenticolucene.luceneindexitem>
+  <LuceneIndexItemAnalyzerName>Standard</LuceneIndexItemAnalyzerName>
+  <LuceneIndexItemGuid>9d7ee081-f816-4d24-a1b9-ed78006fe2e2</LuceneIndexItemGuid>
+  <LuceneIndexItemIndexName>Advanced</LuceneIndexItemIndexName>
+  <LuceneIndexItemStrategyName>ReusableContentItemsIndexingStrategy</LuceneIndexItemStrategyName>
+</kenticolucene.luceneindexitem>

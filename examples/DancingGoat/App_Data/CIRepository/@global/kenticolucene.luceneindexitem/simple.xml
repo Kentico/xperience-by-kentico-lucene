@@ -1,7 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<kenticolucene.luceneindexitem>
-  <LuceneIndexItemAnalyzerName>Standard</LuceneIndexItemAnalyzerName>
-  <LuceneIndexItemGuid>42d69c41-d4f2-480c-b218-6aebbd4edf01</LuceneIndexItemGuid>
-  <LuceneIndexItemIndexName>Simple</LuceneIndexItemIndexName>
-  <LuceneIndexItemStrategyName>DancingGoatMinimalExampleStrategy</LuceneIndexItemStrategyName>
-</kenticolucene.luceneindexitem>

@@ -95,7 +95,7 @@ public sealed class LuceneIndex
 
         LuceneIndexingStrategyType = strategy;
 
-        string indexStoragePath = CMS.IO.Path.Combine(LuceneStorageOptions.LUCENE_INDEX_PATH, indexConfiguration.IndexName);
+        string indexStoragePath = CMS.IO.Path.Combine(LuceneStorageConstants.LUCENE_INDEX_PATH, indexConfiguration.IndexName);
         StorageContext = new IndexStorageContext(new GenerationStorageStrategy(), indexStoragePath, new IndexRetentionPolicy(0));
     }
 }

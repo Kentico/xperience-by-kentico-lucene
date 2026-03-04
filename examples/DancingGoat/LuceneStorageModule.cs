@@ -16,32 +16,12 @@ using Kentico.Xperience.Lucene.Core.Store;
 namespace DancingGoat.Lucene;
 
 /// <summary>
-/// Module responsible for configuring Lucene index storage using CMS.IO.
+/// Module responsible for configuring Lucene index storage.
 /// This allows Lucene indexes to be stored on Azure Blob Storage in cloud environments
 /// and on the local filesystem during development.
 /// </summary>
-/// <remarks>
-/// <para>
-/// This module maps the path "lucene/indexes" to the appropriate storage
-/// provider based on the current environment:
-/// </para>
-/// <list type="bullet">
-/// <item>
-/// <description>Production/Staging/QA: Azure Blob Storage</description>
-/// </item>
-/// <item>
-/// <description>Development: Local filesystem ($StorageLucene/test-index, etc.)</description>
-/// </item>
-/// </list>
-/// </remarks>
 public class LuceneStorageModule : Module
 {
-    /// <summary>
-    /// Local directory used for development storage of Lucene indexes.
-    /// </summary>
-    private const string LOCAL_STORAGE_LUCENE_DIRECTORY_NAME = "$StorageLucene";
-
-
     /// <summary>
     /// Container name within Azure Blob Storage for Lucene indexes.
     /// </summary>
@@ -78,7 +58,6 @@ public class LuceneStorageModule : Module
     protected override void OnInit()
     {
         base.OnInit();
-        MapAzureStoragePath($"~/{LuceneStorageOptions.LUCENE_INDEX_PATH}/");
 
         if (Environment.IsQa() ||
             Environment.IsUat() ||
@@ -87,12 +66,7 @@ public class LuceneStorageModule : Module
             Environment.IsProduction())
         {
             // Map Lucene indexes to Azure Blob Storage in cloud environments
-
-        }
-        else
-        {
-            // Map Lucene indexes to local filesystem in development
-            //MapLocalStoragePath($"~/{LuceneStorageOptions.LUCENE_INDEX_PATH}/");
+            MapAzureStoragePath($"~/{LuceneStorageConstants.LUCENE_INDEX_PATH}/");
         }
     }
 
@@ -109,21 +83,6 @@ public class LuceneStorageModule : Module
         // Specifies the target container for Lucene indexes
         provider.CustomRootPath = CONTAINER_NAME;
         provider.PublicExternalFolderObject = false;
-
-        StorageHelper.MapStoragePath(path, provider);
-    }
-
-
-    /// <summary>
-    /// Maps a virtual path to local filesystem storage.
-    /// </summary>
-    /// <param name="path">The path to map (e.g., "indexes").</param>
-    private static void MapLocalStoragePath(string path)
-    {
-        // Creates a new StorageProvider instance for local storage
-        var provider = StorageProvider.CreateFileSystemStorageProvider();
-
-        provider.CustomRootPath = $"{LOCAL_STORAGE_LUCENE_DIRECTORY_NAME}/{CONTAINER_NAME}";
 
         StorageHelper.MapStoragePath(path, provider);
     }

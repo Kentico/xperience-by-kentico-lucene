@@ -3,6 +3,9 @@ using System.Diagnostics.CodeAnalysis;
 using System.Text.RegularExpressions;
 
 using CMS.Core;
+using CMS.Helpers.Synchronization;
+
+using Microsoft.Extensions.Hosting;
 
 using CmsDirectory = CMS.IO.Directory;
 using CmsDirectoryInfo = CMS.IO.DirectoryInfo;
@@ -62,10 +65,15 @@ public interface ILuceneIndexStorageStrategy
 internal class GenerationStorageStrategy : ILuceneIndexStorageStrategy
 {
     private const string IndexDeletionDirectoryName = ".trash";
-    private readonly IEventLogService eventLogService;
 
-    public GenerationStorageStrategy() =>
+    private readonly IEventLogService eventLogService;
+    private readonly IHostEnvironment environment;
+
+    public GenerationStorageStrategy()
+    {
         eventLogService = Service.Resolve<IEventLogService>();
+        environment = Service.Resolve<IHostEnvironment>();
+    }
 
     public IEnumerable<IndexStorageModel> GetExistingIndices(string indexStoragePath)
     {
@@ -74,7 +82,7 @@ internal class GenerationStorageStrategy : ILuceneIndexStorageStrategy
             yield break;
         }
 
-        var grouped = CmsDirectory.EnumerateDirectories(indexStoragePath)
+        var grouped = CmsDirectory.GetDirectories(indexStoragePath)
             .Select(ParseIndexStorageModel)
             .Where(x => x.Success)
             .GroupBy(x => x.Result?.Generation ?? -1);
@@ -94,67 +102,104 @@ internal class GenerationStorageStrategy : ILuceneIndexStorageStrategy
         }
     }
 
-    public string FormatPath(string indexRoot, int generation, bool isPublished) => CmsPath.Combine(indexRoot, $"i-g{generation:0000000}-p_{isPublished}");
-    public string FormatTaxonomyPath(string indexRoot, int generation, bool isPublished) => CmsPath.Combine(indexRoot, $"i-g{generation:0000000}-p_{isPublished}_taxonomy");
+    public string FormatPath(string indexRoot, int generation, bool isPublished) =>
+        CmsPath.Combine(indexRoot, $"i-g{generation:0000000}-p_{isPublished}").Replace('\\', '/');
+
+    public string FormatTaxonomyPath(string indexRoot, int generation, bool isPublished) =>
+        CmsPath.Combine(indexRoot, $"i-g{generation:0000000}-p_{isPublished}_taxonomy").Replace('\\', '/');
 
     public void PublishIndex(IndexStorageModel storage)
     {
-        string root = CmsPath.Combine(storage.Path, "..");
-        var published = storage with
-        {
-            IsPublished = true,
-            Path = FormatPath(root, storage.Generation, true),
-            TaxonomyPath = FormatTaxonomyPath(root, storage.Generation, true)
-        };
+        bool lockAcquired = false;
+        var fileLock = new FileLock(LuceneIndexLockHelper.GetLockFilePath(storage.Path, environment));
 
-        CmsDirectory.Move(storage.Path, published.Path);
-
-        if (CmsDirectory.Exists(storage.TaxonomyPath))
+        try
         {
-            CmsDirectory.Move(storage.TaxonomyPath, published.TaxonomyPath);
+            lockAcquired = fileLock.WaitForLock(TimeSpan.FromSeconds(300));
+
+            string root = CmsPath.Combine(storage.Path, "..");
+            var published = storage with
+            {
+                IsPublished = true,
+                Path = FormatPath(root, storage.Generation, true),
+                TaxonomyPath = FormatTaxonomyPath(root, storage.Generation, true)
+            };
+
+            CmsDirectory.Move(storage.Path, published.Path);
+
+            if (CmsDirectory.Exists(storage.TaxonomyPath))
+            {
+                CmsDirectory.Move(storage.TaxonomyPath, published.TaxonomyPath);
+            }
+        }
+        finally
+        {
+            if (lockAcquired)
+            {
+                fileLock.Release();
+            }
         }
     }
 
     public bool ScheduleRemoval(IndexStorageModel storage)
     {
-        (string? path, string? taxonomyPath, int generation, bool _) = storage;
+        bool pathLockAcquired = false;
 
-        string delBase = CmsPath.Combine(path, "..", IndexDeletionDirectoryName);
-        CmsDirectory.CreateDirectory(delBase);
+        var fileLock = new FileLock(LuceneIndexLockHelper.GetLockFilePath(storage.Path, environment));
 
-        string delPath = CmsPath.Combine(path, "..", IndexDeletionDirectoryName, $"{generation:0000000}");
         try
         {
-            CmsDirectory.Move(path, delPath);
-            Trace.WriteLine($"OP={path} NP={delPath}: removal scheduled", $"GenerationStorageStrategy.ScheduleRemoval");
-        }
-        catch (IOException ioex)
-        {
-            Trace.WriteLine($"OP={path} NP={delPath}: {ioex}", $"GenerationStorageStrategy.ScheduleRemoval");
-            // fail, directory is possibly locked by reader
-            return false;
-        }
+            pathLockAcquired = fileLock.WaitForLock(TimeSpan.FromSeconds(300));
 
-        if (!string.IsNullOrWhiteSpace(taxonomyPath) && CmsDirectory.Exists(taxonomyPath))
-        {
-            string delPathTaxon = CmsPath.Combine(path, "..", IndexDeletionDirectoryName, $"{generation:0000000}_taxon");
+            (string? path, string? taxonomyPath, int generation, bool _) = storage;
+
+            string delBase = CmsPath.Combine(path, "..", IndexDeletionDirectoryName);
+            if (!CmsDirectory.Exists(delBase))
+            {
+                CmsDirectory.CreateDirectory(delBase);
+            }
+
+            string delPath = CmsPath.Combine(path, "..", IndexDeletionDirectoryName, $"{generation:0000000}");
             try
             {
-                CmsDirectory.Move(taxonomyPath, delPathTaxon);
-                Trace.WriteLine($"OP={taxonomyPath} NP={delPathTaxon}: removal scheduled", $"GenerationStorageStrategy.ScheduleRemoval");
+                CmsDirectory.Move(path, delPath);
+                Trace.WriteLine($"OP={path} NP={delPath}: removal scheduled", $"GenerationStorageStrategy.ScheduleRemoval");
             }
             catch (IOException ioex)
             {
+                Trace.WriteLine($"OP={path} NP={delPath}: {ioex}", $"GenerationStorageStrategy.ScheduleRemoval");
                 // fail, directory is possibly locked by reader
-                Trace.WriteLine($"OP={taxonomyPath} NP={delPathTaxon}: {ioex}", $"GenerationStorageStrategy.ScheduleRemoval");
-
-                // restore index
-                CmsDirectory.Move(delPath, path);
                 return false;
             }
-        }
 
-        return true;
+            if (!string.IsNullOrWhiteSpace(taxonomyPath) && CmsDirectory.Exists(taxonomyPath))
+            {
+                string delPathTaxon = CmsPath.Combine(path, "..", IndexDeletionDirectoryName, $"{generation:0000000}_taxon");
+                try
+                {
+                    CmsDirectory.Move(taxonomyPath, delPathTaxon);
+                    Trace.WriteLine($"OP={taxonomyPath} NP={delPathTaxon}: removal scheduled", $"GenerationStorageStrategy.ScheduleRemoval");
+                }
+                catch (IOException ioex)
+                {
+                    // fail, directory is possibly locked by reader
+                    Trace.WriteLine($"OP={taxonomyPath} NP={delPathTaxon}: {ioex}", $"GenerationStorageStrategy.ScheduleRemoval");
+
+                    // restore index
+                    CmsDirectory.Move(delPath, path);
+                    return false;
+                }
+            }
+
+            return true;
+        }
+        finally
+        {
+            if (pathLockAcquired)
+            {
+                fileLock.Release();
+            }
+        }
     }
 
     public async Task<bool> DeleteIndex(string indexStoragePath)
@@ -164,39 +209,54 @@ internal class GenerationStorageStrategy : ILuceneIndexStorageStrategy
             return true;
         }
 
-        int numberOfRetries = 10;
-        int millisecondsRetryDelay = 100;
-        int millisecondsAddedToRetryPerRequest = millisecondsRetryDelay * 2;
+        bool lockAcquired = false;
+        var fileLock = new FileLock(LuceneIndexLockHelper.GetLockFilePath(indexStoragePath, environment));
 
-        for (int i = 0; i < numberOfRetries; i++)
+        try
         {
+            lockAcquired = fileLock.WaitForLock(TimeSpan.FromSeconds(300));
+
+            int numberOfRetries = 10;
+            int millisecondsRetryDelay = 100;
+            int millisecondsAddedToRetryPerRequest = millisecondsRetryDelay * 2;
+
+            for (int i = 0; i < numberOfRetries; i++)
+            {
+                try
+                {
+                    Trace.WriteLine($"D={CmsPath.GetFileName(indexStoragePath)}: delete *.*", $"GenerationStorageStrategy.DeleteIndex");
+                    CmsDirectory.Delete(indexStoragePath, true);
+                    return true;
+                }
+                catch
+                {
+                    // Do nothing with exception and retry.
+                    // The directory may be locked by another process, but we can not know about it without trying to delete it.
+                    // The exact exception is not known and is not written in .NET documentation.
+
+                    await Task.Delay(millisecondsRetryDelay + (millisecondsAddedToRetryPerRequest * numberOfRetries));
+                }
+            }
             try
             {
                 Trace.WriteLine($"D={CmsPath.GetFileName(indexStoragePath)}: delete *.*", $"GenerationStorageStrategy.DeleteIndex");
                 CmsDirectory.Delete(indexStoragePath, true);
-                return true;
             }
-            catch
+            catch (Exception ex)
             {
-                // Do nothing with exception and retry.
-                // The directory may be locked by another process, but we can not know about it without trying to delete it.
-                // The exact exception is not known and is not written in .NET documentation.
+                eventLogService.LogError(nameof(GenerationStorageStrategy), nameof(DeleteIndex), ex.Message);
+                return false;
+            }
 
-                await Task.Delay(millisecondsRetryDelay + (millisecondsAddedToRetryPerRequest * numberOfRetries));
+            return true;
+        }
+        finally
+        {
+            if (lockAcquired)
+            {
+                fileLock.Release();
             }
         }
-        try
-        {
-            Trace.WriteLine($"D={CmsPath.GetFileName(indexStoragePath)}: delete *.*", $"GenerationStorageStrategy.DeleteIndex");
-            CmsDirectory.Delete(indexStoragePath, true);
-        }
-        catch (Exception ex)
-        {
-            eventLogService.LogError(nameof(GenerationStorageStrategy), nameof(DeleteIndex), ex.Message);
-            return false;
-        }
-
-        return true;
     }
 
     public bool PerformCleanup(string indexStoragePath)
@@ -207,44 +267,59 @@ internal class GenerationStorageStrategy : ILuceneIndexStorageStrategy
             return true;
         }
 
+        bool lockAcquired = false;
+        var fileLock = new FileLock(LuceneIndexLockHelper.GetLockFilePath(indexStoragePath, environment));
+
         try
         {
-            var thrashDir = CmsDirectoryInfo.New(toDeleteDir);
-            foreach (var file in thrashDir.GetFiles())
+            lockAcquired = fileLock.WaitForLock(TimeSpan.FromSeconds(300));
+
+            try
             {
-                try
+                var thrashDir = CmsDirectoryInfo.New(toDeleteDir);
+                foreach (var file in thrashDir.GetFiles())
                 {
-                    Trace.WriteLine($"F={file.Name}: delete", $"GenerationStorageStrategy.PerformCleanup");
-                    file.Delete();
+                    try
+                    {
+                        Trace.WriteLine($"F={file.Name}: delete", $"GenerationStorageStrategy.PerformCleanup");
+                        file.Delete();
+                    }
+                    catch
+                    {
+                        // ignored, can't do anything about resource - next iteration will pick resource to delete again
+                    }
                 }
-                catch
+
+                foreach (var dir in thrashDir.GetDirectories())
                 {
-                    // ignored, can't do anything about resource - next iteration will pick resource to delete again
+                    try
+                    {
+                        Trace.WriteLine($"D={dir.Name}: delete *.*", $"GenerationStorageStrategy.PerformCleanup");
+                        CmsDirectory.Delete(indexStoragePath, true);
+                    }
+                    catch
+                    {
+                        // ignored, can't do anything about resource - next iteration will pick resource to delete again
+                    }
                 }
+            }
+            catch (IOException)
+            {
+                // directory might be destroyed or inaccessible
+                return false;
             }
 
-            foreach (var dir in thrashDir.GetDirectories())
-            {
-                try
-                {
-                    Trace.WriteLine($"D={dir.Name}: delete *.*", $"GenerationStorageStrategy.PerformCleanup");
-                    CmsDirectory.DeleteDirectoryStructure(dir.FullName);
-                }
-                catch
-                {
-                    // ignored, can't do anything about resource - next iteration will pick resource to delete again
-                }
-            }
+            return true;
         }
-        catch (IOException)
+        finally
         {
-            // directory might be destroyed or inaccessible
-
-            return false;
+            if (lockAcquired)
+            {
+                fileLock.Release();
+            }
         }
-
-        return true;
     }
+
 
     internal record IndexStorageModelParseResult(string Path, int Generation, bool IsPublished, string? TaxonomyName);
     private sealed record IndexStorageModelParsingResult(

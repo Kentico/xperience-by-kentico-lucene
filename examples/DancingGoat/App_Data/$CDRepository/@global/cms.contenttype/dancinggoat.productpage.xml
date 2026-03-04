@@ -1,0 +1,51 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<cms.contenttype>
+  <ClassContentTypeType>Website</ClassContentTypeType>
+  <ClassDisplayName>Product page</ClassDisplayName>
+  <ClassFormDefinition>
+    <form>
+      <field column="ContentItemDataID" columntype="integer" enabled="true" guid="c919b0f0-e301-49d5-ae39-930409ff20b7" isPK="true" />
+      <field column="ContentItemDataCommonDataID" columntype="integer" enabled="true" guid="bbc77896-c4b3-472f-8ee6-27505bde2d9b" refobjtype="cms.contentitemcommondata" reftype="Required" system="true" />
+      <field column="ContentItemDataGUID" columntype="guid" enabled="true" guid="15620f04-39d0-4d4f-8840-57366d4288e0" isunique="true" system="true" />
+      <field allowempty="true" column="ProductPageProduct" columnprecision="0" columntype="contentitemreference" enabled="true" guid="a266f250-8c59-46ff-ad68-ca57a3b4ed86" visible="true">
+        <properties>
+          <explanationtextashtml>False</explanationtextashtml>
+          <fieldcaption>Product</fieldcaption>
+          <fielddescriptionashtml>False</fielddescriptionashtml>
+        </properties>
+        <settings>
+          <AllowedSchemaIdentifiers>
+            <![CDATA[["fe13f703-8744-4947-8c01-5f78bbd5039d"]]]>
+          </AllowedSchemaIdentifiers>
+          <controlname>Kentico.Administration.ContentItemSelector</controlname>
+          <MaximumItems>1</MaximumItems>
+          <SelectionType>reusableFieldSchemas</SelectionType>
+        </settings>
+        <validationrulesdata>
+          <ValidationRuleConfiguration>
+            <ValidationRuleIdentifier>Kentico.Administration.RequiredValue</ValidationRuleIdentifier>
+            <RuleValues>
+              <ErrorMessage>Choose a product.</ErrorMessage>
+            </RuleValues>
+          </ValidationRuleConfiguration>
+          <ValidationRuleConfiguration>
+            <ValidationRuleIdentifier>DancingGoat.ProductLinkedOnce</ValidationRuleIdentifier>
+            <RuleValues>
+              <ErrorMessage>
+                <![CDATA[This product is already linked to a different page. Each product can only be linked to one page.]]>
+              </ErrorMessage>
+            </RuleValues>
+          </ValidationRuleConfiguration>
+        </validationrulesdata>
+      </field>
+    </form>
+  </ClassFormDefinition>
+  <ClassGUID>f943db37-2aa0-41aa-9a47-3810a9c6d2cf</ClassGUID>
+  <ClassHasUnmanagedDbSchema>False</ClassHasUnmanagedDbSchema>
+  <ClassIconClass>xp-box</ClassIconClass>
+  <ClassName>DancingGoat.ProductPage</ClassName>
+  <ClassShortName>DancingGoatProductPage</ClassShortName>
+  <ClassTableName>DancingGoat_ProductPage</ClassTableName>
+  <ClassType>Content</ClassType>
+  <ClassWebPageHasUrl>True</ClassWebPageHasUrl>
+</cms.contenttype>

@@ -1,0 +1,77 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<cms.contentitemcommondata>
+  <ContentItemCommonDataContentItemID>
+    <CodeName>Home-t9k4jxiw</CodeName>
+    <GUID>17d83996-c66a-4b07-b47e-d285bd99d8f3</GUID>
+    <ObjectType>cms.contentitem</ObjectType>
+  </ContentItemCommonDataContentItemID>
+  <ContentItemCommonDataContentLanguageID>
+    <CodeName>en</CodeName>
+    <GUID>e4a8fb12-ebc2-45d0-930f-c9fba2780c85</GUID>
+    <ObjectType>cms.contentlanguage</ObjectType>
+  </ContentItemCommonDataContentLanguageID>
+  <ContentItemCommonDataGUID>52c47d26-697c-4e56-90fc-e7f1d8164429</ContentItemCommonDataGUID>
+  <ContentItemCommonDataIsLatest>True</ContentItemCommonDataIsLatest>
+  <ContentItemCommonDataLastPublishedWhen>2026-03-04 07:40:53Z</ContentItemCommonDataLastPublishedWhen>
+  <ContentItemCommonDataVersionStatus>2</ContentItemCommonDataVersionStatus>
+  <ProductFieldCategory />
+  <SEOFieldsAllowSearchIndexing>True</SEOFieldsAllowSearchIndexing>
+  <SEOFieldsDescription>
+    <![CDATA[At Dancing Goat, we strive to do things right. We source the best coffee directly from micro farms, guaranteeing the highest quality standards. No middle-men.]]>
+  </SEOFieldsDescription>
+  <SEOFieldsTitle>Home - Dancing Goat</SEOFieldsTitle>
+  <ContentItemReferences>
+    <cms.contentitemreference>
+      <ContentItemReferenceGroupGUID>56f58ce4-fb20-4220-823b-95115e46fdb9</ContentItemReferenceGroupGUID>
+      <ContentItemReferenceGUID>16e9a459-d9ed-4243-a743-b48fc35dad2d</ContentItemReferenceGUID>
+      <ContentItemReferenceSourceCommonDataID>
+        <GUID>52c47d26-697c-4e56-90fc-e7f1d8164429</GUID>
+        <ObjectType>cms.contentitemcommondata</ObjectType>
+      </ContentItemReferenceSourceCommonDataID>
+      <ContentItemReferenceTargetItemID>
+        <CodeName>HeroBackground-6arlimda</CodeName>
+        <GUID>a2725352-5eeb-446e-98dc-c244234337f2</GUID>
+        <ObjectType>cms.contentitem</ObjectType>
+      </ContentItemReferenceTargetItemID>
+    </cms.contentitemreference>
+    <cms.contentitemreference>
+      <ContentItemReferenceGroupGUID>cbb9f04b-4901-4773-b551-a17ad70ca6e6</ContentItemReferenceGroupGUID>
+      <ContentItemReferenceGUID>6a8d58c1-bb34-4573-8abc-c625c541c58e</ContentItemReferenceGUID>
+      <ContentItemReferenceSourceCommonDataID>
+        <GUID>52c47d26-697c-4e56-90fc-e7f1d8164429</GUID>
+        <ObjectType>cms.contentitemcommondata</ObjectType>
+      </ContentItemReferenceSourceCommonDataID>
+      <ContentItemReferenceTargetItemID>
+        <CodeName>JimmieDimmick-qv484wii</CodeName>
+        <GUID>12e192cc-099a-4fd4-9360-2b8acad4daf0</GUID>
+        <ObjectType>cms.contentitem</ObjectType>
+      </ContentItemReferenceTargetItemID>
+    </cms.contentitemreference>
+    <cms.contentitemreference>
+      <ContentItemReferenceGroupGUID>4d18ccea-4ea6-4ec1-88e9-bdbecc8e1ff5</ContentItemReferenceGroupGUID>
+      <ContentItemReferenceGUID>6dc330cc-80e2-448e-837a-23bc1e2860ca</ContentItemReferenceGUID>
+      <ContentItemReferenceSourceCommonDataID>
+        <GUID>52c47d26-697c-4e56-90fc-e7f1d8164429</GUID>
+        <ObjectType>cms.contentitemcommondata</ObjectType>
+      </ContentItemReferenceSourceCommonDataID>
+      <ContentItemReferenceTargetItemID>
+        <CodeName>Articles-j3dfhv8n</CodeName>
+        <GUID>55eed5b7-8436-4e9f-88c0-17ebce5eff2d</GUID>
+        <ObjectType>cms.contentitem</ObjectType>
+      </ContentItemReferenceTargetItemID>
+    </cms.contentitemreference>
+    <cms.contentitemreference>
+      <ContentItemReferenceGroupGUID>9088319d-f909-4f38-93aa-e8598c78382b</ContentItemReferenceGroupGUID>
+      <ContentItemReferenceGUID>adb4d797-72cb-49fb-bd79-b664701678cb</ContentItemReferenceGUID>
+      <ContentItemReferenceSourceCommonDataID>
+        <GUID>52c47d26-697c-4e56-90fc-e7f1d8164429</GUID>
+        <ObjectType>cms.contentitemcommondata</ObjectType>
+      </ContentItemReferenceSourceCommonDataID>
+      <ContentItemReferenceTargetItemID>
+        <CodeName>OurFirstCuppingIsHere-t8ll79h8</CodeName>
+        <GUID>2b039eb6-312f-4008-8c4f-3d340d87532c</GUID>
+        <ObjectType>cms.contentitem</ObjectType>
+      </ContentItemReferenceTargetItemID>
+    </cms.contentitemreference>
+  </ContentItemReferences>
+</cms.contentitemcommondata>
