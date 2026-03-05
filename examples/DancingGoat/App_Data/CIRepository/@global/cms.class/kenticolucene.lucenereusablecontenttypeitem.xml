@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<cms.class>
+  <ClassDisplayName>Lucene Reusable Content Type Item</ClassDisplayName>
+  <ClassFormDefinition>
+    <form>
+      <field column="LuceneReusableContentTypeItemId" columntype="integer" enabled="true" guid="658db10e-901c-4cdf-9ada-64e16e2a705a" isPK="true" />
+      <field column="LuceneReusableContentTypeItemContentTypeName" columnprecision="0" columnsize="100" columntype="text" enabled="true" guid="b57501ef-9337-4efc-8616-fdf263962160" visible="true" />
+      <field column="LuceneReusableContentTypeItemGuid" columnprecision="0" columntype="guid" enabled="true" guid="077fd2fd-6d7c-4f11-8455-dba28288e215" visible="true" />
+      <field column="LuceneReusableContentTypeItemIndexItemId" columnprecision="0" columntype="integer" enabled="true" guid="bb234827-265d-4e16-9f4e-f5f17581aa62" refobjtype="kenticolucene.luceneindexitem" reftype="Required" visible="true" />
+    </form>
+  </ClassFormDefinition>
+  <ClassGUID>ef2b687b-f391-4ead-918f-81ffc8ec13f4</ClassGUID>
+  <ClassHasUnmanagedDbSchema>False</ClassHasUnmanagedDbSchema>
+  <ClassName>KenticoLucene.LuceneReusableContentTypeItem</ClassName>
+  <ClassResourceID>
+    <CodeName>CMS.Integration.Lucene</CodeName>
+    <GUID>64d17337-c02d-4b7f-8e6f-a61f4a2e7d91</GUID>
+    <ObjectType>cms.resource</ObjectType>
+  </ClassResourceID>
+  <ClassTableName>KenticoLucene_LuceneReusableContentTypeItem</ClassTableName>
+  <ClassType>Other</ClassType>
+</cms.class>
