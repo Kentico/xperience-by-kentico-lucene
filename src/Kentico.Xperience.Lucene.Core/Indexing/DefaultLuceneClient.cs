@@ -116,7 +116,7 @@ internal class DefaultLuceneClient : ILuceneClient
                 Entries = s.IndexReader.NumDocs
             });
 
-            var dir = CmsDirectoryInfo.New(i.StorageContext.GetPublishedIndex().Path);
+            var dir = CmsDirectoryInfo.New(i.StorageContext.IndexStoragePathRoot);
             statistics.UpdatedAt = GetLastWriteTime(dir);
             return statistics;
         }).ToList();
@@ -155,7 +155,7 @@ internal class DefaultLuceneClient : ILuceneClient
 
     public async Task<bool> DeleteIndex(LuceneIndex luceneIndex)
     {
-        if (!StorageHelper.IsExternalStorage(luceneIndex.StorageContext.GetPublishedIndex().Path))
+        if (!StorageHelper.IsExternalStorage(luceneIndex.StorageContext.IndexStoragePathRoot))
         {
             webFarmService.CreateTask(new DeleteIndexWebFarmTask
             {
@@ -192,7 +192,7 @@ internal class DefaultLuceneClient : ILuceneClient
         // Clear statistics cache so listing displays updated data after rebuild
         cacheAccessor.Remove(CACHEKEY_STATISTICS);
 
-        if (!StorageHelper.IsExternalStorage(luceneIndex.StorageContext.GetPublishedIndex().Path))
+        if (!StorageHelper.IsExternalStorage(luceneIndex.StorageContext.IndexStoragePathRoot))
         {
             webFarmService.CreateTask(new ResetIndexWebFarmTask
             {
@@ -426,6 +426,12 @@ internal class DefaultLuceneClient : ILuceneClient
             return results;
         }, new CacheSettings(5, nameof(DefaultLuceneClient), nameof(GetAllLanguages)));
 
+
+    /// <summary>
+    /// Gets the last write time of the directory, if the directory itself doesn't have a valid last write time,
+    /// it will return the latest last write time of the files within the directory.
+    /// If there are no files or an error occurs, it returns DateTime.MinValue.
+    /// </summary>
     private static DateTime GetLastWriteTime(CmsDirectoryInfo dir)
     {
         try
@@ -436,7 +442,7 @@ internal class DefaultLuceneClient : ILuceneClient
                 return lastWriteTime;
             }
 
-            var files = dir.GetFiles();
+            var files = dir.GetFiles("*", CMS.IO.SearchOption.AllDirectories);
             if (files.Length == 0)
             {
                 return DateTime.MinValue;

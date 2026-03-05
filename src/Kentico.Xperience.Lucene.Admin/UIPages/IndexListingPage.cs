@@ -147,7 +147,6 @@ public class IndexListingPage : ListingPage
     /// </summary>
     /// <param name="id">The ID of the row whose action was performed, which corresponds with the internal
     /// <see cref="LuceneIndex.Identifier"/> to rebuild.</param>
-    /// <param name="cancellationToken">The cancellation token for the action.</param>
     /// <returns>The <see cref="ICommandResponse{RowActionResult}"/>.</returns>
     [PageCommand(Permission = LuceneIndexPermissions.REBUILD)]
     public async Task<ICommandResponse<RowActionResult>> Rebuild(int id)
@@ -183,7 +182,7 @@ public class IndexListingPage : ListingPage
     /// <param name="id">The id of the index to delete.</param>
     /// <returns>The <see cref="ICommandResponse{RowActionResult}"/>.</returns>
     [PageCommand(Permission = SystemPermissions.DELETE)]
-    public async Task<ICommandResponse> Delete(int id, CancellationToken _)
+    public new async Task<ICommandResponse> Delete(int id)
     {
         var index = indexManager.GetIndex(id);
         var result = new RowActionResult(false);

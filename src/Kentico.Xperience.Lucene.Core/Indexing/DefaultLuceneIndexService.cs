@@ -1,50 +1,84 @@
-﻿using Kentico.Xperience.Lucene.Core.Store;
+﻿using CMS.Helpers.Synchronization;
+
+using Kentico.Xperience.Lucene.Core.Store;
 
 using Lucene.Net.Facet.Taxonomy;
 using Lucene.Net.Facet.Taxonomy.Directory;
 using Lucene.Net.Index;
 
+using Microsoft.Extensions.Hosting;
+
 using LuceneDirectory = Lucene.Net.Store.Directory;
 
 namespace Kentico.Xperience.Lucene.Core.Indexing;
 
-public class DefaultLuceneIndexService : ILuceneIndexService
+public class DefaultLuceneIndexService(IHostEnvironment hostEnvironment) : ILuceneIndexService
 {
-    private const int WRITE_LOCK_TIMEOUT_IN_MS = 1_000_000_000;
+    private readonly IHostEnvironment hostEnvironment = hostEnvironment;
 
 
     public T UseIndexAndTaxonomyWriter<T>(LuceneIndex index, Func<IndexWriter, ITaxonomyWriter, T> useIndexWriter, IndexStorageModel storage, OpenMode openMode = OpenMode.CREATE_OR_APPEND)
     {
-        using LuceneDirectory indexDir = CmsIODirectory.Open(storage.Path);
-        var analyzer = index.LuceneAnalyzer;
+        var lockAcquired = false;
+        var fileLock = new FileLock(LuceneIndexLockHelper.GetLockFilePath(storage.Path, hostEnvironment));
 
-        //Create an index writer
-        var indexConfig = new IndexWriterConfig(AnalyzerStorage.AnalyzerLuceneVersion, analyzer)
+        try
         {
-            OpenMode = openMode, // create/overwrite index
-            WriteLockTimeout = WRITE_LOCK_TIMEOUT_IN_MS
-        };
+            var analyzer = index.LuceneAnalyzer;
 
-        using var writer = new IndexWriter(indexDir, indexConfig);
-        using LuceneDirectory taxonomyDir = CmsIODirectory.Open(storage.TaxonomyPath);
-        using var taxonomyWriter = new DirectoryTaxonomyWriter(taxonomyDir);
-        return useIndexWriter(writer, taxonomyWriter);
+            //Create an index writer
+            var indexConfig = new IndexWriterConfig(AnalyzerStorage.AnalyzerLuceneVersion, analyzer)
+            {
+                OpenMode = openMode // create/overwrite index
+            };
+
+            lockAcquired = fileLock.WaitForLock(LuceneIndexLockHelper.LOCK_WAIT_TIMEOUT);
+
+            using LuceneDirectory indexDir = CmsIODirectory.Open(storage.Path);
+            using var writer = new IndexWriter(indexDir, indexConfig);
+            using LuceneDirectory taxonomyDir = CmsIODirectory.Open(storage.TaxonomyPath);
+            using var taxonomyWriter = new DirectoryTaxonomyWriter(taxonomyDir);
+            return useIndexWriter(writer, taxonomyWriter);
+
+        }
+        finally
+        {
+            if (lockAcquired)
+            {
+                fileLock.Release();
+            }
+        }
     }
 
 
     public TResult UseWriter<TResult>(LuceneIndex index, Func<IndexWriter, TResult> useIndexWriter, IndexStorageModel storage, OpenMode openMode = OpenMode.CREATE_OR_APPEND)
     {
-        using LuceneDirectory indexDir = CmsIODirectory.Open(storage.Path);
-        var analyzer = index.LuceneAnalyzer;
+        var lockAcquired = false;
+        var fileLock = new FileLock(LuceneIndexLockHelper.GetLockFilePath(storage.Path, hostEnvironment));
 
-        //Create an index writer
-        var indexConfig = new IndexWriterConfig(AnalyzerStorage.AnalyzerLuceneVersion, analyzer)
+        try
         {
-            OpenMode = openMode, // create/overwrite index
-            WriteLockTimeout = WRITE_LOCK_TIMEOUT_IN_MS
-        };
-        using var writer = new IndexWriter(indexDir, indexConfig);
-        return useIndexWriter(writer);
+            var analyzer = index.LuceneAnalyzer;
+
+            //Create an index writer
+            var indexConfig = new IndexWriterConfig(AnalyzerStorage.AnalyzerLuceneVersion, analyzer)
+            {
+                OpenMode = openMode // create/overwrite index
+            };
+
+            lockAcquired = fileLock.WaitForLock(LuceneIndexLockHelper.LOCK_WAIT_TIMEOUT);
+
+            using LuceneDirectory indexDir = CmsIODirectory.Open(storage.Path);
+            using var writer = new IndexWriter(indexDir, indexConfig);
+            return useIndexWriter(writer);
+        }
+        finally
+        {
+            if (lockAcquired)
+            {
+                fileLock.Release();
+            }
+        }
     }
 
 

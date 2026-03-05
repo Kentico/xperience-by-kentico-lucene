@@ -1,8 +1,4 @@
-using CMS.Core;
-
 using Lucene.Net.Store;
-
-using Microsoft.Extensions.Hosting;
 
 using CmsDirectory = CMS.IO.Directory;
 using CmsDirectoryInfo = CMS.IO.DirectoryInfo;
@@ -44,7 +40,7 @@ namespace Kentico.Xperience.Lucene.Core.Store;
 internal class CmsIODirectory : BaseDirectory
 {
     public static CmsIODirectory Open(string path)
-        => Open(path, new CmsIOLockFactory(ResolvePath(path), Service.Resolve<IHostEnvironment>()));
+        => Open(path, NoOpLockFactory.Instance);
 
 
     /// <summary>

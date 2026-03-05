@@ -115,7 +115,7 @@ internal class GenerationStorageStrategy : ILuceneIndexStorageStrategy
 
         try
         {
-            lockAcquired = fileLock.WaitForLock(TimeSpan.FromSeconds(300));
+            lockAcquired = fileLock.WaitForLock(LuceneIndexLockHelper.LOCK_WAIT_TIMEOUT);
 
             string root = CmsPath.Combine(storage.Path, "..");
             var published = storage with
@@ -149,7 +149,7 @@ internal class GenerationStorageStrategy : ILuceneIndexStorageStrategy
 
         try
         {
-            pathLockAcquired = fileLock.WaitForLock(TimeSpan.FromSeconds(300));
+            pathLockAcquired = fileLock.WaitForLock(LuceneIndexLockHelper.LOCK_WAIT_TIMEOUT);
 
             (string? path, string? taxonomyPath, int generation, bool _) = storage;
 
@@ -214,7 +214,7 @@ internal class GenerationStorageStrategy : ILuceneIndexStorageStrategy
 
         try
         {
-            lockAcquired = fileLock.WaitForLock(TimeSpan.FromSeconds(300));
+            lockAcquired = fileLock.WaitForLock(LuceneIndexLockHelper.LOCK_WAIT_TIMEOUT);
 
             int numberOfRetries = 10;
             int millisecondsRetryDelay = 100;
@@ -267,57 +267,42 @@ internal class GenerationStorageStrategy : ILuceneIndexStorageStrategy
             return true;
         }
 
-        bool lockAcquired = false;
-        var fileLock = new FileLock(LuceneIndexLockHelper.GetLockFilePath(indexStoragePath, environment));
-
         try
         {
-            lockAcquired = fileLock.WaitForLock(TimeSpan.FromSeconds(300));
-
-            try
+            var thrashDir = CmsDirectoryInfo.New(toDeleteDir);
+            foreach (var file in thrashDir.GetFiles())
             {
-                var thrashDir = CmsDirectoryInfo.New(toDeleteDir);
-                foreach (var file in thrashDir.GetFiles())
+                try
                 {
-                    try
-                    {
-                        Trace.WriteLine($"F={file.Name}: delete", $"GenerationStorageStrategy.PerformCleanup");
-                        file.Delete();
-                    }
-                    catch
-                    {
-                        // ignored, can't do anything about resource - next iteration will pick resource to delete again
-                    }
+                    Trace.WriteLine($"F={file.Name}: delete", $"GenerationStorageStrategy.PerformCleanup");
+                    file.Delete();
                 }
-
-                foreach (var dir in thrashDir.GetDirectories())
+                catch
                 {
-                    try
-                    {
-                        Trace.WriteLine($"D={dir.Name}: delete *.*", $"GenerationStorageStrategy.PerformCleanup");
-                        CmsDirectory.Delete(indexStoragePath, true);
-                    }
-                    catch
-                    {
-                        // ignored, can't do anything about resource - next iteration will pick resource to delete again
-                    }
+                    // ignored, can't do anything about resource - next iteration will pick resource to delete again
                 }
             }
-            catch (IOException)
-            {
-                // directory might be destroyed or inaccessible
-                return false;
-            }
 
-            return true;
+            foreach (var dir in thrashDir.GetDirectories())
+            {
+                try
+                {
+                    Trace.WriteLine($"D={dir.Name}: delete *.*", $"GenerationStorageStrategy.PerformCleanup");
+                    CmsDirectory.Delete(dir.FullName, true);
+                }
+                catch
+                {
+                    // ignored, can't do anything about resource - next iteration will pick resource to delete again
+                }
+            }
         }
-        finally
+        catch (IOException)
         {
-            if (lockAcquired)
-            {
-                fileLock.Release();
-            }
+            // directory might be destroyed or inaccessible
+            return false;
         }
+
+        return true;
     }
 
 
