@@ -74,7 +74,7 @@ public class LuceneStorageModule : Module
     /// <summary>
     /// Maps a virtual path to Azure Blob Storage.
     /// </summary>
-    /// <param name="path">The path to map (e.g., "lucene/indexes").</param>
+    /// <param name="path">The path to map.</param>
     private static void MapAzureStoragePath(string path)
     {
         // Creates a new StorageProvider instance for Azure
