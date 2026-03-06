@@ -1,9 +1,9 @@
 using Lucene.Net.Store;
 
-using CmsFileStream = CMS.IO.FileStream;
-using CmsFileMode = CMS.IO.FileMode;
 using CmsFileAccess = CMS.IO.FileAccess;
+using CmsFileMode = CMS.IO.FileMode;
 using CmsFileShare = CMS.IO.FileShare;
+using CmsFileStream = CMS.IO.FileStream;
 
 namespace Kentico.Xperience.Lucene.Core.Store;
 
