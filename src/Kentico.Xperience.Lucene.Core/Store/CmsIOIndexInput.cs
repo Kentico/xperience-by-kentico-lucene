@@ -113,6 +113,7 @@ internal class CmsIOIndexInput : BufferedIndexInput
         }
     }
 
+
     /// <summary>
     /// Creates a clone of this IndexInput that can be used from another thread.
     /// The clone shares the same underlying stream but maintains its own position.
@@ -124,7 +125,6 @@ internal class CmsIOIndexInput : BufferedIndexInput
             stream!,
             length,
             BufferSize);
-
 
 
     /// <summary>

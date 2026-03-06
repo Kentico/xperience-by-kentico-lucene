@@ -144,3 +144,4 @@ mcp_config.json
 examples/DancingGoat/$LuceneLocks/
 examples/DancingGoat/DeploymentPackage.zip
 examples/DancingGoat/App_Data/$CDRepository/.lock/
+examples/DancingGoat/$CDRepository

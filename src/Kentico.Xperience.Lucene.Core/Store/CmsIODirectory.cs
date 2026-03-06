@@ -18,37 +18,23 @@ namespace Kentico.Xperience.Lucene.Core.Store;
 /// This enables Lucene indexes to be stored on Azure Blob Storage or other custom
 /// storage providers configured through Kentico's CMS.IO abstraction layer.
 /// </summary>
-/// <remarks>
-/// <para>
-/// This implementation wraps CMS.IO's file system abstraction, allowing Lucene
-/// to transparently use whatever storage backend is configured in your Xperience
-/// by Kentico application (local filesystem, Azure Blob Storage, etc.).
-/// </para>
-/// <para>
-/// Usage example:
-/// <code>
-/// // Map the index path to your storage provider first (in a Module's OnInit)
-/// StorageHelper.MapStoragePath("~/lucene/indexes/", azureProvider);
-///
-/// // Then create the directory
-/// var indexPath = "~/lucene/indexes/my-index";
-/// var directory = new CmsIODirectory(indexPath);
-/// var indexWriter = new IndexWriter(directory, config);
-/// </code>
-/// </para>
-/// </remarks>
 internal class CmsIODirectory : BaseDirectory
 {
+    /// <summary>
+    /// Opens a directory at the specified path for input/output operations using the default lock factory.
+    /// </summary>
+    /// <param name="path">The file system path to the directory to open. Cannot be null or empty.</param>
+    /// <returns>A CmsIODirectory instance representing the opened directory at the specified path.</returns>
     public static CmsIODirectory Open(string path)
         => Open(path, NoOpLockFactory.Instance);
 
 
     /// <summary>
-    /// Creates a CmsIOFSDirectory instance with a custom lock factory
+    /// Opens a directory at the specified path for input/output operations using provided lock factory.
     /// </summary>
     /// <param name="path">The path to the directory</param>
     /// <param name="lockFactory">The lock factory to use</param>
-    /// <returns>A CmsIOFSDirectory instance</returns>
+    /// <returns>A CmsIODirectory instance representing the opened directory at the specified path.</returns>
     public static CmsIODirectory Open(string path, LockFactory lockFactory)
     {
         return new CmsIODirectory(path, lockFactory);
