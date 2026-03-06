@@ -11,7 +11,7 @@ internal static class LuceneIndexLockHelper
     /// Lock wait timeout duration for acquiring the lock on the local file system.
     /// This should be long enough to allow for index operations to complete, but not so long that it causes excessive delays in case of issues.
     /// </summary>
-    internal static readonly TimeSpan LOCK_WAIT_TIMEOUT = TimeSpan.FromSeconds(30);
+    internal static readonly TimeSpan LOCK_WAIT_TIMEOUT = TimeSpan.FromSeconds(60);
 
 
     /// <summary>

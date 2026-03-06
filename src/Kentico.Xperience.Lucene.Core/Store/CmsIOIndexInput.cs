@@ -19,6 +19,7 @@ internal class CmsIOIndexInput : BufferedIndexInput
 
     private readonly string path;
     private readonly long length;
+    private readonly object streamLock = new();
 
     private CmsFileStream? stream;
     private bool isDisposed;
@@ -35,7 +36,15 @@ internal class CmsIOIndexInput : BufferedIndexInput
     {
         this.path = path;
 
-        stream = CmsFileStream.New(path, CmsFileMode.Open, CmsFileAccess.Read, CmsFileShare.ReadWrite);
+        try
+        {
+            stream = CmsFileStream.New(path, CmsFileMode.Open, CmsFileAccess.Read, CmsFileShare.ReadWrite);
+        }
+        catch (Exception ex)
+        {
+            throw new IOException($"Failed to open file for reading: {path}", ex);
+        }
+
         length = stream.Length;
     }
 
@@ -65,12 +74,9 @@ internal class CmsIOIndexInput : BufferedIndexInput
     /// </summary>
     protected override void ReadInternal(byte[] b, int offset, int length)
     {
-        if (isDisposed || stream == null)
-        {
-            throw new ObjectDisposedException(GetType().FullName);
-        }
+        ObjectDisposedException.ThrowIf(isDisposed || stream == null, this);
 
-        lock (stream)
+        lock (streamLock)
         {
             long position = Position;
             if (position != stream.Position)
@@ -111,15 +117,14 @@ internal class CmsIOIndexInput : BufferedIndexInput
     /// Creates a clone of this IndexInput that can be used from another thread.
     /// The clone shares the same underlying stream but maintains its own position.
     /// </summary>
-    public override object Clone()
-    {
-        return new CmsIOIndexInput(
+    public override object Clone() =>
+        new CmsIOIndexInput(
             $"CmsIOIndexInput(path=\"{path}\") [clone]",
             path,
             stream!,
             length,
             BufferSize);
-    }
+
 
 
     /// <summary>

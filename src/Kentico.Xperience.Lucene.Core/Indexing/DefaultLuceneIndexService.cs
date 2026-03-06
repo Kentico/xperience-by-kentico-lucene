@@ -39,7 +39,6 @@ public class DefaultLuceneIndexService(IHostEnvironment hostEnvironment) : ILuce
             using LuceneDirectory taxonomyDir = CmsIODirectory.Open(storage.TaxonomyPath);
             using var taxonomyWriter = new DirectoryTaxonomyWriter(taxonomyDir);
             return useIndexWriter(writer, taxonomyWriter);
-
         }
         finally
         {

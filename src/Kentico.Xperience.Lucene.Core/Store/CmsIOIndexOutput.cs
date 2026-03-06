@@ -17,6 +17,7 @@ internal class CmsIOIndexOutput : BufferedIndexOutput
     private readonly CmsFileStream stream;
     private readonly Crc32 crc = new();
     private long bytesWritten;
+    private bool disposed;
 
 
     /// <summary>
@@ -84,7 +85,10 @@ internal class CmsIOIndexOutput : BufferedIndexOutput
     public override void Flush()
     {
         base.Flush();
-        stream.Flush();
+        if (!disposed)
+        {
+            stream.Flush();
+        }
     }
 
 
@@ -93,12 +97,12 @@ internal class CmsIOIndexOutput : BufferedIndexOutput
     /// </summary>
     protected override void Dispose(bool disposing)
     {
-        if (disposing)
+        if (disposing && !disposed)
         {
-            // Ensure all data is flushed before closing
+            disposed = true;
             try
             {
-                Flush();
+                base.Dispose(disposing);
             }
             finally
             {

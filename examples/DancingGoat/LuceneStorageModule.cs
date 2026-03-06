@@ -9,8 +9,6 @@ using Kentico.Xperience.AzureStorage;
 using Kentico.Xperience.Cloud;
 using Kentico.Xperience.Lucene.Core.Store;
 
-
-// Registers the Lucene storage module into the system
 [assembly: RegisterModule(typeof(LuceneStorageModule))]
 
 namespace DancingGoat.Lucene;

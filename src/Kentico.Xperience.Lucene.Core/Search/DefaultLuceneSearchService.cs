@@ -9,8 +9,8 @@ using Lucene.Net.Search;
 
 using Microsoft.Extensions.DependencyInjection;
 
-using LuceneDirectory = Lucene.Net.Store.Directory;
 using CmsDirectory = CMS.IO.Directory;
+using LuceneDirectory = Lucene.Net.Store.Directory;
 
 namespace Kentico.Xperience.Lucene.Core.Search;
 
