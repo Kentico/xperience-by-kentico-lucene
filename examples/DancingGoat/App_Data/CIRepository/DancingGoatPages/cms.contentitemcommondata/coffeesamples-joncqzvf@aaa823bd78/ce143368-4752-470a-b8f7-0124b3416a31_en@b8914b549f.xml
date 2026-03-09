@@ -80,4 +80,18 @@
       </ContentItemReferenceTargetItemID>
     </cms.contentitemreference>
   </ContentItemReferences>
+  <ContentItemObjectReferences>
+    <cms.contentitemobjectreference>
+      <ContentItemObjectReferenceGUID>d1927801-8c62-4e62-8c0c-c1602a176b25</ContentItemObjectReferenceGUID>
+      <ContentItemObjectReferenceSourceCommonDataID>
+        <GUID>ce143368-4752-470a-b8f7-0124b3416a31</GUID>
+        <ObjectType>cms.contentitemcommondata</ObjectType>
+      </ContentItemObjectReferenceSourceCommonDataID>
+      <ContentItemObjectReferenceTargetFormID>
+        <CodeName>DancingGoatCoffeeSampleList</CodeName>
+        <GUID>daaa080a-7b6b-489e-8150-290b1f24e715</GUID>
+        <ObjectType>cms.form</ObjectType>
+      </ContentItemObjectReferenceTargetFormID>
+    </cms.contentitemobjectreference>
+  </ContentItemObjectReferences>
 </cms.contentitemcommondata>

@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<kenticolucene.lucenereusablecontenttypeitem>
+  <LuceneReusableContentTypeItemContentTypeName>DancingGoat.Banner</LuceneReusableContentTypeItemContentTypeName>
+  <LuceneReusableContentTypeItemGuid>0e0cce21-b7f7-4641-976e-de9ee76823ef</LuceneReusableContentTypeItemGuid>
+  <LuceneReusableContentTypeItemIndexItemId>
+    <CodeName>Advanced</CodeName>
+    <GUID>9d7ee081-f816-4d24-a1b9-ed78006fe2e2</GUID>
+    <ObjectType>kenticolucene.luceneindexitem</ObjectType>
+  </LuceneReusableContentTypeItemIndexItemId>
+</kenticolucene.lucenereusablecontenttypeitem>

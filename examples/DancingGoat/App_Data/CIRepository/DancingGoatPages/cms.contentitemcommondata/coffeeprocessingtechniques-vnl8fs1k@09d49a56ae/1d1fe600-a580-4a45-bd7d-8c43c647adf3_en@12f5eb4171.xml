@@ -12,7 +12,7 @@
   </ContentItemCommonDataContentLanguageID>
   <ContentItemCommonDataGUID>1d1fe600-a580-4a45-bd7d-8c43c647adf3</ContentItemCommonDataGUID>
   <ContentItemCommonDataIsLatest>True</ContentItemCommonDataIsLatest>
-  <ContentItemCommonDataLastPublishedWhen>2025-03-25 11:53:45Z</ContentItemCommonDataLastPublishedWhen>
+  <ContentItemCommonDataLastPublishedWhen>2026-02-27 12:50:57Z</ContentItemCommonDataLastPublishedWhen>
   <ContentItemCommonDataVersionStatus>2</ContentItemCommonDataVersionStatus>
   <ContentItemCommonDataVisualBuilderTemplateConfiguration>
     <![CDATA[{"identifier":"DancingGoat.Article","properties":null,"fieldIdentifiers":null}]]>
@@ -26,7 +26,7 @@
   <ContentItemReferences>
     <cms.contentitemreference>
       <ContentItemReferenceGroupGUID>04b5735c-f3b6-4dba-af49-1c748e952820</ContentItemReferenceGroupGUID>
-      <ContentItemReferenceGUID>c006fb5d-157c-4896-abd8-1afe2a65935c</ContentItemReferenceGUID>
+      <ContentItemReferenceGUID>53d8bbc4-693d-4f61-9c1f-a4215a4278f8</ContentItemReferenceGUID>
       <ContentItemReferenceSourceCommonDataID>
         <GUID>1d1fe600-a580-4a45-bd7d-8c43c647adf3</GUID>
         <ObjectType>cms.contentitemcommondata</ObjectType>
@@ -39,20 +39,20 @@
     </cms.contentitemreference>
     <cms.contentitemreference>
       <ContentItemReferenceGroupGUID>49eea67f-5a3a-4a0a-a4a4-42cf4e2117c0</ContentItemReferenceGroupGUID>
-      <ContentItemReferenceGUID>403e8fb3-595b-419e-b838-7b9139b27c2e</ContentItemReferenceGUID>
+      <ContentItemReferenceGUID>6dbd16c9-a1c2-46d7-b870-1b46e83d1c64</ContentItemReferenceGUID>
       <ContentItemReferenceSourceCommonDataID>
         <GUID>1d1fe600-a580-4a45-bd7d-8c43c647adf3</GUID>
         <ObjectType>cms.contentitemcommondata</ObjectType>
       </ContentItemReferenceSourceCommonDataID>
       <ContentItemReferenceTargetItemID>
-        <CodeName>OnRoasts-nlx96ge6</CodeName>
-        <GUID>d5d28908-d403-4f6d-ab5a-d7758b43dbf2</GUID>
+        <CodeName>ElSalvadorFincaSanJose-64iaoyy6</CodeName>
+        <GUID>b0c28347-59f4-450a-aded-eb533ee41431</GUID>
         <ObjectType>cms.contentitem</ObjectType>
       </ContentItemReferenceTargetItemID>
     </cms.contentitemreference>
     <cms.contentitemreference>
       <ContentItemReferenceGroupGUID>49eea67f-5a3a-4a0a-a4a4-42cf4e2117c0</ContentItemReferenceGroupGUID>
-      <ContentItemReferenceGUID>167d7444-6e53-4fb1-9c43-c4ebcf8fc90c</ContentItemReferenceGUID>
+      <ContentItemReferenceGUID>c4adeabd-15a8-43a5-bc4c-242a28c064bd</ContentItemReferenceGUID>
       <ContentItemReferenceSourceCommonDataID>
         <GUID>1d1fe600-a580-4a45-bd7d-8c43c647adf3</GUID>
         <ObjectType>cms.contentitemcommondata</ObjectType>
@@ -65,14 +65,14 @@
     </cms.contentitemreference>
     <cms.contentitemreference>
       <ContentItemReferenceGroupGUID>49eea67f-5a3a-4a0a-a4a4-42cf4e2117c0</ContentItemReferenceGroupGUID>
-      <ContentItemReferenceGUID>8abf3c32-e893-4835-8ce7-d4e31fcf5594</ContentItemReferenceGUID>
+      <ContentItemReferenceGUID>134175b6-3300-4f27-ad2f-2dc6146ea136</ContentItemReferenceGUID>
       <ContentItemReferenceSourceCommonDataID>
         <GUID>1d1fe600-a580-4a45-bd7d-8c43c647adf3</GUID>
         <ObjectType>cms.contentitemcommondata</ObjectType>
       </ContentItemReferenceSourceCommonDataID>
       <ContentItemReferenceTargetItemID>
-        <CodeName>ElSalvadorFincaSanJose-64iaoyy6</CodeName>
-        <GUID>b0c28347-59f4-450a-aded-eb533ee41431</GUID>
+        <CodeName>OnRoasts-nlx96ge6</CodeName>
+        <GUID>d5d28908-d403-4f6d-ab5a-d7758b43dbf2</GUID>
         <ObjectType>cms.contentitem</ObjectType>
       </ContentItemReferenceTargetItemID>
     </cms.contentitemreference>

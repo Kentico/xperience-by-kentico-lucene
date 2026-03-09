@@ -10,5 +10,7 @@
     </Parent>
   </ContentItemDataCommonDataID>
   <ContentItemDataGUID>b68fdde8-d3bd-49f0-824f-29e7e107f302</ContentItemDataGUID>
-  <ProductType>DancingGoat.ProductGrinder</ProductType>
+  <ProductCategoryTag>
+    <![CDATA[[{"Identifier":"c33dd46a-0896-4920-b326-7e80659f7600"}]]]>
+  </ProductCategoryTag>
 </contentitemdata.dancinggoat.productcategory>

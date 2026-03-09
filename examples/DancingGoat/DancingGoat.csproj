@@ -31,6 +31,7 @@
     <PackageReference Include="kentico.xperience.mjml" />
     <PackageReference Include="kentico.xperience.webapp" />
     <PackageReference Include="Kentico.Xperience.Lucene" Condition="'$(LOCAL_NUGET)' == 'true'" />
+    <PackageReference Include="kentico.xperience.cloud" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\src\Kentico.Xperience.Lucene\Kentico.Xperience.Lucene.csproj" />

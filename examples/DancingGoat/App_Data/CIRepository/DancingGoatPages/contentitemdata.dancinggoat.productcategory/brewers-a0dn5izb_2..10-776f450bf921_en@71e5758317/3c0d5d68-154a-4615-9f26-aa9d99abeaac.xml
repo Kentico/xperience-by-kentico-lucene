@@ -10,5 +10,7 @@
     </Parent>
   </ContentItemDataCommonDataID>
   <ContentItemDataGUID>3c0d5d68-154a-4615-9f26-aa9d99abeaac</ContentItemDataGUID>
-  <ProductType>DancingGoat.ProductBrewer</ProductType>
+  <ProductCategoryTag>
+    <![CDATA[[{"Identifier":"4c3bece5-3552-461c-b8f0-29f4fca27684"}]]]>
+  </ProductCategoryTag>
 </contentitemdata.dancinggoat.productcategory>

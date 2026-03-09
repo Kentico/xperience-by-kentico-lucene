@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-
-using DancingGoat;
+﻿using DancingGoat;
 using DancingGoat.EmailComponents;
 using DancingGoat.Helpers.Generators;
 using DancingGoat.Models;
-using DancingGoat.Search;
 
 using CMS;
 using CMS.Base;
@@ -21,23 +16,32 @@ using Kentico.PageBuilder.Web.Mvc;
 using Kentico.Xperience.Mjml;
 using Kentico.Web.Mvc;
 
-
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Http;
+using Kentico.Xperience.Cloud;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Abstractions;
 using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Routing;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 
 using Samples.DancingGoat;
+using DancingGoat.Search;
 
 [assembly: AssemblyDiscoverable]
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddXperienceCloudApplicationInsights(builder.Configuration);
+builder.Services.AddXperienceCloudChannelRequirements();
+
+if (builder.Environment.IsQa() ||
+    builder.Environment.IsUat() ||
+    builder.Environment.IsEnvironment(CloudEnvironments.Custom) ||
+    builder.Environment.IsEnvironment(CloudEnvironments.Staging) ||
+    builder.Environment.IsProduction())
+{
+    builder.Services.AddKenticoCloud(builder.Configuration);
+    builder.Services.AddXperienceCloudSendGrid(builder.Configuration);
+    builder.Services.AddXperienceCloudDataProtection(builder.Configuration);
+}
 
 builder.Services.AddKentico(features =>
 {
@@ -45,12 +49,12 @@ builder.Services.AddKentico(features =>
     {
         DefaultSectionIdentifier = ComponentIdentifiers.SINGLE_COLUMN_SECTION,
         RegisterDefaultSection = false,
-        ContentTypeNames = new[]
-        {
+        ContentTypeNames =
+        [
             LandingPage.CONTENT_TYPE_NAME,
             ContactsPage.CONTENT_TYPE_NAME,
             ArticlePage.CONTENT_TYPE_NAME
-        }
+        ]
     });
 
     features.UseEmailBuilder();
@@ -66,7 +70,10 @@ builder.Services.Configure<RouteOptions>(options => options.LowercaseUrls = true
 builder.Services.AddLocalization()
     .AddControllersWithViews()
     .AddViewLocalization()
-    .AddDataAnnotationsLocalization(options => options.DataAnnotationLocalizerProvider = (type, factory) => factory.Create(typeof(SharedResources)));
+    .AddDataAnnotationsLocalization(options =>
+    {
+        options.DataAnnotationLocalizerProvider = (type, factory) => factory.Create(typeof(SharedResources));
+    });
 
 builder.Services.AddDancingGoatServices();
 
@@ -94,6 +101,14 @@ app.UseCookiePolicy();
 
 app.UseAuthentication();
 
+if (builder.Environment.IsQa() ||
+    builder.Environment.IsUat() ||
+    builder.Environment.IsEnvironment(CloudEnvironments.Custom) ||
+    builder.Environment.IsEnvironment(CloudEnvironments.Staging) ||
+    builder.Environment.IsProduction())
+{
+    app.UseKenticoCloud();
+}
 
 app.UseKentico();
 

@@ -4,31 +4,42 @@ namespace Kentico.Xperience.Lucene.Core.Indexing;
 
 public record IndexRetentionPolicy(int NumberOfKeptPublishedGenerations);
 
+/// <summary>
+/// Provides context and operations for managing index storage, including retrieval, generation, publishing, retention
+/// enforcement, and deletion of index generations.
+/// </summary>
+/// <remarks>This class encapsulates the logic for interacting with index storage using a specified storage
+/// strategy and retention policy. It is typically used to coordinate the lifecycle of index generations, ensuring
+/// published indices are tracked and retention policies are enforced. Thread safety depends on the underlying storage
+/// strategy implementation.</remarks>
 public class IndexStorageContext
 {
     private readonly ILuceneIndexStorageStrategy storageStrategy;
-    private readonly string indexStoragePathRoot;
     private readonly IndexRetentionPolicy retentionPolicy;
+
+
+    internal string IndexStoragePathRoot { get; }
+
 
     public IndexStorageContext(ILuceneIndexStorageStrategy selectedStorageStrategy, string indexStoragePathRoot, IndexRetentionPolicy retentionPolicy)
     {
         storageStrategy = selectedStorageStrategy;
-        this.indexStoragePathRoot = indexStoragePathRoot;
+        IndexStoragePathRoot = indexStoragePathRoot;
         this.retentionPolicy = retentionPolicy;
     }
 
+
     public IndexStorageModel GetPublishedIndex()
     {
-
         var published = storageStrategy
-            .GetExistingIndices(indexStoragePathRoot)
+            .GetExistingIndices(IndexStoragePathRoot)
             .Where(x => x.IsPublished)
             .MaxBy(x => x.Generation);
 
         if (published == null)
         {
-            string indexPath = storageStrategy.FormatPath(indexStoragePathRoot, 1, false);
-            string taxonomyPath = storageStrategy.FormatTaxonomyPath(indexStoragePathRoot, 1, false);
+            string indexPath = storageStrategy.FormatPath(IndexStoragePathRoot, 1, false);
+            string taxonomyPath = storageStrategy.FormatTaxonomyPath(IndexStoragePathRoot, 1, false);
             published = new IndexStorageModel(indexPath, taxonomyPath, 1, true);
         }
 
@@ -41,7 +52,7 @@ public class IndexStorageContext
     public IndexStorageModel GetNextGeneration()
     {
         var lastIndex = storageStrategy
-            .GetExistingIndices(indexStoragePathRoot)
+            .GetExistingIndices(IndexStoragePathRoot)
             .MaxBy(x => x.Generation);
 
         IndexStorageModel? newIndex;
@@ -49,8 +60,8 @@ public class IndexStorageContext
         {
             case var (_, _, generation, published):
                 int nextGeneration = published ? generation + 1 : generation;
-                string indexPath = storageStrategy.FormatPath(indexStoragePathRoot, nextGeneration, false);
-                string taxonomyPath = storageStrategy.FormatTaxonomyPath(indexStoragePathRoot, nextGeneration, false);
+                string indexPath = storageStrategy.FormatPath(IndexStoragePathRoot, nextGeneration, false);
+                string taxonomyPath = storageStrategy.FormatTaxonomyPath(IndexStoragePathRoot, nextGeneration, false);
                 newIndex = new IndexStorageModel(indexPath, taxonomyPath, nextGeneration, false);
                 break;
             default:
@@ -58,18 +69,18 @@ public class IndexStorageContext
                 break;
         }
 
-        return newIndex with { Path = storageStrategy.FormatPath(indexStoragePathRoot, newIndex.Generation, newIndex.IsPublished) };
+        return newIndex with { Path = storageStrategy.FormatPath(IndexStoragePathRoot, newIndex.Generation, newIndex.IsPublished) };
     }
 
     public IndexStorageModel GetLastGeneration(bool defaultPublished)
     {
         var model = storageStrategy
-            .GetExistingIndices(indexStoragePathRoot)
+            .GetExistingIndices(IndexStoragePathRoot)
             .MaxBy(x => x.Generation);
         if (model == null)
         {
-            string indexPath = storageStrategy.FormatPath(indexStoragePathRoot, 1, defaultPublished);
-            string taxonomyPath = storageStrategy.FormatTaxonomyPath(indexStoragePathRoot, 1, defaultPublished);
+            string indexPath = storageStrategy.FormatPath(IndexStoragePathRoot, 1, defaultPublished);
+            string taxonomyPath = storageStrategy.FormatTaxonomyPath(IndexStoragePathRoot, 1, defaultPublished);
             model = new IndexStorageModel(indexPath, taxonomyPath, 1, defaultPublished);
         }
         return model;
@@ -83,7 +94,7 @@ public class IndexStorageContext
     public IndexStorageModel GetNextOrOpenNextGeneration()
     {
         var lastIndex = storageStrategy
-            .GetExistingIndices(indexStoragePathRoot)
+            .GetExistingIndices(IndexStoragePathRoot)
             .MaxBy(x => x.Generation);
 
         switch (lastIndex)
@@ -92,14 +103,14 @@ public class IndexStorageContext
                 return lastIndex;
             case (_, _, var generation, true):
             {
-                string indexPath = storageStrategy.FormatPath(indexStoragePathRoot, generation + 1, false);
-                string taxonomyPath = storageStrategy.FormatTaxonomyPath(indexStoragePathRoot, generation + 1, false);
+                string indexPath = storageStrategy.FormatPath(IndexStoragePathRoot, generation + 1, false);
+                string taxonomyPath = storageStrategy.FormatTaxonomyPath(IndexStoragePathRoot, generation + 1, false);
                 return new IndexStorageModel(indexPath, taxonomyPath, generation + 1, false);
             }
             case null:
             {
-                string indexPath = storageStrategy.FormatPath(indexStoragePathRoot, 1, false);
-                string taxonomyPath = storageStrategy.FormatTaxonomyPath(indexStoragePathRoot, 1, false);
+                string indexPath = storageStrategy.FormatPath(IndexStoragePathRoot, 1, false);
+                string taxonomyPath = storageStrategy.FormatTaxonomyPath(IndexStoragePathRoot, 1, false);
                 // no existing index, lets create new one
                 return new IndexStorageModel(indexPath, taxonomyPath, 1, false);
             }
@@ -115,7 +126,7 @@ public class IndexStorageContext
         int kept = retentionPolicy.NumberOfKeptPublishedGenerations;
 
         var ordered = storageStrategy
-            .GetExistingIndices(indexStoragePathRoot)
+            .GetExistingIndices(IndexStoragePathRoot)
             .OrderByDescending(s => s.Generation)
             .ToArray();
 
@@ -146,9 +157,9 @@ public class IndexStorageContext
             }
         }
 
-        storageStrategy.PerformCleanup(indexStoragePathRoot);
+        storageStrategy.PerformCleanup(IndexStoragePathRoot);
     }
 
     public async Task<bool> DeleteIndex() =>
-        await storageStrategy.DeleteIndex(indexStoragePathRoot);
+        await storageStrategy.DeleteIndex(IndexStoragePathRoot);
 }

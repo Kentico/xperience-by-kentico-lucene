@@ -13,7 +13,7 @@
   <ContentItemCommonDataFirstPublishedWhen>2025-02-04 14:09:43Z</ContentItemCommonDataFirstPublishedWhen>
   <ContentItemCommonDataGUID>87b9abd5-e1bc-4cbb-a32a-af05b07309ee</ContentItemCommonDataGUID>
   <ContentItemCommonDataIsLatest>True</ContentItemCommonDataIsLatest>
-  <ContentItemCommonDataLastPublishedWhen>2025-04-14 16:08:00Z</ContentItemCommonDataLastPublishedWhen>
+  <ContentItemCommonDataLastPublishedWhen>2025-09-11 07:38:12Z</ContentItemCommonDataLastPublishedWhen>
   <ContentItemCommonDataVersionStatus>2</ContentItemCommonDataVersionStatus>
   <ProductFieldCategory>
     <![CDATA[[{"Identifier":"4c3bece5-3552-461c-b8f0-29f4fca27684"}]]]>
@@ -30,7 +30,7 @@
   <ContentItemReferences>
     <cms.contentitemreference>
       <ContentItemReferenceGroupGUID>af37d29a-2fc8-4ead-82ef-d5ec6998f910</ContentItemReferenceGroupGUID>
-      <ContentItemReferenceGUID>c593bf46-85fc-423c-ae67-398ca533dfca</ContentItemReferenceGUID>
+      <ContentItemReferenceGUID>e45b7568-36af-44af-8859-6a17be4eb40a</ContentItemReferenceGUID>
       <ContentItemReferenceSourceCommonDataID>
         <GUID>87b9abd5-e1bc-4cbb-a32a-af05b07309ee</GUID>
         <ObjectType>cms.contentitemcommondata</ObjectType>

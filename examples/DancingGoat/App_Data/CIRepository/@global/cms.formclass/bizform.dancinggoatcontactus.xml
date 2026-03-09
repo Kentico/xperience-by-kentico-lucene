@@ -31,14 +31,13 @@
           <componentidentifier>Kentico.TextInput</componentidentifier>
         </settings>
         <validationrulesdata>
-          <ValidationRuleConfiguration>
-            <Identifier>Kentico.MaximumLength</Identifier>
-            <ValidationRule>
-              <InstanceIdentifier>59c0bb49-c4e4-4f6b-9c42-ebda8b17337c</InstanceIdentifier>
+          <FormValidationRuleConfiguration>
+            <ValidationRuleIdentifier>Kentico.MaximumStringLengthFormValidationRule</ValidationRuleIdentifier>
+            <RuleValues>
               <ErrorMessage>Maximum allowed length of the input text is 100.</ErrorMessage>
               <MaximumLength>100</MaximumLength>
-            </ValidationRule>
-          </ValidationRuleConfiguration>
+            </RuleValues>
+          </FormValidationRuleConfiguration>
         </validationrulesdata>
       </field>
       <field allowempty="true" column="UserLastName" columnsize="500" columntype="text" enabled="true" guid="a4b3216b-0b12-4c36-9147-0ea02477b40b" visible="true">
@@ -50,14 +49,13 @@
           <componentidentifier>Kentico.TextInput</componentidentifier>
         </settings>
         <validationrulesdata>
-          <ValidationRuleConfiguration>
-            <Identifier>Kentico.MaximumLength</Identifier>
-            <ValidationRule>
-              <InstanceIdentifier>a004a57d-a084-445e-bea6-f589aaea1548</InstanceIdentifier>
+          <FormValidationRuleConfiguration>
+            <ValidationRuleIdentifier>Kentico.MaximumStringLengthFormValidationRule</ValidationRuleIdentifier>
+            <RuleValues>
               <ErrorMessage>Maximum allowed length of the input text is 100.</ErrorMessage>
               <MaximumLength>100</MaximumLength>
-            </ValidationRule>
-          </ValidationRuleConfiguration>
+            </RuleValues>
+          </FormValidationRuleConfiguration>
         </validationrulesdata>
       </field>
       <field column="UserEmail" columnsize="500" columntype="text" enabled="true" guid="daae1fe5-f5a2-48de-b9f5-03d49dca3a6e" visible="true">
@@ -69,14 +67,13 @@
           <componentidentifier>Kentico.EmailInput</componentidentifier>
         </settings>
         <validationrulesdata>
-          <ValidationRuleConfiguration>
-            <Identifier>Kentico.MaximumLength</Identifier>
-            <ValidationRule>
-              <InstanceIdentifier>0e4f50f5-89fa-49fd-a4e3-9bb32ee6b244</InstanceIdentifier>
+          <FormValidationRuleConfiguration>
+            <ValidationRuleIdentifier>Kentico.MaximumStringLengthFormValidationRule</ValidationRuleIdentifier>
+            <RuleValues>
               <ErrorMessage>Maximum allowed length of the input text is 254.</ErrorMessage>
               <MaximumLength>254</MaximumLength>
-            </ValidationRule>
-          </ValidationRuleConfiguration>
+            </RuleValues>
+          </FormValidationRuleConfiguration>
         </validationrulesdata>
       </field>
       <field column="UserMessage" columntype="longtext" enabled="true" guid="8b99a7b9-5001-4e61-a502-c0e32e6e2598" visible="true">

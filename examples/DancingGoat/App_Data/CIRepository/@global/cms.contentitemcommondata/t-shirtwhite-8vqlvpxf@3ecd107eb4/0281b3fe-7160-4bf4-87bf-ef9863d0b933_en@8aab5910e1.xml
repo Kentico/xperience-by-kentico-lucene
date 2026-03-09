@@ -13,7 +13,7 @@
   <ContentItemCommonDataFirstPublishedWhen>2025-03-05 09:46:25Z</ContentItemCommonDataFirstPublishedWhen>
   <ContentItemCommonDataGUID>0281b3fe-7160-4bf4-87bf-ef9863d0b933</ContentItemCommonDataGUID>
   <ContentItemCommonDataIsLatest>True</ContentItemCommonDataIsLatest>
-  <ContentItemCommonDataLastPublishedWhen>2025-04-14 16:30:28Z</ContentItemCommonDataLastPublishedWhen>
+  <ContentItemCommonDataLastPublishedWhen>2025-09-11 07:38:17Z</ContentItemCommonDataLastPublishedWhen>
   <ContentItemCommonDataVersionStatus>2</ContentItemCommonDataVersionStatus>
   <ProductFieldCategory>
     <![CDATA[[{"Identifier":"8f44b1a7-d508-4dbb-987e-d3738a51272c"}]]]>
@@ -29,20 +29,7 @@
   <ContentItemReferences>
     <cms.contentitemreference>
       <ContentItemReferenceGroupGUID>7307ad92-817c-4a42-ae99-67ffa727bac5</ContentItemReferenceGroupGUID>
-      <ContentItemReferenceGUID>ce1e5386-3e12-4ab2-968c-29ab4fe57833</ContentItemReferenceGUID>
-      <ContentItemReferenceSourceCommonDataID>
-        <GUID>0281b3fe-7160-4bf4-87bf-ef9863d0b933</GUID>
-        <ObjectType>cms.contentitemcommondata</ObjectType>
-      </ContentItemReferenceSourceCommonDataID>
-      <ContentItemReferenceTargetItemID>
-        <CodeName>T-shirtWhiteL-bddjteye</CodeName>
-        <GUID>8eca26e4-4d8f-4ea5-a006-6c184758ac54</GUID>
-        <ObjectType>cms.contentitem</ObjectType>
-      </ContentItemReferenceTargetItemID>
-    </cms.contentitemreference>
-    <cms.contentitemreference>
-      <ContentItemReferenceGroupGUID>7307ad92-817c-4a42-ae99-67ffa727bac5</ContentItemReferenceGroupGUID>
-      <ContentItemReferenceGUID>e0bf43ad-a2a5-4f78-ae9d-2cda4299574d</ContentItemReferenceGUID>
+      <ContentItemReferenceGUID>6f348ea4-5fc3-4953-a5a4-300636989030</ContentItemReferenceGUID>
       <ContentItemReferenceSourceCommonDataID>
         <GUID>0281b3fe-7160-4bf4-87bf-ef9863d0b933</GUID>
         <ObjectType>cms.contentitemcommondata</ObjectType>
@@ -55,20 +42,7 @@
     </cms.contentitemreference>
     <cms.contentitemreference>
       <ContentItemReferenceGroupGUID>7307ad92-817c-4a42-ae99-67ffa727bac5</ContentItemReferenceGroupGUID>
-      <ContentItemReferenceGUID>62686214-5431-4b2c-bf2c-dff58b57dab2</ContentItemReferenceGUID>
-      <ContentItemReferenceSourceCommonDataID>
-        <GUID>0281b3fe-7160-4bf4-87bf-ef9863d0b933</GUID>
-        <ObjectType>cms.contentitemcommondata</ObjectType>
-      </ContentItemReferenceSourceCommonDataID>
-      <ContentItemReferenceTargetItemID>
-        <CodeName>T-shirtWhiteM-sbm1ecru</CodeName>
-        <GUID>9b5e10d5-5ff3-489b-a82e-5c69dc6c89e0</GUID>
-        <ObjectType>cms.contentitem</ObjectType>
-      </ContentItemReferenceTargetItemID>
-    </cms.contentitemreference>
-    <cms.contentitemreference>
-      <ContentItemReferenceGroupGUID>7307ad92-817c-4a42-ae99-67ffa727bac5</ContentItemReferenceGroupGUID>
-      <ContentItemReferenceGUID>a99101db-e011-458d-8f63-e486bc412ae6</ContentItemReferenceGUID>
+      <ContentItemReferenceGUID>19041ee9-341f-4c36-bbdc-4398014567a0</ContentItemReferenceGUID>
       <ContentItemReferenceSourceCommonDataID>
         <GUID>0281b3fe-7160-4bf4-87bf-ef9863d0b933</GUID>
         <ObjectType>cms.contentitemcommondata</ObjectType>
@@ -80,8 +54,34 @@
       </ContentItemReferenceTargetItemID>
     </cms.contentitemreference>
     <cms.contentitemreference>
+      <ContentItemReferenceGroupGUID>7307ad92-817c-4a42-ae99-67ffa727bac5</ContentItemReferenceGroupGUID>
+      <ContentItemReferenceGUID>75df1ca4-def7-436a-8b87-5e1fd5506061</ContentItemReferenceGUID>
+      <ContentItemReferenceSourceCommonDataID>
+        <GUID>0281b3fe-7160-4bf4-87bf-ef9863d0b933</GUID>
+        <ObjectType>cms.contentitemcommondata</ObjectType>
+      </ContentItemReferenceSourceCommonDataID>
+      <ContentItemReferenceTargetItemID>
+        <CodeName>T-shirtWhiteL-bddjteye</CodeName>
+        <GUID>8eca26e4-4d8f-4ea5-a006-6c184758ac54</GUID>
+        <ObjectType>cms.contentitem</ObjectType>
+      </ContentItemReferenceTargetItemID>
+    </cms.contentitemreference>
+    <cms.contentitemreference>
+      <ContentItemReferenceGroupGUID>7307ad92-817c-4a42-ae99-67ffa727bac5</ContentItemReferenceGroupGUID>
+      <ContentItemReferenceGUID>c155e1a5-98a9-4c39-827a-9f4d650cb64e</ContentItemReferenceGUID>
+      <ContentItemReferenceSourceCommonDataID>
+        <GUID>0281b3fe-7160-4bf4-87bf-ef9863d0b933</GUID>
+        <ObjectType>cms.contentitemcommondata</ObjectType>
+      </ContentItemReferenceSourceCommonDataID>
+      <ContentItemReferenceTargetItemID>
+        <CodeName>T-shirtWhiteM-sbm1ecru</CodeName>
+        <GUID>9b5e10d5-5ff3-489b-a82e-5c69dc6c89e0</GUID>
+        <ObjectType>cms.contentitem</ObjectType>
+      </ContentItemReferenceTargetItemID>
+    </cms.contentitemreference>
+    <cms.contentitemreference>
       <ContentItemReferenceGroupGUID>af37d29a-2fc8-4ead-82ef-d5ec6998f910</ContentItemReferenceGroupGUID>
-      <ContentItemReferenceGUID>986b667f-dc34-412f-9aed-41f5c603b9ad</ContentItemReferenceGUID>
+      <ContentItemReferenceGUID>f89db7d4-7774-4afe-885c-1c6968fa7c25</ContentItemReferenceGUID>
       <ContentItemReferenceSourceCommonDataID>
         <GUID>0281b3fe-7160-4bf4-87bf-ef9863d0b933</GUID>
         <ObjectType>cms.contentitemcommondata</ObjectType>

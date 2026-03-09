@@ -14,12 +14,12 @@
           <fielddescriptionashtml>False</fielddescriptionashtml>
         </properties>
         <settings>
-          <AllowedContentItemTypeIdentifiers>
-            <![CDATA[["6e2135cc-0f14-48aa-b05f-6c4e59431e0b","18ed6af4-38d6-4e4f-a634-1d0c88ec4e7d","7f74020d-0a9e-46fd-bfcc-50b893e94451","fa282f6c-4f05-435e-b520-720d1a5347d7","cecc8275-51af-4395-9098-955c371907ad"]]]>
-          </AllowedContentItemTypeIdentifiers>
+          <AllowedSchemaIdentifiers>
+            <![CDATA[["fe13f703-8744-4947-8c01-5f78bbd5039d"]]]>
+          </AllowedSchemaIdentifiers>
           <controlname>Kentico.Administration.ContentItemSelector</controlname>
           <MaximumItems>1</MaximumItems>
-          <SelectionType>contentTypes</SelectionType>
+          <SelectionType>reusableFieldSchemas</SelectionType>
         </settings>
         <validationrulesdata>
           <ValidationRuleConfiguration>
