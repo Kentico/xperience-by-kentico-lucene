@@ -3,6 +3,7 @@ using CMS.Core;
 using CMS.DataEngine;
 using CMS.Helpers;
 using CMS.Helpers.Caching.Abstractions;
+using CMS.IO;
 using CMS.Websites;
 
 using Kentico.Xperience.Lucene.Core.Scaling;
@@ -14,6 +15,8 @@ using Lucene.Net.Search;
 
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
+
+using CmsDirectoryInfo = CMS.IO.DirectoryInfo;
 
 namespace Kentico.Xperience.Lucene.Core.Indexing;
 
@@ -81,7 +84,6 @@ internal class DefaultLuceneClient : ILuceneClient
         this.cache = cache;
         this.log = log;
         this.indexManager = indexManager;
-        this.indexManager = indexManager;
         this.webFarmService = webFarmService;
         this.luceneSearchOptions = luceneSearchOptions.Value;
     }
@@ -114,8 +116,8 @@ internal class DefaultLuceneClient : ILuceneClient
                 Entries = s.IndexReader.NumDocs
             });
 
-            var dir = new DirectoryInfo(i.StorageContext.GetPublishedIndex().Path);
-            statistics.UpdatedAt = dir.LastWriteTime;
+            var dir = CmsDirectoryInfo.New(i.StorageContext.IndexStoragePathRoot);
+            statistics.UpdatedAt = GetLastWriteTime(dir);
             return statistics;
         }).ToList();
 
@@ -153,11 +155,14 @@ internal class DefaultLuceneClient : ILuceneClient
 
     public async Task<bool> DeleteIndex(LuceneIndex luceneIndex)
     {
-        webFarmService.CreateTask(new DeleteIndexWebFarmTask
+        if (!StorageHelper.IsExternalStorage(luceneIndex.StorageContext.IndexStoragePathRoot))
         {
-            IndexName = luceneIndex.IndexName,
-            CreatorName = webFarmService.ServerName
-        });
+            webFarmService.CreateTask(new DeleteIndexWebFarmTask
+            {
+                IndexName = luceneIndex.IndexName,
+                CreatorName = webFarmService.ServerName
+            });
+        }
 
         return await luceneIndex.StorageContext.DeleteIndex();
     }
@@ -187,11 +192,14 @@ internal class DefaultLuceneClient : ILuceneClient
         // Clear statistics cache so listing displays updated data after rebuild
         cacheAccessor.Remove(CACHEKEY_STATISTICS);
 
-        webFarmService.CreateTask(new ResetIndexWebFarmTask
+        if (!StorageHelper.IsExternalStorage(luceneIndex.StorageContext.IndexStoragePathRoot))
         {
-            IndexName = luceneIndex.IndexName,
-            CreatorName = webFarmService.ServerName
-        });
+            webFarmService.CreateTask(new ResetIndexWebFarmTask
+            {
+                IndexName = luceneIndex.IndexName,
+                CreatorName = webFarmService.ServerName
+            });
+        }
 
         luceneIndexService.ResetIndex(luceneIndex);
 
@@ -417,4 +425,34 @@ internal class DefaultLuceneClient : ILuceneClient
 
             return results;
         }, new CacheSettings(5, nameof(DefaultLuceneClient), nameof(GetAllLanguages)));
+
+
+    /// <summary>
+    /// Gets the last write time of the directory, if the directory itself doesn't have a valid last write time,
+    /// it will return the latest last write time of the files within the directory.
+    /// If there are no files or an error occurs, it returns DateTime.MinValue.
+    /// </summary>
+    private static DateTime GetLastWriteTime(CmsDirectoryInfo dir)
+    {
+        try
+        {
+            var lastWriteTime = dir.LastWriteTime;
+            if (lastWriteTime != DateTime.MinValue)
+            {
+                return lastWriteTime;
+            }
+
+            var files = dir.GetFiles("*", CMS.IO.SearchOption.AllDirectories);
+            if (files.Length == 0)
+            {
+                return DateTime.MinValue;
+            }
+
+            return files.Max(f => f.LastWriteTime);
+        }
+        catch
+        {
+            return DateTime.MinValue;
+        }
+    }
 }

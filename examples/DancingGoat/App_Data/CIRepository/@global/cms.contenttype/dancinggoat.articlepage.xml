@@ -19,7 +19,6 @@
       </field>
       <field column="ArticlePagePublishDate" columnprecision="0" columntype="date" enabled="true" guid="f6950735-137a-4bec-be1d-09e64de92088" visible="true">
         <properties>
-          <explanationtext>{$base.forms.dateinput.explanation$}</explanationtext>
           <explanationtextashtml>False</explanationtextashtml>
           <fieldcaption>Publish date</fieldcaption>
           <fielddescriptionashtml>False</fielddescriptionashtml>

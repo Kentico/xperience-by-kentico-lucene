@@ -141,3 +141,7 @@ nuget-local/*.snupkg
 mcp.json
 claude_desktop_config.json
 mcp_config.json
+examples/DancingGoat/$LuceneLocks/
+examples/DancingGoat/DeploymentPackage.zip
+examples/DancingGoat/App_Data/$CDRepository/.lock/
+examples/DancingGoat/$CDRepository

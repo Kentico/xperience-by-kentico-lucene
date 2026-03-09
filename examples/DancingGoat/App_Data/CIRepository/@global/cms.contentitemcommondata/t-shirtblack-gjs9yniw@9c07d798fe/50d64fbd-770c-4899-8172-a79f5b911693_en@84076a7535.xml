@@ -13,7 +13,7 @@
   <ContentItemCommonDataFirstPublishedWhen>2025-03-05 07:57:23Z</ContentItemCommonDataFirstPublishedWhen>
   <ContentItemCommonDataGUID>50d64fbd-770c-4899-8172-a79f5b911693</ContentItemCommonDataGUID>
   <ContentItemCommonDataIsLatest>True</ContentItemCommonDataIsLatest>
-  <ContentItemCommonDataLastPublishedWhen>2025-04-14 16:26:35Z</ContentItemCommonDataLastPublishedWhen>
+  <ContentItemCommonDataLastPublishedWhen>2025-09-11 07:38:17Z</ContentItemCommonDataLastPublishedWhen>
   <ContentItemCommonDataVersionStatus>2</ContentItemCommonDataVersionStatus>
   <ProductFieldCategory>
     <![CDATA[[{"Identifier":"8f44b1a7-d508-4dbb-987e-d3738a51272c"}]]]>
@@ -32,20 +32,7 @@
   <ContentItemReferences>
     <cms.contentitemreference>
       <ContentItemReferenceGroupGUID>7307ad92-817c-4a42-ae99-67ffa727bac5</ContentItemReferenceGroupGUID>
-      <ContentItemReferenceGUID>9d538d66-f280-40f7-8758-06a5036616b4</ContentItemReferenceGUID>
-      <ContentItemReferenceSourceCommonDataID>
-        <GUID>50d64fbd-770c-4899-8172-a79f5b911693</GUID>
-        <ObjectType>cms.contentitemcommondata</ObjectType>
-      </ContentItemReferenceSourceCommonDataID>
-      <ContentItemReferenceTargetItemID>
-        <CodeName>T-shirtBlackL-epqvf7lk</CodeName>
-        <GUID>8f4eaaf4-c3d0-42bc-b111-fd289a36cab8</GUID>
-        <ObjectType>cms.contentitem</ObjectType>
-      </ContentItemReferenceTargetItemID>
-    </cms.contentitemreference>
-    <cms.contentitemreference>
-      <ContentItemReferenceGroupGUID>7307ad92-817c-4a42-ae99-67ffa727bac5</ContentItemReferenceGroupGUID>
-      <ContentItemReferenceGUID>51925da9-a1e7-46f9-9c8a-5fdc330d679c</ContentItemReferenceGUID>
+      <ContentItemReferenceGUID>6c8314d5-e9af-4281-9ef9-29c9a7ea19d2</ContentItemReferenceGUID>
       <ContentItemReferenceSourceCommonDataID>
         <GUID>50d64fbd-770c-4899-8172-a79f5b911693</GUID>
         <ObjectType>cms.contentitemcommondata</ObjectType>
@@ -58,7 +45,7 @@
     </cms.contentitemreference>
     <cms.contentitemreference>
       <ContentItemReferenceGroupGUID>7307ad92-817c-4a42-ae99-67ffa727bac5</ContentItemReferenceGroupGUID>
-      <ContentItemReferenceGUID>474d31f0-2043-4179-82d3-f071b049dc12</ContentItemReferenceGUID>
+      <ContentItemReferenceGUID>9dd0228b-aa59-4ff4-bb45-b1cde84f3833</ContentItemReferenceGUID>
       <ContentItemReferenceSourceCommonDataID>
         <GUID>50d64fbd-770c-4899-8172-a79f5b911693</GUID>
         <ObjectType>cms.contentitemcommondata</ObjectType>
@@ -70,8 +57,21 @@
       </ContentItemReferenceTargetItemID>
     </cms.contentitemreference>
     <cms.contentitemreference>
+      <ContentItemReferenceGroupGUID>7307ad92-817c-4a42-ae99-67ffa727bac5</ContentItemReferenceGroupGUID>
+      <ContentItemReferenceGUID>63b4582a-4e3c-4e63-925c-fcf45638dc7f</ContentItemReferenceGUID>
+      <ContentItemReferenceSourceCommonDataID>
+        <GUID>50d64fbd-770c-4899-8172-a79f5b911693</GUID>
+        <ObjectType>cms.contentitemcommondata</ObjectType>
+      </ContentItemReferenceSourceCommonDataID>
+      <ContentItemReferenceTargetItemID>
+        <CodeName>T-shirtBlackL-epqvf7lk</CodeName>
+        <GUID>8f4eaaf4-c3d0-42bc-b111-fd289a36cab8</GUID>
+        <ObjectType>cms.contentitem</ObjectType>
+      </ContentItemReferenceTargetItemID>
+    </cms.contentitemreference>
+    <cms.contentitemreference>
       <ContentItemReferenceGroupGUID>af37d29a-2fc8-4ead-82ef-d5ec6998f910</ContentItemReferenceGroupGUID>
-      <ContentItemReferenceGUID>12e3554a-0275-4fc9-99a2-54345e78c2bd</ContentItemReferenceGUID>
+      <ContentItemReferenceGUID>06dbf2ab-5f3f-4372-ba3c-a975a72ee150</ContentItemReferenceGUID>
       <ContentItemReferenceSourceCommonDataID>
         <GUID>50d64fbd-770c-4899-8172-a79f5b911693</GUID>
         <ObjectType>cms.contentitemcommondata</ObjectType>

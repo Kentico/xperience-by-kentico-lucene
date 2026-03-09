@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<kenticolucene.lucenereusablecontenttypeitem>
+  <LuceneReusableContentTypeItemContentTypeName>DancingGoat.ProductGrinder</LuceneReusableContentTypeItemContentTypeName>
+  <LuceneReusableContentTypeItemGuid>5a6d72b1-c3ec-4305-a7ac-b2a84a4ffb9f</LuceneReusableContentTypeItemGuid>
+  <LuceneReusableContentTypeItemIndexItemId>
+    <CodeName>ddddd</CodeName>
+    <GUID>8aa09988-da06-4237-8bdd-460b79ddad39</GUID>
+    <ObjectType>kenticolucene.luceneindexitem</ObjectType>
+  </LuceneReusableContentTypeItemIndexItemId>
+</kenticolucene.lucenereusablecontenttypeitem>

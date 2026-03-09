@@ -23,17 +23,9 @@ namespace Kentico.Xperience.Lucene.Admin;
 public class IndexListingPage : ListingPage
 {
     private readonly ILuceneClient luceneClient;
-
-
     private readonly IPageLinkGenerator pageLinkGenerator;
-
-
     private readonly ILuceneConfigurationStorageService configurationStorageService;
-
-
     private readonly IConversionService conversionService;
-
-
     private readonly ILuceneIndexManager indexManager;
 
 
@@ -155,10 +147,9 @@ public class IndexListingPage : ListingPage
     /// </summary>
     /// <param name="id">The ID of the row whose action was performed, which corresponds with the internal
     /// <see cref="LuceneIndex.Identifier"/> to rebuild.</param>
-    /// <param name="cancellationToken">The cancellation token for the action.</param>
     /// <returns>The <see cref="ICommandResponse{RowActionResult}"/>.</returns>
     [PageCommand(Permission = LuceneIndexPermissions.REBUILD)]
-    public async Task<ICommandResponse<RowActionResult>> Rebuild(int id, CancellationToken cancellationToken)
+    public async Task<ICommandResponse<RowActionResult>> Rebuild(int id)
     {
         var result = new RowActionResult(false);
         var index = indexManager.GetIndex(id);
@@ -169,7 +160,9 @@ public class IndexListingPage : ListingPage
         }
         try
         {
-            await luceneClient.Rebuild(index.IndexName, cancellationToken);
+            // Rebuild should be allowed to finish even if the user navigates away from the page,
+            // as it is a long-running operation and cancelling it prematurely may lead to an inconsistent state.
+            await luceneClient.Rebuild(index.IndexName, CancellationToken.None);
 
             return ResponseFrom(result)
                 .AddSuccessMessage("Indexing in progress. Visit your Lucene dashboard for details about the indexing process.");
@@ -189,7 +182,7 @@ public class IndexListingPage : ListingPage
     /// <param name="id">The id of the index to delete.</param>
     /// <returns>The <see cref="ICommandResponse{RowActionResult}"/>.</returns>
     [PageCommand(Permission = SystemPermissions.DELETE)]
-    public async Task<ICommandResponse> Delete(int id, CancellationToken _)
+    public new async Task<ICommandResponse> Delete(int id)
     {
         var index = indexManager.GetIndex(id);
         var result = new RowActionResult(false);

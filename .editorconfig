@@ -161,7 +161,7 @@ dotnet_diagnostic.IDE0002.severity                                        = erro
 dotnet_diagnostic.IDE0004.severity                                        = error
 
 # IDE0005: Using directive is unnecessary.
-dotnet_diagnostic.IDE0005.severity                                        = error
+dotnet_diagnostic.IDE0005.severity                                        = warning
 
 # IDE0100: Remove redundant equality
 dotnet_diagnostic.IDE0100.severity                                        = error
@@ -373,7 +373,7 @@ dotnet_diagnostic.IDE0002.severity                                        = erro
 dotnet_diagnostic.IDE0004.severity                                        = error
 
 # IDE0005: Using directive is unnecessary.
-dotnet_diagnostic.IDE0005.severity                                        = error
+dotnet_diagnostic.IDE0005.severity                                        = warning
 
 # IDE0100: Remove redundant equality
 dotnet_diagnostic.IDE0100.severity                                        = error
@@ -425,24 +425,15 @@ dotnet_diagnostic.IDE0018.severity                                        = erro
 csharp_style_expression_bodied_constructors                               = true : error
 dotnet_diagnostic.IDE0021.severity                                        = error
 
-csharp_style_expression_bodied_methods                                    = true : error
-dotnet_diagnostic.IDE0022.severity                                        = error
-
 csharp_style_expression_bodied_operators                                  = true : error
 dotnet_diagnostic.IDE0023.severity                                        = error
 dotnet_diagnostic.IDE0024.severity                                        = error
-
-csharp_style_expression_bodied_properties                                 = true : error
-dotnet_diagnostic.IDE0025.severity                                        = error
 
 csharp_style_expression_bodied_indexers                                   = true : error
 dotnet_diagnostic.IDE0026.severity                                        = error
 
 csharp_style_expression_bodied_accessors                                  = true : error
 dotnet_diagnostic.IDE0027.severity                                        = error
-
-csharp_style_expression_bodied_lambdas                                    = true : error
-dotnet_diagnostic.IDE0053.severity                                        = error
 
 csharp_style_expression_bodied_local_functions                            = true : error
 dotnet_diagnostic.IDE0061.severity                                        = error
@@ -501,7 +492,7 @@ dotnet_diagnostic.IDE0080.severity                                        = erro
 dotnet_diagnostic.IDE0110.severity                                        = warning
 
 # IDE1006: Naming Styles
-dotnet_diagnostic.IDE1006.severity                                        = error
+dotnet_diagnostic.IDE1006.severity                                        = warning
 
 # Naming Conventions
 dotnet_naming_symbols.const_field_symbols.applicable_kinds                = field
@@ -555,24 +546,15 @@ dotnet_naming_rule.members_are_pascal_case.style                          = memb
 csharp_style_expression_bodied_constructors                               = true : error
 dotnet_diagnostic.IDE0021.severity                                        = error
 
-csharp_style_expression_bodied_methods                                    = true : error
-dotnet_diagnostic.IDE0022.severity                                        = error
-
 csharp_style_expression_bodied_operators                                  = true : error
 dotnet_diagnostic.IDE0023.severity                                        = error
 dotnet_diagnostic.IDE0024.severity                                        = error
-
-csharp_style_expression_bodied_properties                                 = true : error
-dotnet_diagnostic.IDE0025.severity                                        = error
 
 csharp_style_expression_bodied_indexers                                   = true : error
 dotnet_diagnostic.IDE0026.severity                                        = error
 
 csharp_style_expression_bodied_accessors                                  = true : error
 dotnet_diagnostic.IDE0027.severity                                        = error
-
-csharp_style_expression_bodied_lambdas                                    = true : error
-dotnet_diagnostic.IDE0053.severity                                        = error
 
 csharp_style_expression_bodied_local_functions                            = true : error
 dotnet_diagnostic.IDE0061.severity                                        = error
@@ -631,7 +613,7 @@ dotnet_diagnostic.IDE0080.severity                                        = erro
 dotnet_diagnostic.IDE0110.severity                                        = warning
 
 # IDE1006: Naming Styles
-dotnet_diagnostic.IDE1006.severity                                        = error
+dotnet_diagnostic.IDE1006.severity                                        = warning
 
 # KXE0004: Type is for evaluation purposes only and is subject to change or removal in future updates. Suppress this diagnostic to proceed.
 dotnet_diagnostic.KXE0004.severity                                        = silent

@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<kenticolucene.luceneindexlanguageitem>
+  <LuceneIndexLanguageItemGuid>bba29952-3e80-487a-ad24-bc0a46dfd1d0</LuceneIndexLanguageItemGuid>
+  <LuceneIndexLanguageItemIndexItemId>
+    <CodeName>ddddd</CodeName>
+    <GUID>8aa09988-da06-4237-8bdd-460b79ddad39</GUID>
+    <ObjectType>kenticolucene.luceneindexitem</ObjectType>
+  </LuceneIndexLanguageItemIndexItemId>
+  <LuceneIndexLanguageItemName>en</LuceneIndexLanguageItemName>
+</kenticolucene.luceneindexlanguageitem>

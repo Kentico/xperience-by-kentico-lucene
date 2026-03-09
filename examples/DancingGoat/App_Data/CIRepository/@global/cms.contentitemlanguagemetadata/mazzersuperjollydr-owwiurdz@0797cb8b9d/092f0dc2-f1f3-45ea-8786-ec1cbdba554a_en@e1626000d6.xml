@@ -50,8 +50,8 @@
         <ObjectType>cms.contentitemlanguagemetadata</ObjectType>
       </ContentItemTagContentItemLanguageMetadataID>
       <ContentItemTagFieldGUID>cea0a90d-d3f3-4f99-a9a3-c2c83821ba50</ContentItemTagFieldGUID>
-      <ContentItemTagGUID>5dfdbdcc-e8e4-4de9-8703-cfda3d22222a</ContentItemTagGUID>
-      <ContentItemTagTagGUID>4c3bece5-3552-461c-b8f0-29f4fca27684</ContentItemTagTagGUID>
+      <ContentItemTagGUID>7bf6ac59-e5a7-40dc-9396-944d8f7b9342</ContentItemTagGUID>
+      <ContentItemTagTagGUID>c33dd46a-0896-4920-b326-7e80659f7600</ContentItemTagTagGUID>
     </cms.contentitemtag>
   </ContentItemTags>
 </cms.contentitemlanguagemetadata>

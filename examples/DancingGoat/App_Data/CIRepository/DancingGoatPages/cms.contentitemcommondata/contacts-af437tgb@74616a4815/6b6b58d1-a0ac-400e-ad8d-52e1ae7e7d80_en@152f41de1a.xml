@@ -22,4 +22,18 @@
   <SEOFieldsAllowSearchIndexing>True</SEOFieldsAllowSearchIndexing>
   <SEOFieldsDescription>Contact information and store locations.</SEOFieldsDescription>
   <SEOFieldsTitle>Contacts - Dancing Goat</SEOFieldsTitle>
+  <ContentItemObjectReferences>
+    <cms.contentitemobjectreference>
+      <ContentItemObjectReferenceGUID>c35a6c07-9d3f-4941-9afd-df9bf7131a23</ContentItemObjectReferenceGUID>
+      <ContentItemObjectReferenceSourceCommonDataID>
+        <GUID>6b6b58d1-a0ac-400e-ad8d-52e1ae7e7d80</GUID>
+        <ObjectType>cms.contentitemcommondata</ObjectType>
+      </ContentItemObjectReferenceSourceCommonDataID>
+      <ContentItemObjectReferenceTargetFormID>
+        <CodeName>DancingGoatContactUs</CodeName>
+        <GUID>0081dc2e-47f4-4acd-80ae-fe39612f379c</GUID>
+        <ObjectType>cms.form</ObjectType>
+      </ContentItemObjectReferenceTargetFormID>
+    </cms.contentitemobjectreference>
+  </ContentItemObjectReferences>
 </cms.contentitemcommondata>

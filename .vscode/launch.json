@@ -13,7 +13,7 @@
       },
       "launchSettingsProfile": "DancingGoat",
       "preLaunchTask": ".NET: build (Solution)",
-      "program": "${workspaceFolder}/examples/DancingGoat/bin/Debug/net6.0/DancingGoat.dll",
+      "program": "${workspaceFolder}/examples/DancingGoat/bin/Debug/net8.0/DancingGoat.dll",
       "cwd": "${workspaceFolder}/examples/DancingGoat",
       "stopAtEntry": false,
       "serverReadyAction": {
@@ -29,7 +29,7 @@
       "type": "coreclr",
       "request": "launch",
       "preLaunchTask": ".NET: build (Solution) - LOCAL_NUGET",
-      "program": "${workspaceFolder}/examples/DancingGoat/bin/Debug/net6.0/DancingGoat.dll",
+      "program": "${workspaceFolder}/examples/DancingGoat/bin/Debug/net8.0/DancingGoat.dll",
       "args": [],
       "cwd": "${workspaceFolder}/examples/DancingGoat",
       "stopAtEntry": false,
