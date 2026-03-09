@@ -89,7 +89,7 @@ public sealed class LuceneIndex
         {
             Constructor = x,
             Parameters = x.GetParameters()
-        });
+        }).ToArray();
 
         var versionedConstructor = constructorParameters.FirstOrDefault(x => x.Parameters.Length == 1 && x.Parameters.Single().ParameterType == typeof(LuceneVersion));
         if (versionedConstructor is not null)
