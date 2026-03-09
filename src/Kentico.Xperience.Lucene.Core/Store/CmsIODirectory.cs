@@ -230,13 +230,15 @@ internal class CmsIODirectory : BaseDirectory
             throw new ArgumentException("File name cannot be null or empty.", nameof(name));
         }
 
-        // Ensure no path traversal attacks
-        if (name.Contains("..") || name.Contains('/') || name.Contains('\\'))
+        // Strip all directory components to prevent path traversal attacks
+        string safeName = Path.GetFileName(name);
+
+        if (string.IsNullOrEmpty(safeName) || safeName != name)
         {
             throw new ArgumentException("File name cannot contain path separators or '..'.", nameof(name));
         }
 
-        return CmsPath.Combine(DirectoryPath, name);
+        return CmsPath.Combine(DirectoryPath, safeName);
     }
 
 
