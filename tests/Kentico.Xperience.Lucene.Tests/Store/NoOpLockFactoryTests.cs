@@ -1,7 +1,5 @@
 using Kentico.Xperience.Lucene.Core.Store;
 
-using Lucene.Net.Store;
-
 namespace Kentico.Xperience.Lucene.Tests.Store;
 
 [TestFixture]
