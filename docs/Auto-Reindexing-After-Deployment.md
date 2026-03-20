@@ -1,43 +1,12 @@
-# Automatic Lucene Reindexing after Deployment
+# Auto-Reindexing after Deployment
+
+> **Note:** This is a workaround for environments where indexes are stored on the **local file system** and local storage does not persist across deployments (e.g., [Kentico Xperience SaaS](https://docs.kentico.com/x/saas_overview_xp)). The recommended approach is to use an [external storage provider](Index-Storage.md) (such as [Azure Blob Storage](https://docs.kentico.com/x/5IfWCQ) or [Amazon S3](https://docs.kentico.com/x/5YfWCQ)), which eliminates the need for automatic reindexing entirely.
 
 ## Overview
 
-### Using External Storage (Recommended for SaaS/Cloud)
+When Lucene indexes are stored on the local file system and the environment does not provide persistent file storage, index data is lost during deployments or restarts. To address this, a configuration option is available to enable automatic reindexing based on assembly version changes.
 
-When Lucene indexes are stored on **external shared storage** (such as Azure Blob Storage or Amazon S3) via the CMS.IO abstraction, index data persists across deployments and instance restarts. In this case, **automatic reindexing based on assembly version is not required** — all application instances share the same index files, so a new deployment does not result in lost index data.
-
-To configure external storage for Lucene indexes, register a CMS module that maps the Lucene index path to the appropriate storage provider. See the [DancingGoat `LuceneStorageModule`](../examples/DancingGoat/LuceneStorageModule.cs) for a reference implementation:
-
-```csharp
-[assembly: RegisterModule(typeof(LuceneStorageModule))]
-
-public class LuceneStorageModule : Module
-{
-    private const string CONTAINER_NAME = "lucene";
-
-    public LuceneStorageModule() : base(nameof(LuceneStorageModule)) { }
-
-    protected override void OnInit()
-    {
-        base.OnInit();
-
-        if (Environment.IsQa() || Environment.IsProduction() /* ... */)
-        {
-            // Map Lucene indexes to Azure Blob Storage in cloud environments
-            var provider = AzureStorageProvider.Create();
-            provider.CustomRootPath = CONTAINER_NAME;
-            provider.PublicExternalFolderObject = false;
-            StorageHelper.MapStoragePath($"~/{LuceneStorageConstants.LUCENE_INDEX_PATH}/", provider);
-        }
-    }
-}
-```
-
-### Using Local File System
-
-Without external storage, Lucene integration **requires persistent file system access**. In environments like **Kentico Xperience SaaS**, which do not provide persistent file system storage for indexes, the index data is lost during deployments or restarts. As a result, indexes must be rebuilt after each deployment to ensure correct search functionality.
-
-To address this issue, a configuration option is available to enable automatic reindexing based on assembly version. The solution adds a hosted service that periodically checks the application's assembly version, compares it with the stored assembly version for each index, and updates it after a rebuild. If the versions differ, the index is automatically rebuilt.
+The solution adds a hosted service that periodically checks the application's assembly version, compares it with the stored assembly version for each index, and updates it after a rebuild. If the versions differ, the index is automatically rebuilt.
 
 **Note:** For this feature to work correctly, your project must have a build-time assembly version that changes with each deployment. One approach is to add the following to your `.csproj` file:
 ```xml

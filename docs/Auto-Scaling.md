@@ -8,32 +8,6 @@ When indexes are stored on the **local file system**, each application instance 
 
 ## External Storage (Azure Blob Storage, Amazon S3)
 
-When Lucene indexes are mapped to **external shared storage** via CMS.IO (e.g., Azure Blob Storage or Amazon S3), all instances share the same underlying index files. In this case, **web farm synchronization tasks are automatically disabled** — the system detects external storage and skips creating web farm tasks for index operations, since all instances already see the same data.
+When Lucene indexes are mapped to an **external shared storage** via [CMS.IO](https://docs.kentico.com/x/4YfWCQ) (e.g., [Azure Blob Storage](https://docs.kentico.com/x/5IfWCQ) or [Amazon S3](https://docs.kentico.com/x/5YfWCQ)), all instances share the same underlying index files. In this case, **web farm synchronization tasks are automatically disabled** — the system detects external storage and skips creating web farm tasks for index operations, since all instances already see the same data.
 
-To configure external storage for Lucene indexes, create a CMS module that maps the Lucene index path to the appropriate storage provider. See the [DancingGoat `LuceneStorageModule`](../examples/DancingGoat/LuceneStorageModule.cs) for a complete reference implementation showing how to map the `App_Data/LuceneSearch` path to Azure Blob Storage in cloud environments:
-
-```csharp
-[assembly: RegisterModule(typeof(LuceneStorageModule))]
-
-public class LuceneStorageModule : Module
-{
-    private const string CONTAINER_NAME = "lucene";
-
-    public LuceneStorageModule() : base(nameof(LuceneStorageModule)) { }
-
-    protected override void OnInit()
-    {
-        base.OnInit();
-
-        if (Environment.IsQa() || Environment.IsProduction() /* ... */)
-        {
-            var provider = AzureStorageProvider.Create();
-            provider.CustomRootPath = CONTAINER_NAME;
-            provider.PublicExternalFolderObject = false;
-            StorageHelper.MapStoragePath($"~/{LuceneStorageConstants.LUCENE_INDEX_PATH}/", provider);
-        }
-    }
-}
-```
-
-With external storage, there is no need to configure web farm synchronization for Lucene index operations — all instances share the same index data automatically.
+For instructions on configuring external storage, see [Index Storage](Index-Storage.md).
