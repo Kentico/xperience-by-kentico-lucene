@@ -21,8 +21,8 @@ full support for both admin ui and live site.
 Use `Kentico.Xperience.Lucene.Core` in your Xperience by Kentico project for Lucene Search in your live website.
 Use `Kentico.Xperience.Lucene.Admin` in your Xperience by Kentico Administration project for Lucene Search Administration UI managment.
 
-**Important Compatibility Notice**  
-Lucene integration **requires persistent file system access** to store and manage indexes. In environments like **Kentico Xperience SaaS**, which do not provide persistent file system storage for indexes, the index data is lost during deployments or restarts. As a result, indexes must be rebuilt after each deployment to ensure correct search functionality. See [Auto-Reindexing](./docs/Auto-Reindexing-After-Deployment.md) to address this issue.
+**Index Storage**  
+Lucene indexes are stored using the [CMS.IO](https://docs.kentico.com/x/4YfWCQ) abstraction, which means they can be mapped to external [storage providers](https://docs.kentico.com/x/44fWCQ) like [Azure Blob Storage](https://docs.kentico.com/x/5IfWCQ) or [Amazon S3](https://docs.kentico.com/x/5YfWCQ). This is the recommended approach for cloud and multi-instance deployments — indexes persist across deployments and are shared across all instances. See [Index Storage](./docs/Index-Storage.md) for setup instructions.
 
 ## Screenshots
 

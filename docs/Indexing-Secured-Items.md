@@ -10,7 +10,7 @@ To enable the inclusion of secured items during index rebuilding, add the follow
 
 ```json
 "CMSLuceneSearch": {
-  "IncludeSecuredItems": false
+  "IncludeSecuredItems": true
 }
 ```
 
