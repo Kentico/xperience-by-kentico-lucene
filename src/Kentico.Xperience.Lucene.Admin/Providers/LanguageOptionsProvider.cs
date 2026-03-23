@@ -43,27 +43,25 @@ internal class LanguageOptionsProvider : IGeneralSelectorDataProvider
     // Returns ObjectSelectorListItem<string> options for all item values that are currently selected
     public async Task<IEnumerable<ObjectSelectorListItem<string>>> GetSelectedItemsAsync(IEnumerable<string> selectedValues, CancellationToken cancellationToken)
     {
-        var itemQuery = contentLanguageInfoProvider.Get().Page(0, 20);
-        var items = (await itemQuery.GetEnumerableTypedResultAsync()).Select(x => new ObjectSelectorListItem<string>()
+        if (selectedValues is null)
+        {
+            return [];
+        }
+
+        var selectedValuesList = selectedValues.ToList();
+        if (selectedValuesList.Count == 0)
+        {
+            return [];
+        }
+
+        var itemQuery = contentLanguageInfoProvider.Get()
+            .WhereIn(nameof(ContentLanguageInfo.ContentLanguageName), selectedValuesList);
+
+        return (await itemQuery.GetEnumerableTypedResultAsync()).Select(x => new ObjectSelectorListItem<string>()
         {
             Value = x.ContentLanguageName,
             Text = x.ContentLanguageDisplayName,
             IsValid = true
         });
-
-        var selectedItems = new List<ObjectSelectorListItem<string>>();
-        if (selectedValues is not null)
-        {
-            foreach (string? value in selectedValues)
-            {
-                var item = items.FirstOrDefault(x => x.Value == value);
-
-                if (item != default)
-                {
-                    selectedItems.Add(item);
-                }
-            }
-        }
-        return selectedItems;
     }
 }
