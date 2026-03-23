@@ -67,8 +67,3 @@ Limitations of local storage:
 - **Each instance maintains its own copy** of the index in multi-instance deployments, requiring web farm synchronization.
 
 If you must use local storage in an environment where files do not persist, see [Auto-Reindexing](Auto-Reindexing-After-Deployment.md) for a workaround that rebuilds indexes after deployment based on assembly version changes.
-
-## Related Topics
-
-- [Auto-Scaling Support](Auto-Scaling.md) — how index operations are distributed across multiple instances.
-- [Auto-Reindexing](Auto-Reindexing-After-Deployment.md) — workaround for rebuilding indexes when local storage does not persist.
