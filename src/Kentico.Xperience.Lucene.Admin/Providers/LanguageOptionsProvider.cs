@@ -57,11 +57,16 @@ internal class LanguageOptionsProvider : IGeneralSelectorDataProvider
         var itemQuery = contentLanguageInfoProvider.Get()
             .WhereIn(nameof(ContentLanguageInfo.ContentLanguageName), selectedValuesList);
 
-        return (await itemQuery.GetEnumerableTypedResultAsync()).Select(x => new ObjectSelectorListItem<string>()
-        {
-            Value = x.ContentLanguageName,
-            Text = x.ContentLanguageDisplayName,
-            IsValid = true
-        });
+        var itemsByName = (await itemQuery.GetEnumerableTypedResultAsync())
+            .ToDictionary(x => x.ContentLanguageName, x => new ObjectSelectorListItem<string>()
+            {
+                Value = x.ContentLanguageName,
+                Text = x.ContentLanguageDisplayName,
+                IsValid = true
+            });
+
+        return selectedValuesList
+            .Where(v => itemsByName.ContainsKey(v))
+            .Select(v => itemsByName[v]);
     }
 }
