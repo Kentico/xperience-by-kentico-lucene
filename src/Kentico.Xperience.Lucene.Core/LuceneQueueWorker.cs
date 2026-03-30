@@ -1,5 +1,6 @@
 using CMS.Base;
 using CMS.Core;
+using CMS.IO;
 
 using Kentico.Xperience.Lucene.Core.Indexing;
 using Kentico.Xperience.Lucene.Core.Scaling;
@@ -14,6 +15,7 @@ internal class LuceneQueueWorker : ThreadQueueWorker<LuceneQueueItem, LuceneQueu
 {
     private readonly ILuceneTaskProcessor luceneTaskProcessor;
     private readonly IWebFarmService webFarmService;
+    private readonly ILuceneIndexManager indexManager;
 
     /// <inheritdoc />
     protected override int DefaultInterval => 10000;
@@ -28,6 +30,7 @@ internal class LuceneQueueWorker : ThreadQueueWorker<LuceneQueueItem, LuceneQueu
     {
         luceneTaskProcessor = Service.Resolve<ILuceneTaskProcessor>() ?? throw new InvalidOperationException($"{nameof(ILuceneTaskProcessor)} is not registered.");
         webFarmService = Service.Resolve<IWebFarmService>();
+        indexManager = Service.Resolve<ILuceneIndexManager>() ?? throw new InvalidOperationException($"{nameof(ILuceneIndexManager)} is not registered.");
     }
 
 
@@ -48,14 +51,14 @@ internal class LuceneQueueWorker : ThreadQueueWorker<LuceneQueueItem, LuceneQueu
             return;
         }
 
-        var indexManager = Service.Resolve<ILuceneIndexManager>() ?? throw new InvalidOperationException($"{nameof(ILuceneIndexManager)} is not registered.");
+        var luceneIndexManager = Service.Resolve<ILuceneIndexManager>() ?? throw new InvalidOperationException($"{nameof(ILuceneIndexManager)} is not registered.");
 
-        if (indexManager.GetIndex(queueItem.IndexName) == null)
+        if (luceneIndexManager.GetIndex(queueItem.IndexName) == null)
         {
             throw new InvalidOperationException($"Attempted to log task for Lucene index '{queueItem.IndexName},' but it is not registered.");
         }
 
-        Current.Enqueue(queueItem, false);
+        Current.Enqueue(queueItem, true);
     }
 
 
@@ -104,12 +107,25 @@ internal class LuceneQueueWorker : ThreadQueueWorker<LuceneQueueItem, LuceneQueu
             }
         }
 
-        webFarmService.CreateTask(new ProcessLuceneTasksWebFarmTask
+        // Only propagate tasks to other web farm nodes for indexes on the local file system.
+        // Indexes on external/shared storage are written by a single node; broadcasting to peers
+        // would cause concurrent IndexWriter instances against the same shared index files.
+        var nonExternalWebQueueItems = webQueueItems
+            .Where(x => !StorageHelper.IsExternalStorage(indexManager.GetIndex(x.IndexName)?.StorageContext.IndexStoragePathRoot ?? string.Empty))
+            .ToList();
+        var nonExternalReusableQueueItems = reusableQueueItems
+            .Where(x => !StorageHelper.IsExternalStorage(indexManager.GetIndex(x.IndexName)?.StorageContext.IndexStoragePathRoot ?? string.Empty))
+            .ToList();
+
+        if (nonExternalWebQueueItems.Count > 0 || nonExternalReusableQueueItems.Count > 0)
         {
-            LuceneWebPageQueueItems = webQueueItems,
-            LuceneReusableQueueItems = reusableQueueItems,
-            CreatorName = webFarmService.ServerName
-        });
+            webFarmService.CreateTask(new ProcessLuceneTasksWebFarmTask
+            {
+                LuceneWebPageQueueItems = nonExternalWebQueueItems,
+                LuceneReusableQueueItems = nonExternalReusableQueueItems,
+                CreatorName = webFarmService.ServerName
+            });
+        }
 
         return luceneTaskProcessor.ProcessLuceneTasks(itemList, CancellationToken.None).GetAwaiter().GetResult();
     }
