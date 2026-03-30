@@ -15,7 +15,7 @@ internal class LuceneQueueWorker : ThreadQueueWorker<LuceneQueueItem, LuceneQueu
 {
     private readonly ILuceneTaskProcessor luceneTaskProcessor;
     private readonly IWebFarmService webFarmService;
-    private readonly ILuceneIndexManager indexManager;
+    private readonly ILuceneIndexManager luceneIndexManager;
 
     /// <inheritdoc />
     protected override int DefaultInterval => 10000;
@@ -30,7 +30,7 @@ internal class LuceneQueueWorker : ThreadQueueWorker<LuceneQueueItem, LuceneQueu
     {
         luceneTaskProcessor = Service.Resolve<ILuceneTaskProcessor>() ?? throw new InvalidOperationException($"{nameof(ILuceneTaskProcessor)} is not registered.");
         webFarmService = Service.Resolve<IWebFarmService>();
-        indexManager = Service.Resolve<ILuceneIndexManager>() ?? throw new InvalidOperationException($"{nameof(ILuceneIndexManager)} is not registered.");
+        luceneIndexManager = Service.Resolve<ILuceneIndexManager>() ?? throw new InvalidOperationException($"{nameof(ILuceneIndexManager)} is not registered.");
     }
 
 
@@ -51,14 +51,14 @@ internal class LuceneQueueWorker : ThreadQueueWorker<LuceneQueueItem, LuceneQueu
             return;
         }
 
-        var luceneIndexManager = Service.Resolve<ILuceneIndexManager>() ?? throw new InvalidOperationException($"{nameof(ILuceneIndexManager)} is not registered.");
+        var indexManager = Service.Resolve<ILuceneIndexManager>() ?? throw new InvalidOperationException($"{nameof(ILuceneIndexManager)} is not registered.");
 
-        if (luceneIndexManager.GetIndex(queueItem.IndexName) == null)
+        if (indexManager.GetIndex(queueItem.IndexName) == null)
         {
             throw new InvalidOperationException($"Attempted to log task for Lucene index '{queueItem.IndexName},' but it is not registered.");
         }
 
-        Current.Enqueue(queueItem, true);
+        Current.Enqueue(queueItem, false);
     }
 
 
@@ -107,26 +107,35 @@ internal class LuceneQueueWorker : ThreadQueueWorker<LuceneQueueItem, LuceneQueu
             }
         }
 
-        // Only propagate tasks to other web farm nodes for indexes on the local file system.
-        // Indexes on external/shared storage are written by a single node; broadcasting to peers
-        // would cause concurrent IndexWriter instances against the same shared index files.
-        var nonExternalWebQueueItems = webQueueItems
-            .Where(x => !StorageHelper.IsExternalStorage(indexManager.GetIndex(x.IndexName)?.StorageContext.IndexStoragePathRoot ?? string.Empty))
-            .ToList();
-        var nonExternalReusableQueueItems = reusableQueueItems
-            .Where(x => !StorageHelper.IsExternalStorage(indexManager.GetIndex(x.IndexName)?.StorageContext.IndexStoragePathRoot ?? string.Empty))
-            .ToList();
-
-        if (nonExternalWebQueueItems.Count > 0 || nonExternalReusableQueueItems.Count > 0)
+        if (!IsExternalStorage(webQueueItems, reusableQueueItems))
         {
             webFarmService.CreateTask(new ProcessLuceneTasksWebFarmTask
             {
-                LuceneWebPageQueueItems = nonExternalWebQueueItems,
-                LuceneReusableQueueItems = nonExternalReusableQueueItems,
+                LuceneWebPageQueueItems = webQueueItems,
+                LuceneReusableQueueItems = reusableQueueItems,
                 CreatorName = webFarmService.ServerName
             });
         }
 
         return luceneTaskProcessor.ProcessLuceneTasks(itemList, CancellationToken.None).GetAwaiter().GetResult();
+    }
+
+
+    private bool IsExternalStorage(List<LuceneQueueItemDto<IndexEventWebPageItemModel>> webQueueItems, List<LuceneQueueItemDto<IndexEventReusableItemModel>> reusableQueueItems)
+    {
+        if (webQueueItems.Count > 0)
+        {
+            var item = webQueueItems[0];
+
+            return StorageHelper.IsExternalStorage(luceneIndexManager.GetIndex(item.IndexName)?.StorageContext.IndexStoragePathRoot ?? string.Empty);
+        }
+
+        if (reusableQueueItems.Count > 0)
+        {
+            var item = reusableQueueItems[0];
+            return StorageHelper.IsExternalStorage(luceneIndexManager.GetIndex(item.IndexName)?.StorageContext.IndexStoragePathRoot ?? string.Empty);
+        }
+
+        return false;
     }
 }
