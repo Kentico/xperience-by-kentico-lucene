@@ -19,7 +19,7 @@ internal class CmsIOIndexInput : BufferedIndexInput
 
     private readonly string path;
     private readonly long length;
-    private readonly object streamLock = new();
+    private readonly object streamLock;
 
     private CmsFileStream? stream;
     private bool isDisposed;
@@ -35,6 +35,7 @@ internal class CmsIOIndexInput : BufferedIndexInput
         : base($"{RESOURCE_NAME}(path=\"{path}\")", DetermineBufferSize(context))
     {
         this.path = path;
+        streamLock = new object();
 
         try
         {
@@ -52,12 +53,13 @@ internal class CmsIOIndexInput : BufferedIndexInput
     /// <summary>
     /// Private constructor for cloning.
     /// </summary>
-    private CmsIOIndexInput(string resourceDescription, string path, CmsFileStream stream, long length, int bufferSize)
+    private CmsIOIndexInput(string resourceDescription, string path, CmsFileStream stream, long length, int bufferSize, object streamLock)
         : base(resourceDescription, bufferSize)
     {
         this.path = path;
         this.stream = stream;
         this.length = length;
+        this.streamLock = streamLock;
         isClone = true;
     }
 
@@ -128,7 +130,8 @@ internal class CmsIOIndexInput : BufferedIndexInput
             path,
             stream!,
             length,
-            BufferSize);
+            BufferSize,
+            streamLock);
 
 
     /// <summary>

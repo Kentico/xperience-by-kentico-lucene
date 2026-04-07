@@ -1,5 +1,6 @@
 using CMS.Base;
 using CMS.Core;
+using CMS.IO;
 
 using Kentico.Xperience.Lucene.Core.Indexing;
 using Kentico.Xperience.Lucene.Core.Scaling;
@@ -14,6 +15,7 @@ internal class LuceneQueueWorker : ThreadQueueWorker<LuceneQueueItem, LuceneQueu
 {
     private readonly ILuceneTaskProcessor luceneTaskProcessor;
     private readonly IWebFarmService webFarmService;
+    private readonly ILuceneIndexManager luceneIndexManager;
 
     /// <inheritdoc />
     protected override int DefaultInterval => 10000;
@@ -28,6 +30,7 @@ internal class LuceneQueueWorker : ThreadQueueWorker<LuceneQueueItem, LuceneQueu
     {
         luceneTaskProcessor = Service.Resolve<ILuceneTaskProcessor>() ?? throw new InvalidOperationException($"{nameof(ILuceneTaskProcessor)} is not registered.");
         webFarmService = Service.Resolve<IWebFarmService>();
+        luceneIndexManager = Service.Resolve<ILuceneIndexManager>() ?? throw new InvalidOperationException($"{nameof(ILuceneIndexManager)} is not registered.");
     }
 
 
@@ -104,13 +107,35 @@ internal class LuceneQueueWorker : ThreadQueueWorker<LuceneQueueItem, LuceneQueu
             }
         }
 
-        webFarmService.CreateTask(new ProcessLuceneTasksWebFarmTask
+        if (!IsExternalStorage(webQueueItems, reusableQueueItems))
         {
-            LuceneWebPageQueueItems = webQueueItems,
-            LuceneReusableQueueItems = reusableQueueItems,
-            CreatorName = webFarmService.ServerName
-        });
+            webFarmService.CreateTask(new ProcessLuceneTasksWebFarmTask
+            {
+                LuceneWebPageQueueItems = webQueueItems,
+                LuceneReusableQueueItems = reusableQueueItems,
+                CreatorName = webFarmService.ServerName
+            });
+        }
 
         return luceneTaskProcessor.ProcessLuceneTasks(itemList, CancellationToken.None).GetAwaiter().GetResult();
+    }
+
+
+    private bool IsExternalStorage(List<LuceneQueueItemDto<IndexEventWebPageItemModel>> webQueueItems, List<LuceneQueueItemDto<IndexEventReusableItemModel>> reusableQueueItems)
+    {
+        if (webQueueItems.Count > 0)
+        {
+            var item = webQueueItems[0];
+
+            return StorageHelper.IsExternalStorage(luceneIndexManager.GetIndex(item.IndexName)?.StorageContext.IndexStoragePathRoot ?? string.Empty);
+        }
+
+        if (reusableQueueItems.Count > 0)
+        {
+            var item = reusableQueueItems[0];
+            return StorageHelper.IsExternalStorage(luceneIndexManager.GetIndex(item.IndexName)?.StorageContext.IndexStoragePathRoot ?? string.Empty);
+        }
+
+        return false;
     }
 }
