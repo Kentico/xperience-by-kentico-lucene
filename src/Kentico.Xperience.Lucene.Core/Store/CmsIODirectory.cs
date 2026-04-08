@@ -3,11 +3,7 @@ using Lucene.Net.Store;
 using CmsDirectory = CMS.IO.Directory;
 using CmsDirectoryInfo = CMS.IO.DirectoryInfo;
 using CmsFile = CMS.IO.File;
-using CmsFileAccess = CMS.IO.FileAccess;
 using CmsFileInfo = CMS.IO.FileInfo;
-using CmsFileMode = CMS.IO.FileMode;
-using CmsFileShare = CMS.IO.FileShare;
-using CmsFileStream = CMS.IO.FileStream;
 using CmsPath = CMS.IO.Path;
 using IOContext = Lucene.Net.Store.IOContext;
 
@@ -166,26 +162,15 @@ internal class CmsIODirectory : BaseDirectory
     {
         EnsureOpen();
 
-        // For CMS.IO, we rely on the underlying storage provider to handle durability.
-        // With Azure Blob Storage, writes are already durable once the stream is closed.
-        // For local filesystem, we can optionally force a flush.
-
+        // For Azure Blob Storage (via CMS.IO), writes are already durable once the stream is closed.
+        // We verify each file exists so that a failed write is caught before Lucene finalizes a commit
+        // that references a missing file, which would result in a corrupted index.
         foreach (var name in names)
         {
             string filePath = GetFilePath(name);
-            if (CmsFile.Exists(filePath))
+            if (!CmsFile.Exists(filePath))
             {
-                // Open and close the file to ensure any buffered writes are flushed
-                // This is a no-op for Azure but ensures durability on local filesystem
-                try
-                {
-                    using var stream = CmsFileStream.New(filePath, CmsFileMode.Open, CmsFileAccess.Read, CmsFileShare.ReadWrite);
-                    // Just opening and closing triggers any pending writes to flush
-                }
-                catch (IOException)
-                {
-                    // File might be in use - that's okay, it means writes are still happening
-                }
+                throw new IOException($"File \"{filePath}\" was not found during sync. The index may be corrupted.");
             }
         }
     }

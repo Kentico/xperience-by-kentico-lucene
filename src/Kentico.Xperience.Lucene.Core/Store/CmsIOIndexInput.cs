@@ -19,11 +19,9 @@ internal class CmsIOIndexInput : BufferedIndexInput
 
     private readonly string path;
     private readonly long length;
-    private readonly object streamLock;
 
     private CmsFileStream? stream;
     private bool isDisposed;
-    private readonly bool isClone;
 
 
     /// <summary>
@@ -35,7 +33,6 @@ internal class CmsIOIndexInput : BufferedIndexInput
         : base($"{RESOURCE_NAME}(path=\"{path}\")", DetermineBufferSize(context))
     {
         this.path = path;
-        streamLock = new object();
 
         try
         {
@@ -51,16 +48,14 @@ internal class CmsIOIndexInput : BufferedIndexInput
 
 
     /// <summary>
-    /// Private constructor for cloning.
+    /// Private constructor used when creating clones. Each clone opens its own independent stream.
     /// </summary>
-    private CmsIOIndexInput(string resourceDescription, string path, CmsFileStream stream, long length, int bufferSize, object streamLock)
+    private CmsIOIndexInput(string resourceDescription, string path, long length, int bufferSize)
         : base(resourceDescription, bufferSize)
     {
         this.path = path;
-        this.stream = stream;
         this.length = length;
-        this.streamLock = streamLock;
-        isClone = true;
+        stream = CmsFileStream.New(path, CmsFileMode.Open, CmsFileAccess.Read, CmsFileShare.ReadWrite);
     }
 
 
@@ -78,24 +73,21 @@ internal class CmsIOIndexInput : BufferedIndexInput
     {
         ObjectDisposedException.ThrowIf(isDisposed || stream == null, this);
 
-        lock (streamLock)
+        long position = Position;
+        if (position != stream.Position)
         {
-            long position = Position;
-            if (position != stream.Position)
-            {
-                stream.Seek(position, SeekOrigin.Begin);
-            }
+            stream.Seek(position, SeekOrigin.Begin);
+        }
 
-            int totalRead = 0;
-            while (totalRead < length)
+        int totalRead = 0;
+        while (totalRead < length)
+        {
+            int bytesRead = stream.Read(b, offset + totalRead, length - totalRead);
+            if (bytesRead == 0)
             {
-                int bytesRead = stream.Read(b, offset + totalRead, length - totalRead);
-                if (bytesRead == 0)
-                {
-                    throw new EndOfStreamException($"Read past EOF: {this}");
-                }
-                totalRead += bytesRead;
+                throw new EndOfStreamException($"Read past EOF: {this}");
             }
+            totalRead += bytesRead;
         }
     }
 
@@ -117,21 +109,24 @@ internal class CmsIOIndexInput : BufferedIndexInput
 
 
     /// <summary>
-    /// Creates a clone of this IndexInput that can be used from another thread.
-    /// The clone shares the same underlying stream but maintains its own position.
+    /// Creates a clone of this IndexInput with its own independent stream.
+    /// Each clone maintains its own file stream, which is required for correct concurrent
+    /// access during Lucene segment merges and multi-threaded searches.
+    /// Azure Blob Storage supports multiple concurrent readers on the same blob.
     /// </summary>
-    /// <remarks>
-    /// Cloning also file streams would lead to multiple readers on the same stream, which is not thread-safe and Azure forbids it.
-    /// Therefore, clones share the same stream and synchronize access to it.
-    /// </remarks>
-    public override object Clone() =>
-        new CmsIOIndexInput(
+    public override object Clone()
+    {
+        var clone = new CmsIOIndexInput(
             $"CmsIOIndexInput(path=\"{path}\") [clone]",
             path,
-            stream!,
             length,
-            BufferSize,
-            streamLock);
+            BufferSize);
+
+        // Position the clone at the same logical position as the original
+        clone.Seek(Position);
+
+        return clone;
+    }
 
 
     /// <summary>
@@ -144,22 +139,13 @@ internal class CmsIOIndexInput : BufferedIndexInput
             return;
         }
 
-        if (disposing && !isClone)
+        if (disposing)
         {
-            try
-            {
-                stream?.Dispose();
-            }
-            finally
-            {
-                stream = null;
-                isDisposed = true;
-            }
+            stream?.Dispose();
+            stream = null;
         }
-        else
-        {
-            isDisposed = true;
-        }
+
+        isDisposed = true;
     }
 
 
