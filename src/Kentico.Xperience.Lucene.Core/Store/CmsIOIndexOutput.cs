@@ -29,7 +29,10 @@ internal class CmsIOIndexOutput : BufferedIndexOutput
     public CmsIOIndexOutput(string path)
         : base()
     {
-        stream = CmsFileStream.New(path, CmsFileMode.Create, CmsFileAccess.Write, CmsFileShare.None);
+        // FileShare.ReadWrite allows open readers (CmsIOIndexInput / its clones) to coexist with this
+        // writer, matching the behavior of Lucene.NET's native FSDirectory.FSIndexOutput.
+        // Write exclusivity is enforced at the Lucene level by IndexWriter, not by OS-level file locking.
+        stream = CmsFileStream.New(path, CmsFileMode.Create, CmsFileAccess.Write, CmsFileShare.ReadWrite);
         bytesWritten = 0;
     }
 
@@ -42,7 +45,7 @@ internal class CmsIOIndexOutput : BufferedIndexOutput
     public CmsIOIndexOutput(string path, int bufferSize)
         : base(bufferSize)
     {
-        stream = CmsFileStream.New(path, CmsFileMode.Create, CmsFileAccess.Write, CmsFileShare.None);
+        stream = CmsFileStream.New(path, CmsFileMode.Create, CmsFileAccess.Write, CmsFileShare.ReadWrite);
         bytesWritten = 0;
     }
 
