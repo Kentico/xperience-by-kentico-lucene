@@ -48,10 +48,7 @@ internal class DefaultLuceneConfigurationStorageService : ILuceneConfigurationSt
     /// <inheritdoc />
     public bool TryCreateIndex(LuceneIndexModel configuration)
     {
-        var existingIndex = indexProvider.Get()
-            .WhereEquals(nameof(LuceneIndexItemInfo.LuceneIndexItemIndexName), configuration.IndexName)
-            .TopN(1)
-            .FirstOrDefault();
+        var existingIndex = indexProvider.Get(configuration.IndexName);
 
         if (existingIndex is not null)
         {
@@ -136,7 +133,7 @@ internal class DefaultLuceneConfigurationStorageService : ILuceneConfigurationSt
     /// <inheritdoc />
     public async Task<LuceneIndexModel?> GetIndexDataOrNullAsync(int indexId)
     {
-        var indexInfo = indexProvider.Get().WithID(indexId).FirstOrDefault();
+        var indexInfo = indexProvider.Get(indexId);
         if (indexInfo == default)
         {
             return default;
@@ -159,7 +156,7 @@ internal class DefaultLuceneConfigurationStorageService : ILuceneConfigurationSt
     /// <inheritdoc />
     public async Task<LuceneIndexModel?> GetIndexDataOrNullAsync(string indexName)
     {
-        var indexInfo = indexProvider.Get().WhereEquals(nameof(LuceneIndexItemInfo.LuceneIndexItemIndexName), indexName).FirstOrDefault();
+        var indexInfo = indexProvider.Get(indexName);
         if (indexInfo == default)
         {
             return default;
@@ -215,10 +212,7 @@ internal class DefaultLuceneConfigurationStorageService : ILuceneConfigurationSt
     {
         configuration.IndexName = RemoveWhitespacesUsingStringBuilder(configuration.IndexName ?? string.Empty);
 
-        var indexInfo = indexProvider.Get()
-            .WhereEquals(nameof(LuceneIndexItemInfo.LuceneIndexItemId), configuration.Id)
-            .TopN(1)
-            .FirstOrDefault();
+        var indexInfo = indexProvider.Get(configuration.Id);
 
         if (indexInfo is null)
         {
