@@ -285,7 +285,7 @@ internal class CmsIODirectory : BaseDirectory
     /// underscores (e.g. <c>_a_Lucene41_0.doc</c>). This method splits on <c>_</c> and maps
     /// any segment that matches a registered codec name back to its canonical casing.
     /// </summary>
-    private static string RestoreCodecNameCase(string fileName)
+    internal static string RestoreCodecNameCase(string fileName)
     {
         var lookup = codecNameLookup.Value;
         var parts = fileName.Split('_');
@@ -303,8 +303,8 @@ internal class CmsIODirectory : BaseDirectory
 
 
     /// <summary>
-    /// Builds a case-insensitive lookup from lowercase codec/format name to the original-case
-    /// name as registered in Lucene's PostingsFormat, DocValuesFormat and Codec factories.
+    /// Builds a case-insensitive lookup from codec/format name to the canonical casing
+    /// as registered in Lucene's PostingsFormat, DocValuesFormat and Codec factories.
     /// </summary>
     private static Dictionary<string, string> BuildCodecNameLookup()
     {
