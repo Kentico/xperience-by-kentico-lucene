@@ -1,4 +1,6 @@
+using Lucene.Net.Codecs;
 using Lucene.Net.Store;
+using Lucene.Net.Util;
 
 using CmsDirectory = CMS.IO.Directory;
 using CmsDirectoryInfo = CMS.IO.DirectoryInfo;
@@ -20,6 +22,15 @@ namespace Kentico.Xperience.Lucene.Core.Store;
 /// </summary>
 internal class CmsIODirectory : BaseDirectory
 {
+    // CMS.IO lowercases blob names on case-sensitive backends like Azure Blob Storage.
+    // Lucene's per-field codec files embed the codec name in the filename with mixed casing,
+    // e.g. _a_Lucene41_0.doc. When stored via CMS.IO these become _a_lucene41_0.doc.
+    // We use the Lucene codec registries to build a case-insensitive lookup so ListAll()
+    // can return the original-case names that Lucene embedded in the segments file.
+    private static readonly Lazy<IReadOnlyDictionary<string, string>> codecNameLookup =
+        new(BuildCodecNameLookup);
+
+
     /// <summary>
     /// Opens a directory at the specified path for input/output operations using the default lock factory.
     /// </summary>
@@ -68,6 +79,9 @@ internal class CmsIODirectory : BaseDirectory
 
     /// <summary>
     /// Returns an array of strings, one for each file in the directory.
+    /// Restores mixed-case codec names that were lowercased by the CMS.IO storage backend
+    /// (e.g. Azure Blob Storage), so Lucene's IndexFileDeleter can match filenames against
+    /// the names recorded in the segments file.
     /// </summary>
     public override string[] ListAll()
     {
@@ -75,8 +89,7 @@ internal class CmsIODirectory : BaseDirectory
         EnsureDirectoryExists();
 
         var freshInfo = CmsDirectoryInfo.New(DirectoryPath);
-        var files = freshInfo.GetFiles();
-        return files.Select(f => f.Name).ToArray();
+        return [.. freshInfo.GetFiles().Select(f => RestoreCodecNameCase(f.Name))];
     }
 
 
@@ -264,4 +277,64 @@ internal class CmsIODirectory : BaseDirectory
             throw new ObjectDisposedException(GetType().FullName, "This directory has been closed.");
         }
     }
+
+
+    /// <summary>
+    /// Restores the original mixed-case codec name in a filename that was lowercased by the
+    /// storage backend. Lucene per-field codec files embed the codec or format name between
+    /// underscores (e.g. <c>_a_Lucene41_0.doc</c>). This method splits on <c>_</c> and maps
+    /// any segment that matches a registered codec name back to its canonical casing.
+    /// </summary>
+    internal static string RestoreCodecNameCase(string fileName)
+    {
+        var lookup = codecNameLookup.Value;
+        var parts = fileName.Split('_');
+
+        for (int i = 0; i < parts.Length; i++)
+        {
+            if (lookup.TryGetValue(parts[i], out string? original))
+            {
+                parts[i] = original;
+            }
+        }
+
+        return string.Join('_', parts);
+    }
+
+
+    /// <summary>
+    /// Builds a case-insensitive lookup from codec/format name to the canonical casing
+    /// as registered in Lucene's PostingsFormat, DocValuesFormat and Codec factories.
+    /// </summary>
+    private static Dictionary<string, string> BuildCodecNameLookup()
+    {
+        var lookup = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+
+        if (PostingsFormat.GetPostingsFormatFactory() is IServiceListable postingsListable)
+        {
+            foreach (string name in postingsListable.AvailableServices)
+            {
+                lookup[name] = name;
+            }
+        }
+
+        if (DocValuesFormat.GetDocValuesFormatFactory() is IServiceListable docValuesListable)
+        {
+            foreach (string name in docValuesListable.AvailableServices)
+            {
+                lookup[name] = name;
+            }
+        }
+
+        if (Codec.GetCodecFactory() is IServiceListable codecListable)
+        {
+            foreach (string name in codecListable.AvailableServices)
+            {
+                lookup[name] = name;
+            }
+        }
+
+        return lookup;
+    }
 }
+
