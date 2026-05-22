@@ -124,14 +124,18 @@ internal class CmsIOIndexInput : BufferedIndexInput
     /// Cloning also file streams would lead to multiple readers on the same stream, which is not thread-safe and Azure forbids it.
     /// Therefore, clones share the same stream and synchronize access to it.
     /// </remarks>
-    public override object Clone() =>
-        new CmsIOIndexInput(
+    public override object Clone()
+    {
+        var clone = new CmsIOIndexInput(
             $"CmsIOIndexInput(path=\"{path}\") [clone]",
             path,
             stream!,
             length,
             BufferSize,
             streamLock);
+        clone.Seek(Position);
+        return clone;
+    }
 
 
     /// <summary>
