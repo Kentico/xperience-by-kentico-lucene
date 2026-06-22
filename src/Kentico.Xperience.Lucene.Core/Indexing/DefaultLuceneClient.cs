@@ -55,6 +55,9 @@ internal class DefaultLuceneClient : ILuceneClient
     private readonly IWebFarmService webFarmService;
 
 
+    private readonly LuceneIndexSearcherProvider searcherProvider;
+
+
     private readonly LuceneSearchOptions luceneSearchOptions;
 
 
@@ -72,6 +75,7 @@ internal class DefaultLuceneClient : ILuceneClient
         IEventLogService log,
         ILuceneIndexManager indexManager,
         IWebFarmService webFarmService,
+        LuceneIndexSearcherProvider searcherProvider,
         IOptions<LuceneSearchOptions> luceneSearchOptions
         )
     {
@@ -85,6 +89,7 @@ internal class DefaultLuceneClient : ILuceneClient
         this.log = log;
         this.indexManager = indexManager;
         this.webFarmService = webFarmService;
+        this.searcherProvider = searcherProvider;
         this.luceneSearchOptions = luceneSearchOptions.Value;
     }
 
@@ -164,7 +169,32 @@ internal class DefaultLuceneClient : ILuceneClient
             });
         }
 
-        return await luceneIndex.StorageContext.DeleteIndex();
+        bool result = await luceneIndex.StorageContext.DeleteIndex();
+
+        InvalidateSearchCache(luceneIndex);
+
+        return result;
+    }
+
+
+    /// <summary>
+    /// Invalidates the local cached searcher for the index and, when the index lives on external (shared)
+    /// storage, broadcasts the invalidation to the other web farm servers (where the reset/delete operation
+    /// itself is not replicated). For non-external storage the operation is replicated to each server via its
+    /// own web farm task, which invalidates that server's cache locally.
+    /// </summary>
+    private void InvalidateSearchCache(LuceneIndex luceneIndex)
+    {
+        searcherProvider.Invalidate(luceneIndex.IndexName);
+
+        if (StorageHelper.IsExternalStorage(luceneIndex.StorageContext.IndexStoragePathRoot))
+        {
+            webFarmService.CreateTask(new InvalidateSearchIndexWebFarmTask
+            {
+                IndexName = luceneIndex.IndexName,
+                CreatorName = webFarmService.ServerName
+            });
+        }
     }
 
     private Task<int> DeleteRecordsInternal(IEnumerable<string> itemGuids, string indexName)
@@ -202,6 +232,10 @@ internal class DefaultLuceneClient : ILuceneClient
         }
 
         luceneIndexService.ResetIndex(luceneIndex);
+
+        // The reset replaces the published generation (and retention may move the old one to .trash),
+        // so drop any cached searcher pointing at it.
+        InvalidateSearchCache(luceneIndex);
 
         var contentQueryExecutionOptions = new ContentQueryExecutionOptions
         {

@@ -1,27 +1,22 @@
 using Kentico.Xperience.Lucene.Core.Indexing;
-using Kentico.Xperience.Lucene.Core.Store;
 
 using Lucene.Net.Facet;
 using Lucene.Net.Facet.Taxonomy;
-using Lucene.Net.Facet.Taxonomy.Directory;
 using Lucene.Net.Index;
 using Lucene.Net.Search;
 
 using Microsoft.Extensions.DependencyInjection;
 
-using CmsDirectory = CMS.IO.Directory;
-using LuceneDirectory = Lucene.Net.Store.Directory;
-
 namespace Kentico.Xperience.Lucene.Core.Search;
 
 internal class DefaultLuceneSearchService : ILuceneSearchService
 {
-    private readonly ILuceneIndexService indexService;
+    private readonly LuceneIndexSearcherProvider searcherProvider;
     private readonly IServiceProvider serviceProvider;
 
-    public DefaultLuceneSearchService(ILuceneIndexService indexService, IServiceProvider serviceProvider)
+    public DefaultLuceneSearchService(LuceneIndexSearcherProvider searcherProvider, IServiceProvider serviceProvider)
     {
-        this.indexService = indexService;
+        this.searcherProvider = searcherProvider;
         this.serviceProvider = serviceProvider;
     }
 
@@ -29,53 +24,24 @@ internal class DefaultLuceneSearchService : ILuceneSearchService
     /// <inheritdoc />
     public TResult UseSearcher<TResult>(LuceneIndex index, Func<IndexSearcher, TResult> useIndexSearcher)
     {
-        var storage = index.StorageContext.GetPublishedIndex();
-        if (!CmsDirectory.Exists(storage.Path))
-        {
-            // ensure index
-            indexService.UseWriter(index, (writer) =>
-            {
-                writer.Commit();
-                return true;
-            }, storage);
-        }
-
-        using LuceneDirectory indexDir = CmsIODirectory.Open(storage.Path);
-        using var reader = DirectoryReader.Open(indexDir);
-        var searcher = new IndexSearcher(reader);
-        return useIndexSearcher(searcher);
+        using var lease = searcherProvider.Acquire(index);
+        return useIndexSearcher(lease.Searcher);
     }
 
 
     /// <inheritdoc />
     public TResult UseSearcherWithFacets<TResult>(LuceneIndex index, Query query, int n, Func<IndexSearcher, MultiFacets, TResult> useIndexSearcher)
     {
-        var storage = index.StorageContext.GetPublishedIndex();
-        if (!CmsDirectory.Exists(storage.Path))
-        {
-            // ensure index
-            indexService.UseIndexAndTaxonomyWriter(index, (writer, tw) =>
-            {
-                writer.Commit();
-                tw.Commit();
-                return true;
-            }, storage);
-        }
+        using var lease = searcherProvider.Acquire(index, withTaxonomy: true);
+        var searcher = lease.Searcher;
 
-        using LuceneDirectory indexDir = CmsIODirectory.Open(storage.Path);
-        using var reader = DirectoryReader.Open(indexDir);
-        var searcher = new IndexSearcher(reader);
-
-        using var taxonomyDir = CmsIODirectory.Open(storage.TaxonomyPath);
-
-        using var taxonomyReader = new DirectoryTaxonomyReader(taxonomyDir);
         var facetsCollector = new FacetsCollector();
         Dictionary<string, Facets> facetsMap = [];
         FacetsCollector.Search(searcher, query, n, facetsCollector);
         var strategy = serviceProvider.GetRequiredStrategy(index);
         var config = strategy?.FacetsConfigFactory() ?? new FacetsConfig();
         OrdinalsReader ordinalsReader = new DocValuesOrdinalsReader(FacetsConfig.DEFAULT_INDEX_FIELD_NAME);
-        var facetCounts = new TaxonomyFacetCounts(ordinalsReader, taxonomyReader, config, facetsCollector);
+        var facetCounts = new TaxonomyFacetCounts(ordinalsReader, lease.TaxonomyReader, config, facetsCollector);
         var facets = new MultiFacets(facetsMap, facetCounts);
 
         var results = useIndexSearcher(searcher, facets);
@@ -87,29 +53,13 @@ internal class DefaultLuceneSearchService : ILuceneSearchService
     /// <inheritdoc />
     public TResult UseSearcherWithDrillSideways<TResult>(LuceneIndex index, Func<IndexSearcher, DrillSideways, TResult> useIndexSearcher)
     {
-        var storage = index.StorageContext.GetPublishedIndex();
-        if (!CmsDirectory.Exists(storage.Path))
-        {
-            // ensure index
-            indexService.UseIndexAndTaxonomyWriter(index, (writer, tw) =>
-            {
-                writer.Commit();
-                tw.Commit();
-                return true;
-            }, storage);
-        }
-
-        using LuceneDirectory indexDir = CmsIODirectory.Open(storage.Path);
-        using var reader = DirectoryReader.Open(indexDir);
-        var searcher = new IndexSearcher(reader);
-
-        using var taxonomyDir = CmsIODirectory.Open(storage.TaxonomyPath);
-        using var taxonomyReader = new DirectoryTaxonomyReader(taxonomyDir);
+        using var lease = searcherProvider.Acquire(index, withTaxonomy: true);
+        var searcher = lease.Searcher;
 
         var strategy = serviceProvider.GetRequiredStrategy(index);
         var config = strategy?.FacetsConfigFactory() ?? new FacetsConfig();
 
-        var drillSideways = new DrillSideways(searcher, config, taxonomyReader);
+        var drillSideways = new DrillSideways(searcher, config, lease.TaxonomyReader);
 
         var results = useIndexSearcher(searcher, drillSideways);
 
