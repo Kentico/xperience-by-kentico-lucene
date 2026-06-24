@@ -177,7 +177,8 @@ internal sealed class CachedIndex
             }, published);
         }
 
-        var dir = CmsIODirectory.Open(published.Path);
+        // Existence was just ensured above, so open read-only without re-checking (saves a List Blobs op).
+        var dir = CmsIODirectory.OpenForRead(published.Path);
         try
         {
             var manager = new SearcherManager(dir, null);
@@ -204,7 +205,8 @@ internal sealed class CachedIndex
             }, storage);
         }
 
-        var dir = CmsIODirectory.Open(storage.TaxonomyPath);
+        // Existence was just ensured above, so open read-only without re-checking (saves a List Blobs op).
+        var dir = CmsIODirectory.OpenForRead(storage.TaxonomyPath);
         try
         {
             return new TaxonomyResources(dir, new DirectoryTaxonomyReader(dir));

@@ -159,3 +159,76 @@ List-tier transactions.
   TTL + invalidation, and drop the redundant `Exists` checks — smaller change,
   removes ~2 of the ~4 list ops per search but still re-opens the reader each
   time.
+
+---
+
+# Follow-up: Round 2 — reducing residual List Blobs & Get Blob Properties
+
+> Added after testing showed the searcher cache (Phases 1–5 above) did **not**
+> meaningfully lower the Azure bill. This section records the re-evaluation and
+> the additional optimizations applied.
+
+## Re-evaluation — why the searcher cache alone didn't move the bill
+
+The searcher cache is correct, but it only covers the **search read path**. Real
+metrics showed **List Blobs** and **Get Blob Properties** still dominating, which
+traces to paths the cache never touches:
+
+- **Get Blob Properties scales with file count.** Lucene calls `FileLength()` and
+  `OpenInput()` **per segment file** on every reader/writer open and every merge
+  (e.g. `IndexFileDeleter` checks every file when a writer opens). A many-file
+  index means many HEAD requests on each open.
+- **List Blobs scales with reopen + publish frequency.** Every publish →
+  cache invalidate → next search reopens the reader → `ListAll()` + per-file
+  opens. The indexing path also enumerates (`GetExistingIndices` =
+  `Directory.Exists` + `GetDirectories`), and `PublishIndex` performs a
+  `CmsDirectory.Move` (no native rename on Azure Blob → list + copy + delete of
+  every file in the generation).
+
+So the dominant driver is **file count × open/publish frequency**, not searches.
+
+## Changes applied
+
+| Area | File | Change | Saves |
+| --- | --- | --- | --- |
+| Durability | `Store/CmsIODirectory.cs` | `Sync()` is now a true no-op (blobs are durable on stream close; files are already closed before Sync runs) | one **read** transaction per file on every commit/merge |
+| Enumeration | `Store/CmsIODirectory.cs` | `ListAll()` no longer re-checks `Directory.Exists` (the ctor already ensured it; `GetFiles()` does the listing) | one **List Blobs** per `ListAll()` |
+| Enumeration | `Store/CmsIODirectory.cs` + `Search/LuceneIndexSearcherProvider.cs` | New `CmsIODirectory.OpenForRead(path)` skips the ctor `Directory.Exists` for read opens; the searcher/taxonomy readers use it (existence already ensured on cold start) | one **List Blobs** per reader/taxonomy open |
+| Per-file open | `Store/CmsIODirectory.cs` + `Store/CmsIOIndexInput.cs` | `OpenInput()` drops the `File.Exists` pre-check; `CmsIOIndexInput` rethrows `FileNotFoundException` so Lucene's not-found semantics are preserved | one **Get Blob Properties** per file open |
+| File count | `Indexing/DefaultLuceneIndexService.cs` | Force compound file format on both writers: `UseCompoundFile = true` and `MergePolicy.NoCFSRatio = 1.0` — each segment becomes a single `.cfs`/`.cfe` pair instead of ~10+ loose files | **List Blobs** (smaller listings) and **Get Blob Properties** (far fewer per-file checks), proportional to file-count reduction |
+
+### Notes / caveats
+
+- **Compound files take effect only on newly written segments.** Existing indexes
+  keep their loose-file segments until rewritten — a **rebuild/reindex** is needed
+  to realize the full benefit (or wait for natural merges). `NoCFSRatio = 1.0`
+  ensures even large merged segments stay compound (the Lucene default `0.1`
+  leaves big segments — the bulk of file count — as loose files).
+- The mapping of CMS.IO operations to Azure transaction types is **inferred**:
+  `Directory.*` enumerations → List Blobs; `File.Exists` / `FileInfo.Length` →
+  Get Blob Properties; `Directory.Move` → list + copy + delete. Confirm via
+  **Azure portal → Metrics → Transactions split by API Name** (and caller).
+- These overrides (`Sync`, `ListAll`, `OpenInput`, `FileLength`) are invoked by
+  the Lucene.NET library through the abstract `Directory` base type, so a static
+  "find references" in this repo shows no callers even though they run at runtime.
+
+## Remaining levers (not yet applied)
+
+1. **Reduce publish/reopen frequency** — batch indexing so publishes (and the
+   invalidate→reopen burst that follows each one) happen less often.
+2. **Enable Kentico's Azure local file cache** (`CMSAzureCachePath` + file
+   caching) — serves repeated reads/metadata from local disk, cutting Get Blob
+   Properties / Read transactions. Configuration only, no code.
+3. **Publish without `CmsDirectory.Move`** — track the published generation via a
+   small marker (stable `i-g{n}` directory) instead of encoding `p_true/p_false`
+   in the directory name, so publishing is one small write instead of copying the
+   whole index. Highest-impact List Blobs reduction on the publish path; changes
+   the on-blob layout and needs a migration + correctness review (deferred).
+
+## How to verify
+
+Reindex, then compare **Azure Metrics → Transactions by API Name** before/after:
+
+- **Get Blob Properties dominant** → per-file opens (merges/reopens); the
+  compound-file change is the biggest lever.
+- **List Blobs dominant** → enumerations/publishes; levers #1 and #3 apply.

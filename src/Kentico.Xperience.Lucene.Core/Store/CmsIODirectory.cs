@@ -44,8 +44,19 @@ internal class CmsIODirectory : BaseDirectory
     /// <returns>A CmsIODirectory instance representing the opened directory at the specified path.</returns>
     public static CmsIODirectory Open(string path, LockFactory lockFactory)
     {
-        return new CmsIODirectory(path, lockFactory);
+        return new CmsIODirectory(path, lockFactory, ensureExists: true);
     }
+
+
+    /// <summary>
+    /// Opens an existing directory for read-only access without verifying or creating it. Use this when the
+    /// caller has already established that the directory exists (e.g. the searcher provider's cold-start
+    /// check), to avoid a redundant <c>Directory.Exists</c> call - one List Blobs transaction per open on
+    /// remote storage such as Azure Blob.
+    /// </summary>
+    /// <param name="path">The path to the directory, which must already exist.</param>
+    public static CmsIODirectory OpenForRead(string path)
+        => new(path, NoOpLockFactory.Instance, ensureExists: false);
 
 
     /// <summary>
@@ -53,7 +64,12 @@ internal class CmsIODirectory : BaseDirectory
     /// </summary>
     /// <param name="path">The path to the directory.</param>
     /// <param name="lockFactory">The lock factory to use for index locking.</param>
-    public CmsIODirectory(string path, LockFactory lockFactory)
+    /// <param name="ensureExists">
+    /// When <see langword="true"/>, the directory is checked for existence and created if missing. Set to
+    /// <see langword="false"/> for read-only opens where existence is already guaranteed, to avoid the
+    /// extra List Blobs transaction.
+    /// </param>
+    public CmsIODirectory(string path, LockFactory lockFactory, bool ensureExists = true)
         : base()
     {
         ArgumentNullException.ThrowIfNull(path);
@@ -61,7 +77,10 @@ internal class CmsIODirectory : BaseDirectory
 
         DirectoryPath = ResolvePath(path);
 
-        EnsureDirectoryExists();
+        if (ensureExists)
+        {
+            EnsureDirectoryExists();
+        }
 
         SetLockFactory(lockFactory);
     }
@@ -161,11 +180,9 @@ internal class CmsIODirectory : BaseDirectory
         EnsureOpen();
         string filePath = GetFilePath(name);
 
-        if (!CmsFile.Exists(filePath))
-        {
-            throw new FileNotFoundException($"File not found: {name}", filePath);
-        }
-
+        // No CmsFile.Exists() pre-check: it costs a Get Blob Properties transaction per file open on Azure,
+        // and CmsIOIndexInput already throws FileNotFoundException when the file is missing - so the
+        // not-found semantics Lucene expects are preserved without the extra round-trip.
         return new CmsIOIndexInput(filePath, context);
     }
 

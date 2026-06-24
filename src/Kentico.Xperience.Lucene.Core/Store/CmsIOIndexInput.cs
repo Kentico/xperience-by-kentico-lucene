@@ -41,6 +41,11 @@ internal class CmsIOIndexInput : BufferedIndexInput
         {
             stream = CmsFileStream.New(path, CmsFileMode.Open, CmsFileAccess.Read, CmsFileShare.ReadWrite);
         }
+        catch (FileNotFoundException)
+        {
+            // Preserve Lucene's expected not-found semantics (callers such as IndexFileDeleter rely on it).
+            throw;
+        }
         catch (Exception ex)
         {
             throw new IOException($"Failed to open file for reading: {path}", ex);
