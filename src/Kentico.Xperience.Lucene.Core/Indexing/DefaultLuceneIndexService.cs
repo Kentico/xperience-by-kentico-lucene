@@ -26,11 +26,17 @@ public class DefaultLuceneIndexService(IHostEnvironment hostEnvironment) : ILuce
         {
             var analyzer = index.LuceneAnalyzer;
 
-            //Create an index writer
+            // Create an index writer. Force the compound file format so each segment is stored as a single
+            // .cfs/.cfe pair instead of many loose files. On remote storage such as Azure Blob this sharply
+            // reduces the number of blobs per index, cutting List Blobs (smaller directory listings) and
+            // Get Blob Properties (fewer per-file existence/length checks Lucene performs on every reader/
+            // writer open and merge). NoCFSRatio = 1.0 keeps even large merged segments compound.
             var indexConfig = new IndexWriterConfig(AnalyzerStorage.AnalyzerLuceneVersion, analyzer)
             {
-                OpenMode = openMode // create/overwrite index
+                OpenMode = openMode, // create/overwrite index
+                UseCompoundFile = true
             };
+            indexConfig.MergePolicy.NoCFSRatio = 1.0;
 
             lockAcquired = fileLock.WaitForLock(LuceneIndexLockHelper.LOCK_WAIT_TIMEOUT);
 
@@ -59,11 +65,17 @@ public class DefaultLuceneIndexService(IHostEnvironment hostEnvironment) : ILuce
         {
             var analyzer = index.LuceneAnalyzer;
 
-            //Create an index writer
+            // Create an index writer. Force the compound file format so each segment is stored as a single
+            // .cfs/.cfe pair instead of many loose files. On remote storage such as Azure Blob this sharply
+            // reduces the number of blobs per index, cutting List Blobs (smaller directory listings) and
+            // Get Blob Properties (fewer per-file existence/length checks Lucene performs on every reader/
+            // writer open and merge). NoCFSRatio = 1.0 keeps even large merged segments compound.
             var indexConfig = new IndexWriterConfig(AnalyzerStorage.AnalyzerLuceneVersion, analyzer)
             {
-                OpenMode = openMode // create/overwrite index
+                OpenMode = openMode, // create/overwrite index
+                UseCompoundFile = true
             };
+            indexConfig.MergePolicy.NoCFSRatio = 1.0;
 
             lockAcquired = fileLock.WaitForLock(LuceneIndexLockHelper.LOCK_WAIT_TIMEOUT);
 

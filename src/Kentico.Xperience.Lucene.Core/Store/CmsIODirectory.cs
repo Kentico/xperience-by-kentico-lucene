@@ -5,11 +5,7 @@ using Lucene.Net.Util;
 using CmsDirectory = CMS.IO.Directory;
 using CmsDirectoryInfo = CMS.IO.DirectoryInfo;
 using CmsFile = CMS.IO.File;
-using CmsFileAccess = CMS.IO.FileAccess;
 using CmsFileInfo = CMS.IO.FileInfo;
-using CmsFileMode = CMS.IO.FileMode;
-using CmsFileShare = CMS.IO.FileShare;
-using CmsFileStream = CMS.IO.FileStream;
 using CmsPath = CMS.IO.Path;
 using IOContext = Lucene.Net.Store.IOContext;
 
@@ -48,8 +44,19 @@ internal class CmsIODirectory : BaseDirectory
     /// <returns>A CmsIODirectory instance representing the opened directory at the specified path.</returns>
     public static CmsIODirectory Open(string path, LockFactory lockFactory)
     {
-        return new CmsIODirectory(path, lockFactory);
+        return new CmsIODirectory(path, lockFactory, ensureExists: true);
     }
+
+
+    /// <summary>
+    /// Opens an existing directory for read-only access without verifying or creating it. Use this when the
+    /// caller has already established that the directory exists (e.g. the searcher provider's cold-start
+    /// check), to avoid a redundant <c>Directory.Exists</c> call - one List Blobs transaction per open on
+    /// remote storage such as Azure Blob.
+    /// </summary>
+    /// <param name="path">The path to the directory, which must already exist.</param>
+    public static CmsIODirectory OpenForRead(string path)
+        => new(path, NoOpLockFactory.Instance, ensureExists: false);
 
 
     /// <summary>
@@ -57,7 +64,12 @@ internal class CmsIODirectory : BaseDirectory
     /// </summary>
     /// <param name="path">The path to the directory.</param>
     /// <param name="lockFactory">The lock factory to use for index locking.</param>
-    public CmsIODirectory(string path, LockFactory lockFactory)
+    /// <param name="ensureExists">
+    /// When <see langword="true"/>, the directory is checked for existence and created if missing. Set to
+    /// <see langword="false"/> for read-only opens where existence is already guaranteed, to avoid the
+    /// extra List Blobs transaction.
+    /// </param>
+    public CmsIODirectory(string path, LockFactory lockFactory, bool ensureExists = true)
         : base()
     {
         ArgumentNullException.ThrowIfNull(path);
@@ -65,7 +77,10 @@ internal class CmsIODirectory : BaseDirectory
 
         DirectoryPath = ResolvePath(path);
 
-        EnsureDirectoryExists();
+        if (ensureExists)
+        {
+            EnsureDirectoryExists();
+        }
 
         SetLockFactory(lockFactory);
     }
@@ -86,8 +101,10 @@ internal class CmsIODirectory : BaseDirectory
     public override string[] ListAll()
     {
         EnsureOpen();
-        EnsureDirectoryExists();
 
+        // Existence is already ensured when the directory is opened (constructor). Re-checking here
+        // would cost an extra List Blobs transaction on remote storage (e.g. Azure Blob) for no benefit -
+        // GetFiles() below already enumerates the directory.
         var freshInfo = CmsDirectoryInfo.New(DirectoryPath);
         return [.. freshInfo.GetFiles().Select(f => RestoreCodecNameCase(f.Name))];
     }
@@ -163,11 +180,9 @@ internal class CmsIODirectory : BaseDirectory
         EnsureOpen();
         string filePath = GetFilePath(name);
 
-        if (!CmsFile.Exists(filePath))
-        {
-            throw new FileNotFoundException($"File not found: {name}", filePath);
-        }
-
+        // No CmsFile.Exists() pre-check: it costs a Get Blob Properties transaction per file open on Azure,
+        // and CmsIOIndexInput already throws FileNotFoundException when the file is missing - so the
+        // not-found semantics Lucene expects are preserved without the extra round-trip.
         return new CmsIOIndexInput(filePath, context);
     }
 
@@ -179,28 +194,13 @@ internal class CmsIODirectory : BaseDirectory
     {
         EnsureOpen();
 
-        // For CMS.IO, we rely on the underlying storage provider to handle durability.
-        // With Azure Blob Storage, writes are already durable once the stream is closed.
-        // For local filesystem, we can optionally force a flush.
-
-        foreach (var name in names)
-        {
-            string filePath = GetFilePath(name);
-            if (CmsFile.Exists(filePath))
-            {
-                // Open and close the file to ensure any buffered writes are flushed
-                // This is a no-op for Azure but ensures durability on local filesystem
-                try
-                {
-                    using var stream = CmsFileStream.New(filePath, CmsFileMode.Open, CmsFileAccess.Read, CmsFileShare.ReadWrite);
-                    // Just opening and closing triggers any pending writes to flush
-                }
-                catch (IOException)
-                {
-                    // File might be in use - that's okay, it means writes are still happening
-                }
-            }
-        }
+        // Durability is handled by the underlying CMS.IO storage provider, so Sync is intentionally a no-op:
+        // - Azure Blob Storage: a blob is durable once its output stream is closed. The files named here have
+        //   already been closed by the time Lucene calls Sync, so there is nothing to flush. Re-opening each
+        //   file (as the previous implementation did) only to close it again cost one read transaction per
+        //   file on every commit/merge - pure overhead against the storage account with no durability gain.
+        // - Local file system: CmsIOIndexOutput flushes and closes each stream on dispose before Sync runs,
+        //   and the previous open/close-for-read did not issue an fsync either, so behavior is unchanged.
     }
 
 
