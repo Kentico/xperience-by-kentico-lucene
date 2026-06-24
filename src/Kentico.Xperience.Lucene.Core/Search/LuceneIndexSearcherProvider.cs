@@ -8,6 +8,10 @@ using Lucene.Net.Index;
 using Lucene.Net.Search;
 
 using CmsDirectory = CMS.IO.Directory;
+using FSDirectory = Lucene.Net.Store.FSDirectory;
+using IOContext = Lucene.Net.Store.IOContext;
+using LocalDirectory = System.IO.Directory;
+using LocalPath = System.IO.Path;
 using LuceneDirectory = Lucene.Net.Store.Directory;
 
 namespace Kentico.Xperience.Lucene.Core.Search;
@@ -137,15 +141,21 @@ internal sealed class LuceneIndexSearcherProvider : IDisposable
 internal sealed class CachedIndex
 {
     /// <summary>The taxonomy directory and reader opened together for faceted search.</summary>
-    internal readonly record struct TaxonomyResources(LuceneDirectory Directory, DirectoryTaxonomyReader Reader);
+    internal readonly record struct TaxonomyResources(LuceneDirectory Directory, DirectoryTaxonomyReader Reader, string? LocalPath = null);
+
+    /// <summary>Root of the local on-disk copies of published index generations (outside any CMS.IO-mapped path).</summary>
+    private static readonly string CacheRoot =
+        LocalPath.Combine(LocalPath.GetTempPath(), "Kentico.Xperience.Lucene", "LocalSearchCache");
 
     private readonly object syncLock = new();
     private readonly LuceneDirectory indexDir;
     private readonly SearcherManager searcherManager;
     private readonly Func<TaxonomyResources>? openTaxonomy;
+    private readonly string? localIndexPath;
 
     private volatile DirectoryTaxonomyReader? taxonomyReader;
     private LuceneDirectory? taxonomyDir;
+    private string? localTaxonomyPath;
     private int leaseCount;
     private bool retired;
 
@@ -154,11 +164,12 @@ internal sealed class CachedIndex
     /// Creates a cached index over already-opened resources. <paramref name="openTaxonomy"/> is invoked
     /// lazily on the first faceted acquisition; pass <see langword="null"/> when taxonomy is not supported.
     /// </summary>
-    internal CachedIndex(LuceneDirectory indexDir, SearcherManager searcherManager, Func<TaxonomyResources>? openTaxonomy)
+    internal CachedIndex(LuceneDirectory indexDir, SearcherManager searcherManager, Func<TaxonomyResources>? openTaxonomy, string? localIndexPath = null)
     {
         this.indexDir = indexDir;
         this.searcherManager = searcherManager;
         this.openTaxonomy = openTaxonomy;
+        this.localIndexPath = localIndexPath;
     }
 
 
@@ -177,16 +188,21 @@ internal sealed class CachedIndex
             }, published);
         }
 
-        // Existence was just ensured above, so open read-only without re-checking (saves a List Blobs op).
-        var dir = CmsIODirectory.OpenForRead(published.Path);
+        // A published generation is immutable, so copy it to local disk once and serve all searches from
+        // the local FSDirectory. This reads each blob exactly once (the copy) instead of issuing blob
+        // operations for the many random reads/seeks every query performs - which is what kept List Blobs
+        // and Get Blob Properties high even with the reader cached.
+        string localPath = GetLocalCachePath(index.IndexName, published.Generation, taxonomy: false);
+        LuceneDirectory localDir = MaterializeLocally(published.Path, localPath);
         try
         {
-            var manager = new SearcherManager(dir, null);
-            return new CachedIndex(dir, manager, () => OpenTaxonomy(index, indexService, published));
+            var manager = new SearcherManager(localDir, null);
+            return new CachedIndex(localDir, manager, () => OpenTaxonomy(index, indexService, published), localPath);
         }
         catch
         {
-            dir.Dispose();
+            localDir.Dispose();
+            TryDeleteLocal(localPath);
             throw;
         }
     }
@@ -205,16 +221,77 @@ internal sealed class CachedIndex
             }, storage);
         }
 
-        // Existence was just ensured above, so open read-only without re-checking (saves a List Blobs op).
-        var dir = CmsIODirectory.OpenForRead(storage.TaxonomyPath);
+        // Same as the main index: materialize the immutable taxonomy generation locally and read from disk.
+        string localPath = GetLocalCachePath(index.IndexName, storage.Generation, taxonomy: true);
+        LuceneDirectory localDir = MaterializeLocally(storage.TaxonomyPath, localPath);
         try
         {
-            return new TaxonomyResources(dir, new DirectoryTaxonomyReader(dir));
+            return new TaxonomyResources(localDir, new DirectoryTaxonomyReader(localDir), localPath);
         }
         catch
         {
-            dir.Dispose();
+            localDir.Dispose();
+            TryDeleteLocal(localPath);
             throw;
+        }
+    }
+
+
+    /// <summary>
+    /// Copies every file of a (read-only, immutable) blob-backed index generation into a fresh local
+    /// directory and returns an <see cref="FSDirectory"/> over it. Each source file is read exactly once.
+    /// </summary>
+    private static LuceneDirectory MaterializeLocally(string blobPath, string localPath)
+    {
+        LocalDirectory.CreateDirectory(localPath);
+
+        // FSDirectory uses System.IO directly, so the copy lives on the real local disk and is never routed
+        // back through the CMS.IO storage provider (which would defeat the purpose).
+        var local = FSDirectory.Open(localPath);
+        try
+        {
+            // Existence was ensured by the caller, so open read-only without re-checking (saves a List Blobs op).
+            using var blobDir = CmsIODirectory.OpenForRead(blobPath);
+            foreach (string file in blobDir.ListAll())
+            {
+                blobDir.Copy(local, file, file, IOContext.READ_ONCE);
+            }
+
+            return local;
+        }
+        catch
+        {
+            local.Dispose();
+            throw;
+        }
+    }
+
+
+    private static string GetLocalCachePath(string indexName, int generation, bool taxonomy)
+    {
+        string safeName = string.Join("_", indexName.Split(LocalPath.GetInvalidFileNameChars()));
+        string leaf = $"g{generation:0000000}{(taxonomy ? "_taxonomy" : string.Empty)}-{Guid.NewGuid():N}";
+        return LocalPath.Combine(CacheRoot, safeName, leaf);
+    }
+
+
+    private static void TryDeleteLocal(string? path)
+    {
+        if (string.IsNullOrEmpty(path))
+        {
+            return;
+        }
+
+        try
+        {
+            if (LocalDirectory.Exists(path))
+            {
+                LocalDirectory.Delete(path, recursive: true);
+            }
+        }
+        catch
+        {
+            // best effort - an orphaned local cache folder is harmless and will be cleared by the OS temp cleanup
         }
     }
 
@@ -289,6 +366,7 @@ internal sealed class CachedIndex
                 var resources = openTaxonomy();
                 taxonomyDir = resources.Directory;
                 taxonomyReader = resources.Reader;
+                localTaxonomyPath = resources.LocalPath;
             }
 
             return taxonomyReader;
@@ -371,6 +449,10 @@ internal sealed class CachedIndex
         {
             // best effort
         }
+
+        // Directories are now closed, so the local on-disk copies can be removed.
+        TryDeleteLocal(localTaxonomyPath);
+        TryDeleteLocal(localIndexPath);
     }
 }
 

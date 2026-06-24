@@ -232,3 +232,68 @@ Reindex, then compare **Azure Metrics → Transactions by API Name** before/afte
 - **Get Blob Properties dominant** → per-file opens (merges/reopens); the
   compound-file change is the biggest lever.
 - **List Blobs dominant** → enumerations/publishes; levers #1 and #3 apply.
+
+---
+
+# Follow-up: Round 3 — the actual root cause (per-query reads still hit blob)
+
+## What testing revealed
+
+After Round 2, metrics were checked under controlled conditions: **filtered to the
+Lucene container**, **reindexed on a blob-mapped cloud environment with the new
+build**, and a **pure-search workload (no content changes)**. List Blobs and Get
+Blob Properties were *still* high. That combination rules out "not us",
+"not deployed/reindexed", and "cache thrashing from publishes".
+
+## Root cause
+
+The searcher cache (Phases 1–5) stopped the reader from being **re-opened** per
+query — but did nothing about the reads **inside** each query. The cached
+`IndexSearcher` still read through `CmsIODirectory`, which reads directly from
+blob storage:
+
+```
+IndexSearcher.Search → cached reader → CmsIOIndexInput.ReadInternal
+                     → CmsFileStream.Seek/Read → Azure REST call
+```
+
+A single Lucene query performs many small random reads/seeks (term dictionary,
+postings, norms, stored fields, docvalues, plus taxonomy for facets). Each one
+goes through the CMS.IO Azure stream, which issues blob operations (metadata
+validation = Get Blob Properties, range fetches, listing) **per access** — a
+layer *below* the Lucene-level cache, so caching the reader could never remove
+it. The cost scaled with **search volume**, not with reopen/publish frequency.
+
+## Fix applied — materialize each generation on local disk
+
+A published generation is immutable, so it is now copied to local disk **once**
+and all searches are served from a local `FSDirectory`:
+
+- `LuceneIndexSearcherProvider.CachedIndex.Open` / `OpenTaxonomy` call a new
+  `MaterializeLocally(blobPath, localPath)` that opens the blob directory
+  read-only, copies every file once (`Directory.Copy(..., IOContext.READ_ONCE)`)
+  into a fresh local folder under the OS temp path, and opens an `FSDirectory`
+  over the local copy. `SearcherManager` / `DirectoryTaxonomyReader` are built
+  over the **local** directory.
+- The blob is read **once per generation** (the copy). All subsequent searches
+  read from local disk → **zero blob transactions** until the next publish.
+- On `Invalidate` (publish/reset/delete) the entry is retired; once leases drain,
+  `DisposeResources` deletes the local copy and the next acquire re-materializes
+  the new generation.
+- Local folders use `System.IO` directly (not CMS.IO), so they live on the real
+  disk and are never routed back to blob. Each materialization gets a unique
+  `Guid`-suffixed folder to avoid collisions between a draining old entry and a
+  new one; cleanup is best-effort (orphans are cleared by OS temp cleanup).
+
+### Trade-offs
+
+- **Local disk per generation per instance.** Each web-farm instance keeps its
+  own local copy (bounded by index size × generations resident).
+- **Cold-start latency** on the first search after a publish/restart (the copy).
+- These are acceptable: they convert *continuous per-query* blob traffic into a
+  *one-time per-generation* copy — which is what the cache was meant to achieve,
+  now at the right layer.
+
+Verified: solution builds clean; all 12 `LuceneIndexSearcherProvider` tests pass
+(the test seam still injects an in-memory `RAMDirectory`, so unit tests don't
+touch disk).
