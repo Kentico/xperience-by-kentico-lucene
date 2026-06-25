@@ -2,6 +2,7 @@
 using CMS.Core;
 
 using Kentico.Xperience.Lucene.Core.Indexing;
+using Kentico.Xperience.Lucene.Core.Search;
 
 namespace Kentico.Xperience.Lucene.Core.Scaling;
 
@@ -9,6 +10,7 @@ internal class DeleteIndexWebFarmTask : WebFarmTaskBase
 {
     private readonly IEventLogService eventLog;
     private readonly ILuceneIndexManager luceneIndexManager;
+    private readonly LuceneIndexSearcherProvider searcherProvider;
     public string? CreatorName { get; set; }
     public string? IndexName { get; set; }
 
@@ -16,6 +18,7 @@ internal class DeleteIndexWebFarmTask : WebFarmTaskBase
     {
         eventLog = Service.Resolve<IEventLogService>();
         luceneIndexManager = Service.Resolve<ILuceneIndexManager>();
+        searcherProvider = Service.Resolve<LuceneIndexSearcherProvider>();
     }
 
     public override void ExecuteTask()
@@ -25,5 +28,8 @@ internal class DeleteIndexWebFarmTask : WebFarmTaskBase
 
         var luceneIndex = luceneIndexManager.GetRequiredIndex(IndexName!);
         luceneIndex!.StorageContext.DeleteIndex().GetAwaiter().GetResult();
+
+        // This server performed the delete locally; drop its cached searcher.
+        searcherProvider.Invalidate(luceneIndex.IndexName);
     }
 }
