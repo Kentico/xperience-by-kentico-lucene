@@ -17,6 +17,13 @@ internal class LuceneBatchResult
 {
     internal int SuccessfulOperations { get; set; } = 0;
     internal HashSet<LuceneIndex> PublishedIndices { get; set; } = [];
+
+    /// <summary>
+    /// Indices whose contents were changed in place by this run (upserts/deletes from page publishes,
+    /// updates, deletes, ...). Their cached searchers must be invalidated so subsequent searches see the
+    /// new commit, even when no new generation is published.
+    /// </summary>
+    internal HashSet<LuceneIndex> ModifiedIndices { get; set; } = [];
 }
 
 internal class DefaultLuceneTaskProcessor : ILuceneTaskProcessor
@@ -64,7 +71,14 @@ internal class DefaultLuceneTaskProcessor : ILuceneTaskProcessor
             var storage = index.StorageContext.GetNextOrOpenNextGeneration();
             index.StorageContext.PublishIndex(storage);
 
-            // Drop the cached searcher so subsequent searches read the newly published generation.
+            // A publish changes the published generation, so it always needs invalidating.
+            batchResults.ModifiedIndices.Add(index);
+        }
+
+        // Drop the cached searcher for every index that changed (in-place upserts/deletes from page
+        // publishes as well as newly published generations) so subsequent searches read the new commit.
+        foreach (var index in batchResults.ModifiedIndices)
+        {
             InvalidateSearchCache(index);
         }
 
@@ -101,6 +115,11 @@ internal class DefaultLuceneTaskProcessor : ILuceneTaskProcessor
                 {
                     previousBatchResults.SuccessfulOperations += await luceneClient.DeleteRecords(deleteIds, group.Key);
                     previousBatchResults.SuccessfulOperations += await luceneClient.UpsertRecords(upsertData, group.Key, cancellationToken);
+
+                    if ((deleteIds.Count > 0 || upsertData.Count > 0) && !previousBatchResults.ModifiedIndices.Any(x => x.IndexName == index.IndexName))
+                    {
+                        previousBatchResults.ModifiedIndices.Add(index);
+                    }
 
                     if (group.Any(t => t.TaskType == LuceneTaskType.PUBLISH_INDEX) && !previousBatchResults.PublishedIndices.Any(x => x.IndexName == index.IndexName))
                     {
