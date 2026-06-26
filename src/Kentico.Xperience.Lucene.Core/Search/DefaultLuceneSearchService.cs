@@ -2,6 +2,7 @@ using Kentico.Xperience.Lucene.Core.Indexing;
 
 using Lucene.Net.Facet;
 using Lucene.Net.Facet.Taxonomy;
+using Lucene.Net.Facet.Taxonomy.Directory;
 using Lucene.Net.Index;
 using Lucene.Net.Search;
 
@@ -34,6 +35,7 @@ internal class DefaultLuceneSearchService : ILuceneSearchService
     {
         using var lease = searcherProvider.Acquire(index, withTaxonomy: true);
         var searcher = lease.Searcher;
+        var taxonomyReader = RequireTaxonomyReader(lease, index);
 
         var facetsCollector = new FacetsCollector();
         Dictionary<string, Facets> facetsMap = [];
@@ -41,7 +43,7 @@ internal class DefaultLuceneSearchService : ILuceneSearchService
         var strategy = serviceProvider.GetRequiredStrategy(index);
         var config = strategy?.FacetsConfigFactory() ?? new FacetsConfig();
         OrdinalsReader ordinalsReader = new DocValuesOrdinalsReader(FacetsConfig.DEFAULT_INDEX_FIELD_NAME);
-        var facetCounts = new TaxonomyFacetCounts(ordinalsReader, lease.TaxonomyReader, config, facetsCollector);
+        var facetCounts = new TaxonomyFacetCounts(ordinalsReader, taxonomyReader, config, facetsCollector);
         var facets = new MultiFacets(facetsMap, facetCounts);
 
         var results = useIndexSearcher(searcher, facets);
@@ -55,14 +57,26 @@ internal class DefaultLuceneSearchService : ILuceneSearchService
     {
         using var lease = searcherProvider.Acquire(index, withTaxonomy: true);
         var searcher = lease.Searcher;
+        var taxonomyReader = RequireTaxonomyReader(lease, index);
 
         var strategy = serviceProvider.GetRequiredStrategy(index);
         var config = strategy?.FacetsConfigFactory() ?? new FacetsConfig();
 
-        var drillSideways = new DrillSideways(searcher, config, lease.TaxonomyReader);
+        var drillSideways = new DrillSideways(searcher, config, taxonomyReader);
 
         var results = useIndexSearcher(searcher, drillSideways);
 
         return results;
     }
+
+
+    /// <summary>
+    /// Enforces the invariant that a lease acquired with <c>withTaxonomy: true</c> exposes a non-null
+    /// taxonomy reader, so a misconfigured or taxonomy-less index fails deterministically with a clear
+    /// message instead of a later <see cref="NullReferenceException"/>.
+    /// </summary>
+    private static DirectoryTaxonomyReader RequireTaxonomyReader(SearcherLease lease, LuceneIndex index)
+        => lease.TaxonomyReader
+            ?? throw new InvalidOperationException(
+                $"Faceted search requires a taxonomy reader, but none was available for index '{index.IndexName}'.");
 }

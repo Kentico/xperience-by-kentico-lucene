@@ -261,8 +261,14 @@ internal sealed class CachedIndex
 
         return new SearcherLease(searcher, taxonomy, () =>
         {
-            searcherManager.Release(searcher);
-            ReleaseLease();
+            try
+            {
+                searcherManager.Release(searcher);
+            }
+            finally
+            {
+                ReleaseLease();
+            }
         });
     }
 
