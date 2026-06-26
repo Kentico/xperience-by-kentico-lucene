@@ -3,7 +3,6 @@ using Kentico.Xperience.Lucene.Core.Indexing;
 using Lucene.Net.Facet;
 using Lucene.Net.Facet.Taxonomy;
 using Lucene.Net.Facet.Taxonomy.Directory;
-using Lucene.Net.Index;
 using Lucene.Net.Search;
 
 using Microsoft.Extensions.DependencyInjection;

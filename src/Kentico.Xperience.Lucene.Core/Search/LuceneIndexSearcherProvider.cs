@@ -32,10 +32,7 @@ internal sealed class LuceneIndexSearcherProvider : IDisposable
     private bool disposed;
 
 
-    public LuceneIndexSearcherProvider(ILuceneIndexService indexService)
-    {
-        this.indexService = indexService;
-    }
+    public LuceneIndexSearcherProvider(ILuceneIndexService indexService) => this.indexService = indexService;
 
 
     /// <summary>
@@ -53,16 +50,16 @@ internal sealed class LuceneIndexSearcherProvider : IDisposable
     /// all in-flight leases have been released. The next acquisition rebuilds the searcher over the current
     /// published generation.
     /// </summary>
-public void Invalidate(string indexName)
-{
-    lock (creationLock)
+    public void Invalidate(string indexName)
     {
-        if (cache.TryRemove(indexName, out var cached))
+        lock (creationLock)
         {
-            cached.Retire();
+            if (cache.TryRemove(indexName, out var cached))
+            {
+                cached.Retire();
+            }
         }
     }
-}
 
 
     public void Dispose()
@@ -118,19 +115,19 @@ public void Invalidate(string indexName)
             return existing;
         }
 
-lock (creationLock)
-{
-    ObjectDisposedException.ThrowIf(disposed, this);
+        lock (creationLock)
+        {
+            ObjectDisposedException.ThrowIf(disposed, this);
 
-    if (cache.TryGetValue(indexName, out existing))
-    {
-        return existing;
-    }
+            if (cache.TryGetValue(indexName, out existing))
+            {
+                return existing;
+            }
 
-    var created = open();
-    cache[indexName] = created;
-    return created;
-}
+            var created = open();
+            cache[indexName] = created;
+            return created;
+        }
     }
 }
 
