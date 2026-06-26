@@ -53,13 +53,16 @@ internal sealed class LuceneIndexSearcherProvider : IDisposable
     /// all in-flight leases have been released. The next acquisition rebuilds the searcher over the current
     /// published generation.
     /// </summary>
-    public void Invalidate(string indexName)
+public void Invalidate(string indexName)
+{
+    lock (creationLock)
     {
         if (cache.TryRemove(indexName, out var cached))
         {
             cached.Retire();
         }
     }
+}
 
 
     public void Dispose()
@@ -115,17 +118,19 @@ internal sealed class LuceneIndexSearcherProvider : IDisposable
             return existing;
         }
 
-        lock (creationLock)
-        {
-            if (cache.TryGetValue(indexName, out existing))
-            {
-                return existing;
-            }
+lock (creationLock)
+{
+    ObjectDisposedException.ThrowIf(disposed, this);
 
-            var created = open();
-            cache[indexName] = created;
-            return created;
-        }
+    if (cache.TryGetValue(indexName, out existing))
+    {
+        return existing;
+    }
+
+    var created = open();
+    cache[indexName] = created;
+    return created;
+}
     }
 }
 
