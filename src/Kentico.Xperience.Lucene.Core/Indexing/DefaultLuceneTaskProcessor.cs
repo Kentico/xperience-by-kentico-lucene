@@ -1,9 +1,7 @@
 using CMS.Base;
 using CMS.Core;
-using CMS.IO;
 using CMS.Websites;
 
-using Kentico.Xperience.Lucene.Core.Scaling;
 using Kentico.Xperience.Lucene.Core.Search;
 
 using Lucene.Net.Documents;
@@ -33,8 +31,7 @@ internal class DefaultLuceneTaskProcessor : ILuceneTaskProcessor
     private readonly ILuceneClient luceneClient;
     private readonly IEventLogService eventLogService;
     private readonly ILuceneIndexManager indexManager;
-    private readonly LuceneIndexSearcherProvider searcherProvider;
-    private readonly IWebFarmService webFarmService;
+    private readonly LuceneSearchCacheInvalidator searchCacheInvalidator;
 
     public DefaultLuceneTaskProcessor(
         ILuceneClient luceneClient,
@@ -42,16 +39,14 @@ internal class DefaultLuceneTaskProcessor : ILuceneTaskProcessor
         IWebPageUrlRetriever urlRetriever,
         IServiceProvider serviceProvider,
         ILuceneIndexManager indexManager,
-        LuceneIndexSearcherProvider searcherProvider,
-        IWebFarmService webFarmService)
+        LuceneSearchCacheInvalidator searchCacheInvalidator)
     {
         this.luceneClient = luceneClient;
         this.eventLogService = eventLogService;
         this.urlRetriever = urlRetriever;
         this.serviceProvider = serviceProvider;
         this.indexManager = indexManager;
-        this.searcherProvider = searcherProvider;
-        this.webFarmService = webFarmService;
+        this.searchCacheInvalidator = searchCacheInvalidator;
     }
 
     /// <inheritdoc />
@@ -79,7 +74,7 @@ internal class DefaultLuceneTaskProcessor : ILuceneTaskProcessor
         // publishes as well as newly published generations) so subsequent searches read the new commit.
         foreach (var index in batchResults.ModifiedIndices)
         {
-            InvalidateSearchCache(index);
+            searchCacheInvalidator.Invalidate(index);
         }
 
         return batchResults.SuccessfulOperations;
@@ -135,26 +130,6 @@ internal class DefaultLuceneTaskProcessor : ILuceneTaskProcessor
             {
                 eventLogService.LogException(nameof(DefaultLuceneTaskProcessor), nameof(ProcessLuceneTasks), ex);
             }
-        }
-    }
-
-    /// <summary>
-    /// Invalidates the local cached searcher for the index and, when the index lives on external (shared)
-    /// storage, broadcasts the invalidation to the other web farm servers. For non-external storage the
-    /// publish runs on every server (via <see cref="ProcessLuceneTasksWebFarmTask"/>), so each server
-    /// already invalidates its own cache locally and no broadcast is needed.
-    /// </summary>
-    private void InvalidateSearchCache(LuceneIndex index)
-    {
-        searcherProvider.Invalidate(index.IndexName);
-
-        if (StorageHelper.IsExternalStorage(index.StorageContext.IndexStoragePathRoot))
-        {
-            webFarmService.CreateTask(new InvalidateSearchIndexWebFarmTask
-            {
-                IndexName = index.IndexName,
-                CreatorName = webFarmService.ServerName
-            });
         }
     }
 

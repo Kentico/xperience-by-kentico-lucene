@@ -74,6 +74,7 @@ public static class LuceneStartupExtensions
             .AddSingleton<ILuceneConfigurationStorageService, DefaultLuceneConfigurationStorageService>()
             .AddSingleton<ILuceneIndexService, DefaultLuceneIndexService>()
             .AddSingleton<LuceneIndexSearcherProvider>()
+            .AddSingleton<LuceneSearchCacheInvalidator>()
             .AddSingleton<ILuceneSearchService, DefaultLuceneSearchService>()
             .AddSingleton<ILuceneIndexManager, DefaultLuceneIndexManager>()
             .AddTransient<DefaultLuceneIndexingStrategy>()

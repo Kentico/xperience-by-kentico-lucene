@@ -107,12 +107,26 @@ internal class LuceneQueueWorker : ThreadQueueWorker<LuceneQueueItem, LuceneQueu
             }
         }
 
-        if (!IsExternalStorage(webQueueItems, reusableQueueItems))
+        // Replicate only the changes for indexes on non-external (per-server) storage, where each server
+        // keeps its own copy of the files and must re-apply the writes (and invalidate its own cache).
+        // External-storage indexes share their files across the farm, so replication is redundant and
+        // their cache invalidation is broadcast separately. A single queue flush can mix indexes of both
+        // storage types, so partition by index rather than sampling the first item.
+        var externalIndexNames = itemList
+            .Select(item => item.IndexName)
+            .Distinct(StringComparer.OrdinalIgnoreCase)
+            .Where(IsExternalStorage)
+            .ToHashSet(StringComparer.OrdinalIgnoreCase);
+
+        var webPageItemsToReplicate = webQueueItems.Where(x => !externalIndexNames.Contains(x.IndexName)).ToList();
+        var reusableItemsToReplicate = reusableQueueItems.Where(x => !externalIndexNames.Contains(x.IndexName)).ToList();
+
+        if (webPageItemsToReplicate.Count > 0 || reusableItemsToReplicate.Count > 0)
         {
             webFarmService.CreateTask(new ProcessLuceneTasksWebFarmTask
             {
-                LuceneWebPageQueueItems = webQueueItems,
-                LuceneReusableQueueItems = reusableQueueItems,
+                LuceneWebPageQueueItems = webPageItemsToReplicate,
+                LuceneReusableQueueItems = reusableItemsToReplicate,
                 CreatorName = webFarmService.ServerName
             });
         }
@@ -121,21 +135,6 @@ internal class LuceneQueueWorker : ThreadQueueWorker<LuceneQueueItem, LuceneQueu
     }
 
 
-    private bool IsExternalStorage(List<LuceneQueueItemDto<IndexEventWebPageItemModel>> webQueueItems, List<LuceneQueueItemDto<IndexEventReusableItemModel>> reusableQueueItems)
-    {
-        if (webQueueItems.Count > 0)
-        {
-            var item = webQueueItems[0];
-
-            return StorageHelper.IsExternalStorage(luceneIndexManager.GetIndex(item.IndexName)?.StorageContext.IndexStoragePathRoot ?? string.Empty);
-        }
-
-        if (reusableQueueItems.Count > 0)
-        {
-            var item = reusableQueueItems[0];
-            return StorageHelper.IsExternalStorage(luceneIndexManager.GetIndex(item.IndexName)?.StorageContext.IndexStoragePathRoot ?? string.Empty);
-        }
-
-        return false;
-    }
+    private bool IsExternalStorage(string indexName)
+        => StorageHelper.IsExternalStorage(luceneIndexManager.GetIndex(indexName)?.StorageContext.IndexStoragePathRoot ?? string.Empty);
 }
