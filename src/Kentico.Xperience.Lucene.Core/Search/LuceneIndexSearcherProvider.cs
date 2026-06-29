@@ -1,14 +1,9 @@
 using System.Collections.Concurrent;
 
 using Kentico.Xperience.Lucene.Core.Indexing;
-using Kentico.Xperience.Lucene.Core.Store;
 
-using Lucene.Net.Facet.Taxonomy.Directory;
 using Lucene.Net.Index;
 using Lucene.Net.Search;
-
-using CmsDirectory = CMS.IO.Directory;
-using LuceneDirectory = Lucene.Net.Store.Directory;
 
 namespace Kentico.Xperience.Lucene.Core.Search;
 
