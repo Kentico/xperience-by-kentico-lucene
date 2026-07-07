@@ -18,13 +18,80 @@ When external storage is configured:
 - Index data **persists across deployments and instance restarts**.
 - All application instances **share the same index files** — no duplication, no sync needed.
 - Web farm synchronization tasks for index operations are **automatically disabled** (the system detects external storage and skips them).
-- There is **no need for automatic reindexing** after deployment.
+- There is **no need for reindexing** after deployment.
 
-### Configuration
+### Using Automatic Storage Path Mapping
 
-To configure external storage, register a CMS module that maps the Lucene index path to your storage provider. See the [DancingGoat `LuceneStorageModule`](../examples/DancingGoat/LuceneStorageModule.cs) for a complete reference implementation.
+Xperience by Kentico provides a [storage path mapping](https://docs.kentico.com/documentation/developers-and-admins/api/files-api-and-cms-io/file-system-providers/storage-path-mapping) system that automatically routes registered paths to external storage based on the hosting environment. This is the simplest approach if your project already uses `AddXperienceCloudStoragePathMapping()` (SaaS) or `AddAppServiceStoragePathMapping()` (private cloud).
+
+Since the Lucene index path is not a system-registered path, you need to register it as a custom path **before** the mapping call in `Program.cs`:
+
+#### SaaS deployments
 
 ```csharp
+using CMS.IO;
+using Kentico.Xperience.Cloud;
+using Kentico.Xperience.Lucene.Core.Store;
+
+// Register the Lucene index path so it participates in automatic storage mapping
+builder.Services.AddStoragePathRegistration(
+    $"~/{LuceneStorageConstants.LUCENE_INDEX_PATH}",
+    PathType.SharedPersistent);
+
+// Activate automatic storage path mapping (maps all registered SharedPersistent paths to Azure Blob Storage)
+builder.Services.AddXperienceCloudStoragePathMapping();
+```
+
+#### Private cloud (Azure App Service) deployments
+
+```csharp
+using CMS.IO;
+using Kentico.Xperience.AzureStorage;
+using Kentico.Xperience.Lucene.Core.Store;
+
+// Register the Lucene index path so it participates in automatic storage mapping
+builder.Services.AddStoragePathRegistration(
+    $"~/{LuceneStorageConstants.LUCENE_INDEX_PATH}",
+    PathType.SharedPersistent);
+
+// Activate automatic storage path mapping (maps all registered SharedPersistent paths to Azure Blob Storage)
+builder.Services.AddAppServiceStoragePathMapping(options =>
+{
+    // Disable mapping in local development to avoid connecting to Azure
+    options.IsMappingEnabled = !builder.Environment.IsDevelopment();
+
+    // Route Lucene indexes to a dedicated container with public access disabled
+    options.CreateProviderForPath = (PathRegistration registration) =>
+    {
+        if (registration.MappedPath.Contains(LuceneStorageConstants.LUCENE_INDEX_PATH))
+        {
+            return AzureStorageProvider.Create("lucene", publicExternalFolderObject: false);
+        }
+
+        // Return null to use the default provider for other paths
+        return null;
+    };
+});
+```
+
+With this approach, the Lucene indexes are automatically mapped alongside all other system paths — no custom module is needed. The `CreateProviderForPath` callback lets you route Lucene indexes to a dedicated container and explicitly disable public access (`publicExternalFolderObject: false`).
+
+> **Note:** The `AddStoragePathRegistration` call must appear **before** the mapping method call (`AddXperienceCloudStoragePathMapping` / `AddAppServiceStoragePathMapping`) so that the path is included in the mapping.
+
+### Using a Custom Storage Module
+
+If your project does not use automatic storage path mapping, or you need more control over which environments and containers are used, you can configure storage in a custom CMS module. This approach uses `StorageHelper.MapStoragePath()` directly to route the Lucene index path to your chosen provider.
+
+See the [DancingGoat `LuceneStorageModule`](../examples/DancingGoat/LuceneStorageModule.cs) for a complete reference implementation.
+
+```csharp
+using CMS;
+using CMS.DataEngine;
+using CMS.IO;
+
+using Kentico.Xperience.AzureStorage;
+using Kentico.Xperience.Lucene.Core.Store;
+
 [assembly: RegisterModule(typeof(LuceneStorageModule))]
 
 public class LuceneStorageModule : Module
@@ -53,9 +120,10 @@ The `StorageHelper.MapStoragePath()` call redirects all CMS.IO file operations u
 
 > **Note:** For general examples of mapping files to external [storage providers](https://docs.kentico.com/x/44fWCQ), see the Kentico documentation:
 >
-> - [Azure Blob Storage (SaaS)](https://docs.kentico.com/documentation/developers-and-admins/api/files-api-and-cms-io/file-system-providers/azure-blob-storage#map-folders-to-a-kentico-managed-azure-blob-storage)
+> - [Azure Blob Storage (SaaS)](https://docs.kentico.com/documentation/developers-and-admins/api/files-api-and-cms-io/file-system-providers/azure-blob-storage#azure-blob-storage-for-kenticos-saas)
 > - [Azure Blob Storage (private cloud / self-hosted)](https://docs.kentico.com/documentation/developers-and-admins/api/files-api-and-cms-io/file-system-providers/azure-blob-storage#azure-blob-storage-for-private-cloud-deployments)
-> - [Amazon S3](https://docs.kentico.com/documentation/developers-and-admins/api/files-api-and-cms-io/file-system-providers/amazon-s3#map-files-to-amazon-storage)
+> - [Amazon S3](https://docs.kentico.com/x/5YfWCQ)
+> - [Custom file system providers](https://docs.kentico.com/x/5ofWCQ)
 
 ## Local File System
 
@@ -65,5 +133,3 @@ Limitations of local storage:
 
 - **Index data is lost on deployment or restart** in environments without persistent disk storage (e.g., [Kentico Xperience SaaS](https://docs.kentico.com/x/saas_overview_xp)).
 - **Each instance maintains its own copy** of the index in multi-instance deployments, requiring web farm synchronization.
-
-If you must use local storage in an environment where files do not persist, see [Auto-Reindexing](Auto-Reindexing-After-Deployment.md) for a workaround that rebuilds indexes after deployment based on assembly version changes.

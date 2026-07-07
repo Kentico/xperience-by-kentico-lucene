@@ -53,15 +53,11 @@ You can score indexed items by "freshness" or "recency" using several techniques
 
 ## Index Storage
 
-See [Index Storage](Index-Storage.md) for configuring how and where Lucene indexes are stored, including external storage providers (recommended for cloud/[SaaS](https://docs.kentico.com/x/saas_overview_xp) deployments).
+See [Index Storage](Index-Storage.md) for configuring how and where Lucene indexes are stored.
 
 ## Auto-scaling Support
 
 See [Auto-Scaling](Auto-Scaling.md)
-
-## Auto-reindexing after Deployment
-
-See [Auto-Reindexing](Auto-Reindexing-After-Deployment.md) — a workaround for environments using local file system storage without persistence.
 
 ## Upgrades and Uninstalling
 
