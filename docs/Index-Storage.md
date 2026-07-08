@@ -35,7 +35,7 @@ using Kentico.Xperience.Lucene.Core.Store;
 
 // Register the Lucene index path so it participates in automatic storage mapping
 builder.Services.AddStoragePathRegistration(
-    $"~/{LuceneStorageConstants.LUCENE_INDEX_PATH}",
+    $"~/{LuceneStorageConstants.LUCENE_INDEX_PATH}/",
     PathType.SharedPersistent);
 
 // Activate automatic storage path mapping (maps all registered SharedPersistent paths to Azure Blob Storage)
@@ -51,7 +51,7 @@ using Kentico.Xperience.Lucene.Core.Store;
 
 // Register the Lucene index path so it participates in automatic storage mapping
 builder.Services.AddStoragePathRegistration(
-    $"~/{LuceneStorageConstants.LUCENE_INDEX_PATH}",
+    $"~/{LuceneStorageConstants.LUCENE_INDEX_PATH}/",
     PathType.SharedPersistent);
 
 // Activate automatic storage path mapping (maps all registered SharedPersistent paths to Azure Blob Storage)
@@ -63,7 +63,7 @@ builder.Services.AddAppServiceStoragePathMapping(options =>
     // Route Lucene indexes to a dedicated container with public access disabled
     options.CreateProviderForPath = (PathRegistration registration) =>
     {
-        if (registration.MappedPath.Contains(LuceneStorageConstants.LUCENE_INDEX_PATH))
+        if (registration.MappedPath.Equals($"~/{LuceneStorageConstants.LUCENE_INDEX_PATH}/", StringComparison.OrdinalIgnoreCase))
         {
             return AzureStorageProvider.Create("lucene", publicExternalFolderObject: false);
         }
@@ -107,9 +107,7 @@ public class LuceneStorageModule : Module
         if (Environment.IsQa() || Environment.IsProduction() /* ... */)
         {
             // Map Lucene indexes to Azure Blob Storage in cloud environments
-            var provider = AzureStorageProvider.Create();
-            provider.CustomRootPath = CONTAINER_NAME;
-            provider.PublicExternalFolderObject = false;
+            var provider = AzureStorageProvider.Create(CONTAINER_NAME, publicExternalFolderObject: false);
             StorageHelper.MapStoragePath($"~/{LuceneStorageConstants.LUCENE_INDEX_PATH}/", provider);
         }
     }
