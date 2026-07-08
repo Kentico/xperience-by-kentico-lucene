@@ -78,6 +78,8 @@ With this approach, the Lucene indexes are automatically mapped alongside all ot
 
 > **Note:** The `AddStoragePathRegistration` call must appear **before** the mapping method call (`AddXperienceCloudStoragePathMapping` / `AddAppServiceStoragePathMapping`) so that the path is included in the mapping.
 
+> **Migrating from a custom module:** If your project currently uses a custom `StorageInitializationModule` and you want to switch to automatic storage path mapping, follow the [Migrate from StorageInitializationModule](https://docs.kentico.com/documentation/developers-and-admins/api/files-api-and-cms-io/file-system-providers/azure-blob-storage#migrate-from-storageinitializationmodule) instructions in the Kentico documentation.
+
 ### Using a Custom Storage Module
 
 If your project does not use automatic storage path mapping, or you need more control over which environments and containers are used, you can configure storage in a custom CMS module. This approach uses `StorageHelper.MapStoragePath()` directly to route the Lucene index path to your chosen provider.
