@@ -22,7 +22,7 @@ When external storage is configured:
 
 ### Using Automatic Storage Path Mapping
 
-Xperience by Kentico provides a [storage path mapping](https://docs.kentico.com/documentation/developers-and-admins/api/files-api-and-cms-io/file-system-providers/storage-path-mapping) system that automatically routes registered paths to external storage based on the hosting environment. This is the simplest approach if your project already uses `AddXperienceCloudStoragePathMapping()` (SaaS) or `AddAppServiceStoragePathMapping()` (private cloud).
+Xperience by Kentico provides a [storage path mapping](https://docs.kentico.com/documentation/developers-and-admins/api/files-api-and-cms-io/file-system-providers/storage-path-mapping) system (introduced in version 31.6.0) that automatically routes registered paths to external storage based on the hosting environment. This is the simplest approach if your project already uses `AddXperienceCloudStoragePathMapping()` (SaaS) or `AddAppServiceStoragePathMapping()` (private cloud).
 
 Since the Lucene index path is not a system-registered path, you need to register it as a custom path **before** the mapping call in `Program.cs`:
 
