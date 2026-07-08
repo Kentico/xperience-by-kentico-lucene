@@ -63,7 +63,7 @@ builder.Services.AddAppServiceStoragePathMapping(options =>
     // Route Lucene indexes to a dedicated container with public access disabled
     options.CreateProviderForPath = (PathRegistration registration) =>
     {
-        if (registration.MappedPath.Equals($"~/{LuceneStorageConstants.LUCENE_INDEX_PATH}/", StringComparison.OrdinalIgnoreCase))
+        if (registration.MappedPath.StartsWith($"~/{LuceneStorageConstants.LUCENE_INDEX_PATH}/", StringComparison.OrdinalIgnoreCase))
         {
             return AzureStorageProvider.Create("lucene", publicExternalFolderObject: false);
         }
