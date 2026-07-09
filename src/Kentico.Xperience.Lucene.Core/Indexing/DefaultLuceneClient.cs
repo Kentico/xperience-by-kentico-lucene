@@ -55,6 +55,9 @@ internal class DefaultLuceneClient : ILuceneClient
     private readonly IWebFarmService webFarmService;
 
 
+    private readonly LuceneSearchCacheInvalidator searchCacheInvalidator;
+
+
     private readonly LuceneSearchOptions luceneSearchOptions;
 
 
@@ -72,6 +75,7 @@ internal class DefaultLuceneClient : ILuceneClient
         IEventLogService log,
         ILuceneIndexManager indexManager,
         IWebFarmService webFarmService,
+        LuceneSearchCacheInvalidator searchCacheInvalidator,
         IOptions<LuceneSearchOptions> luceneSearchOptions
         )
     {
@@ -85,6 +89,7 @@ internal class DefaultLuceneClient : ILuceneClient
         this.log = log;
         this.indexManager = indexManager;
         this.webFarmService = webFarmService;
+        this.searchCacheInvalidator = searchCacheInvalidator;
         this.luceneSearchOptions = luceneSearchOptions.Value;
     }
 
@@ -164,7 +169,11 @@ internal class DefaultLuceneClient : ILuceneClient
             });
         }
 
-        return await luceneIndex.StorageContext.DeleteIndex();
+        bool result = await luceneIndex.StorageContext.DeleteIndex();
+
+        searchCacheInvalidator.Invalidate(luceneIndex);
+
+        return result;
     }
 
     private Task<int> DeleteRecordsInternal(IEnumerable<string> itemGuids, string indexName)
@@ -202,6 +211,10 @@ internal class DefaultLuceneClient : ILuceneClient
         }
 
         luceneIndexService.ResetIndex(luceneIndex);
+
+        // The reset replaces the published generation (and retention may move the old one to .trash),
+        // so drop any cached searcher pointing at it.
+        searchCacheInvalidator.Invalidate(luceneIndex);
 
         var contentQueryExecutionOptions = new ContentQueryExecutionOptions
         {

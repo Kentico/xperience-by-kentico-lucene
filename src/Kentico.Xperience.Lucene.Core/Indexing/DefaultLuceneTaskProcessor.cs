@@ -2,6 +2,8 @@ using CMS.Base;
 using CMS.Core;
 using CMS.Websites;
 
+using Kentico.Xperience.Lucene.Core.Search;
+
 using Lucene.Net.Documents;
 using Lucene.Net.Documents.Extensions;
 
@@ -13,6 +15,13 @@ internal class LuceneBatchResult
 {
     internal int SuccessfulOperations { get; set; } = 0;
     internal HashSet<LuceneIndex> PublishedIndices { get; set; } = [];
+
+    /// <summary>
+    /// Indices whose contents were changed in place by this run (upserts/deletes from page publishes,
+    /// updates, deletes, ...). Their cached searchers must be invalidated so subsequent searches see the
+    /// new commit, even when no new generation is published.
+    /// </summary>
+    internal HashSet<LuceneIndex> ModifiedIndices { get; set; } = [];
 }
 
 internal class DefaultLuceneTaskProcessor : ILuceneTaskProcessor
@@ -22,19 +31,22 @@ internal class DefaultLuceneTaskProcessor : ILuceneTaskProcessor
     private readonly ILuceneClient luceneClient;
     private readonly IEventLogService eventLogService;
     private readonly ILuceneIndexManager indexManager;
+    private readonly LuceneSearchCacheInvalidator searchCacheInvalidator;
 
     public DefaultLuceneTaskProcessor(
         ILuceneClient luceneClient,
         IEventLogService eventLogService,
         IWebPageUrlRetriever urlRetriever,
         IServiceProvider serviceProvider,
-        ILuceneIndexManager indexManager)
+        ILuceneIndexManager indexManager,
+        LuceneSearchCacheInvalidator searchCacheInvalidator)
     {
         this.luceneClient = luceneClient;
         this.eventLogService = eventLogService;
         this.urlRetriever = urlRetriever;
         this.serviceProvider = serviceProvider;
         this.indexManager = indexManager;
+        this.searchCacheInvalidator = searchCacheInvalidator;
     }
 
     /// <inheritdoc />
@@ -53,6 +65,16 @@ internal class DefaultLuceneTaskProcessor : ILuceneTaskProcessor
         {
             var storage = index.StorageContext.GetNextOrOpenNextGeneration();
             index.StorageContext.PublishIndex(storage);
+
+            // A publish changes the published generation, so it always needs invalidating.
+            batchResults.ModifiedIndices.Add(index);
+        }
+
+        // Drop the cached searcher for every index that changed (in-place upserts/deletes from page
+        // publishes as well as newly published generations) so subsequent searches read the new commit.
+        foreach (var index in batchResults.ModifiedIndices)
+        {
+            searchCacheInvalidator.Invalidate(index);
         }
 
         return batchResults.SuccessfulOperations;
@@ -88,6 +110,11 @@ internal class DefaultLuceneTaskProcessor : ILuceneTaskProcessor
                 {
                     previousBatchResults.SuccessfulOperations += await luceneClient.DeleteRecords(deleteIds, group.Key);
                     previousBatchResults.SuccessfulOperations += await luceneClient.UpsertRecords(upsertData, group.Key, cancellationToken);
+
+                    if ((deleteIds.Count > 0 || upsertData.Count > 0) && !previousBatchResults.ModifiedIndices.Any(x => x.IndexName == index.IndexName))
+                    {
+                        previousBatchResults.ModifiedIndices.Add(index);
+                    }
 
                     if (group.Any(t => t.TaskType == LuceneTaskType.PUBLISH_INDEX) && !previousBatchResults.PublishedIndices.Any(x => x.IndexName == index.IndexName))
                     {
