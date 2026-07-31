@@ -94,7 +94,11 @@ public class IndexListingPage : ListingPage
         ICollection<LuceneIndexStatisticsModel> statistics = [];
         try
         {
-            statistics = await luceneClient.GetStatistics(default);
+            statistics = await luceneClient.GetStatistics(cancellationToken);
+        }
+        catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)
+        {
+            throw;
         }
         catch (Exception ex)
         {
