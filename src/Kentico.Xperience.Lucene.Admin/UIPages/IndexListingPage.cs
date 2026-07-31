@@ -91,7 +91,20 @@ public class IndexListingPage : ListingPage
     {
         var result = await base.LoadData(settings, cancellationToken);
 
-        var statistics = await luceneClient.GetStatistics(default);
+        ICollection<LuceneIndexStatisticsModel> statistics = [];
+        try
+        {
+            statistics = await luceneClient.GetStatistics(cancellationToken);
+        }
+        catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)
+        {
+            throw;
+        }
+        catch (Exception ex)
+        {
+            EventLogService.LogException(nameof(IndexListingPage), nameof(LoadData), ex);
+        }
+
         // Add statistics for indexes that are registered but not created in Lucene
         AddMissingStatistics(ref statistics, indexManager);
 
