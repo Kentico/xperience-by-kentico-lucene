@@ -26,7 +26,7 @@ public class SearchController(SimpleSearchService simpleSearchService, AdvancedS
     {
         try
         {
-            var results = advancedSearchService.GlobalSearch("Advanced", query, pageSize, page, facet, sortBy);
+            var results = advancedSearchService.GlobalSearch("pokus", query, pageSize, page, facet, sortBy);
             return View(results);
         }
         catch

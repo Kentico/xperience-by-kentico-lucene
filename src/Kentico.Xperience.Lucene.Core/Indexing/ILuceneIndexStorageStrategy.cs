@@ -129,7 +129,19 @@ internal class GenerationStorageStrategy : ILuceneIndexStorageStrategy
 
             if (CmsDirectory.Exists(storage.TaxonomyPath))
             {
-                CmsDirectory.Move(storage.TaxonomyPath, published.TaxonomyPath);
+                try
+                {
+                    CmsDirectory.Move(storage.TaxonomyPath, published.TaxonomyPath);
+                }
+                catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
+                {
+                    Trace.WriteLine($"OP={storage.TaxonomyPath} NP={published.TaxonomyPath}: {ex}", $"GenerationStorageStrategy.PublishIndex");
+
+                    // The taxonomy is possibly locked by a reader. Restore the index so the generation is not
+                    // left half-published - an index published without its taxonomy cannot serve facets.
+                    CmsDirectory.Move(published.Path, storage.Path);
+                    throw;
+                }
             }
         }
         finally
@@ -165,9 +177,9 @@ internal class GenerationStorageStrategy : ILuceneIndexStorageStrategy
                 CmsDirectory.Move(path, delPath);
                 Trace.WriteLine($"OP={path} NP={delPath}: removal scheduled", $"GenerationStorageStrategy.ScheduleRemoval");
             }
-            catch (IOException ioex)
+            catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
             {
-                Trace.WriteLine($"OP={path} NP={delPath}: {ioex}", $"GenerationStorageStrategy.ScheduleRemoval");
+                Trace.WriteLine($"OP={path} NP={delPath}: {ex}", $"GenerationStorageStrategy.ScheduleRemoval");
                 // fail, directory is possibly locked by reader
                 return false;
             }
@@ -180,10 +192,10 @@ internal class GenerationStorageStrategy : ILuceneIndexStorageStrategy
                     CmsDirectory.Move(taxonomyPath, delPathTaxon);
                     Trace.WriteLine($"OP={taxonomyPath} NP={delPathTaxon}: removal scheduled", $"GenerationStorageStrategy.ScheduleRemoval");
                 }
-                catch (IOException ioex)
+                catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
                 {
                     // fail, directory is possibly locked by reader
-                    Trace.WriteLine($"OP={taxonomyPath} NP={delPathTaxon}: {ioex}", $"GenerationStorageStrategy.ScheduleRemoval");
+                    Trace.WriteLine($"OP={taxonomyPath} NP={delPathTaxon}: {ex}", $"GenerationStorageStrategy.ScheduleRemoval");
 
                     // restore index
                     CmsDirectory.Move(delPath, path);
@@ -296,7 +308,7 @@ internal class GenerationStorageStrategy : ILuceneIndexStorageStrategy
                 }
             }
         }
-        catch (IOException)
+        catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
         {
             // directory might be destroyed or inaccessible
             return false;
