@@ -73,6 +73,10 @@ internal class DefaultLuceneTaskProcessor : ILuceneTaskProcessor
             {
                 index.StorageContext.PublishIndex(storage);
             }
+            catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)
+            {
+                throw;
+            }
             catch (Exception ex)
             {
                 // A failed publish must not abort the whole run - the remaining indices are still publishable
