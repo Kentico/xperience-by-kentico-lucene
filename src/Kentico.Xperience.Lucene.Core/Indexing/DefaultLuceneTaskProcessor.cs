@@ -63,8 +63,28 @@ internal class DefaultLuceneTaskProcessor : ILuceneTaskProcessor
 
         foreach (var index in batchResults.PublishedIndices)
         {
+            // Publishing renames the generation's directories. A cached searcher keeps file handles open
+            // over them, which on Windows makes the rename fail with "Access to the path ... is denied".
+            // Drop the cache first so the handles are released before the move.
+            searchCacheInvalidator.Invalidate(index);
+
             var storage = index.StorageContext.GetNextOrOpenNextGeneration();
-            index.StorageContext.PublishIndex(storage);
+            try
+            {
+                index.StorageContext.PublishIndex(storage);
+            }
+            catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)
+            {
+                throw;
+            }
+            catch (Exception ex)
+            {
+                // A failed publish must not abort the whole run - the remaining indices are still publishable
+                // and the caller has no way to recover a half-processed batch.
+                eventLogService.LogException(nameof(DefaultLuceneTaskProcessor), "PUBLISH_INDEX", ex,
+                    $"Failed to publish a new generation of index [{index.IndexName}].");
+                continue;
+            }
 
             // A publish changes the published generation, so it always needs invalidating.
             batchResults.ModifiedIndices.Add(index);

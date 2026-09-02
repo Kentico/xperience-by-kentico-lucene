@@ -210,10 +210,14 @@ internal class DefaultLuceneClient : ILuceneClient
             });
         }
 
+        // The reset replaces the published generation (and retention may move the old one to .trash).
+        // A cached searcher keeps file handles open over those directories, which on Windows makes the
+        // move fail with "Access to the path ... is denied", so the cache has to be dropped first.
+        searchCacheInvalidator.Invalidate(luceneIndex);
+
         luceneIndexService.ResetIndex(luceneIndex);
 
-        // The reset replaces the published generation (and retention may move the old one to .trash),
-        // so drop any cached searcher pointing at it.
+        // Searches running during the reset may have re-cached the generation that was just replaced.
         searchCacheInvalidator.Invalidate(luceneIndex);
 
         var contentQueryExecutionOptions = new ContentQueryExecutionOptions

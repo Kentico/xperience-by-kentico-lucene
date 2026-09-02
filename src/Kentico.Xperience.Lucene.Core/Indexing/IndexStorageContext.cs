@@ -38,8 +38,11 @@ public class IndexStorageContext
 
         if (published == null)
         {
-            string indexPath = storageStrategy.FormatPath(IndexStoragePathRoot, 1, false);
-            string taxonomyPath = storageStrategy.FormatTaxonomyPath(IndexStoragePathRoot, 1, false);
+            // The paths must be formatted as published to stay consistent with IsPublished. Pointing this
+            // fallback at the unpublished generation would make readers pin the directory that indexing is
+            // about to rename on publish, blocking the rename on Windows.
+            string indexPath = storageStrategy.FormatPath(IndexStoragePathRoot, 1, true);
+            string taxonomyPath = storageStrategy.FormatTaxonomyPath(IndexStoragePathRoot, 1, true);
             published = new IndexStorageModel(indexPath, taxonomyPath, 1, true);
         }
 

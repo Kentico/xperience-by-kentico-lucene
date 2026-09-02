@@ -41,6 +41,26 @@ public class IndexStorageContextTests
 
 
     [Test]
+    public void GetPublishedIndex_NoExistingIndices_FormatsPathsAsPublished()
+    {
+        // The fallback must not point at the unpublished generation - readers would pin the directory that
+        // indexing renames on publish, which blocks the rename on Windows and leaves the index empty.
+        strategy.GetExistingIndices(Arg.Any<string>())
+            .Returns(Enumerable.Empty<IndexStorageModel>());
+
+        var context = CreateContext();
+
+        var result = context.GetPublishedIndex();
+
+        Assert.Multiple(() =>
+        {
+            Assert.That(result.Path, Is.EqualTo($"{IndexRoot}/i-g0000001-p_True"));
+            Assert.That(result.TaxonomyPath, Is.EqualTo($"{IndexRoot}/i-g0000001-p_True_taxonomy"));
+        });
+    }
+
+
+    [Test]
     public void GetPublishedIndex_WithMultiplePublishedIndices_ReturnsHighestGeneration()
     {
         var indices = new[]

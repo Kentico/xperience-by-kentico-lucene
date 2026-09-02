@@ -89,7 +89,12 @@ internal class GenerationStorageStrategy : ILuceneIndexStorageStrategy
 
         foreach (var result in grouped)
         {
-            var indexDir = result.FirstOrDefault(x => string.IsNullOrWhiteSpace(x.Result?.TaxonomyName));
+            // A generation can exist in both forms at once - a search that runs before the first publish
+            // materializes the published directory (see IndexStorageContext.GetPublishedIndex) while
+            // indexing writes into the unpublished one. The unpublished directory is the one still being
+            // written to, so it wins; publishing it reclaims the published path.
+            var indexDirs = result.Where(x => string.IsNullOrWhiteSpace(x.Result?.TaxonomyName)).ToArray();
+            var indexDir = Array.Find(indexDirs, x => x.Result?.IsPublished == false) ?? indexDirs.FirstOrDefault();
             var taxonomyDir = result.FirstOrDefault(x => !string.IsNullOrWhiteSpace(x.Result?.TaxonomyName));
 
             if (indexDir is { Success: true, Result: var (_, generation, published, _) })
@@ -125,11 +130,31 @@ internal class GenerationStorageStrategy : ILuceneIndexStorageStrategy
                 TaxonomyPath = FormatTaxonomyPath(root, storage.Generation, true)
             };
 
+            if (string.Equals(storage.Path, published.Path, StringComparison.OrdinalIgnoreCase))
+            {
+                // Already published - nothing to rename.
+                return;
+            }
+
+            ReclaimPath(published.Path);
             CmsDirectory.Move(storage.Path, published.Path);
 
             if (CmsDirectory.Exists(storage.TaxonomyPath))
             {
-                CmsDirectory.Move(storage.TaxonomyPath, published.TaxonomyPath);
+                try
+                {
+                    ReclaimPath(published.TaxonomyPath);
+                    CmsDirectory.Move(storage.TaxonomyPath, published.TaxonomyPath);
+                }
+                catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
+                {
+                    Trace.WriteLine($"OP={storage.TaxonomyPath} NP={published.TaxonomyPath}: {ex}", $"GenerationStorageStrategy.PublishIndex");
+
+                    // The taxonomy is possibly locked by a reader. Restore the index so the generation is not
+                    // left half-published - an index published without its taxonomy cannot serve facets.
+                    CmsDirectory.Move(published.Path, storage.Path);
+                    throw;
+                }
             }
         }
         finally
@@ -139,6 +164,30 @@ internal class GenerationStorageStrategy : ILuceneIndexStorageStrategy
                 fileLock.Release();
             }
         }
+    }
+
+    /// <summary>
+    /// Moves a directory occupying <paramref name="path"/> out of the way so a generation can be renamed
+    /// onto it. The occupant is either an empty placeholder created by a reader on a cold start, or the
+    /// leftover of an interrupted publish - neither may block publishing, and a plain rename onto an
+    /// existing directory fails with an <see cref="IOException"/> on Windows.
+    /// </summary>
+    private static void ReclaimPath(string path)
+    {
+        if (!CmsDirectory.Exists(path))
+        {
+            return;
+        }
+
+        string delBase = CmsPath.Combine(path, "..", IndexDeletionDirectoryName);
+        if (!CmsDirectory.Exists(delBase))
+        {
+            CmsDirectory.CreateDirectory(delBase);
+        }
+
+        string delPath = CmsPath.Combine(delBase, $"{CmsPath.GetFileName(path)}-{DateTime.UtcNow:yyyyMMddHHmmssfff}");
+        Trace.WriteLine($"OP={path} NP={delPath}: reclaiming published path", $"GenerationStorageStrategy.ReclaimPath");
+        CmsDirectory.Move(path, delPath);
     }
 
     public bool ScheduleRemoval(IndexStorageModel storage)
@@ -165,9 +214,9 @@ internal class GenerationStorageStrategy : ILuceneIndexStorageStrategy
                 CmsDirectory.Move(path, delPath);
                 Trace.WriteLine($"OP={path} NP={delPath}: removal scheduled", $"GenerationStorageStrategy.ScheduleRemoval");
             }
-            catch (IOException ioex)
+            catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
             {
-                Trace.WriteLine($"OP={path} NP={delPath}: {ioex}", $"GenerationStorageStrategy.ScheduleRemoval");
+                Trace.WriteLine($"OP={path} NP={delPath}: {ex}", $"GenerationStorageStrategy.ScheduleRemoval");
                 // fail, directory is possibly locked by reader
                 return false;
             }
@@ -180,10 +229,10 @@ internal class GenerationStorageStrategy : ILuceneIndexStorageStrategy
                     CmsDirectory.Move(taxonomyPath, delPathTaxon);
                     Trace.WriteLine($"OP={taxonomyPath} NP={delPathTaxon}: removal scheduled", $"GenerationStorageStrategy.ScheduleRemoval");
                 }
-                catch (IOException ioex)
+                catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
                 {
                     // fail, directory is possibly locked by reader
-                    Trace.WriteLine($"OP={taxonomyPath} NP={delPathTaxon}: {ioex}", $"GenerationStorageStrategy.ScheduleRemoval");
+                    Trace.WriteLine($"OP={taxonomyPath} NP={delPathTaxon}: {ex}", $"GenerationStorageStrategy.ScheduleRemoval");
 
                     // restore index
                     CmsDirectory.Move(delPath, path);
@@ -296,7 +345,7 @@ internal class GenerationStorageStrategy : ILuceneIndexStorageStrategy
                 }
             }
         }
-        catch (IOException)
+        catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
         {
             // directory might be destroyed or inaccessible
             return false;
