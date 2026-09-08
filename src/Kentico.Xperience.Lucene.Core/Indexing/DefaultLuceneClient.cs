@@ -169,11 +169,11 @@ internal class DefaultLuceneClient : ILuceneClient
             });
         }
 
-        bool result = await luceneIndex.StorageContext.DeleteIndex();
+        // Release the cached readers first and wait for them to actually close - their open handles would
+        // make the deletion below burn through its retries and fail.
+        searchCacheInvalidator.InvalidateAndWaitForRelease(luceneIndex);
 
-        searchCacheInvalidator.Invalidate(luceneIndex);
-
-        return result;
+        return await luceneIndex.StorageContext.DeleteIndex();
     }
 
     private Task<int> DeleteRecordsInternal(IEnumerable<string> itemGuids, string indexName)
@@ -210,11 +210,12 @@ internal class DefaultLuceneClient : ILuceneClient
             });
         }
 
-        luceneIndexService.ResetIndex(luceneIndex);
+        // Drop cached searchers *before* the reset and wait for them to close: the reset enforces the
+        // retention policy, which moves the previous generation to .trash, and that rename fails while a
+        // cached reader holds handles inside the folder.
+        searchCacheInvalidator.InvalidateAndWaitForRelease(luceneIndex);
 
-        // The reset replaces the published generation (and retention may move the old one to .trash),
-        // so drop any cached searcher pointing at it.
-        searchCacheInvalidator.Invalidate(luceneIndex);
+        luceneIndexService.ResetIndex(luceneIndex);
 
         var contentQueryExecutionOptions = new ContentQueryExecutionOptions
         {

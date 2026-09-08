@@ -1,4 +1,4 @@
-﻿using CMS.Base;
+using CMS.Base;
 using CMS.Core;
 
 using Kentico.Xperience.Lucene.Core.Indexing;
@@ -29,9 +29,12 @@ internal class ResetIndexWebFarmTask : WebFarmTaskBase
         eventLog.LogInformation("Lucene Reset Index Task", "Execute", message);
 
         var luceneIndex = luceneIndexManager.GetRequiredIndex(IndexName!);
-        luceneIndexService.ResetIndex(luceneIndex);
 
-        // This server performed the reset locally; drop its cached searcher for the replaced generation.
-        searcherProvider.Invalidate(luceneIndex.IndexName);
+        // Drop this server's cached searcher before the reset and wait for in-flight searches to release it -
+        // retention renames the previous generation, which fails while a cached reader holds handles inside
+        // its folder. Invalidated locally only: every server runs this task itself.
+        searcherProvider.InvalidateAndWait(luceneIndex.IndexName, LuceneIndexSearcherProvider.ReaderReleaseTimeout);
+
+        luceneIndexService.ResetIndex(luceneIndex);
     }
 }

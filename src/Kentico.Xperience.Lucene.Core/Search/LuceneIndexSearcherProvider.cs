@@ -21,6 +21,13 @@ namespace Kentico.Xperience.Lucene.Core.Search;
 /// </remarks>
 internal sealed class LuceneIndexSearcherProvider : IDisposable
 {
+    /// <summary>
+    /// How long <see cref="InvalidateAndWait"/> gives in-flight searches to release their readers before it
+    /// gives up and lets the caller proceed anyway. Generous enough to cover a slow query, short enough not
+    /// to stall indexing behind a stuck one.
+    /// </summary>
+    public static readonly TimeSpan ReaderReleaseTimeout = TimeSpan.FromSeconds(10);
+
     private readonly ILuceneIndexService indexService;
     private readonly ConcurrentDictionary<string, CachedIndex> cache = new(StringComparer.OrdinalIgnoreCase);
     private readonly object creationLock = new();
@@ -45,15 +52,36 @@ internal sealed class LuceneIndexSearcherProvider : IDisposable
     /// all in-flight leases have been released. The next acquisition rebuilds the searcher over the current
     /// published generation.
     /// </summary>
-    public void Invalidate(string indexName)
+    public void Invalidate(string indexName) => InvalidateAndWait(indexName, TimeSpan.Zero);
+
+
+    /// <summary>
+    /// Marks the cached searcher for the given index as stale and waits until its readers have actually been
+    /// disposed. Returns <see langword="true"/> once no reader holds handles inside the generation folder any
+    /// more, or <see langword="false"/> when <paramref name="timeout"/> elapsed with a lease still in flight.
+    /// </summary>
+    /// <remarks>
+    /// Retiring an entry disposes its readers immediately when nothing is searching, but an in-flight search
+    /// keeps its lease until it completes. Callers that are about to rename the generation folder use this to
+    /// wait for that window to close instead of racing the rename and retrying on failure. The wait only
+    /// covers this process - readers on other web farm servers are released by their own invalidation task.
+    /// </remarks>
+    public bool InvalidateAndWait(string indexName, TimeSpan timeout)
     {
+        CachedIndex? cached;
         lock (creationLock)
         {
-            if (cache.TryRemove(indexName, out var cached))
-            {
-                cached.Retire();
-            }
+            cache.TryRemove(indexName, out cached);
         }
+
+        if (cached is null)
+        {
+            return true;
+        }
+
+        cached.Retire();
+
+        return cached.WaitForRelease(timeout);
     }
 
 
