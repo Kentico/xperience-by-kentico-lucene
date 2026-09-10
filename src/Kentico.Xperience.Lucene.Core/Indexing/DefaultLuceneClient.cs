@@ -169,11 +169,18 @@ internal class DefaultLuceneClient : ILuceneClient
             });
         }
 
-        bool result = await luceneIndex.StorageContext.DeleteIndex();
+        // Release the cached readers first and wait for them to actually close - their open handles would
+        // make the deletion below burn through its retries and fail.
+        if (!searchCacheInvalidator.InvalidateAndWaitForRelease(luceneIndex))
+        {
+            log.LogWarning(
+                "Kentico.Xperience.Lucene",
+                $"{nameof(DefaultLuceneClient)}.{nameof(DeleteIndex)}",
+                $"A search over index [{luceneIndex.IndexName}] was still in flight when the deletion started; its folders may still be locked."
+            );
+        }
 
-        searchCacheInvalidator.Invalidate(luceneIndex);
-
-        return result;
+        return await luceneIndex.StorageContext.DeleteIndex();
     }
 
     private Task<int> DeleteRecordsInternal(IEnumerable<string> itemGuids, string indexName)
@@ -210,11 +217,19 @@ internal class DefaultLuceneClient : ILuceneClient
             });
         }
 
-        luceneIndexService.ResetIndex(luceneIndex);
+        // Drop cached searchers *before* the reset and wait for them to close: the reset enforces the
+        // retention policy, which moves the previous generation to .trash, and that rename fails while a
+        // cached reader holds handles inside the folder.
+        if (!searchCacheInvalidator.InvalidateAndWaitForRelease(luceneIndex))
+        {
+            log.LogWarning(
+                "Kentico.Xperience.Lucene",
+                $"{nameof(DefaultLuceneClient)}.{nameof(RebuildInternal)}",
+                $"A search over index [{luceneIndex.IndexName}] was still in flight when the rebuild started; its folders may still be locked."
+            );
+        }
 
-        // The reset replaces the published generation (and retention may move the old one to .trash),
-        // so drop any cached searcher pointing at it.
-        searchCacheInvalidator.Invalidate(luceneIndex);
+        luceneIndexService.ResetIndex(luceneIndex);
 
         var contentQueryExecutionOptions = new ContentQueryExecutionOptions
         {

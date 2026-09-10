@@ -103,6 +103,46 @@ public class LuceneIndexSearcherProviderTests
     }
 
 
+    // ---- Empty (nothing published) fallback ----
+
+    [Test]
+    public void OpenEmpty_ServesSearchableEmptyIndex()
+    {
+        AnalyzerStorage.SetAnalyzerLuceneVersion(LuceneVersion.LUCENE_48);
+        using var analyzer = new StandardAnalyzer(LuceneVersion.LUCENE_48);
+
+        var cached = CachedIndex.OpenEmpty(analyzer);
+
+        using (var lease = cached.TryAcquire(withTaxonomy: false))
+        {
+            Assert.That(lease, Is.Not.Null);
+            Assert.That(lease!.Searcher.IndexReader.NumDocs, Is.EqualTo(0));
+        }
+
+        cached.Retire();
+    }
+
+
+    [Test]
+    public void OpenEmpty_SupportsFacetedAcquisition()
+    {
+        AnalyzerStorage.SetAnalyzerLuceneVersion(LuceneVersion.LUCENE_48);
+        using var analyzer = new StandardAnalyzer(LuceneVersion.LUCENE_48);
+
+        var cached = CachedIndex.OpenEmpty(analyzer);
+
+        // A faceted search while nothing is published must not fall through to the on-disk taxonomy folder
+        // of the generation being rebuilt - it gets an empty in-memory taxonomy reader instead.
+        using (var lease = cached.TryAcquire(withTaxonomy: true))
+        {
+            Assert.That(lease, Is.Not.Null);
+            Assert.That(lease!.TaxonomyReader, Is.Not.Null);
+        }
+
+        cached.Retire();
+    }
+
+
     // ---- Provider caching / invalidation ----
 
     [Test]
@@ -160,6 +200,73 @@ public class LuceneIndexSearcherProviderTests
 
         lease.Dispose();
         Assert.That(dir.IsDisposed, Is.True);
+    }
+
+
+    // ---- Waiting for readers to drain before a rename ----
+
+    [Test]
+    public void InvalidateAndWait_NoActiveLease_ReturnsImmediately()
+    {
+        using var provider = new LuceneIndexSearcherProvider(Substitute.For<ILuceneIndexService>());
+        var dir = CreateCommittedIndex();
+
+        provider.AcquireInternal("idx", () => NewCachedIndex(dir), withTaxonomy: false).Dispose();
+
+        Assert.That(provider.InvalidateAndWait("idx", TimeSpan.FromSeconds(5)), Is.True);
+        Assert.That(dir.IsDisposed, Is.True);
+    }
+
+
+    [Test]
+    public void InvalidateAndWait_UncachedIndex_ReturnsTrue()
+    {
+        using var provider = new LuceneIndexSearcherProvider(Substitute.For<ILuceneIndexService>());
+
+        Assert.That(provider.InvalidateAndWait("never-opened", TimeSpan.Zero), Is.True);
+    }
+
+
+    [Test]
+    public void InvalidateAndWait_LeaseHeldPastTimeout_ReturnsFalse()
+    {
+        using var provider = new LuceneIndexSearcherProvider(Substitute.For<ILuceneIndexService>());
+        var dir = CreateCommittedIndex();
+
+        // The lease is deliberately never released - the caller must not block indefinitely behind it.
+        var lease = provider.AcquireInternal("idx", () => NewCachedIndex(dir), withTaxonomy: false);
+
+        Assert.That(provider.InvalidateAndWait("idx", TimeSpan.FromMilliseconds(100)), Is.False);
+        Assert.That(dir.IsDisposed, Is.False);
+
+        lease.Dispose();
+    }
+
+
+    [Test]
+    public void InvalidateAndWait_LeaseReleasedConcurrently_UnblocksAndReportsRelease()
+    {
+        using var provider = new LuceneIndexSearcherProvider(Substitute.For<ILuceneIndexService>());
+        var dir = CreateCommittedIndex();
+        var lease = provider.AcquireInternal("idx", () => NewCachedIndex(dir), withTaxonomy: false);
+
+        // Mimics an in-flight search finishing shortly after a publish begins: the wait must return as soon
+        // as the handles are actually gone, not after a fixed sleep.
+        var releaser = Task.Run(async () =>
+        {
+            await Task.Delay(150);
+            lease.Dispose();
+        });
+
+        bool released = provider.InvalidateAndWait("idx", TimeSpan.FromSeconds(10));
+
+        Assert.Multiple(() =>
+        {
+            Assert.That(released, Is.True);
+            Assert.That(dir.IsDisposed, Is.True, "the wait must not return before the reader is disposed");
+        });
+
+        releaser.GetAwaiter().GetResult();
     }
 
 
