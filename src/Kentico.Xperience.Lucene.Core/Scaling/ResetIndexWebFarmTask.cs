@@ -33,7 +33,11 @@ internal class ResetIndexWebFarmTask : WebFarmTaskBase
         // Drop this server's cached searcher before the reset and wait for in-flight searches to release it -
         // retention renames the previous generation, which fails while a cached reader holds handles inside
         // its folder. Invalidated locally only: every server runs this task itself.
-        searcherProvider.InvalidateAndWait(luceneIndex.IndexName, LuceneIndexSearcherProvider.ReaderReleaseTimeout);
+        if (!searcherProvider.InvalidateAndWait(luceneIndex.IndexName, LuceneIndexSearcherProvider.ReaderReleaseTimeout))
+        {
+            eventLog.LogWarning("Lucene Reset Index Task", $"{nameof(ResetIndexWebFarmTask)}.{nameof(ExecuteTask)}",
+                $"A search over index '{luceneIndex.IndexName}' was still in flight on server {SystemContext.ServerName} when the reset started; its folders may still be locked.");
+        }
 
         luceneIndexService.ResetIndex(luceneIndex);
     }

@@ -171,7 +171,14 @@ internal class DefaultLuceneClient : ILuceneClient
 
         // Release the cached readers first and wait for them to actually close - their open handles would
         // make the deletion below burn through its retries and fail.
-        searchCacheInvalidator.InvalidateAndWaitForRelease(luceneIndex);
+        if (!searchCacheInvalidator.InvalidateAndWaitForRelease(luceneIndex))
+        {
+            log.LogWarning(
+                "Kentico.Xperience.Lucene",
+                $"{nameof(DefaultLuceneClient)}.{nameof(DeleteIndex)}",
+                $"A search over index [{luceneIndex.IndexName}] was still in flight when the deletion started; its folders may still be locked."
+            );
+        }
 
         return await luceneIndex.StorageContext.DeleteIndex();
     }
@@ -213,7 +220,14 @@ internal class DefaultLuceneClient : ILuceneClient
         // Drop cached searchers *before* the reset and wait for them to close: the reset enforces the
         // retention policy, which moves the previous generation to .trash, and that rename fails while a
         // cached reader holds handles inside the folder.
-        searchCacheInvalidator.InvalidateAndWaitForRelease(luceneIndex);
+        if (!searchCacheInvalidator.InvalidateAndWaitForRelease(luceneIndex))
+        {
+            log.LogWarning(
+                "Kentico.Xperience.Lucene",
+                $"{nameof(DefaultLuceneClient)}.{nameof(RebuildInternal)}",
+                $"A search over index [{luceneIndex.IndexName}] was still in flight when the rebuild started; its folders may still be locked."
+            );
+        }
 
         luceneIndexService.ResetIndex(luceneIndex);
 
