@@ -1,11 +1,14 @@
 using Kentico.Xperience.Lucene.Core.Indexing;
 using Kentico.Xperience.Lucene.Core.Store;
 
+using Lucene.Net.Analysis;
 using Lucene.Net.Facet.Taxonomy.Directory;
+using Lucene.Net.Index;
 using Lucene.Net.Search;
 
 using CmsDirectory = CMS.IO.Directory;
 using LuceneDirectory = Lucene.Net.Store.Directory;
+using RamDirectory = Lucene.Net.Store.RAMDirectory;
 
 namespace Kentico.Xperience.Lucene.Core.Search;
 
@@ -27,6 +30,7 @@ internal sealed class CachedIndex
     private LuceneDirectory? taxonomyDir;
     private int leaseCount;
     private bool retired;
+    private bool releaseCompleted;
 
 
     /// <summary>
@@ -43,7 +47,17 @@ internal sealed class CachedIndex
 
     public static CachedIndex Open(LuceneIndex index, ILuceneIndexService indexService)
     {
-        var published = index.StorageContext.GetPublishedIndex();
+        var published = index.StorageContext.TryGetPublishedIndex();
+
+        if (published is null)
+        {
+            // Nothing is published yet - either the index has never been built, or a rebuild is in progress
+            // and the reset already removed the previous generation. Serve an empty in-memory index rather
+            // than opening the unpublished generation the rebuild is writing into: a reader there holds
+            // handles inside the folder and blocks the rename that publishes it. The entry is invalidated
+            // once the generation is published, so the next search opens the real index.
+            return OpenEmpty(index.LuceneAnalyzer);
+        }
 
         // Cold start: ensure the index directory exists so the reader can be opened. This enumeration
         // happens once per generation (on cache miss), not on every search.
@@ -61,6 +75,53 @@ internal sealed class CachedIndex
         {
             var manager = new SearcherManager(dir, null);
             return new CachedIndex(dir, manager, () => OpenTaxonomy(index, indexService, published));
+        }
+        catch
+        {
+            dir.Dispose();
+            throw;
+        }
+    }
+
+
+    /// <summary>
+    /// Opens a cached index over an empty in-memory index, used while no generation is published. It touches
+    /// no storage, so it can never lock a directory a rebuild is about to rename, and searches over it simply
+    /// return no results.
+    /// </summary>
+    internal static CachedIndex OpenEmpty(Analyzer analyzer)
+    {
+        var dir = new RamDirectory();
+        try
+        {
+            // A reader can only be opened over a directory holding a commit point.
+            using (var writer = new IndexWriter(dir, new IndexWriterConfig(AnalyzerStorage.AnalyzerLuceneVersion, analyzer)))
+            {
+                writer.Commit();
+            }
+
+            var manager = new SearcherManager(dir, null);
+            return new CachedIndex(dir, manager, OpenEmptyTaxonomy);
+        }
+        catch
+        {
+            dir.Dispose();
+            throw;
+        }
+    }
+
+
+    private static TaxonomyResources OpenEmptyTaxonomy()
+    {
+        var dir = new RamDirectory();
+        try
+        {
+            using (var taxonomyWriter = new DirectoryTaxonomyWriter(dir))
+            {
+                taxonomyWriter.Commit();
+            }
+
+            return new TaxonomyResources(dir, new DirectoryTaxonomyReader(dir));
         }
         catch
         {
@@ -200,6 +261,36 @@ internal sealed class CachedIndex
     }
 
 
+    /// <summary>
+    /// Blocks until the cached resources have been disposed - that is, until every in-flight lease has been
+    /// released and no reader holds handles inside the generation folder any more. Returns
+    /// <see langword="false"/> when <paramref name="timeout"/> elapses first.
+    /// </summary>
+    /// <remarks>
+    /// Only meaningful after <see cref="Retire"/>: a live entry is never disposed, so the wait would just run
+    /// out the timeout. Callers use this to rename a generation folder only once the readers over it are
+    /// actually gone, rather than racing the rename against them and retrying on failure.
+    /// </remarks>
+    internal bool WaitForRelease(TimeSpan timeout)
+    {
+        lock (syncLock)
+        {
+            long deadline = Environment.TickCount64 + (long)timeout.TotalMilliseconds;
+
+            while (!releaseCompleted)
+            {
+                long remaining = deadline - Environment.TickCount64;
+                if (remaining <= 0 || !Monitor.Wait(syncLock, (int)Math.Min(remaining, int.MaxValue)))
+                {
+                    return releaseCompleted;
+                }
+            }
+
+            return true;
+        }
+    }
+
+
     private void ReleaseLease()
     {
         bool dispose;
@@ -253,6 +344,13 @@ internal sealed class CachedIndex
         catch
         {
             // best effort
+        }
+
+        // Signal last, so a waiter that observes this has also observed the handles being closed.
+        lock (syncLock)
+        {
+            releaseCompleted = true;
+            Monitor.PulseAll(syncLock);
         }
     }
 }

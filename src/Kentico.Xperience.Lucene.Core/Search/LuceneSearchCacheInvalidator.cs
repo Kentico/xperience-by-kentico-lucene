@@ -32,6 +32,31 @@ internal sealed class LuceneSearchCacheInvalidator
     {
         searcherProvider.Invalidate(index.IndexName);
 
+        Broadcast(index);
+    }
+
+
+    /// <summary>
+    /// Invalidates the cached searcher like <see cref="Invalidate"/> and additionally waits until the local
+    /// readers have been disposed. Use this before renaming an index generation's folders - the rename fails
+    /// while a reader still holds handles inside them.
+    /// </summary>
+    /// <returns>
+    /// <see langword="false"/> when a local lease was still in flight after the timeout, meaning the folders
+    /// may still be locked. The caller may proceed regardless; the storage strategy retries a locked rename.
+    /// </returns>
+    public bool InvalidateAndWaitForRelease(LuceneIndex index)
+    {
+        bool released = searcherProvider.InvalidateAndWait(index.IndexName, LuceneIndexSearcherProvider.ReaderReleaseTimeout);
+
+        Broadcast(index);
+
+        return released;
+    }
+
+
+    private void Broadcast(LuceneIndex index)
+    {
         if (StorageHelper.IsExternalStorage(index.StorageContext.IndexStoragePathRoot))
         {
             webFarmService.CreateTask(new InvalidateSearchIndexWebFarmTask

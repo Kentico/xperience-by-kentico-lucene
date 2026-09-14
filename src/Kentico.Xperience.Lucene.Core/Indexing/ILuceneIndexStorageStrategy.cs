@@ -1,4 +1,4 @@
-﻿using System.Diagnostics;
+using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Text.RegularExpressions;
 
@@ -94,7 +94,11 @@ internal class GenerationStorageStrategy : ILuceneIndexStorageStrategy
 
             if (indexDir is { Success: true, Result: var (_, generation, published, _) })
             {
-                string taxonomyPath = string.IsNullOrEmpty(taxonomyDir?.Result?.Path) ? FormatTaxonomyPath(indexStoragePath, generation, false)
+                // The taxonomy folder carries its own published flag, which normally matches the index
+                // folder's. Mirror the index folder when it is missing - formatting it as unpublished would
+                // point a published generation at the directory a rebuild writes into (and then renames).
+                string taxonomyPath = taxonomyDir is { Success: true, Result: var (_, _, taxonomyPublished, _) }
+                    ? FormatTaxonomyPath(indexStoragePath, generation, taxonomyPublished)
                     : FormatTaxonomyPath(indexStoragePath, generation, published);
                 string relativePath = FormatPath(indexStoragePath, generation, published);
                 yield return new IndexStorageModel(relativePath, taxonomyPath, generation, published);
@@ -125,11 +129,31 @@ internal class GenerationStorageStrategy : ILuceneIndexStorageStrategy
                 TaxonomyPath = FormatTaxonomyPath(root, storage.Generation, true)
             };
 
-            CmsDirectory.Move(storage.Path, published.Path);
+            MoveWithRetry(storage.Path, published.Path);
 
             if (CmsDirectory.Exists(storage.TaxonomyPath))
             {
-                CmsDirectory.Move(storage.TaxonomyPath, published.TaxonomyPath);
+                try
+                {
+                    MoveWithRetry(storage.TaxonomyPath, published.TaxonomyPath);
+                }
+                catch (IOException)
+                {
+                    // Restore the index folder so the generation stays consistently unpublished and can be
+                    // published again later. Leaving it renamed would pair a published index folder with an
+                    // unpublished taxonomy folder, which no path resolution can express.
+                    try
+                    {
+                        CmsDirectory.Move(published.Path, storage.Path);
+                    }
+                    catch (IOException rollbackEx)
+                    {
+                        eventLogService.LogError(nameof(GenerationStorageStrategy), nameof(PublishIndex),
+                            $"Could not restore the index folder '{published.Path}' to '{storage.Path}' after a failed taxonomy publish. {rollbackEx.Message}");
+                    }
+
+                    throw;
+                }
             }
         }
         finally
@@ -139,6 +163,69 @@ internal class GenerationStorageStrategy : ILuceneIndexStorageStrategy
                 fileLock.Release();
             }
         }
+    }
+
+    /// <summary>
+    /// Renames a generation folder, retrying briefly when the source is still reported as locked.
+    /// </summary>
+    /// <remarks>
+    /// A cached search reader holds OS handles inside the folder, and on Windows that blocks the rename with
+    /// an <see cref="IOException"/> ("Access to the path ... is denied"). Callers now invalidate the search
+    /// cache and wait for its readers to be disposed before publishing, so this is only a backstop for
+    /// handles this process does not own - a reader on another web farm server, an antivirus scanner, or an
+    /// open writer. Only a lock-shaped failure is retried; anything else fails on the first attempt.
+    /// </remarks>
+    private void MoveWithRetry(string source, string destination)
+    {
+        const int numberOfAttempts = 3;
+        const int millisecondsRetryDelay = 100;
+
+        for (int attempt = 1; attempt <= numberOfAttempts; attempt++)
+        {
+            try
+            {
+                CmsDirectory.Move(source, destination);
+                return;
+            }
+            catch (IOException ioex)
+            {
+                if (attempt == numberOfAttempts || !IsFolderLocked(ioex))
+                {
+                    eventLogService.LogError(nameof(GenerationStorageStrategy), nameof(PublishIndex),
+                        $"Could not move '{source}' to '{destination}'. {ioex.Message}");
+                    throw;
+                }
+
+                Trace.WriteLine($"OP={source} NP={destination} A={attempt}: {ioex.Message}", $"GenerationStorageStrategy.{nameof(MoveWithRetry)}");
+                Thread.Sleep(millisecondsRetryDelay * attempt);
+            }
+        }
+    }
+
+
+    /// <summary>
+    /// Indicates whether the exception is the operating system reporting the folder as held by another
+    /// handle - the only failure a retry can help with.
+    /// </summary>
+    /// <remarks>
+    /// Retrying anything else only wastes time and, on Azure Blob Storage, transactions: a missing folder, a
+    /// full disk or a throttled request fails identically on every attempt, and a partially completed
+    /// copy-and-delete (which is how a "rename" is implemented there) is not safe to repeat blindly. Note
+    /// that <see cref="FileNotFoundException"/> and <see cref="DirectoryNotFoundException"/> both derive from
+    /// <see cref="IOException"/>, so they have to be excluded explicitly.
+    /// </remarks>
+    private static bool IsFolderLocked(IOException ex)
+    {
+        const int errorAccessDenied = 0x05;
+        const int errorSharingViolation = 0x20;
+        const int errorLockViolation = 0x21;
+
+        if (ex is FileNotFoundException or DirectoryNotFoundException)
+        {
+            return false;
+        }
+
+        return (ex.HResult & 0xFFFF) is errorAccessDenied or errorSharingViolation or errorLockViolation;
     }
 
     public bool ScheduleRemoval(IndexStorageModel storage)
