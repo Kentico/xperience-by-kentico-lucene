@@ -29,12 +29,33 @@ public class IndexStorageContext
     }
 
 
-    public IndexStorageModel GetPublishedIndex()
-    {
-        var published = storageStrategy
+    /// <summary>
+    /// Gets the currently published index generation, or <see langword="null"/> when no generation has been
+    /// published yet.
+    /// </summary>
+    /// <remarks>
+    /// Prefer this over <see cref="GetPublishedIndex"/> for anything that opens a reader. Its fallback model
+    /// points at the paths of an <em>unpublished</em> generation - the very directories a rebuild writes into
+    /// and renames when publishing - so a reader opened over them locks the rename out.
+    /// </remarks>
+    public IndexStorageModel? TryGetPublishedIndex() =>
+        storageStrategy
             .GetExistingIndices(IndexStoragePathRoot)
             .Where(x => x.IsPublished)
             .MaxBy(x => x.Generation);
+
+
+    /// <summary>
+    /// Gets the currently published index generation, falling back to a generation 1 model when nothing is
+    /// published yet.
+    /// </summary>
+    /// <remarks>
+    /// The fallback model carries the paths of an unpublished generation, which is unsafe to open a reader
+    /// over while a rebuild is in progress - use <see cref="TryGetPublishedIndex"/> in that case.
+    /// </remarks>
+    public IndexStorageModel GetPublishedIndex()
+    {
+        var published = TryGetPublishedIndex();
 
         if (published == null)
         {

@@ -335,6 +335,64 @@ public class IndexStorageContextTests
     }
 
 
+    [Test]
+    public void TryGetPublishedIndex_NoExistingIndices_ReturnsNull()
+    {
+        strategy.GetExistingIndices(Arg.Any<string>())
+            .Returns(Enumerable.Empty<IndexStorageModel>());
+
+        var context = CreateContext();
+
+        // Must not fall back to an unpublished generation's paths - a reader opened over them would lock
+        // out the rename that publishes a rebuild.
+        Assert.That(context.TryGetPublishedIndex(), Is.Null);
+    }
+
+
+    [Test]
+    public void TryGetPublishedIndex_OnlyUnpublishedIndices_ReturnsNull()
+    {
+        var indices = new[]
+        {
+            new IndexStorageModel($"{IndexRoot}/i-g0000001-p_False", $"{IndexRoot}/i-g0000001-p_False_taxonomy", 1, false),
+        };
+
+        strategy.GetExistingIndices(Arg.Any<string>())
+            .Returns(indices);
+
+        var context = CreateContext();
+
+        Assert.That(context.TryGetPublishedIndex(), Is.Null);
+    }
+
+
+    [Test]
+    public void TryGetPublishedIndex_WithMixedPublishedAndUnpublished_ReturnsHighestPublished()
+    {
+        var indices = new[]
+        {
+            new IndexStorageModel($"{IndexRoot}/i-g0000001-p_True", $"{IndexRoot}/i-g0000001-p_True_taxonomy", 1, true),
+            new IndexStorageModel($"{IndexRoot}/i-g0000002-p_True", $"{IndexRoot}/i-g0000002-p_True_taxonomy", 2, true),
+            new IndexStorageModel($"{IndexRoot}/i-g0000003-p_False", $"{IndexRoot}/i-g0000003-p_False_taxonomy", 3, false),
+        };
+
+        strategy.GetExistingIndices(Arg.Any<string>())
+            .Returns(indices);
+
+        var context = CreateContext();
+
+        var result = context.TryGetPublishedIndex();
+
+        Assert.That(result, Is.Not.Null);
+        Assert.Multiple(() =>
+        {
+            Assert.That(result!.Generation, Is.EqualTo(2));
+            Assert.That(result.Path, Does.Contain("p_True"));
+            Assert.That(result.TaxonomyPath, Does.Contain("p_True_taxonomy"));
+        });
+    }
+
+
     private IndexStorageContext CreateContext(int retainedGenerations = 1) =>
         new(strategy, IndexRoot, new IndexRetentionPolicy(retainedGenerations));
 }

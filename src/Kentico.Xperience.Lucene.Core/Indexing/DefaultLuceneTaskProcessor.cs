@@ -63,11 +63,31 @@ internal class DefaultLuceneTaskProcessor : ILuceneTaskProcessor
 
         foreach (var index in batchResults.PublishedIndices)
         {
-            var storage = index.StorageContext.GetNextOrOpenNextGeneration();
-            index.StorageContext.PublishIndex(storage);
-
             // A publish changes the published generation, so it always needs invalidating.
             batchResults.ModifiedIndices.Add(index);
+
+            try
+            {
+                var storage = index.StorageContext.GetNextOrOpenNextGeneration();
+
+                // Publishing renames the generation folders, which fails while a cached reader holds handles
+                // inside them, so release them first and wait for in-flight searches to let go. The post-loop
+                // invalidation below still runs - it is what makes the newly published generation visible.
+                if (!searchCacheInvalidator.InvalidateAndWaitForRelease(index))
+                {
+                    eventLogService.LogWarning(nameof(DefaultLuceneTaskProcessor), nameof(ProcessLuceneTasks),
+                        $"A search over index '{index.IndexName}' was still in flight when publishing started; its folders may still be locked.");
+                }
+
+                index.StorageContext.PublishIndex(storage);
+            }
+            catch (Exception ex)
+            {
+                // Keep publishing the remaining indexes - one locked folder must not leave the others
+                // unpublished (and therefore empty) as well.
+                eventLogService.LogException(nameof(DefaultLuceneTaskProcessor), nameof(ProcessLuceneTasks), ex,
+                    $"Could not publish index '{index.IndexName}'.");
+            }
         }
 
         // Drop the cached searcher for every index that changed (in-place upserts/deletes from page
