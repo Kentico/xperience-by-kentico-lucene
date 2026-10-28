@@ -10,7 +10,7 @@ using Kentico.PageBuilder.Web.Mvc;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ViewComponents;
 
-[assembly: RegisterWidget(CardWidgetViewComponent.IDENTIFIER, typeof(CardWidgetViewComponent), "Card", typeof(CardWidgetProperties), Description = "Displays an image with a centered text.", IconClass = "icon-rectangle-paragraph")]
+[assembly: RegisterWidget(CardWidgetViewComponent.IDENTIFIER, typeof(CardWidgetViewComponent), "{$dancinggoat.cardwidget.title$}", typeof(CardWidgetProperties), Description = "{$dancinggoat.cardwidget.description$}", IconClass = "icon-rectangle-paragraph")]
 
 namespace DancingGoat.Widgets
 {

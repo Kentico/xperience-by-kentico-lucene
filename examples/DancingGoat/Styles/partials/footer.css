@@ -1,0 +1,126 @@
+/*
+ * Footer — dark band with brand / contact + social / newsletter columns.
+ */
+.footer {
+    margin-top: 90px;
+    background: var(--color-band);
+    color: var(--color-band-ink);
+    border-radius: 0;
+}
+
+.footer-inner { padding: 56px 32px 0 32px; }
+
+.footer-grid {
+    display: grid;
+    grid-template-columns: 1.2fr 0.8fr 1fr;
+    gap: 48px;
+    padding-bottom: 44px;
+}
+
+/* The logo asset is black, so it is rendered white here; against the band that is indistinguishable from --color-band-ink. */
+.footer-brand .footer-logo { height: 48px; width: auto; filter: brightness(0) invert(1); }
+
+.footer-tag { color: rgba(242, 234, 224, 0.9); max-width: 34ch; margin-top: 20px; font-size: var(--text-md); }
+
+.footer h2 {
+    color: var(--color-accent-on-dark);
+    margin: 0 0 14px 0;
+}
+
+.footer address {
+    font-style: normal;
+    line-height: var(--leading-body);
+    color: rgba(242, 234, 224, 0.92);
+    font-size: var(--text-md);
+}
+
+.footer address a { border-bottom: 1px solid rgba(242, 234, 224, 0.3); }
+.footer address a:hover { color: var(--color-ink-inverse); border-color: var(--color-accent); }
+
+.social-row { display: flex; gap: 12px; margin-top: 24px; }
+
+.social-row a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 999px;
+    border: 1px solid rgba(242, 234, 224, 0.28);
+    color: rgba(242, 234, 224, 0.88);
+    transition: color 0.2s, border-color 0.2s, background 0.2s;
+}
+
+.social-row a svg { width: 17px; height: 17px; fill: currentColor; }
+.social-row a img { width: 22px; height: 22px; filter: brightness(0) invert(1); opacity: 0.88; }
+
+.social-row a:hover { color: var(--color-ink-inverse); border-color: var(--color-accent); background: var(--color-accent); }
+
+.subscribe-note { color: rgba(242, 234, 224, 0.9); font-size: var(--text-md); margin: 0 0 18px 0; }
+
+.subscribe-form { display: flex; gap: 10px; }
+
+.subscribe-form form { display: flex; gap: 10px; align-items: flex-start; flex: 1; min-width: 0; }
+.subscribe-form :where(.form-field) { flex: 1; min-width: 0; margin: 0; }
+.subscribe-form :where(.form-field label, .control-label) {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+    border: 0;
+}
+.subscribe-form input[type="submit"] {
+    background: var(--color-accent-text);
+    color: var(--color-accent-ink);
+    border: 1px solid transparent;
+    border-radius: var(--radius-btn);
+    padding: 14px 24px;
+    font-family: var(--font-sans);
+    font-size: var(--text-sm);
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    cursor: pointer;
+    transition: transform 0.2s, filter 0.2s;
+}
+.subscribe-form input[type="submit"]:hover { transform: translateY(-2px); filter: brightness(1.08); }
+.subscribe-form .field-validation-error,
+.subscribe-form [class*="validation-error"] { display: block; font-size: var(--text-xs); color: var(--color-accent-on-dark); margin-top: 8px; }
+.subscribe-form .formwidget-submit-text { font-size: var(--text-md); color: rgba(242, 234, 224, 0.9); }
+
+.subscribe-form input[type="text"],
+.subscribe-form input[type="email"] {
+    flex: 1;
+    min-width: 0;
+    background: rgba(242, 234, 224, 0.08);
+    border: 1px solid rgba(242, 234, 224, 0.25);
+    border-radius: var(--radius-btn);
+    padding: 14px 22px;
+    color: var(--color-band-ink);
+    font-family: var(--font-sans);
+    font-size: var(--text-md);
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+.subscribe-form input::placeholder { color: rgba(242, 234, 224, 0.70); }
+.subscribe-form input:focus { border-color: var(--color-accent-text); box-shadow: 0 0 0 3px rgba(194, 65, 12, 0.28); }
+
+.footer-bottom {
+    border-top: 1px solid rgba(242, 234, 224, 0.14);
+    padding: 18px 0;
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    font-size: var(--text-xs);
+    color: rgba(242, 234, 224, 0.85);
+}
+
+.footer-bottom a:hover { color: var(--color-ink-inverse); }
+
+@media (max-width: 1080px) {
+    .footer-grid { grid-template-columns: 1fr; gap: 44px; }
+}

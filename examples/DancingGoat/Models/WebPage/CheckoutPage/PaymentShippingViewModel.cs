@@ -21,6 +21,10 @@ public sealed record PaymentShippingViewModel
 
     public decimal ShippingPrice { get; set; }
 
+    public decimal OriginalShippingPrice { get; set; }
+
+    public bool HasFreeShippingPromotion { get; set; }
+
     [Display(Name = "Payment method")]
     [Required(ErrorMessage = REQUIRED_FIELD_ERROR_MESSAGE)]
     public string PaymentMethodId { get; set; }

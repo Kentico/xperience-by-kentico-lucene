@@ -5,7 +5,7 @@ using CMS.Membership;
 
 namespace DancingGoat.Helpers.Generator
 {
-    public class FormContactGroupGenerator
+    public class FormConsentContactGroupGenerator
     {
         private const string CONTACT_GROUP_DISPLAY_NAME = "Coffee samples applicants";
         private const string CONTACT_GROUP_NAME = "CoffeeSamplesApplicants";
@@ -14,10 +14,10 @@ namespace DancingGoat.Helpers.Generator
 
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="FormContactGroupGenerator"/> class.
+        /// Initializes a new instance of the <see cref="FormConsentContactGroupGenerator"/> class.
         /// </summary>
         /// <param name="contactGroupInfoProvider">Contact group info provider.</param>
-        public FormContactGroupGenerator(IInfoProvider<ContactGroupInfo> contactGroupInfoProvider)
+        public FormConsentContactGroupGenerator(IInfoProvider<ContactGroupInfo> contactGroupInfoProvider)
         {
             this.contactGroupInfoProvider = contactGroupInfoProvider;
         }

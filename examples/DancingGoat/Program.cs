@@ -1,10 +1,14 @@
-﻿using DancingGoat;
+﻿using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+
+using CMS.Base;
+
+using DancingGoat;
 using DancingGoat.EmailComponents;
 using DancingGoat.Helpers.Generators;
 using DancingGoat.Models;
-
-using CMS;
-using CMS.Base;
+using DancingGoat.Search;
 
 using Kentico.Activities.Web.Mvc;
 using Kentico.Commerce.Web.Mvc;
@@ -13,35 +17,23 @@ using Kentico.EmailBuilder.Web.Mvc;
 using Kentico.Membership;
 using Kentico.OnlineMarketing.Web.Mvc;
 using Kentico.PageBuilder.Web.Mvc;
-using Kentico.Xperience.Mjml;
 using Kentico.Web.Mvc;
+using Kentico.Xperience.Mjml;
 
-using Kentico.Xperience.Cloud;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Abstractions;
 using Microsoft.AspNetCore.Mvc.Routing;
-using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Routing;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 
 using Samples.DancingGoat;
-using DancingGoat.Search;
-
-[assembly: AssemblyDiscoverable]
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddXperienceCloudApplicationInsights(builder.Configuration);
-builder.Services.AddXperienceCloudChannelRequirements();
-
-if (builder.Environment.IsQa() ||
-    builder.Environment.IsUat() ||
-    builder.Environment.IsEnvironment(CloudEnvironments.Custom) ||
-    builder.Environment.IsEnvironment(CloudEnvironments.Staging) ||
-    builder.Environment.IsProduction())
-{
-    builder.Services.AddKenticoCloud(builder.Configuration);
-    builder.Services.AddXperienceCloudSendGrid(builder.Configuration);
-    builder.Services.AddXperienceCloudDataProtection(builder.Configuration);
-}
 
 builder.Services.AddKentico(features =>
 {
@@ -49,12 +41,13 @@ builder.Services.AddKentico(features =>
     {
         DefaultSectionIdentifier = ComponentIdentifiers.SINGLE_COLUMN_SECTION,
         RegisterDefaultSection = false,
-        ContentTypeNames =
-        [
+        ContentTypeNames = new[]
+        {
             LandingPage.CONTENT_TYPE_NAME,
             ContactsPage.CONTENT_TYPE_NAME,
-            ArticlePage.CONTENT_TYPE_NAME
-        ]
+            ArticlePage.CONTENT_TYPE_NAME,
+            HomePage.CONTENT_TYPE_NAME
+        }
     });
 
     features.UseEmailBuilder();
@@ -76,10 +69,8 @@ builder.Services.AddLocalization()
     });
 
 builder.Services.AddDancingGoatServices();
-
-builder.Services.AddKenticoDancingGoatLuceneServices(builder.Configuration);
-
 builder.Services.AddSingleton<IEmailActivityTrackingEvaluator, EmailActivityTrackingEvaluator>();
+builder.Services.AddDancingGoatLuceneServices(builder.Configuration);
 
 ConfigureEmailBuilder(builder.Services);
 ConfigureMembershipServices(builder.Services);
@@ -89,11 +80,12 @@ if (builder.Environment.IsDevelopment())
     builder.Services.Configure<UrlResolveOptions>(options => options.UseSSL = false);
 }
 
+builder.AddDancingGoatManagementApi();
+
 var app = builder.Build();
 
 app.InitKentico();
 
-app.InitializeDancingGoat();
 
 app.UseStaticFiles();
 
@@ -101,14 +93,8 @@ app.UseCookiePolicy();
 
 app.UseAuthentication();
 
-if (builder.Environment.IsQa() ||
-    builder.Environment.IsUat() ||
-    builder.Environment.IsEnvironment(CloudEnvironments.Custom) ||
-    builder.Environment.IsEnvironment(CloudEnvironments.Staging) ||
-    builder.Environment.IsProduction())
-{
-    app.UseKenticoCloud();
-}
+app.UseDancingGoatManagementApi();
+
 
 app.UseKentico();
 
@@ -147,7 +133,7 @@ app.Run();
 
 static void ConfigureMembershipServices(IServiceCollection services)
 {
-    services.AddIdentity<ApplicationUser, NoOpApplicationRole>(options =>
+    services.AddIdentity<ApplicationUser, ApplicationRole>(options =>
     {
         options.Password.RequireDigit = false;
         options.Password.RequireNonAlphanumeric = false;
@@ -159,16 +145,18 @@ static void ConfigureMembershipServices(IServiceCollection services)
         options.SignIn.RequireConfirmedAccount = true;
     })
         .AddUserStore<ApplicationUserStore<ApplicationUser>>()
-        .AddRoleStore<NoOpApplicationRoleStore>()
+        .AddRoleStore<ApplicationRoleStore<ApplicationRole>>()
         .AddUserManager<UserManager<ApplicationUser>>()
+        .AddRoleManager<RoleManager<ApplicationRole>>()
         .AddSignInManager<SignInManager<ApplicationUser>>();
 
     services.ConfigureApplicationCookie(options =>
     {
         options.ExpireTimeSpan = TimeSpan.FromDays(14);
         options.SlidingExpiration = true;
-        options.AccessDeniedPath = new PathString("/account/login");
-        options.Events.OnRedirectToAccessDenied = ctx =>
+        options.LoginPath = new PathString("/account/login");
+        options.AccessDeniedPath = new PathString("/error/403");
+        options.Events.OnRedirectToLogin = ctx =>
         {
             var factory = ctx.HttpContext.RequestServices.GetRequiredService<IUrlHelperFactory>();
             var urlHelper = factory.GetUrlHelper(new ActionContext(ctx.HttpContext, new RouteData(ctx.HttpContext.Request.RouteValues), new ActionDescriptor()));

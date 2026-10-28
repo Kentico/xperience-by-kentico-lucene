@@ -36,42 +36,6 @@ namespace DancingGoat.Models
 
 
 		/// <summary>
-		/// HomePageBanner.
-		/// </summary>
-		public IEnumerable<Banner> HomePageBanner { get; set; }
-
-
-		/// <summary>
-		/// HomePageEvent.
-		/// </summary>
-		public IEnumerable<Event> HomePageEvent { get; set; }
-
-
-		/// <summary>
-		/// HomePageOurStory.
-		/// </summary>
-		public string HomePageOurStory { get; set; }
-
-
-		/// <summary>
-		/// HomePageReference.
-		/// </summary>
-		public IEnumerable<Reference> HomePageReference { get; set; }
-
-
-		/// <summary>
-		/// HomePageCafesFolder.
-		/// </summary>
-		public SmartFolderReference HomePageCafesFolder { get; set; }
-
-
-		/// <summary>
-		/// HomePageArticlesSection.
-		/// </summary>
-		public IEnumerable<WebPageRelatedItem> HomePageArticlesSection { get; set; }
-
-
-		/// <summary>
 		/// SEOFieldsTitle.
 		/// </summary>
 		public string SEOFieldsTitle { get; set; }
@@ -84,8 +48,14 @@ namespace DancingGoat.Models
 
 
 		/// <summary>
-		/// SEOFieldsAllowSearchIndexing.
+		/// SEOFieldsOGImage.
 		/// </summary>
-		public bool SEOFieldsAllowSearchIndexing { get; set; }
+		public IEnumerable<Image> SEOFieldsOGImage { get; set; }
+
+
+		/// <summary>
+		/// SEOFieldsNoIndex.
+		/// </summary>
+		public bool SEOFieldsNoIndex { get; set; }
 	}
 }

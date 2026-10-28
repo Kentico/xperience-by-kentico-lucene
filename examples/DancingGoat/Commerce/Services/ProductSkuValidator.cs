@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 
 using CMS.ContentEngine;
@@ -8,8 +9,8 @@ using DancingGoat.Models;
 namespace DancingGoat.Commerce;
 
 /// <summary>
-/// Provides functionality to validate product SKU codes against existing content items.  
-/// This class ensures that SKU codes are unique across published and draft versions of content items.  
+/// Provides functionality to validate product SKU codes against existing content items.
+/// This class ensures that SKU codes are unique across published and draft versions of content items.
 /// </summary>
 internal sealed class ProductSkuValidator
 {
@@ -23,12 +24,13 @@ internal sealed class ProductSkuValidator
 
 
     /// <summary>
-    /// Checks if the provided SKU code is already used by another content item.    
+    /// Checks if the provided SKU code is already used by another content item.
     /// </summary>
     /// <param name="skuCode">The SKU code to check.</param>
-    /// <param name="contentItemId">The ID of the content item to exclude from the check. This is used when updating an existing content item.</param>  
-    /// <returns>The identifier of the duplicate content item or null if no duplicates were found.</returns>   
-    public async Task<int?> GetCollidingContentItem(string skuCode, int? contentItemId)
+    /// <param name="contentItemId">The ID of the content item to exclude from the check. This is used when updating an existing content item.</param>
+    /// <param name="cancellationToken">The cancellation token to observe during the asynchronous operation.</param>
+    /// <returns>The identifier of the duplicate content item or null if no duplicates were found.</returns>
+    public async Task<int?> GetCollidingContentItem(string skuCode, int? contentItemId, CancellationToken cancellationToken)
     {
         var queryBuilder = new ContentItemQueryBuilder()
             .ForContentTypes(ct => ct.OfReusableSchema(IProductSKU.REUSABLE_FIELD_SCHEMA_NAME))
@@ -47,7 +49,8 @@ internal sealed class ProductSkuValidator
         // Searches for product SKUs in the published versions of products
         var publishedDuplicateProducts = await executor.GetResult<int?>(queryBuilder,
             rowData => rowData.ContentItemID,
-            new ContentQueryExecutionOptions { ForPreview = false });
+            new ContentQueryExecutionOptions { ForPreview = false },
+            cancellationToken);
 
         // Searches for product SKUs in the draft versions of products
         queryBuilder.Parameters(p =>
@@ -56,7 +59,8 @@ internal sealed class ProductSkuValidator
 
         var draftDuplicate = await executor.GetResult<int?>(queryBuilder,
             rowData => rowData.ContentItemID,
-            new ContentQueryExecutionOptions { ForPreview = true });
+            new ContentQueryExecutionOptions { ForPreview = true },
+            cancellationToken);
 
         return publishedDuplicateProducts.FirstOrDefault() ?? draftDuplicate.FirstOrDefault();
     }

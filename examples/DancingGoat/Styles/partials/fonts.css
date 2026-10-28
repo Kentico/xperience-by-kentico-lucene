@@ -1,0 +1,9 @@
+/*
+ * Self-hosted fonts — the redesign uses a single family, GT Walsheim.
+ * URLs are relative to the compiled output in wwwroot/Content/Styles/.
+ */
+@font-face { font-family: "GT Walsheim"; src: url("../Fonts/GT-Walsheim-Thin.woff2") format("woff2"), url("../Fonts/GT-Walsheim-Thin.woff") format("woff"); font-weight: 100; font-style: normal; font-display: swap; }
+@font-face { font-family: "GT Walsheim"; src: url("../Fonts/GT-Walsheim-Light.woff2") format("woff2"), url("../Fonts/GT-Walsheim-Light.woff") format("woff"); font-weight: 300; font-style: normal; font-display: swap; }
+@font-face { font-family: "GT Walsheim"; src: url("../Fonts/GT-Walsheim-Regular.woff2") format("woff2"), url("../Fonts/GT-Walsheim-Regular.woff") format("woff"); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: "GT Walsheim"; src: url("../Fonts/GT-Walsheim-Medium.woff2") format("woff2"), url("../Fonts/GT-Walsheim-Medium.woff") format("woff"); font-weight: 500; font-style: normal; font-display: swap; }
+@font-face { font-family: "GT Walsheim"; src: url("../Fonts/GT-Walsheim-Bold.woff2") format("woff2"), url("../Fonts/GT-Walsheim-Bold.woff") format("woff"); font-weight: 700; font-style: normal; font-display: swap; }

@@ -2,13 +2,23 @@
   "version": "1.0.0",
   "name": "asp.net",
   "private": true,
+  "scripts": {
+    "build": "npm run build:css && npm run build:bundles",
+    "build:css": "node Tools/css.mjs",
+    "watch:css": "node Tools/css.mjs --watch",
+    "build:bundles": "node Tools/build-bundles.mjs",
+    "a11y": "axe --exit --load-delay 3000 --exclude \"[class*=mp-]\""
+  },
   "devDependencies": {
-    "grunt": "1.6.1",
-    "grunt-contrib-clean": "2.0.1",
-    "grunt-contrib-concat": "2.1.0",
-    "grunt-contrib-cssmin": "5.0.0",
-    "grunt-contrib-less": "3.0.0",
-    "grunt-contrib-watch": "1.1.0",
-    "grunt-terser": "2.0.0"
+    "@axe-core/cli": "4.13.0",
+    "@tailwindcss/cli": "4.3.3",
+    "esbuild": "0.28.2",
+    "tailwindcss": "4.3.3"
+  },
+  "overrides": {
+    "basic-ftp@<6.2.1": "6.2.1"
+  },
+  "engines": {
+    "npm": ">= 11.10.0"
   }
 }

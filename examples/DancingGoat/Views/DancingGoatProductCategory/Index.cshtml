@@ -1,19 +1,20 @@
-﻿@using DancingGoat.Models
+﻿@using DancingGoat.Helpers
+@using DancingGoat.Models
 
 @model ProductListingViewModel
 
-@{
-    ViewData["PageClass"] = "inverted";
-}
+<div class="page-head">
+    <div class="wrap">
+        <h1 class="display">@HeadingFormatter.Format(string.IsNullOrEmpty(Model.CategoryName) ? HtmlLocalizer["The Dancing Goat store"].Value : Model.CategoryName)</h1>
+        <p class="lede">@HtmlLocalizer["Everything we brew with at our cafés."]</p>
+        @Html.DisplayFor(m => @Model.CategoryMenuViewModel, "ProductCategoryMenu")
+    </div>
+</div>
 
-<div class="product-page-container">
-
-    @Html.DisplayFor(m => @Model.CategoryMenuViewModel, "ProductCategoryMenu")
-
-
-    <div class="product-page row">
-        <div id="product-list" class="product-list">
+<section class="block-tight">
+    <div class="wrap">
+        <div id="product-list">
             <partial name="ProductsList" model="@Model.SelectionProductListViewModel" />
         </div>
     </div>
-</div>
+</section>

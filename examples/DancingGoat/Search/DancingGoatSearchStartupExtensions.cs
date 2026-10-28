@@ -1,26 +1,15 @@
-﻿using DancingGoat.Search.Services;
-
-using Lucene.Net.Analysis.Cz;
-
 namespace DancingGoat.Search;
 
 public static class DancingGoatSearchStartupExtensions
 {
-    public static IServiceCollection AddKenticoDancingGoatLuceneServices(this IServiceCollection services, IConfiguration configuration)
+    public static IServiceCollection AddDancingGoatLuceneServices(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddKenticoLucene(builder =>
         {
-            builder.RegisterStrategy<AdvancedSearchIndexingStrategy>("DancingGoatExampleStrategy");
-            builder.RegisterStrategy<SimpleSearchIndexingStrategy>("DancingGoatMinimalExampleStrategy");
-            builder.RegisterStrategy<ReusableContentItemsIndexingStrategy>(nameof(ReusableContentItemsIndexingStrategy));
-            builder.RegisterAnalyzer<CzechAnalyzer>("Czech analyzer");
+            builder.RegisterStrategy<DancingGoatSearchIndexingStrategy>("DancingGoatGlobalSearchWithTaxonomyFacetsV2");
         }, configuration);
 
-        services.AddHttpClient<WebCrawlerService>();
-        services.AddSingleton<WebScraperHtmlSanitizer>();
-
-        services.AddSingleton<SimpleSearchService>();
-        services.AddSingleton<AdvancedSearchService>();
+        services.AddSingleton<DancingGoatSearchService>();
 
         return services;
     }

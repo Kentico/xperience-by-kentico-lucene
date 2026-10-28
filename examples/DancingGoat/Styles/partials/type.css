@@ -1,0 +1,94 @@
+/*
+ * Type — display headings, unified headline scale, uppercase-label recipe,
+ * section heads, text links, quotes.
+ */
+.display {
+    font-family: var(--font-sans);
+    font-weight: var(--display-weight);
+    letter-spacing: var(--display-tracking);
+    line-height: var(--leading-display);
+    margin: 0;
+}
+
+.accent-period {
+    color: var(--color-accent);
+}
+
+.section-head {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 24px;
+    margin-bottom: 44px;
+}
+
+/* unified headline scale */
+h1.display { font-size: var(--text-h1); }
+h2.display { font-size: var(--text-h2); }
+h3, .prose h2, .checkout-section h2 {
+    font-size: var(--text-h3);
+    font-family: var(--font-sans);
+    font-weight: var(--display-weight);
+    line-height: var(--leading-heading);
+}
+h4, .article-card h3, .product-card h3, .side-body h2 {
+    font-size: var(--text-h4);
+    font-family: var(--font-sans);
+    font-weight: var(--display-weight);
+    line-height: var(--leading-heading);
+}
+h3.display, h4.display { line-height: var(--leading-heading); }
+
+/* shared uppercase label recipe */
+.label, .event-meta .k, .article-date, .footer h2, .chip, .buy-label, .params dt,
+.date-line, .info-list .k {
+    font-size: var(--text-label);
+    font-weight: 600;
+    letter-spacing: var(--accent-tracking);
+    text-transform: uppercase;
+}
+
+.section-link {
+    font-size: var(--text-sm);
+    font-weight: 600;
+    letter-spacing: var(--accent-tracking);
+    color: var(--color-ink);
+    border-bottom: 1px solid var(--color-accent);
+    padding-bottom: 4px;
+    white-space: nowrap;
+    transition: color 0.2s;
+}
+
+.section-link:hover { color: var(--color-accent-text); }
+
+.read-more {
+    font-size: var(--text-sm);
+    font-weight: 600;
+    letter-spacing: var(--accent-tracking);
+    border-bottom: 1px solid var(--color-accent);
+    padding-bottom: 3px;
+}
+
+.read-more:hover { color: var(--color-accent-text); }
+
+/* ---------- quotes (testimonials, story) ---------- */
+.quote-mark {
+    font-family: var(--font-sans);
+    font-size: 120px;
+    line-height: 0.6;
+    color: var(--color-accent-text);
+    display: block;
+    margin-bottom: 26px;
+}
+
+.quote-text {
+    font-family: var(--font-sans);
+    font-weight: var(--display-weight);
+    font-size: var(--text-quote);
+    line-height: var(--leading-relaxed);
+    margin: 0 0 34px 0;
+}
+
+.quote-name { font-weight: 700; font-size: var(--text-md); }
+
+.quote-desc { color: var(--color-ink-soft); font-size: var(--text-xs); margin-top: 3px; }

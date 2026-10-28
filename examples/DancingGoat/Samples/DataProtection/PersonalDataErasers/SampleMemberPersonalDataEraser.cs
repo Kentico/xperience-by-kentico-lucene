@@ -38,6 +38,10 @@ namespace Samples.DancingGoat
         /// <term>DeleteMembers</term>
         /// <description>Flag indicating whether member(s) contained in <paramref name="identities"/> are to be deleted.</description>
         /// </item>
+        /// <item>
+        /// <term>DeleteProfile</term>
+        /// <description>Flag indicating whether all profile data should be deleted. When set to true, all related data will be deleted.</description>
+        /// </item>
         /// </list>
         /// </remarks>
         public void Erase(IEnumerable<BaseInfo> identities, IDictionary<string, object> configuration)
@@ -53,14 +57,31 @@ namespace Samples.DancingGoat
         /// </summary>
         private void DeleteMembers(List<MemberInfo> members, IDictionary<string, object> configuration)
         {
-            if (configuration.TryGetValue("deleteMembers", out object deleteMembers)
-                && ValidationHelper.GetBoolean(deleteMembers, false))
+            if (ShouldDeleteData(configuration, "deleteMembers"))
             {
                 foreach (var member in members)
                 {
                     memberInfoProvider.Delete(member);
                 }
             }
+        }
+
+
+        /// <summary>
+        /// Determines whether data should be deleted based on the specific configuration key or the global DeleteProfile flag.
+        /// </summary>
+        /// <param name="configuration">Configuration dictionary.</param>
+        /// <param name="configKey">Specific configuration key to check.</param>
+        /// <returns>True if data should be deleted, false otherwise.</returns>
+        private static bool ShouldDeleteData(IDictionary<string, object> configuration, string configKey)
+        {
+            var areAllDataToBeDeleted = configuration.TryGetValue("DeleteProfile", out object deleteProfile)
+                && ValidationHelper.GetBoolean(deleteProfile, false);
+
+            var areSpecificDataToBeDeleted = configuration.TryGetValue(configKey, out object deleteSpecific)
+                && ValidationHelper.GetBoolean(deleteSpecific, false);
+
+            return areAllDataToBeDeleted || areSpecificDataToBeDeleted;
         }
     }
 }
