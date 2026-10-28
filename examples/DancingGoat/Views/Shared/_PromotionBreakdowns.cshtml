@@ -1,0 +1,18 @@
+@using System.Globalization
+@using DancingGoat.Models
+
+@model IReadOnlyList<PromotionBreakdown>
+
+@* Shown only on a line multiple promotions discount. *@
+<ul class="promotion-breakdowns">
+    @foreach (var breakdown in Model)
+    {
+        <li class="promotion-breakdown">
+            <span class="promotion-breakdown-name">@HtmlLocalizer["{0} × {1}", breakdown.CoveredQuantity.ToString("0.##", CultureInfo.CurrentCulture), breakdown.PromotionName]</span>
+            <span class="promotion-breakdown-prices">
+                <s class="price-old"><span class="visually-hidden">@HtmlLocalizer["Original price"]</span> <price>@breakdown.FullPrice</price></s>
+                <price>@breakdown.DiscountedPrice</price>
+            </span>
+        </li>
+    }
+</ul>

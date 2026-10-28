@@ -1,12 +1,13 @@
 ﻿@using DancingGoat.Models
 
-@model IEnumerable<NavigationItemViewModel>
+@model NavigationMenuViewModel
 
-<ul class="nav-menu">
-    @foreach (var navigationItem in Model)
+<ul class="nav-links" id="nav-links">
+    @foreach (var navigationItem in Model.Items)
     {
+        var isActive = Model.ActivePath != null && navigationItem.ResolvedPath.Equals(Model.ActivePath, StringComparison.InvariantCultureIgnoreCase);
         <li>
-            <a href="@navigationItem.RelativeUrl">@HtmlLocalizer[navigationItem.Caption]</a>
+            <a href="@navigationItem.RelativeUrl" class="@(isActive ? "active" : null)">@HtmlLocalizer[navigationItem.Caption]</a>
         </li>
     }
 </ul>

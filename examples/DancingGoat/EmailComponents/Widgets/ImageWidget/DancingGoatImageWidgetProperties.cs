@@ -21,8 +21,8 @@ public class DancingGoatImageWidgetProperties : IEmailWidgetProperties
     [ContentItemSelectorComponent(
         Image.CONTENT_TYPE_NAME,
         Order = 1,
-        Label = "Image",
-        ExplanationText = "Select the image from assets stored in the Content hub.",
+        Label = "{$dancinggoat.imagewidget.image.label$}",
+        ExplanationText = "{$dancinggoat.imagewidget.image.explanationtext$}",
         MaximumItems = 1)]
     public IEnumerable<ContentItemReference> Assets { get; set; } = [];
 
@@ -31,10 +31,10 @@ public class DancingGoatImageWidgetProperties : IEmailWidgetProperties
     /// The horizontal alignment of the button. <see cref="DancingGoatHorizontalAlignment"/>
     /// </summary>
     [DropDownComponent(
-        Label = "Alignment",
+        Label = "{$dancinggoat.imagewidget.alignment.label$}",
         Order = 2,
-        ExplanationText = "Allows you to set the width of the image in pixels.",
-        Options = $"{nameof(DancingGoatHorizontalAlignment.Left)};Left\r\n{nameof(DancingGoatHorizontalAlignment.Center)};Center\r\n{nameof(DancingGoatHorizontalAlignment.Right)};Right",
+        ExplanationText = "{$dancinggoat.imagewidget.alignment.explanationtext$}",
+        Options = $"{nameof(DancingGoatHorizontalAlignment.Left)};{{$dancinggoat.imagewidget.alignment.option.left$}}\r\n{nameof(DancingGoatHorizontalAlignment.Center)};{{$dancinggoat.imagewidget.alignment.option.center$}}\r\n{nameof(DancingGoatHorizontalAlignment.Right)};{{$dancinggoat.imagewidget.alignment.option.right$}}",
         OptionsValueSeparator = ";")]
     public string Alignment { get; set; } = nameof(DancingGoatHorizontalAlignment.Center);
 
@@ -43,9 +43,9 @@ public class DancingGoatImageWidgetProperties : IEmailWidgetProperties
     /// The image width.
     /// </summary>
     [NumberInputComponent(
-        Label = "Width",
+        Label = "{$dancinggoat.imagewidget.width.label$}",
         Order = 3,
-        ExplanationText = "Allows you to set the width of the image in pixels.")]
+        ExplanationText = "{$dancinggoat.imagewidget.width.explanationtext$}")]
     public int? Width { get; set; }
 
 
@@ -53,8 +53,8 @@ public class DancingGoatImageWidgetProperties : IEmailWidgetProperties
     /// The image width.
     /// </summary>
     [NumberInputComponent(
-        Label = "Height",
+        Label = "{$dancinggoat.imagewidget.height.label$}",
         Order = 4,
-        ExplanationText = "Allows you to set the height of the image in pixels.")]
+        ExplanationText = "{$dancinggoat.imagewidget.height.explanationtext$}")]
     public int? Height { get; set; }
 }

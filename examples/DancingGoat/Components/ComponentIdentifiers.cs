@@ -7,7 +7,7 @@
     {
         // Widgets
         public const string CTA_BUTTON_WIDGET = "DancingGoat.General.CTAButtonWidget";
-        public const string TESTIMONIAL_WIDGET = "DancingGoat.LandingPage.TestimonialWidget";
+        public const string ARTICLES_WIDGET = "DancingGoat.General.ArticlesWidget";
 
         // Sections
         public const string SINGLE_COLUMN_SECTION = "DancingGoat.SingleColumnSection";
@@ -20,5 +20,6 @@
         public const string LANDING_PAGE_SINGLE_COLUMN_TEMPLATE = "DancingGoat.LandingPageSingleColumn";
         public const string ARTICLE_TEMPLATE = "DancingGoat.Article";
         public const string ARTICLE_WITH_SIDEBAR_TEMPLATE = "DancingGoat.ArticleWithSidebar";
+        public const string HOME_PAGE_TEMPLATE = "DancingGoat.HomePage";
     }
 }

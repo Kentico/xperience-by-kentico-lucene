@@ -1,0 +1,21 @@
+<Project>
+  <Import Project="$(MSBuildThisFileDirectory)..\Directory.Packages.props" />
+
+  <PropertyGroup>
+    <NoWarn>$(NoWarn);NU1507</NoWarn>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageVersion Update="kentico.xperience.admin" Version="31.10.0" />
+    <PackageVersion Update="kentico.xperience.azurestorage" Version="31.10.0" />
+    <PackageVersion Update="kentico.xperience.cloud" Version="31.10.0" />
+    <PackageVersion Update="Kentico.Xperience.Core" Version="31.10.0" />
+    <PackageVersion Update="kentico.xperience.imageprocessing" Version="31.10.0" />
+    <PackageVersion Include="kentico.xperience.managementapi" Version="31.10.0" />
+    <PackageVersion Update="kentico.xperience.mjml" Version="31.10.0" />
+    <PackageVersion Update="kentico.xperience.webapp" Version="31.10.0" />
+    <PackageVersion Include="AngleSharp" Version="1.8.4" />
+    <PackageVersion Include="Lucene.Net.Highlighter" Version="4.8.0-beta00017" />
+    <PackageVersion Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.23.0" />
+  </ItemGroup>
+</Project>

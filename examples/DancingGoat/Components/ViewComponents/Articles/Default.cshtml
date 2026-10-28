@@ -1,93 +1,64 @@
-﻿@using DancingGoat.Models;
+﻿@using System.Linq
+@using DancingGoat.Helpers
+@using DancingGoat.Models;
 
 @model ArticlesSectionViewModel
 
 @{
-    var i = 1;
+    var articles = Model.Articles.ToList();
+    var feature = articles.Count > 0 ? ArticleTileViewModel.GetViewModel(articles[0]) : null;
+    var rest = articles.Skip(1).Select(article => ArticleTileViewModel.GetViewModel(article)).ToList();
 }
 
-<div class="articles-section">
-    <div class="row">
-        <div class="title-wrapper">
-            <h1 class="title-tab">@HtmlLocalizer["Latest article"]</h1>
+<section class="block">
+    <div class="wrap">
+        <div class="section-head reveal">
+            <div>
+                <h2 class="display">@HeadingFormatter.Format(HtmlLocalizer["Latest articles"].Value)</h2>
+            </div>
+            <a class="section-link" href="@Model.ArticlesPath">@HtmlLocalizer["More articles"] &rarr;</a>
         </div>
-        @{ var first = true; }
-        @foreach (var article in Model.Articles)
-        {
-            if (first)
-            {
-                first = false;
-                <div class="article-tile article-tile-large">
-                    <div class="article-tile-inner">
-                        <div class="col-md-12 col-lg-6 col-xl-5">
-                            @if (article.TeaserUrl != null)
-                            {
-                                <a href="@article.Url">
-                                    <img src="@article.TeaserUrl" alt="@article.Title" title="@article.Title" class="article-tile-image" loading="lazy" />
-                                </a>
-                            }
-                        </div>
-                        <div class="col-md-12 col-lg-6 col-xl-7 article-tile-info">
-                            <div class="article-tile-date">
-                                @article.PublicationDate.ToString("m")
-                            </div>
-                            <div class="article-tile-content">
-                                <h2>
-                                    <a href="@article.Url">@article.Title</a>
-                                </h2>
-                                <p class="article-tile-text lead-paragraph">
-                                    @article.Summary
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            }
-            else
-            {
-                var lastInRow = "";
-                if (i % 4 == 0)
-                {
-                    lastInRow = "last";
-                }
 
-                <div class="col-md-3 article-tile article-tile-small @lastInRow">
-                    <div class="article-tile-inner">
-                        @if (article.TeaserUrl != null)
-                        {
-                            <a href="@article.Url">
-                                <img src="@article.TeaserUrl" alt="@article.Title" title="@article.Title" class="article-tile-image" loading="lazy" />
-                            </a>
-                        }
-                        <div class="article-tile-info">
-                            <div class="article-tile-date">
-                                @article.PublicationDate.ToString("m")
-                            </div>
-                            <div class="article-tile-content">
-                                <h2 class="h4">
-                                    <a href="@article.Url">@article.Title</a>
-                                </h2>
-                                <p class="article-tile-text">
-                                    @article.Summary
-                                </p>
-                            </div>
-                        </div>
-                    </div>
+        @if (feature != null)
+        {
+            var featureIsLocked = feature.IsSecured && !User.Identity.IsAuthenticated;
+
+            <article class="article-feature reveal">
+                <a class="ac-overlay" href="@feature.Url" aria-label="@feature.Title"></a>
+                <div class="media">
+                    @if (featureIsLocked)
+                    {
+                        <div class="card-chips"><span class="chip">@HtmlLocalizer["Members only"]</span></div>
+                    }
+                    @if (!string.IsNullOrEmpty(feature.TeaserUrl))
+                    {
+                        <img src="@Url.Content(feature.TeaserUrl)" alt="" loading="lazy" />
+                    }
                 </div>
-                if (i % 4 == 0)
+                <div>
+                    <span class="article-date">@feature.PublicationDate?.ToString("M")</span>
+                    <h3 class="display">@HeadingFormatter.Format(feature.Title)</h3>
+                    <p class="summary">@feature.Summary</p>
+                    @if (featureIsLocked)
+                    {
+                        <p class="locked-note">@HtmlLocalizer["Sign in to read this article"] &rarr;</p>
+                    }
+                    else
+                    {
+                        <span class="read-more">@HtmlLocalizer["Read the article"]</span>
+                    }
+                </div>
+            </article>
+        }
+
+        @if (rest.Count > 0)
+        {
+            <div class="article-grid">
+                @foreach (var tile in rest)
                 {
-                    <div class="clear"></div>
+                    <partial name="_ArticleTile" model="tile" />
                 }
-                i++;
-            }
+            </div>
         }
     </div>
-
-    <div class="row">
-        <div class="clear center-text">
-            <a href="@Model.ArticlesPath" class="btn btn-more">
-                @HtmlLocalizer["More articles"]
-            </a>
-        </div>
-    </div>
-</div>
+</section>

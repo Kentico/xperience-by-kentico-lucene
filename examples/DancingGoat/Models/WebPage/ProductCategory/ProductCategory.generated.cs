@@ -36,12 +36,6 @@ namespace DancingGoat.Models
 
 
 		/// <summary>
-		/// ProductType.
-		/// </summary>
-		public string ProductType { get; set; }
-
-
-		/// <summary>
 		/// ProductCategoryTag.
 		/// </summary>
 		public IEnumerable<TagReference> ProductCategoryTag { get; set; }
@@ -60,8 +54,14 @@ namespace DancingGoat.Models
 
 
 		/// <summary>
-		/// SEOFieldsAllowSearchIndexing.
+		/// SEOFieldsOGImage.
 		/// </summary>
-		public bool SEOFieldsAllowSearchIndexing { get; set; }
+		public IEnumerable<Image> SEOFieldsOGImage { get; set; }
+
+
+		/// <summary>
+		/// SEOFieldsNoIndex.
+		/// </summary>
+		public bool SEOFieldsNoIndex { get; set; }
 	}
 }

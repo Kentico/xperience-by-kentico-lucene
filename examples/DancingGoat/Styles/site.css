@@ -1,0 +1,45 @@
+/*
+ * Main site stylesheet — compiled by Tailwind CSS to wwwroot/Content/Styles/Site.css.
+ *
+ * Every top-level file in Styles/ is a bundle entry point (built by Tools/css.mjs);
+ * shared building blocks live in Styles/partials/ and are only compiled through the
+ * entries that @import them.
+ *
+ * Tailwind utilities are generated on demand from the Razor sources listed via
+ * @source below. Preflight is intentionally not imported — the redesign styles
+ * were authored against UA defaults and carry their own base (partials/base.css).
+ *
+ * Import order is load-bearing: later partials augment selectors introduced by
+ * earlier ones (e.g. articles.css extends .article-card from widgets.css).
+ */
+@layer theme, base, components, utilities;
+@import "tailwindcss/theme.css" layer(theme);
+@import "tailwindcss/utilities.css" layer(utilities) source(none);
+
+@source "../Views";
+@source "../Components";
+@source "../PageTemplates";
+
+@source not inline("container");
+@source not inline("flex");
+@source not inline("grid");
+
+@source not inline("{static,block,hidden,inline,flex-wrap,filter,table,contents,collapse,underline,uppercase,invert,transform,border,resize,isolate,sticky,fixed,absolute,relative}");
+
+@import "./partials/theme.css";
+@import "./partials/fonts.css";
+@import "./partials/base.css";
+@import "./partials/type.css";
+@import "./partials/buttons.css";
+@import "./partials/header.css";
+@import "./partials/hero.css";
+@import "./partials/sections.css";
+@import "./partials/widgets.css";
+@import "./partials/store.css";
+@import "./partials/articles.css";
+@import "./partials/ai-disclosure.css";
+@import "./partials/forms.css";
+@import "./partials/pages.css";
+@import "./partials/commerce.css";
+@import "./partials/footer.css";
+@import "./partials/tracking-consent.css";

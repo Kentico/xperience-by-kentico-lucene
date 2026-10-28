@@ -1,11 +1,14 @@
 <!DOCTYPE html>
-<html>
+<html lang="@System.Globalization.CultureInfo.CurrentCulture.TwoLetterISOLanguageName">
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta charset="UTF-8" />
-    <title>@ViewBag.Title</title>
+    <vc:seo-metadata page-model="(object)Model" page-title="@((string)ViewBag.Title)" />
+    <link href="~/Content/Styles/Site.css" rel="stylesheet" type="text/css" />
+    @RenderSection("styles", required: false)
 </head>
 <body>
     @RenderBody()
+    @RenderSection("scripts", required: false)
 </body>
 </html>

@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Components;
 
 [assembly: RegisterEmailSection(
     identifier: DancingGoatTwoColumnEmailSection.IDENTIFIER,
-    name: "Two-column section",
+    name: "{$dancinggoat.twocolumneemailsection.title$}",
     componentType: typeof(DancingGoatTwoColumnEmailSection),
     IconClass = "icon-l-cols-2")]
 

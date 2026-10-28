@@ -3,10 +3,10 @@
 
 @model ComponentViewModel<CTAButtonWidgetProperties>
 
-<div class="clear center-text">
+<div class="articles-cta">
     @if (Context.Kentico().PageBuilder().EditMode)
     {
-        <div class="btn btn-more">
+        <div class="btn btn-solid">
             <partial name="~/Components/InlineEditors/TextEditor/_TextEditor.cshtml"
                      model="new TextEditorViewModel
                         {
@@ -17,8 +17,8 @@
     }
     else
     {
-        <a href="@(Model.Properties.LinkUrl ?? "#")" class="btn btn-more" @(Model.Properties.OpenInNewTab ? "target=_blank" : "")>
-            @Model.Properties.Text
+        <a href="@(Model.Properties.LinkUrl ?? "#")" class="btn btn-solid" @(Model.Properties.OpenInNewTab ? "target=_blank" : "")>
+            @Model.Properties.Text <span class="arrow">&rarr;</span>
         </a>
     }
 </div>

@@ -1,0 +1,32 @@
+﻿@using DancingGoat.AiDisclosure
+
+@model AiScopeViewModel
+
+@{
+    var labelPositionClass = Model.LabelPosition == AiLabelPosition.After ? "ai-scope-label-after" : "ai-scope-label-before";
+    var darkSurfaceClass = Model.OnDarkSurface ? "ai-scope-on-dark" : null;
+
+    Func<object, Microsoft.AspNetCore.Html.IHtmlContent> head =
+        @<div class="ai-scope-head">
+            <button type="button" class="ai-label" aria-pressed="false" aria-controls="@Model.BodyId">
+                <svg width="@Model.LabelWidth" height="22" role="img" aria-label="@Model.LabelText" focusable="false">
+                    <use href="@Url.Content($"~/Content/Images/AiLabels/{Model.LabelFileName}.svg")#label" width="100%" height="100%"></use>
+                </svg>
+            </button>
+            <p class="ai-scope-caption">@Model.Caption</p>
+        </div>;
+}
+
+<div class="ai-scope @labelPositionClass @darkSurfaceClass">
+    @if (Model.LabelPosition == AiLabelPosition.Before)
+    {
+        @head(null)
+    }
+    <div class="ai-scope-body" id="@Model.BodyId">
+        @Model.Content
+    </div>
+    @if (Model.LabelPosition == AiLabelPosition.After)
+    {
+        @head(null)
+    }
+</div>

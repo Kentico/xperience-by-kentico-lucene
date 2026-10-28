@@ -1,21 +1,23 @@
-﻿@using DancingGoat.Models
+﻿@using DancingGoat.Helpers
+@using DancingGoat.Models
 
 @model StoreViewModel
 
-@{
-    ViewData["PageClass"] = "inverted";
-}
+<div class="page-head">
+    <div class="wrap">
+        <h1 class="display">@HeadingFormatter.Format(HtmlLocalizer["The Dancing Goat store"].Value)</h1>
+        <p class="lede">@HtmlLocalizer["Everything we brew with at our cafés."]</p>
+        @Html.DisplayFor(m => @Model.CategoryMenuViewModel, "ProductCategoryMenu")
+    </div>
+</div>
 
-
-@Html.DisplayFor(m => @Model.CategoryMenuViewModel, "ProductCategoryMenu")
-
-<div class="product-page-container">
+<div id="product-list">
     @foreach (var productList in Model?.SelectionProductList ?? [])
     {
-        <div class="product-page row">
-            <div id="product-list" class="product-list">
+        <section class="block-tight">
+            <div class="wrap">
                 <partial name="ProductsList" model="@productList" />
             </div>
-        </div>
+        </section>
     }
 </div>

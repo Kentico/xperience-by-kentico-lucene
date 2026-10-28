@@ -18,6 +18,12 @@
 
 
         /// <summary>
+        /// Supporting text displayed under the heading.
+        /// </summary>
+        public string Subtext { get; set; }
+
+
+        /// <summary>
         /// Button text.
         /// </summary>
         public string ButtonText { get; set; }
@@ -30,8 +36,14 @@
 
 
         /// <summary>
-        /// Theme of the widget.
+        /// Secondary (ghost) button text.
         /// </summary>
-        public string Theme { get; set; }
+        public string SecondaryButtonText { get; set; }
+
+
+        /// <summary>
+        /// Target of the secondary button link.
+        /// </summary>
+        public string SecondaryButtonTarget { get; set; }
     }
 }

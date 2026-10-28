@@ -1,0 +1,90 @@
+/*
+ * Articles — listing grid, article hero, detail layout with sidebar cards.
+ * Loads after widgets.css: augments the shared .article-card base.
+ */
+.articles-grid-page { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px 26px; margin-top: 48px; }
+.article-card .media { position: relative; }
+.article-card .card-chips { top: 14px; left: 14px; }
+.article-card .locked-note { margin-top: 10px; font-size: var(--text-xs); font-weight: 600; color: var(--color-accent-text); }
+
+.article-hero { display: grid; grid-template-columns: 1.05fr 0.95fr; gap: 56px; align-items: center; margin-top: 48px; }
+.article-hero .media { border-radius: var(--radius-card); overflow: hidden; aspect-ratio: 4 / 3; }
+.article-hero .media img { width: 100%; height: 100%; object-fit: cover; }
+.article-hero h1 { margin: 14px 0 16px 0; }
+.date-line { color: var(--color-ink-soft); }
+
+.article-layout { display: grid; grid-template-columns: minmax(0, 1fr) 320px; gap: 72px; margin-top: 26px; }
+.article-side { display: grid; gap: 20px; align-content: start; }
+.article-main { min-width: 0; max-width: 666px; }
+.side-card { position: relative; display: block; background: var(--color-card); border: 1px solid var(--color-line); border-radius: calc(var(--radius-card) - 6px); overflow: hidden; transition: transform 0.25s, box-shadow 0.25s; }
+.side-card:hover { transform: translateY(-3px); box-shadow: 0 14px 34px rgba(34, 22, 16, 0.1); }
+.side-card .media { aspect-ratio: 16 / 9; overflow: hidden; background: var(--color-card); }
+.side-card .media img { width: 100%; height: 100%; object-fit: cover; }
+.side-card .media.contain img { object-fit: contain; padding: 12px; }
+.side-body { padding: 18px 20px 22px 20px; }
+.side-body h2 { margin: 6px 0 8px 0; }
+.side-card:hover h2 { color: var(--color-accent-text); }
+.side-body p { font-size: var(--text-sm); color: var(--color-ink-soft); margin: 0; }
+
+@media (max-width: 1080px) {
+    .articles-grid-page { grid-template-columns: repeat(2, 1fr); }
+    .article-hero { grid-template-columns: 1fr; gap: 36px; }
+    .article-layout { grid-template-columns: 1fr; gap: 48px; }
+    .article-side { grid-template-columns: repeat(2, 1fr); display: grid; }
+}
+
+@media (max-width: 640px) {
+    .articles-grid-page, .article-side { grid-template-columns: 1fr; }
+}
+
+/* ---------- widgets placed below the article text: the section adds no spacing of its own ---------- */
+.article-main .block { padding: 0; }
+.article-main .wrap { padding: 0; max-width: none; }
+.article-main .takeaways { margin-top: 56px; }
+
+/* ---------- Story section widget placed in the article sidebar ---------- */
+.article-side .block { padding: 0; }
+.article-side .wrap { padding: 0; max-width: none; }
+.article-side .section-head { margin-bottom: 12px; }
+.article-side .story-band { margin-top: 0; }
+.article-side .story-inner { padding: 28px 24px; }
+.article-side .story-inner .display { font-size: var(--text-h4); }
+
+/* ---------- key takeaways widget, placed below the article text ---------- */
+.takeaways {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    padding: 36px 40px 32px 40px;
+    background: var(--color-card);
+    border-radius: var(--radius-card);
+}
+
+.takeaways h3 { margin: 0; }
+
+.takeaways-list { list-style: none; margin: 0; padding: 0; }
+
+.takeaways-list li {
+    position: relative;
+    padding: 16px 0 16px 22px;
+    border-bottom: 1px solid var(--color-line);
+    font-size: var(--text-base);
+    line-height: var(--leading-body);
+}
+
+.takeaways-list li:last-child { border-bottom: 0; }
+
+.takeaways-list li::before {
+    content: "";
+    position: absolute;
+    top: 27px;
+    left: 0;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--color-accent);
+}
+
+@media (max-width: 640px) {
+    .takeaways { padding: 28px 24px 24px 24px; }
+}

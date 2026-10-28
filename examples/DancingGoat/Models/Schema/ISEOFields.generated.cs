@@ -38,8 +38,14 @@ namespace DancingGoat.Models
 
 
 		/// <summary>
-		/// SEOFieldsAllowSearchIndexing.
+		/// SEOFieldsOGImage.
 		/// </summary>
-		public bool SEOFieldsAllowSearchIndexing { get; set; }
+		public IEnumerable<Image> SEOFieldsOGImage { get; set; }
+
+
+		/// <summary>
+		/// SEOFieldsNoIndex.
+		/// </summary>
+		public bool SEOFieldsNoIndex { get; set; }
 	}
 }

@@ -117,8 +117,110 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Access denied" xml:space="preserve">
+    <value>Acceso denegado</value>
+  </data>
+  <data name="Add a {1} product costing at least {0} and get free shipping." xml:space="preserve">
+    <value>Añade un producto de {1} que cueste al menos {0} y consigue envío gratis.</value>
+  </data>
+  <data name="Add an item costing at least {0} and get free shipping." xml:space="preserve">
+    <value>Añade un artículo que cueste al menos {0} y consigue envío gratis.</value>
+  </data>
+  <data name="Add one more item and get free shipping." xml:space="preserve">
+    <value>Añade un artículo más y consigue envío gratis.</value>
+  </data>
+  <data name="Add one of {1} costing at least {0} and get free shipping." xml:space="preserve">
+    <value>Añade uno de {1} que cueste al menos {0} y consigue envío gratis.</value>
+  </data>
+  <data name="Add to cart" xml:space="preserve">
+    <value>Añadir al carrito</value>
+  </data>
+  <data name="Add {0} more items and get free shipping." xml:space="preserve">
+    <value>Añade {0} artículos más y consigue envío gratis.</value>
+  </data>
+  <data name="Add {0} more of {1} and get free shipping." xml:space="preserve">
+    <value>Añade {0} más de {1} y consigue envío gratis.</value>
+  </data>
+  <data name="Add {0} more {1} products and get free shipping." xml:space="preserve">
+    <value>Añade {0} productos más de {1} y consigue envío gratis.</value>
+  </data>
+  <data name="Added to cart" xml:space="preserve">
+    <value>Añadido al carrito</value>
+  </data>
+  <data name="Address" xml:space="preserve">
+    <value>Dirección</value>
+  </data>
+  <data name="All locations" xml:space="preserve">
+    <value>Todas las ubicaciones</value>
+  </data>
   <data name="Already have an account?" xml:space="preserve">
     <value>¿Ya tienes una cuenta?</value>
+  </data>
+  <data name="Applied." xml:space="preserve">
+    <value>Aplicado.</value>
+  </data>
+  <data name="Applies to {0} only." xml:space="preserve">
+    <value>Se aplica solo a {0}.</value>
+  </data>
+  <data name="Apply" xml:space="preserve">
+    <value>Aplicar</value>
+  </data>
+  <data name="Apply promo/discount code" xml:space="preserve">
+    <value>Aplicar código promocional/de descuento</value>
+  </data>
+  <data name="Articles" xml:space="preserve">
+    <value>Artículos</value>
+  </data>
+  <data name="Available only to registered customers - sign in to get it." xml:space="preserve">
+    <value>Disponible solo para clientes registrados: inicia sesión para conseguirlo.</value>
+  </data>
+  <data name="Back to articles" xml:space="preserve">
+    <value>Volver a los artículos</value>
+  </data>
+  <data name="Back to shopping cart" xml:space="preserve">
+    <value>Volver al carrito</value>
+  </data>
+  <data name="Back to store" xml:space="preserve">
+    <value>Volver a la tienda</value>
+  </data>
+  <data name="Back to the home page" xml:space="preserve">
+    <value>Volver a la página de inicio</value>
+  </data>
+  <data name="Billing address" xml:space="preserve">
+    <value>Dirección de facturación</value>
+  </data>
+  <data name="Buy {0} or more items and get free shipping." xml:space="preserve">
+    <value>Compra {0} artículos o más y consigue el envío gratis.</value>
+  </data>
+  <data name="Buy {0} or more qualifying products and get the cheapest one free." xml:space="preserve">
+    <value>Compra {0} productos válidos o más y llévate el más barato gratis.</value>
+  </data>
+  <data name="Buy {0} or more qualifying products and get the cheapest one {1}% off." xml:space="preserve">
+    <value>Compra {0} productos válidos o más y llévate el más barato con un {1}% de descuento.</value>
+  </data>
+  <data name="Cart total" xml:space="preserve">
+    <value>Total del carrito</value>
+  </data>
+  <data name="Cart updated." xml:space="preserve">
+    <value>Carrito actualizado.</value>
+  </data>
+  <data name="Changing the quantity updates your cart." xml:space="preserve">
+    <value>Al cambiar la cantidad se actualiza tu carrito.</value>
+  </data>
+  <data name="Checkout" xml:space="preserve">
+    <value>Pago</value>
+  </data>
+  <data name="Choose event" xml:space="preserve">
+    <value>Elegir evento</value>
+  </data>
+  <data name="Choose options" xml:space="preserve">
+    <value>Elegir opciones</value>
+  </data>
+  <data name="Close" xml:space="preserve">
+    <value>Cerrar</value>
+  </data>
+  <data name="Come say hello" xml:space="preserve">
+    <value>Ven a saludarnos</value>
   </data>
   <data name="Consent revocation was not successful." xml:space="preserve">
     <value>La revocación del consentimiento no prosperó.</value>
@@ -129,26 +231,77 @@
   <data name="Contact" xml:space="preserve">
     <value>Contacto</value>
   </data>
+  <data name="Continue shopping" xml:space="preserve">
+    <value>Seguir comprando</value>
+  </data>
+  <data name="Copyright © {0} Dancing Goat. All rights reserved." xml:space="preserve">
+    <value>Copyright © {0} Dancing Goat. Todos los derechos reservados.</value>
+  </data>
   <data name="Create your own account and enjoy smooth shopping experience at Dancing Goat." xml:space="preserve">
     <value>Crea tu propia cuenta y disfruta de una experiencia de compra fluida en Dancing Goat.</value>
+  </data>
+  <data name="Customer details" xml:space="preserve">
+    <value>Datos del cliente</value>
   </data>
   <data name="Data protection (GDPR) demo must be enabled." xml:space="preserve">
     <value>La demo de protección de datos (GDPR) debe estar activada.</value>
   </data>
-  <data name="Events" xml:space="preserve">
-    <value>Eventos</value>
+  <data name="Decrease quantity" xml:space="preserve">
+    <value>Reducir cantidad</value>
+  </data>
+  <data name="each" xml:space="preserve">
+    <value>cada uno</value>
+  </data>
+  <data name="Email" xml:space="preserve">
+    <value>Correo electrónico</value>
+  </data>
+  <data name="Event {0}" xml:space="preserve">
+    <value>Evento {0}</value>
+  </data>
+  <data name="Event {0} of {1}" xml:space="preserve">
+    <value>Evento {0} de {1}</value>
+  </data>
+  <data name="Everything we brew with at our cafés." xml:space="preserve">
+    <value>Todo lo que usamos para preparar café en nuestras cafeterías.</value>
+  </data>
+  <data name="Explore the store" xml:space="preserve">
+    <value>Explora la tienda</value>
+  </data>
+  <data name="Fill in your details to place your order." xml:space="preserve">
+    <value>Completa tus datos para realizar el pedido.</value>
+  </data>
+  <data name="Fresh crops, café openings and brewing tips — once a month, no noise." xml:space="preserve">
+    <value>Nuevas cosechas, aperturas de cafeterías y consejos de preparación: una vez al mes, sin ruido.</value>
   </data>
   <data name="I agree" xml:space="preserve">
     <value>Estoy de acuerdo</value>
   </data>
+  <data name="Increase quantity" xml:space="preserve">
+    <value>Aumentar cantidad</value>
+  </data>
   <data name="It only takes a moment to get started." xml:space="preserve">
     <value>Solo toma un momento para comenzar.</value>
   </data>
-  <data name="Latest article" xml:space="preserve">
-    <value>Último artículo</value>
+  <data name="Item removed from your cart." xml:space="preserve">
+    <value>Artículo eliminado del carrito.</value>
   </data>
-  <data name="Login" xml:space="preserve">
-    <value>Iniciar sesión</value>
+  <data name="Items" xml:space="preserve">
+    <value>Artículos</value>
+  </data>
+  <data name="Join Dancing Goat" xml:space="preserve">
+    <value>Únete a Dancing Goat</value>
+  </data>
+  <data name="Latest articles" xml:space="preserve">
+    <value>Últimos artículos</value>
+  </data>
+  <data name="Main" xml:space="preserve">
+    <value>Principal</value>
+  </data>
+  <data name="Members only" xml:space="preserve">
+    <value>Solo para miembros</value>
+  </data>
+  <data name="Menu" xml:space="preserve">
+    <value>Menú</value>
   </data>
   <data name="More articles" xml:space="preserve">
     <value>Más artículos</value>
@@ -156,53 +309,236 @@
   <data name="New to Dancing Goat?" xml:space="preserve">
     <value>¿Eres nuevo en Dancing Goat?</value>
   </data>
-  <data name="News &amp; Updates" xml:space="preserve">
-    <value>Noticias y Actualizaciones</value>
+  <data name="News &amp; updates" xml:space="preserve">
+    <value>Noticias y actualizaciones</value>
+  </data>
+  <data name="Next event" xml:space="preserve">
+    <value>Evento siguiente</value>
   </data>
   <data name="No cafe selected" xml:space="preserve">
     <value>Ningún café seleccionado</value>
   </data>
+  <data name="No products." xml:space="preserve">
+    <value>No hay productos.</value>
+  </data>
+  <data name="Not applied, conditions are not met." xml:space="preserve">
+    <value>No aplicado, no se cumplen las condiciones.</value>
+  </data>
+  <data name="Not applied, higher discount active." xml:space="preserve">
+    <value>No aplicado, hay un descuento mayor activo.</value>
+  </data>
+  <data name="Notes on sourcing, roasting and brewing from the Dancing Goat team." xml:space="preserve">
+    <value>Apuntes sobre origen, tueste y preparación del equipo de Dancing Goat.</value>
+  </data>
   <data name="Only system cookies are currently stored. Tracking of activities and analytics features are turned off." xml:space="preserve">
     <value>Actualmente sólo se almacenan cookies del sistema. El seguimiento de actividades y las funciones de análisis están desactivadas.</value>
+  </data>
+  <data name="Oops! Page not found" xml:space="preserve">
+    <value>¡Vaya! Página no encontrada</value>
   </data>
   <data name="Oops! Page not found..." xml:space="preserve">
     <value>¡Vaya! Página no encontrada...</value>
   </data>
-  <data name="Our Story" xml:space="preserve">
-    <value>Nuestra Historia</value>
+  <data name="Oops! Something went wrong" xml:space="preserve">
+    <value>¡Vaya! Algo ha salido mal</value>
+  </data>
+  <data name="Oops! Something went wrong..." xml:space="preserve">
+    <value>¡Vaya! Algo ha salido mal...</value>
+  </data>
+  <data name="Order created" xml:space="preserve">
+    <value>Pedido creado</value>
+  </data>
+  <data name="Order discount" xml:space="preserve">
+    <value>Descuento del pedido</value>
+  </data>
+  <data name="Order not created. The shopping cart could not be found." xml:space="preserve">
+    <value>No se ha creado el pedido. No se ha encontrado el carrito de la compra.</value>
+  </data>
+  <data name="Order not created. The shopping cart does not contain any available products." xml:space="preserve">
+    <value>No se ha creado el pedido. El carrito de la compra no contiene ningún producto disponible.</value>
+  </data>
+  <data name="Order summary" xml:space="preserve">
+    <value>Resumen del pedido</value>
+  </data>
+  <data name="Order summary updated." xml:space="preserve">
+    <value>Resumen del pedido actualizado.</value>
+  </data>
+  <data name="Original price" xml:space="preserve">
+    <value>Precio original</value>
+  </data>
+  <data name="Our cafés" xml:space="preserve">
+    <value>Nuestras cafeterías</value>
+  </data>
+  <data name="Phone" xml:space="preserve">
+    <value>Teléfono</value>
+  </data>
+  <data name="Place your order" xml:space="preserve">
+    <value>Realizar el pedido</value>
+  </data>
+  <data name="Previous event" xml:space="preserve">
+    <value>Evento anterior</value>
+  </data>
+  <data name="Privacy &amp; cookies" xml:space="preserve">
+    <value>Privacidad y cookies</value>
   </data>
   <data name="privacy page" xml:space="preserve">
     <value>página de privacidad</value>
   </data>
-  <data name="Reference" xml:space="preserve">
-    <value>Referencia</value>
+  <data name="Proceed to checkout" xml:space="preserve">
+    <value>Continuar al pago</value>
+  </data>
+  <data name="Product categories" xml:space="preserve">
+    <value>Categorías de productos</value>
+  </data>
+  <data name="Product manufacturers" xml:space="preserve">
+    <value>Fabricantes</value>
+  </data>
+  <data name="Product tags" xml:space="preserve">
+    <value>Etiquetas de productos</value>
+  </data>
+  <data name="Coffee processing" xml:space="preserve">
+    <value>Procesamiento del café</value>
+  </data>
+  <data name="Coffee tastes" xml:space="preserve">
+    <value>Sabores del café</value>
+  </data>
+  <data name="Promo code removed." xml:space="preserve">
+    <value>Código promocional eliminado.</value>
+  </data>
+  <data name="Promo/discount code" xml:space="preserve">
+    <value>Código promocional/de descuento</value>
+  </data>
+  <data name="Quantity" xml:space="preserve">
+    <value>Cantidad</value>
+  </data>
+  <data name="Quantity updated." xml:space="preserve">
+    <value>Cantidad actualizada.</value>
+  </data>
+  <data name="Read the article" xml:space="preserve">
+    <value>Leer el artículo</value>
+  </data>
+  <data name="Recommended" xml:space="preserve">
+    <value>Recomendados</value>
   </data>
   <data name="Register" xml:space="preserve">
     <value>Registrarse</value>
   </data>
-  <data name="Related" xml:space="preserve">
-    <value>Relacionados</value>
+  <data name="Remove" xml:space="preserve">
+    <value>Eliminar</value>
+  </data>
+  <data name="Remove code" xml:space="preserve">
+    <value>Eliminar código</value>
   </data>
   <data name="Revoke" xml:space="preserve">
     <value>Revocar</value>
   </data>
+  <data name="Roastery" xml:space="preserve">
+    <value>Tostadero</value>
+  </data>
+  <data name="Same as billing" xml:space="preserve">
+    <value>Igual que la facturación</value>
+  </data>
+  <data name="Select a country" xml:space="preserve">
+    <value>Selecciona un país</value>
+  </data>
+  <data name="Select a payment method" xml:space="preserve">
+    <value>Selecciona un método de pago</value>
+  </data>
+  <data name="Select a shipping method" xml:space="preserve">
+    <value>Selecciona un método de envío</value>
+  </data>
+  <data name="Select a state" xml:space="preserve">
+    <value>Selecciona una provincia</value>
+  </data>
+  <data name="Select language" xml:space="preserve">
+    <value>Seleccionar idioma</value>
+  </data>
+  <data name="Shipping" xml:space="preserve">
+    <value>Envío</value>
+  </data>
+  <data name="Shipping &amp; tax calculated at checkout." xml:space="preserve">
+    <value>Los gastos de envío y los impuestos se calculan al finalizar la compra.</value>
+  </data>
+  <data name="Shipping address" xml:space="preserve">
+    <value>Dirección de envío</value>
+  </data>
+  <data name="Shipping and payment" xml:space="preserve">
+    <value>Envío y pago</value>
+  </data>
+  <data name="Shopping cart" xml:space="preserve">
+    <value>Carrito de la compra</value>
+  </data>
+  <data name="Shopping cart is empty" xml:space="preserve">
+    <value>El carrito de la compra está vacío</value>
+  </data>
   <data name="Sign in" xml:space="preserve">
     <value>Iniciar sesión</value>
   </data>
-  <data name="Sign in to access this article" xml:space="preserve">
-    <value>Inicia sesión para acceder a este artículo.</value>
+  <data name="Sign in and pick up right where you left off." xml:space="preserve">
+    <value>Inicia sesión y continúa donde lo dejaste.</value>
+  </data>
+  <data name="Sign in to read this article" xml:space="preserve">
+    <value>Inicia sesión para leer este artículo</value>
+  </data>
+  <data name="Sign in to your Dancing Goat account." xml:space="preserve">
+    <value>Inicia sesión en tu cuenta de Dancing Goat.</value>
   </data>
   <data name="Sign out" xml:space="preserve">
     <value>Cerrar sesión</value>
   </data>
-  <data name="Subscribe" xml:space="preserve">
-    <value>Suscribirse</value>
+  <data name="Skip to content" xml:space="preserve">
+    <value>Saltar al contenido</value>
   </data>
-  <data name="Taste our coffee" xml:space="preserve">
-    <value>Prueba nuestro café</value>
+  <data name="Small-batch specialty coffee, sourced directly from micro farms and roasted in Chicago." xml:space="preserve">
+    <value>Café de especialidad en lotes pequeños, comprado directamente a microfincas y tostado en Chicago.</value>
+  </data>
+  <data name="Special offer" xml:space="preserve">
+    <value>Oferta especial</value>
+  </data>
+  <data name="Spend {0} more and get free shipping." xml:space="preserve">
+    <value>Gasta {0} más y consigue envío gratis.</value>
+  </data>
+  <data name="Spend {0} more on {1} and get free shipping." xml:space="preserve">
+    <value>Gasta {0} más en {1} y consigue envío gratis.</value>
+  </data>
+  <data name="Spend {0} more on {1} products and get free shipping." xml:space="preserve">
+    <value>Gasta {0} más en productos de {1} y consigue envío gratis.</value>
+  </data>
+  <data name="Spend {0} or more and get free shipping." xml:space="preserve">
+    <value>Gasta {0} o más y consigue el envío gratis.</value>
+  </data>
+  <data name="Stay signed in" xml:space="preserve">
+    <value>Mantener la sesión abierta</value>
+  </data>
+  <data name="Subtotal" xml:space="preserve">
+    <value>Subtotal</value>
+  </data>
+  <data name="Summary" xml:space="preserve">
+    <value>Resumen</value>
+  </data>
+  <data name="Tax" xml:space="preserve">
+    <value>Impuestos</value>
+  </data>
+  <data name="Thank you" xml:space="preserve">
+    <value>Muchas gracias</value>
   </data>
   <data name="Thank you for subscribing! Now we just need to confirm your email address - please click the link in the email we sent you. Thanks!" xml:space="preserve">
     <value>¡Gracias por suscribirte! Ahora solo necesitamos confirmar tu dirección de correo electrónico. Por favor, haz clic en el enlace que te enviamos por correo electrónico. ¡Gracias!</value>
+  </data>
+  <data name="The cart could not be updated. Reload the page to see the current contents." xml:space="preserve">
+    <value>No se pudo actualizar el carrito. Vuelve a cargar la página para ver su contenido actual.</value>
+  </data>
+  <data name="The code {0} is already applied." xml:space="preserve">
+    <value>El código {0} ya está aplicado.</value>
+  </data>
+  <data name="The Dancing Goat store" xml:space="preserve">
+    <value>La tienda de Dancing Goat</value>
+  </data>
+  <data name="The order summary could not be refreshed. The totals below may be out of date." xml:space="preserve">
+    <value>No se pudo actualizar el resumen del pedido. Los totales que se muestran pueden estar desactualizados.</value>
+  </data>
+  <data name="The product could not be added to your cart. Please try again." xml:space="preserve">
+    <value>No se pudo añadir el producto a tu carrito. Inténtalo de nuevo.</value>
   </data>
   <data name="The website now stores cookies on your computer, tracks activity, creates personalized content and processes analytics. You can find more information on our" xml:space="preserve">
     <value>En la actualidad, el sitio web almacena cookies en su ordenador, realiza un seguimiento de la actividad, crea contenidos personalizados y procesa datos analíticos. Puede encontrar más información en nuestra</value>
@@ -210,16 +546,184 @@
   <data name="There are currently no consents agreed by you." xml:space="preserve">
     <value>Actualmente no hay consentimientos acordados por usted.</value>
   </data>
-  <data name="Want to stay up to date? Please leave us your email address." xml:space="preserve">
-    <value>¿Quieres mantenerte al día? Por favor, déjanos tu dirección de correo electrónico.</value>
+  <data name="There is no promotion with the code {0}." xml:space="preserve">
+    <value>No existe ninguna promoción con el código {0}.</value>
+  </data>
+  <data name="Total amount" xml:space="preserve">
+    <value>Importe total</value>
+  </data>
+  <data name="Unit price" xml:space="preserve">
+    <value>Precio unitario</value>
+  </data>
+  <data name="Unknown coupon status." xml:space="preserve">
+    <value>Estado del cupón desconocido.</value>
+  </data>
+  <data name="Update" xml:space="preserve">
+    <value>Actualizar</value>
+  </data>
+  <data name="Use the coupon code '{0}' in shopping cart." xml:space="preserve">
+    <value>Usa el código de cupón '{0}' en el carrito de compra.</value>
+  </data>
+  <data name="User" xml:space="preserve">
+    <value>Usuario</value>
+  </data>
+  <data name="Variant" xml:space="preserve">
+    <value>Variante</value>
+  </data>
+  <data name="View cart" xml:space="preserve">
+    <value>Ver el carrito</value>
+  </data>
+  <data name="View product {0}" xml:space="preserve">
+    <value>Ver producto {0}</value>
+  </data>
+  <data name="Visit our cafés" xml:space="preserve">
+    <value>Visita nuestras cafeterías</value>
   </data>
   <data name="We are really sorry, something has gone wrong. It seems that page you requested doesn't exist." xml:space="preserve">
     <value>Lo sentimos mucho, algo ha salido mal. Parece que la página que solicitaste no existe.</value>
   </data>
+  <data name="We could not process your request. If the page was open for a long time, go back, reload it and try again." xml:space="preserve">
+    <value>No pudimos procesar tu solicitud. Si la página estuvo abierta mucho tiempo, vuelve atrás, recárgala e inténtalo de nuevo.</value>
+  </data>
+  <data name="Welcome back" xml:space="preserve">
+    <value>Bienvenido de nuevo</value>
+  </data>
+  <data name="What" xml:space="preserve">
+    <value>Qué</value>
+  </data>
+  <data name="What people say" xml:space="preserve">
+    <value>Lo que dicen nuestros clientes</value>
+  </data>
+  <data name="What's brewing" xml:space="preserve">
+    <value>Qué se está preparando</value>
+  </data>
+  <data name="When" xml:space="preserve">
+    <value>Cuándo</value>
+  </data>
+  <data name="Where" xml:space="preserve">
+    <value>Dónde</value>
+  </data>
   <data name="You can enable data protection demo data in the administration interface (Configuration -&gt; Sample data generator)." xml:space="preserve">
     <value>Puede activar la protección de datos de demostración en la interfaz de administración (Configuración -&gt; Generador de datos de demostración).</value>
   </data>
+  <data name="You do not have permission to view this page." xml:space="preserve">
+    <value>No tienes permiso para ver esta página.</value>
+  </data>
+  <data name="You get free shipping with this product." xml:space="preserve">
+    <value>Con este producto tienes el envío gratis.</value>
+  </data>
+  <data name="You qualified for a {0} discount. Enjoy your discount!" xml:space="preserve">
+    <value>Has conseguido un descuento de {0}. ¡Disfruta tu descuento!</value>
+  </data>
+  <data name="You qualified for free shipping. Enjoy!" xml:space="preserve">
+    <value>Has conseguido envío gratis. ¡Disfrútalo!</value>
+  </data>
+  <data name="You save" xml:space="preserve">
+    <value>Ahorras</value>
+  </data>
   <data name="Your agreed consents" xml:space="preserve">
     <value>Sus consentimientos acordados</value>
+  </data>
+  <data name="Your cart is empty" xml:space="preserve">
+    <value>Tu carrito está vacío</value>
+  </data>
+  <data name="Your promo/discount codes" xml:space="preserve">
+    <value>Tus códigos promocionales/de descuento</value>
+  </data>
+  <data name="Your shopping cart" xml:space="preserve">
+    <value>Tu carrito de la compra</value>
+  </data>
+  <data name="{0} or {1}" xml:space="preserve">
+    <value>{0} o {1}</value>
+  </data>
+  <data name="{0} × {1}" xml:space="preserve">
+    <value>{0} × {1}</value>
+  </data>
+  <data name="{0} — {1}" xml:space="preserve">
+    <value>{0} — {1}</value>
+  </data>
+  <data name="All content" xml:space="preserve">
+    <value>Todo el contenido</value>
+  </data>
+  <data name="All" xml:space="preserve">
+    <value>Cualquiera</value>
+  </data>
+  <data name="Article" xml:space="preserve">
+    <value>Artículo</value>
+  </data>
+  <data name="Content type" xml:space="preserve">
+    <value>Tipo de contenido</value>
+  </data>
+  <data name="No results found." xml:space="preserve">
+    <value>No se encontraron resultados.</value>
+  </data>
+  <data name="Next" xml:space="preserve">
+    <value>Siguiente</value>
+  </data>
+  <data name="Page {0} of {1}" xml:space="preserve">
+    <value>Página {0} de {1}</value>
+  </data>
+  <data name="Previous" xml:space="preserve">
+    <value>Anterior</value>
+  </data>
+  <data name="Product" xml:space="preserve">
+    <value>Producto</value>
+  </data>
+  <data name="Products" xml:space="preserve">
+    <value>Productos</value>
+  </data>
+  <data name="Relevance" xml:space="preserve">
+    <value>Relevancia</value>
+  </data>
+  <data name="Search" xml:space="preserve">
+    <value>Buscar</value>
+  </data>
+  <data name="Search all content" xml:space="preserve">
+    <value>Buscar todo el contenido</value>
+  </data>
+  <data name="Search result pages" xml:space="preserve">
+    <value>Páginas de resultados de búsqueda</value>
+  </data>
+  <data name="Sort by" xml:space="preserve">
+    <value>Ordenar por</value>
+  </data>
+  <data name="Title A-Z" xml:space="preserve">
+    <value>Título de A a Z</value>
+  </data>
+  <data name="Title Z-A" xml:space="preserve">
+    <value>Título de Z a A</value>
+  </data>
+  <data name="{0} results" xml:space="preserve">
+    <value>{0} resultados</value>
+  </data>
+  <data name="Good coffee starts with a little discovery." xml:space="preserve">
+    <value>Un buen café empieza con un pequeño descubrimiento.</value>
+  </data>
+  <data name="Coffee, brewing essentials, stories..." xml:space="preserve">
+    <value>Café, accesorios, historias...</value>
+  </data>
+  <data name="Search filters" xml:space="preserve">
+    <value>Filtros de búsqueda</value>
+  </data>
+  <data name="Filters" xml:space="preserve">
+    <value>Filtros</value>
+  </data>
+  <data name="Active filters" xml:space="preserve">
+    <value>Filtros activos</value>
+  </data>
+  <data name="Remove filter: {0}" xml:space="preserve">
+    <value>Quitar filtro: {0}</value>
+  </data>
+  <data name="Remove filter: {0}: {1}" xml:space="preserve">
+    <value>Quitar filtro: {0}: {1}</value>
+  </data>
+  <data name="Clear all" xml:space="preserve">
+    <value>Quitar todos</value>
+  </data>
+  <data name="results" xml:space="preserve">
+    <value>resultados</value>
+  </data>
+  <data name="Try a different search or remove a filter to explore more." xml:space="preserve">
+    <value>Prueba otra búsqueda o quita un filtro para explorar más.</value>
   </data>
 </root>

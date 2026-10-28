@@ -1,13 +1,13 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+<Project Sdk="Microsoft.NET.Sdk.Web">
   <PropertyGroup>
-    <TargetFramework Condition="'$(TargetFramework)' == ''">net8.0</TargetFramework>
+    <TargetFramework Condition="'$(TargetFramework)' == ''">net10.0</TargetFramework>
     <RootNamespace>DancingGoat</RootNamespace>
     <UserSecretsId>ecf97e0b-2de4-4b70-a247-e9e3ab70b113</UserSecretsId>
     <SeparatedAdmin Condition="'$(SeparatedAdmin)' == ''">false</SeparatedAdmin>
-    <Nullable>annotations</Nullable>
-    <RunAnalyzersDuringBuild>false</RunAnalyzersDuringBuild>
+    <NoWarn>$(NoWarn);KXE0004;KXE0006</NoWarn>
   </PropertyGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Resources\*.resx" />
     <None Remove="App_Data\CMSModules\WebFarm\webfarm.sync" />
   </ItemGroup>
   <ItemGroup>
@@ -28,10 +28,12 @@
     <PackageReference Include="kentico.xperience.admin" Condition="'$(SeparatedAdmin)' == 'false'" />
     <PackageReference Include="kentico.xperience.azurestorage" />
     <PackageReference Include="kentico.xperience.imageprocessing" />
+    <PackageReference Include="kentico.xperience.managementapi" Condition="'$(SeparatedAdmin)' == 'false'" />
     <PackageReference Include="kentico.xperience.mjml" />
     <PackageReference Include="kentico.xperience.webapp" />
+    <PackageReference Include="AngleSharp" />
+    <PackageReference Include="Lucene.Net.Highlighter" />
     <PackageReference Include="Kentico.Xperience.Lucene" Condition="'$(LOCAL_NUGET)' == 'true'" />
-    <PackageReference Include="kentico.xperience.cloud" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\src\Kentico.Xperience.Lucene\Kentico.Xperience.Lucene.csproj" />

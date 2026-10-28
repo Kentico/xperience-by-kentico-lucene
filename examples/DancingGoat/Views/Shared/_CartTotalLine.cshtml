@@ -1,0 +1,10 @@
+﻿@using DancingGoat.Models
+
+@model CartTotalLineViewModel
+
+<div class="sum-row @Model.RowCssClass">
+    <span>@Model.Label</span>
+    <span class="@Model.ValueCssClass">
+        <price>@Model.Price</price>
+    </span>
+</div>

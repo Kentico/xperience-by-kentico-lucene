@@ -1,33 +1,73 @@
 ﻿@using DancingGoat.PageTemplates
 @using DancingGoat.Helpers
+@using DancingGoat.Models
 
 @model TemplateViewModel<LandingPageSingleColumnProperties>
 
 @{
     Layout = "~/Views/Shared/_LandingPageLayout.cshtml";
+
+    var ticketNoteItems = (Model.Properties.TicketNote ?? string.Empty)
+        .Split('·', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
 }
 
-<div>
-    <header class="header">
-        <div class="@Model.Properties.HeaderColorCssClass @(Model.Properties.ShowLogo ? "" : "stripe")">
-            @if (Model.Properties.ShowLogo)
-            {
-                <div class="header-row">
-                    <div class="container">
-                        <div class="logo-wrapper">
-                            <img class="logo-image" alt="Dancing Goat" src="~/Content/Images/logo.svg" loading="lazy" />
-                        </div>
-                    </div>
-                </div>
-            }
+<header class="landing-page-header @Model.Properties.HeaderColorCssClass">
+    @if (Model.Properties.ShowLogo)
+    {
+        <div class="wrap landing-page-header-inner campaign-header-inner">
+            <span class="landing-page-logo brand">
+                <img class="brand-logo" alt="Dancing Goat" src="~/Content/Images/logo.svg" loading="lazy" />
+            </span>
         </div>
-    </header>
-    <div class="container content-wrapper top">
-        <editable-area area-identifier="top"
-                       area-options-allowed-widgets="@AreaRestrictionHelper.GetLandingPageRestrictions()" />
+    }
+</header>
+
+<header class="hero campaign-hero">
+    <div class="hero-card">
+        <vc:landing-page-hero-image hero-image="Model.Properties.HeroImage" />
+        <div class="campaign-hero-grid">
+            <div class="campaign-hero-copy">
+                <editable-area area-identifier="top"
+                               area-options-allowed-widgets="@AreaRestrictionHelper.GetLandingPageRestrictions()" />
+                @if (!string.IsNullOrWhiteSpace(Model.Properties.TicketValue))
+                {
+                    <div class="campaign-ticket">
+                        <div>
+                            @if (!string.IsNullOrWhiteSpace(Model.Properties.TicketLabel))
+                            {
+                                <span class="campaign-ticket-label">@Model.Properties.TicketLabel</span>
+                            }
+                            <div class="campaign-ticket-free">@Model.Properties.TicketValue</div>
+                            @if (!string.IsNullOrWhiteSpace(Model.Properties.TicketWhen))
+                            {
+                                <div class="campaign-ticket-when">@Model.Properties.TicketWhen</div>
+                            }
+                        </div>
+                        <div class="campaign-stamp-col">
+                            <img class="campaign-goat" src="~/Content/Images/goat-line.png" alt="" loading="lazy" />
+                        </div>
+                        @if (ticketNoteItems.Length > 0)
+                        {
+                            <div class="campaign-ticket-fine">
+                                @foreach (var item in ticketNoteItems)
+                                {
+                                    <span>@item</span>
+                                }
+                            </div>
+                        }
+                    </div>
+                }
+            </div>
+
+            <div class="campaign-signup" id="signup">
+                <editable-area area-identifier="bottom"
+                               area-options-allowed-widgets="new[] { SystemComponentIdentifiers.RICH_TEXT_WIDGET_IDENTIFIER, SystemComponentIdentifiers.FORM_WIDGET_IDENTIFIER }" />
+            </div>
+        </div>
     </div>
-    <div class="container content-wrapper bottom" id="bottom-area">
-        <editable-area area-identifier="bottom"
-                       area-options-allowed-widgets="new[] { SystemComponentIdentifiers.RICH_TEXT_WIDGET_IDENTIFIER, SystemComponentIdentifiers.FORM_WIDGET_IDENTIFIER }" />
-    </div>
+</header>
+
+<div>
+    <editable-area area-identifier="sections"
+                   area-options-allowed-widgets="@AreaRestrictionHelper.GetLandingPageRestrictions()" />
 </div>

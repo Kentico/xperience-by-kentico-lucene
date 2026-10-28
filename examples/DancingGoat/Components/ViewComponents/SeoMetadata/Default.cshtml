@@ -1,0 +1,43 @@
+@using DancingGoat.ViewComponents
+
+@model SeoMetadataViewModel
+
+@if (!Model.AllowIndexing)
+{
+    <meta name="robots" content="noindex,nofollow" />
+}
+<title>@Model.Title</title>
+@if (!string.IsNullOrEmpty(Model.Description))
+{
+    <meta name="description" content="@Model.Description" />
+}
+@if (!string.IsNullOrEmpty(Model.CanonicalUrl))
+{
+    <link rel="canonical" href="@Model.CanonicalUrl" />
+}
+@if (!string.IsNullOrEmpty(Model.Title))
+{
+    <meta property="og:title" content="@Model.Title" />
+}
+@if (!string.IsNullOrEmpty(Model.Description))
+{
+    <meta property="og:description" content="@Model.Description" />
+}
+<meta property="og:type" content="@Model.OpenGraphType" />
+@if (!string.IsNullOrEmpty(Model.CanonicalUrl))
+{
+    <meta property="og:url" content="@Model.CanonicalUrl" />
+}
+@if (!string.IsNullOrEmpty(Model.OpenGraphImageUrl))
+{
+    <meta property="og:image" content="@Model.OpenGraphImageUrl" />
+    <meta name="twitter:card" content="summary_large_image" />
+}
+else
+{
+    <meta name="twitter:card" content="summary" />
+}
+@foreach (var jsonLdPayload in Model.JsonLdPayloads)
+{
+    <script type="application/ld+json">@Html.Raw(jsonLdPayload)</script>
+}

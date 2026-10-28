@@ -81,6 +81,10 @@ namespace Samples.DancingGoat
         /// <term>DeleteSubmittedFormsActivities</term>
         /// <description>Flag indicating whether form activities of contact are to be deleted.</description>
         /// </item>
+        /// <item>
+        /// <term>DeleteProfile</term>
+        /// <description>Flag indicating whether all profile data should be deleted. When set to true, all related data will be deleted.</description>
+        /// </item>
         /// </list>
         /// </remarks>
         public void Erase(IEnumerable<BaseInfo> identities, IDictionary<string, object> configuration)
@@ -110,8 +114,7 @@ namespace Samples.DancingGoat
         /// <remarks>Activities are deleted via bulk operation, considering the amount of activities for a contact.</remarks>
         private void DeleteSubmittedFormsActivities(ICollection<int> contactIds, IDictionary<string, object> configuration)
         {
-            if (configuration.TryGetValue("DeleteSubmittedFormsActivities", out object deleteSubmittedFormsActivities)
-                && ValidationHelper.GetBoolean(deleteSubmittedFormsActivities, false))
+            if (ShouldDeleteData(configuration, "DeleteSubmittedFormsActivities"))
             {
                 activityInfoProvider.BulkDelete(new WhereCondition().WhereEquals("ActivityType", PredefinedActivityType.BIZFORM_SUBMIT)
                                                                                    .WhereIn("ActivityContactID", contactIds));
@@ -124,8 +127,7 @@ namespace Samples.DancingGoat
         /// </summary>
         private void DeleteDancingGoatSubmittedFormsData(ICollection<string> emails, ICollection<int> contactIDs, IDictionary<string, object> configuration)
         {
-            if (configuration.TryGetValue("DeleteSubmittedFormsData", out object deleteSubmittedForms)
-                && ValidationHelper.GetBoolean(deleteSubmittedForms, false))
+            if (ShouldDeleteData(configuration, "DeleteSubmittedFormsData"))
             {
                 var consentAgreementGuids = consentAgreementInfoProvider.Get()
                     .Columns("ConsentAgreementGuid")
@@ -164,8 +166,7 @@ namespace Samples.DancingGoat
         /// <remarks>Activities are deleted via bulk operation, considering the amount of activities for a contact.</remarks>
         private void DeleteActivities(List<int> contactIds, IDictionary<string, object> configuration)
         {
-            if (configuration.TryGetValue("deleteActivities", out object deleteActivities)
-                && ValidationHelper.GetBoolean(deleteActivities, false))
+            if (ShouldDeleteData(configuration, "deleteActivities"))
             {
                 activityInfoProvider.BulkDelete(new WhereCondition().WhereIn("ActivityContactID", contactIds));
             }
@@ -177,13 +178,31 @@ namespace Samples.DancingGoat
         /// </summary>
         private void DeleteContacts(IEnumerable<ContactInfo> contacts, IDictionary<string, object> configuration)
         {
-            if (configuration.TryGetValue("DeleteContacts", out object deleteContacts) && ValidationHelper.GetBoolean(deleteContacts, false))
+            if (ShouldDeleteData(configuration, "DeleteContacts"))
             {
                 foreach (var contact in contacts)
                 {
                     contactInfoProvider.Delete(contact);
                 }
             }
+        }
+
+
+        /// <summary>
+        /// Determines whether data should be deleted based on the specific configuration key or the global DeleteProfile flag.
+        /// </summary>
+        /// <param name="configuration">Configuration dictionary.</param>
+        /// <param name="configKey">Specific configuration key to check.</param>
+        /// <returns>True if data should be deleted, false otherwise.</returns>
+        private static bool ShouldDeleteData(IDictionary<string, object> configuration, string configKey)
+        {
+            var areAllDataToBeDeleted = configuration.TryGetValue("DeleteProfile", out object deleteProfile)
+                && ValidationHelper.GetBoolean(deleteProfile, false);
+
+            var areSpecificDataToBeDeleted = configuration.TryGetValue(configKey, out object deleteSpecific)
+                && ValidationHelper.GetBoolean(deleteSpecific, false);
+
+            return areAllDataToBeDeleted || areSpecificDataToBeDeleted;
         }
     }
 }

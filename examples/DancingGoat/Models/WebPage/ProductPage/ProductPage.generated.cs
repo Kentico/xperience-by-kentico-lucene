@@ -20,7 +20,7 @@ namespace DancingGoat.Models
 	/// Represents a page of type <see cref="ProductPage"/>.
 	/// </summary>
 	[RegisterContentTypeMapping(CONTENT_TYPE_NAME)]
-	public partial class ProductPage : IWebPageFieldsSource
+	public partial class ProductPage : IWebPageFieldsSource, ISEOFields
 	{
 		/// <summary>
 		/// Code name of the content type.
@@ -38,6 +38,30 @@ namespace DancingGoat.Models
 		/// <summary>
 		/// ProductPageProduct.
 		/// </summary>
-		public IEnumerable<IContentItemFieldsSource> ProductPageProduct { get; set; }
+		public IEnumerable<IProductFields> ProductPageProduct { get; set; }
+
+
+		/// <summary>
+		/// SEOFieldsTitle.
+		/// </summary>
+		public string SEOFieldsTitle { get; set; }
+
+
+		/// <summary>
+		/// SEOFieldsDescription.
+		/// </summary>
+		public string SEOFieldsDescription { get; set; }
+
+
+		/// <summary>
+		/// SEOFieldsOGImage.
+		/// </summary>
+		public IEnumerable<Image> SEOFieldsOGImage { get; set; }
+
+
+		/// <summary>
+		/// SEOFieldsNoIndex.
+		/// </summary>
+		public bool SEOFieldsNoIndex { get; set; }
 	}
 }

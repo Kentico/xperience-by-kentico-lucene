@@ -7,7 +7,7 @@
 
         <div class="consent-text">@HtmlLocalizer["Only system cookies are currently stored. Tracking of activities and analytics features are turned off."]</div>
         <div>
-             @Html.Raw(@Model.ConsentShortText)
+            @Html.Raw(@Model.ConsentShortText)
         </div>
         <form asp-action="Agree"
               asp-controller="Consent"
@@ -15,7 +15,10 @@
               asp-all-route-data="routeData"
               method="post"
               class="consent-buttons">
-            <input type="submit" value="@HtmlLocalizer["I agree"]" class="btn btn-default btn-consent">
+            <input type="submit"
+                   value="@HtmlLocalizer["I agree"]"
+                   class="btn btn-default btn-consent"
+                   disabled="@(Model.IsReadOnly ? "disabled" : null)">
         </form>
     }
     else

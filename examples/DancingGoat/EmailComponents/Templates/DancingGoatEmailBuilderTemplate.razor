@@ -31,27 +31,30 @@
         </mj-section>
 
         <!-- Content -->
-        <mj-section background-color="#ffffff" padding="35px 15px">
-            <mj-column>
-                <EditableArea AreaIdentifier="MainContent" DefaultSectionIdentifier="@DancingGoatFullWidthEmailSection.IDENTIFIER" />
-                <EditableArea AreaIdentifier="AdditionalContent" DefaultSectionIdentifier="@DancingGoatFullWidthEmailSection.IDENTIFIER" />
-            </mj-column>
-        </mj-section>
+        <mj-wrapper background-color="#ffffff" padding="35px 15px">
+            <EditableArea AreaIdentifier="MainContent" DefaultSectionIdentifier="@DancingGoatFullWidthEmailSection.IDENTIFIER" />
+            <EditableArea AreaIdentifier="AdditionalContent" DefaultSectionIdentifier="@DancingGoatFullWidthEmailSection.IDENTIFIER" />
+        </mj-wrapper>
 
         <!-- Social Links -->
         <mj-section padding="20px 15px">
-            @if (EmailModel?.SocialPlatforms is not null)
+            @if (SocialLinks.Count > 0)
             {
-                foreach (var link in EmailModel.SocialPlatforms)
-                {
-                    <mj-column width="auto" padding="0px">
-                        <mj-image width="40px"
-                                  padding="0 6px"
-                                  href="@link.SocialLinkUrl"
-                                  src="@link.SocialLinkIcon.FirstOrDefault().ImageFile.Url"
-                                  alt="@link.SocialLinkTitle" />
-                    </mj-column>
-                }
+                <mj-column padding="0px">
+                    <mj-social icon-size="40px"
+                               inner-padding="0 6px"
+                               padding="0px"
+                               border-radius="0px">
+                        @foreach (var link in SocialLinks)
+                        {
+                            <mj-social-element href="@link.SocialLinkUrl"
+                                               src="@link.SocialLinkIcon.First().ImageFile.Url"
+                                               alt="@link.SocialLinkTitle"
+                                               title="@link.SocialLinkTitle"
+                                               background-color="transparent"></mj-social-element>
+                        }
+                    </mj-social>
+                </mj-column>
             }
         </mj-section>
 
@@ -60,7 +63,7 @@
             <mj-column>
                 <mj-text align="center" color="#000000">
                     Don't want to receive these emails?
-                    <a href="@EmailRecipientContext?.UnsubscriptionUrl" style="text-decoration: none;">Unsubscribe</a>
+                    <a href="@EmailRecipientContext?.UnsubscriptionUrl" style="text-decoration: none;" data-click-tracking="false">Unsubscribe</a>
                 </mj-text>
             </mj-column>
         </mj-section>
