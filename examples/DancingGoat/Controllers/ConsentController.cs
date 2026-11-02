@@ -3,6 +3,7 @@ using CMS.DataEngine;
 using CMS.DataProtection;
 using CMS.Helpers;
 
+using DancingGoat;
 using DancingGoat.Helpers.Generator;
 
 using Microsoft.AspNetCore.Http;
@@ -40,6 +41,8 @@ namespace DancingGoat.Controllers
                 if (contact != null)
                 {
                     consentAgreementService.Agree(contact, consent);
+
+                    TempData[DancingGoatConstants.CONSENT_AGREED_TEMPDATA_KEY] = true;
                 }
 
                 return Redirect(returnUrl);

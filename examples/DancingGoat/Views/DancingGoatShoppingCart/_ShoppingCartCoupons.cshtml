@@ -1,0 +1,58 @@
+@using CMS.Commerce
+@using DancingGoat.Commerce
+@using DancingGoat.Models
+@using Kentico.Content.Web.Mvc.Routing
+
+@inject IPreferredLanguageRetriever currentLanguageRetriever
+
+@model ShoppingCartViewModel
+
+@{
+    var languageName = currentLanguageRetriever.Get();
+    var routeData = new Dictionary<string, string> { { "languageName", languageName } };
+}
+
+@if (Model.CouponCodes.Any())
+{
+    <h2 class="cart-coupons-title">@HtmlLocalizer["Your promo/discount codes"]</h2>
+    <div class="cart-coupons">
+        @foreach (var coupon in Model.CouponCodes)
+        {
+            <form asp-controller="DancingGoatShoppingCart" asp-action="HandleCouponCode" method="post" asp-all-route-data="@routeData" class="cart-coupon" data-cart-form>
+                <input type="hidden" name="couponCode" value="@coupon.Code" />
+                <div class="cart-coupon-value">@coupon.Code</div>
+                <div class="cart-coupon-message">
+                    @(coupon.Status switch
+                    {
+                        CouponCodeStatus.Applied => HtmlLocalizer["Applied."],
+                        CouponCodeStatus.Applicable => HtmlLocalizer["Not applied, higher discount active."],
+                        CouponCodeStatus.NotApplicable => HtmlLocalizer["Not applied, conditions are not met."],
+                        _ => HtmlLocalizer["Unknown coupon status."]
+                    })
+                </div>
+                <button class="cart-coupon-remove" data-cart-focus="coupon-@coupon.Code" data-cart-focus-group="coupon" data-cart-announce="@HtmlLocalizer["Promo code removed."]" name="action" value="@DancingGoatShoppingCartController.REMOVE_COUPON_CODE" aria-label="@HtmlLocalizer["Remove code"]">&times;</button>
+            </form>
+        }
+    </div>
+}
+
+@* A failed attempt keeps the panel open with the code still in the field, so it can be corrected. *@
+<div class="cart-promotion-code" data-promotion-open="@(Model.CouponCodeError != null ? "true" : null)">
+    <button type="button" class="cart-promotion-toggle" data-promotion-toggle aria-expanded="true" aria-controls="promotionCodePanel">
+        @HtmlLocalizer["Apply promo/discount code"]
+        <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.5 4.5L6 8l3.5-3.5"></path></svg>
+    </button>
+    <form id="promotionCodePanel" class="cart-promotion-code-panel" data-cart-form asp-controller="DancingGoatShoppingCart" asp-action="HandleCouponCode" method="post" asp-all-route-data="@routeData">
+        <div class="cart-promotion-code-form">
+            <input type="text" name="couponCode" class="cart-promotion-code-input @(Model.CouponCodeError != null ? "input-validation-error" : null)"
+                   value="@Model.CouponCodeAttempt" placeholder="@HtmlLocalizer["Promo/discount code"]"
+                   aria-invalid="@(Model.CouponCodeError != null ? "true" : null)"
+                   aria-describedby="@(Model.CouponCodeError != null ? "promotionCodeError" : null)" />
+            <button name="action" class="cart-promotion-code-button" data-cart-promotion-submit data-cart-focus="promotion-apply" data-cart-announce="@HtmlLocalizer["Cart updated."]" value="@DancingGoatShoppingCartController.ADD_COUPON_CODE">@HtmlLocalizer["Apply"]</button>
+        </div>
+        @if (Model.CouponCodeError != null)
+        {
+            <p class="cart-promotion-code-error" id="promotionCodeError" role="alert">@Model.CouponCodeError</p>
+        }
+    </form>
+</div>

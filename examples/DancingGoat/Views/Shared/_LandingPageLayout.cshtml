@@ -7,50 +7,27 @@
 
 @{
     Layout = null;
-
-    object templateModel = Model.GetTemplateModel<object>();
-    string title = ViewBag.Title;
-    if (title == null)
-    {
-        title = SEOSchemaModelDataRetriever.GetTitleValue(templateModel);
-    }
-    
-    string description = SEOSchemaModelDataRetriever.GetDescriptionValue(templateModel);
 }
 <!DOCTYPE html>
 
-<html>
+<html lang="@System.Globalization.CultureInfo.CurrentCulture.TwoLetterISOLanguageName" data-page-builder="@(Context.Kentico().PageBuilder().GetMode() != PageBuilderMode.Off ? "true" : "false")">
 <head id="head">
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta charset="UTF-8" />
-    @if (!SEOSchemaModelDataRetriever.GetSearchIndexing(Model.GetTemplateModel<object>()))
-    {
-        <meta name="robots" content="noindex,nofollow" />
-    }
-    @if (!string.IsNullOrEmpty(description))
-    {
-        <meta name="description" content="@description">
-    }
+    <vc:seo-metadata page-model="Model" page-title="@((string)ViewBag.Title)" />
     <link rel="icon" href="~/content/images/favicon.svg" type="image/svg+xml" />
     <link href="~/Content/Styles/Landing-page.css" rel="stylesheet" type="text/css" />
-    <title>@title</title>
     <page-builder-styles />
     @Html.Kentico().ActivityLoggingScriptV2()
 </head>
-<body>
-    <div class="page-wrap">
-        <vc:tracking-consent />
+<body class="landing-page campaign">
+    <a href="#main" class="skip-link">@HtmlLocalizer["Skip to content"]</a>
+    <vc:tracking-consent />
+    <main id="main">
         @RenderBody()
-    </div>
-    <div class="footer-wrapper">
-        <footer>
-            <div class="footer-container">
-                <div class="container">
-                    Copyright &copy; @DateTime.Now.Year Dancing Goat. All rights reserved.
-                </div>
-            </div>
-        </footer>
-    </div>
+    </main>
+    <partial name="_Footer" />
+    <script src="~/Scripts/reveal.js" defer></script>
     <page-builder-scripts />
 </body>
 </html>

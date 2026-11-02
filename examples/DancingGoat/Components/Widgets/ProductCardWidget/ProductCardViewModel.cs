@@ -28,11 +28,18 @@ namespace DancingGoat.Widgets
 
 
         /// <summary>
+        /// URL of the product detail page.
+        /// </summary>
+        public string Url { get; set; }
+
+
+        /// <summary>
         /// Gets ViewModel for <paramref name="product"/>.
         /// </summary>
         /// <param name="product">Product.</param>
+        /// <param name="url">URL of the product detail page.</param>
         /// <returns>Hydrated ViewModel.</returns>
-        public static ProductCardViewModel GetViewModel(IProductFields product)
+        public static ProductCardViewModel GetViewModel(IProductFields product, string url)
         {
             if (product == null)
             {
@@ -43,7 +50,8 @@ namespace DancingGoat.Widgets
             {
                 Heading = product.ProductFieldName,
                 ImagePath = product.ProductFieldImage.FirstOrDefault()?.ImageFile.Url,
-                Text = product.ProductFieldDescription
+                Text = product.ProductFieldDescription,
+                Url = url
             };
         }
     }

@@ -1,0 +1,112 @@
+/*
+ * Landing page v2 (campaign / conversion-first) — hero with signup card and
+ * punched-ticket graphic, conditions strip, numbered steps, closing CTA.
+ * Loads after landing-page-shell.css.
+ */
+.campaign-header-inner { justify-content: space-between; gap: 24px; }
+
+body.campaign .hero { padding-top: 32px; }
+body.campaign section.block { padding-top: 92px; }
+.campaign-hero .hero-card { min-height: 0; align-items: stretch; }
+.campaign-hero .hero-card::after { background: linear-gradient(90deg, rgba(28, 18, 12, 0.92) 0%, rgba(28, 18, 12, 0.74) 52%, rgba(28, 18, 12, 0.58) 100%); }
+.campaign-hero-grid { position: relative; z-index: 2; display: grid; grid-template-columns: 1fr 410px; gap: 56px; align-items: start; padding: 56px 64px; width: 100%; }
+.campaign-hero-grid section.block { padding: 0; }
+.campaign-hero-grid .wrap { padding: 0; max-width: none; }
+.campaign-hero-grid .section-surface { background: transparent; border: none; padding: 0; }
+
+.campaign-hero-copy { color: var(--color-cream); }
+.campaign-hero-copy h1 {
+    font-size: var(--text-h1);
+    font-family: var(--font-sans);
+    font-weight: var(--display-weight);
+    letter-spacing: var(--display-tracking);
+    line-height: var(--leading-display);
+    margin: 0;
+    max-width: 20ch;
+}
+.campaign-hero-copy .hero-text,
+.campaign-hero-copy p {
+    font-size: var(--text-lg);
+    line-height: var(--leading-body);
+    color: rgba(251, 246, 238, 0.9);
+    margin: 20px 0 0 0;
+    max-width: 46ch;
+}
+
+.campaign-ticket {
+    position: relative;
+    margin: 38px 0 0 0;
+    max-width: 540px;
+    background: var(--color-cream);
+    color: var(--color-ink);
+    border-radius: 14px;
+    padding: 26px 30px 22px 30px;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 12px 26px;
+    align-items: center;
+    transform: rotate(-2.2deg);
+    box-shadow: 0 20px 44px rgba(20, 12, 8, 0.4);
+    -webkit-mask-image: radial-gradient(circle 13px at 0 50%, transparent 98%, #000 100%), radial-gradient(circle 13px at 100% 50%, transparent 98%, #000 100%);
+    -webkit-mask-composite: source-in;
+    mask-image: radial-gradient(circle 13px at 0 50%, transparent 98%, #000 100%), radial-gradient(circle 13px at 100% 50%, transparent 98%, #000 100%);
+    mask-composite: intersect;
+}
+.campaign-ticket-label { font-size: var(--text-label); font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--color-accent-text); }
+.campaign-ticket-free { font-family: var(--font-sans); font-weight: var(--display-weight); letter-spacing: -0.03em; font-size: clamp(44px, 5vw, 62px); line-height: 0.94; margin: 6px 0 8px 0; }
+.campaign-ticket-when { font-size: 21px; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase; color: var(--color-accent-text); }
+.campaign-ticket-fine { grid-column: 1 / -1; border-top: 1px dashed rgba(65, 55, 51, 0.34); margin-top: 10px; padding-top: 16px; display: flex; align-items: center; flex-wrap: wrap; font-size: var(--text-xs); color: var(--color-ink); }
+.campaign-ticket-fine span { display: flex; align-items: center; gap: 9px; }
+.campaign-ticket-fine svg { width: 16px; height: 16px; color: var(--color-ink-soft); flex: none; }
+.campaign-ticket-fine span + span::before { content: "\B7"; margin: 0 14px; color: var(--color-ink-soft); }
+.campaign-stamp-col { align-self: stretch; display: grid; place-items: center; border-left: 1px dashed rgba(65, 55, 51, 0.34); padding: 0 10px 0 36px; }
+.campaign-goat { width: 148px; height: auto; }
+
+.campaign-signup { background: var(--color-card); border-radius: var(--radius-card); padding: 38px; box-shadow: 0 24px 50px rgba(20, 12, 8, 0.28); }
+.campaign-signup h2 { font-size: 24px; margin: 0 0 6px 0; line-height: var(--leading-heading); }
+.campaign-signup-note { margin: 0 0 26px 0; font-size: var(--text-xs); color: var(--color-ink-soft); line-height: var(--leading-body); }
+.campaign-signup .field { margin-bottom: 18px; }
+.campaign-signup .field label { display: flex; align-items: baseline; gap: 8px; }
+
+/* Kentico form widget inside the signup card */
+.campaign-signup :where(.form-field) { margin-bottom: 18px; }
+.campaign-signup input[type="submit"] { width: 100%; }
+
+.campaign-strip { background: var(--color-card); border: 1px solid var(--color-line); border-radius: var(--radius-card); display: grid; grid-template-columns: repeat(4, 1fr); }
+.campaign-strip > div { padding: 22px 24px; display: flex; align-items: flex-start; gap: 12px; }
+.campaign-strip > div + div { border-left: 1px solid var(--color-line); }
+.campaign-strip-k { display: block; font-size: var(--text-md); font-weight: 700; margin-bottom: 4px; }
+.campaign-strip-v { font-size: var(--text-xs); color: var(--color-ink-soft); line-height: 1.45; }
+.campaign-strip-v a { color: var(--color-accent-text); border-bottom: 1px solid currentColor; }
+
+.campaign-steps { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 36px; }
+.campaign-steps li { position: relative; padding-top: 46px; }
+.campaign-steps li::after { content: ""; position: absolute; top: 15px; left: 0; right: -36px; height: 1px; background: var(--color-line); }
+.campaign-steps li:last-child::after { right: 0; }
+.campaign-step-n { position: absolute; top: 0; left: 0; z-index: 1; width: 31px; height: 31px; border-radius: 50%; background: var(--color-paper); border: 1px solid var(--color-accent-text); color: var(--color-accent-text); font-weight: 700; font-size: 13px; display: grid; place-items: center; }
+.campaign-steps h3 { font-size: var(--text-h4); margin: 0 0 10px 0; letter-spacing: var(--display-tracking); }
+.campaign-steps p { margin: 0; color: var(--color-ink-soft); font-size: var(--text-md); line-height: var(--leading-body); text-wrap: pretty; }
+
+.campaign-cta { background: var(--color-band); color: var(--color-band-ink); border-radius: calc(var(--radius-card) + 8px); padding: 44px 56px; display: flex; align-items: center; justify-content: space-between; gap: 36px; flex-wrap: wrap; }
+.campaign-cta h2 { font-size: var(--text-h2); margin: 0 0 8px 0; }
+.campaign-cta .accent-period { color: var(--color-accent-on-dark); }
+.campaign-cta p { margin: 0; font-size: var(--text-md); color: rgba(242, 234, 224, 0.85); }
+.campaign-cta-side { text-align: center; }
+
+body.campaign .footer { margin-top: 90px; }
+body.campaign .footer-inner { padding-top: 56px; }
+
+@media (max-width: 1080px) {
+    .campaign-hero-grid { grid-template-columns: 1fr; gap: 36px; padding: 40px 34px; }
+    .campaign-strip { grid-template-columns: repeat(2, 1fr); }
+    .campaign-strip > div + div { border-left: none; border-top: 1px solid var(--color-line); }
+    .campaign-strip > div:nth-child(even) { border-left: 1px solid var(--color-line); }
+}
+@media (max-width: 900px) {
+    .campaign-steps { grid-template-columns: 1fr; gap: 28px; }
+    .campaign-steps li::after { right: 0; }
+    .campaign-strip { grid-template-columns: 1fr; }
+    .campaign-strip > div:nth-child(even) { border-left: none; }
+    .campaign-cta { padding: 34px 26px; }
+    .campaign-ticket { padding: 22px; }
+}

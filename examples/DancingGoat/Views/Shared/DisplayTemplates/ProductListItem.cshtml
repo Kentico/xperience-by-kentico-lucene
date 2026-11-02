@@ -1,27 +1,65 @@
-﻿@using CMS.Commerce
-@using DancingGoat.Commerce
 @using DancingGoat.Models
+
+@using Kentico.Content.Web.Mvc.Routing
+
+@inject IPreferredLanguageRetriever currentLanguageRetriever
 
 @model ProductListItemViewModel
 
-<article class="product-tile">
-    <a href="@Model.Url">
-        <h1 class="product-heading">@Model.Name</h1>
-        @if (@Model.Tag != null) {
-            <div class="product-tag">@Model.Tag</div>
+@{
+    var languageName = currentLanguageRetriever.Get();
+    var addRouteData = new Dictionary<string, string> { { "languageName", languageName } };
+}
+
+<article class="product-card">
+    <a class="pc-overlay" href="@Model.Url" aria-label="@Model.Name"></a>
+    <div class="media">
+        @if (Model.Tag != null || Model.HasFreeShipping || Model.HasSpecialOffer)
+        {
+            <div class="card-chips">
+                @if (Model.Tag != null)
+                {
+                    <span class="chip">@Model.Tag.Title</span>
+                }
+                @if (Model.HasFreeShipping)
+                {
+                    <span class="chip chip-shipping">@HtmlLocalizer["Free shipping"]</span>
+                }
+                @if (Model.HasSpecialOffer)
+                {
+                    <span class="chip chip-offer">@HtmlLocalizer["Special offer"]</span>
+                }
+            </div>
         }
-
-        <figure class="product-tile-image">
-            @if (!string.IsNullOrEmpty(Model.ImagePath))
-            {
-                <img src="@Model.ImagePath" alt="@Model.Name" title="@Model.Name" />
-            }
-        </figure>
-
-        <div class="product-tile-info">
-            <span class="product-tile-price">
-                <price>@Model.Price</price>
-            </span>
-        </div>
-    </a>
+        @if (!string.IsNullOrEmpty(Model.ImagePath))
+        {
+            <img src="@Url.Content(Model.ImagePath)" alt="@Model.Name" title="@Model.Name" loading="lazy" />
+        }
+    </div>
+    <h3>@Model.Name</h3>
+    <div class="price-row">
+        @if (Model.HasDiscount)
+        {
+            <span class="chip chip-sale">-@Model.AppliedPromotion.PromotionDisplayLabel</span>
+            <span class="price price-sale"><price>@Model.Price</price></span>
+            <span class="price-old"><price>@Model.ListPrice</price></span>
+        }
+        else
+        {
+            <span class="price"><price>@Model.Price</price></span>
+        }
+    </div>
+    @if (Model.HasVariants)
+    {
+        <a class="btn btn-solid card-add" href="@Model.Url">@HtmlLocalizer["Choose options"]</a>
+    }
+    else
+    {
+        <form class="card-add-form" method="post" asp-controller="DancingGoatShoppingCart" asp-action="Add" asp-all-route-data="addRouteData" data-cart-add-form>
+            <input type="hidden" name="contentItemId" value="@Model.ContentItemId" />
+            <input type="hidden" name="quantity" value="1" />
+            <input type="hidden" name="returnUrl" value="@Context.Request.Path@Context.Request.QueryString" />
+            <button class="btn btn-solid card-add" type="submit">@HtmlLocalizer["Add to cart"]</button>
+        </form>
+    }
 </article>

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 
 using CMS.ContentEngine;
@@ -9,7 +10,7 @@ using DancingGoat.Commerce;
 using Kentico.Xperience.Admin.Base.Authentication;
 using Kentico.Xperience.Admin.Base.Forms;
 
-[assembly: RegisterFormValidationRule(UniqueProductSkuValidationRule.IDENTIFIER, typeof(UniqueProductSkuValidationRule), "Unique SKU value", "Checks whether the field does not contain a product SKU that is already being used.")]
+[assembly: RegisterFormValidationRule(UniqueProductSkuValidationRule.IDENTIFIER, typeof(UniqueProductSkuValidationRule), "{$dancinggoat.formvalidationrule.uniquesku.name$}", "{$dancinggoat.formvalidationrule.uniquesku.description$}")]
 
 namespace DancingGoat.AdminComponents.UIPages;
 
@@ -51,7 +52,7 @@ internal class UniqueProductSkuValidationRule : ValidationRule<string>
         int contentItemId = contentItemFormContext.ItemId;
 
         // Try to find a colliding content item using the provided SKU code
-        int? collidingContentItemIdentifier = await productSkuValidator.GetCollidingContentItem(value, contentItemId);
+        int? collidingContentItemIdentifier = await productSkuValidator.GetCollidingContentItem(value, contentItemId, CancellationToken.None);
 
         if (collidingContentItemIdentifier == null)
         {

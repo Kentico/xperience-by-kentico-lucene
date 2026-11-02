@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
+using CMS.ContentEngine;
 using CMS.Websites;
 
 namespace DancingGoat.Models
@@ -11,6 +12,13 @@ namespace DancingGoat.Models
     {
         /// <inheritdoc/>
         public IWebPageFieldsSource WebPage { get; init; }
+
+
+        /// <summary>
+        /// Gets the AI provenance origin of the given field of the article page.
+        /// </summary>
+        /// <param name="fieldName">Code name of the article page field.</param>
+        public AiProvenanceOrigin GetAiProvenanceOrigin(string fieldName) => WebPage?.GetAiProvenanceOrigin(fieldName) ?? AiProvenanceOrigin.None;
 
 
         /// <summary>

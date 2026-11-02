@@ -1,0 +1,30 @@
+﻿@namespace DancingGoat.AiDisclosure
+
+@if (Label is not null && LabelPosition == AiLabelPosition.Before)
+{
+    <mj-text padding-bottom="18px">
+        @LabelRow
+    </mj-text>
+}
+
+@ChildContent
+
+@if (Label is not null && LabelPosition == AiLabelPosition.After)
+{
+    <mj-text padding-top="6px">
+        @LabelRow
+    </mj-text>
+}
+
+@code {
+    private RenderFragment LabelRow => @<table role="presentation" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+            <td valign="middle" style="padding: 0 12px 0 0; line-height: 0;">
+                <img src="@Label.ImagePath" width="@Label.Width" height="22" alt="@Label.Text" style="display: block; border: 0; outline: none; text-decoration: none;" />
+            </td>
+            <td valign="middle" style="font-size: 14px; line-height: 1.35; color: #6B5C55;">
+                @Label.Caption
+            </td>
+        </tr>
+    </table>;
+}

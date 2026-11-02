@@ -1,0 +1,15 @@
+@using DancingGoat.Helpers
+
+@{
+    ViewBag.Title = HtmlLocalizer["Access denied"].Value;
+}
+
+<div class="page-head">
+    <div class="wrap">
+        <h1 class="display">@HeadingFormatter.Format(HtmlLocalizer["Access denied"].Value)</h1>
+        <p class="lede">@HtmlLocalizer["You do not have permission to view this page."]</p>
+        <div class="page-content">
+            <a class="btn btn-solid" href="~/">@HtmlLocalizer["Back to the home page"] <span class="arrow">&rarr;</span></a>
+        </div>
+    </div>
+</div>

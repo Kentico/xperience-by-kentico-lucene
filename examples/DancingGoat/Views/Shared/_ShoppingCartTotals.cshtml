@@ -1,16 +1,21 @@
-﻿@using CMS.Commerce
-@using DancingGoat.Commerce
-@using DancingGoat.Models
+﻿@using DancingGoat.Models
 
 @model ShoppingCartViewModel
 
-<div class="cart-total">
-    <div class="cart-total-viewer">
-        <div class="label">
-            <span>@HtmlLocalizer["Total price"]</span>
-        </div>
-        <div class="value">
-            <price>@Model.TotalPrice</price>
-        </div>
-    </div>
+@* The item count is a plain number, so it does not go through _CartTotalLine, which formats its value as a price. *@
+<div class="sum-row">
+    <span>@HtmlLocalizer["Items"]</span>
+    <span>@Model.TotalQuantity</span>
 </div>
+<partial name="_CartTotalLine" model='new CartTotalLineViewModel(HtmlLocalizer["Subtotal"], Model.LinesSubtotal)' />
+@if (Model.OrderDiscount > 0)
+{
+    <partial name="_CartTotalLine" model='new CartTotalLineViewModel(HtmlLocalizer["Order discount"], -Model.OrderDiscount)' />
+    if (Model.OrderDiscountName != null)
+    {
+        <p class="sum-note">@Model.OrderDiscountName</p>
+    }
+}
+<hr class="sum-divider" />
+@* Shipping and tax are unknown until checkout, so the cart total deliberately excludes them - the note below this block says so. *@
+<partial name="_CartTotalLine" model='new CartTotalLineViewModel(HtmlLocalizer["Cart total"], Model.TotalWithoutShippingAndTax, RowCssClass: "total")' />

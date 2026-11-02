@@ -1,25 +1,25 @@
-﻿@using CMS.Commerce
-@using DancingGoat.Commerce
-@using DancingGoat.Models
+﻿@using DancingGoat.Models
 
-@model CheckoutViewModel
+@model OrderSummaryViewModel
 
-<div class="cart-total">
-    <div class="cart-item-viewer">
-        <div class="label">
-            <span>@HtmlLocalizer["Shipping"]</span>
-        </div>
-        <div class="value">
-            <price>@Model.PaymentShipping.ShippingPrice</price>
-        </div>
+@if (Model.ShoppingCart.TotalDiscount > 0)
+{
+    <partial name="_CartTotalLine" model='new CartTotalLineViewModel(HtmlLocalizer["You save"], Model.ShoppingCart.TotalDiscount)' />
+}
+<partial name="_CartTotalLine" model='new CartTotalLineViewModel(HtmlLocalizer["Cart total"], Model.ShoppingCart.TotalWithoutShippingAndTax)' />
+@if (Model.HasShippingDiscount)
+{
+    <div class="sum-row">
+        <span>@HtmlLocalizer["Shipping"]</span>
+        <span>
+            <span class="price-old"><price>@Model.OriginalShippingPrice</price></span>
+            <price>@Model.ShippingPrice</price>
+        </span>
     </div>
-    <hr />
-    <div class="cart-total-viewer">
-        <div class="label">
-            <span>@HtmlLocalizer["Total price"]</span>
-        </div>
-        <div class="value">
-            <price>@Model.ShoppingCart.TotalPrice</price>
-        </div>
-    </div>
-</div>
+}
+else
+{
+    <partial name="_CartTotalLine" model='new CartTotalLineViewModel(HtmlLocalizer["Shipping"], Model.ShippingPrice)' />
+}
+<partial name="_CartTotalLine" model='new CartTotalLineViewModel(HtmlLocalizer["Tax"], Model.ShoppingCart.TotalTax)' />
+<partial name="_CartTotalLine" model='new CartTotalLineViewModel(HtmlLocalizer["Total amount"], Model.ShoppingCart.TotalPrice, RowCssClass: "total")' />

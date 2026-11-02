@@ -19,7 +19,7 @@ namespace DancingGoat.Widgets
         /// <summary>
         /// Page where the button points to.
         /// </summary>
-        [UrlSelectorComponent(Label = "Link URL", Order = 1)]
+        [UrlSelectorComponent(Label = "{$dancinggoat.ctabuttonwidget.linkurl.label$}", Order = 1)]
         [ExcludeFromAiraTranslation]
         public string LinkUrl { get; set; }
 
@@ -27,7 +27,7 @@ namespace DancingGoat.Widgets
         /// <summary>
         /// Indicates if link should be opened in a new tab.
         /// </summary>
-        [CheckBoxComponent(Label = "Open in a new tab", Order = 2)]
+        [CheckBoxComponent(Label = "{$dancinggoat.ctabuttonwidget.openinnewtab.label$}", Order = 2)]
         public bool OpenInNewTab { get; set; }
     }
 }

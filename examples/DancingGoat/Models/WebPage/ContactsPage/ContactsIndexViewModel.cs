@@ -18,12 +18,6 @@ namespace DancingGoat.Models
         public List<CafeViewModel> CompanyCafes { get; set; }
 
 
-        /// <summary>
-        /// The partner cafes data.
-        /// </summary>
-        public List<CafeViewModel> PartnerCafes { get; set; }
-
-
         /// <inheritdoc/>
         public IWebPageFieldsSource WebPage { get; init; }
     }

@@ -1,5 +1,6 @@
 ﻿@using CMS.Websites
 @using CMS.Websites.Routing
+@using DancingGoat.Helpers
 @using DancingGoat.Models
 @using DancingGoat.Services
 @using Kentico.Content.Web.Mvc.Routing
@@ -10,48 +11,53 @@
 
 @{
     ViewBag.Title = HtmlLocalizer["Shopping cart"].Value;
-    ViewData["PageClass"] = "inverted";
 
     var checkoutPageUrl = await webPageUrlProvider.CheckoutPageUrl();
     var storePageUrl = await webPageUrlProvider.StorePageUrl();
 }
 
-<div class="checkout-container">
-    <div class="cart">
-        <div class="continue-shopping-link">
-            <a href="@storePageUrl">&larr; @HtmlLocalizer["continue shopping"]</a>
+<div class="page-head">
+    <div class="wrap">
+        <div class="crumb">
+            <a href="@storePageUrl">&larr; @HtmlLocalizer["Continue shopping"]</a>
         </div>
-
-        <h2>@HtmlLocalizer["Your shopping cart"]</h2>
-        <div class="col-md-8 cart-content">
-            <hr class="first-separator" />
-            @if (!Model.Items.Any())
-            {
-                <span>@HtmlLocalizer["Shopping cart is empty"]</span>
-                <hr class="last-separator" />
-            }
-            else
-            {
-                <partial name="_ShoppingCartContentEdit" />
-            }
-        </div>
-
+        <h1 class="display">@HeadingFormatter.Format(HtmlLocalizer["Your shopping cart"].Value)</h1>
     </div>
+</div>
 
-    @if (Model.Items.Any())
-    {
-        <div class="col-md-4">
-            <div class="cart-right-panel floating-box">
-                <form>
-                    <div id="shoppingCartTotals">
+<section class="block-tight">
+    <div class="wrap">
+        @if (!Model.Items.Any())
+        {
+            <div class="empty-cart">
+                <h2 class="display">@HeadingFormatter.Format(HtmlLocalizer["Your cart is empty"].Value)</h2>
+                <p>@HtmlLocalizer["Shopping cart is empty"]</p>
+                <a class="btn btn-solid" href="@storePageUrl">@HtmlLocalizer["Explore the store"] <span class="arrow">&rarr;</span></a>
+            </div>
+        }
+        else
+        {
+            <div class="cart-layout" data-cart data-cart-error="@HtmlLocalizer["The cart could not be updated. Reload the page to see the current contents."]">
+                <div data-cart-lines>
+                    <partial name="_ShoppingCartContentEdit" model="Model" />
+                </div>
+
+                <aside class="summary-card">
+                    <h2 class="summary-title">@HtmlLocalizer["Summary"]</h2>
+                    <div id="shoppingCartTotals" data-cart-totals>
                         <partial name="_ShoppingCartTotals" model="Model" />
                     </div>
-
-                    <p>@HtmlLocalizer["Review your shopping cart and checkout"]</p>
-
-                    <a href="@checkoutPageUrl"><input type="button" value="@HtmlLocalizer["checkout"]" class="btn-primary checkout-button btn btn-default" /></a>
-                </form>
+                    <p class="summary-note">@HtmlLocalizer["Shipping & tax calculated at checkout."]</p>
+                    <a class="btn btn-solid btn-block" href="@checkoutPageUrl">@HtmlLocalizer["Proceed to checkout"] <span class="arrow">&rarr;</span></a>
+                    <p class="visually-hidden" id="qtyAutoUpdateHint">@HtmlLocalizer["Changing the quantity updates your cart."]</p>
+                    <p class="visually-hidden" id="cartStatus" role="status" aria-live="polite" aria-atomic="true"></p>
+                </aside>
             </div>
-        </div>
-    }
-</div>
+        }
+    </div>
+</section>
+
+@section scripts {
+    <script src="~/Scripts/promotionCode.js" asp-append-version="true" defer></script>
+    <script src="~/Scripts/qtyStepper.js" asp-append-version="true" defer></script>
+}

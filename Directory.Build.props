@@ -31,8 +31,9 @@
 		<NoWarn>$(NoWarn);1591;S3267;S1133;S4144</NoWarn>
 		<EnableDefaultEmbeddedResourceItems>false</EnableDefaultEmbeddedResourceItems>
 
-		<!-- Required to prevent type conflicts with existing types -->
-		<HotChocolateImplicitUsings>disable</HotChocolateImplicitUsings>
+		<!-- This ensures Lucene index and npm package file modifications do not cause a hot reload when using dotnet watch -->
+		<!-- See https://github.com/dotnet/sdk/issues/44910#issuecomment-3533124997 -->
+		<DefaultItemExcludes>$(DefaultItemExcludes);**/App_Data/**/*;**/$Storage*/**/*;**/node_modules/**/*;package-lock.json;**/*.lscache*</DefaultItemExcludes>
 	</PropertyGroup>
 
 	<PropertyGroup Condition=" $(Configuration) == 'Release' ">

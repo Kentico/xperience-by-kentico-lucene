@@ -23,6 +23,9 @@ namespace DancingGoat.ViewComponents
         public async Task<IViewComponentResult> InvokeAsync()
         {
             var contact = (await contentRetriever.RetrieveContent<Contact>(
+                RetrieveContentParameters.Default,
+                query => query.TopN(1),
+                new RetrievalCacheSettings("TopN_1"),
                 HttpContext.RequestAborted
             )).FirstOrDefault();
 

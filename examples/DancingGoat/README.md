@@ -4,45 +4,18 @@ This project implements a company website of a fictional coffee shop franchise t
 
 ## Installation and setup
 
-Follow the instructions in the [Installation](https://docs.xperience.io/x/DQKQC) documentation
-to troubleshoot any installation or configuration issues.
+Follow the instructions in the [Installation](https://docs.xperience.io/x/DQKQC) documentation to troubleshoot any installation or configuration issues.
 
-## Project notes
+## AI-assisted development
 
-### Content type and reusable field schema code files
+The project is set up for AI coding assistants: agent instructions, a design-guidance skill, and the Kentico [Documentation MCP](https://docs.kentico.com/x/mcp_server_xp) and [Management MCP](https://docs.kentico.com/x/management_api_xp) servers configured in `.mcp.json`.
 
-[Content type](https://docs.xperience.io/x/gYHWCQ) and [reusable field schema](https://docs.xperience.io/x/D4_OD) code files under 
+To learn more about Kentico's suite of AI development tools, see the [KentiCopilot](https://docs.kentico.com/x/kenticocopilot_guides) documentation.
 
-- `./Models/Reusable` 
-- `./Models/WebPage`
-- `./Models/Schema`
+We recommend installing the plugins and skills from the [KentiCopilot GitHub repository](https://github.com/Kentico/xperience-by-kentico-kenticopilot). The provided skills are optimized to help agents perform development tasks in Xperience by Kentico.
 
-are generated using Xperience's [code generators](https://docs.xperience.io/x/5IbWCQ).
+## SaaS deployment
 
-If you change the site's content model (add or remove fields, define new content types or schemas, etc.), you can run the following commands from the root of the Dancing Goat project to regenerate the files.
+When installed with the `--cloud` parameter, this project also provides tools and configuration for deploying the site to Kentico's [SaaS](https://docs.kentico.com/x/saas_overview_xp) environment.
 
-For _reusable field schemas_:
-
-```powershell
-dotnet run --no-build -- --kxp-codegen --location "./Models/Schema/" --type ReusableFieldSchemas --namespace "DancingGoat.Models"
-```
-
-This command regenerates the interfaces for all reusable field schemas in the project. Note that the specified `--namespace` must match the namespace where content type code files that reference the schemas are generated. You will get uncompilable code otherwise.
-
-For _reusable_ content types:
-
-```powershell
-dotnet run --no-build -- --kxp-codegen --location "./Models/Reusable/{name}/" --type ReusableContentTypes --include "DancingGoat.*" --namespace "DancingGoat.Models"
-```
-
-This command generates code files for content types with the `DancingGoat` namespace under the `./Models/Reusable` directory.
-
-For _page_ content types:
-
-```powershell
-dotnet run --no-build -- --kxp-codegen --location "./Models/WebPage/{name}/" --type PageContentTypes --include "DancingGoat.*" --namespace "DancingGoat.Models"
-```
-
-This command generates code files for content types with the `DancingGoat` namespace under the `./Models/WebPage` directory.
-
-You can adapt these examples for use in projects with a different folder structure by modifying the `location` parameter accordingly.
+For more information see [Deploy to the SaaS environment](https://docs.xperience.io/x/IgKQC).

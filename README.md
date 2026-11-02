@@ -26,7 +26,7 @@ Lucene indexes are stored using the [CMS.IO](https://docs.kentico.com/x/4YfWCQ) 
 
 ## Screenshots
 
-![Search results](https://raw.githubusercontent.com/Kentico/xperience-by-kentico-lucene/main/images/dancing-goat-search-results-page.png)
+![Search results](https://raw.githubusercontent.com/Kentico/xperience-by-kentico-lucene/main/images/dancing-goat-search-results-page.jpg)
 
 ![Index listing](https://raw.githubusercontent.com/Kentico/xperience-by-kentico-lucene/main/images/xperience-administration-search-index-list.jpg)
 

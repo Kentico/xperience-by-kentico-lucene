@@ -1,0 +1,36 @@
+/*
+ * Buttons — pill buttons in three variants plus block/nav modifiers.
+ * Arrow glyphs are literal "→" text in a span.arrow, not icons.
+ */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-family: var(--font-sans);
+    font-size: var(--text-sm);
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    padding: 15px 28px;
+    border-radius: var(--radius-btn);
+    border: 1px solid transparent;
+    cursor: pointer;
+    transition: transform 0.2s, background 0.2s, color 0.2s, border-color 0.2s;
+}
+
+.btn:hover { transform: translateY(-2px); }
+
+.btn-solid { background: var(--color-accent-text); color: var(--color-accent-ink); }
+.btn-solid:hover { filter: brightness(1.08); }
+
+.btn-ghost { border-color: rgba(251, 246, 238, 0.5); color: var(--color-cream); }
+.btn-ghost:hover { background: rgba(251, 246, 238, 0.14); border-color: var(--color-cream); }
+
+.btn-outline { border-color: var(--color-line); color: var(--color-ink); background: transparent; }
+.btn-outline:hover { border-color: var(--color-ink); }
+
+.btn .arrow { font-family: var(--font-sans); }
+
+.btn-block { width: 100%; justify-content: center; }
+
+/* A background request the button started is still running. */
+.btn[aria-busy="true"] { cursor: progress; opacity: 0.7; }

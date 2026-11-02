@@ -1,0 +1,17 @@
+﻿@using DancingGoat.Models
+
+@model ProductListItemGridViewModel
+
+@if (Model.Items.Any())
+{
+    <div class="product-grid">
+        @foreach (var product in Model.Items)
+        {
+            @Html.DisplayFor(m => product, "ProductListItem")
+        }
+    </div>
+}
+else if (Model.EmptyMessage != null)
+{
+    <span class="grid-empty">@Model.EmptyMessage</span>
+}

@@ -2,6 +2,9 @@
 {
     public class ConsentViewModel
     {
+        public bool IsReadOnly { get; set; }
+
+
         public string ConsentShortText { get; set; }
 
 

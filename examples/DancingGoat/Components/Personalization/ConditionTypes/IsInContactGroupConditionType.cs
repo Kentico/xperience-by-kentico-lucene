@@ -10,7 +10,7 @@ using Kentico.PageBuilder.Web.Mvc.Personalization;
 using Kentico.Xperience.Admin.Base.FormAnnotations;
 using Kentico.Xperience.Admin.Base.Forms;
 
-[assembly: RegisterPersonalizationConditionType("DancingGoat.Personalization.IsInContactGroup", typeof(IsInContactGroupConditionType), "Is in contact group", Description = "Evaluates if the current contact is in one of the contact groups.", IconClass = "icon-app-contact-groups", Hint = "Display to visitors who match at least one of the selected contact groups:")]
+[assembly: RegisterPersonalizationConditionType("DancingGoat.Personalization.IsInContactGroup", typeof(IsInContactGroupConditionType), "{$dancinggoat.isinccontactgroup.title$}", Description = "{$dancinggoat.isinccontactgroup.description$}", IconClass = "icon-app-contact-groups", Hint = "{$dancinggoat.isinccontactgroup.hint$}")]
 
 namespace DancingGoat.Personalization
 {
@@ -22,7 +22,7 @@ namespace DancingGoat.Personalization
         /// <summary>
         /// Selected contact group code names.
         /// </summary>
-        [ObjectSelectorComponent(PredefinedObjectType.CONTACTGROUP, Label = "Contact groups", Order = 0, MaximumItems = 0)]
+        [ObjectSelectorComponent(PredefinedObjectType.CONTACTGROUP, Label = "{$dancinggoat.isinccontactgroup.contactgroups.label$}", Order = 1, MaximumItems = 0)]
         public IEnumerable<ObjectRelatedItem> SelectedContactGroups { get; set; } = Enumerable.Empty<ObjectRelatedItem>();
 
 

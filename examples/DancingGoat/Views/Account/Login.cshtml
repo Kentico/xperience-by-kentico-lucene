@@ -1,55 +1,39 @@
-﻿@model DancingGoat.Models.LoginViewModel
+﻿@using DancingGoat.Helpers
+
+@model DancingGoat.Models.LoginViewModel
 
 @{
     ViewBag.Title = HtmlLocalizer["Sign in"].Value;
-    ViewData["PageClass"] = "inverted";
 }
 
-<div class="signin-register">
-    <div class="row">
-        <div class="col-md-6 zone-dark">
-            <h2>@HtmlLocalizer["Sign in"]</h2>
-            <div class="separator"></div>
-            <div class="form-group-input">
-                <div class="logon-page-background">
-                    <div class="logon-panel">
-                        <form asp-action="Login" method="post" asp-route-returnUrl="@Context.Request.Query["ReturnUrl"]">
-                            <div class="form-horizontal">
-                                @if (ViewData.ModelState.Any(x => x.Value.Errors.Any()))
-                                {
-                                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                                }
-                                <div class="form-group">
-                                    <div class="editing-form-label-cell">
-                                        @Html.LabelFor(model => model.UserName, htmlAttributes: new { @class = "control-label" })
-                                    </div>
-                                    <div class="editing-form-value-cell">
-                                        @Html.EditorFor(model => model.UserName, new { htmlAttributes = new { @class = "form-control" } })
-                                        @Html.ValidationMessageFor(model => model.UserName, "", new { @class = "text-danger" })
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    <div class="editing-form-label-cell">
-                                        @Html.LabelFor(model => model.Password, htmlAttributes: new { @class = "control-label" })
-                                    </div>
-                                    <div class="editing-form-value-cell">
-                                        @Html.PasswordFor(model => model.Password, htmlAttributes: new { @class = "form-control" })
-                                        @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
-                                    </div>
-                                </div>
-                            </div>
-                            <span class="logon-remember-me-checkbox checkbox">@Html.EditorFor(model => model.StaySignedIn) @Html.LabelFor(model => model.StaySignedIn)</span>
-                            <input type="submit" value="@HtmlLocalizer["Sign in"]" class="btn btn-primary" />
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-6 zone-light">
-            <h2>@HtmlLocalizer["New to Dancing Goat?"]</h2>
-            <p>@HtmlLocalizer["It only takes a moment to get started."]</p>
-            @Html.ActionLink(HtmlLocalizer["Register"].Value, "Register", null, null, new { @class = "btn btn-secondary btn-default" })
-        </div>
+<div class="page-head">
+    <div class="wrap">
+        <h1 class="display">@HeadingFormatter.Format(HtmlLocalizer["Welcome back"].Value)</h1>
     </div>
 </div>
+
+<section class="block-tight">
+    <div class="wrap">
+        <div class="auth-grid">
+            <div class="auth-card">
+                <h2 class="display">@HeadingFormatter.Format(HtmlLocalizer["Sign in"].Value)</h2>
+                <p class="auth-sub">@HtmlLocalizer["Sign in to your Dancing Goat account."]</p>
+                <form asp-action="Login" method="post" asp-route-returnUrl="@Context.Request.Query["ReturnUrl"]">
+                    @if (ViewData.ModelState.Any(x => x.Value.Errors.Any()))
+                    {
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    }
+                    @Html.ValidatedEditorFor(model => model.UserName)
+                    @Html.ValidatedEditorFor(model => model.Password, includeStorageAttribute: false)
+                    <label class="checkbox-row">@Html.EditorFor(model => model.StaySignedIn) <span>@HtmlLocalizer["Stay signed in"]</span></label>
+                    <input type="submit" value="@HtmlLocalizer["Sign in"]" class="btn btn-solid btn-block" />
+                </form>
+            </div>
+            <div class="auth-aside">
+                <h2 class="display">@HeadingFormatter.Format(HtmlLocalizer["New to Dancing Goat?"].Value)</h2>
+                <p>@HtmlLocalizer["It only takes a moment to get started."]</p>
+                @Html.ActionLink(HtmlLocalizer["Register"].Value, "Register", null, null, new { @class = "btn btn-outline" })
+            </div>
+        </div>
+    </div>
+</section>

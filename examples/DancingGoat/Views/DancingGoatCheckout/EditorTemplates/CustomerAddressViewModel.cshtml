@@ -8,7 +8,7 @@
 @{
     var isBilling = !(Model is ShippingAddressViewModel);
 
-    <h4>@(isBilling ? HtmlLocalizer["Billing address"] : HtmlLocalizer["Shipping address"])</h4>
+    <h2><span class="step">@(ViewData["Step"] ?? (isBilling ? "02" : "03"))</span>@(isBilling ? HtmlLocalizer["Billing address"] : HtmlLocalizer["Shipping address"])</h2>
 
     var addressType = isBilling ? "Billing" : "Shipping";
     var stateGroupName = "statesGroup" + addressType;
@@ -26,121 +26,51 @@
         }
 
         <div class="form-group">
-            <div class="form-group-input">
-                @Html.CheckBoxFor(m => isSameAsBilling, new { @id = "toggleShipping" }) @HtmlLocalizer["Same as billing"]
-            </div>
+            <label class="checkbox-row" for="toggleShipping">
+                @Html.CheckBoxFor(m => isSameAsBilling, new { @id = "toggleShipping", data_shipping_toggle = addressFieldsName })
+                <span>@HtmlLocalizer["Same as billing"]</span>
+            </label>
         </div>
     }
 }
 
 @{
-<div id="@addressFieldsName" style="@fieldStyle">
+<div id="@addressFieldsName" style="@fieldStyle"
+     data-address-fields
+     data-states-url="@Url.Action(nameof(DancingGoatCheckoutController.GetStates), "DancingGoatCheckout")"
+     data-state-group="@stateGroupName"
+     data-state-dropdown="@stateDropdownName"
+     data-country-dropdown="@countryDropdownName"
+     data-storage-prefix="@addressType">
     @Html.ValidatedEditorFor(m => m.Line1)
     @Html.ValidatedEditorFor(m => m.Line2)
-    @Html.ValidatedEditorFor(m => m.City)
-    @Html.ValidatedEditorFor(m => m.PostalCode)
+    <div class="form-2col">
+        @Html.ValidatedEditorFor(m => m.City)
+        @Html.ValidatedEditorFor(m => m.PostalCode)
+    </div>
 
     <div class="form-group">
         <div class="form-group-label">
-            @Html.LabelFor(m => m.CountryId)
+            @Html.LabelFor(m => m.CountryId, new { @for = countryDropdownName })
         </div>
-        <div class="form-group-input">
-            @Html.DropDownListFor(m => m.CountryId, Model.Countries, HtmlLocalizer["Select a country"].Value, new { @id = @countryDropdownName, data_storage = $"{addressType}Address_{nameof(CustomerAddressViewModel.Country)}" })
+        <div class="form-group-input select-wrap">
+            @Html.DropDownListFor(m => m.CountryId, Model.Countries, HtmlLocalizer["Select a country"].Value, new { @class = "select", @id = @countryDropdownName, data_storage = $"{addressType}Address_{nameof(CustomerAddressViewModel.Country)}" })
         </div>
-        <div class="message message-error error-label">
+        <div class="error-label">
             @Html.ValidationMessageFor(m => m.CountryId)
         </div>
     </div>
 
     <div class="form-group" id="@stateGroupName">
         <div class="form-group-label">
-            @Html.LabelFor(m => m.StateId)
+            @Html.LabelFor(m => m.StateId, new { @for = stateDropdownName })
         </div>
-        <div class="form-group-input">
-            @Html.DropDownListFor(m => m.StateId, Model.States, HtmlLocalizer["Select a state"].Value, new { @id = @stateDropdownName, data_storage = $"{addressType}Address_{nameof(CustomerAddressViewModel.State)}" })
+        <div class="form-group-input select-wrap">
+            @Html.DropDownListFor(m => m.StateId, Model.States, HtmlLocalizer["Select a state"].Value, new { @class = "select", @id = @stateDropdownName, data_storage = $"{addressType}Address_{nameof(CustomerAddressViewModel.State)}" })
         </div>
-        <div class="message message-error error-label">
+        <div class="error-label">
             @Html.ValidationMessageFor(m => m.StateId)
         </div>
     </div>
 </div>
 }
-
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        var statesGroup = document.getElementById('@stateGroupName');
-        var statesDropdown = document.getElementById('@stateDropdownName');
-        var countryDropdown = document.getElementById('@countryDropdownName');
-
-        if (statesDropdown.children.length > 1) {
-            statesGroup.style.display = 'block';
-        } else {
-            statesGroup.style.display = 'none';
-        }
-
-        var toggle = document.getElementById('toggleShipping');
-        if (toggle && !window.shippingListenerAdded) {
-            toggle.addEventListener('change', function() { 
-                const shippingFields = document.getElementById('fieldsShipping');
-                shippingFields.style.display = this.checked ? 'none' : 'block';
-            });
-            window.shippingListenerAdded = true;
-        }
-
-        countryDropdown.addEventListener('change', function() {
-            const url = '@Url.Action(nameof(DancingGoatCheckoutController.GetStates), "DancingGoatCheckout")';
-            const formData = new FormData();
-            formData.append('CountryId', countryDropdown.value);
-
-            const urlEncodedData = new URLSearchParams(formData).toString();
-
-            fetch(url, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded'
-                },
-                body: urlEncodedData
-            })
-                .then(response => {
-                    if (response.ok) {
-                        return response.json();
-                    }
-                    throw new Error('Network response was not ok.');
-                })
-                .then(states => {
-                    if (states.length > 0) {
-                        states.forEach(state => {
-                            const option = document.createElement('option');
-                            option.text = state.text;
-                            option.value = state.value;
-                            statesDropdown.appendChild(option);
-                        });
-
-                        const value = localStorage.getItem("@(addressType)Address_@nameof(CustomerAddressViewModel.StateId)");
-                        if (states.some(state => state.value === value)) {
-                            statesDropdown.value = value;
-                            localStorage.setItem("@(addressType)Address_@nameof(CustomerAddressViewModel.State)", statesDropdown.options[statesDropdown.selectedIndex].text);
-                        }
-                        else {
-                            localStorage.removeItem("@(addressType)Address_@nameof(CustomerAddressViewModel.State)");
-                        }
-
-                    } else {
-                        while (statesDropdown.firstChild) {
-                            statesDropdown.removeChild(statesDropdown.firstChild);
-                        }
-                        localStorage.removeItem("@(addressType)Address_@nameof(CustomerAddressViewModel.State)");
-                    }
-
-                    if (statesDropdown.children.length > 1) {
-                        statesGroup.style.display = 'block';
-                    } else {
-                        statesGroup.style.display = 'none';
-                    }
-                })
-                .catch(error => {
-                    console.error('Fetch error:', error);
-                });
-        });
-    });
-</script>

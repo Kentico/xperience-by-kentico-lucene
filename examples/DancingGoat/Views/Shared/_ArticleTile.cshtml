@@ -1,0 +1,31 @@
+﻿@using DancingGoat.Models
+
+@model ArticleTileViewModel
+
+@{
+    var showSecuredNote = Model.IsSecured && !User.Identity.IsAuthenticated;
+}
+
+<article class="article-card reveal">
+    <a class="ac-overlay" href="@Model.Url" aria-label="@Model.Title"></a>
+    <div class="media">
+        @if (showSecuredNote)
+        {
+            <div class="card-chips"><span class="chip">@HtmlLocalizer["Members only"]</span></div>
+        }
+        @if (!string.IsNullOrEmpty(Model.TeaserUrl))
+        {
+            <img src="@Url.Content(Model.TeaserUrl)" alt="" loading="lazy" />
+        }
+    </div>
+    @if (Model.PublicationDate.HasValue)
+    {
+        <span class="article-date">@Model.PublicationDate.Value.ToString("M")</span>
+    }
+    <h3>@Model.Title</h3>
+    <p>@Model.Summary</p>
+    @if (showSecuredNote)
+    {
+        <p class="locked-note">@HtmlLocalizer["Sign in to read this article"] &rarr;</p>
+    }
+</article>

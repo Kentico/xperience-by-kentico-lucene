@@ -4,18 +4,16 @@ using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 
-using CMS.Core;
-using CMS.Websites;
-
 using DancingGoat.Models;
+using DancingGoat.Services;
 
-using Kentico.Content.Web.Mvc;
 using Kentico.Membership;
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Localization;
+using Microsoft.Extensions.Logging;
 
 using SignInResult = Microsoft.AspNetCore.Identity.SignInResult;
 
@@ -24,8 +22,8 @@ namespace DancingGoat.Controllers
     public class AccountController : Controller
     {
         private readonly IStringLocalizer<SharedResources> localizer;
-        private readonly IEventLogService eventLogService;
-        private readonly IContentRetriever contentRetriever;
+        private readonly ILogger<AccountController> logger;
+        private readonly WebPageUrlProvider webPageUrlProvider;
         private readonly UserManager<ApplicationUser> userManager;
         private readonly SignInManager<ApplicationUser> signInManager;
 
@@ -34,14 +32,14 @@ namespace DancingGoat.Controllers
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
             IStringLocalizer<SharedResources> localizer,
-            IEventLogService eventLogService,
-            IContentRetriever contentRetriever)
+            ILogger<AccountController> logger,
+            WebPageUrlProvider webPageUrlProvider)
         {
             this.userManager = userManager;
             this.signInManager = signInManager;
             this.localizer = localizer;
-            this.eventLogService = eventLogService;
-            this.contentRetriever = contentRetriever;
+            this.logger = logger;
+            this.webPageUrlProvider = webPageUrlProvider;
         }
 
 
@@ -73,7 +71,7 @@ namespace DancingGoat.Controllers
             }
             catch (Exception ex)
             {
-                eventLogService.LogException("AccountController", "Login", ex);
+                logger.LogError(ex, "An error occurred while signing in the user.");
             }
 
             if (signInResult.Succeeded)
@@ -136,7 +134,7 @@ namespace DancingGoat.Controllers
             }
             catch (Exception ex)
             {
-                eventLogService.LogException("AccountController", "Register", ex);
+                logger.LogError(ex, "An error occurred while registering a new user.");
                 ModelState.AddModelError(string.Empty, localizer["Your registration was not successful."]);
             }
 
@@ -161,14 +159,7 @@ namespace DancingGoat.Controllers
 
         private async Task<string> GetHomeWebPageUrl(CancellationToken cancellationToken = default)
         {
-            var homePage = (await contentRetriever.RetrievePages<HomePage>(
-                RetrievePagesParameters.Default,
-                query => query.UrlPathColumns(),
-                new RetrievalCacheSettings("UrlPathColumns"),
-                cancellationToken
-            )).FirstOrDefault();
-
-            return homePage.GetUrl().RelativePath;
+            return await webPageUrlProvider.HomePageUrl(cancellationToken: cancellationToken);
         }
     }
 }

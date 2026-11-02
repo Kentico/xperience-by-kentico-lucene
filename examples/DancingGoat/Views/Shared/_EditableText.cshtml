@@ -1,0 +1,12 @@
+﻿@using DancingGoat.InlineEditors
+
+@model TextEditorViewModel
+
+@if (Context.Kentico().PageBuilder().EditMode)
+{
+    <partial name="~/Components/InlineEditors/TextEditor/_TextEditor.cshtml" model="Model" />
+}
+else
+{
+    @Model.Text
+}

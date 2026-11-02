@@ -1,5 +1,11 @@
-﻿using Kentico.PageBuilder.Web.Mvc;
-using Kentico.Xperience.Admin.Base;
+using System.Collections.Generic;
+
+using CMS.ContentEngine;
+
+using DancingGoat.Models;
+
+using Kentico.PageBuilder.Web.Mvc;
+using Kentico.Xperience.Admin.Base.FormAnnotations;
 
 namespace DancingGoat.Widgets
 {
@@ -9,21 +15,23 @@ namespace DancingGoat.Widgets
     public class TestimonialWidgetProperties : IWidgetProperties
     {
         /// <summary>
-        /// Quotation text.
+        /// Section heading. Falls back to a localized default when empty.
         /// </summary>
-        public string QuotationText { get; set; }
+        [TextInputComponent(Label = "{$dancinggoat.testimonialwidget.heading.label$}", ExplanationText = "{$dancinggoat.widget.heading.explanation$}", Order = 0)]
+        public string Heading { get; set; }
 
 
         /// <summary>
-        /// Author text.
+        /// Displayed testimonial.
         /// </summary>
-        public string AuthorText { get; set; }
+        [ContentItemSelectorComponent(Testimonial.CONTENT_TYPE_NAME, Label = "{$dancinggoat.testimonialwidget.testimonial.label$}", MaximumItems = 1, Order = 1)]
+        public IEnumerable<ContentItemReference> SelectedTestimonial { get; set; } = new List<ContentItemReference>();
 
 
         /// <summary>
-        /// Background color CSS class.
+        /// Optional author photo displayed next to the quote.
         /// </summary>
-        [ExcludeFromAiraTranslation]
-        public string ColorCssClass { get; set; } = "first-color";
+        [ContentItemSelectorComponent(Models.Image.CONTENT_TYPE_NAME, Label = "{$dancinggoat.testimonialwidget.image.label$}", MaximumItems = 1, Order = 3)]
+        public IEnumerable<ContentItemReference> Image { get; set; } = new List<ContentItemReference>();
     }
 }

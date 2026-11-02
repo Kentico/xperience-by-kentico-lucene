@@ -1,13 +1,14 @@
 ﻿@model DancingGoat.Models.ConfirmationPageViewModel
 
+@using DancingGoat.Helpers
 @using System.Linq;
 
-<div class="confirmation-page">
-    <div class="title-wrapper">
-        <h1 class="title-tab confirmation-heading">@Model.Header</h1>
-    </div>
-    <div class="center-text section-text confirmation-text fr-view">
-        @Html.Raw(Model.Content)
+<div class="page-head">
+    <div class="wrap">
+        <h1 class="display">@HeadingFormatter.Format(Model.Header)</h1>
+        <div class="prose page-content">
+            @Html.Raw(Model.Content)
+        </div>
     </div>
 </div>
 

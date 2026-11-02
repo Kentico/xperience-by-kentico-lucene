@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
+using CMS.ContentEngine;
+
 using DancingGoat.Models;
 
 namespace DancingGoat.Widgets
@@ -20,14 +22,16 @@ namespace DancingGoat.Widgets
         /// Gets ViewModels for <paramref name="products"/>.
         /// </summary>
         /// <param name="products">Collection of products.</param>
+        /// <param name="productPageUrls">Product detail page URLs indexed by content item ID.</param>
         /// <returns>Hydrated ViewModel.</returns>
-        public static ProductCardListViewModel GetViewModel(IEnumerable<IProductFields> products)
+        public static ProductCardListViewModel GetViewModel(IEnumerable<IProductFields> products, Dictionary<int, string> productPageUrls)
         {
             var productModels = new List<ProductCardViewModel>();
 
             foreach (var product in products.Where(product => product != null))
             {
-                var productModel = ProductCardViewModel.GetViewModel(product);
+                productPageUrls.TryGetValue(((IContentItemFieldsSource)product).SystemFields.ContentItemID, out var url);
+                var productModel = ProductCardViewModel.GetViewModel(product, url);
                 productModels.Add(productModel);
             }
 

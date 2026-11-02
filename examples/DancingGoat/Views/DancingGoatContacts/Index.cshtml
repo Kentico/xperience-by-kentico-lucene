@@ -1,57 +1,70 @@
-﻿@model DancingGoat.Models.ContactsIndexViewModel
+﻿@using DancingGoat.Helpers
 
-<div class="contacts-page">
-    <div class="col-md-12">
-        <div class="col-md-6">
-            <h2 class="contact-title">@HtmlLocalizer["Roastery"]</h2>
-            <ul class="contact-info">
-                <li>@Model.CompanyContact.Phone</li>
-                <li>
-                    <email address="@Model.CompanyContact.Email" />
-                </li>
-                <li>
-                    <a href="javascript:void(0)" data-address="@Model.CompanyContact.City, @Model.CompanyContact.Street" class="js-scroll-to-map">
-                        @Model.CompanyContact.Street @Model.CompanyContact.City,<br />
-                        @Model.CompanyContact.ZipCode, @Model.CompanyContact.Country<br />
-                    </a>
-                </li>
-            </ul>
-        </div>
+@model DancingGoat.Models.ContactsIndexViewModel
 
-        <div class="col-md-6">
-            <div id="message-form" class="contact-us-form">
+<div class="page-head">
+    <div class="wrap">
+        <h1 class="display">@HeadingFormatter.Format(HtmlLocalizer["Come say hello"].Value)</h1>
+    </div>
+</div>
+
+<section class="block-tight">
+    <div class="wrap">
+        <div class="contact-layout">
+            <div>
+                <h2 class="display">@HeadingFormatter.Format(HtmlLocalizer["Roastery"].Value)</h2>
+                <ul class="info-list">
+                    <li>
+                        <span class="k">@HtmlLocalizer["Phone"]</span>
+                        <span>@Model.CompanyContact.Phone</span>
+                    </li>
+                    <li>
+                        <span class="k">@HtmlLocalizer["Address"]</span>
+                        <span>
+                            @Model.CompanyContact.Street @Model.CompanyContact.City,<br />
+                            @Model.CompanyContact.ZipCode, @Model.CompanyContact.Country
+                        </span>
+                    </li>
+                    @if (!string.IsNullOrEmpty(Model.CompanyContact.Email))
+                    {
+                        <li>
+                            <span class="k">@HtmlLocalizer["Email"]</span>
+                            <span><email address="@Model.CompanyContact.Email" /></span>
+                        </li>
+                    }
+                </ul>
+            </div>
+
+            <div id="message-form" class="contact-card contact-us-form">
                 <editable-area area-identifier="ContactUs" area-options-allowed-widgets="new[] { SystemComponentIdentifiers.FORM_WIDGET_IDENTIFIER }" />
             </div>
         </div>
     </div>
+</section>
 
-    <div class="row"><h2>@HtmlLocalizer["Our cafes"]</h2></div>
-    <div class="row">
-        @foreach (var cafe in @Model.CompanyCafes)
-        {
-            <div class="col-md-6 col-lg-3">
-                <div class="cafe-tile" data-address="@cafe.City, @cafe.Street">
-                    <div class="cafe-tile-content">
-                        <h3 class="cafe-tile-name">@cafe.Name</h3>
-                        <address class="cafe-tile-address">
-                            @cafe.Street, @cafe.City<br />
-                            @cafe.Country
-                        </address>
-                        <p class="cafe-tile-phone">@cafe.Phone</p>
+<section class="block-tight">
+    <div class="wrap">
+        <div class="section-head">
+            <div>
+                <h2 class="display">@HeadingFormatter.Format(HtmlLocalizer["Our cafés"].Value)</h2>
+            </div>
+        </div>
+        <div class="cafe-grid no-hover">
+            @foreach (var cafe in @Model.CompanyCafes)
+            {
+                <div class="cafe-card">
+                    @if (!string.IsNullOrEmpty(cafe.PhotoPath))
+                    {
+                        <img src="@Url.Content(cafe.PhotoPath)" alt="@cafe.PhotoShortDescription" title="@cafe.Name" loading="lazy" />
+                    }
+                    <div class="cafe-label">
+                        <div>
+                            <h3>@cafe.Name</h3>
+                            <div class="hours">@cafe.Street @(string.IsNullOrEmpty(cafe.Phone) ? null : "· " + cafe.Phone)</div>
+                        </div>
                     </div>
                 </div>
-            </div>
-        }
+            }
+        </div>
     </div>
-
-    <h2>@HtmlLocalizer["Other places where you can drink our coffee"]</h2>
-    <div class="row">
-        @foreach (var partnerCafe in Model.PartnerCafes)
-        {
-            <h3>@partnerCafe.City, @partnerCafe.Country</h3>
-            <p>
-                @partnerCafe.Name, @partnerCafe.Street, @partnerCafe.Phone
-            </p>
-        }
-    </div>
-</div>
+</section>

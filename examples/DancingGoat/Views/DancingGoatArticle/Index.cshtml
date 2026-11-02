@@ -1,64 +1,22 @@
-﻿@using Microsoft.AspNetCore.Mvc.Localization
+﻿@using DancingGoat.Helpers
+@using DancingGoat.Models
 
-@model DancingGoat.Models.ArticlesSectionViewModel
-@{
-    var i = 1;
-}
-<div class="articles-page">
-    <div class="articles-section">
-        <div class="row">
-            @foreach (var article in @Model.Articles)
+@model ArticlesSectionViewModel
+
+<div class="page-head">
+    <div class="wrap">
+        <h1 class="display">@HeadingFormatter.Format(HtmlLocalizer["Articles"].Value)</h1>
+        <p class="lede">@HtmlLocalizer["Notes on sourcing, roasting and brewing from the Dancing Goat team."]</p>
+    </div>
+</div>
+
+<section class="block-tight">
+    <div class="wrap">
+        <div class="articles-grid-page">
+            @foreach (var article in Model.Articles)
             {
-                var lastInRow = "";
-                if (i % 4 == 0)
-                {
-                    lastInRow = "last";
-                }
-
-                <div class="col-xs-12 col-md-3 article-tile article-tile-small @lastInRow">
-                    <div class="article-tile-inner">
-                        @if (article.TeaserUrl != null)
-                        {
-                            <a href="@article.Url">
-                                <img src="@Url.Content(article.TeaserUrl)" alt="@article.Title" title="@article.Title" class="article-tile-image" loading="lazy" />
-                            </a>
-                        }
-                        <div class="article-tile-info">
-                            <div class="article-tile-date">
-                                @article.PublicationDate.ToString("m")
-                            </div>
-                            <div class="article-tile-content">
-                                <h2 class="h4">
-                                    <a href="@article.Url">
-                                        @if (article.IsSecured && !User.Identity.IsAuthenticated)
-                                        {
-                                            <em class="icon-lock"></em>
-                                        }
-                                        @article.Title
-                                    </a>
-                                </h2>
-                                @if (article.IsSecured && !User.Identity.IsAuthenticated)
-                                {
-                                    <p class="article-tile-text">
-                                        <strong>
-                                            @HtmlLocalizer["Sign in to access this article"].Value
-                                        </strong>
-
-                                    </p>
-                                }
-                                <p class="article-tile-text">
-                                    @article.Summary
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                if (i % 4 == 0)
-                {
-                    <div class="clear"></div>
-                }
-                i++;
+                <partial name="_ArticleTile" model="ArticleTileViewModel.GetViewModel(article)" />
             }
         </div>
     </div>
-</div>
+</section>

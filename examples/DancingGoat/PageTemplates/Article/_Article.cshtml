@@ -1,5 +1,10 @@
-﻿@using DancingGoat.PageTemplates
+﻿@using DancingGoat.Helpers
+@using DancingGoat.PageTemplates
 @using DancingGoat.Models
+@using DancingGoat.Services
+@using DancingGoat.Widgets
+
+@inject WebPageUrlProvider webPageUrlProvider
 
 @model TemplateViewModel
 
@@ -8,62 +13,54 @@
     var viewModel = Model.GetTemplateModel<ArticleDetailViewModel>();
 
     var hasRelatedArticles = viewModel.RelatedPages.Any();
+
+    var articlesPath = await webPageUrlProvider.ArticlesPageUrl();
 }
 
-
-<div class="article-detail-page">
-    @if (hasRelatedArticles)
-    {
-        <article class="article-detail col-lg-9 col-md-12 article-detail-related-box">
-            <h2>@viewModel.Title</h2>
-            <div class="article-detail-datetime">
-                @viewModel.PublicationDate.ToString("D")
-            </div>
+<div class="page-head">
+    <div class="wrap">
+        <div class="crumb">
+            <a href="@articlesPath">&larr; @HtmlLocalizer["Back to articles"]</a>
+        </div>
+        <div class="article-hero">
             @if (!string.IsNullOrEmpty(viewModel.TeaserUrl))
             {
-                <div class="row">
-                    <div class="article-detail-image col-md-push-2 col-md-8">
-                        <img src="@Url.Content(viewModel.TeaserUrl)" alt="@viewModel.Title" title="@viewModel.Title" class="img-responsive" loading="lazy" />
-                    </div>
+                <div class="media">
+                    <img src="@Url.Content(viewModel.TeaserUrl)" alt="@viewModel.Title" title="@viewModel.Title" loading="lazy" />
                 </div>
             }
-            <div class="row">
-                <div class="article-detail-content fr-view">
-                    @Html.Raw(viewModel.Text)
-                </div>
-            </div>
-        </article>
-
-        <div class="article-related-articles-sidebar col-lg-3 col-md-6 col-sm-12">
-            <partial name="~/Views/DancingGoatArticle/RelatedPages.cshtml" model="viewModel.RelatedPages" />
-        </div>
-    }
-    else
-    {
-        <article class="col-lg-12 article-detail-related-box article-detail-full-width">
-            <div class="row equal-height">
-                @if (!string.IsNullOrEmpty(viewModel.TeaserUrl))
+            <div>
+                <span class="date-line">@viewModel.PublicationDate.ToString("D")</span>
+                <ai-scope origin="@viewModel.GetAiProvenanceOrigin(nameof(ArticlePage.ArticleTitle))" label-position="After">
+                    <h1 class="display">@HeadingFormatter.Format(viewModel.Title)</h1>
+                </ai-scope>
+                @if (!string.IsNullOrEmpty(viewModel.Summary))
                 {
-                    <div class="article-detail-image col-lg-6 col-md-6">
-                        <img src="@Url.Content(viewModel.TeaserUrl)" alt="@viewModel.Title" title="@viewModel.Title" class="img-responsive" loading="lazy" />
-                    </div>
-                    <div class="col-lg-1 col-md-1 article-title--padding">
-                    </div>
+                    <ai-scope origin="@viewModel.GetAiProvenanceOrigin(nameof(ArticlePage.ArticlePageSummary))" label-position="After">
+                        <p class="lede">@viewModel.Summary</p>
+                    </ai-scope>
                 }
-                <div class="col-lg-5 col-md-5 article-title--align-middle">
-                    <h2>@viewModel.Title</h2>
-                    <div class="article-detail-datetime">
-                        @viewModel.PublicationDate.ToString("D")
-                    </div>
-                </div>
             </div>
-            <div class="row">
-                <div class="article-detail-content col-lg-9">
-                    @Html.Raw(viewModel.Text)
-                </div>
-            </div>
-        </article>
-    }
-
-    <div class="clear"></div>
+        </div>
+    </div>
 </div>
+
+<section class="block-tight">
+    <div class="wrap">
+        <div class="article-layout">
+            <div class="article-main">
+                <ai-scope origin="@viewModel.GetAiProvenanceOrigin(nameof(ArticlePage.ArticlePageText))">
+                    <div class="prose">
+                        @Html.Raw(viewModel.Text)
+                    </div>
+                </ai-scope>
+                <editable-area area-identifier="main"
+                               area-options-allowed-widgets="new[] { SystemComponentIdentifiers.RICH_TEXT_WIDGET_IDENTIFIER, ComponentIdentifiers.CTA_BUTTON_WIDGET, KeyTakeawaysWidgetViewComponent.IDENTIFIER }" />
+            </div>
+            @if (hasRelatedArticles)
+            {
+                <partial name="~/Views/DancingGoatArticle/RelatedPages.cshtml" model="viewModel.RelatedPages" />
+            }
+        </div>
+    </div>
+</section>

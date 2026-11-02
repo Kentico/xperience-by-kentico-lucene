@@ -1,0 +1,18 @@
+/*
+ * Landing page (Page Builder single column) — landing-page header and shared body
+ * overrides. Loads after footer.css, before landing-page-campaign.css.
+ */
+.landing-page-header { background: var(--color-paper); border-bottom: 1px solid var(--color-line); }
+.landing-page-header.first-color { background: var(--color-paper); }
+.landing-page-header.second-color { background: var(--color-ink-soft); }
+.landing-page-header.third-color { background: var(--color-accent); }
+.landing-page-header.second-color .landing-page-logo img, .landing-page-header.third-color .landing-page-logo img { filter: brightness(0) invert(1); }
+.landing-page-header-inner { display: flex; align-items: center; min-height: 76px; }
+.landing-page-logo img { height: 40px; width: auto; }
+
+body.landing-page .hero { padding-top: 40px; }
+body.landing-page .hero-content { max-width: 760px; }
+body.landing-page .hero-content h1 { max-width: 17ch; }
+body.landing-page .hero-text { max-width: 54ch; }
+
+body.landing-page .footer-inner { padding-top: 0; }

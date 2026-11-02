@@ -1,0 +1,25 @@
+﻿@using System.Linq
+
+@using DancingGoat.Widgets
+
+@model ComponentViewModel<ArticlesWidgetProperties>
+
+@inject Kentico.Builder.Web.Mvc.IAdminBuildersLocalizationService localizationService
+
+@{
+    var articlesSectionItem = Model.Properties.ArticlesSection.FirstOrDefault();
+}
+
+@if (articlesSectionItem == null)
+{
+    @if (Context.Kentico().PageBuilder().EditMode)
+    {
+        <h3 class="grid-empty">
+            @localizationService.LocalizeString("{$dancinggoat.articleswidget.selectarticlessection$}")
+        </h3>
+    }
+}
+else
+{
+    <vc:articles articles-section-item="@articlesSectionItem" />
+}

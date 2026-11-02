@@ -1,40 +1,29 @@
-﻿@model IEnumerable<DancingGoat.Models.RelatedPageViewModel>
+﻿@using DancingGoat.Models
+
+@model IEnumerable<RelatedPageViewModel>
 @if (Model.Any())
 {
-    <div class="article-related-articles">
-        <div class="title-wrapper">
-            <h1 class="title-tab">@HtmlLocalizer["Related"]</h1>
-        </div>
-        <div class="row">
-            @foreach (var relatedPage in Model)
-            {
-                <div class="article-tile">
-                    <div class="article-tile-inner">
-                        @if (!string.IsNullOrEmpty(relatedPage.TeaserUrl))
-                        {
-                            <a href="@relatedPage.Url">
-                                <img src="@relatedPage.TeaserUrl" alt="@relatedPage.Title" title="@relatedPage.Title" class="article-tile-image" loading="lazy" />
-                            </a>
-                        }
-                        <div class="article-tile-info">
-                            @if(relatedPage.PublicationDate.HasValue)
-                            {
-                                <div class="article-tile-date">
-                                    @relatedPage.PublicationDate?.ToString("m")
-                                </div>
-                            }
-                            <div class="article-tile-content">
-                                <h2 class="h4">
-                                    <a href="@relatedPage.Url">@relatedPage.Title</a>
-                                </h2>
-                                <p class="article-tile-text">
-                                    @Html.Raw(relatedPage.Summary)
-                                </p>
-                            </div>
-                        </div>
-                    </div>
+    <aside class="article-side">
+        @foreach (var relatedPage in Model)
+        {
+            var tile = ArticleTileViewModel.GetViewModel(relatedPage);
+            <article class="side-card">
+                <a class="ac-overlay" href="@tile.Url" aria-label="@tile.Title"></a>
+                <div class="media">
+                    @if (!string.IsNullOrEmpty(tile.TeaserUrl))
+                    {
+                        <img src="@Url.Content(tile.TeaserUrl)" alt="" loading="lazy" />
+                    }
                 </div>
-            }
-        </div>
-    </div>
+                <div class="side-body">
+                    @if (tile.PublicationDate.HasValue)
+                    {
+                        <span class="article-date">@tile.PublicationDate.Value.ToString("M")</span>
+                    }
+                    <h2>@tile.Title</h2>
+                    <p>@tile.Summary</p>
+                </div>
+            </article>
+        }
+    </aside>
 }

@@ -26,6 +26,12 @@
         public const string HOME_PAGE_TREE_PATH = "/Home";
 
 
+        public const string CONTACTS_PAGE_TREE_PATH = "/Contacts";
+
+
+        public const string ARTICLES_PAGE_TREE_PATH = "/Articles";
+
+
         public const string SITE_NAVIGATION_MENU_TREE_PATH = "/Navigation_menu";
 
 
@@ -42,5 +48,19 @@
 
 
         public const string CHECKOUT_PAGE_TREE_PATH = "/Specials/Checkout";
+
+
+        /// <summary>
+        /// TempData key set by a redirecting add-to-cart post. The layout shows the toast once when
+        /// the key is present; the message itself is rendered by the page, in the page's language.
+        /// </summary>
+        public const string CART_TOAST_TEMPDATA_KEY = "DancingGoatCartToast";
+
+
+        /// <summary>
+        /// Marks the single request that follows agreeing to the tracking consent, so the confirmation
+        /// bar is shown once instead of on every page from then on.
+        /// </summary>
+        public const string CONSENT_AGREED_TEMPDATA_KEY = "DancingGoatConsentAgreed";
     }
 }

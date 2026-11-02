@@ -1,18 +1,20 @@
-﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
 using System.Net.Mime;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
 
 using CMS.ContentEngine;
+using CMS.DataEngine;
 using CMS.Helpers;
 using CMS.Websites;
-using CMS.Websites.Routing;
 
 using DancingGoat.Models;
 
-using Microsoft.AspNetCore.Http;
+using Kentico.Content.Web.Mvc;
+
 using Microsoft.AspNetCore.Mvc;
 
 namespace DancingGoat.Controllers
@@ -22,22 +24,21 @@ namespace DancingGoat.Controllers
     /// </summary>
     public class SiteMapController : Controller
     {
-        private readonly IContentQueryExecutor contentQueryExecutor;
+        private readonly IContentRetriever contentRetriever;
+        private readonly IInfoProvider<ContentLanguageInfo> contentLanguageInfoProvider;
         private readonly IProgressiveCache progressiveCache;
-        private readonly IWebsiteChannelContext websiteChannelContext;
-        private static readonly double cacheMinutes = TimeSpan.FromDays(0).TotalMinutes;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SiteMapController"/> class.
         /// </summary>
         public SiteMapController(
-            IContentQueryExecutor contentQueryExecutor,
-            IProgressiveCache progressiveCache,
-            IWebsiteChannelContext websiteChannelContext)
+            IContentRetriever contentRetriever,
+            IInfoProvider<ContentLanguageInfo> contentLanguageInfoProvider,
+            IProgressiveCache progressiveCache)
         {
-            this.contentQueryExecutor = contentQueryExecutor;
+            this.contentRetriever = contentRetriever;
+            this.contentLanguageInfoProvider = contentLanguageInfoProvider;
             this.progressiveCache = progressiveCache;
-            this.websiteChannelContext = websiteChannelContext;
         }
 
 
@@ -45,53 +46,61 @@ namespace DancingGoat.Controllers
         [Route("/sitemap.xml")]
         public async Task<ContentResult> Index()
         {
-            var sitemapXml = await progressiveCache.LoadAsync(async _ => await GenerateSitemapXml(), GetCacheSettings());
+            var pages = await GetPages();
 
-            return Content(sitemapXml, MediaTypeNames.Application.Xml);
-
-            CacheSettings GetCacheSettings() => new(cacheMinutes, $"{nameof(SiteMapController)}|{nameof(Index)}")
-            {
-                GetCacheDependency = () => CacheHelper.GetCacheDependency(
-                    [
-                        // Since we can't detect only reusable field schema-based page changes,
-                        // we need to respond to all changes in the content tree
-                        $"webpageitem|bychannel|{websiteChannelContext.WebsiteChannelName}|childrenofpath|/",
-                            // Since we can't detect only reusable field schema changes or
-                            // additions or removals within a content type definition,
-                            // we need to respond to all changes in content types
-                            "cms.contenttype|all"
-                    ])
-            };
+            return Content(BuildSitemap(pages), MediaTypeNames.Application.Xml);
         }
 
 
-        private async Task<string> GenerateSitemapXml()
+        private async Task<List<IWebPageFieldsSource>> GetPages()
         {
-            var options = new ContentQueryExecutionOptions
+            var languageNames = await GetLanguageNames();
+
+            var pages = new List<IWebPageFieldsSource>();
+
+            // Sequential retrieval per language; parallel queries could share a DB connection (MARS risk)
+            foreach (var languageName in languageNames)
             {
-                ForPreview = false,
-                IncludeSecuredItems = false
-            };
+                var languagePages = await contentRetriever.RetrievePagesOfReusableSchemas<IWebPageFieldsSource>(
+                    [ISEOFields.REUSABLE_FIELD_SCHEMA_NAME],
+                    new RetrievePagesOfReusableSchemasParameters
+                    {
+                        LanguageName = languageName,
+                        UseLanguageFallbacks = false,
+                        IncludeContentTypeFields = false,
+                        IsForPreview = false,
+                        IncludeSecuredItems = false
+                    },
+                    query => query.Where(where =>
+                        where.WhereFalse(nameof(ISEOFields.SEOFieldsNoIndex))
+                            .Or().WhereNull(nameof(ISEOFields.SEOFieldsNoIndex))),
+                    new RetrievalCacheSettings($"NotNoIndex_{nameof(ISEOFields.SEOFieldsNoIndex)}"),
+                    HttpContext.RequestAborted);
 
-            var builder = new ContentItemQueryBuilder()
-                // Get all pages with the SEO fields schema in the current website
-                .ForContentTypes(p => p.OfReusableSchema(ISEOFields.REUSABLE_FIELD_SCHEMA_NAME).ForWebsite())
-                .Parameters(p =>
-                    // Limit data to required columns
-                    p.UrlPathColumns()
-                    // Filter out pages that don't allow search indexing,
-                    // the default value is true, so null values are considered as true as well
-                    .Where(w =>
-                        w.WhereNull(nameof(ISEOFields.SEOFieldsAllowSearchIndexing))
-                            .Or().WhereTrue(nameof(ISEOFields.SEOFieldsAllowSearchIndexing))));
+                pages.AddRange(languagePages);
+            }
 
-            var languagePaths = await contentQueryExecutor.GetMappedWebPageResult<IWebPageFieldsSource>(builder, options, HttpContext.RequestAborted);
-
-            return BuildSitemap(languagePaths, HttpContext.Request);
+            return pages;
         }
 
 
-        private string BuildSitemap(IEnumerable<IWebPageFieldsSource> pages, HttpRequest request)
+        private async Task<IEnumerable<string>> GetLanguageNames()
+        {
+            return await progressiveCache.LoadAsync(async (cacheSettings, cancellationToken) =>
+            {
+                cacheSettings.CacheDependency = CacheHelper.GetCacheDependency($"{ContentLanguageInfo.OBJECT_TYPE}|all");
+
+                return (await contentLanguageInfoProvider.Get()
+                    .Column(nameof(ContentLanguageInfo.ContentLanguageName))
+                    .GetEnumerableTypedResultAsync(cancellationToken: cancellationToken))
+                    .Select(language => language.ContentLanguageName)
+                    .ToList();
+            },
+            new CacheSettings(10, nameof(SiteMapController), nameof(GetLanguageNames)), HttpContext.RequestAborted);
+        }
+
+
+        private static string BuildSitemap(IEnumerable<IWebPageFieldsSource> pages)
         {
             var stringBuilder = new StringBuilder();
             using (var xmlWriter = XmlWriter.Create(stringBuilder, new XmlWriterSettings { Indent = true }))
@@ -102,9 +111,14 @@ namespace DancingGoat.Controllers
                 foreach (var page in pages)
                 {
                     var pageUrl = page.GetUrl();
+                    var lastModified = page.SystemFields.ContentItemCommonDataLastPublishedWhen;
 
                     xmlWriter.WriteStartElement("url");
                     xmlWriter.WriteElementString("loc", pageUrl.AbsoluteUrl);
+                    if (lastModified.HasValue)
+                    {
+                        xmlWriter.WriteElementString("lastmod", lastModified.Value.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture));
+                    }
                     xmlWriter.WriteEndElement();
                 }
 

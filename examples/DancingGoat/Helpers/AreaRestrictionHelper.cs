@@ -24,6 +24,19 @@ namespace DancingGoat.Helpers
         }
 
 
+        /// <summary>
+        /// Gets list of widget identifiers allowed for home page. Excludes widgets designed for landing pages.
+        /// </summary>
+        public static string[] GetHomePageRestrictions()
+        {
+            var allowedScopes = new[] { "Kentico.", "DancingGoat.General." };
+
+            return GetWidgetsIdentifiers()
+                .Where(id => allowedScopes.Any(scope => id.StartsWith(scope, StringComparison.OrdinalIgnoreCase)))
+                .ToArray();
+        }
+
+
         private static IEnumerable<string> GetWidgetsIdentifiers()
         {
             return new Kentico.Builder.Web.Mvc.ComponentDefinitionProvider<WidgetDefinition>()

@@ -39,6 +39,32 @@ public sealed class LuceneIndexChannelConfiguration
         ChannelDisplayName = channelDisplayName;
     }
 
+    /// <summary>
+    /// Creates a website channel configuration for a Lucene index.
+    /// </summary>
+    /// <param name="websiteChannelName">The code name of the website channel.</param>
+    /// <param name="channelDisplayName">The display name of the website channel.</param>
+    /// <param name="includedPaths">The paths and content types to index for the channel.</param>
+    public LuceneIndexChannelConfiguration(
+        string websiteChannelName,
+        string channelDisplayName,
+        IEnumerable<LuceneIndexIncludedPath> includedPaths)
+    {
+        ArgumentException.ThrowIfNullOrWhiteSpace(websiteChannelName);
+        ArgumentException.ThrowIfNullOrWhiteSpace(channelDisplayName);
+        ArgumentNullException.ThrowIfNull(includedPaths);
+
+        var paths = includedPaths.ToList();
+        if (paths.Count == 0)
+        {
+            throw new ArgumentException("At least one included path must be provided.", nameof(includedPaths));
+        }
+
+        WebsiteChannelName = websiteChannelName;
+        ChannelDisplayName = channelDisplayName;
+        IncludedPaths = paths;
+    }
+
 
     /// <summary>
     /// The constructor for creating a Lucene index channel configuration. The constructor expects at least one path to be provided, and it uses the first path to determine the channel name and display name.

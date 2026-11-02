@@ -14,6 +14,6 @@
         /// <summary>
         /// Placeholder text.
         /// </summary>
-        public string PlaceholderText { get; set; } = "Type your text";
+        public string PlaceholderText { get; set; } = "{$dancinggoat.texteditor.placeholdertext$}";
     }
 }

@@ -1,6 +1,8 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
 
+using CMS.DataEngine;
+
 using DancingGoat;
 using DancingGoat.Controllers;
 using DancingGoat.Models;
@@ -25,23 +27,39 @@ namespace DancingGoat.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var contactsPage = await contentRetriever.RetrieveCurrentPage<ContactsPage>();
+            var contactsPage = await contentRetriever.RetrieveCurrentPage<ContactsPage>(
+                new RetrieveCurrentPageParameters { LinkedItemsMaxLevel = 1 },
+                HttpContext.RequestAborted);
 
-            var cafes = await contentRetriever.RetrieveContent<Cafe>();
+            var companyCafes = await contentRetriever.RetrieveContent<Cafe>(
+                new RetrieveContentParameters { LinkedItemsMaxLevel = 1 },
+                query => query.Columns(
+                        nameof(Cafe.CafeName),
+                        nameof(Cafe.CafeStreet),
+                        nameof(Cafe.CafeCity),
+                        nameof(Cafe.CafeCountry),
+                        nameof(Cafe.CafeZipCode),
+                        nameof(Cafe.CafePhone),
+                        nameof(Cafe.CafePhoto),
+                        nameof(Cafe.CafeOrder))
+                    .Where(where => where.WhereTrue(nameof(Cafe.CafeIsCompanyCafe)))
+                    .OrderBy(OrderByColumn.Asc(nameof(Cafe.CafeOrder))),
+                new RetrievalCacheSettings($"Columns_CafeContactCardFieldsWithPhoto_CompanyOnly_OrderBy_{nameof(Cafe.CafeOrder)}_Linked1"),
+                HttpContext.RequestAborted
+            );
 
             var contact = (await contentRetriever.RetrieveContent<Contact>(
+                RetrieveContentParameters.Default,
+                query => query.TopN(1),
+                new RetrievalCacheSettings("TopN_1"),
                 HttpContext.RequestAborted
             )).FirstOrDefault();
-
-            var companyCafes = cafes.Where(c => c.CafeIsCompanyCafe).OrderBy(c => c.CafeName).Select(CafeViewModel.GetViewModel).ToList();
-            var partnerCafes = cafes.Where(c => !c.CafeIsCompanyCafe).OrderBy(c => c.CafeCity).Select(CafeViewModel.GetViewModel).ToList();
 
             var model = new ContactsIndexViewModel
             {
                 WebPage = contactsPage,
                 CompanyContact = ContactViewModel.GetViewModel(contact),
-                CompanyCafes = companyCafes,
-                PartnerCafes = partnerCafes
+                CompanyCafes = companyCafes.Select(CafeViewModel.GetViewModel).ToList()
             };
 
             return View(model);

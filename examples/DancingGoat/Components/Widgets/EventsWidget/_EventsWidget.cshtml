@@ -1,0 +1,95 @@
+﻿@using DancingGoat.Helpers
+
+@model DancingGoat.Widgets.EventsWidgetViewModel
+
+@inject Kentico.Builder.Web.Mvc.IAdminBuildersLocalizationService localizationService
+@inject Microsoft.Extensions.Localization.IStringLocalizer<SharedResources> stringLocalizer
+
+@{
+    var events = Model.Events.ToList();
+
+    if (events.Count == 0 && !Context.Kentico().PageBuilder().EditMode)
+    {
+        return;
+    }
+}
+
+<section class="block">
+    <div class="wrap">
+        <div class="section-head reveal">
+            <div>
+                <h2 class="display">@HeadingFormatter.Format(string.IsNullOrWhiteSpace(Model.Heading) ? HtmlLocalizer["What's brewing"].Value : Model.Heading)</h2>
+            </div>
+        </div>
+        @if (events.Count == 0)
+        {
+            <h3 class="grid-empty">
+                @localizationService.LocalizeString("{$dancinggoat.eventswidget.noevents$}")
+            </h3>
+        }
+        else
+        {
+            <div class="event-slider reveal" data-event-slider>
+                @if (events.Count > 1)
+                {
+                    <div class="event-nav">
+                        <button type="button" class="event-arrow" data-event-prev aria-label="@HtmlLocalizer["Previous event"]">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 6l-6 6 6 6"></path></svg>
+                        </button>
+                        <button type="button" class="event-arrow" data-event-next aria-label="@HtmlLocalizer["Next event"]">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"></path></svg>
+                        </button>
+                    </div>
+                }
+                <div class="event-viewport">
+                    <div class="event-track" data-event-track>
+                        @foreach (var eventModel in events)
+                        {
+                            <article class="event-card">
+                                <div class="event-info">
+                                    <span class="article-date">@eventModel.Date.ToString("d")</span>
+                                    <h3 class="display">@HeadingFormatter.Format(eventModel.Title)</h3>
+                                    <p class="event-promo">@eventModel.PromoText</p>
+                                    <ul class="event-meta">
+                                        <li><span class="k">@HtmlLocalizer["When"]</span><span>@eventModel.Date.ToString("f")</span></li>
+                                        @if (!String.IsNullOrEmpty(eventModel.Location))
+                                        {
+                                            <li><span class="k">@HtmlLocalizer["Where"]</span><span>@eventModel.Location</span></li>
+                                        }
+                                        @if (eventModel.Coffees is not null && eventModel.Coffees.Any())
+                                        {
+                                            <li><span class="k">@HtmlLocalizer["What"]</span><span>@string.Join(", ", eventModel.Coffees)</span></li>
+                                        }
+                                    </ul>
+                                </div>
+                                <div class="event-media">
+                                    @if (!String.IsNullOrEmpty(eventModel.HeroBannerImageUrl))
+                                    {
+                                        <img src="@Url.Content(eventModel.HeroBannerImageUrl)" alt="@eventModel.HeroBannerShortDescription" title="@eventModel.Title" loading="lazy">
+                                    }
+                                </div>
+                            </article>
+                        }
+                    </div>
+                </div>
+                @if (events.Count > 1)
+                {
+                    <div class="event-dots" role="group" aria-label="@HtmlLocalizer["Choose event"]" data-event-dots data-event-dot-label="@stringLocalizer["Event {0}"]"></div>
+                    <p class="visually-hidden" data-event-status aria-live="polite" aria-atomic="true" data-event-status-label="@stringLocalizer["Event {0} of {1}"]"></p>
+                }
+            </div>
+        }
+    </div>
+</section>
+
+<script>
+    (function () {
+        var init = function () { window.DancingGoat?.initEventSliders?.(); };
+
+        if (document.readyState === "loading") {
+            document.addEventListener("DOMContentLoaded", init);
+        } else {
+            init();
+        }
+    })();
+</script>

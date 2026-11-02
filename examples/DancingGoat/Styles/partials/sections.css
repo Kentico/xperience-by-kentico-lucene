@@ -1,0 +1,46 @@
+/*
+ * Page Builder sections — generic column layouts + editor-selectable themes.
+ *
+ * Grids are styled parent-only (columns by source order) so the extra wrapper
+ * divs Kentico injects around widget zones in edit mode cannot break them: the
+ * grid children are always the column divs owned by the section views.
+ *
+ * Theme class values (section-white, section-cappuccino) are persisted in page
+ * configuration JSON — retint here, never rename.
+ */
+.section-grid { display: grid; gap: 26px; }
+.section-grid--50-50 { grid-template-columns: 1fr 1fr; }
+.section-grid--25-75 { grid-template-columns: 1fr 3fr; }
+.section-grid--75-25 { grid-template-columns: 3fr 1fr; }
+.section-grid--thirds { grid-template-columns: repeat(3, 1fr); }
+
+@media (max-width: 900px) {
+    .section-grid--50-50,
+    .section-grid--25-75,
+    .section-grid--75-25,
+    .section-grid--thirds { grid-template-columns: 1fr; }
+}
+
+.section-surface > section.block:first-child { padding-top: 0; }
+.wrap .wrap { padding: 0; }
+.wrap .hero { padding: 0; }
+
+/* themes */
+section.block.section-white .section-surface,
+section.block.section-cappuccino .section-surface {
+    border-radius: var(--radius-card);
+    padding: 48px;
+}
+
+section.block.section-white .section-surface {
+    background: var(--color-card);
+    border: 1px solid var(--color-line);
+}
+
+section.block.section-cappuccino .section-surface {
+    background: var(--color-band);
+    color: var(--color-band-ink);
+}
+
+section.block.section-cappuccino .section-surface :is(h1, h2, h3, h4) { color: var(--color-band-ink); }
+section.block.section-cappuccino .section-surface p { color: rgba(242, 234, 224, 0.9); }

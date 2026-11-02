@@ -1,12 +1,9 @@
-﻿@using System.Web
-
-@model DancingGoat.Models.ContactViewModel
+﻿@model DancingGoat.Models.ContactViewModel
 
 @if(Model != null) {
     <address>
         @Model.Phone<br />
-        <a href="mailto:@HttpUtility.HtmlAttributeEncode(Model.Email)">@HttpUtility.HtmlEncode(Model.Email)</a><br />
-        @Model.Name<br /><br />
+        @Model.Name<br />
         @Model.Street @Model.City,<br />
         @Model.ZipCode, @Model.Country
     </address>

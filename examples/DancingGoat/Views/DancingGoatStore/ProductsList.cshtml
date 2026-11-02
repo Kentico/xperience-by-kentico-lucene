@@ -1,16 +1,15 @@
-﻿@using DancingGoat.Models
+﻿@using DancingGoat.Helpers
+@using DancingGoat.Models
 
 @model ProductSectionListViewModel
 
 @if (Model.Items.Any())
 {
-    <h2>@Model.Title</h2>
-
-    foreach (var product in Model.Items)
-    {
-        <!-- 4 products on row for large screen -->
-        <div class="col-md-3 col-lg-3">
-            @Html.DisplayFor(m => product, "ProductListItem")
+    <div class="section-head">
+        <div>
+            <h2 class="display">@HeadingFormatter.Format(Model.Title)</h2>
         </div>
-    }
+    </div>
+
+    <partial name="_ProductListItemGrid" model='new ProductListItemGridViewModel(Model.Items)' />
 }
