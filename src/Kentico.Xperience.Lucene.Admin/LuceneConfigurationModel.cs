@@ -60,6 +60,16 @@ public sealed class LuceneConfigurationModel
 
 
     /// <summary>
+    /// Whether indexing queries use the configured language fallbacks.
+    /// </summary>
+    [CheckBoxComponent(
+        Label = "Use language fallbacks",
+        ExplanationText = "Include content from fallback languages when a selected language variant is unavailable. Rebuild the index after changing this setting.",
+        Order = 5)]
+    public bool UseLanguageFallbacks { get; set; } = true;
+
+
+    /// <summary>
     /// The name of the indexing strategy to be used for determining how and when items are indexed.
     /// </summary>
     [DropDownComponent(Label = "Indexing Strategy", DataProviderType = typeof(IndexingStrategyOptionsProvider), Order = 6)]
@@ -97,6 +107,7 @@ public sealed class LuceneConfigurationModel
         Id = luceneModel.Id;
         IndexName = luceneModel.IndexName;
         LanguageNames = luceneModel.LanguageNames;
+        UseLanguageFallbacks = luceneModel.UseLanguageFallbacks;
         StrategyName = luceneModel.StrategyName;
         AnalyzerName = luceneModel.AnalyzerName;
         RebuildHook = luceneModel.RebuildHook;
@@ -119,6 +130,7 @@ public sealed class LuceneConfigurationModel
             Id = Id,
             IndexName = IndexName,
             LanguageNames = LanguageNames,
+            UseLanguageFallbacks = UseLanguageFallbacks,
             AnalyzerName = AnalyzerName,
             StrategyName = StrategyName,
             RebuildHook = RebuildHook,

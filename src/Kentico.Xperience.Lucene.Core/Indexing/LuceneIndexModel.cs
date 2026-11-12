@@ -27,6 +27,12 @@ public sealed class LuceneIndexModel
     public IEnumerable<string> LanguageNames { get; set; } = Enumerable.Empty<string>();
 
 
+    /// <summary>
+    /// Whether indexing queries use the configured language fallbacks. Defaults to true.
+    /// </summary>
+    public bool UseLanguageFallbacks { get; set; } = true;
+
+
     [Obsolete("The property is not used anymore. Use WebsiteChannelName on items of the Channels collection instead.")]
     public string ChannelName { get; set; } = "";
 
@@ -94,6 +100,7 @@ public sealed class LuceneIndexModel
         RebuildHook = index.LuceneIndexItemRebuildHook;
         StrategyName = index.LuceneIndexItemStrategyName;
         AnalyzerName = index.LuceneIndexItemAnalyzerName;
+        UseLanguageFallbacks = index.LuceneIndexItemUseLanguageFallbacks;
         LanguageNames = indexLanguages
             .Where(l => l.LuceneIndexLanguageItemIndexItemId == index.LuceneIndexItemId)
             .Select(l => l.LuceneIndexLanguageItemName)
@@ -124,6 +131,7 @@ public sealed class LuceneIndexModel
         RebuildHook = index.LuceneIndexItemRebuildHook;
         StrategyName = index.LuceneIndexItemStrategyName;
         AnalyzerName = index.LuceneIndexItemAnalyzerName;
+        UseLanguageFallbacks = index.LuceneIndexItemUseLanguageFallbacks;
         LanguageNames = indexLanguages
             .Where(l => l.LuceneIndexLanguageItemIndexItemId == index.LuceneIndexItemId)
             .Select(l => l.LuceneIndexLanguageItemName)

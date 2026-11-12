@@ -258,7 +258,7 @@ internal class DefaultLuceneClient : ILuceneClient
                                 config => config.ForWebsite(channelConfiguration.WebsiteChannelName, includeUrlPath: true, pathMatch: pathMatch));
                         }
 
-                        queryBuilder.InLanguage(language);
+                        queryBuilder.InLanguage(language, useLanguageFallbacks: luceneIndex.UseLanguageFallbacks);
 
                         var webpages = await executor.GetWebPageResult(queryBuilder,
                             container => container,
@@ -286,7 +286,7 @@ internal class DefaultLuceneClient : ILuceneClient
                     queryBuilder.ForContentType(reusableContentType);
                 }
 
-                queryBuilder.InLanguage(language);
+                queryBuilder.InLanguage(language, useLanguageFallbacks: luceneIndex.UseLanguageFallbacks);
 
                 var reusableItems = await executor.GetResult(queryBuilder,
                     result => result,

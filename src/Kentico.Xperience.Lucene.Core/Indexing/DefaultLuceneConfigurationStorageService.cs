@@ -60,6 +60,7 @@ internal class DefaultLuceneConfigurationStorageService : ILuceneConfigurationSt
             LuceneIndexItemIndexName = configuration.IndexName ?? string.Empty,
             LuceneIndexItemStrategyName = configuration.StrategyName ?? string.Empty,
             LuceneIndexItemAnalyzerName = configuration.AnalyzerName ?? string.Empty,
+            LuceneIndexItemUseLanguageFallbacks = configuration.UseLanguageFallbacks,
             LuceneIndexItemRebuildHook = configuration.RebuildHook ?? string.Empty
         };
 
@@ -223,6 +224,7 @@ internal class DefaultLuceneConfigurationStorageService : ILuceneConfigurationSt
         indexInfo.LuceneIndexItemStrategyName = configuration.StrategyName ?? string.Empty;
         indexInfo.LuceneIndexItemAnalyzerName = configuration.AnalyzerName ?? string.Empty;
         indexInfo.LuceneIndexItemIndexName = configuration.IndexName ?? string.Empty;
+        indexInfo.LuceneIndexItemUseLanguageFallbacks = configuration.UseLanguageFallbacks;
 
         indexProvider.Set(indexInfo);
 

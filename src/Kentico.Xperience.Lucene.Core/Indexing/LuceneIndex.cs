@@ -37,6 +37,12 @@ public sealed class LuceneIndex
 
 
     /// <summary>
+    /// Whether content retrieval for index rebuilds uses the configured language fallbacks.
+    /// </summary>
+    public bool UseLanguageFallbacks { get; }
+
+
+    /// <summary>
     /// A list of reusable content types that will be indexed.
     /// </summary>
     public List<string> IncludedReusableContentTypes { get; }
@@ -68,6 +74,7 @@ public sealed class LuceneIndex
         Identifier = indexConfiguration.Id;
         IndexName = indexConfiguration.IndexName;
         LanguageNames = [.. indexConfiguration.LanguageNames];
+        UseLanguageFallbacks = indexConfiguration.UseLanguageFallbacks;
         IncludedReusableContentTypes = [.. indexConfiguration.ReusableContentTypeNames];
         ChannelConfigurations = [.. indexConfiguration.Channels];
 
