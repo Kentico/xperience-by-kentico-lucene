@@ -12,7 +12,7 @@
   </ContentItemCommonDataContentLanguageID>
   <ContentItemCommonDataGUID>12973114-c846-4534-a995-cf5305850aac</ContentItemCommonDataGUID>
   <ContentItemCommonDataIsLatest>True</ContentItemCommonDataIsLatest>
-  <ContentItemCommonDataLastPublishedWhen>2024-11-04 08:33:26Z</ContentItemCommonDataLastPublishedWhen>
+  <ContentItemCommonDataLastPublishedWhen>2026-11-16 16:20:37Z</ContentItemCommonDataLastPublishedWhen>
   <ContentItemCommonDataVersionStatus>2</ContentItemCommonDataVersionStatus>
   <ContentItemCommonDataVisualBuilderTemplateConfiguration>
 <![CDATA[
@@ -24,10 +24,11 @@
 ]]>
   </ContentItemCommonDataVisualBuilderTemplateConfiguration>
   <ProductFieldCategory />
+  <SEOFieldsNoIndex>False</SEOFieldsNoIndex>
   <ContentItemReferences>
     <cms.contentitemreference>
       <ContentItemReferenceGroupGUID>04b5735c-f3b6-4dba-af49-1c748e952820</ContentItemReferenceGroupGUID>
-      <ContentItemReferenceGUID>f61d3992-8c31-4c8c-9cfc-5eec9c71646f</ContentItemReferenceGUID>
+      <ContentItemReferenceGUID>a3ade36c-1e72-41a6-9bcf-ed853eaf49f6</ContentItemReferenceGUID>
       <ContentItemReferenceSourceCommonDataID>
         <GUID>12973114-c846-4534-a995-cf5305850aac</GUID>
         <ObjectType>cms.contentitemcommondata</ObjectType>
@@ -40,7 +41,7 @@
     </cms.contentitemreference>
     <cms.contentitemreference>
       <ContentItemReferenceGroupGUID>49eea67f-5a3a-4a0a-a4a4-42cf4e2117c0</ContentItemReferenceGroupGUID>
-      <ContentItemReferenceGUID>718e1c00-730d-4bfa-82f6-33a9ef6aac19</ContentItemReferenceGUID>
+      <ContentItemReferenceGUID>d5969130-90a4-4a35-b7a7-897924902911</ContentItemReferenceGUID>
       <ContentItemReferenceSourceCommonDataID>
         <GUID>12973114-c846-4534-a995-cf5305850aac</GUID>
         <ObjectType>cms.contentitemcommondata</ObjectType>
@@ -53,7 +54,7 @@
     </cms.contentitemreference>
     <cms.contentitemreference>
       <ContentItemReferenceGroupGUID>49eea67f-5a3a-4a0a-a4a4-42cf4e2117c0</ContentItemReferenceGroupGUID>
-      <ContentItemReferenceGUID>d4e92763-4b7f-470d-8b80-e92c90affaa3</ContentItemReferenceGUID>
+      <ContentItemReferenceGUID>2a2e556c-eff3-4e0d-a1cc-945502e82f6b</ContentItemReferenceGUID>
       <ContentItemReferenceSourceCommonDataID>
         <GUID>12973114-c846-4534-a995-cf5305850aac</GUID>
         <ObjectType>cms.contentitemcommondata</ObjectType>

@@ -402,6 +402,9 @@
   <data name="Coffee tastes" xml:space="preserve">
     <value>Sabores del café</value>
   </data>
+  <data name="Article topics" xml:space="preserve">
+    <value>Temas de artículos</value>
+  </data>
   <data name="Promo code removed." xml:space="preserve">
     <value>Código promocional eliminado.</value>
   </data>

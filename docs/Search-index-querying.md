@@ -1,5 +1,7 @@
 # Search index querying
 
+The snippets below build on the `ExampleSearchIndexingStrategy` from [Create a custom index strategy](./Custom-index-strategy.md). For a complete, working implementation (faceting, taxonomy filters, sorting, paging, and highlighting), see [`examples/DancingGoat/Search/DancingGoatSearchService.cs`](../examples/DancingGoat/Search/DancingGoatSearchService.cs).
+
 ## Rebuild the Search Index
 
 Each index will initially be empty after creation until you create or modify some content.
@@ -14,19 +16,12 @@ public class GlobalSearchResultModel
     public string Title { get; set; } = string.Empty;
     public string ContentType { get; set; } = string.Empty;
     public string Url { get; set; } = string.Empty;
-
-    public static List<string> PossibleFacets { get; set; } = new List<string>
-    {
-        "other",
-        "news",
-        "product",
-    };
 }
 ```
 
 ## Create a search service
 
-Execute a search with a customized Lucene `Query` (like the `MatchAllDocsQuery`) using the ILuceneSearchService.
+Execute a search with a customized Lucene `Query` (like the `MatchAllDocsQuery`) using the `ILuceneSearchService`.
 You can use your `GlobalSearchResultModel` as a generic parameter of prepared class template `LuceneSearchResultModel<T>` class to retrieve the most often desired data from `ILuceneSearchService`.
 
 ### Search Methods
@@ -59,21 +54,21 @@ public class SearchService
 
     public LuceneSearchResultModel<GlobalSearchResultModel> GlobalSearch(
         string indexName,
-        string searchText,
+        string? searchText,
         int pageSize = 20,
         int page = 1,
         string? facet = null,
         string? sortBy = null)
     {
         var index = luceneIndexManager.GetRequiredIndex(indexName);
-        var query = GetTermQuery(searchText, facet, sortBy);
+        var query = GetTermQuery(searchText, index);
 
         var combinedQuery = new BooleanQuery
         {
             { query, Occur.MUST }
         };
 
-        if (facet != null)
+        if (!string.IsNullOrEmpty(facet))
         {
             var drillDownQuery = new DrillDownQuery(strategy.FacetsConfigFactory());
 
@@ -81,17 +76,18 @@ public class SearchService
 
             foreach (string subFacet in subFacets)
             {
-                drillDownQuery.Add(nameof(BlogSearchModel.Taxonomy), subFacet);
+                drillDownQuery.Add(strategy.FacetDimension, subFacet);
             }
 
             combinedQuery.Add(drillDownQuery, Occur.MUST);
         }
 
         var result = luceneSearchService.UseSearcherWithFacets(
-           index,
-           query, 20,
-           (searcher, facets) =>
-           {
+            index,
+            query,
+            20,
+            (searcher, facets) =>
+            {
                 var sortOptions = GetSortOption(sortBy);
 
                 TopDocs topDocs;
@@ -124,7 +120,7 @@ public class SearchService
                         .Select(d => MapToResultItem(searcher.Doc(d.Doc)))
                         .ToList(),
                     Facet = facet,
-                    Facets = facets?.GetTopChildren(10, indexingStrategy.FacetDimension, new string[] { })?.LabelValues.ToArray()
+                    Facets = facets?.GetTopChildren(10, strategy.FacetDimension)?.LabelValues.ToArray() ?? []
                 };
             }
         );
@@ -132,41 +128,66 @@ public class SearchService
         return result;
     }
 
-    private static Query GetTermQuery(string searchText, string? facet, string? sortBy)
+    private static Query GetTermQuery(string? searchText, LuceneIndex index)
     {
-        // TODO - query building example
-    }
-
-    private SortField GetSortOption(string sortBy = null)
-    {
-        switch (sortBy)
+        if (string.IsNullOrWhiteSpace(searchText))
         {
-            case "a-z":
-                return new SortField(ExampleSearchIndexingStrategy.SORTABLE_TITLE_FIELD_NAME, SortFieldType.STRING, false);
-            case "z-a":
-                return new SortField(ExampleSearchIndexingStrategy.SORTABLE_TITLE_FIELD_NAME, SortFieldType.STRING, true);
-            default:
-                return null;
+            return new MatchAllDocsQuery();
         }
+
+        // Use the analyzer selected for the index so query terms match indexed terms
+        var queryBuilder = new QueryBuilder(index.LuceneAnalyzer);
+        var booleanQuery = new BooleanQuery();
+
+        AddQuery(booleanQuery, queryBuilder.CreatePhraseQuery(nameof(GlobalSearchResultModel.Title), searchText, PHRASE_SLOP), 5);
+        AddQuery(booleanQuery, queryBuilder.CreateBooleanQuery(nameof(GlobalSearchResultModel.Title), searchText, Occur.SHOULD), 0.5f);
+
+        return booleanQuery.GetClauses().Length > 0
+            ? booleanQuery
+            : new MatchAllDocsQuery();
     }
 
-    private GlobalSearchResultModel MapToResultItem(Document doc) => new()
+    private static void AddQuery(BooleanQuery booleanQuery, Query? query, float boost)
+    {
+        // QueryBuilder returns null when the analyzer produces no terms
+        if (query is null)
+        {
+            return;
+        }
+
+        query.Boost = boost;
+        booleanQuery.Add(query, Occur.SHOULD);
+    }
+
+    private static SortField? GetSortOption(string? sortBy = null) =>
+        sortBy switch
+        {
+            "a-z" => new SortField(ExampleSearchIndexingStrategy.SORTABLE_TITLE_FIELD_NAME, SortFieldType.STRING, false),
+            "z-a" => new SortField(ExampleSearchIndexingStrategy.SORTABLE_TITLE_FIELD_NAME, SortFieldType.STRING, true),
+            _ => null
+        };
+
+    private static GlobalSearchResultModel MapToResultItem(Document doc) => new()
     {
         Title = doc.Get(nameof(GlobalSearchResultModel.Title)),
-        Url = doc.Get("Url"),
+        Url = doc.Get(nameof(GlobalSearchResultModel.Url)),
         ContentType = doc.Get(nameof(GlobalSearchResultModel.ContentType)),
     };
 }
 ```
 
+> `Url` and `ContentType` are only returned if your strategy stores them in the document (for example, `new StringField(nameof(GlobalSearchResultModel.Url), url, Field.Store.YES)`).
+
 ### Using Drill-Sideways Search
 
 For advanced faceted search with drill-down capabilities, use `UseSearcherWithDrillSideways`. This method enables you to perform drill-down queries while maintaining facet counts for unchosen facets, allowing users to see what results would be available if they chose different facet values.
 
+This method can be added to the `SearchService` above and reuses its fields and helper methods.
+
 ```csharp
 public LuceneSearchResultModel<GlobalSearchResultModel> DrillSidewaysSearch(
     string indexName,
-    string searchText,
+    string? searchText,
     int pageSize = 20,
     int page = 1,
     string? facet = null,
@@ -175,7 +196,7 @@ public LuceneSearchResultModel<GlobalSearchResultModel> DrillSidewaysSearch(
     var index = luceneIndexManager.GetRequiredIndex(indexName);
 
     // This query should contain term query, base filtering, scoring, etc... but NOT your facet filtering.
-    var query = GetTermQuery(searchText);
+    var query = GetTermQuery(searchText, index);
 
     var result = luceneSearchService.UseSearcherWithDrillSideways(
         index,
@@ -198,7 +219,7 @@ public LuceneSearchResultModel<GlobalSearchResultModel> DrillSidewaysSearch(
 
             if (sortOptions != null)
             {
-                drillSidewaysResult = drillSideways.Search(drillDownQuery, MAX_RESULTS, new Sort(sortOptions));
+                drillSidewaysResult = drillSideways.Search(drillDownQuery, null, null, MAX_RESULTS, new Sort(sortOptions), false, false);
             }
             else
             {
@@ -242,23 +263,23 @@ Create a Controller which uses `SearchService` to display view with search bar.
 
 ```csharp
 [Route("[controller]")]
-[ApiController]
 public class SearchController : Controller
 {
-    private readonly SearchService searchService;
-
     private const string NAME_OF_DEFAULT_INDEX = "Default";
+
+    private readonly SearchService searchService;
 
     public SearchController(SearchService searchService)
     {
         this.searchService = searchService;
     }
 
+    [HttpGet]
     public IActionResult Index(string? query, int pageSize = 10, int page = 1, string? facet = null, string? sortBy = null, string? indexName = null)
     {
         try
         {
-            var results = advancedSearchService.GlobalSearch(indexName ?? NAME_OF_DEFAULT_INDEX, query, pageSize, page, facet, sortBy);
+            var results = searchService.GlobalSearch(indexName ?? NAME_OF_DEFAULT_INDEX, query, pageSize, page, facet, sortBy);
             return View(results);
         }
         catch
@@ -272,7 +293,7 @@ public class SearchController : Controller
 The controller retrieves `Index.cshtml` stored in `Views/Search/` solution folder. You can use `GetRouteData` method to assemble the parameters of the url of the endpoint defined in `SearchController`.
 
 ```cshtml
-@model LuceneSearchResultModel<DancingGoatSearchResultModel>
+@model LuceneSearchResultModel<GlobalSearchResultModel>
 @{
     Dictionary<string, string> GetRouteData(int page) =>
         new Dictionary<string, string>() { { "query", Model.Query }, { "pageSize", Model.PageSize.ToString() }, { "page", page.ToString() } };
@@ -311,7 +332,7 @@ The controller retrieves `Index.cshtml` stored in `Views/Search/` solution folde
 {
     if (!String.IsNullOrWhiteSpace(Model.Query))
     {
-        @HtmlLocalizer["Sorry, no results match {0}", Model.Query]
+        <p>Sorry, no results match @Model.Query</p>
     }
 
     return;
@@ -332,7 +353,7 @@ The controller retrieves `Index.cshtml` stored in `Views/Search/` solution folde
         {
             <li class="PagedList-skipToPrevious">
                 <a asp-controller="Search" asp-all-route-data="GetRouteData(Model.Page - 1)">
-                    @HtmlLocalizer["previous"]
+                    previous
                 </a>
             </li>
         }
@@ -359,11 +380,10 @@ The controller retrieves `Index.cshtml` stored in `Views/Search/` solution folde
         {
             <li class="PagedList-skipToNext">
                 <a asp-controller="Search" asp-all-route-data="GetRouteData(Model.Page + 1)">
-                    @HtmlLocalizer["next"]
+                    next
                 </a>
             </li>
         }
     </ul>
 </div>
-
 ```

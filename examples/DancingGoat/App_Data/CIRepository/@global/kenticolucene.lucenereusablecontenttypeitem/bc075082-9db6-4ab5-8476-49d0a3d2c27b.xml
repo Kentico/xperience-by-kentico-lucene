@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<kenticolucene.lucenereusablecontenttypeitem>
+  <LuceneReusableContentTypeItemContentTypeName>DancingGoat.ProductCoffee</LuceneReusableContentTypeItemContentTypeName>
+  <LuceneReusableContentTypeItemGuid>bc075082-9db6-4ab5-8476-49d0a3d2c27b</LuceneReusableContentTypeItemGuid>
+  <LuceneReusableContentTypeItemIndexItemId>
+    <CodeName>DancingGoatGlobal</CodeName>
+    <GUID>7a4afab1-b707-48e9-9f60-e24add4e6c1c</GUID>
+    <ObjectType>kenticolucene.luceneindexitem</ObjectType>
+  </LuceneReusableContentTypeItemIndexItemId>
+</kenticolucene.lucenereusablecontenttypeitem>

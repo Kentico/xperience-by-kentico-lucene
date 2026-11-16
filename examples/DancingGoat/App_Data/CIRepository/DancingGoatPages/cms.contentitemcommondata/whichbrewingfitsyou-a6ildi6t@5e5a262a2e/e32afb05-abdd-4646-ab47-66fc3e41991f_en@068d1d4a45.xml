@@ -12,7 +12,7 @@
   </ContentItemCommonDataContentLanguageID>
   <ContentItemCommonDataGUID>e32afb05-abdd-4646-ab47-66fc3e41991f</ContentItemCommonDataGUID>
   <ContentItemCommonDataIsLatest>True</ContentItemCommonDataIsLatest>
-  <ContentItemCommonDataLastPublishedWhen>2026-08-12 08:06:07Z</ContentItemCommonDataLastPublishedWhen>
+  <ContentItemCommonDataLastPublishedWhen>2026-11-16 16:20:30Z</ContentItemCommonDataLastPublishedWhen>
   <ContentItemCommonDataVersionStatus>2</ContentItemCommonDataVersionStatus>
   <ContentItemCommonDataVisualBuilderTemplateConfiguration>
 <![CDATA[
@@ -32,7 +32,7 @@
   <ContentItemReferences>
     <cms.contentitemreference>
       <ContentItemReferenceGroupGUID>04b5735c-f3b6-4dba-af49-1c748e952820</ContentItemReferenceGroupGUID>
-      <ContentItemReferenceGUID>b794572f-9b38-48ce-9575-0a808d31905d</ContentItemReferenceGUID>
+      <ContentItemReferenceGUID>2d9d6fa0-b8a8-4db8-bef2-5cf749018b4e</ContentItemReferenceGUID>
       <ContentItemReferenceSourceCommonDataID>
         <GUID>e32afb05-abdd-4646-ab47-66fc3e41991f</GUID>
         <ObjectType>cms.contentitemcommondata</ObjectType>
@@ -45,20 +45,7 @@
     </cms.contentitemreference>
     <cms.contentitemreference>
       <ContentItemReferenceGroupGUID>49eea67f-5a3a-4a0a-a4a4-42cf4e2117c0</ContentItemReferenceGroupGUID>
-      <ContentItemReferenceGUID>63e398c4-6de0-4be1-bb50-2fe760c7b5f9</ContentItemReferenceGUID>
-      <ContentItemReferenceSourceCommonDataID>
-        <GUID>e32afb05-abdd-4646-ab47-66fc3e41991f</GUID>
-        <ObjectType>cms.contentitemcommondata</ObjectType>
-      </ContentItemReferenceSourceCommonDataID>
-      <ContentItemReferenceTargetItemID>
-        <CodeName>CoffeeProcessingTechniques-vnl8fs1k</CodeName>
-        <GUID>69a5c969-8e18-4b57-a9cd-7ce089d0d059</GUID>
-        <ObjectType>cms.contentitem</ObjectType>
-      </ContentItemReferenceTargetItemID>
-    </cms.contentitemreference>
-    <cms.contentitemreference>
-      <ContentItemReferenceGroupGUID>49eea67f-5a3a-4a0a-a4a4-42cf4e2117c0</ContentItemReferenceGroupGUID>
-      <ContentItemReferenceGUID>a64d6527-9754-47ec-890c-b17d843ebcf1</ContentItemReferenceGUID>
+      <ContentItemReferenceGUID>1458299d-64a3-4f9a-b23b-2286d4845e6f</ContentItemReferenceGUID>
       <ContentItemReferenceSourceCommonDataID>
         <GUID>e32afb05-abdd-4646-ab47-66fc3e41991f</GUID>
         <ObjectType>cms.contentitemcommondata</ObjectType>
@@ -71,7 +58,7 @@
     </cms.contentitemreference>
     <cms.contentitemreference>
       <ContentItemReferenceGroupGUID>49eea67f-5a3a-4a0a-a4a4-42cf4e2117c0</ContentItemReferenceGroupGUID>
-      <ContentItemReferenceGUID>bb54dca5-ae0a-49a8-8c7a-f6f990aaa82f</ContentItemReferenceGUID>
+      <ContentItemReferenceGUID>c58f63a0-b209-4bac-9caa-28cf2dcede22</ContentItemReferenceGUID>
       <ContentItemReferenceSourceCommonDataID>
         <GUID>e32afb05-abdd-4646-ab47-66fc3e41991f</GUID>
         <ObjectType>cms.contentitemcommondata</ObjectType>
@@ -79,6 +66,19 @@
       <ContentItemReferenceTargetItemID>
         <CodeName>BoliviaFincaIllimani-xvibl56q</CodeName>
         <GUID>33b09354-dd5e-4053-8829-f16f31b7f2da</GUID>
+        <ObjectType>cms.contentitem</ObjectType>
+      </ContentItemReferenceTargetItemID>
+    </cms.contentitemreference>
+    <cms.contentitemreference>
+      <ContentItemReferenceGroupGUID>49eea67f-5a3a-4a0a-a4a4-42cf4e2117c0</ContentItemReferenceGroupGUID>
+      <ContentItemReferenceGUID>1669cefc-ac5a-432d-bee2-9364e2bbbde9</ContentItemReferenceGUID>
+      <ContentItemReferenceSourceCommonDataID>
+        <GUID>e32afb05-abdd-4646-ab47-66fc3e41991f</GUID>
+        <ObjectType>cms.contentitemcommondata</ObjectType>
+      </ContentItemReferenceSourceCommonDataID>
+      <ContentItemReferenceTargetItemID>
+        <CodeName>CoffeeProcessingTechniques-vnl8fs1k</CodeName>
+        <GUID>69a5c969-8e18-4b57-a9cd-7ce089d0d059</GUID>
         <ObjectType>cms.contentitem</ObjectType>
       </ContentItemReferenceTargetItemID>
     </cms.contentitemreference>

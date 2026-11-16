@@ -21,6 +21,24 @@
 
 
         /// <summary>
+        /// Name of the coffee processing taxonomy.
+        /// </summary>
+        public const string COFFEE_PROCESSING_TAXONOMY_NAME = "CoffeeProcessing";
+
+
+        /// <summary>
+        /// Name of the coffee tastes taxonomy.
+        /// </summary>
+        public const string COFFEE_TASTES_TAXONOMY_NAME = "CoffeeTastes";
+
+
+        /// <summary>
+        /// Name of the article topics taxonomy.
+        /// </summary>
+        public const string ARTICLE_TOPICS_TAXONOMY_NAME = "ArticleTopics";
+
+
+        /// <summary>
         /// Name of the merchandise tag in the product categories taxonomy.
         /// </summary>
         public const string MERCHANDISE_CATEGORY_TAG_NAME = "Merchandise";

@@ -33,3 +33,15 @@ The following algorithm determines how secured items are treated during indexing
 - If the item is secured and `IncludeSecuredItems` is set to `false`, it is removed from the index.
 
 With this setup, you can ensure consistent behavior for secured items during both index rebuilding and editing.
+
+## Returning secured items only to signed-in visitors
+
+Indexing secured items does not restrict who can find them. Your indexing strategy and search code decide that:
+
+1. In `MapToLuceneDocumentOrNull`, index secured items instead of returning `null` for them (the `DefaultLuceneIndexingStrategy` skips them). Store `IIndexEventItemModel.IsSecured` in a field, for example `new StringField("IsSecured", item.IsSecured ? "true" : "false", Field.Store.YES)`.
+2. If the strategy loads content with `IContentRetriever`, set `IncludeSecuredItems = true` in the retrieval parameters, or secured pages are not found.
+3. When searching for an anonymous visitor, add a required clause for the non-secured value (`new TermQuery(new Term("IsSecured", "false"))`) to the query. Adding it to the main query keeps secured items out of hits, highlighted snippets, and facet counts.
+
+This checks only whether the visitor is signed in. If pages are restricted to specific member roles, also index the allowed roles and filter on the visitor's roles.
+
+The DancingGoat example does this in `DancingGoatSearchIndexingStrategy` and `DancingGoatSearchService`. Members-only articles appear in search results, with a "Members only" label, only for signed-in members.

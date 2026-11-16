@@ -51,8 +51,8 @@ Lucene indexes are stored using the [CMS.IO](https://docs.kentico.com/x/4YfWCQ) 
 
 ## Dependencies
 
-- [ASP.NET Core 6.0](https://dotnet.microsoft.com/en-us/download)
-- [Xperience by Kentico](https://docs.xperience.io/xp/changelog)
+- [ASP.NET Core 8.0](https://dotnet.microsoft.com/en-us/download) or newer
+- [Xperience by Kentico](https://docs.kentico.com/changelog)
 
 ## Package Installation
 
@@ -80,7 +80,7 @@ This section is relevant for each Lucene NuGet. Steps number 3 and 4 are only re
    // Registers all services and enables custom indexing behavior
    services.AddKenticoLucene(builder =>
       builder
-         .RegisterStrategy<GlobalSearchIndexingStrategy>("DefaultStrategy")
+         .RegisterStrategy<ExampleSearchIndexingStrategy>("DefaultStrategy")
          .RegisterStrategy<ArticlesSearchIndexingStrategy>("ArticlesStrategy"));
    ```
 
@@ -94,18 +94,15 @@ This section is relevant for each Lucene NuGet. Steps number 3 and 4 are only re
 
 View the [Usage Guide](./docs/Usage-Guide.md) for more detailed instructions.
 
-You can view and start the DancingGoat example project.
-For advanced [Strategy usage](./docs/Custom-index-strategy.md) add your website url base to the `WebCrawlerBaseUrl` `appsettings.json`
+For a working reference, see the [DancingGoat example project](./examples/DancingGoat/README.md). Its search implementation is in [`examples/DancingGoat/Search/`](./examples/DancingGoat/Search/):
 
-```json
-{
-  // Other settings ...
-  // Our example runs on localhost with port: 58093
-  "WebCrawlerBaseUrl": "http://localhost:58093/"
-}
-```
+- `DancingGoatSearchIndexingStrategy.cs` - custom indexing strategy with taxonomy facets for products and articles
+- `DancingGoatSearchService.cs` - querying, faceting, sorting, paging, and highlighting
+- `DancingGoatSearchController.cs` - search page (Page Builder page template) handler
 
-This is required for our [Scraping example](./docs/Scraping-web-page-content.md).
+The `DancingGoatGlobal` index configuration is stored in the example's CI repository.
+
+To index content rendered by the Page Builder, see [Scraping web page content](./docs/Scraping-web-page-content.md).
 
 ## Projects
 

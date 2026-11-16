@@ -50,6 +50,9 @@
         public const string CHECKOUT_PAGE_TREE_PATH = "/Specials/Checkout";
 
 
+        public const string SEARCH_PAGE_TREE_PATH = "/Search";
+
+
         /// <summary>
         /// TempData key set by a redirecting add-to-cart post. The layout shows the toast once when
         /// the key is present; the message itself is rendered by the page, in the page's language.

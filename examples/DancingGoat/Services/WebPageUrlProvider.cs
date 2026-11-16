@@ -62,6 +62,12 @@ namespace DancingGoat.Services
         }
 
 
+        public async Task<string> SearchPageUrl(string languageName = null, CancellationToken cancellationToken = default)
+        {
+            return await GetRelativeWebPagePath(DancingGoatConstants.SEARCH_PAGE_TREE_PATH, languageName, cancellationToken);
+        }
+
+
         public async Task<string> PrivacyPageUrl(string languageName = null, CancellationToken cancellationToken = default)
         {
             return await GetRelativeWebPagePath(Models.PrivacyPageConstants.PRIVACY_PAGE_TREE_PATH, languageName, cancellationToken);

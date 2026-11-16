@@ -25,4 +25,15 @@
     <GUID>87fb6822-3c7a-4207-a03f-e8d20d850ab2</GUID>
     <ObjectType>cms.user</ObjectType>
   </ContentItemLanguageMetadataModifiedByUserID>
+  <ContentItemTags>
+    <cms.contentitemtag>
+      <ContentItemTagContentItemLanguageMetadataID>
+        <GUID>6eb073a6-2966-41aa-880a-79d90f0d23d5</GUID>
+        <ObjectType>cms.contentitemlanguagemetadata</ObjectType>
+      </ContentItemTagContentItemLanguageMetadataID>
+      <ContentItemTagFieldGUID>cfaa5065-f5a0-4ce4-a44b-2c7a1e5a8274</ContentItemTagFieldGUID>
+      <ContentItemTagGUID>7e9e6d91-345d-4421-8783-236da5f65ec4</ContentItemTagGUID>
+      <ContentItemTagTagGUID>18970c0f-460b-40a3-9108-7645b64dca58</ContentItemTagTagGUID>
+    </cms.contentitemtag>
+  </ContentItemTags>
 </cms.contentitemlanguagemetadata>

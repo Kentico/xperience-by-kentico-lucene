@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<cms.contentitemcommondata>
+  <ContentItemCommonDataAiProvenance>
+    <![CDATA[{"60b37ef3-d909-45d4-b5d1-fd27d9258396":{"AiProvenanceOrigin":"AiGenerated"},"ec3e6220-9a88-47be-8dfc-d8ebceaabe74":{"AiProvenanceOrigin":"AiGenerated"}}]]>
+  </ContentItemCommonDataAiProvenance>
+  <ContentItemCommonDataContentItemID>
+    <CodeName>Search-0li0tol8</CodeName>
+    <GUID>cb9e60da-12b2-4740-a1e9-37276e6d7aca</GUID>
+    <ObjectType>cms.contentitem</ObjectType>
+  </ContentItemCommonDataContentItemID>
+  <ContentItemCommonDataContentLanguageID>
+    <CodeName>en</CodeName>
+    <GUID>e4a8fb12-ebc2-45d0-930f-c9fba2780c85</GUID>
+    <ObjectType>cms.contentlanguage</ObjectType>
+  </ContentItemCommonDataContentLanguageID>
+  <ContentItemCommonDataFirstPublishedWhen>2026-11-16 16:24:15Z</ContentItemCommonDataFirstPublishedWhen>
+  <ContentItemCommonDataGUID>a5d56606-00e3-42af-817f-1526c2dbf2e3</ContentItemCommonDataGUID>
+  <ContentItemCommonDataIsLatest>True</ContentItemCommonDataIsLatest>
+  <ContentItemCommonDataLastPublishedWhen>2026-11-16 16:24:15Z</ContentItemCommonDataLastPublishedWhen>
+  <ContentItemCommonDataVersionStatus>2</ContentItemCommonDataVersionStatus>
+  <ContentItemCommonDataVisualBuilderTemplateConfiguration>
+<![CDATA[
+{
+  "identifier": "DancingGoat.SearchPage",
+  "properties": null,
+  "fieldIdentifiers": null
+}
+]]>
+  </ContentItemCommonDataVisualBuilderTemplateConfiguration>
+  <SEOFieldsDescription>
+    <![CDATA[Search Dancing Goat coffees, brewing gear, and articles.]]>
+  </SEOFieldsDescription>
+  <SEOFieldsNoIndex>True</SEOFieldsNoIndex>
+  <SEOFieldsTitle>Search - Dancing Goat</SEOFieldsTitle>
+</cms.contentitemcommondata>

@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<cms.tag>
+  <TagGUID>18970c0f-460b-40a3-9108-7645b64dca58</TagGUID>
+  <TagMetadata>
+    <![CDATA[{"Translations":{"fc939370-8f94-4fc9-8cc4-bfdef6ab748c":{"Title":"Preparaci\u00F3n y bebidas","Description":null}}}]]>
+  </TagMetadata>
+  <TagName>BrewingAndDrinks</TagName>
+  <TagOrder>3</TagOrder>
+  <TagTaxonomyID>
+    <CodeName>ArticleTopics</CodeName>
+    <GUID>0c9ecd33-ebd3-490b-bd2a-736a63e283d7</GUID>
+    <ObjectType>cms.taxonomy</ObjectType>
+  </TagTaxonomyID>
+  <TagTitle>Brewing and drinks</TagTitle>
+</cms.tag>

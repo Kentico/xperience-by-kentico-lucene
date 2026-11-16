@@ -12,7 +12,7 @@
   </ContentItemCommonDataContentLanguageID>
   <ContentItemCommonDataGUID>9246d73c-ac38-4318-b31d-d6540369c730</ContentItemCommonDataGUID>
   <ContentItemCommonDataIsLatest>True</ContentItemCommonDataIsLatest>
-  <ContentItemCommonDataLastPublishedWhen>2024-03-07 12:31:21Z</ContentItemCommonDataLastPublishedWhen>
+  <ContentItemCommonDataLastPublishedWhen>2026-11-16 16:20:28Z</ContentItemCommonDataLastPublishedWhen>
   <ContentItemCommonDataVersionStatus>2</ContentItemCommonDataVersionStatus>
   <ContentItemCommonDataVisualBuilderTemplateConfiguration>
 <![CDATA[
@@ -27,11 +27,12 @@
   <SEOFieldsDescription>
     <![CDATA[Dancing Goat donates to Children in Africa, a foundation that helps children with basic needs. Create a better world and donate with us.]]>
   </SEOFieldsDescription>
+  <SEOFieldsNoIndex>False</SEOFieldsNoIndex>
   <SEOFieldsTitle>Donate with us - Dancing Goat</SEOFieldsTitle>
   <ContentItemReferences>
     <cms.contentitemreference>
       <ContentItemReferenceGroupGUID>04b5735c-f3b6-4dba-af49-1c748e952820</ContentItemReferenceGroupGUID>
-      <ContentItemReferenceGUID>d65ffb67-c912-45a7-b027-5a2efba61369</ContentItemReferenceGUID>
+      <ContentItemReferenceGUID>b73e07c1-9c4c-411a-882a-46b14e28bd82</ContentItemReferenceGUID>
       <ContentItemReferenceSourceCommonDataID>
         <GUID>9246d73c-ac38-4318-b31d-d6540369c730</GUID>
         <ObjectType>cms.contentitemcommondata</ObjectType>

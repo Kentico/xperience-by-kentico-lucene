@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<contentitemdata.dancinggoat.searchpage>
+  <ContentItemDataCommonDataID>
+    <GUID>a5d56606-00e3-42af-817f-1526c2dbf2e3</GUID>
+    <ObjectType>cms.contentitemcommondata</ObjectType>
+    <Parent>
+      <CodeName>Search-0li0tol8</CodeName>
+      <GUID>cb9e60da-12b2-4740-a1e9-37276e6d7aca</GUID>
+      <ObjectType>cms.contentitem</ObjectType>
+    </Parent>
+  </ContentItemDataCommonDataID>
+  <ContentItemDataGUID>e43294d9-632b-4c50-b31d-796027111029</ContentItemDataGUID>
+</contentitemdata.dancinggoat.searchpage>

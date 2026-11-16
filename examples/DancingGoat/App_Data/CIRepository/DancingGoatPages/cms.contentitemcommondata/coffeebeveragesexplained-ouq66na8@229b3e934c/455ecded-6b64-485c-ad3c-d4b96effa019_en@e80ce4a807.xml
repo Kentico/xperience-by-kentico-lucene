@@ -12,7 +12,7 @@
   </ContentItemCommonDataContentLanguageID>
   <ContentItemCommonDataGUID>455ecded-6b64-485c-ad3c-d4b96effa019</ContentItemCommonDataGUID>
   <ContentItemCommonDataIsLatest>True</ContentItemCommonDataIsLatest>
-  <ContentItemCommonDataLastPublishedWhen>2026-08-12 12:13:51Z</ContentItemCommonDataLastPublishedWhen>
+  <ContentItemCommonDataLastPublishedWhen>2026-11-16 16:20:15Z</ContentItemCommonDataLastPublishedWhen>
   <ContentItemCommonDataVersionStatus>2</ContentItemCommonDataVersionStatus>
   <ContentItemCommonDataVisualBuilderTemplateConfiguration>
 <![CDATA[
@@ -32,7 +32,7 @@
   <ContentItemReferences>
     <cms.contentitemreference>
       <ContentItemReferenceGroupGUID>04b5735c-f3b6-4dba-af49-1c748e952820</ContentItemReferenceGroupGUID>
-      <ContentItemReferenceGUID>7de31566-7a2f-42bc-a47b-da4d211681ea</ContentItemReferenceGUID>
+      <ContentItemReferenceGUID>f86b8309-a78b-4583-8bb6-3eeeb758072f</ContentItemReferenceGUID>
       <ContentItemReferenceSourceCommonDataID>
         <GUID>455ecded-6b64-485c-ad3c-d4b96effa019</GUID>
         <ObjectType>cms.contentitemcommondata</ObjectType>

@@ -1,45 +1,51 @@
+@using DancingGoat.Helpers
 @using DancingGoat.Search
-@using Kentico.Content.Web.Mvc.Routing
 
-@inject IPreferredLanguageRetriever preferredLanguageRetriever
-
-@model DancingGoatSearchPageViewModel
+@model TemplateViewModel
 
 @{
+    var search = Model.GetTemplateModel<DancingGoatSearchPageViewModel>();
+
+    const string CONTENT_TYPE_PARAMETER = DancingGoatSearchFacets.CONTENT_TYPE_QUERY_PARAMETER;
+    const string ARTICLE = DancingGoatSearchFacets.ARTICLE_CONTENT_TYPE;
+    const string PRODUCT = DancingGoatSearchFacets.PRODUCT_CONTENT_TYPE;
+
     Layout = "~/Views/Shared/_DancingGoatLayout.cshtml";
     ViewBag.Title = HtmlLocalizer["Search"].Value;
-    var languageName = preferredLanguageRetriever.Get();
 
     var searchParameters = new Dictionary<string, object>
     {
-        [WebPageRoutingOptions.LANGUAGE_ROUTE_VALUE_KEY] = languageName,
-        ["query"] = Model.Results.Query,
-        ["pageSize"] = Model.Results.PageSize,
-        ["facet"] = Model.Results.Facet,
-        ["sortBy"] = Model.SortBy
+        ["query"] = search.Results.Query,
+        ["pageSize"] = search.Results.PageSize,
+        [CONTENT_TYPE_PARAMETER] = search.Results.Facet,
+        ["sortBy"] = search.SortBy
     };
-    foreach (var group in Model.FacetGroups)
+    foreach (var group in search.FacetGroups)
     {
         searchParameters[group.QueryParameter] = group.SelectedValue;
     }
+
+    var formAction = search.GetUrl();
 
     string SearchUrl(string parameter, string value)
     {
         var parameters = new Dictionary<string, object>(searchParameters);
         parameters[parameter] = value;
-        return Url.RouteUrl(DancingGoatSearchController.SEARCH_ROUTE_NAME, parameters);
+        return search.GetUrl(parameters);
     }
 
-    var clearFiltersUrl = Url.RouteUrl(DancingGoatSearchController.SEARCH_ROUTE_NAME, new
+    IEnumerable<KeyValuePair<string, object>> HiddenParameters(string excludedParameter) =>
+        searchParameters.Where(parameter => parameter.Key != excludedParameter && !string.IsNullOrEmpty(parameter.Value?.ToString()));
+
+    var clearFiltersUrl = search.GetUrl(new Dictionary<string, object>
     {
-        kxpLanguage = languageName,
-        query = Model.Results.Query,
-        pageSize = Model.Results.PageSize,
-        sortBy = Model.SortBy
+        ["query"] = search.Results.Query,
+        ["pageSize"] = search.Results.PageSize,
+        ["sortBy"] = search.SortBy
     });
-    var selectedGroups = Model.FacetGroups.Where(group => !string.IsNullOrEmpty(group.SelectedValue)).ToList();
+    var selectedGroups = search.FacetGroups.Where(group => !string.IsNullOrEmpty(group.SelectedValue)).ToList();
     var activeFilterCount = selectedGroups.Count;
-    if (!string.IsNullOrEmpty(Model.Results.Facet))
+    if (!string.IsNullOrEmpty(search.Results.Facet))
     {
         activeFilterCount++;
     }
@@ -52,27 +58,30 @@
     </div>
 </div>
 
+<editable-area area-identifier="top"
+               area-options-allowed-widgets="@AreaRestrictionHelper.GetHomePageRestrictions()" />
+
 <section class="block-tight">
     <div class="wrap">
-        <form method="get" asp-route="@DancingGoatSearchController.SEARCH_ROUTE_NAME" asp-route-kxpLanguage="@languageName" class="search-form" role="search">
+        <form method="get" action="@formAction" class="search-form" role="search">
             <div class="search-query">
                 <label for="query">@HtmlLocalizer["Search all content"]</label>
                 <div class="search-input-wrap">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="10.8" cy="10.8" r="6.8" /><path d="m16 16 4.5 4.5" /></svg>
-                    <input class="input" type="search" id="query" name="query" value="@Model.Results.Query" placeholder="@HtmlLocalizer["Coffee, brewing essentials, stories..."]" />
+                    <input class="input" type="search" id="query" name="query" value="@search.Results.Query" placeholder="@HtmlLocalizer["Coffee, brewing essentials, stories..."]" />
                 </div>
                 <button class="btn btn-solid" type="submit">@HtmlLocalizer["Search"]</button>
             </div>
-            @foreach (var parameter in searchParameters.Where(parameter => parameter.Key != "query" && parameter.Key != WebPageRoutingOptions.LANGUAGE_ROUTE_VALUE_KEY))
+            @foreach (var parameter in HiddenParameters("query"))
             {
                 <input type="hidden" name="@parameter.Key" value="@parameter.Value" />
             }
         </form>
 
         <nav class="search-types" aria-label="@HtmlLocalizer["Content type"]">
-            <a class="cat-tab @(string.IsNullOrEmpty(Model.Results.Facet) ? "active" : "")" href="@SearchUrl("facet", null)" aria-current="@(string.IsNullOrEmpty(Model.Results.Facet) ? "true" : null)">@HtmlLocalizer["All content"]</a>
-            <a class="cat-tab @(Model.Results.Facet == "Product" ? "active" : "")" href="@SearchUrl("facet", "Product")" aria-current="@(Model.Results.Facet == "Product" ? "true" : null)">@HtmlLocalizer["Products"]</a>
-            <a class="cat-tab @(Model.Results.Facet == "Article" ? "active" : "")" href="@SearchUrl("facet", "Article")" aria-current="@(Model.Results.Facet == "Article" ? "true" : null)">@HtmlLocalizer["Articles"]</a>
+            <a class="cat-tab @(string.IsNullOrEmpty(search.Results.Facet) ? "active" : "")" href="@SearchUrl(CONTENT_TYPE_PARAMETER, null)" aria-current="@(string.IsNullOrEmpty(search.Results.Facet) ? "true" : null)">@HtmlLocalizer["All content"]</a>
+            <a class="cat-tab @(search.Results.Facet == PRODUCT ? "active" : "")" href="@SearchUrl(CONTENT_TYPE_PARAMETER, PRODUCT)" aria-current="@(search.Results.Facet == PRODUCT ? "true" : null)">@HtmlLocalizer["Products"]</a>
+            <a class="cat-tab @(search.Results.Facet == ARTICLE ? "active" : "")" href="@SearchUrl(CONTENT_TYPE_PARAMETER, ARTICLE)" aria-current="@(search.Results.Facet == ARTICLE ? "true" : null)">@HtmlLocalizer["Articles"]</a>
         </nav>
 
         <div class="search-layout">
@@ -86,9 +95,9 @@
                         }
                     </summary>
                     <div class="search-filters-body">
-                        @foreach (var facetGroup in Model.FacetGroups)
+                        @foreach (var facetGroup in search.FacetGroups)
                         {
-                            <details class="search-facet" open="@(facetGroup.QueryParameter == "productCategory" || !string.IsNullOrEmpty(facetGroup.SelectedValue))">
+                            <details class="search-facet" open="@(facetGroup.IsOpenByDefault || !string.IsNullOrEmpty(facetGroup.SelectedValue))">
                                 <summary>@HtmlLocalizer[facetGroup.Label]</summary>
                                 <ul class="search-facet-options" aria-label="@HtmlLocalizer[facetGroup.Label]">
                                     <li>
@@ -118,10 +127,10 @@
                 @if (activeFilterCount > 0)
                 {
                     <nav class="search-active-filters" aria-label="@HtmlLocalizer["Active filters"]">
-                        @if (!string.IsNullOrEmpty(Model.Results.Facet))
+                        @if (!string.IsNullOrEmpty(search.Results.Facet))
                         {
-                            <a class="search-filter-chip" href="@SearchUrl("facet", null)" aria-label="@HtmlLocalizer["Remove filter: {0}", HtmlLocalizer[Model.Results.Facet].Value]">
-                                @HtmlLocalizer[Model.Results.Facet]<span aria-hidden="true">&times;</span>
+                            <a class="search-filter-chip" href="@SearchUrl(CONTENT_TYPE_PARAMETER, null)" aria-label="@HtmlLocalizer["Remove filter: {0}", HtmlLocalizer[search.Results.Facet].Value]">
+                                @HtmlLocalizer[search.Results.Facet]<span aria-hidden="true">&times;</span>
                             </a>
                         }
                         @foreach (var group in selectedGroups)
@@ -137,32 +146,36 @@
 
                 <div class="search-toolbar">
                     <p class="search-count" role="status">
-                        @HtmlLocalizer["{0} results", Model.Results.TotalHits]
+                        @HtmlLocalizer["{0} results", search.Results.TotalHits]
                     </p>
-                    <form method="get" asp-route="@DancingGoatSearchController.SEARCH_ROUTE_NAME" asp-route-kxpLanguage="@languageName" class="search-sort">
-                        @foreach (var parameter in searchParameters.Where(parameter => parameter.Key != "sortBy" && parameter.Key != WebPageRoutingOptions.LANGUAGE_ROUTE_VALUE_KEY))
+                    <form method="get" action="@formAction" class="search-sort">
+                        @foreach (var parameter in HiddenParameters("sortBy"))
                         {
                             <input type="hidden" name="@parameter.Key" value="@parameter.Value" />
                         }
                         <label for="sortBy">@HtmlLocalizer["Sort by"]</label>
                         <div class="select-wrap">
                             <select class="select" id="sortBy" name="sortBy">
-                                <option value="" selected="@(string.IsNullOrEmpty(Model.SortBy))">@HtmlLocalizer["Relevance"]</option>
-                                <option value="a-z" selected="@(Model.SortBy == "a-z")">@HtmlLocalizer["Title A-Z"]</option>
-                                <option value="z-a" selected="@(Model.SortBy == "z-a")">@HtmlLocalizer["Title Z-A"]</option>
+                                <option value="" selected="@(string.IsNullOrEmpty(search.SortBy))">@HtmlLocalizer["Relevance"]</option>
+                                <option value="a-z" selected="@(search.SortBy == "a-z")">@HtmlLocalizer["Title A-Z"]</option>
+                                <option value="z-a" selected="@(search.SortBy == "z-a")">@HtmlLocalizer["Title Z-A"]</option>
                             </select>
                         </div>
                         <button class="search-sort-apply" type="submit">@HtmlLocalizer["Apply"]</button>
                     </form>
                 </div>
 
-                @if (Model.Results.Hits.Any())
+                @if (search.Results.Hits.Any())
                 {
                     <div class="search-results">
-                        @foreach (var result in Model.Results.Hits)
+                        @foreach (var result in search.Results.Hits)
                         {
                             <article class="search-result">
                                 <p class="search-result-type">@HtmlLocalizer[result.ContentType]</p>
+                                @if (result.IsSecured)
+                                {
+                                    <div class="card-chips"><span class="chip">@HtmlLocalizer["Members only"]</span></div>
+                                }
                                 <h2><a href="@result.Url">@result.Title</a></h2>
                                 @if (!string.IsNullOrWhiteSpace(result.SnippetHtml))
                                 {
@@ -172,17 +185,17 @@
                         }
                     </div>
 
-                    @if (Model.Results.TotalPages > 1)
+                    @if (search.Results.TotalPages > 1)
                     {
                         <nav class="search-pagination" aria-label="@HtmlLocalizer["Search result pages"]">
-                            @if (Model.Results.Page > 1)
+                            @if (search.Results.Page > 1)
                             {
-                                <a class="btn btn-outline" href="@SearchUrl("page", (Model.Results.Page - 1).ToString())">@HtmlLocalizer["Previous"]</a>
+                                <a class="btn btn-outline" href="@SearchUrl("page", (search.Results.Page - 1).ToString())">@HtmlLocalizer["Previous"]</a>
                             }
-                            <span>@HtmlLocalizer["Page {0} of {1}", Model.Results.Page, Model.Results.TotalPages]</span>
-                            @if (Model.Results.Page < Model.Results.TotalPages)
+                            <span>@HtmlLocalizer["Page {0} of {1}", search.Results.Page, search.Results.TotalPages]</span>
+                            @if (search.Results.Page < search.Results.TotalPages)
                             {
-                                <a class="btn btn-outline" href="@SearchUrl("page", (Model.Results.Page + 1).ToString())">@HtmlLocalizer["Next"]</a>
+                                <a class="btn btn-outline" href="@SearchUrl("page", (search.Results.Page + 1).ToString())">@HtmlLocalizer["Next"]</a>
                             }
                         </nav>
                     }

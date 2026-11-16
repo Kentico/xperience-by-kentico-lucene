@@ -1,60 +1,56 @@
 #nullable enable
 
-using CMS.ContentEngine;
-using CMS.DataEngine;
+using DancingGoat;
+using DancingGoat.Models;
+using DancingGoat.Search;
 
 using Kentico.Content.Web.Mvc;
 using Kentico.Content.Web.Mvc.Routing;
+using Kentico.PageBuilder.Web.Mvc.PageTemplates;
 
 using Microsoft.AspNetCore.Mvc;
 
+[assembly: RegisterWebPageRoute(SearchPage.CONTENT_TYPE_NAME, typeof(DancingGoatSearchController), WebsiteChannelNames = [DancingGoatConstants.WEBSITE_CHANNEL_NAME])]
+
 namespace DancingGoat.Search;
 
-[Route($"{{{WebPageRoutingOptions.LANGUAGE_ROUTE_VALUE_KEY}}}/search")]
+/// <summary>
+/// Handles requests for <see cref="SearchPage"/> pages. The page's language selects the indexed language,
+/// and the search state (query, filters, sort, paging) is read from the query string.
+/// </summary>
 public sealed class DancingGoatSearchController(
     DancingGoatSearchService searchService,
-    IPreferredLanguageRetriever preferredLanguageRetriever,
-    IInfoProvider<ContentLanguageInfo> contentLanguageInfoProvider) : Controller
+    IPreferredLanguageRetriever preferredLanguageRetriever) : Controller
 {
-    public const string SEARCH_ROUTE_NAME = "DancingGoatSearch";
-
-    [HttpGet("", Name = SEARCH_ROUTE_NAME)]
-    [HttpGet("/search")]
     public async Task<IActionResult> Index(
         string? query,
         int pageSize = 10,
         int page = 1,
         string? facet = null,
         string? sortBy = null,
-        string? productCategory = null,
-        string? productTag = null,
-        string? productManufacturer = null,
-        string? coffeeProcessing = null,
-        string? coffeeTaste = null,
         CancellationToken cancellationToken = default)
     {
-        var language = await contentLanguageInfoProvider.GetAsync(preferredLanguageRetriever.Get(), cancellationToken);
-        if (language is null)
+        var filters = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+        foreach (var definition in DancingGoatSearchFacets.TAXONOMY_FACETS)
         {
-            return NotFound();
+            var selectedValue = Request.Query[definition.QueryParameter].ToString();
+            if (!string.IsNullOrWhiteSpace(selectedValue))
+            {
+                filters[definition.QueryParameter] = selectedValue;
+            }
         }
 
-        var filters = new DancingGoatSearchFilters(
-            productCategory,
-            productTag,
-            productManufacturer,
-            coffeeProcessing,
-            coffeeTaste);
         var results = await searchService.Search(
             query,
+            preferredLanguageRetriever.Get(),
+            filters,
+            User.Identity?.IsAuthenticated == true,
             pageSize,
             page,
             facet,
             sortBy,
-            filters,
-            language.ContentLanguageName,
             cancellationToken);
 
-        return View("~/Views/Search/Index.cshtml", new DancingGoatSearchPageViewModel(results, sortBy));
+        return new TemplateResult(new DancingGoatSearchPageViewModel(results, sortBy, Request.Path));
     }
 }

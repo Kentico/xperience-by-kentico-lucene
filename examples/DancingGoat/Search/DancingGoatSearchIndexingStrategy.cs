@@ -1,10 +1,11 @@
 #nullable enable
 
+using System.Globalization;
+using System.Text;
 using System.Text.RegularExpressions;
 
 using AngleSharp.Html.Parser;
 
-using CMS.ContentEngine;
 using CMS.Websites;
 
 using DancingGoat.Models;
@@ -14,35 +15,43 @@ using Kentico.Xperience.Lucene.Core.Indexing;
 
 using Lucene.Net.Documents;
 using Lucene.Net.Facet;
+using Lucene.Net.Util;
 
 namespace DancingGoat.Search;
 
 public sealed partial class DancingGoatSearchIndexingStrategy(
     IContentRetriever contentRetriever) : DefaultLuceneIndexingStrategy
 {
-    public const string FACET_DIMENSION = "ContentType";
-    public const string PRODUCT_CATEGORY_FACET_DIMENSION = "ProductCategory";
-    public const string PRODUCT_TAG_FACET_DIMENSION = "ProductTag";
-    public const string PRODUCT_MANUFACTURER_FACET_DIMENSION = "ProductManufacturer";
-    public const string COFFEE_PROCESSING_FACET_DIMENSION = "CoffeeProcessing";
-    public const string COFFEE_TASTE_FACET_DIMENSION = "CoffeeTaste";
+    public const string INDEX_NAME = "DancingGoatGlobal";
+    public const string STRATEGY_NAME = "DancingGoatGlobalSearch";
     public const string CONTENT_FIELD_NAME = "Content";
     public const string SORTABLE_TITLE_FIELD_NAME = "SortableTitle";
+
+    /// <summary>
+    /// Holds <see cref="SECURED_VALUE"/> for pages that require authentication, <see cref="NOT_SECURED_VALUE"/> otherwise.
+    /// Secured pages are indexed only when <c>CMSLuceneSearch:IncludeSecuredItems</c> is enabled, and the search service
+    /// filters them out for anonymous visitors.
+    /// </summary>
+    public const string IS_SECURED_FIELD_NAME = "IsSecured";
+    public const string SECURED_VALUE = "true";
+    public const string NOT_SECURED_VALUE = "false";
+
+    private const string BLOCK_ELEMENTS_SELECTOR = "address, article, aside, blockquote, br, dd, div, dl, dt, figcaption, figure, footer, h1, h2, h3, h4, h5, h6, header, hr, li, main, nav, ol, p, pre, section, table, td, th, tr, ul";
 
     private readonly IContentRetriever contentRetriever = contentRetriever;
 
     public override async Task<Document?> MapToLuceneDocumentOrNull(IIndexEventItemModel item)
     {
-        if (item is not IndexEventWebPageItemModel indexedPage || item.IsSecured)
+        if (item is not IndexEventWebPageItemModel indexedPage)
         {
             return null;
         }
 
         string title;
         string content;
-        string facetValue;
+        string contentType;
         string url;
-        IProductFields? product = null;
+        object facetSource;
 
         if (string.Equals(item.ContentTypeName, ArticlePage.CONTENT_TYPE_NAME, StringComparison.OrdinalIgnoreCase))
         {
@@ -52,9 +61,10 @@ public sealed partial class DancingGoatSearchIndexingStrategy(
                 return null;
             }
 
+            facetSource = page;
             title = page.ArticleTitle ?? string.Empty;
             content = ExtractText(page.ArticlePageSummary, page.ArticlePageText);
-            facetValue = "Article";
+            contentType = DancingGoatSearchFacets.ARTICLE_CONTENT_TYPE;
             url = page.GetUrl().RelativePath;
         }
         else if (string.Equals(item.ContentTypeName, ProductPage.CONTENT_TYPE_NAME, StringComparison.OrdinalIgnoreCase))
@@ -65,10 +75,10 @@ public sealed partial class DancingGoatSearchIndexingStrategy(
                 return null;
             }
 
-            product = productFields;
+            facetSource = productFields;
             title = productFields.ProductFieldName ?? string.Empty;
             content = ExtractText(productFields.ProductFieldDescription);
-            facetValue = "Product";
+            contentType = DancingGoatSearchFacets.PRODUCT_CONTENT_TYPE;
             url = page.GetUrl().RelativePath;
         }
         else
@@ -78,19 +88,16 @@ public sealed partial class DancingGoatSearchIndexingStrategy(
 
         var document = new Document
         {
-            new FacetField(FACET_DIMENSION, facetValue),
+            new FacetField(DancingGoatSearchFacets.CONTENT_TYPE_DIMENSION, contentType),
             new TextField(nameof(DancingGoatSearchResultModel.Title), title, Field.Store.YES),
-            new StringField(SORTABLE_TITLE_FIELD_NAME, title, Field.Store.YES),
+            new SortedDocValuesField(SORTABLE_TITLE_FIELD_NAME, new BytesRef(GetSortableTitle(title))),
             new StringField(nameof(DancingGoatSearchResultModel.Url), url, Field.Store.YES),
-            new StringField(nameof(DancingGoatSearchResultModel.ContentType), facetValue, Field.Store.YES),
+            new StringField(nameof(DancingGoatSearchResultModel.ContentType), contentType, Field.Store.YES),
             new TextField(CONTENT_FIELD_NAME, content, Field.Store.YES),
-            new StoredField(nameof(DancingGoatSearchResultModel.Snippet), content[..Math.Min(content.Length, 240)])
+            new StringField(IS_SECURED_FIELD_NAME, item.IsSecured ? SECURED_VALUE : NOT_SECURED_VALUE, Field.Store.YES)
         };
 
-        if (product is not null)
-        {
-            AddProductTaxonomyFacets(document, product);
-        }
+        AddTaxonomyFacets(document, facetSource);
 
         return document;
     }
@@ -102,10 +109,12 @@ public sealed partial class DancingGoatSearchIndexingStrategy(
             {
                 ChannelName = DancingGoatConstants.WEBSITE_CHANNEL_NAME,
                 LanguageName = changedItem.LanguageName,
-                IsForPreview = false
+                IsForPreview = false,
+                UseLanguageFallbacks = false,
+                IncludeSecuredItems = true
             },
             query => query.Linking(nameof(ProductPage.ProductPageProduct), [changedItem.ItemID]),
-            new RetrievalCacheSettings($"ProductPagesLinking|{changedItem.ItemID}"),
+            RetrievalCacheSettings.CacheDisabled,
             cancellationToken: default);
 
         return pages.Select(page => new IndexEventWebPageItemModel(
@@ -126,41 +135,43 @@ public sealed partial class DancingGoatSearchIndexingStrategy(
     public override FacetsConfig FacetsConfigFactory()
     {
         var facetsConfig = new FacetsConfig();
-        facetsConfig.SetMultiValued(FACET_DIMENSION, false);
-        facetsConfig.SetMultiValued(PRODUCT_CATEGORY_FACET_DIMENSION, true);
-        facetsConfig.SetMultiValued(PRODUCT_TAG_FACET_DIMENSION, true);
-        facetsConfig.SetMultiValued(PRODUCT_MANUFACTURER_FACET_DIMENSION, true);
-        facetsConfig.SetMultiValued(COFFEE_PROCESSING_FACET_DIMENSION, true);
-        facetsConfig.SetMultiValued(COFFEE_TASTE_FACET_DIMENSION, true);
+        facetsConfig.SetMultiValued(DancingGoatSearchFacets.CONTENT_TYPE_DIMENSION, false);
+        foreach (var definition in DancingGoatSearchFacets.TAXONOMY_FACETS)
+        {
+            facetsConfig.SetMultiValued(definition.Dimension, true);
+        }
+
         return facetsConfig;
     }
 
-    private static void AddProductTaxonomyFacets(Document document, IProductFields product)
+    private static void AddTaxonomyFacets(Document document, object facetSource)
     {
-        var productFacets = new Dictionary<string, IEnumerable<TagReference>>
+        foreach (var definition in DancingGoatSearchFacets.TAXONOMY_FACETS)
         {
-            [PRODUCT_CATEGORY_FACET_DIMENSION] = product.ProductFieldCategory ?? [],
-            [PRODUCT_TAG_FACET_DIMENSION] = product.ProductFieldTags ?? []
-        };
-
-        if (product is IProductManufacturer manufacturer)
-        {
-            productFacets[PRODUCT_MANUFACTURER_FACET_DIMENSION] = manufacturer.ProductManufacturerTag ?? [];
-        }
-
-        if (product is ProductCoffee coffee)
-        {
-            productFacets[COFFEE_PROCESSING_FACET_DIMENSION] = coffee.CoffeeProcessing ?? [];
-            productFacets[COFFEE_TASTE_FACET_DIMENSION] = coffee.CoffeeTastes ?? [];
-        }
-
-        foreach (var (dimension, facetTags) in productFacets)
-        {
-            foreach (var reference in facetTags.DistinctBy(tag => tag.Identifier))
+            var tags = definition.GetTags(facetSource) ?? [];
+            foreach (var tag in tags.DistinctBy(tag => tag.Identifier))
             {
-                document.Add(new FacetField(dimension, reference.Identifier.ToString("D")));
+                document.Add(new FacetField(definition.Dimension, tag.Identifier.ToString("D")));
             }
         }
+    }
+
+    /// <summary>
+    /// Returns a case-insensitive, accent-folded key so that titles such as "Él" and "el" sort next to each other.
+    /// </summary>
+    private static string GetSortableTitle(string title)
+    {
+        var decomposedTitle = title.Normalize(NormalizationForm.FormD);
+        var builder = new StringBuilder(decomposedTitle.Length);
+        foreach (char character in decomposedTitle)
+        {
+            if (CharUnicodeInfo.GetUnicodeCategory(character) != UnicodeCategory.NonSpacingMark)
+            {
+                builder.Append(char.ToLowerInvariant(character));
+            }
+        }
+
+        return builder.ToString().Normalize(NormalizationForm.FormC).Trim();
     }
 
     private async Task<T?> RetrievePage<T>(IndexEventWebPageItemModel indexedPage, int linkedItemsMaxLevel = 0)
@@ -173,14 +184,16 @@ public sealed partial class DancingGoatSearchIndexingStrategy(
                 ChannelName = indexedPage.WebsiteChannelName,
                 LanguageName = indexedPage.LanguageName,
                 IsForPreview = false,
+                UseLanguageFallbacks = false,
+                IncludeSecuredItems = true,
                 LinkedItemsMaxLevel = linkedItemsMaxLevel
             },
+            null,
+            RetrievalCacheSettings.CacheDisabled,
             cancellationToken: default);
 
         return pages.FirstOrDefault();
     }
-
-    private const string BLOCK_ELEMENTS_SELECTOR = "address, article, aside, blockquote, br, dd, div, dl, dt, figcaption, figure, footer, h1, h2, h3, h4, h5, h6, header, hr, li, main, nav, ol, p, pre, section, table, td, th, tr, ul";
 
     [GeneratedRegex(@"\s+")]
     private static partial Regex WhitespaceRegex();

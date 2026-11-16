@@ -15,7 +15,7 @@
   </ContentItemCommonDataContentLanguageID>
   <ContentItemCommonDataGUID>1d1fe600-a580-4a45-bd7d-8c43c647adf3</ContentItemCommonDataGUID>
   <ContentItemCommonDataIsLatest>True</ContentItemCommonDataIsLatest>
-  <ContentItemCommonDataLastPublishedWhen>2026-10-13 13:04:43Z</ContentItemCommonDataLastPublishedWhen>
+  <ContentItemCommonDataLastPublishedWhen>2026-11-16 16:20:28Z</ContentItemCommonDataLastPublishedWhen>
   <ContentItemCommonDataVersionStatus>2</ContentItemCommonDataVersionStatus>
   <ContentItemCommonDataVisualBuilderTemplateConfiguration>
 <![CDATA[
@@ -88,7 +88,7 @@
   <ContentItemReferences>
     <cms.contentitemreference>
       <ContentItemReferenceGroupGUID>04b5735c-f3b6-4dba-af49-1c748e952820</ContentItemReferenceGroupGUID>
-      <ContentItemReferenceGUID>2aecd5bd-e878-4e8c-9a54-1174730fc557</ContentItemReferenceGUID>
+      <ContentItemReferenceGUID>77811f76-0449-46cf-abca-95b854cd5386</ContentItemReferenceGUID>
       <ContentItemReferenceSourceCommonDataID>
         <GUID>1d1fe600-a580-4a45-bd7d-8c43c647adf3</GUID>
         <ObjectType>cms.contentitemcommondata</ObjectType>
@@ -101,20 +101,7 @@
     </cms.contentitemreference>
     <cms.contentitemreference>
       <ContentItemReferenceGroupGUID>49eea67f-5a3a-4a0a-a4a4-42cf4e2117c0</ContentItemReferenceGroupGUID>
-      <ContentItemReferenceGUID>4192ae9c-62ab-445a-a7e9-9dc19523a127</ContentItemReferenceGUID>
-      <ContentItemReferenceSourceCommonDataID>
-        <GUID>1d1fe600-a580-4a45-bd7d-8c43c647adf3</GUID>
-        <ObjectType>cms.contentitemcommondata</ObjectType>
-      </ContentItemReferenceSourceCommonDataID>
-      <ContentItemReferenceTargetItemID>
-        <CodeName>OnRoasts-nlx96ge6</CodeName>
-        <GUID>d5d28908-d403-4f6d-ab5a-d7758b43dbf2</GUID>
-        <ObjectType>cms.contentitem</ObjectType>
-      </ContentItemReferenceTargetItemID>
-    </cms.contentitemreference>
-    <cms.contentitemreference>
-      <ContentItemReferenceGroupGUID>49eea67f-5a3a-4a0a-a4a4-42cf4e2117c0</ContentItemReferenceGroupGUID>
-      <ContentItemReferenceGUID>979ae209-18d5-4f01-aa6b-bb120f6f1164</ContentItemReferenceGUID>
+      <ContentItemReferenceGUID>51247b1a-de14-4dba-8566-227afc22c181</ContentItemReferenceGUID>
       <ContentItemReferenceSourceCommonDataID>
         <GUID>1d1fe600-a580-4a45-bd7d-8c43c647adf3</GUID>
         <ObjectType>cms.contentitemcommondata</ObjectType>
@@ -127,7 +114,20 @@
     </cms.contentitemreference>
     <cms.contentitemreference>
       <ContentItemReferenceGroupGUID>49eea67f-5a3a-4a0a-a4a4-42cf4e2117c0</ContentItemReferenceGroupGUID>
-      <ContentItemReferenceGUID>7c0148dd-9ac9-4872-9ca2-becf437befc4</ContentItemReferenceGUID>
+      <ContentItemReferenceGUID>327316ca-ea35-41de-8680-7830ee4a298d</ContentItemReferenceGUID>
+      <ContentItemReferenceSourceCommonDataID>
+        <GUID>1d1fe600-a580-4a45-bd7d-8c43c647adf3</GUID>
+        <ObjectType>cms.contentitemcommondata</ObjectType>
+      </ContentItemReferenceSourceCommonDataID>
+      <ContentItemReferenceTargetItemID>
+        <CodeName>OnRoasts-nlx96ge6</CodeName>
+        <GUID>d5d28908-d403-4f6d-ab5a-d7758b43dbf2</GUID>
+        <ObjectType>cms.contentitem</ObjectType>
+      </ContentItemReferenceTargetItemID>
+    </cms.contentitemreference>
+    <cms.contentitemreference>
+      <ContentItemReferenceGroupGUID>49eea67f-5a3a-4a0a-a4a4-42cf4e2117c0</ContentItemReferenceGroupGUID>
+      <ContentItemReferenceGUID>0cf11e09-4a5e-45b9-bef6-a5c5e1bdacd7</ContentItemReferenceGUID>
       <ContentItemReferenceSourceCommonDataID>
         <GUID>1d1fe600-a580-4a45-bd7d-8c43c647adf3</GUID>
         <ObjectType>cms.contentitemcommondata</ObjectType>

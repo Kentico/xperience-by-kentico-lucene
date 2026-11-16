@@ -10,16 +10,6 @@
     <GUID>e4a8fb12-ebc2-45d0-930f-c9fba2780c85</GUID>
     <ObjectType>cms.contentlanguage</ObjectType>
   </ContentItemLanguageMetadataContentLanguageID>
-  <ContentItemLanguageMetadataContentWorkflowStepID>
-    <CodeName>Draft-u6kbnmcf</CodeName>
-    <GUID>7d48b55e-2c09-4f50-8c72-c43be38e594c</GUID>
-    <ObjectType>cms.contentworkflowstep</ObjectType>
-    <Parent>
-      <CodeName>DancingGoat.ArticleReview</CodeName>
-      <GUID>20089af5-41ce-490b-a138-ea2910801c6a</GUID>
-      <ObjectType>cms.contentworkflow</ObjectType>
-    </Parent>
-  </ContentItemLanguageMetadataContentWorkflowStepID>
   <ContentItemLanguageMetadataCreatedByUserID>
     <CodeName>administrator</CodeName>
     <GUID>6415b8ce-8072-4bcd-8e48-9d7178b826b7</GUID>
@@ -29,10 +19,21 @@
   <ContentItemLanguageMetadataDisplayName>The Resilient Robusta: A Coffee with Character</ContentItemLanguageMetadataDisplayName>
   <ContentItemLanguageMetadataGUID>02e46d8c-8d8a-4447-b4f1-8205cf8f6be3</ContentItemLanguageMetadataGUID>
   <ContentItemLanguageMetadataHasImageAsset>False</ContentItemLanguageMetadataHasImageAsset>
-  <ContentItemLanguageMetadataLatestVersionStatus>0</ContentItemLanguageMetadataLatestVersionStatus>
+  <ContentItemLanguageMetadataLatestVersionStatus>2</ContentItemLanguageMetadataLatestVersionStatus>
   <ContentItemLanguageMetadataModifiedByUserID>
-    <CodeName>administrator</CodeName>
-    <GUID>6415b8ce-8072-4bcd-8e48-9d7178b826b7</GUID>
+    <CodeName>kentico-system-service</CodeName>
+    <GUID>87fb6822-3c7a-4207-a03f-e8d20d850ab2</GUID>
     <ObjectType>cms.user</ObjectType>
   </ContentItemLanguageMetadataModifiedByUserID>
+  <ContentItemTags>
+    <cms.contentitemtag>
+      <ContentItemTagContentItemLanguageMetadataID>
+        <GUID>02e46d8c-8d8a-4447-b4f1-8205cf8f6be3</GUID>
+        <ObjectType>cms.contentitemlanguagemetadata</ObjectType>
+      </ContentItemTagContentItemLanguageMetadataID>
+      <ContentItemTagFieldGUID>cfaa5065-f5a0-4ce4-a44b-2c7a1e5a8274</ContentItemTagFieldGUID>
+      <ContentItemTagGUID>7a749d8f-6a4d-49c1-9be4-8e58cbae0853</ContentItemTagGUID>
+      <ContentItemTagTagGUID>5fc4b5c0-bb7a-4c92-b7c8-6203cadaba16</ContentItemTagTagGUID>
+    </cms.contentitemtag>
+  </ContentItemTags>
 </cms.contentitemlanguagemetadata>

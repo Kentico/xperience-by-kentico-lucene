@@ -10,9 +10,11 @@
     <GUID>e4a8fb12-ebc2-45d0-930f-c9fba2780c85</GUID>
     <ObjectType>cms.contentlanguage</ObjectType>
   </ContentItemCommonDataContentLanguageID>
+  <ContentItemCommonDataFirstPublishedWhen>2026-11-16 16:20:29Z</ContentItemCommonDataFirstPublishedWhen>
   <ContentItemCommonDataGUID>bdc3219d-88d6-4d8b-b6ac-a18243794bb5</ContentItemCommonDataGUID>
   <ContentItemCommonDataIsLatest>True</ContentItemCommonDataIsLatest>
-  <ContentItemCommonDataVersionStatus>0</ContentItemCommonDataVersionStatus>
+  <ContentItemCommonDataLastPublishedWhen>2026-11-16 16:20:29Z</ContentItemCommonDataLastPublishedWhen>
+  <ContentItemCommonDataVersionStatus>2</ContentItemCommonDataVersionStatus>
   <ContentItemCommonDataVisualBuilderTemplateConfiguration>
 <![CDATA[
 {
@@ -25,6 +27,7 @@
   <SEOFieldsDescription>
     <![CDATA[Robusta coffee, long overshadowed by Arabica, is being rediscovered for its bold flavor and resilience, with high-quality varieties now earning recognition among the world’s finest.]]>
   </SEOFieldsDescription>
+  <SEOFieldsNoIndex>False</SEOFieldsNoIndex>
   <SEOFieldsTitle>
     <![CDATA[The Resilient Robusta: A Coffee with Character - Dancing Goat]]>
   </SEOFieldsTitle>

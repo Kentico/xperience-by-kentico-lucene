@@ -84,37 +84,75 @@ With this approach, the Lucene indexes are automatically mapped alongside all ot
 
 If your project does not use automatic storage path mapping, or you need more control over which environments and containers are used, you can configure storage in a custom CMS module. This approach uses `StorageHelper.MapStoragePath()` directly to route the Lucene index path to your chosen provider.
 
-See the [DancingGoat `LuceneStorageModule`](../examples/DancingGoat/LuceneStorageModule.cs) for a complete reference implementation.
+The following module maps the Lucene index path to Azure Blob Storage in Kentico SaaS environments and keeps indexes on the local file system during development.
 
 ```csharp
 using CMS;
+using CMS.Core;
 using CMS.DataEngine;
 using CMS.IO;
 
 using Kentico.Xperience.AzureStorage;
+using Kentico.Xperience.Cloud;
 using Kentico.Xperience.Lucene.Core.Store;
 
 [assembly: RegisterModule(typeof(LuceneStorageModule))]
 
+/// <summary>
+/// Configures Lucene index storage: Azure Blob Storage in cloud environments,
+/// local file system during development.
+/// </summary>
 public class LuceneStorageModule : Module
 {
+    /// <summary>
+    /// Container name within Azure Blob Storage for Lucene indexes.
+    /// </summary>
     private const string CONTAINER_NAME = "lucene";
 
-    public LuceneStorageModule() : base(nameof(LuceneStorageModule)) { }
+    private IWebHostEnvironment? mEnvironment;
+
+    /// <summary>
+    /// Gets the web hosting environment information.
+    /// </summary>
+    public IWebHostEnvironment Environment => mEnvironment ??= Service.Resolve<IWebHostEnvironment>();
+
+    public LuceneStorageModule()
+        : base(nameof(LuceneStorageModule))
+    {
+    }
 
     protected override void OnInit()
     {
         base.OnInit();
 
-        if (Environment.IsQa() || Environment.IsProduction() /* ... */)
+        if (Environment.IsQa() ||
+            Environment.IsUat() ||
+            Environment.IsEnvironment(CloudEnvironments.Custom) ||
+            Environment.IsEnvironment(CloudEnvironments.Staging) ||
+            Environment.IsProduction())
         {
             // Map Lucene indexes to Azure Blob Storage in cloud environments
-            var provider = AzureStorageProvider.Create(CONTAINER_NAME, publicExternalFolderObject: false);
-            StorageHelper.MapStoragePath($"~/{LuceneStorageConstants.LUCENE_INDEX_PATH}/", provider);
+            MapAzureStoragePath($"~/{LuceneStorageConstants.LUCENE_INDEX_PATH}/");
         }
+    }
+
+    /// <summary>
+    /// Maps a virtual path to Azure Blob Storage.
+    /// </summary>
+    private static void MapAzureStoragePath(string path)
+    {
+        var provider = AzureStorageProvider.Create();
+
+        // Store Lucene indexes in a dedicated container with public access disabled
+        provider.CustomRootPath = CONTAINER_NAME;
+        provider.PublicExternalFolderObject = false;
+
+        StorageHelper.MapStoragePath(path, provider);
     }
 }
 ```
+
+`IsQa()`, `IsUat()`, and `CloudEnvironments` come from the `Kentico.Xperience.Cloud` package. Adjust the environment checks to match where your application runs.
 
 The `StorageHelper.MapStoragePath()` call redirects all CMS.IO file operations under the specified path to the external provider. In development or local environments, you can skip the mapping and indexes will be stored on the local file system by default.
 

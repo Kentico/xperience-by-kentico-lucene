@@ -21,5 +21,6 @@
         public const string ARTICLE_TEMPLATE = "DancingGoat.Article";
         public const string ARTICLE_WITH_SIDEBAR_TEMPLATE = "DancingGoat.ArticleWithSidebar";
         public const string HOME_PAGE_TEMPLATE = "DancingGoat.HomePage";
+        public const string SEARCH_PAGE_TEMPLATE = "DancingGoat.SearchPage";
     }
 }

@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<kenticolucene.lucenereusablecontenttypeitem>
+  <LuceneReusableContentTypeItemContentTypeName>DancingGoat.ProductTemplateAlphaSize</LuceneReusableContentTypeItemContentTypeName>
+  <LuceneReusableContentTypeItemGuid>80f61091-61d8-4305-99be-cedfa4943c98</LuceneReusableContentTypeItemGuid>
+  <LuceneReusableContentTypeItemIndexItemId>
+    <CodeName>DancingGoatGlobal</CodeName>
+    <GUID>7a4afab1-b707-48e9-9f60-e24add4e6c1c</GUID>
+    <ObjectType>kenticolucene.luceneindexitem</ObjectType>
+  </LuceneReusableContentTypeItemIndexItemId>
+</kenticolucene.lucenereusablecontenttypeitem>

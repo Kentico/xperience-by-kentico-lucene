@@ -411,6 +411,12 @@
   <data name="dancinggoat.homepagetemplate.title" xml:space="preserve">
     <value>Home page</value>
   </data>
+  <data name="dancinggoat.searchpagetemplate.description" xml:space="preserve">
+    <value>Lucene search results with facets, and an editable area above the results.</value>
+  </data>
+  <data name="dancinggoat.searchpagetemplate.title" xml:space="preserve">
+    <value>Search page</value>
+  </data>
   <data name="dancinggoat.imagewidget.alignment.explanationtext" xml:space="preserve">
     <value>Select how you want to position the image</value>
   </data>

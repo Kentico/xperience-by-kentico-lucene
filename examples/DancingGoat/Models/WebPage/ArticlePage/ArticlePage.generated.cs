@@ -72,6 +72,12 @@ namespace DancingGoat.Models
 
 
 		/// <summary>
+		/// ArticlePageTopics.
+		/// </summary>
+		public IEnumerable<TagReference> ArticlePageTopics { get; set; }
+
+
+		/// <summary>
 		/// SEOFieldsTitle.
 		/// </summary>
 		public string SEOFieldsTitle { get; set; }
