@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<cms.contentitem>
+  <ContentItemContentFolderID>
+    <CodeName>Root-DancingGoat.DancingGoatLtd</CodeName>
+    <GUID>8e9a7524-da1b-4a74-80ff-9642b0d33bd4</GUID>
+    <ObjectType>cms.contentfolder</ObjectType>
+  </ContentItemContentFolderID>
+  <ContentItemContentTypeID>
+    <CodeName>DancingGoat.Testimonial</CodeName>
+    <GUID>114d7a4f-a114-457e-bd56-50135db6b3e8</GUID>
+    <ObjectType>cms.contenttype</ObjectType>
+  </ContentItemContentTypeID>
+  <ContentItemGUID>64954266-687e-4674-94cd-d5ba1060d559</ContentItemGUID>
+  <ContentItemIsReusable>True</ContentItemIsReusable>
+  <ContentItemIsSecured>False</ContentItemIsSecured>
+  <ContentItemName>DancingGoatTestimonialJimmieDimmick</ContentItemName>
+  <ContentItemWorkspaceID>
+    <CodeName>DancingGoat.DancingGoatLtd</CodeName>
+    <GUID>4972d424-6c85-45f1-ac71-2576716a4e8c</GUID>
+    <ObjectType>cms.workspace</ObjectType>
+  </ContentItemWorkspaceID>
+</cms.contentitem>

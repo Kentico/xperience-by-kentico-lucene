@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<cms.webpageitem>
+  <WebPageItemContentItemID>
+    <CodeName>Home-te0fxw28</CodeName>
+    <GUID>e8f0de43-9baf-44cf-a79f-e944b51c5619</GUID>
+    <ObjectType>cms.contentitem</ObjectType>
+  </WebPageItemContentItemID>
+  <WebPageItemGUID>32d7050a-fae6-4703-a3db-db3308697e79</WebPageItemGUID>
+  <WebPageItemName>Home-te0fxw28</WebPageItemName>
+  <WebPageItemOrder>2</WebPageItemOrder>
+  <WebPageItemParentID>
+    <CodeName>NavigationMenu-q2f5caof</CodeName>
+    <GUID>7227b2a2-f3b8-439e-8bd2-d1aeae36f015</GUID>
+    <ObjectType>cms.webpageitem</ObjectType>
+  </WebPageItemParentID>
+  <WebPageItemTreePath>/Navigation_menu/Home</WebPageItemTreePath>
+  <WebPageItemWebsiteChannelID>
+    <GUID>55e3ae4b-3843-46b8-95d5-79611c371d6f</GUID>
+    <ObjectType>cms.websitechannel</ObjectType>
+    <Parent>
+      <CodeName>DancingGoatPages</CodeName>
+      <GUID>c430f96d-bd56-4448-b6ab-bce41a58f186</GUID>
+      <ObjectType>cms.channel</ObjectType>
+    </Parent>
+  </WebPageItemWebsiteChannelID>
+</cms.webpageitem>

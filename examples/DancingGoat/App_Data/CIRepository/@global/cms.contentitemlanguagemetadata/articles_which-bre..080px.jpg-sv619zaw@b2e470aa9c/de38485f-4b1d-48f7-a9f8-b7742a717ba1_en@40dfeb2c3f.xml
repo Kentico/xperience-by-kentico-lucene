@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<cms.contentitemlanguagemetadata>
+  <ContentItemLanguageMetadataContentItemID>
+    <CodeName>Articles_Which-brewing-fits-you-1080px.jpg-sv619zaw</CodeName>
+    <GUID>29a1ccaf-3cc8-4c58-b57c-824b94a9535e</GUID>
+    <ObjectType>cms.contentitem</ObjectType>
+  </ContentItemLanguageMetadataContentItemID>
+  <ContentItemLanguageMetadataContentLanguageID>
+    <CodeName>en</CodeName>
+    <GUID>e4a8fb12-ebc2-45d0-930f-c9fba2780c85</GUID>
+    <ObjectType>cms.contentlanguage</ObjectType>
+  </ContentItemLanguageMetadataContentLanguageID>
+  <ContentItemLanguageMetadataCreatedByUserID>
+    <CodeName>administrator</CodeName>
+    <GUID>6415b8ce-8072-4bcd-8e48-9d7178b826b7</GUID>
+    <ObjectType>cms.user</ObjectType>
+  </ContentItemLanguageMetadataCreatedByUserID>
+  <ContentItemLanguageMetadataCreatedWhen>2023-06-13 07:55:57Z</ContentItemLanguageMetadataCreatedWhen>
+  <ContentItemLanguageMetadataDisplayName>(Articles) which-brewing-fits-you-1080px.jpg</ContentItemLanguageMetadataDisplayName>
+  <ContentItemLanguageMetadataGUID>de38485f-4b1d-48f7-a9f8-b7742a717ba1</ContentItemLanguageMetadataGUID>
+  <ContentItemLanguageMetadataHasImageAsset>True</ContentItemLanguageMetadataHasImageAsset>
+  <ContentItemLanguageMetadataLatestVersionStatus>2</ContentItemLanguageMetadataLatestVersionStatus>
+  <ContentItemLanguageMetadataModifiedByUserID>
+    <CodeName>kentico-system-service</CodeName>
+    <GUID>87fb6822-3c7a-4207-a03f-e8d20d850ab2</GUID>
+    <ObjectType>cms.user</ObjectType>
+  </ContentItemLanguageMetadataModifiedByUserID>
+  <ContentItemTags>
+    <cms.contentitemtag>
+      <ContentItemTagContentItemLanguageMetadataID>
+        <GUID>de38485f-4b1d-48f7-a9f8-b7742a717ba1</GUID>
+        <ObjectType>cms.contentitemlanguagemetadata</ObjectType>
+      </ContentItemTagContentItemLanguageMetadataID>
+      <ContentItemTagFieldGUID>01a75a9a-3dd5-4d83-9a3b-ecaecf9e93c9</ContentItemTagFieldGUID>
+      <ContentItemTagGUID>2c75a15f-863d-47b1-84a0-61ec1fd73605</ContentItemTagGUID>
+      <ContentItemTagTagGUID>df1d5186-7e1a-4602-97fd-92dd878116a3</ContentItemTagTagGUID>
+    </cms.contentitemtag>
+    <cms.contentitemtag>
+      <ContentItemTagContentItemLanguageMetadataID>
+        <GUID>de38485f-4b1d-48f7-a9f8-b7742a717ba1</GUID>
+        <ObjectType>cms.contentitemlanguagemetadata</ObjectType>
+      </ContentItemTagContentItemLanguageMetadataID>
+      <ContentItemTagFieldGUID>01a75a9a-3dd5-4d83-9a3b-ecaecf9e93c9</ContentItemTagFieldGUID>
+      <ContentItemTagGUID>2f40c132-545b-4e7a-b327-df4c2d99df78</ContentItemTagGUID>
+      <ContentItemTagTagGUID>4bfed9d2-ba32-460a-b891-11c6e37cfa2d</ContentItemTagTagGUID>
+    </cms.contentitemtag>
+  </ContentItemTags>
+</cms.contentitemlanguagemetadata>

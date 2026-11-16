@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<cms.contentitemlanguagemetadata>
+  <ContentItemLanguageMetadataContentItemID>
+    <CodeName>Articles_Article-1_2x.jpg-n2s18kkg</CodeName>
+    <GUID>b8117d96-dfb3-474d-ad27-c3b0d3bd26db</GUID>
+    <ObjectType>cms.contentitem</ObjectType>
+  </ContentItemLanguageMetadataContentItemID>
+  <ContentItemLanguageMetadataContentLanguageID>
+    <CodeName>en</CodeName>
+    <GUID>e4a8fb12-ebc2-45d0-930f-c9fba2780c85</GUID>
+    <ObjectType>cms.contentlanguage</ObjectType>
+  </ContentItemLanguageMetadataContentLanguageID>
+  <ContentItemLanguageMetadataCreatedByUserID>
+    <CodeName>administrator</CodeName>
+    <GUID>6415b8ce-8072-4bcd-8e48-9d7178b826b7</GUID>
+    <ObjectType>cms.user</ObjectType>
+  </ContentItemLanguageMetadataCreatedByUserID>
+  <ContentItemLanguageMetadataCreatedWhen>2023-06-13 07:58:00Z</ContentItemLanguageMetadataCreatedWhen>
+  <ContentItemLanguageMetadataDisplayName>(Articles) article-1@2x.jpg</ContentItemLanguageMetadataDisplayName>
+  <ContentItemLanguageMetadataGUID>0a8bc98b-eb3c-46ed-9736-c497bc6755dd</ContentItemLanguageMetadataGUID>
+  <ContentItemLanguageMetadataHasImageAsset>True</ContentItemLanguageMetadataHasImageAsset>
+  <ContentItemLanguageMetadataLatestVersionStatus>2</ContentItemLanguageMetadataLatestVersionStatus>
+  <ContentItemLanguageMetadataModifiedByUserID>
+    <CodeName>kentico-system-service</CodeName>
+    <GUID>87fb6822-3c7a-4207-a03f-e8d20d850ab2</GUID>
+    <ObjectType>cms.user</ObjectType>
+  </ContentItemLanguageMetadataModifiedByUserID>
+  <ContentItemTags>
+    <cms.contentitemtag>
+      <ContentItemTagContentItemLanguageMetadataID>
+        <GUID>0a8bc98b-eb3c-46ed-9736-c497bc6755dd</GUID>
+        <ObjectType>cms.contentitemlanguagemetadata</ObjectType>
+      </ContentItemTagContentItemLanguageMetadataID>
+      <ContentItemTagFieldGUID>01a75a9a-3dd5-4d83-9a3b-ecaecf9e93c9</ContentItemTagFieldGUID>
+      <ContentItemTagGUID>45e5900c-26ec-41be-8598-18f0838348e5</ContentItemTagGUID>
+      <ContentItemTagTagGUID>a31ddb84-2ca0-404f-9cd1-8d76d48814e1</ContentItemTagTagGUID>
+    </cms.contentitemtag>
+    <cms.contentitemtag>
+      <ContentItemTagContentItemLanguageMetadataID>
+        <GUID>0a8bc98b-eb3c-46ed-9736-c497bc6755dd</GUID>
+        <ObjectType>cms.contentitemlanguagemetadata</ObjectType>
+      </ContentItemTagContentItemLanguageMetadataID>
+      <ContentItemTagFieldGUID>01a75a9a-3dd5-4d83-9a3b-ecaecf9e93c9</ContentItemTagFieldGUID>
+      <ContentItemTagGUID>b09116e6-fc9f-4ac1-8f87-78e9bd1f62c5</ContentItemTagGUID>
+      <ContentItemTagTagGUID>df1d5186-7e1a-4602-97fd-92dd878116a3</ContentItemTagTagGUID>
+    </cms.contentitemtag>
+  </ContentItemTags>
+</cms.contentitemlanguagemetadata>

@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<cms.contentitemlanguagemetadata>
+  <ContentItemLanguageMetadataContentItemID>
+    <CodeName>Brewers-a0dn5izb</CodeName>
+    <GUID>946003ce-7f95-4f56-b7b1-9ac3a528e7e1</GUID>
+    <ObjectType>cms.contentitem</ObjectType>
+  </ContentItemLanguageMetadataContentItemID>
+  <ContentItemLanguageMetadataContentLanguageID>
+    <CodeName>en</CodeName>
+    <GUID>e4a8fb12-ebc2-45d0-930f-c9fba2780c85</GUID>
+    <ObjectType>cms.contentlanguage</ObjectType>
+  </ContentItemLanguageMetadataContentLanguageID>
+  <ContentItemLanguageMetadataCreatedByUserID>
+    <CodeName>administrator</CodeName>
+    <GUID>6415b8ce-8072-4bcd-8e48-9d7178b826b7</GUID>
+    <ObjectType>cms.user</ObjectType>
+  </ContentItemLanguageMetadataCreatedByUserID>
+  <ContentItemLanguageMetadataCreatedWhen>2025-02-13 14:24:15Z</ContentItemLanguageMetadataCreatedWhen>
+  <ContentItemLanguageMetadataDisplayName>Brewers</ContentItemLanguageMetadataDisplayName>
+  <ContentItemLanguageMetadataGUID>77dd2b50-fbfa-4b82-875b-4ee0e028cc5e</ContentItemLanguageMetadataGUID>
+  <ContentItemLanguageMetadataHasImageAsset>False</ContentItemLanguageMetadataHasImageAsset>
+  <ContentItemLanguageMetadataLatestVersionStatus>2</ContentItemLanguageMetadataLatestVersionStatus>
+  <ContentItemLanguageMetadataModifiedByUserID>
+    <CodeName>administrator</CodeName>
+    <GUID>6415b8ce-8072-4bcd-8e48-9d7178b826b7</GUID>
+    <ObjectType>cms.user</ObjectType>
+  </ContentItemLanguageMetadataModifiedByUserID>
+  <ContentItemTags>
+    <cms.contentitemtag>
+      <ContentItemTagContentItemLanguageMetadataID>
+        <GUID>77dd2b50-fbfa-4b82-875b-4ee0e028cc5e</GUID>
+        <ObjectType>cms.contentitemlanguagemetadata</ObjectType>
+      </ContentItemTagContentItemLanguageMetadataID>
+      <ContentItemTagFieldGUID>ce37ed6a-d668-4489-b790-70a95e9110b2</ContentItemTagFieldGUID>
+      <ContentItemTagGUID>ffae2edb-00f4-468b-9117-1b18d3c93105</ContentItemTagGUID>
+      <ContentItemTagTagGUID>4c3bece5-3552-461c-b8f0-29f4fca27684</ContentItemTagTagGUID>
+    </cms.contentitemtag>
+  </ContentItemTags>
+</cms.contentitemlanguagemetadata>

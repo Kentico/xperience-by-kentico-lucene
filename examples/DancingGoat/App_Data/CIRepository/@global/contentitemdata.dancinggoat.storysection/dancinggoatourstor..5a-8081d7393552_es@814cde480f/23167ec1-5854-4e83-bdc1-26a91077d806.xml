@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<contentitemdata.dancinggoat.storysection>
+  <ContentItemDataCommonDataID>
+    <GUID>eaeda4c8-789c-4fa6-8a5a-8081d7393552</GUID>
+    <ObjectType>cms.contentitemcommondata</ObjectType>
+    <Parent>
+      <CodeName>DancingGoatOurStory</CodeName>
+      <GUID>680f2c82-e150-4c9d-bd87-7547da9757b6</GUID>
+      <ObjectType>cms.contentitem</ObjectType>
+    </Parent>
+  </ContentItemDataCommonDataID>
+  <ContentItemDataGUID>23167ec1-5854-4e83-bdc1-26a91077d806</ContentItemDataGUID>
+  <StorySectionText>
+    <![CDATA[En Dancing Goat, nos esforzamos por hacer las cosas bien. No solo conseguimos los mejores cafés que puedas encontrar. También nos aseguramos de tener una relación directa con nuestros agricultores. Visitar las microfinca de donde obtenemos nuestros cafés es nuestro pan de cada día. De esta manera, podemos garantizar el más alto estándar de calidad durante todo el año. Sin intermediarios, sin partes injustas. Nuestros agricultores obtienen el mejor trato posible. Tú también.]]>
+  </StorySectionText>
+  <StorySectionTitle>Nuestra historia</StorySectionTitle>
+</contentitemdata.dancinggoat.storysection>

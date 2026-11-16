@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<cms.webpageurlpath>
+  <WebPageUrlPath>Products/Hario-V60</WebPageUrlPath>
+  <WebPageUrlPathContentLanguageID>
+    <CodeName>en</CodeName>
+    <GUID>e4a8fb12-ebc2-45d0-930f-c9fba2780c85</GUID>
+    <ObjectType>cms.contentlanguage</ObjectType>
+  </WebPageUrlPathContentLanguageID>
+  <WebPageUrlPathGUID>b8f9360d-644c-4ef3-93d6-6e520ddd1db9</WebPageUrlPathGUID>
+  <WebPageUrlPathHash>
+    <![CDATA[E59D76A87BD8FA23C05F0F46946EA4F4D4A366B4160CEF322C9853ACE474F7EB]]>
+  </WebPageUrlPathHash>
+  <WebPageUrlPathIsCanonical>True</WebPageUrlPathIsCanonical>
+  <WebPageUrlPathIsDraft>False</WebPageUrlPathIsDraft>
+  <WebPageUrlPathIsLatest>True</WebPageUrlPathIsLatest>
+  <WebPageUrlPathType>0</WebPageUrlPathType>
+  <WebPageUrlPathWebPageItemID>
+    <CodeName>HarioV60-ecsd7ayf</CodeName>
+    <GUID>496bb3fe-4ab7-4bc8-ac3e-ed058678d32d</GUID>
+    <ObjectType>cms.webpageitem</ObjectType>
+  </WebPageUrlPathWebPageItemID>
+  <WebPageUrlPathWebsiteChannelID>
+    <GUID>55e3ae4b-3843-46b8-95d5-79611c371d6f</GUID>
+    <ObjectType>cms.websitechannel</ObjectType>
+    <Parent>
+      <CodeName>DancingGoatPages</CodeName>
+      <GUID>c430f96d-bd56-4448-b6ab-bce41a58f186</GUID>
+      <ObjectType>cms.channel</ObjectType>
+    </Parent>
+  </WebPageUrlPathWebsiteChannelID>
+</cms.webpageurlpath>

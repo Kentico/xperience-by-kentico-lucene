@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<cms.contentitem>
+  <ContentItemChannelID>
+    <CodeName>DancingGoatPages</CodeName>
+    <GUID>c430f96d-bd56-4448-b6ab-bce41a58f186</GUID>
+    <ObjectType>cms.channel</ObjectType>
+  </ContentItemChannelID>
+  <ContentItemContentTypeID>
+    <CodeName>DancingGoat.Store</CodeName>
+    <GUID>d1b9a1db-582e-47a1-8435-2b71d4bad198</GUID>
+    <ObjectType>cms.contenttype</ObjectType>
+  </ContentItemContentTypeID>
+  <ContentItemGUID>24c19915-6634-4111-bdad-3d353fec0586</ContentItemGUID>
+  <ContentItemIsReusable>False</ContentItemIsReusable>
+  <ContentItemIsSecured>False</ContentItemIsSecured>
+  <ContentItemName>Store-8gtyoz81</ContentItemName>
+</cms.contentitem>

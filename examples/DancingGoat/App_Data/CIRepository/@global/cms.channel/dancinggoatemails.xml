@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<cms.channel>
+  <ChannelDisplayName>Dancing Goat Emails</ChannelDisplayName>
+  <ChannelGUID>85813214-7d3e-4ec9-8d92-e762fd61dc81</ChannelGUID>
+  <ChannelName>DancingGoatEmails</ChannelName>
+  <ChannelSize>Standard</ChannelSize>
+  <ChannelType>Email</ChannelType>
+</cms.channel>

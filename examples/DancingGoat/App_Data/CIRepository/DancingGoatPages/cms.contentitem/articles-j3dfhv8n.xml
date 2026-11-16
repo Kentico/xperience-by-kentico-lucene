@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<cms.contentitem>
+  <ContentItemChannelID>
+    <CodeName>DancingGoatPages</CodeName>
+    <GUID>c430f96d-bd56-4448-b6ab-bce41a58f186</GUID>
+    <ObjectType>cms.channel</ObjectType>
+  </ContentItemChannelID>
+  <ContentItemContentTypeID>
+    <CodeName>DancingGoat.ArticlesSection</CodeName>
+    <GUID>d4f5b41b-4c36-4bc1-9e3f-6ae34235f559</GUID>
+    <ObjectType>cms.contenttype</ObjectType>
+  </ContentItemContentTypeID>
+  <ContentItemGUID>55eed5b7-8436-4e9f-88c0-17ebce5eff2d</ContentItemGUID>
+  <ContentItemIsReusable>False</ContentItemIsReusable>
+  <ContentItemIsSecured>False</ContentItemIsSecured>
+  <ContentItemName>Articles-j3dfhv8n</ContentItemName>
+</cms.contentitem>

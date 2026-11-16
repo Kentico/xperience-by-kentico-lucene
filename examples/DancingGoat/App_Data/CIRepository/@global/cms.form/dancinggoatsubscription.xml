@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<cms.form>
+  <FormBuilderLayout>
+<![CDATA[
+{
+  "editableAreas": [
+    {
+      "identifier": "DefaultFormBuilderArea",
+      "sections": [
+        {
+          "identifier": "00000000-0000-0000-0000-000000000000",
+          "type": "Kentico.DefaultSection",
+          "zones": [
+            {
+              "identifier": "725ae958-c49f-42ad-8f05-74a692db5364",
+              "formComponents": [
+                {
+                  "identifier": "e6a851bb-c6dc-4479-9ae8-cebee3b4dfa8"
+                }
+              ]
+            }
+          ],
+          "properties": null
+        }
+      ]
+    }
+  ]
+}
+]]>
+  </FormBuilderLayout>
+  <FormClassID>
+    <CodeName>BizForm.DancingGoatSubscription</CodeName>
+    <GUID>312e1b3a-2715-409c-96f6-1dd51b3f1b1c</GUID>
+    <ObjectType>cms.formclass</ObjectType>
+  </FormClassID>
+  <FormDisplayName>Dancing Goat subscription</FormDisplayName>
+  <FormGUID>202b0ce3-89d3-4b22-bcc7-b3d8fe1dc20f</FormGUID>
+  <FormItems>0</FormItems>
+  <FormLogActivity>True</FormLogActivity>
+  <FormName>DancingGoatSubscription</FormName>
+</cms.form>

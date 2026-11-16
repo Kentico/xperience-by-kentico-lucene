@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<cms.applicationpermission>
+  <ApplicationName>Kentico.Xperience.Application.ContactGroups</ApplicationName>
+  <ApplicationPermissionGuid>885a18f9-04ba-4858-a86c-b74658fa5b6f</ApplicationPermissionGuid>
+  <PermissionName>View</PermissionName>
+  <RoleID>
+    <CodeName>DancingGoat.DigitalChannelManager</CodeName>
+    <GUID>80f9aa61-d17c-45f0-9b9a-9ff3c301438c</GUID>
+    <ObjectType>cms.role</ObjectType>
+  </RoleID>
+</cms.applicationpermission>

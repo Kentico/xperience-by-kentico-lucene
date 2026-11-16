@@ -1,0 +1,458 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<cms.contentitemcommondata>
+  <ContentItemCommonDataContentItemID>
+    <CodeName>CoffeeSamples-joncqzvf</CodeName>
+    <GUID>ddd8fd89-7656-4374-a681-fdf6cb149b67</GUID>
+    <ObjectType>cms.contentitem</ObjectType>
+  </ContentItemCommonDataContentItemID>
+  <ContentItemCommonDataContentLanguageID>
+    <CodeName>en</CodeName>
+    <GUID>e4a8fb12-ebc2-45d0-930f-c9fba2780c85</GUID>
+    <ObjectType>cms.contentlanguage</ObjectType>
+  </ContentItemCommonDataContentLanguageID>
+  <ContentItemCommonDataGUID>ce143368-4752-470a-b8f7-0124b3416a31</ContentItemCommonDataGUID>
+  <ContentItemCommonDataIsLatest>True</ContentItemCommonDataIsLatest>
+  <ContentItemCommonDataLastPublishedWhen>2026-08-12 07:48:01Z</ContentItemCommonDataLastPublishedWhen>
+  <ContentItemCommonDataVersionStatus>2</ContentItemCommonDataVersionStatus>
+  <ContentItemCommonDataVisualBuilderTemplateConfiguration>
+<![CDATA[
+{
+  "identifier": "DancingGoat.LandingPageSingleColumn",
+  "properties": {
+    "showLogo": true,
+    "headerColorCssClass": "first-color",
+    "heroImage": [
+      {
+        "identifier": "8391b316-9628-4790-8034-42e672acc963"
+      }
+    ],
+    "ticketLabel": "Weekly sample",
+    "ticketValue": "FREE",
+    "ticketWhen": "Every Thursday",
+    "ticketNote": "Valid 7 days · Pick-up only · No purchase required"
+  },
+  "fieldIdentifiers": {
+    "showLogo": "d537d190-9d65-4811-8af1-10d0f4e1a240",
+    "headerColorCssClass": "f6a7751d-71dc-4662-a0f0-8ce8225b15c0",
+    "heroImage": "88cc5c8d-27d3-4331-99ef-6f0b47f41009",
+    "ticketLabel": "f93277bb-cdaf-4579-a204-6f007580dafe",
+    "ticketValue": "93abc369-06e0-4fe3-a910-267a651f8272",
+    "ticketWhen": "f2b73006-dd9a-424e-a7ea-83726475e7e2",
+    "ticketNote": "753509c5-8794-4d17-be7d-7f895fc9ee5a"
+  }
+}
+]]>
+  </ContentItemCommonDataVisualBuilderTemplateConfiguration>
+  <ContentItemCommonDataVisualBuilderWidgets>
+<![CDATA[
+{
+  "editableAreas": [
+    {
+      "identifier": "top",
+      "sections": [
+        {
+          "identifier": "d8a921fb-c26e-4048-baec-43f0ff0a01e2",
+          "type": "DancingGoat.SingleColumnSection",
+          "properties": {
+            "theme": null
+          },
+          "zones": [
+            {
+              "identifier": "b2931ddb-3a89-4e95-8b10-68878a75e732",
+              "widgets": [
+                {
+                  "identifier": "ce82c2fb-c8e7-400d-a337-7b701f303a04",
+                  "type": "Kentico.Widget.RichText",
+                  "variants": [
+                    {
+                      "identifier": "c966eaeb-cc0e-44d8-aba0-2e751cfc0e25",
+                      "properties": {
+                        "content": "<h1 class=\"display\">Free coffee sample. Every Thursday</h1><p class=\"hero-text\">Choose your café. We'll email you one coupon every Thursday for a different single-origin coffee.</p>"
+                      },
+                      "fieldIdentifiers": {
+                        "content": "9ff515a0-4665-4f64-92e3-665a716d4c13"
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "fieldIdentifiers": {
+            "theme": "ad8803ed-1dda-4969-a3b0-347e72e03e04"
+          }
+        }
+      ]
+    },
+    {
+      "identifier": "bottom",
+      "sections": [
+        {
+          "identifier": "cc3d748d-8d06-4ab5-b03b-97d30fcbef77",
+          "type": "DancingGoat.SingleColumnSection",
+          "properties": {
+            "theme": null
+          },
+          "zones": [
+            {
+              "identifier": "c1919c1d-df87-4f02-a8e9-22f0305376fb",
+              "widgets": [
+                {
+                  "identifier": "086b78df-0be5-478c-8e28-f89faeb546fc",
+                  "type": "Kentico.Widget.RichText",
+                  "variants": [
+                    {
+                      "identifier": "54901b47-577d-4216-80d9-f6d36b33fd00",
+                      "properties": {
+                        "content": "<h2>Get my free sample</h2><p class=\"campaign-signup-note\">Free. No purchase required. One coupon every Thursday.</p>"
+                      },
+                      "fieldIdentifiers": {
+                        "content": "09bd6d24-cf3a-4e41-a5f8-e27888f20d04"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "identifier": "783cce3e-6f3a-4f83-a600-9671263dc40a",
+                  "type": "Kentico.FormWidget",
+                  "variants": [
+                    {
+                      "identifier": "16c77892-fba9-490b-bee7-20a68d037cdc",
+                      "properties": {
+                        "selectedForm": [
+                          {
+                            "objectGuid": null,
+                            "objectCodeName": "DancingGoatCoffeeSampleList"
+                          }
+                        ],
+                        "afterSubmitMode": "message",
+                        "afterSubmitDisplayText": "You're on the list. Your first sample coupon will arrive by email on Thursday. Add hello@dancinggoat.coffee to your contacts so our emails don't get lost.",
+                        "afterSubmitRedirectToUrl": null,
+                        "afterSubmitRedirectToWebPage": []
+                      },
+                      "fieldIdentifiers": {
+                        "selectedForm": "8a0448af-4625-48ed-971c-fa8836dec26f",
+                        "afterSubmitMode": "db81029b-0151-45f7-b80b-1bfcfb0afbe9",
+                        "afterSubmitDisplayText": "48b51a77-8d14-418b-a168-270e7744b6b7",
+                        "afterSubmitRedirectToUrl": "3de071b6-beb6-42f3-bcd5-da0015979a44",
+                        "afterSubmitRedirectToWebPage": "4236a0da-20a2-4cc2-aa13-389819c08e19"
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "fieldIdentifiers": {
+            "theme": "884417c7-4a6e-497f-8547-c6815699d1ad"
+          }
+        }
+      ]
+    },
+    {
+      "identifier": "sections",
+      "sections": [
+        {
+          "identifier": "a437f1a5-43fa-4747-9e22-76ca3d842130",
+          "type": "DancingGoat.SingleColumnSection",
+          "properties": {
+            "theme": null
+          },
+          "zones": [
+            {
+              "identifier": "25b022a2-9032-4737-aa31-eefd30e4ab32",
+              "widgets": [
+                {
+                  "identifier": "4a8da9e5-ec2c-4543-9bb3-211b0038a2e6",
+                  "type": "Kentico.Widget.RichText",
+                  "variants": [
+                    {
+                      "identifier": "5f7be88e-ab4c-459e-b4a6-ebba24b36896",
+                      "properties": {
+                        "content": "<div class=\"campaign-strip\"><div><span><span class=\"campaign-strip-k\">Free</span><span class=\"campaign-strip-v\">No purchase required</span></span></div><div><span><span class=\"campaign-strip-k\">Every Thursday</span><span class=\"campaign-strip-v\">A new single-origin sample</span></span></div><div><span><span class=\"campaign-strip-k\">Valid 7 days</span><span class=\"campaign-strip-v\">Redeem within a week of the email</span></span></div><div><span><span class=\"campaign-strip-k\">Pick-up only</span><span class=\"campaign-strip-v\">120&nbsp;ml tasting at the bar</span></span></div></div>"
+                      },
+                      "fieldIdentifiers": {
+                        "content": "4b4614b2-5d02-403b-a2d2-894a3d4b488f"
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "fieldIdentifiers": {
+            "theme": "f2e7f159-d9f2-4097-bcc7-56fe0c465827"
+          }
+        },
+        {
+          "identifier": "00ee925d-d43c-4143-9038-c80f65b1d3ec",
+          "type": "DancingGoat.SingleColumnSection",
+          "properties": {
+            "theme": null
+          },
+          "zones": [
+            {
+              "identifier": "e26133b9-f583-489a-9460-2e5afa5d9ec4",
+              "widgets": [
+                {
+                  "identifier": "2d9c6035-8000-44f8-b4c6-4305c9f960a2",
+                  "type": "Kentico.Widget.RichText",
+                  "variants": [
+                    {
+                      "identifier": "5ff69dd0-c7b0-49f7-8cbc-2bdda24995ab",
+                      "properties": {
+                        "content": "<div class=\"section-head\"><div><h2 class=\"display\">How it works</h2></div></div><ol class=\"campaign-steps\"><li><span class=\"campaign-step-n\">1</span><h3>Join the list</h3><p>Enter your email and pick the Dancing Goat café you want to visit. That café stays your pick until you change it.</p></li><li><span class=\"campaign-step-n\">2</span><h3>Get one email a week</h3><p>Every Thursday we email you a coupon for that week's single-origin coffee sample. One email, one coupon, nothing else.</p></li><li><span class=\"campaign-step-n\">3</span><h3>Redeem at your café</h3><p>Show the coupon at the bar of your selected café within seven days and drink your 120&nbsp;ml tasting sample. Free, no purchase required.</p></li></ol>"
+                      },
+                      "fieldIdentifiers": {
+                        "content": "9311714b-5db1-45fe-bd04-c965b01d8d1a"
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "fieldIdentifiers": {
+            "theme": "cfad8f14-7f8e-4dcb-bc39-7c87011c3ae6"
+          }
+        },
+        {
+          "identifier": "d5a71afa-658c-40a1-a205-686d3c813a6f",
+          "type": "DancingGoat.SingleColumnSection",
+          "properties": {
+            "theme": null
+          },
+          "zones": [
+            {
+              "identifier": "79b2f844-0c76-4355-9687-12d8db801777",
+              "widgets": [
+                {
+                  "identifier": "783b689f-415a-43fa-bb4a-39593bdbc1b7",
+                  "type": "Kentico.Widget.RichText",
+                  "variants": [
+                    {
+                      "identifier": "35738d2d-1ca2-4325-ba3f-ce689a6cc510",
+                      "properties": {
+                        "content": "<h2 class=\"display\">Previous weekly samples</h2>"
+                      },
+                      "fieldIdentifiers": {
+                        "content": "815b86e9-3ebf-4989-8bb3-2a4dc64cb57c"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "identifier": "9b4bbf0c-84ba-4549-a50c-b3895b5fbb8a",
+                  "type": "DancingGoat.LandingPage.ProductCardWidget",
+                  "variants": [
+                    {
+                      "identifier": "3487d66a-7581-4fe7-a048-544c625ba46c",
+                      "properties": {
+                        "selectedProducts": [
+                          {
+                            "identifier": "cd3098ae-f4d3-409a-887a-3e4c6e0c856e"
+                          },
+                          {
+                            "identifier": "a9689fb8-e06f-4363-9aa1-b5c1b427a0ee"
+                          },
+                          {
+                            "identifier": "38d6115a-a102-4b4c-8f07-cf21ad100a57"
+                          }
+                        ]
+                      },
+                      "fieldIdentifiers": {
+                        "selectedProducts": "2ee25568-9663-4037-bdb7-aa9d726ca58d"
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "fieldIdentifiers": {
+            "theme": "a75bff61-c5ae-4591-b9d5-dc6cb3cdf244"
+          }
+        },
+        {
+          "identifier": "32f790a7-f26e-4920-8e6a-5b80ce9797f5",
+          "type": "DancingGoat.SingleColumnSection",
+          "properties": {
+            "theme": null
+          },
+          "zones": [
+            {
+              "identifier": "d3b70496-e22b-4ac4-9ea5-781a82ac662f",
+              "widgets": [
+                {
+                  "identifier": "ecf2ec08-9f45-4f79-b94f-2ebb27e139dd",
+                  "type": "DancingGoat.General.TestimonialWidget",
+                  "variants": [
+                    {
+                      "identifier": "fc304940-d212-4a84-a69d-60b8eb200c0d",
+                      "properties": {
+                        "selectedTestimonial": [
+                          {
+                            "identifier": "6bd142fe-8dc4-4ac3-a2cf-928b1f571655"
+                          }
+                        ],
+                        "image": [
+                          {
+                            "identifier": "a0672f6b-b97e-470f-8cf4-8108a826d471"
+                          }
+                        ],
+                        "colorCssClass": "first-color"
+                      },
+                      "fieldIdentifiers": {
+                        "selectedTestimonial": "d18ba167-5e1e-402a-b0bc-748e6f93b871",
+                        "image": "ad0aabc1-9c18-4d9a-90ba-7b424e928e5a",
+                        "colorCssClass": "f22c9c88-326b-4d6a-b326-ce9db11d6cfc"
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "fieldIdentifiers": {
+            "theme": "ccc422d3-5755-44aa-8b78-39913361fa5e"
+          }
+        },
+        {
+          "identifier": "be23ba51-fb87-47b2-8851-5e3355090882",
+          "type": "DancingGoat.SingleColumnSection",
+          "properties": {
+            "theme": null
+          },
+          "zones": [
+            {
+              "identifier": "4d72ab62-8f66-4277-864a-b80a934a740b",
+              "widgets": [
+                {
+                  "identifier": "b3f1bc90-9781-436c-a5c4-1b15bfd675b7",
+                  "type": "Kentico.Widget.RichText",
+                  "variants": [
+                    {
+                      "identifier": "845355cc-2cb5-499b-a45d-1c0e179a74ac",
+                      "properties": {
+                        "content": "<div class=\"campaign-cta\"><div><h2 class=\"display\">New coffee. Every Thursday</h2><p>Join the list and taste what's next at your café.</p></div><div class=\"campaign-cta-side\"><a class=\"btn btn-solid\" href=\"#signup\">Get my free sample <span class=\"arrow\">→</span></a></div></div>"
+                      },
+                      "fieldIdentifiers": {
+                        "content": "099c78f8-c40c-4c33-a386-309720bf48db"
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "fieldIdentifiers": {
+            "theme": "4e834a15-f87b-4b4d-aeb4-92ab9d3eb715"
+          }
+        }
+      ]
+    }
+  ]
+}
+]]>
+  </ContentItemCommonDataVisualBuilderWidgets>
+  <ProductFieldCategory />
+  <SEOFieldsDescription>
+    <![CDATA[Sign up for our weekly coffee samples from your local café!]]>
+  </SEOFieldsDescription>
+  <SEOFieldsNoIndex>False</SEOFieldsNoIndex>
+  <SEOFieldsTitle>Landing page - Dancing Goat</SEOFieldsTitle>
+  <ContentItemReferences>
+    <cms.contentitemreference>
+      <ContentItemReferenceGroupGUID>88cc5c8d-27d3-4331-99ef-6f0b47f41009</ContentItemReferenceGroupGUID>
+      <ContentItemReferenceGUID>55e9d21e-d6f9-4190-934a-93bd20fa6baa</ContentItemReferenceGUID>
+      <ContentItemReferenceSourceCommonDataID>
+        <GUID>ce143368-4752-470a-b8f7-0124b3416a31</GUID>
+        <ObjectType>cms.contentitemcommondata</ObjectType>
+      </ContentItemReferenceSourceCommonDataID>
+      <ContentItemReferenceTargetItemID>
+        <CodeName>Banners_CafeBar</CodeName>
+        <GUID>8391b316-9628-4790-8034-42e672acc963</GUID>
+        <ObjectType>cms.contentitem</ObjectType>
+      </ContentItemReferenceTargetItemID>
+    </cms.contentitemreference>
+    <cms.contentitemreference>
+      <ContentItemReferenceGroupGUID>d18ba167-5e1e-402a-b0bc-748e6f93b871</ContentItemReferenceGroupGUID>
+      <ContentItemReferenceGUID>fb4439b9-409f-4a5c-bb0d-99694cf64f76</ContentItemReferenceGUID>
+      <ContentItemReferenceSourceCommonDataID>
+        <GUID>ce143368-4752-470a-b8f7-0124b3416a31</GUID>
+        <ObjectType>cms.contentitemcommondata</ObjectType>
+      </ContentItemReferenceSourceCommonDataID>
+      <ContentItemReferenceTargetItemID>
+        <CodeName>DancingGoatTestimonialStaceyMcKenzie</CodeName>
+        <GUID>6bd142fe-8dc4-4ac3-a2cf-928b1f571655</GUID>
+        <ObjectType>cms.contentitem</ObjectType>
+      </ContentItemReferenceTargetItemID>
+    </cms.contentitemreference>
+    <cms.contentitemreference>
+      <ContentItemReferenceGroupGUID>ad0aabc1-9c18-4d9a-90ba-7b424e928e5a</ContentItemReferenceGroupGUID>
+      <ContentItemReferenceGUID>2843180b-6e25-4492-b3e9-09c5a0f417a5</ContentItemReferenceGUID>
+      <ContentItemReferenceSourceCommonDataID>
+        <GUID>ce143368-4752-470a-b8f7-0124b3416a31</GUID>
+        <ObjectType>cms.contentitemcommondata</ObjectType>
+      </ContentItemReferenceSourceCommonDataID>
+      <ContentItemReferenceTargetItemID>
+        <CodeName>People_ReferenceBarista</CodeName>
+        <GUID>a0672f6b-b97e-470f-8cf4-8108a826d471</GUID>
+        <ObjectType>cms.contentitem</ObjectType>
+      </ContentItemReferenceTargetItemID>
+    </cms.contentitemreference>
+    <cms.contentitemreference>
+      <ContentItemReferenceGroupGUID>2ee25568-9663-4037-bdb7-aa9d726ca58d</ContentItemReferenceGroupGUID>
+      <ContentItemReferenceGUID>657d9fc9-9621-437a-bd79-406e16a515fb</ContentItemReferenceGUID>
+      <ContentItemReferenceSourceCommonDataID>
+        <GUID>ce143368-4752-470a-b8f7-0124b3416a31</GUID>
+        <ObjectType>cms.contentitemcommondata</ObjectType>
+      </ContentItemReferenceSourceCommonDataID>
+      <ContentItemReferenceTargetItemID>
+        <CodeName>HarioSkertonHandGrinder-4m1ejy4l</CodeName>
+        <GUID>a9689fb8-e06f-4363-9aa1-b5c1b427a0ee</GUID>
+        <ObjectType>cms.contentitem</ObjectType>
+      </ContentItemReferenceTargetItemID>
+    </cms.contentitemreference>
+    <cms.contentitemreference>
+      <ContentItemReferenceGroupGUID>2ee25568-9663-4037-bdb7-aa9d726ca58d</ContentItemReferenceGroupGUID>
+      <ContentItemReferenceGUID>94a452c7-b8bd-4cae-8965-9e7d19dcf6d5</ContentItemReferenceGUID>
+      <ContentItemReferenceSourceCommonDataID>
+        <GUID>ce143368-4752-470a-b8f7-0124b3416a31</GUID>
+        <ObjectType>cms.contentitemcommondata</ObjectType>
+      </ContentItemReferenceSourceCommonDataID>
+      <ContentItemReferenceTargetItemID>
+        <CodeName>ElSalvadorFincaSanJose-ssa7ezz7</CodeName>
+        <GUID>cd3098ae-f4d3-409a-887a-3e4c6e0c856e</GUID>
+        <ObjectType>cms.contentitem</ObjectType>
+      </ContentItemReferenceTargetItemID>
+    </cms.contentitemreference>
+    <cms.contentitemreference>
+      <ContentItemReferenceGroupGUID>2ee25568-9663-4037-bdb7-aa9d726ca58d</ContentItemReferenceGroupGUID>
+      <ContentItemReferenceGUID>e9745ba4-b543-4bd4-a274-f3080569d19c</ContentItemReferenceGUID>
+      <ContentItemReferenceSourceCommonDataID>
+        <GUID>ce143368-4752-470a-b8f7-0124b3416a31</GUID>
+        <ObjectType>cms.contentitemcommondata</ObjectType>
+      </ContentItemReferenceSourceCommonDataID>
+      <ContentItemReferenceTargetItemID>
+        <CodeName>BoliviaFincaIllimani-9nut1evb</CodeName>
+        <GUID>38d6115a-a102-4b4c-8f07-cf21ad100a57</GUID>
+        <ObjectType>cms.contentitem</ObjectType>
+      </ContentItemReferenceTargetItemID>
+    </cms.contentitemreference>
+  </ContentItemReferences>
+  <ContentItemObjectReferences>
+    <cms.contentitemobjectreference>
+      <ContentItemObjectReferenceGUID>0faba03c-e986-4f61-a494-95a8ccbf5d8f</ContentItemObjectReferenceGUID>
+      <ContentItemObjectReferenceSourceCommonDataID>
+        <GUID>ce143368-4752-470a-b8f7-0124b3416a31</GUID>
+        <ObjectType>cms.contentitemcommondata</ObjectType>
+      </ContentItemObjectReferenceSourceCommonDataID>
+      <ContentItemObjectReferenceTargetFormID>
+        <CodeName>DancingGoatCoffeeSampleList</CodeName>
+        <GUID>daaa080a-7b6b-489e-8150-290b1f24e715</GUID>
+        <ObjectType>cms.form</ObjectType>
+      </ContentItemObjectReferenceTargetFormID>
+    </cms.contentitemobjectreference>
+  </ContentItemObjectReferences>
+</cms.contentitemcommondata>

@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<emaillibrary.emailconfiguration>
+  <EmailConfigurationContentItemID>
+    <CodeName>DancingGoatAutoresponder-v6dz12bu</CodeName>
+    <GUID>7d804f38-4c55-4c8d-bd72-40244a78200c</GUID>
+    <ObjectType>cms.contentitem</ObjectType>
+  </EmailConfigurationContentItemID>
+  <EmailConfigurationEmailChannelID>
+    <GUID>be820547-d1e2-4f46-a9b3-c3a6780953d2</GUID>
+    <ObjectType>emaillibrary.emailchannel</ObjectType>
+    <Parent>
+      <CodeName>DancingGoatEmails</CodeName>
+      <GUID>85813214-7d3e-4ec9-8d92-e762fd61dc81</GUID>
+      <ObjectType>cms.channel</ObjectType>
+    </Parent>
+  </EmailConfigurationEmailChannelID>
+  <EmailConfigurationGUID>9400ae50-a984-4606-a621-9316b431a3ed</EmailConfigurationGUID>
+  <EmailConfigurationName>DancingGoatAutoresponder-v6dz12bu</EmailConfigurationName>
+  <EmailConfigurationPurpose>FormAutoresponder</EmailConfigurationPurpose>
+</emaillibrary.emailconfiguration>

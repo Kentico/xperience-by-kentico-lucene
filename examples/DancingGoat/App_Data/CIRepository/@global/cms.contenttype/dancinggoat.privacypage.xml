@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<cms.contenttype>
+  <ClassContentTypeType>Website</ClassContentTypeType>
+  <ClassDisplayName>Privacy</ClassDisplayName>
+  <ClassFormDefinition>
+    <form>
+      <field column="ContentItemDataID" columntype="integer" enabled="true" guid="8ebd0ad6-25dc-492e-9d4f-8e55e6f9aed1" isPK="true" />
+      <field column="ContentItemDataCommonDataID" columntype="integer" enabled="true" guid="d355bdd8-4dfc-43a7-836a-434e37db2fc9" refobjtype="cms.contentitemcommondata" reftype="Required" system="true" />
+      <field column="ContentItemDataGUID" columntype="guid" enabled="true" guid="47e8c010-c0ac-4c05-a0ef-70668bded982" isunique="true" system="true" />
+      <schema guid="7c7b596d-5b91-40a5-8ded-f2e4757d8e66" name="7c7b596d-5b91-40a5-8ded-f2e4757d8e66">
+        <properties />
+      </schema>
+    </form>
+  </ClassFormDefinition>
+  <ClassGUID>b2091eb3-2f55-49a2-8241-049e01d25cb7</ClassGUID>
+  <ClassHasUnmanagedDbSchema>False</ClassHasUnmanagedDbSchema>
+  <ClassIconClass>xp-monitor-broken</ClassIconClass>
+  <ClassName>DancingGoat.PrivacyPage</ClassName>
+  <ClassShortName>DancingGoatPrivacyPage</ClassShortName>
+  <ClassTableName>DancingGoat_PrivacyPage</ClassTableName>
+  <ClassType>Content</ClassType>
+  <ClassWebPageHasUrl>True</ClassWebPageHasUrl>
+</cms.contenttype>

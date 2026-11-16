@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<contentitemdata.dancinggoat.image>
+  <ContentItemDataCommonDataID>
+    <GUID>8d8e09c0-259b-4239-9a1c-cbc5e6a49766</GUID>
+    <ObjectType>cms.contentitemcommondata</ObjectType>
+    <Parent>
+      <CodeName>Logos_Facebook-icon.png-kn8fmrwy</CodeName>
+      <GUID>c922749d-1ff6-4132-ad90-94e6d36ec9f1</GUID>
+      <ObjectType>cms.contentitem</ObjectType>
+    </Parent>
+  </ContentItemDataCommonDataID>
+  <ContentItemDataGUID>1e72b3e7-0623-4af7-b7ac-d80810e89baa</ContentItemDataGUID>
+  <ImageFile>
+    <![CDATA[{"Original":{"Identifier":"d1e4ebc2-066d-4775-9e30-e097c25d9ac2","Name":"facebook.png","Extension":".png","Size":3861,"Width":512,"Height":512,"LastModified":"2026-08-12T11:32:05.5108589Z"},"OptimizationParameters":{"OutputExtension":"webp","Quality":70,"WidthLimit":null,"HeightLimit":null},"Variants":{},"FocalPoint":{"X":273,"Y":201},"Identifier":"f258653b-6e79-4473-9fbc-978736ae4c05","Name":"facebook.webp","Extension":".webp","Size":3634,"Width":512,"Height":512,"LastModified":"2026-08-12T11:32:05.549489Z"}]]>
+  </ImageFile>
+  <ImageShortDescription>Facebook</ImageShortDescription>
+  <ImageTags>
+    <![CDATA[[{"Identifier":"acda48c2-9ca1-4f13-943f-5fd8999798f6"}]]]>
+  </ImageTags>
+</contentitemdata.dancinggoat.image>

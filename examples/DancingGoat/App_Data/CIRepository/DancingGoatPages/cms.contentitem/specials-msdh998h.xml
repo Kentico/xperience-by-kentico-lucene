@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<cms.contentitem>
+  <ContentItemChannelID>
+    <CodeName>DancingGoatPages</CodeName>
+    <GUID>c430f96d-bd56-4448-b6ab-bce41a58f186</GUID>
+    <ObjectType>cms.channel</ObjectType>
+  </ContentItemChannelID>
+  <ContentItemGUID>51296a24-7ac3-4c51-81af-0e9d35a22ea5</ContentItemGUID>
+  <ContentItemIsReusable>False</ContentItemIsReusable>
+  <ContentItemIsSecured>False</ContentItemIsSecured>
+  <ContentItemName>Specials-msdh998h</ContentItemName>
+</cms.contentitem>

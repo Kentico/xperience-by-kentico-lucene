@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<cms.contentitemlanguagemetadata>
+  <ContentItemLanguageMetadataContentItemID>
+    <CodeName>Cafes_Newyork_2x.png-h7fhjxw7</CodeName>
+    <GUID>4360aa53-d040-4b15-8b89-adea96d79aad</GUID>
+    <ObjectType>cms.contentitem</ObjectType>
+  </ContentItemLanguageMetadataContentItemID>
+  <ContentItemLanguageMetadataContentLanguageID>
+    <CodeName>en</CodeName>
+    <GUID>e4a8fb12-ebc2-45d0-930f-c9fba2780c85</GUID>
+    <ObjectType>cms.contentlanguage</ObjectType>
+  </ContentItemLanguageMetadataContentLanguageID>
+  <ContentItemLanguageMetadataCreatedByUserID>
+    <CodeName>administrator</CodeName>
+    <GUID>6415b8ce-8072-4bcd-8e48-9d7178b826b7</GUID>
+    <ObjectType>cms.user</ObjectType>
+  </ContentItemLanguageMetadataCreatedByUserID>
+  <ContentItemLanguageMetadataCreatedWhen>2023-07-10 11:27:24Z</ContentItemLanguageMetadataCreatedWhen>
+  <ContentItemLanguageMetadataDisplayName>(Cafes) cafe-newyork.jpg</ContentItemLanguageMetadataDisplayName>
+  <ContentItemLanguageMetadataGUID>94b66e27-a2b6-4d26-a9a1-ece546cbad3d</ContentItemLanguageMetadataGUID>
+  <ContentItemLanguageMetadataHasImageAsset>True</ContentItemLanguageMetadataHasImageAsset>
+  <ContentItemLanguageMetadataLatestVersionStatus>2</ContentItemLanguageMetadataLatestVersionStatus>
+  <ContentItemLanguageMetadataModifiedByUserID>
+    <CodeName>kentico-system-service</CodeName>
+    <GUID>87fb6822-3c7a-4207-a03f-e8d20d850ab2</GUID>
+    <ObjectType>cms.user</ObjectType>
+  </ContentItemLanguageMetadataModifiedByUserID>
+  <ContentItemTags>
+    <cms.contentitemtag>
+      <ContentItemTagContentItemLanguageMetadataID>
+        <GUID>94b66e27-a2b6-4d26-a9a1-ece546cbad3d</GUID>
+        <ObjectType>cms.contentitemlanguagemetadata</ObjectType>
+      </ContentItemTagContentItemLanguageMetadataID>
+      <ContentItemTagFieldGUID>01a75a9a-3dd5-4d83-9a3b-ecaecf9e93c9</ContentItemTagFieldGUID>
+      <ContentItemTagGUID>3c3c40d3-8bec-4c10-adfe-31dd45a1a7d5</ContentItemTagGUID>
+      <ContentItemTagTagGUID>1e13aa82-2df1-4446-b7a3-a91f9aeec304</ContentItemTagTagGUID>
+    </cms.contentitemtag>
+  </ContentItemTags>
+</cms.contentitemlanguagemetadata>

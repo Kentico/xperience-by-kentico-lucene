@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<cms.contentitemlanguagemetadata>
+  <ContentItemLanguageMetadataContentItemID>
+    <CodeName>Events_Francesco-la-corte-YtGOTady1a4-unsplash_50.jpg-g3jt4j8f</CodeName>
+    <GUID>19aebe45-100a-4807-b5aa-ca7d58d714ea</GUID>
+    <ObjectType>cms.contentitem</ObjectType>
+  </ContentItemLanguageMetadataContentItemID>
+  <ContentItemLanguageMetadataContentLanguageID>
+    <CodeName>en</CodeName>
+    <GUID>e4a8fb12-ebc2-45d0-930f-c9fba2780c85</GUID>
+    <ObjectType>cms.contentlanguage</ObjectType>
+  </ContentItemLanguageMetadataContentLanguageID>
+  <ContentItemLanguageMetadataCreatedByUserID>
+    <CodeName>administrator</CodeName>
+    <GUID>6415b8ce-8072-4bcd-8e48-9d7178b826b7</GUID>
+    <ObjectType>cms.user</ObjectType>
+  </ContentItemLanguageMetadataCreatedByUserID>
+  <ContentItemLanguageMetadataCreatedWhen>2023-06-13 08:10:22Z</ContentItemLanguageMetadataCreatedWhen>
+  <ContentItemLanguageMetadataDisplayName>
+    <![CDATA[(Events) francesco-la-corte-YtGOTady1a4-unsplash_50.jpg]]>
+  </ContentItemLanguageMetadataDisplayName>
+  <ContentItemLanguageMetadataGUID>0bdf744c-3a16-4229-8f14-1bbc13ed7e2b</ContentItemLanguageMetadataGUID>
+  <ContentItemLanguageMetadataHasImageAsset>True</ContentItemLanguageMetadataHasImageAsset>
+  <ContentItemLanguageMetadataLatestVersionStatus>2</ContentItemLanguageMetadataLatestVersionStatus>
+  <ContentItemLanguageMetadataModifiedByUserID>
+    <CodeName>kentico-system-service</CodeName>
+    <GUID>87fb6822-3c7a-4207-a03f-e8d20d850ab2</GUID>
+    <ObjectType>cms.user</ObjectType>
+  </ContentItemLanguageMetadataModifiedByUserID>
+  <ContentItemTags>
+    <cms.contentitemtag>
+      <ContentItemTagContentItemLanguageMetadataID>
+        <GUID>0bdf744c-3a16-4229-8f14-1bbc13ed7e2b</GUID>
+        <ObjectType>cms.contentitemlanguagemetadata</ObjectType>
+      </ContentItemTagContentItemLanguageMetadataID>
+      <ContentItemTagFieldGUID>01a75a9a-3dd5-4d83-9a3b-ecaecf9e93c9</ContentItemTagFieldGUID>
+      <ContentItemTagGUID>6b5cd526-fac0-453b-9bcb-a594c4f6d9cb</ContentItemTagGUID>
+      <ContentItemTagTagGUID>df1d5186-7e1a-4602-97fd-92dd878116a3</ContentItemTagTagGUID>
+    </cms.contentitemtag>
+  </ContentItemTags>
+</cms.contentitemlanguagemetadata>

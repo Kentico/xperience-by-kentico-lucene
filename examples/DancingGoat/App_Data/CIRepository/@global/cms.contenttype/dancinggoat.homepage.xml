@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<cms.contenttype>
+  <ClassContentTypeType>Website</ClassContentTypeType>
+  <ClassDisplayName>Home page</ClassDisplayName>
+  <ClassFormDefinition>
+    <form>
+      <field column="ContentItemDataID" columntype="integer" enabled="true" guid="e9f9ebe2-be0d-4148-bce4-249779f49000" isPK="true" />
+      <field column="ContentItemDataCommonDataID" columntype="integer" enabled="true" guid="0673c391-464a-4c31-b09c-9816e84fe922" refobjtype="cms.contentitemcommondata" reftype="Required" system="true" />
+      <field column="ContentItemDataGUID" columntype="guid" enabled="true" guid="c5e62f55-cbd9-49ad-a650-10be1af015b4" isunique="true" system="true" />
+      <schema guid="7c7b596d-5b91-40a5-8ded-f2e4757d8e66" name="7c7b596d-5b91-40a5-8ded-f2e4757d8e66">
+        <properties />
+      </schema>
+    </form>
+  </ClassFormDefinition>
+  <ClassGUID>92908e16-49f3-4576-b9c8-024461af012c</ClassGUID>
+  <ClassHasUnmanagedDbSchema>False</ClassHasUnmanagedDbSchema>
+  <ClassIconClass>xp-home</ClassIconClass>
+  <ClassName>DancingGoat.HomePage</ClassName>
+  <ClassShortName>DancingGoatHomePage</ClassShortName>
+  <ClassTableName>DancingGoat_HomePage</ClassTableName>
+  <ClassType>Content</ClassType>
+  <ClassWebPageHasUrl>True</ClassWebPageHasUrl>
+</cms.contenttype>

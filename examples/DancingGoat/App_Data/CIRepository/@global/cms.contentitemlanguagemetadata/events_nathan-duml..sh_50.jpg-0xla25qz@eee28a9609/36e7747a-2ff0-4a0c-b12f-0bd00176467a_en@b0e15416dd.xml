@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<cms.contentitemlanguagemetadata>
+  <ContentItemLanguageMetadataContentItemID>
+    <CodeName>Events_Nathan-dumlao-6VhPY27jdps-unsplash_50.jpg-0xla25qz</CodeName>
+    <GUID>5590dc48-6146-4f1b-bd28-e8fef896c52e</GUID>
+    <ObjectType>cms.contentitem</ObjectType>
+  </ContentItemLanguageMetadataContentItemID>
+  <ContentItemLanguageMetadataContentLanguageID>
+    <CodeName>en</CodeName>
+    <GUID>e4a8fb12-ebc2-45d0-930f-c9fba2780c85</GUID>
+    <ObjectType>cms.contentlanguage</ObjectType>
+  </ContentItemLanguageMetadataContentLanguageID>
+  <ContentItemLanguageMetadataCreatedByUserID>
+    <CodeName>administrator</CodeName>
+    <GUID>6415b8ce-8072-4bcd-8e48-9d7178b826b7</GUID>
+    <ObjectType>cms.user</ObjectType>
+  </ContentItemLanguageMetadataCreatedByUserID>
+  <ContentItemLanguageMetadataCreatedWhen>2023-06-13 08:11:40Z</ContentItemLanguageMetadataCreatedWhen>
+  <ContentItemLanguageMetadataDisplayName>(Events) nathan-dumlao-6VhPY27jdps-unsplash_50.jpg</ContentItemLanguageMetadataDisplayName>
+  <ContentItemLanguageMetadataGUID>36e7747a-2ff0-4a0c-b12f-0bd00176467a</ContentItemLanguageMetadataGUID>
+  <ContentItemLanguageMetadataHasImageAsset>True</ContentItemLanguageMetadataHasImageAsset>
+  <ContentItemLanguageMetadataLatestVersionStatus>2</ContentItemLanguageMetadataLatestVersionStatus>
+  <ContentItemLanguageMetadataModifiedByUserID>
+    <CodeName>kentico-system-service</CodeName>
+    <GUID>87fb6822-3c7a-4207-a03f-e8d20d850ab2</GUID>
+    <ObjectType>cms.user</ObjectType>
+  </ContentItemLanguageMetadataModifiedByUserID>
+  <ContentItemTags>
+    <cms.contentitemtag>
+      <ContentItemTagContentItemLanguageMetadataID>
+        <GUID>36e7747a-2ff0-4a0c-b12f-0bd00176467a</GUID>
+        <ObjectType>cms.contentitemlanguagemetadata</ObjectType>
+      </ContentItemTagContentItemLanguageMetadataID>
+      <ContentItemTagFieldGUID>01a75a9a-3dd5-4d83-9a3b-ecaecf9e93c9</ContentItemTagFieldGUID>
+      <ContentItemTagGUID>1bc509dc-54cf-4217-806f-4a22619b811e</ContentItemTagGUID>
+      <ContentItemTagTagGUID>54b6db41-6ff4-4124-ad3f-df124e37267c</ContentItemTagTagGUID>
+    </cms.contentitemtag>
+    <cms.contentitemtag>
+      <ContentItemTagContentItemLanguageMetadataID>
+        <GUID>36e7747a-2ff0-4a0c-b12f-0bd00176467a</GUID>
+        <ObjectType>cms.contentitemlanguagemetadata</ObjectType>
+      </ContentItemTagContentItemLanguageMetadataID>
+      <ContentItemTagFieldGUID>01a75a9a-3dd5-4d83-9a3b-ecaecf9e93c9</ContentItemTagFieldGUID>
+      <ContentItemTagGUID>117e3f81-2e72-4947-893b-5ca3ce77255f</ContentItemTagGUID>
+      <ContentItemTagTagGUID>a31ddb84-2ca0-404f-9cd1-8d76d48814e1</ContentItemTagTagGUID>
+    </cms.contentitemtag>
+  </ContentItemTags>
+</cms.contentitemlanguagemetadata>

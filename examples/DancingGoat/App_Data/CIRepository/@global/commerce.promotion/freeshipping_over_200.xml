@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<commerce.promotion>
+  <PromotionActiveFromWhen>2025-11-30 23:00:00Z</PromotionActiveFromWhen>
+  <PromotionCreatedByUserID>
+    <CodeName>administrator</CodeName>
+    <GUID>6415b8ce-8072-4bcd-8e48-9d7178b826b7</GUID>
+    <ObjectType>cms.user</ObjectType>
+  </PromotionCreatedByUserID>
+  <PromotionCreatedWhen>2025-12-02 14:53:56Z</PromotionCreatedWhen>
+  <PromotionCustomerEligibility>all</PromotionCustomerEligibility>
+  <PromotionDescription>Free standard mail shipping on orders over $200.</PromotionDescription>
+  <PromotionDisplayName>Free shipping over $200</PromotionDisplayName>
+  <PromotionGUID>98d5dc69-f32b-47fc-8c2f-41befdbd03d8</PromotionGUID>
+  <PromotionModifiedByUserID>
+    <CodeName>administrator</CodeName>
+    <GUID>6415b8ce-8072-4bcd-8e48-9d7178b826b7</GUID>
+    <ObjectType>cms.user</ObjectType>
+  </PromotionModifiedByUserID>
+  <PromotionName>FreeShipping_Over_200</PromotionName>
+  <PromotionRuleConfiguration>
+    <![CDATA[{"Scope":"any","ProductCategories":[],"Products":[],"ProductTags":[],"MinimumRequirementValueType":"Price","MinimumRequirementValue":200,"ShippingMethodScope":"specific","ShippingMethods":[{"ObjectGuid":"f4124cfd-adb4-45aa-a69c-b724459505d4","ObjectCodeName":null}]}]]>
+  </PromotionRuleConfiguration>
+  <PromotionRuleIdentifier>DancingGoatFreeShippingPromotionRule</PromotionRuleIdentifier>
+  <PromotionType>shipping</PromotionType>
+</commerce.promotion>

@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<cms.tag>
+  <TagGUID>785839c6-f7c6-4006-b8c8-115fd57864dd</TagGUID>
+  <TagMetadata>
+    <![CDATA[{"Translations":{"fc939370-8f94-4fc9-8cc4-bfdef6ab748c":{"Title":null,"Description":null}}}]]>
+  </TagMetadata>
+  <TagName>Sour</TagName>
+  <TagOrder>2</TagOrder>
+  <TagTaxonomyID>
+    <CodeName>CoffeeTastes</CodeName>
+    <GUID>408d5f84-95c6-4ff4-8479-5e2930dbf755</GUID>
+    <ObjectType>cms.taxonomy</ObjectType>
+  </TagTaxonomyID>
+  <TagTitle>Sour</TagTitle>
+</cms.tag>

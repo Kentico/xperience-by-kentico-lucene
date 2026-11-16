@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<cms.contentitemcommondata>
+  <ContentItemCommonDataContentItemID>
+    <CodeName>T-shirtWhiteL-bddjteye</CodeName>
+    <GUID>8eca26e4-4d8f-4ea5-a006-6c184758ac54</GUID>
+    <ObjectType>cms.contentitem</ObjectType>
+  </ContentItemCommonDataContentItemID>
+  <ContentItemCommonDataContentLanguageID>
+    <CodeName>en</CodeName>
+    <GUID>e4a8fb12-ebc2-45d0-930f-c9fba2780c85</GUID>
+    <ObjectType>cms.contentlanguage</ObjectType>
+  </ContentItemCommonDataContentLanguageID>
+  <ContentItemCommonDataFirstPublishedWhen>2025-03-06 11:53:12Z</ContentItemCommonDataFirstPublishedWhen>
+  <ContentItemCommonDataGUID>6b088741-b482-4051-83a8-9e4c7a98b44f</ContentItemCommonDataGUID>
+  <ContentItemCommonDataIsLatest>True</ContentItemCommonDataIsLatest>
+  <ContentItemCommonDataLastPublishedWhen>2025-04-14 15:54:07Z</ContentItemCommonDataLastPublishedWhen>
+  <ContentItemCommonDataVersionStatus>2</ContentItemCommonDataVersionStatus>
+  <ProductOptionAlphaSize>L</ProductOptionAlphaSize>
+  <ProductSKUCode>MER-TS-WH-L</ProductSKUCode>
+</cms.contentitemcommondata>

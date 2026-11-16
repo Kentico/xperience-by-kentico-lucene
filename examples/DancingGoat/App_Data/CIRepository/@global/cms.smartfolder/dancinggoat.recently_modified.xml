@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<cms.smartfolder>
+  <SmartFolderCreatedByUserID>
+    <CodeName>administrator</CodeName>
+    <GUID>6415b8ce-8072-4bcd-8e48-9d7178b826b7</GUID>
+    <ObjectType>cms.user</ObjectType>
+  </SmartFolderCreatedByUserID>
+  <SmartFolderCreatedWhen>2024-12-12 10:27:48Z</SmartFolderCreatedWhen>
+  <SmartFolderDisplayName>Recently modified</SmartFolderDisplayName>
+  <SmartFolderFilter>
+    <![CDATA[{"workflowStatuses":null,"contentItemIsSecured":null,"selectedLastModifiedTimeFrame":"relative","lastModifiedAbsolute":null,"lastModifiedRelative":30,"classGUID":null,"tags":null,"lastPublishedAbsolute":null,"lastPublishedRelative":null,"selectedLastPublishedTimeFrame":"absolute"}]]>
+  </SmartFolderFilter>
+  <SmartFolderGUID>3fecbf37-c70a-4c39-847a-23e801925722</SmartFolderGUID>
+  <SmartFolderIsContentDeliveryEnabled>False</SmartFolderIsContentDeliveryEnabled>
+  <SmartFolderName>dancinggoat.recently_modified</SmartFolderName>
+  <SmartFolderWorkspaceID>
+    <CodeName>DancingGoat.DancingGoatLtd</CodeName>
+    <GUID>4972d424-6c85-45f1-ac71-2576716a4e8c</GUID>
+    <ObjectType>cms.workspace</ObjectType>
+  </SmartFolderWorkspaceID>
+</cms.smartfolder>

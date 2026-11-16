@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<contentitemdata.dancinggoat.testimonial>
+  <ContentItemDataCommonDataID>
+    <GUID>44282187-c57c-4ede-b193-2db079ae6c69</GUID>
+    <ObjectType>cms.contentitemcommondata</ObjectType>
+    <Parent>
+      <CodeName>DancingGoatTestimonialStaceyMcKenzie</CodeName>
+      <GUID>6bd142fe-8dc4-4ac3-a2cf-928b1f571655</GUID>
+      <ObjectType>cms.contentitem</ObjectType>
+    </Parent>
+  </ContentItemDataCommonDataID>
+  <ContentItemDataGUID>bd9e0512-34b5-4cb4-853b-b93b4f01206a</ContentItemDataGUID>
+  <TestimonialAuthor>Stacey McKenzie</TestimonialAuthor>
+  <TestimonialAuthorRole>On the weekly sample list since 2024</TestimonialAuthorRole>
+  <TestimonialQuote>
+    <![CDATA[Drinking Dancing Goat's coffee samples has become a highlight of my week. Keep them coming please!]]>
+  </TestimonialQuote>
+</contentitemdata.dancinggoat.testimonial>

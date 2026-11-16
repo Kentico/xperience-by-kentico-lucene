@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<contentitemdata.dancinggoat.productcoffee>
+  <CoffeeProcessing>
+    <![CDATA[[{"Identifier":"a4361d0e-c08e-4738-8dbe-cd009818f8d6"}]]]>
+  </CoffeeProcessing>
+  <CoffeeTastes>
+    <![CDATA[[{"Identifier":"b9b0c153-2135-4ac7-a3c6-4b14780548cb"},{"Identifier":"098eee31-e8bb-49b8-b425-f9a72e0e130b"}]]]>
+  </CoffeeTastes>
+  <ContentItemDataCommonDataID>
+    <GUID>0b3d53ba-13bb-4b96-92d9-95acab89fb0d</GUID>
+    <ObjectType>cms.contentitemcommondata</ObjectType>
+    <Parent>
+      <CodeName>EthiopiaYirgacheffe_decaf-rdx2r0ni</CodeName>
+      <GUID>83d7e1e9-bafb-4eba-820e-33be30538aa1</GUID>
+      <ObjectType>cms.contentitem</ObjectType>
+    </Parent>
+  </ContentItemDataCommonDataID>
+  <ContentItemDataGUID>3a9890e4-87d2-4137-97ec-f4a9ff8915c0</ContentItemDataGUID>
+</contentitemdata.dancinggoat.productcoffee>

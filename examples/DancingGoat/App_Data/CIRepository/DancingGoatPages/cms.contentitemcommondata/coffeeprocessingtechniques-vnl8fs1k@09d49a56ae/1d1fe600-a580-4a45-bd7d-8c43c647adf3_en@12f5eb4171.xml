@@ -1,0 +1,142 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<cms.contentitemcommondata>
+  <ContentItemCommonDataAiProvenance>
+    <![CDATA[{"e8556390-9fce-4547-ad25-2af8aeface36":{"AiProvenanceOrigin":"AiGenerated"},"f6fc7302-2650-4d07-96a3-9b2c04352bd8":{"AiProvenanceOrigin":"AiModified"},"ec3e6220-9a88-47be-8dfc-d8ebceaabe74":{"AiProvenanceOrigin":"AiGenerated"}}]]>
+  </ContentItemCommonDataAiProvenance>
+  <ContentItemCommonDataContentItemID>
+    <CodeName>CoffeeProcessingTechniques-vnl8fs1k</CodeName>
+    <GUID>69a5c969-8e18-4b57-a9cd-7ce089d0d059</GUID>
+    <ObjectType>cms.contentitem</ObjectType>
+  </ContentItemCommonDataContentItemID>
+  <ContentItemCommonDataContentLanguageID>
+    <CodeName>en</CodeName>
+    <GUID>e4a8fb12-ebc2-45d0-930f-c9fba2780c85</GUID>
+    <ObjectType>cms.contentlanguage</ObjectType>
+  </ContentItemCommonDataContentLanguageID>
+  <ContentItemCommonDataGUID>1d1fe600-a580-4a45-bd7d-8c43c647adf3</ContentItemCommonDataGUID>
+  <ContentItemCommonDataIsLatest>True</ContentItemCommonDataIsLatest>
+  <ContentItemCommonDataLastPublishedWhen>2026-10-13 13:04:43Z</ContentItemCommonDataLastPublishedWhen>
+  <ContentItemCommonDataVersionStatus>2</ContentItemCommonDataVersionStatus>
+  <ContentItemCommonDataVisualBuilderTemplateConfiguration>
+<![CDATA[
+{
+  "identifier": "DancingGoat.Article",
+  "properties": null,
+  "fieldIdentifiers": {}
+}
+]]>
+  </ContentItemCommonDataVisualBuilderTemplateConfiguration>
+  <ContentItemCommonDataVisualBuilderWidgets>
+<![CDATA[
+{
+  "editableAreas": [
+    {
+      "identifier": "main",
+      "sections": [
+        {
+          "identifier": "5eee3b77-53af-4af0-9e8f-ff16299cb53f",
+          "type": "DancingGoat.SingleColumnSection",
+          "properties": {
+            "theme": null
+          },
+          "zones": [
+            {
+              "identifier": "5435d027-16b9-4143-8c07-886b9dffcd6d",
+              "widgets": [
+                {
+                  "identifier": "65f6887b-912f-47a1-bc35-64ba87bde9b5",
+                  "type": "DancingGoat.General.KeyTakeawaysWidget",
+                  "variants": [
+                    {
+                      "identifier": "904b1428-4fad-4a07-9e4f-cf81aba09d36",
+                      "properties": {
+                        "heading": "Key Takeaways",
+                        "text": "Coffee’s flavor is set at the farm by origin, climate, soil and variety, and roasters can only make the most of it. \nWet processing gives clean beans but uses up to 40,000 liters of water and risks vinegary off-flavors. \nDry processing sun-dries whole cherries, adding sweetness and body at the cost of a less clean cup. \nPulped-natural, popular in Brazil, yields full-bodied, low-acid coffee. Both sun-dried methods depend on steady weather.",
+                        "aiProvenance": {
+                          "text": {
+                            "aiProvenanceOrigin": "AiGenerated"
+                          }
+                        }
+                      },
+                      "fieldIdentifiers": {
+                        "heading": "26afb705-13df-4198-9717-450a4d55312b",
+                        "text": "222c6d10-7d43-425a-89cf-d006f168e383",
+                        "aiProvenance": "1dbad985-429b-400f-b076-174a1d8e938c"
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "fieldIdentifiers": {
+            "theme": "0c022e84-2673-4f90-93ba-4c19187fc894"
+          }
+        }
+      ]
+    }
+  ]
+}
+]]>
+  </ContentItemCommonDataVisualBuilderWidgets>
+  <ProductFieldCategory />
+  <SEOFieldsDescription>
+    <![CDATA[Learn about coffee plant processing techniques. Farmers use different methods in different parts of the world depending on weather conditions.]]>
+  </SEOFieldsDescription>
+  <SEOFieldsNoIndex>False</SEOFieldsNoIndex>
+  <SEOFieldsTitle>Coffee processing techniques - Dancing Goat</SEOFieldsTitle>
+  <ContentItemReferences>
+    <cms.contentitemreference>
+      <ContentItemReferenceGroupGUID>04b5735c-f3b6-4dba-af49-1c748e952820</ContentItemReferenceGroupGUID>
+      <ContentItemReferenceGUID>2aecd5bd-e878-4e8c-9a54-1174730fc557</ContentItemReferenceGUID>
+      <ContentItemReferenceSourceCommonDataID>
+        <GUID>1d1fe600-a580-4a45-bd7d-8c43c647adf3</GUID>
+        <ObjectType>cms.contentitemcommondata</ObjectType>
+      </ContentItemReferenceSourceCommonDataID>
+      <ContentItemReferenceTargetItemID>
+        <CodeName>Articles_Article-5_2x.jpg-ui1p5uwa</CodeName>
+        <GUID>e07114f8-dd0b-47ed-9cee-1d5c1404835a</GUID>
+        <ObjectType>cms.contentitem</ObjectType>
+      </ContentItemReferenceTargetItemID>
+    </cms.contentitemreference>
+    <cms.contentitemreference>
+      <ContentItemReferenceGroupGUID>49eea67f-5a3a-4a0a-a4a4-42cf4e2117c0</ContentItemReferenceGroupGUID>
+      <ContentItemReferenceGUID>4192ae9c-62ab-445a-a7e9-9dc19523a127</ContentItemReferenceGUID>
+      <ContentItemReferenceSourceCommonDataID>
+        <GUID>1d1fe600-a580-4a45-bd7d-8c43c647adf3</GUID>
+        <ObjectType>cms.contentitemcommondata</ObjectType>
+      </ContentItemReferenceSourceCommonDataID>
+      <ContentItemReferenceTargetItemID>
+        <CodeName>OnRoasts-nlx96ge6</CodeName>
+        <GUID>d5d28908-d403-4f6d-ab5a-d7758b43dbf2</GUID>
+        <ObjectType>cms.contentitem</ObjectType>
+      </ContentItemReferenceTargetItemID>
+    </cms.contentitemreference>
+    <cms.contentitemreference>
+      <ContentItemReferenceGroupGUID>49eea67f-5a3a-4a0a-a4a4-42cf4e2117c0</ContentItemReferenceGroupGUID>
+      <ContentItemReferenceGUID>979ae209-18d5-4f01-aa6b-bb120f6f1164</ContentItemReferenceGUID>
+      <ContentItemReferenceSourceCommonDataID>
+        <GUID>1d1fe600-a580-4a45-bd7d-8c43c647adf3</GUID>
+        <ObjectType>cms.contentitemcommondata</ObjectType>
+      </ContentItemReferenceSourceCommonDataID>
+      <ContentItemReferenceTargetItemID>
+        <CodeName>ElSalvadorFincaSanJose-64iaoyy6</CodeName>
+        <GUID>b0c28347-59f4-450a-aded-eb533ee41431</GUID>
+        <ObjectType>cms.contentitem</ObjectType>
+      </ContentItemReferenceTargetItemID>
+    </cms.contentitemreference>
+    <cms.contentitemreference>
+      <ContentItemReferenceGroupGUID>49eea67f-5a3a-4a0a-a4a4-42cf4e2117c0</ContentItemReferenceGroupGUID>
+      <ContentItemReferenceGUID>7c0148dd-9ac9-4872-9ca2-becf437befc4</ContentItemReferenceGUID>
+      <ContentItemReferenceSourceCommonDataID>
+        <GUID>1d1fe600-a580-4a45-bd7d-8c43c647adf3</GUID>
+        <ObjectType>cms.contentitemcommondata</ObjectType>
+      </ContentItemReferenceSourceCommonDataID>
+      <ContentItemReferenceTargetItemID>
+        <CodeName>WhichBrewingFitsYou-a6ildi6t</CodeName>
+        <GUID>b69db6f4-355b-4e5a-917b-541fba602213</GUID>
+        <ObjectType>cms.contentitem</ObjectType>
+      </ContentItemReferenceTargetItemID>
+    </cms.contentitemreference>
+  </ContentItemReferences>
+</cms.contentitemcommondata>

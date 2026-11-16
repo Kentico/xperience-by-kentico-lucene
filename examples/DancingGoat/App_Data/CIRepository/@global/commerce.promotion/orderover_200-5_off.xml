@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<commerce.promotion>
+  <PromotionActiveFromWhen>2025-11-30 23:00:00Z</PromotionActiveFromWhen>
+  <PromotionCreatedByUserID>
+    <CodeName>administrator</CodeName>
+    <GUID>6415b8ce-8072-4bcd-8e48-9d7178b826b7</GUID>
+    <ObjectType>cms.user</ObjectType>
+  </PromotionCreatedByUserID>
+  <PromotionCreatedWhen>2025-12-02 14:53:56Z</PromotionCreatedWhen>
+  <PromotionCustomerEligibility>all</PromotionCustomerEligibility>
+  <PromotionDescription>5% off on orders over $200.</PromotionDescription>
+  <PromotionDisplayName>Order over $200 - 5% off</PromotionDisplayName>
+  <PromotionGUID>1e038926-7e22-4536-ad17-422af449a3a0</PromotionGUID>
+  <PromotionModifiedByUserID>
+    <CodeName>administrator</CodeName>
+    <GUID>6415b8ce-8072-4bcd-8e48-9d7178b826b7</GUID>
+    <ObjectType>cms.user</ObjectType>
+  </PromotionModifiedByUserID>
+  <PromotionName>OrderOver_200-5_Off</PromotionName>
+  <PromotionRuleConfiguration>
+    <![CDATA[{"DiscountValueType":"Percentage","DiscountValue":5,"MinimumRequirementValueType":"Price","MinimumRequirementValue":200}]]>
+  </PromotionRuleConfiguration>
+  <PromotionRuleIdentifier>DancingGoatOrderPromotionRule</PromotionRuleIdentifier>
+  <PromotionType>order</PromotionType>
+</commerce.promotion>

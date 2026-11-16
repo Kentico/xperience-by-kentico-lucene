@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<cms.applicationpermission>
+  <ApplicationName>Kentico.Xperience.Application.DataProtection</ApplicationName>
+  <ApplicationPermissionGuid>71ced5ab-e2cb-4dad-a92c-5c1f75713d71</ApplicationPermissionGuid>
+  <PermissionName>Delete</PermissionName>
+  <RoleID>
+    <CodeName>DancingGoat.DigitalChannelManager</CodeName>
+    <GUID>80f9aa61-d17c-45f0-9b9a-9ff3c301438c</GUID>
+    <ObjectType>cms.role</ObjectType>
+  </RoleID>
+</cms.applicationpermission>

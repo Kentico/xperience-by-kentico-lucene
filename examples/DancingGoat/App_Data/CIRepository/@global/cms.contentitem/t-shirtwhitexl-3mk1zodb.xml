@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<cms.contentitem>
+  <ContentItemContentFolderID>
+    <CodeName>Root-DancingGoat.DancingGoatCommerce</CodeName>
+    <GUID>0fed3213-91dd-459d-ac4d-27f9cca1e3e4</GUID>
+    <ObjectType>cms.contentfolder</ObjectType>
+  </ContentItemContentFolderID>
+  <ContentItemContentTypeID>
+    <CodeName>DancingGoat.ProductVariantAlphaSize</CodeName>
+    <GUID>02f95fc8-e428-4734-95b8-acb5ba64a633</GUID>
+    <ObjectType>cms.contenttype</ObjectType>
+  </ContentItemContentTypeID>
+  <ContentItemGUID>c6bf3731-625f-4a16-952e-d32d24793ac5</ContentItemGUID>
+  <ContentItemIsReusable>True</ContentItemIsReusable>
+  <ContentItemIsSecured>False</ContentItemIsSecured>
+  <ContentItemName>T-shirtWhiteXL-3mk1zodb</ContentItemName>
+  <ContentItemWorkspaceID>
+    <CodeName>DancingGoat.DancingGoatCommerce</CodeName>
+    <GUID>83f1d3be-89d2-4cb2-9ff4-80890517b58e</GUID>
+    <ObjectType>cms.workspace</ObjectType>
+  </ContentItemWorkspaceID>
+</cms.contentitem>

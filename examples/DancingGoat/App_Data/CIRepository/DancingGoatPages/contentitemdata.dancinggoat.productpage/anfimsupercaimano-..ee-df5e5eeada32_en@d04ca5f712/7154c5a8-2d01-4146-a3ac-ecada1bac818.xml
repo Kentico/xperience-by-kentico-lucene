@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<contentitemdata.dancinggoat.productpage>
+  <ContentItemDataCommonDataID>
+    <GUID>b6d3bb61-dea5-4601-8aee-df5e5eeada32</GUID>
+    <ObjectType>cms.contentitemcommondata</ObjectType>
+    <Parent>
+      <CodeName>AnfimSuperCaimano-9sat8ifd</CodeName>
+      <GUID>b044fc53-a3cf-4eea-8848-c9f6068bdb9b</GUID>
+      <ObjectType>cms.contentitem</ObjectType>
+    </Parent>
+  </ContentItemDataCommonDataID>
+  <ContentItemDataGUID>7154c5a8-2d01-4146-a3ac-ecada1bac818</ContentItemDataGUID>
+  <ProductPageProduct>
+    <![CDATA[[{"Identifier":"fe7d6549-3ce6-482f-a0ed-d7d2508645b3"}]]]>
+  </ProductPageProduct>
+</contentitemdata.dancinggoat.productpage>

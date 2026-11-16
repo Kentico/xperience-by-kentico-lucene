@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<commerce.shippingmethod>
+  <ShippingMethodDisplayName>Priority mail shipping</ShippingMethodDisplayName>
+  <ShippingMethodEnabled>True</ShippingMethodEnabled>
+  <ShippingMethodGUID>96abb71a-42ec-435d-8267-a8ab0376d682</ShippingMethodGUID>
+  <ShippingMethodName>PriorityMailShipping</ShippingMethodName>
+  <ShippingMethodPrice>10</ShippingMethodPrice>
+</commerce.shippingmethod>

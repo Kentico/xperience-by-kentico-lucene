@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<cms.contentitemcommondata>
+  <ContentItemCommonDataContentItemID>
+    <CodeName>Grinders-znw6k3q1</CodeName>
+    <GUID>f95577fc-3c69-4868-a4da-6cb75f71e55c</GUID>
+    <ObjectType>cms.contentitem</ObjectType>
+  </ContentItemCommonDataContentItemID>
+  <ContentItemCommonDataContentLanguageID>
+    <CodeName>en</CodeName>
+    <GUID>e4a8fb12-ebc2-45d0-930f-c9fba2780c85</GUID>
+    <ObjectType>cms.contentlanguage</ObjectType>
+  </ContentItemCommonDataContentLanguageID>
+  <ContentItemCommonDataFirstPublishedWhen>2025-02-28 12:15:26Z</ContentItemCommonDataFirstPublishedWhen>
+  <ContentItemCommonDataGUID>42e4c522-8f05-427b-937d-3d8788fdb026</ContentItemCommonDataGUID>
+  <ContentItemCommonDataIsLatest>True</ContentItemCommonDataIsLatest>
+  <ContentItemCommonDataLastPublishedWhen>2025-02-28 12:15:26Z</ContentItemCommonDataLastPublishedWhen>
+  <ContentItemCommonDataVersionStatus>2</ContentItemCommonDataVersionStatus>
+  <ContentItemReferences>
+    <cms.contentitemreference>
+      <ContentItemReferenceGroupGUID>0e40b158-c4c5-4c7d-8b77-3c86e2c84770</ContentItemReferenceGroupGUID>
+      <ContentItemReferenceGUID>28885c11-da55-4189-bcac-cdfc724f4593</ContentItemReferenceGUID>
+      <ContentItemReferenceSourceCommonDataID>
+        <GUID>42e4c522-8f05-427b-937d-3d8788fdb026</GUID>
+        <ObjectType>cms.contentitemcommondata</ObjectType>
+      </ContentItemReferenceSourceCommonDataID>
+      <ContentItemReferenceTargetItemID>
+        <CodeName>Grinders-1tqsds4b</CodeName>
+        <GUID>f567fffb-5989-4d95-842f-8d4195c502ad</GUID>
+        <ObjectType>cms.contentitem</ObjectType>
+      </ContentItemReferenceTargetItemID>
+    </cms.contentitemreference>
+  </ContentItemReferences>
+</cms.contentitemcommondata>

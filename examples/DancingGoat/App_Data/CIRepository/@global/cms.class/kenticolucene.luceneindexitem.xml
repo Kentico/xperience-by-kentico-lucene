@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<cms.class>
+  <ClassDisplayName>Lucene Index Item</ClassDisplayName>
+  <ClassFormDefinition>
+    <form>
+      <field column="LuceneIndexItemId" columntype="integer" enabled="true" guid="e0d7605b-f1f8-48ec-8f91-d9da658281c0" isPK="true" />
+      <field column="LuceneIndexItemGuid" columnprecision="0" columntype="guid" enabled="true" guid="0a776292-d696-4ae6-bf7f-246569f84687" visible="true" />
+      <field column="LuceneIndexItemIndexName" columnprecision="0" columnsize="100" columntype="text" enabled="true" guid="ebe2e3c3-f89c-4de8-86cb-2376f8bac63f" visible="true" />
+      <field column="LuceneIndexItemStrategyName" columnprecision="0" columnsize="100" columntype="text" enabled="true" guid="590082bf-f710-42a1-978e-837e664ee85a" visible="true" />
+      <field column="LuceneIndexItemAnalyzerName" columnprecision="0" columnsize="100" columntype="text" enabled="true" guid="b0775f01-50c3-42a2-bd3a-9a755ad1a628" visible="true" />
+      <field allowempty="true" column="LuceneIndexItemRebuildHook" columnprecision="0" columnsize="100" columntype="text" enabled="true" guid="fa397c68-7598-474d-b080-14a1973352a5" visible="true" />
+    </form>
+  </ClassFormDefinition>
+  <ClassGUID>69cfa587-bec6-4d38-8a5d-1b42af7bee97</ClassGUID>
+  <ClassHasUnmanagedDbSchema>False</ClassHasUnmanagedDbSchema>
+  <ClassName>KenticoLucene.LuceneIndexItem</ClassName>
+  <ClassResourceID>
+    <CodeName>CMS.Integration.Lucene</CodeName>
+    <GUID>832ed5a3-9970-404c-992f-f4dbe5c0dc94</GUID>
+    <ObjectType>cms.resource</ObjectType>
+  </ClassResourceID>
+  <ClassTableName>KenticoLucene_LuceneIndexItem</ClassTableName>
+  <ClassType>Other</ClassType>
+</cms.class>

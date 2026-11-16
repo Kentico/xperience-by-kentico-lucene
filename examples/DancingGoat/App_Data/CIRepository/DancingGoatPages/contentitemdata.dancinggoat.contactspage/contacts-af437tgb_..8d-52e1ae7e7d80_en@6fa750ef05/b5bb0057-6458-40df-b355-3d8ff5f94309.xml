@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<contentitemdata.dancinggoat.contactspage>
+  <ContentItemDataCommonDataID>
+    <GUID>6b6b58d1-a0ac-400e-ad8d-52e1ae7e7d80</GUID>
+    <ObjectType>cms.contentitemcommondata</ObjectType>
+    <Parent>
+      <CodeName>Contacts-af437tgb</CodeName>
+      <GUID>688a474e-a995-42e4-a397-0c692f14d885</GUID>
+      <ObjectType>cms.contentitem</ObjectType>
+    </Parent>
+  </ContentItemDataCommonDataID>
+  <ContentItemDataGUID>b5bb0057-6458-40df-b355-3d8ff5f94309</ContentItemDataGUID>
+</contentitemdata.dancinggoat.contactspage>

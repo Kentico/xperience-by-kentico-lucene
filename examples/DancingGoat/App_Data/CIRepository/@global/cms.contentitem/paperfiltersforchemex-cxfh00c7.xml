@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<cms.contentitem>
+  <ContentItemContentFolderID>
+    <CodeName>Root-DancingGoat.DancingGoatCommerce</CodeName>
+    <GUID>0fed3213-91dd-459d-ac4d-27f9cca1e3e4</GUID>
+    <ObjectType>cms.contentfolder</ObjectType>
+  </ContentItemContentFolderID>
+  <ContentItemContentTypeID>
+    <CodeName>DancingGoat.ProductAccessory</CodeName>
+    <GUID>cecc8275-51af-4395-9098-955c371907ad</GUID>
+    <ObjectType>cms.contenttype</ObjectType>
+  </ContentItemContentTypeID>
+  <ContentItemGUID>c6e51fe4-74f6-41db-92fd-3e3b36141e6b</ContentItemGUID>
+  <ContentItemIsReusable>True</ContentItemIsReusable>
+  <ContentItemIsSecured>False</ContentItemIsSecured>
+  <ContentItemName>PaperFiltersForChemex-cxfh00c7</ContentItemName>
+  <ContentItemWorkspaceID>
+    <CodeName>DancingGoat.DancingGoatCommerce</CodeName>
+    <GUID>83f1d3be-89d2-4cb2-9ff4-80890517b58e</GUID>
+    <ObjectType>cms.workspace</ObjectType>
+  </ContentItemWorkspaceID>
+</cms.contentitem>

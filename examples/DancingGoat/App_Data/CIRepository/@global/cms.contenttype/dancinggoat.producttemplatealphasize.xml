@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<cms.contenttype>
+  <ClassContentTypeType>Reusable</ClassContentTypeType>
+  <ClassDisplayName>Product template - Alpha sizes</ClassDisplayName>
+  <ClassFormDefinition>
+    <form>
+      <field column="ContentItemDataID" columntype="integer" enabled="true" guid="863d409f-89ec-47ff-9b14-e3edfb311945" isPK="true" />
+      <field column="ContentItemDataCommonDataID" columntype="integer" enabled="true" guid="05dc7bda-5944-4fae-83d8-856d9a6baa83" refobjtype="cms.contentitemcommondata" reftype="Required" system="true" />
+      <field column="ContentItemDataGUID" columntype="guid" enabled="true" guid="053c99fc-f0ab-4f34-bf9b-2004c0a194f6" isunique="true" system="true" />
+      <schema guid="fe13f703-8744-4947-8c01-5f78bbd5039d" name="fe13f703-8744-4947-8c01-5f78bbd5039d">
+        <properties />
+      </schema>
+      <schema guid="08ef55b7-983d-4b8e-8bdf-f3fd066898c1" name="08ef55b7-983d-4b8e-8bdf-f3fd066898c1">
+        <properties />
+      </schema>
+      <field allowempty="true" column="ProductVariants" columnprecision="0" columntype="contentitemreference" enabled="true" guid="7307ad92-817c-4a42-ae99-67ffa727bac5" visible="true">
+        <properties>
+          <explanationtextashtml>False</explanationtextashtml>
+          <fieldcaption>ProductVariants</fieldcaption>
+          <fielddescriptionashtml>False</fielddescriptionashtml>
+        </properties>
+        <settings>
+          <AllowedContentItemTypeIdentifiers>
+            <![CDATA[["02f95fc8-e428-4734-95b8-acb5ba64a633"]]]>
+          </AllowedContentItemTypeIdentifiers>
+          <controlname>Kentico.Administration.ContentItemSelector</controlname>
+          <SelectionType>contentTypes</SelectionType>
+        </settings>
+      </field>
+    </form>
+  </ClassFormDefinition>
+  <ClassGUID>6e2135cc-0f14-48aa-b05f-6c4e59431e0b</ClassGUID>
+  <ClassHasUnmanagedDbSchema>False</ClassHasUnmanagedDbSchema>
+  <ClassIconClass>xp-box</ClassIconClass>
+  <ClassName>DancingGoat.ProductTemplateAlphaSize</ClassName>
+  <ClassShortName>DancingGoatProductTemplateAlphaSize</ClassShortName>
+  <ClassTableName>DancingGoat_ProductContainer</ClassTableName>
+  <ClassType>Content</ClassType>
+  <ClassWebPageHasUrl>False</ClassWebPageHasUrl>
+</cms.contenttype>

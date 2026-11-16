@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<contentitemdata.dancinggoat.confirmationpage>
+  <ConfirmationPageArticlesSection>
+    <![CDATA[[{"WebPageGuid":"4c572828-78af-49ce-89e5-5a87a31ec2cd"}]]]>
+  </ConfirmationPageArticlesSection>
+  <ConfirmationPageContent>
+    <![CDATA[<p>You're all set up to receive our newsletter.<br>In the meantime you can check out our articles. Thank you.</p>]]>
+  </ConfirmationPageContent>
+  <ConfirmationPageHeader>Your subscription has been confirmed</ConfirmationPageHeader>
+  <ConfirmationPageTitle>Subscription confirmed</ConfirmationPageTitle>
+  <ContentItemDataCommonDataID>
+    <GUID>8292b384-a0b5-4b8c-b9f2-34ed2a76840b</GUID>
+    <ObjectType>cms.contentitemcommondata</ObjectType>
+    <Parent>
+      <CodeName>SubscriptionConfirmation-44jgq06t</CodeName>
+      <GUID>47df9c47-3a60-499c-a74f-73f88b0cdc1d</GUID>
+      <ObjectType>cms.contentitem</ObjectType>
+    </Parent>
+  </ContentItemDataCommonDataID>
+  <ContentItemDataGUID>b15d7673-6cb9-43dd-a3f7-edbc9a6352a8</ContentItemDataGUID>
+</contentitemdata.dancinggoat.confirmationpage>

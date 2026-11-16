@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<cms.webpageurlpath>
+  <WebPageUrlPath>Products/Anfim-Super-Caimano</WebPageUrlPath>
+  <WebPageUrlPathContentLanguageID>
+    <CodeName>en</CodeName>
+    <GUID>e4a8fb12-ebc2-45d0-930f-c9fba2780c85</GUID>
+    <ObjectType>cms.contentlanguage</ObjectType>
+  </WebPageUrlPathContentLanguageID>
+  <WebPageUrlPathGUID>69f38099-c5fd-4e78-9173-ca6d76b42513</WebPageUrlPathGUID>
+  <WebPageUrlPathHash>
+    <![CDATA[BD806EC51201CAFE2611F762E2444D37F45B526C3609EF00D43818161C6CDADC]]>
+  </WebPageUrlPathHash>
+  <WebPageUrlPathIsCanonical>True</WebPageUrlPathIsCanonical>
+  <WebPageUrlPathIsDraft>False</WebPageUrlPathIsDraft>
+  <WebPageUrlPathIsLatest>True</WebPageUrlPathIsLatest>
+  <WebPageUrlPathType>0</WebPageUrlPathType>
+  <WebPageUrlPathWebPageItemID>
+    <CodeName>AnfimSuperCaimano-9sat8ifd</CodeName>
+    <GUID>8e245432-57f1-4d91-bef8-c91d7639bf85</GUID>
+    <ObjectType>cms.webpageitem</ObjectType>
+  </WebPageUrlPathWebPageItemID>
+  <WebPageUrlPathWebsiteChannelID>
+    <GUID>55e3ae4b-3843-46b8-95d5-79611c371d6f</GUID>
+    <ObjectType>cms.websitechannel</ObjectType>
+    <Parent>
+      <CodeName>DancingGoatPages</CodeName>
+      <GUID>c430f96d-bd56-4448-b6ab-bce41a58f186</GUID>
+      <ObjectType>cms.channel</ObjectType>
+    </Parent>
+  </WebPageUrlPathWebsiteChannelID>
+</cms.webpageurlpath>

@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<commerce.promotion>
+  <PromotionActiveFromWhen>2026-09-21 10:26:00Z</PromotionActiveFromWhen>
+  <PromotionCreatedByUserID>
+    <CodeName>administrator</CodeName>
+    <GUID>6415b8ce-8072-4bcd-8e48-9d7178b826b7</GUID>
+    <ObjectType>cms.user</ObjectType>
+  </PromotionCreatedByUserID>
+  <PromotionCreatedWhen>2026-09-21 10:26:40Z</PromotionCreatedWhen>
+  <PromotionCustomerEligibility>all</PromotionCustomerEligibility>
+  <PromotionDescription>
+    <![CDATA[Every two brewers in the cart take 50% off the cheaper one.]]>
+  </PromotionDescription>
+  <PromotionDisplayName>Buy 2 brewers, 50% off the cheaper one</PromotionDisplayName>
+  <PromotionGUID>d7c36e31-2a45-435b-bd0a-e51471451c0e</PromotionGUID>
+  <PromotionModifiedByUserID>
+    <CodeName>administrator</CodeName>
+    <GUID>6415b8ce-8072-4bcd-8e48-9d7178b826b7</GUID>
+    <ObjectType>cms.user</ObjectType>
+  </PromotionModifiedByUserID>
+  <PromotionName>Buy2Brewers_50_OffTheCheaperOne</PromotionName>
+  <PromotionRuleConfiguration>
+    <![CDATA[{"Scope":"categories","ProductCategories":[{"Identifier":"4c3bece5-3552-461c-b8f0-29f4fca27684"}],"Products":[],"ProductTags":[],"MinimumQuantity":2,"DiscountPercentage":50}]]>
+  </PromotionRuleConfiguration>
+  <PromotionRuleIdentifier>DancingGoatCartItemPromotionRule</PromotionRuleIdentifier>
+  <PromotionType>cartitem</PromotionType>
+</commerce.promotion>

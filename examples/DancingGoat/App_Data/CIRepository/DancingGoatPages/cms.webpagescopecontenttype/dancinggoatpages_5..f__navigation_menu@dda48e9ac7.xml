@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<cms.webpagescopecontenttype>
+  <Parent>
+    <GUID>171c1a8b-834a-4ba8-ae7a-c59875270803</GUID>
+    <ObjectType>cms.webpagescope</ObjectType>
+    <Parent>
+      <GUID>55e3ae4b-3843-46b8-95d5-79611c371d6f</GUID>
+      <ObjectType>cms.websitechannel</ObjectType>
+      <Parent>
+        <CodeName>DancingGoatPages</CodeName>
+        <GUID>c430f96d-bd56-4448-b6ab-bce41a58f186</GUID>
+        <ObjectType>cms.channel</ObjectType>
+      </Parent>
+    </Parent>
+  </Parent>
+  <Bindings>
+    <Binding id="cms.contenttype_DancingGoat.NavigationItem">
+      <WebPageScopeContentTypeContentTypeID>
+        <CodeName>DancingGoat.NavigationItem</CodeName>
+        <GUID>dada684e-94fc-4ead-80fd-bb72dd0e54bf</GUID>
+        <ObjectType>cms.contenttype</ObjectType>
+      </WebPageScopeContentTypeContentTypeID>
+    </Binding>
+  </Bindings>
+</cms.webpagescopecontenttype>

@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<cms.contentitem>
+  <ContentItemChannelID>
+    <CodeName>DancingGoatPages</CodeName>
+    <GUID>c430f96d-bd56-4448-b6ab-bce41a58f186</GUID>
+    <ObjectType>cms.channel</ObjectType>
+  </ContentItemChannelID>
+  <ContentItemContentTypeID>
+    <CodeName>DancingGoat.ShoppingCart</CodeName>
+    <GUID>f83023e3-fe6e-430c-be2d-71ad9fe1ed85</GUID>
+    <ObjectType>cms.contenttype</ObjectType>
+  </ContentItemContentTypeID>
+  <ContentItemGUID>3244a32b-5699-45bb-b1d6-034616d1c9ee</ContentItemGUID>
+  <ContentItemIsReusable>False</ContentItemIsReusable>
+  <ContentItemIsSecured>False</ContentItemIsSecured>
+  <ContentItemName>ShoppingCart-61vwdwtj</ContentItemName>
+</cms.contentitem>

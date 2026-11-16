@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<contentitemdata.dancinggoat.productgrinder>
+  <ContentItemDataCommonDataID>
+    <GUID>c5d75fd3-9da6-47d9-bbc8-f31874426fec</GUID>
+    <ObjectType>cms.contentitemcommondata</ObjectType>
+    <Parent>
+      <CodeName>PorlexTallCeramicBurrGrinder-53y9sg4n</CodeName>
+      <GUID>9e067ec4-850b-4020-82d2-ede11ea21bc0</GUID>
+      <ObjectType>cms.contentitem</ObjectType>
+    </Parent>
+  </ContentItemDataCommonDataID>
+  <ContentItemDataGUID>213559c4-a3a7-4dda-b881-0f9f709efd5b</ContentItemDataGUID>
+  <GrinderType>Manual</GrinderType>
+</contentitemdata.dancinggoat.productgrinder>

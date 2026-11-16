@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ma.automationprocess>
+  <WorkflowAutomationType>1</WorkflowAutomationType>
+  <WorkflowDisplayName>
+    <![CDATA[Send autoresponder email from form 'Dancing Goat subscription']]>
+  </WorkflowDisplayName>
+  <WorkflowEnabled>True</WorkflowEnabled>
+  <WorkflowGUID>d89515f8-83aa-4458-be1a-cad0d679a810</WorkflowGUID>
+  <WorkflowName>SendAutoresponderEmail.DancingGoatSubscription</WorkflowName>
+  <WorkflowRecurrenceType>3</WorkflowRecurrenceType>
+  <WorkflowType>3</WorkflowType>
+</ma.automationprocess>

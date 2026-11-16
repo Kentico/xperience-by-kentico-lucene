@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<om.activitytype>
+  <ActivityTypeDescription>
+<![CDATA[
+The visitor submitted an on-line form.
+
+]]>
+  </ActivityTypeDescription>
+  <ActivityTypeDisplayName>Form submission</ActivityTypeDisplayName>
+  <ActivityTypeEnabled>True</ActivityTypeEnabled>
+  <ActivityTypeIsCustom>False</ActivityTypeIsCustom>
+  <ActivityTypeName>bizformsubmit</ActivityTypeName>
+</om.activitytype>

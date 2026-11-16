@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<contentitemdata.dancinggoat.image>
+  <ContentItemDataCommonDataID>
+    <GUID>9ecc107f-cdcd-494c-9a4e-9d1a9d735448</GUID>
+    <ObjectType>cms.contentitemcommondata</ObjectType>
+    <Parent>
+      <CodeName>Logos_Twitter-icon.png-yhw58zal</CodeName>
+      <GUID>c29dd2f8-d5e2-4d2c-8f7f-a0fb7c09ebed</GUID>
+      <ObjectType>cms.contentitem</ObjectType>
+    </Parent>
+  </ContentItemDataCommonDataID>
+  <ContentItemDataGUID>c8885518-672b-4c68-aecf-4000f6fb3e69</ContentItemDataGUID>
+  <ImageFile>
+    <![CDATA[{"Original":{"Identifier":"6ef822b2-dfae-4ae2-97a4-a854df037672","Name":"x.png","Extension":".png","Size":5943,"Width":320,"Height":320,"LastModified":"2026-08-12T11:31:49.6050552Z"},"OptimizationParameters":{"OutputExtension":"webp","Quality":70,"WidthLimit":null,"HeightLimit":null},"Variants":{},"FocalPoint":{"X":163,"Y":125},"Identifier":"8215d679-b329-4fa2-ad88-e9163a8df88c","Name":"x.webp","Extension":".webp","Size":6334,"Width":320,"Height":320,"LastModified":"2026-08-12T11:31:49.6901143Z"}]]>
+  </ImageFile>
+  <ImageShortDescription>X</ImageShortDescription>
+  <ImageTags>
+    <![CDATA[[{"Identifier":"acda48c2-9ca1-4f13-943f-5fd8999798f6"}]]]>
+  </ImageTags>
+</contentitemdata.dancinggoat.image>

@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<cms.contentitemcommondata>
+  <ContentItemCommonDataContentItemID>
+    <CodeName>People_ReferenceBarista</CodeName>
+    <GUID>a0672f6b-b97e-470f-8cf4-8108a826d471</GUID>
+    <ObjectType>cms.contentitem</ObjectType>
+  </ContentItemCommonDataContentItemID>
+  <ContentItemCommonDataContentLanguageID>
+    <CodeName>en</CodeName>
+    <GUID>e4a8fb12-ebc2-45d0-930f-c9fba2780c85</GUID>
+    <ObjectType>cms.contentlanguage</ObjectType>
+  </ContentItemCommonDataContentLanguageID>
+  <ContentItemCommonDataFirstPublishedWhen>2026-08-12 07:32:51Z</ContentItemCommonDataFirstPublishedWhen>
+  <ContentItemCommonDataGUID>1b7f95bc-7730-46d9-8c49-edbb2587658b</ContentItemCommonDataGUID>
+  <ContentItemCommonDataIsLatest>True</ContentItemCommonDataIsLatest>
+  <ContentItemCommonDataLastPublishedWhen>2026-08-12 07:32:51Z</ContentItemCommonDataLastPublishedWhen>
+  <ContentItemCommonDataVersionStatus>2</ContentItemCommonDataVersionStatus>
+</cms.contentitemcommondata>

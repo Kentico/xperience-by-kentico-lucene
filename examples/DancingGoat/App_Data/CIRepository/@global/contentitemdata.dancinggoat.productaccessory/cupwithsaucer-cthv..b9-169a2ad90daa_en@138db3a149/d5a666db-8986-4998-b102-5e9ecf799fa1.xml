@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<contentitemdata.dancinggoat.productaccessory>
+  <ContentItemDataCommonDataID>
+    <GUID>76d506d8-d0f3-49d4-b3b9-169a2ad90daa</GUID>
+    <ObjectType>cms.contentitemcommondata</ObjectType>
+    <Parent>
+      <CodeName>CupWithSaucer-cthv99vn</CodeName>
+      <GUID>3a34025f-ac1e-4a24-8720-f4ca9a181c15</GUID>
+      <ObjectType>cms.contentitem</ObjectType>
+    </Parent>
+  </ContentItemDataCommonDataID>
+  <ContentItemDataGUID>d5a666db-8986-4998-b102-5e9ecf799fa1</ContentItemDataGUID>
+</contentitemdata.dancinggoat.productaccessory>

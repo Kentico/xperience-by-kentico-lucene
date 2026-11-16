@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<cms.smartfolder>
+  <SmartFolderCreatedWhen>2024-08-28 15:16:14Z</SmartFolderCreatedWhen>
+  <SmartFolderDisplayName>Promoted cafes</SmartFolderDisplayName>
+  <SmartFolderFilter>
+    <![CDATA[{"classGUID":["2f06d20b-3357-48e6-b0f8-2ca7ef737237"],"tags":[{"tags":[{"identifier":"5e0196c5-d7c2-4e66-80d5-a134ee708c58"}]}],"lastPublishedAbsolute":null,"lastPublishedRelative":null,"selectedLastPublishedTimeFrame":"absolute"}]]>
+  </SmartFolderFilter>
+  <SmartFolderGUID>1aff3459-c137-48e4-8456-f5c941a3e904</SmartFolderGUID>
+  <SmartFolderIsContentDeliveryEnabled>True</SmartFolderIsContentDeliveryEnabled>
+  <SmartFolderName>dancinggoat.promotedcafes</SmartFolderName>
+  <SmartFolderWorkspaceID>
+    <CodeName>DancingGoat.DancingGoatLtd</CodeName>
+    <GUID>4972d424-6c85-45f1-ac71-2576716a4e8c</GUID>
+    <ObjectType>cms.workspace</ObjectType>
+  </SmartFolderWorkspaceID>
+</cms.smartfolder>

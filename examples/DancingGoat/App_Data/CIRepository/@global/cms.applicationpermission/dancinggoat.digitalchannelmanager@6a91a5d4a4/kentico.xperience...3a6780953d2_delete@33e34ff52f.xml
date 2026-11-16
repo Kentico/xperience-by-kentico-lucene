@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<cms.applicationpermission>
+  <ApplicationName>
+    <![CDATA[Kentico.Xperience.Application.EmailChannel_be820547-d1e2-4f46-a9b3-c3a6780953d2]]>
+  </ApplicationName>
+  <ApplicationPermissionGuid>4ffcf704-545e-4933-9a4d-6da06e360120</ApplicationPermissionGuid>
+  <PermissionName>Delete</PermissionName>
+  <RoleID>
+    <CodeName>DancingGoat.DigitalChannelManager</CodeName>
+    <GUID>80f9aa61-d17c-45f0-9b9a-9ff3c301438c</GUID>
+    <ObjectType>cms.role</ObjectType>
+  </RoleID>
+</cms.applicationpermission>

@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<cms.tag>
+  <TagGUID>1e13aa82-2df1-4446-b7a3-a91f9aeec304</TagGUID>
+  <TagMetadata>
+    <![CDATA[{"Translations":{"fc939370-8f94-4fc9-8cc4-bfdef6ab748c":{"Title":null,"Description":null}}}]]>
+  </TagMetadata>
+  <TagName>Cafe</TagName>
+  <TagOrder>6</TagOrder>
+  <TagTaxonomyID>
+    <CodeName>ImageTags</CodeName>
+    <GUID>b4c5f28d-b291-42fd-8104-8a314d4ed30f</GUID>
+    <ObjectType>cms.taxonomy</ObjectType>
+  </TagTaxonomyID>
+  <TagTitle>
+    <![CDATA[Café]]>
+  </TagTitle>
+</cms.tag>

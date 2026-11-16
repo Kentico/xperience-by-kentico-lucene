@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<cms.contentitemcommondata>
+  <ContentItemCommonDataContentItemID>
+    <CodeName>AeroPress-vf15ekn4</CodeName>
+    <GUID>5ce58fc8-7ccd-4916-a889-28a6f29f0318</GUID>
+    <ObjectType>cms.contentitem</ObjectType>
+  </ContentItemCommonDataContentItemID>
+  <ContentItemCommonDataContentLanguageID>
+    <CodeName>en</CodeName>
+    <GUID>e4a8fb12-ebc2-45d0-930f-c9fba2780c85</GUID>
+    <ObjectType>cms.contentlanguage</ObjectType>
+  </ContentItemCommonDataContentLanguageID>
+  <ContentItemCommonDataFirstPublishedWhen>2025-03-25 09:53:20Z</ContentItemCommonDataFirstPublishedWhen>
+  <ContentItemCommonDataGUID>8ff1cd99-d19c-4fe9-b307-5328aa1aa1a5</ContentItemCommonDataGUID>
+  <ContentItemCommonDataIsLatest>True</ContentItemCommonDataIsLatest>
+  <ContentItemCommonDataLastPublishedWhen>2026-07-15 13:35:08Z</ContentItemCommonDataLastPublishedWhen>
+  <ContentItemCommonDataVersionStatus>2</ContentItemCommonDataVersionStatus>
+  <SEOFieldsDescription>
+    <![CDATA[Brew smooth, rich coffee anywhere with the AeroPress - a favorite of baristas and travelers alike. Order yours from Dancing Goat.]]>
+  </SEOFieldsDescription>
+  <SEOFieldsTitle>AeroPress Coffee Maker | Dancing Goat</SEOFieldsTitle>
+  <ContentItemReferences>
+    <cms.contentitemreference>
+      <ContentItemReferenceGroupGUID>a266f250-8c59-46ff-ad68-ca57a3b4ed86</ContentItemReferenceGroupGUID>
+      <ContentItemReferenceGUID>1256239f-9098-4b85-bb60-f553996a04b5</ContentItemReferenceGUID>
+      <ContentItemReferenceSourceCommonDataID>
+        <GUID>8ff1cd99-d19c-4fe9-b307-5328aa1aa1a5</GUID>
+        <ObjectType>cms.contentitemcommondata</ObjectType>
+      </ContentItemReferenceSourceCommonDataID>
+      <ContentItemReferenceTargetItemID>
+        <CodeName>AeroPress-gcj6qc2q</CodeName>
+        <GUID>0e4a9330-f652-4d03-a62b-a5a63a0079a0</GUID>
+        <ObjectType>cms.contentitem</ObjectType>
+      </ContentItemReferenceTargetItemID>
+    </cms.contentitemreference>
+  </ContentItemReferences>
+</cms.contentitemcommondata>

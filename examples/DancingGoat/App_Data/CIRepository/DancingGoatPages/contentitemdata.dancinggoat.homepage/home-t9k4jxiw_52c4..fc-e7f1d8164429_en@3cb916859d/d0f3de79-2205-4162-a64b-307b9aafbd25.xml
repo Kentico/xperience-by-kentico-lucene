@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<contentitemdata.dancinggoat.homepage>
+  <ContentItemDataCommonDataID>
+    <GUID>52c47d26-697c-4e56-90fc-e7f1d8164429</GUID>
+    <ObjectType>cms.contentitemcommondata</ObjectType>
+    <Parent>
+      <CodeName>Home-t9k4jxiw</CodeName>
+      <GUID>17d83996-c66a-4b07-b47e-d285bd99d8f3</GUID>
+      <ObjectType>cms.contentitem</ObjectType>
+    </Parent>
+  </ContentItemDataCommonDataID>
+  <ContentItemDataGUID>d0f3de79-2205-4162-a64b-307b9aafbd25</ContentItemDataGUID>
+</contentitemdata.dancinggoat.homepage>

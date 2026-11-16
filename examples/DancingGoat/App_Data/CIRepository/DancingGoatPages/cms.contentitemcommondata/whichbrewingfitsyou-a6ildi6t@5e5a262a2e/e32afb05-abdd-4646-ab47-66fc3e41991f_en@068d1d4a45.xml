@@ -1,0 +1,86 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<cms.contentitemcommondata>
+  <ContentItemCommonDataContentItemID>
+    <CodeName>WhichBrewingFitsYou-a6ildi6t</CodeName>
+    <GUID>b69db6f4-355b-4e5a-917b-541fba602213</GUID>
+    <ObjectType>cms.contentitem</ObjectType>
+  </ContentItemCommonDataContentItemID>
+  <ContentItemCommonDataContentLanguageID>
+    <CodeName>en</CodeName>
+    <GUID>e4a8fb12-ebc2-45d0-930f-c9fba2780c85</GUID>
+    <ObjectType>cms.contentlanguage</ObjectType>
+  </ContentItemCommonDataContentLanguageID>
+  <ContentItemCommonDataGUID>e32afb05-abdd-4646-ab47-66fc3e41991f</ContentItemCommonDataGUID>
+  <ContentItemCommonDataIsLatest>True</ContentItemCommonDataIsLatest>
+  <ContentItemCommonDataLastPublishedWhen>2026-08-12 08:06:07Z</ContentItemCommonDataLastPublishedWhen>
+  <ContentItemCommonDataVersionStatus>2</ContentItemCommonDataVersionStatus>
+  <ContentItemCommonDataVisualBuilderTemplateConfiguration>
+<![CDATA[
+{
+  "identifier": "DancingGoat.Article",
+  "properties": null,
+  "fieldIdentifiers": null
+}
+]]>
+  </ContentItemCommonDataVisualBuilderTemplateConfiguration>
+  <ProductFieldCategory />
+  <SEOFieldsDescription>
+    <![CDATA[Take a look at these three procedures describing the process of making coffee. Convince yourself that brewing coffee is no science.]]>
+  </SEOFieldsDescription>
+  <SEOFieldsNoIndex>False</SEOFieldsNoIndex>
+  <SEOFieldsTitle>Which brewing fits you? - Dancing Goat</SEOFieldsTitle>
+  <ContentItemReferences>
+    <cms.contentitemreference>
+      <ContentItemReferenceGroupGUID>04b5735c-f3b6-4dba-af49-1c748e952820</ContentItemReferenceGroupGUID>
+      <ContentItemReferenceGUID>b794572f-9b38-48ce-9575-0a808d31905d</ContentItemReferenceGUID>
+      <ContentItemReferenceSourceCommonDataID>
+        <GUID>e32afb05-abdd-4646-ab47-66fc3e41991f</GUID>
+        <ObjectType>cms.contentitemcommondata</ObjectType>
+      </ContentItemReferenceSourceCommonDataID>
+      <ContentItemReferenceTargetItemID>
+        <CodeName>Articles_Which-brewing-fits-you-1080px.jpg-sv619zaw</CodeName>
+        <GUID>29a1ccaf-3cc8-4c58-b57c-824b94a9535e</GUID>
+        <ObjectType>cms.contentitem</ObjectType>
+      </ContentItemReferenceTargetItemID>
+    </cms.contentitemreference>
+    <cms.contentitemreference>
+      <ContentItemReferenceGroupGUID>49eea67f-5a3a-4a0a-a4a4-42cf4e2117c0</ContentItemReferenceGroupGUID>
+      <ContentItemReferenceGUID>63e398c4-6de0-4be1-bb50-2fe760c7b5f9</ContentItemReferenceGUID>
+      <ContentItemReferenceSourceCommonDataID>
+        <GUID>e32afb05-abdd-4646-ab47-66fc3e41991f</GUID>
+        <ObjectType>cms.contentitemcommondata</ObjectType>
+      </ContentItemReferenceSourceCommonDataID>
+      <ContentItemReferenceTargetItemID>
+        <CodeName>CoffeeProcessingTechniques-vnl8fs1k</CodeName>
+        <GUID>69a5c969-8e18-4b57-a9cd-7ce089d0d059</GUID>
+        <ObjectType>cms.contentitem</ObjectType>
+      </ContentItemReferenceTargetItemID>
+    </cms.contentitemreference>
+    <cms.contentitemreference>
+      <ContentItemReferenceGroupGUID>49eea67f-5a3a-4a0a-a4a4-42cf4e2117c0</ContentItemReferenceGroupGUID>
+      <ContentItemReferenceGUID>a64d6527-9754-47ec-890c-b17d843ebcf1</ContentItemReferenceGUID>
+      <ContentItemReferenceSourceCommonDataID>
+        <GUID>e32afb05-abdd-4646-ab47-66fc3e41991f</GUID>
+        <ObjectType>cms.contentitemcommondata</ObjectType>
+      </ContentItemReferenceSourceCommonDataID>
+      <ContentItemReferenceTargetItemID>
+        <CodeName>OnRoasts-nlx96ge6</CodeName>
+        <GUID>d5d28908-d403-4f6d-ab5a-d7758b43dbf2</GUID>
+        <ObjectType>cms.contentitem</ObjectType>
+      </ContentItemReferenceTargetItemID>
+    </cms.contentitemreference>
+    <cms.contentitemreference>
+      <ContentItemReferenceGroupGUID>49eea67f-5a3a-4a0a-a4a4-42cf4e2117c0</ContentItemReferenceGroupGUID>
+      <ContentItemReferenceGUID>bb54dca5-ae0a-49a8-8c7a-f6f990aaa82f</ContentItemReferenceGUID>
+      <ContentItemReferenceSourceCommonDataID>
+        <GUID>e32afb05-abdd-4646-ab47-66fc3e41991f</GUID>
+        <ObjectType>cms.contentitemcommondata</ObjectType>
+      </ContentItemReferenceSourceCommonDataID>
+      <ContentItemReferenceTargetItemID>
+        <CodeName>BoliviaFincaIllimani-xvibl56q</CodeName>
+        <GUID>33b09354-dd5e-4053-8829-f16f31b7f2da</GUID>
+        <ObjectType>cms.contentitem</ObjectType>
+      </ContentItemReferenceTargetItemID>
+    </cms.contentitemreference>
+  </ContentItemReferences>
+</cms.contentitemcommondata>

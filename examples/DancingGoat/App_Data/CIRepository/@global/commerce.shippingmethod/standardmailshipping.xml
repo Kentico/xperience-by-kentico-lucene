@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<commerce.shippingmethod>
+  <ShippingMethodDisplayName>Standard mail shipping</ShippingMethodDisplayName>
+  <ShippingMethodEnabled>True</ShippingMethodEnabled>
+  <ShippingMethodGUID>f4124cfd-adb4-45aa-a69c-b724459505d4</ShippingMethodGUID>
+  <ShippingMethodName>StandardMailShipping</ShippingMethodName>
+  <ShippingMethodPrice>5</ShippingMethodPrice>
+</commerce.shippingmethod>

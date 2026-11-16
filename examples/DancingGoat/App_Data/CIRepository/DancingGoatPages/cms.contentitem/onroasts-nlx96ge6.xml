@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<cms.contentitem>
+  <ContentItemChannelID>
+    <CodeName>DancingGoatPages</CodeName>
+    <GUID>c430f96d-bd56-4448-b6ab-bce41a58f186</GUID>
+    <ObjectType>cms.channel</ObjectType>
+  </ContentItemChannelID>
+  <ContentItemContentTypeID>
+    <CodeName>DancingGoat.ArticlePage</CodeName>
+    <GUID>9b5e6c86-ebd1-4471-8f5d-dca72e39b12b</GUID>
+    <ObjectType>cms.contenttype</ObjectType>
+  </ContentItemContentTypeID>
+  <ContentItemGUID>d5d28908-d403-4f6d-ab5a-d7758b43dbf2</ContentItemGUID>
+  <ContentItemIsReusable>False</ContentItemIsReusable>
+  <ContentItemIsSecured>False</ContentItemIsSecured>
+  <ContentItemName>OnRoasts-nlx96ge6</ContentItemName>
+</cms.contentitem>

@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<cms.webpageurlpath>
+  <WebPageUrlPath>es/Articles/Coffee-processing-techniques</WebPageUrlPath>
+  <WebPageUrlPathContentLanguageID>
+    <CodeName>es</CodeName>
+    <GUID>fc939370-8f94-4fc9-8cc4-bfdef6ab748c</GUID>
+    <ObjectType>cms.contentlanguage</ObjectType>
+  </WebPageUrlPathContentLanguageID>
+  <WebPageUrlPathGUID>3dddad55-becc-43f3-9f12-efafacebcc97</WebPageUrlPathGUID>
+  <WebPageUrlPathHash>
+    <![CDATA[0D74EE177DDE7B4E44335C4F4F61EB2457CAC44B264A70B6E80FE2809C2F0DA0]]>
+  </WebPageUrlPathHash>
+  <WebPageUrlPathIsCanonical>True</WebPageUrlPathIsCanonical>
+  <WebPageUrlPathIsDraft>False</WebPageUrlPathIsDraft>
+  <WebPageUrlPathIsLatest>True</WebPageUrlPathIsLatest>
+  <WebPageUrlPathType>0</WebPageUrlPathType>
+  <WebPageUrlPathWebPageItemID>
+    <CodeName>CoffeeProcessingTechniques-vnl8fs1k</CodeName>
+    <GUID>1951c43f-6138-4dfb-9a84-46d02e4e51e5</GUID>
+    <ObjectType>cms.webpageitem</ObjectType>
+  </WebPageUrlPathWebPageItemID>
+  <WebPageUrlPathWebsiteChannelID>
+    <GUID>55e3ae4b-3843-46b8-95d5-79611c371d6f</GUID>
+    <ObjectType>cms.websitechannel</ObjectType>
+    <Parent>
+      <CodeName>DancingGoatPages</CodeName>
+      <GUID>c430f96d-bd56-4448-b6ab-bce41a58f186</GUID>
+      <ObjectType>cms.channel</ObjectType>
+    </Parent>
+  </WebPageUrlPathWebsiteChannelID>
+</cms.webpageurlpath>

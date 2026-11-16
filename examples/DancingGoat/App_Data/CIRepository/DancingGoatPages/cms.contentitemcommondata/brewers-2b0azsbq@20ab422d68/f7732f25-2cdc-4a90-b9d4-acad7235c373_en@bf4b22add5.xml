@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<cms.contentitemcommondata>
+  <ContentItemCommonDataContentItemID>
+    <CodeName>Brewers-2b0azsbq</CodeName>
+    <GUID>9e54f0f7-0210-4697-a012-e6828424ee66</GUID>
+    <ObjectType>cms.contentitem</ObjectType>
+  </ContentItemCommonDataContentItemID>
+  <ContentItemCommonDataContentLanguageID>
+    <CodeName>en</CodeName>
+    <GUID>e4a8fb12-ebc2-45d0-930f-c9fba2780c85</GUID>
+    <ObjectType>cms.contentlanguage</ObjectType>
+  </ContentItemCommonDataContentLanguageID>
+  <ContentItemCommonDataFirstPublishedWhen>2025-02-28 12:16:38Z</ContentItemCommonDataFirstPublishedWhen>
+  <ContentItemCommonDataGUID>f7732f25-2cdc-4a90-b9d4-acad7235c373</ContentItemCommonDataGUID>
+  <ContentItemCommonDataIsLatest>True</ContentItemCommonDataIsLatest>
+  <ContentItemCommonDataLastPublishedWhen>2025-02-28 12:16:38Z</ContentItemCommonDataLastPublishedWhen>
+  <ContentItemCommonDataVersionStatus>2</ContentItemCommonDataVersionStatus>
+  <ContentItemReferences>
+    <cms.contentitemreference>
+      <ContentItemReferenceGroupGUID>0e40b158-c4c5-4c7d-8b77-3c86e2c84770</ContentItemReferenceGroupGUID>
+      <ContentItemReferenceGUID>e4ebd3d1-9b2a-45e5-b50b-e1770a73db38</ContentItemReferenceGUID>
+      <ContentItemReferenceSourceCommonDataID>
+        <GUID>f7732f25-2cdc-4a90-b9d4-acad7235c373</GUID>
+        <ObjectType>cms.contentitemcommondata</ObjectType>
+      </ContentItemReferenceSourceCommonDataID>
+      <ContentItemReferenceTargetItemID>
+        <CodeName>Brewers-a0dn5izb</CodeName>
+        <GUID>946003ce-7f95-4f56-b7b1-9ac3a528e7e1</GUID>
+        <ObjectType>cms.contentitem</ObjectType>
+      </ContentItemReferenceTargetItemID>
+    </cms.contentitemreference>
+  </ContentItemReferences>
+</cms.contentitemcommondata>

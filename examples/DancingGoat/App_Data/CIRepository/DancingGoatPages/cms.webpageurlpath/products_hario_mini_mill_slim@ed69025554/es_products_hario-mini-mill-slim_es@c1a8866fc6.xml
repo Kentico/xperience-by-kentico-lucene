@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<cms.webpageurlpath>
+  <WebPageUrlPath>es/Products/Hario-Mini-Mill-Slim</WebPageUrlPath>
+  <WebPageUrlPathContentLanguageID>
+    <CodeName>es</CodeName>
+    <GUID>fc939370-8f94-4fc9-8cc4-bfdef6ab748c</GUID>
+    <ObjectType>cms.contentlanguage</ObjectType>
+  </WebPageUrlPathContentLanguageID>
+  <WebPageUrlPathGUID>f6f7225e-dfd4-4366-a2dc-110dfde45e78</WebPageUrlPathGUID>
+  <WebPageUrlPathHash>
+    <![CDATA[104BE2919F017D352C5D18D588D0C892500D4022A13DDC61FE9A77401320E048]]>
+  </WebPageUrlPathHash>
+  <WebPageUrlPathIsCanonical>True</WebPageUrlPathIsCanonical>
+  <WebPageUrlPathIsDraft>False</WebPageUrlPathIsDraft>
+  <WebPageUrlPathIsLatest>True</WebPageUrlPathIsLatest>
+  <WebPageUrlPathType>0</WebPageUrlPathType>
+  <WebPageUrlPathWebPageItemID>
+    <CodeName>HarioMiniMillSlim-du0lilun</CodeName>
+    <GUID>f24562b1-d775-4996-8bbe-7e06b9e46d64</GUID>
+    <ObjectType>cms.webpageitem</ObjectType>
+  </WebPageUrlPathWebPageItemID>
+  <WebPageUrlPathWebsiteChannelID>
+    <GUID>55e3ae4b-3843-46b8-95d5-79611c371d6f</GUID>
+    <ObjectType>cms.websitechannel</ObjectType>
+    <Parent>
+      <CodeName>DancingGoatPages</CodeName>
+      <GUID>c430f96d-bd56-4448-b6ab-bce41a58f186</GUID>
+      <ObjectType>cms.channel</ObjectType>
+    </Parent>
+  </WebPageUrlPathWebsiteChannelID>
+</cms.webpageurlpath>

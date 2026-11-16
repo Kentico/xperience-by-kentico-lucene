@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<contentitemdata.dancinggoat.productbrewer>
+  <ContentItemDataCommonDataID>
+    <GUID>6ce78294-b162-4070-af00-395e306b701e</GUID>
+    <ObjectType>cms.contentitemcommondata</ObjectType>
+    <Parent>
+      <CodeName>Chemex-fdxyrrht</CodeName>
+      <GUID>6700769e-3d35-4f68-8437-0b3dfa6ea7ce</GUID>
+      <ObjectType>cms.contentitem</ObjectType>
+    </Parent>
+  </ContentItemDataCommonDataID>
+  <ContentItemDataGUID>c39416c4-e7f0-4cd5-9d21-b9272019edcb</ContentItemDataGUID>
+</contentitemdata.dancinggoat.productbrewer>

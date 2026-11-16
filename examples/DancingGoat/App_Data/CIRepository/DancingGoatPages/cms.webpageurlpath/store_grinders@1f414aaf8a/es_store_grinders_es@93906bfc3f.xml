@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<cms.webpageurlpath>
+  <WebPageUrlPath>es/Store/Grinders</WebPageUrlPath>
+  <WebPageUrlPathContentLanguageID>
+    <CodeName>es</CodeName>
+    <GUID>fc939370-8f94-4fc9-8cc4-bfdef6ab748c</GUID>
+    <ObjectType>cms.contentlanguage</ObjectType>
+  </WebPageUrlPathContentLanguageID>
+  <WebPageUrlPathGUID>f2a0e652-8b1b-4c52-8420-6512afa94d51</WebPageUrlPathGUID>
+  <WebPageUrlPathHash>
+    <![CDATA[7AEB0CB132F297412512512AD575DB18AD580E2F9C32FCDCB973A8009AA630EB]]>
+  </WebPageUrlPathHash>
+  <WebPageUrlPathIsCanonical>True</WebPageUrlPathIsCanonical>
+  <WebPageUrlPathIsDraft>False</WebPageUrlPathIsDraft>
+  <WebPageUrlPathIsLatest>True</WebPageUrlPathIsLatest>
+  <WebPageUrlPathType>0</WebPageUrlPathType>
+  <WebPageUrlPathWebPageItemID>
+    <CodeName>Grinders-1tqsds4b</CodeName>
+    <GUID>cb00d527-41f3-4f99-8231-2404951c3683</GUID>
+    <ObjectType>cms.webpageitem</ObjectType>
+  </WebPageUrlPathWebPageItemID>
+  <WebPageUrlPathWebsiteChannelID>
+    <GUID>55e3ae4b-3843-46b8-95d5-79611c371d6f</GUID>
+    <ObjectType>cms.websitechannel</ObjectType>
+    <Parent>
+      <CodeName>DancingGoatPages</CodeName>
+      <GUID>c430f96d-bd56-4448-b6ab-bce41a58f186</GUID>
+      <ObjectType>cms.channel</ObjectType>
+    </Parent>
+  </WebPageUrlPathWebsiteChannelID>
+</cms.webpageurlpath>

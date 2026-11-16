@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<cms.tag>
+  <TagGUID>c456a8b4-f136-4ea6-8b88-63190e4d9663</TagGUID>
+  <TagMetadata>
+    <![CDATA[{"Translations":{"fc939370-8f94-4fc9-8cc4-bfdef6ab748c":{"Title":null,"Description":null}}}]]>
+  </TagMetadata>
+  <TagName>ProductShot</TagName>
+  <TagOrder>2</TagOrder>
+  <TagTaxonomyID>
+    <CodeName>ImageTags</CodeName>
+    <GUID>b4c5f28d-b291-42fd-8104-8a314d4ed30f</GUID>
+    <ObjectType>cms.taxonomy</ObjectType>
+  </TagTaxonomyID>
+  <TagTitle>Product shot</TagTitle>
+</cms.tag>

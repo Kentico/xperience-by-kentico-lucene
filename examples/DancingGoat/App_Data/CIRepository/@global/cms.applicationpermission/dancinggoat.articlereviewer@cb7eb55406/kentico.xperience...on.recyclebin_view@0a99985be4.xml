@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<cms.applicationpermission>
+  <ApplicationName>Kentico.Xperience.Application.RecycleBin</ApplicationName>
+  <ApplicationPermissionGuid>3eeea120-e50f-44ee-9006-a12c10cd9634</ApplicationPermissionGuid>
+  <PermissionName>View</PermissionName>
+  <RoleID>
+    <CodeName>DancingGoat.ArticleReviewer</CodeName>
+    <GUID>4c5783ce-57d3-41f7-9ae9-baaf875e91aa</GUID>
+    <ObjectType>cms.role</ObjectType>
+  </RoleID>
+</cms.applicationpermission>

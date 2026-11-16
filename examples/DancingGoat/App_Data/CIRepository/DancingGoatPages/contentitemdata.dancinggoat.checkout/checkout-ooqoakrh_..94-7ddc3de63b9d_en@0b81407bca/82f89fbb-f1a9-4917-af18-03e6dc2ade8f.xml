@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<contentitemdata.dancinggoat.checkout>
+  <ContentItemDataCommonDataID>
+    <GUID>61c876ee-586a-4267-9f94-7ddc3de63b9d</GUID>
+    <ObjectType>cms.contentitemcommondata</ObjectType>
+    <Parent>
+      <CodeName>Checkout-ooqoakrh</CodeName>
+      <GUID>a9f4c67a-8f44-4da3-821f-c96dbb7be5aa</GUID>
+      <ObjectType>cms.contentitem</ObjectType>
+    </Parent>
+  </ContentItemDataCommonDataID>
+  <ContentItemDataGUID>82f89fbb-f1a9-4917-af18-03e6dc2ade8f</ContentItemDataGUID>
+</contentitemdata.dancinggoat.checkout>

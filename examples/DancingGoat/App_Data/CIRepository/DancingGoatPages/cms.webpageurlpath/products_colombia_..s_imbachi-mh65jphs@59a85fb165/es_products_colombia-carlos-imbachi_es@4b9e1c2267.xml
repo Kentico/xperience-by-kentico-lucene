@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<cms.webpageurlpath>
+  <WebPageUrlPath>es/Products/Colombia-Carlos-Imbachi</WebPageUrlPath>
+  <WebPageUrlPathContentLanguageID>
+    <CodeName>es</CodeName>
+    <GUID>fc939370-8f94-4fc9-8cc4-bfdef6ab748c</GUID>
+    <ObjectType>cms.contentlanguage</ObjectType>
+  </WebPageUrlPathContentLanguageID>
+  <WebPageUrlPathGUID>e2acecc6-c9a1-4a33-8150-e418e170dc84</WebPageUrlPathGUID>
+  <WebPageUrlPathHash>
+    <![CDATA[6FB4014DA5F5CE1D71011E474C861FF32CE56AC977FB063D803C3BFF02647731]]>
+  </WebPageUrlPathHash>
+  <WebPageUrlPathIsCanonical>True</WebPageUrlPathIsCanonical>
+  <WebPageUrlPathIsDraft>False</WebPageUrlPathIsDraft>
+  <WebPageUrlPathIsLatest>True</WebPageUrlPathIsLatest>
+  <WebPageUrlPathType>0</WebPageUrlPathType>
+  <WebPageUrlPathWebPageItemID>
+    <CodeName>ColombiaCarlosImbachi-tlu1k2is</CodeName>
+    <GUID>74a8f102-285f-43ca-85dd-89ca05f64621</GUID>
+    <ObjectType>cms.webpageitem</ObjectType>
+  </WebPageUrlPathWebPageItemID>
+  <WebPageUrlPathWebsiteChannelID>
+    <GUID>55e3ae4b-3843-46b8-95d5-79611c371d6f</GUID>
+    <ObjectType>cms.websitechannel</ObjectType>
+    <Parent>
+      <CodeName>DancingGoatPages</CodeName>
+      <GUID>c430f96d-bd56-4448-b6ab-bce41a58f186</GUID>
+      <ObjectType>cms.channel</ObjectType>
+    </Parent>
+  </WebPageUrlPathWebsiteChannelID>
+</cms.webpageurlpath>

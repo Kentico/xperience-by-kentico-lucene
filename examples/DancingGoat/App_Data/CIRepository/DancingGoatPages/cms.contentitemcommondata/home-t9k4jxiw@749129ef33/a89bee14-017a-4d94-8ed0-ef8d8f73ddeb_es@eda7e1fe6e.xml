@@ -1,0 +1,353 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<cms.contentitemcommondata>
+  <ContentItemCommonDataContentItemID>
+    <CodeName>Home-t9k4jxiw</CodeName>
+    <GUID>17d83996-c66a-4b07-b47e-d285bd99d8f3</GUID>
+    <ObjectType>cms.contentitem</ObjectType>
+  </ContentItemCommonDataContentItemID>
+  <ContentItemCommonDataContentLanguageID>
+    <CodeName>es</CodeName>
+    <GUID>fc939370-8f94-4fc9-8cc4-bfdef6ab748c</GUID>
+    <ObjectType>cms.contentlanguage</ObjectType>
+  </ContentItemCommonDataContentLanguageID>
+  <ContentItemCommonDataGUID>a89bee14-017a-4d94-8ed0-ef8d8f73ddeb</ContentItemCommonDataGUID>
+  <ContentItemCommonDataIsLatest>True</ContentItemCommonDataIsLatest>
+  <ContentItemCommonDataLastPublishedWhen>2026-08-12 08:08:28Z</ContentItemCommonDataLastPublishedWhen>
+  <ContentItemCommonDataVersionStatus>2</ContentItemCommonDataVersionStatus>
+  <ContentItemCommonDataVisualBuilderTemplateConfiguration>
+<![CDATA[
+{
+  "identifier": "DancingGoat.HomePage",
+  "properties": null,
+  "fieldIdentifiers": null
+}
+]]>
+  </ContentItemCommonDataVisualBuilderTemplateConfiguration>
+  <ContentItemCommonDataVisualBuilderWidgets>
+<![CDATA[
+{
+  "editableAreas": [
+    {
+      "identifier": "main",
+      "sections": [
+        {
+          "identifier": "a7b3b167-17c4-42ce-b9d2-cb9eac0ab036",
+          "type": "DancingGoat.SingleColumnSection",
+          "properties": {
+            "theme": null
+          },
+          "zones": [
+            {
+              "identifier": "f65f988d-0316-4460-ada5-eb71d186d02a",
+              "widgets": [
+                {
+                  "identifier": "3843cd01-93a2-4f79-8574-5b4550a8a25a",
+                  "type": "DancingGoat.LandingPage.HeroImage",
+                  "variants": [
+                    {
+                      "identifier": "8eb99eec-bf06-4f53-a8fe-a7ff2104ecec",
+                      "properties": {
+                        "image": [
+                          {
+                            "identifier": "5a513906-1f58-4b35-96c5-c4f7cee70c22"
+                          }
+                        ],
+                        "text": "Tostado con esmero, servido con alegría",
+                        "subtext": "Lotes de origen único de agricultores que conocemos por su nombre, tostados en pequeños lotes y servidos en nuestras cafeterías — o enviados frescos a tu puerta en 48 horas.",
+                        "buttonText": "Explora la tienda",
+                        "buttonTarget": "~/es/Store",
+                        "secondaryButtonText": "Encuentra una cafetería",
+                        "secondaryButtonTarget": "~/es/Contacts",
+                        "theme": "light"
+                      },
+                      "fieldIdentifiers": {
+                        "image": "0cb8bd3c-4113-415d-a6ec-2343c7ee7782",
+                        "text": "a5cac502-8945-4490-a432-a7b612d889a0",
+                        "buttonText": "13a2f6e4-09a9-401a-924d-27a927f94a16",
+                        "buttonTarget": "ea60d4e2-ea60-433f-9850-2b72c6c9b210",
+                        "theme": "ac141079-9467-41e8-a490-5ffd4081cd49",
+                        "subtext": "fbcc5b05-59a1-40c3-b6af-d5f6d160c52e",
+                        "secondaryButtonText": "886a1a72-f667-420c-b551-989278567ca9",
+                        "secondaryButtonTarget": "91f7dc27-7b19-4c1a-bb27-b71d62659573"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "identifier": "7309fc23-a8be-4ec5-8b53-5bcba0058fe1",
+                  "type": "DancingGoat.General.EventsWidget",
+                  "variants": [
+                    {
+                      "identifier": "e8a5eafa-c710-4ef9-9f21-a1ec7be51ed4",
+                      "properties": {
+                        "selectedEvents": [
+                          {
+                            "identifier": "2b039eb6-312f-4008-8c4f-3d340d87532c"
+                          },
+                          {
+                            "identifier": "044fb867-f470-490d-af82-6779ae5d1fd5"
+                          },
+                          {
+                            "identifier": "70b5147b-e567-49ad-a3ff-dce8b07c97e9"
+                          }
+                        ],
+                        "showOnlyUpcoming": false
+                      },
+                      "fieldIdentifiers": {
+                        "selectedEvents": "92ab0da0-bcfe-4cd3-b959-2aa560867f1f",
+                        "showOnlyUpcoming": "0feed11e-2b54-47c7-b7f0-e98603cb15f2"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "identifier": "14d6effb-63da-41a9-b9a2-ef17f89c2977",
+                  "type": "DancingGoat.General.ArticlesWidget",
+                  "variants": [
+                    {
+                      "identifier": "8765dd13-bbee-4f6a-ad5b-c0ff63056e24",
+                      "properties": {
+                        "articlesSection": [
+                          {
+                            "webPageGuid": "4c572828-78af-49ce-89e5-5a87a31ec2cd"
+                          }
+                        ]
+                      },
+                      "fieldIdentifiers": {
+                        "articlesSection": "8af6536b-1070-451d-9f5d-5a80a4008966"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "identifier": "c9410058-2c5d-4931-a7e0-77732fba91c1",
+                  "type": "DancingGoat.General.StorySectionWidget",
+                  "variants": [
+                    {
+                      "identifier": "4329b451-ffd0-4f5d-83c7-be6a9cdae447",
+                      "properties": {
+                        "selectedStorySection": [
+                          {
+                            "identifier": "680f2c82-e150-4c9d-bd87-7547da9757b6"
+                          }
+                        ]
+                      },
+                      "fieldIdentifiers": {
+                        "selectedStorySection": "290e67ce-baf0-4495-bd72-d4b016ca5554"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "identifier": "093fdf46-acb8-4403-8676-d0be432fda61",
+                  "type": "DancingGoat.General.TestimonialWidget",
+                  "conditionType": "DancingGoat.Personalization.IsInContactGroup",
+                  "variants": [
+                    {
+                      "identifier": "8420ee0d-d10d-434a-ae36-e8aea633bff5",
+                      "properties": {
+                        "selectedTestimonial": [
+                          {
+                            "identifier": "64954266-687e-4674-94cd-d5ba1060d559"
+                          }
+                        ],
+                        "image": [
+                          {
+                            "identifier": "a0672f6b-b97e-470f-8cf4-8108a826d471"
+                          }
+                        ],
+                        "colorCssClass": "first-color"
+                      },
+                      "fieldIdentifiers": {
+                        "selectedTestimonial": "e6996935-f98c-408a-9503-6113718d1f31",
+                        "colorCssClass": "18458be7-2cf3-475a-983a-dbf8e401a387",
+                        "image": "8e68028e-fc4b-4ddd-8e6f-c9fc8a18112b"
+                      }
+                    },
+                    {
+                      "identifier": "27945d5f-d107-41cb-9b3c-f871f47e45e2",
+                      "name": "Business customers",
+                      "properties": {
+                        "selectedTestimonial": [
+                          {
+                            "identifier": "8ae35352-f21e-451e-953c-1408ed9c9181"
+                          }
+                        ],
+                        "image": [],
+                        "colorCssClass": "second-color"
+                      },
+                      "conditionTypeParameters": {
+                        "selectedContactGroups": [
+                          {
+                            "objectGuid": "f3a9e2b1-4c8d-4e5f-9a10-2b3c4d5e6f70",
+                            "objectCodeName": "DancingGoat.BusinessCustomers"
+                          }
+                        ],
+                        "variantName": null
+                      },
+                      "fieldIdentifiers": {
+                        "selectedTestimonial": "926c611a-9b8e-4666-8b30-3b2ddb5598f5",
+                        "colorCssClass": "c1da507f-da73-4380-b12d-3d8ce5658649",
+                        "image": "da3943e2-207d-41b8-9acf-503445c3900a"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "identifier": "99db7284-0c84-4082-8981-09f18c8d06d1",
+                  "type": "DancingGoat.General.CafeCardsWidget",
+                  "variants": [
+                    {
+                      "identifier": "7a117ece-7ec5-45da-8340-890637486f87",
+                      "properties": {
+                        "cafesFolder": {
+                          "identifier": "1aff3459-c137-48e4-8456-f5c941a3e904"
+                        },
+                        "cafesCount": 3
+                      },
+                      "fieldIdentifiers": {
+                        "cafesFolder": "892a23d0-5410-411f-bf8e-54b972d98581",
+                        "cafesCount": "da70978a-10d8-4fc6-b11d-87e6dd373f7a"
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "fieldIdentifiers": {
+            "theme": "5b9a4dc0-b71b-4966-9867-11438ed8562c"
+          }
+        }
+      ]
+    }
+  ]
+}
+]]>
+  </ContentItemCommonDataVisualBuilderWidgets>
+  <ProductFieldCategory />
+  <SEOFieldsDescription>
+    <![CDATA[En Dancing Goat nos esforzamos por hacer las cosas bien. Obtenemos el mejor café directamente de microfincas, garantizando los más altos estándares de calidad. Sin intermediarios.]]>
+  </SEOFieldsDescription>
+  <SEOFieldsNoIndex>False</SEOFieldsNoIndex>
+  <SEOFieldsTitle>Inicio - Dancing Goat</SEOFieldsTitle>
+  <ContentItemReferences>
+    <cms.contentitemreference>
+      <ContentItemReferenceGroupGUID>0cb8bd3c-4113-415d-a6ec-2343c7ee7782</ContentItemReferenceGroupGUID>
+      <ContentItemReferenceGUID>581ffb7d-041c-4ff9-8d50-8aca1a344fa0</ContentItemReferenceGUID>
+      <ContentItemReferenceSourceCommonDataID>
+        <GUID>a89bee14-017a-4d94-8ed0-ef8d8f73ddeb</GUID>
+        <ObjectType>cms.contentitemcommondata</ObjectType>
+      </ContentItemReferenceSourceCommonDataID>
+      <ContentItemReferenceTargetItemID>
+        <CodeName>Banners_HeroRoasting</CodeName>
+        <GUID>5a513906-1f58-4b35-96c5-c4f7cee70c22</GUID>
+        <ObjectType>cms.contentitem</ObjectType>
+      </ContentItemReferenceTargetItemID>
+    </cms.contentitemreference>
+    <cms.contentitemreference>
+      <ContentItemReferenceGroupGUID>92ab0da0-bcfe-4cd3-b959-2aa560867f1f</ContentItemReferenceGroupGUID>
+      <ContentItemReferenceGUID>112728f6-ad13-44f5-8ccd-496fa00c2148</ContentItemReferenceGUID>
+      <ContentItemReferenceSourceCommonDataID>
+        <GUID>a89bee14-017a-4d94-8ed0-ef8d8f73ddeb</GUID>
+        <ObjectType>cms.contentitemcommondata</ObjectType>
+      </ContentItemReferenceSourceCommonDataID>
+      <ContentItemReferenceTargetItemID>
+        <CodeName>LiveCoffeeQ_A-41x0diet</CodeName>
+        <GUID>70b5147b-e567-49ad-a3ff-dce8b07c97e9</GUID>
+        <ObjectType>cms.contentitem</ObjectType>
+      </ContentItemReferenceTargetItemID>
+    </cms.contentitemreference>
+    <cms.contentitemreference>
+      <ContentItemReferenceGroupGUID>92ab0da0-bcfe-4cd3-b959-2aa560867f1f</ContentItemReferenceGroupGUID>
+      <ContentItemReferenceGUID>5c4e65e6-2700-4375-9286-9d5e8c543d51</ContentItemReferenceGUID>
+      <ContentItemReferenceSourceCommonDataID>
+        <GUID>a89bee14-017a-4d94-8ed0-ef8d8f73ddeb</GUID>
+        <ObjectType>cms.contentitemcommondata</ObjectType>
+      </ContentItemReferenceSourceCommonDataID>
+      <ContentItemReferenceTargetItemID>
+        <CodeName>BrewYourBusiness-bqgfzgee</CodeName>
+        <GUID>044fb867-f470-490d-af82-6779ae5d1fd5</GUID>
+        <ObjectType>cms.contentitem</ObjectType>
+      </ContentItemReferenceTargetItemID>
+    </cms.contentitemreference>
+    <cms.contentitemreference>
+      <ContentItemReferenceGroupGUID>92ab0da0-bcfe-4cd3-b959-2aa560867f1f</ContentItemReferenceGroupGUID>
+      <ContentItemReferenceGUID>9dc6f573-f45e-4676-be60-de90efbd02b8</ContentItemReferenceGUID>
+      <ContentItemReferenceSourceCommonDataID>
+        <GUID>a89bee14-017a-4d94-8ed0-ef8d8f73ddeb</GUID>
+        <ObjectType>cms.contentitemcommondata</ObjectType>
+      </ContentItemReferenceSourceCommonDataID>
+      <ContentItemReferenceTargetItemID>
+        <CodeName>OurFirstCuppingIsHere-t8ll79h8</CodeName>
+        <GUID>2b039eb6-312f-4008-8c4f-3d340d87532c</GUID>
+        <ObjectType>cms.contentitem</ObjectType>
+      </ContentItemReferenceTargetItemID>
+    </cms.contentitemreference>
+    <cms.contentitemreference>
+      <ContentItemReferenceGroupGUID>926c611a-9b8e-4666-8b30-3b2ddb5598f5</ContentItemReferenceGroupGUID>
+      <ContentItemReferenceGUID>e8b85e25-f3ea-420b-8ea2-efa8015ef7b0</ContentItemReferenceGUID>
+      <ContentItemReferenceSourceCommonDataID>
+        <GUID>a89bee14-017a-4d94-8ed0-ef8d8f73ddeb</GUID>
+        <ObjectType>cms.contentitemcommondata</ObjectType>
+      </ContentItemReferenceSourceCommonDataID>
+      <ContentItemReferenceTargetItemID>
+        <CodeName>DancingGoatTestimonialDeborahReyes</CodeName>
+        <GUID>8ae35352-f21e-451e-953c-1408ed9c9181</GUID>
+        <ObjectType>cms.contentitem</ObjectType>
+      </ContentItemReferenceTargetItemID>
+    </cms.contentitemreference>
+    <cms.contentitemreference>
+      <ContentItemReferenceGroupGUID>8af6536b-1070-451d-9f5d-5a80a4008966</ContentItemReferenceGroupGUID>
+      <ContentItemReferenceGUID>1cdc1f4e-6dde-43d8-a948-0e6fcfe1c79c</ContentItemReferenceGUID>
+      <ContentItemReferenceSourceCommonDataID>
+        <GUID>a89bee14-017a-4d94-8ed0-ef8d8f73ddeb</GUID>
+        <ObjectType>cms.contentitemcommondata</ObjectType>
+      </ContentItemReferenceSourceCommonDataID>
+      <ContentItemReferenceTargetItemID>
+        <CodeName>Articles-j3dfhv8n</CodeName>
+        <GUID>55eed5b7-8436-4e9f-88c0-17ebce5eff2d</GUID>
+        <ObjectType>cms.contentitem</ObjectType>
+      </ContentItemReferenceTargetItemID>
+    </cms.contentitemreference>
+    <cms.contentitemreference>
+      <ContentItemReferenceGroupGUID>e6996935-f98c-408a-9503-6113718d1f31</ContentItemReferenceGroupGUID>
+      <ContentItemReferenceGUID>b446afef-4306-4e1d-8394-31edc68a2034</ContentItemReferenceGUID>
+      <ContentItemReferenceSourceCommonDataID>
+        <GUID>a89bee14-017a-4d94-8ed0-ef8d8f73ddeb</GUID>
+        <ObjectType>cms.contentitemcommondata</ObjectType>
+      </ContentItemReferenceSourceCommonDataID>
+      <ContentItemReferenceTargetItemID>
+        <CodeName>DancingGoatTestimonialJimmieDimmick</CodeName>
+        <GUID>64954266-687e-4674-94cd-d5ba1060d559</GUID>
+        <ObjectType>cms.contentitem</ObjectType>
+      </ContentItemReferenceTargetItemID>
+    </cms.contentitemreference>
+    <cms.contentitemreference>
+      <ContentItemReferenceGroupGUID>8e68028e-fc4b-4ddd-8e6f-c9fc8a18112b</ContentItemReferenceGroupGUID>
+      <ContentItemReferenceGUID>2c6f265b-8283-46db-b6cf-3babd0454d21</ContentItemReferenceGUID>
+      <ContentItemReferenceSourceCommonDataID>
+        <GUID>a89bee14-017a-4d94-8ed0-ef8d8f73ddeb</GUID>
+        <ObjectType>cms.contentitemcommondata</ObjectType>
+      </ContentItemReferenceSourceCommonDataID>
+      <ContentItemReferenceTargetItemID>
+        <CodeName>People_ReferenceBarista</CodeName>
+        <GUID>a0672f6b-b97e-470f-8cf4-8108a826d471</GUID>
+        <ObjectType>cms.contentitem</ObjectType>
+      </ContentItemReferenceTargetItemID>
+    </cms.contentitemreference>
+    <cms.contentitemreference>
+      <ContentItemReferenceGroupGUID>290e67ce-baf0-4495-bd72-d4b016ca5554</ContentItemReferenceGroupGUID>
+      <ContentItemReferenceGUID>b9ded422-2b5a-44a4-8a6d-e91692af237e</ContentItemReferenceGUID>
+      <ContentItemReferenceSourceCommonDataID>
+        <GUID>a89bee14-017a-4d94-8ed0-ef8d8f73ddeb</GUID>
+        <ObjectType>cms.contentitemcommondata</ObjectType>
+      </ContentItemReferenceSourceCommonDataID>
+      <ContentItemReferenceTargetItemID>
+        <CodeName>DancingGoatOurStory</CodeName>
+        <GUID>680f2c82-e150-4c9d-bd87-7547da9757b6</GUID>
+        <ObjectType>cms.contentitem</ObjectType>
+      </ContentItemReferenceTargetItemID>
+    </cms.contentitemreference>
+  </ContentItemReferences>
+</cms.contentitemcommondata>

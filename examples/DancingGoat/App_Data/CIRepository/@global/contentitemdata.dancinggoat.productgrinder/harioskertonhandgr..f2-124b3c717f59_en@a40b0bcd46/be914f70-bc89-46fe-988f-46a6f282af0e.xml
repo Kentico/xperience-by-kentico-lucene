@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<contentitemdata.dancinggoat.productgrinder>
+  <ContentItemDataCommonDataID>
+    <GUID>4ab96bd8-e470-4cc4-9ef2-124b3c717f59</GUID>
+    <ObjectType>cms.contentitemcommondata</ObjectType>
+    <Parent>
+      <CodeName>HarioSkertonHandGrinder-4m1ejy4l</CodeName>
+      <GUID>a9689fb8-e06f-4363-9aa1-b5c1b427a0ee</GUID>
+      <ObjectType>cms.contentitem</ObjectType>
+    </Parent>
+  </ContentItemDataCommonDataID>
+  <ContentItemDataGUID>be914f70-bc89-46fe-988f-46a6f282af0e</ContentItemDataGUID>
+  <GrinderType>Manual</GrinderType>
+</contentitemdata.dancinggoat.productgrinder>

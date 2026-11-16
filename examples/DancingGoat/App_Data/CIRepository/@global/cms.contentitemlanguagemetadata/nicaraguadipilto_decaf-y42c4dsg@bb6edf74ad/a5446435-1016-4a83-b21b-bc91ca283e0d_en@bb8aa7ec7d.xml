@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<cms.contentitemlanguagemetadata>
+  <ContentItemLanguageMetadataContentItemID>
+    <CodeName>NicaraguaDipilto_decaf-y42c4dsg</CodeName>
+    <GUID>4e72dc44-949c-4346-aec4-b0c84f1c9653</GUID>
+    <ObjectType>cms.contentitem</ObjectType>
+  </ContentItemLanguageMetadataContentItemID>
+  <ContentItemLanguageMetadataContentLanguageID>
+    <CodeName>en</CodeName>
+    <GUID>e4a8fb12-ebc2-45d0-930f-c9fba2780c85</GUID>
+    <ObjectType>cms.contentlanguage</ObjectType>
+  </ContentItemLanguageMetadataContentLanguageID>
+  <ContentItemLanguageMetadataCreatedByUserID>
+    <CodeName>administrator</CodeName>
+    <GUID>6415b8ce-8072-4bcd-8e48-9d7178b826b7</GUID>
+    <ObjectType>cms.user</ObjectType>
+  </ContentItemLanguageMetadataCreatedByUserID>
+  <ContentItemLanguageMetadataCreatedWhen>2025-02-03 14:09:37Z</ContentItemLanguageMetadataCreatedWhen>
+  <ContentItemLanguageMetadataDisplayName>Nicaragua Dipilto (decaf)</ContentItemLanguageMetadataDisplayName>
+  <ContentItemLanguageMetadataGUID>a5446435-1016-4a83-b21b-bc91ca283e0d</ContentItemLanguageMetadataGUID>
+  <ContentItemLanguageMetadataHasImageAsset>False</ContentItemLanguageMetadataHasImageAsset>
+  <ContentItemLanguageMetadataLatestVersionStatus>2</ContentItemLanguageMetadataLatestVersionStatus>
+  <ContentItemLanguageMetadataModifiedByUserID>
+    <CodeName>administrator</CodeName>
+    <GUID>6415b8ce-8072-4bcd-8e48-9d7178b826b7</GUID>
+    <ObjectType>cms.user</ObjectType>
+  </ContentItemLanguageMetadataModifiedByUserID>
+  <ContentItemTags>
+    <cms.contentitemtag>
+      <ContentItemTagContentItemLanguageMetadataID>
+        <GUID>a5446435-1016-4a83-b21b-bc91ca283e0d</GUID>
+        <ObjectType>cms.contentitemlanguagemetadata</ObjectType>
+      </ContentItemTagContentItemLanguageMetadataID>
+      <ContentItemTagFieldGUID>ef85deb1-52f3-4850-8e2d-91265465e31c</ContentItemTagFieldGUID>
+      <ContentItemTagGUID>e5e0d569-8ddf-4951-a2c9-cf26937fa626</ContentItemTagGUID>
+      <ContentItemTagTagGUID>a4361d0e-c08e-4738-8dbe-cd009818f8d6</ContentItemTagTagGUID>
+    </cms.contentitemtag>
+    <cms.contentitemtag>
+      <ContentItemTagContentItemLanguageMetadataID>
+        <GUID>a5446435-1016-4a83-b21b-bc91ca283e0d</GUID>
+        <ObjectType>cms.contentitemlanguagemetadata</ObjectType>
+      </ContentItemTagContentItemLanguageMetadataID>
+      <ContentItemTagFieldGUID>cea0a90d-d3f3-4f99-a9a3-c2c83821ba50</ContentItemTagFieldGUID>
+      <ContentItemTagGUID>8ae4fc55-0a22-45f9-b751-b674771c73ed</ContentItemTagGUID>
+      <ContentItemTagTagGUID>cfe8a882-9424-4d03-81a6-a941fd559cde</ContentItemTagTagGUID>
+    </cms.contentitemtag>
+  </ContentItemTags>
+</cms.contentitemlanguagemetadata>

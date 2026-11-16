@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<contentitemdata.dancinggoat.productpage>
+  <ContentItemDataCommonDataID>
+    <GUID>57acde13-0bac-487f-9138-acf9f3442556</GUID>
+    <ObjectType>cms.contentitemcommondata</ObjectType>
+    <Parent>
+      <CodeName>Chemex-4kt98du4</CodeName>
+      <GUID>e4b97fd0-8839-4b2f-9362-0d07b4515176</GUID>
+      <ObjectType>cms.contentitem</ObjectType>
+    </Parent>
+  </ContentItemDataCommonDataID>
+  <ContentItemDataGUID>f8d34dc5-569d-4cd5-83cd-7189200c1dae</ContentItemDataGUID>
+  <ProductPageProduct>
+    <![CDATA[[{"Identifier":"6700769e-3d35-4f68-8437-0b3dfa6ea7ce"}]]]>
+  </ProductPageProduct>
+</contentitemdata.dancinggoat.productpage>

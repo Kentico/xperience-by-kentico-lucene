@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<contentitemdata.dancinggoat.testimonial>
+  <ContentItemDataCommonDataID>
+    <GUID>805b0f23-8eb1-49c9-a828-bb26197c11b9</GUID>
+    <ObjectType>cms.contentitemcommondata</ObjectType>
+    <Parent>
+      <CodeName>DancingGoatTestimonialJimmieDimmick</CodeName>
+      <GUID>64954266-687e-4674-94cd-d5ba1060d559</GUID>
+      <ObjectType>cms.contentitem</ObjectType>
+    </Parent>
+  </ContentItemDataCommonDataID>
+  <ContentItemDataGUID>94e5c6f2-a6b6-4b15-85eb-727a898647ed</ContentItemDataGUID>
+  <TestimonialAuthor>Jimmie Dimmick</TestimonialAuthor>
+  <TestimonialAuthorRole>
+    <![CDATA[Founder and Owner of Jimmie's Coffee Cup]]>
+  </TestimonialAuthorRole>
+  <TestimonialQuote>
+    <![CDATA[Buying coffee at Dancing Goat, I can always be sure about its origin. They provide information not only about the country and region my coffee came from but also about the specific farm where the beans originated. That tells me my coffee was crafted with care.]]>
+  </TestimonialQuote>
+</contentitemdata.dancinggoat.testimonial>

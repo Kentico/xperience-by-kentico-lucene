@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<contentitemdata.dancinggoat.productcoffee>
+  <CoffeeProcessing>
+    <![CDATA[[{"Identifier":"9891389f-e404-476a-8eb8-55adea059d51"}]]]>
+  </CoffeeProcessing>
+  <CoffeeTastes>
+    <![CDATA[[{"Identifier":"af7934d5-aba8-45ef-ba7b-10f83956ca26"},{"Identifier":"b9b0c153-2135-4ac7-a3c6-4b14780548cb"}]]]>
+  </CoffeeTastes>
+  <ContentItemDataCommonDataID>
+    <GUID>e7c1a54a-4cf9-4eca-96f1-df01b99fd173</GUID>
+    <ObjectType>cms.contentitemcommondata</ObjectType>
+    <Parent>
+      <CodeName>BrazilNaturalBarraGrande-g30f5chq</CodeName>
+      <GUID>e4221260-983d-41b3-9589-06ea73c2bfb1</GUID>
+      <ObjectType>cms.contentitem</ObjectType>
+    </Parent>
+  </ContentItemDataCommonDataID>
+  <ContentItemDataGUID>caeae123-532f-45e3-a1f8-c0e38d17ad80</ContentItemDataGUID>
+</contentitemdata.dancinggoat.productcoffee>

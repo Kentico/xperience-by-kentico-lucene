@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<cms.tag>
+  <TagGUID>b9b0c153-2135-4ac7-a3c6-4b14780548cb</TagGUID>
+  <TagMetadata>
+    <![CDATA[{"Translations":{"fc939370-8f94-4fc9-8cc4-bfdef6ab748c":{"Title":null,"Description":null}}}]]>
+  </TagMetadata>
+  <TagName>Acidy</TagName>
+  <TagOrder>1</TagOrder>
+  <TagParentID>
+    <CodeName>Sweet</CodeName>
+    <GUID>0c877356-23d4-4013-b2b3-e1359e419c70</GUID>
+    <ObjectType>cms.tag</ObjectType>
+  </TagParentID>
+  <TagTaxonomyID>
+    <CodeName>CoffeeTastes</CodeName>
+    <GUID>408d5f84-95c6-4ff4-8479-5e2930dbf755</GUID>
+    <ObjectType>cms.taxonomy</ObjectType>
+  </TagTaxonomyID>
+  <TagTitle>Acidy</TagTitle>
+</cms.tag>

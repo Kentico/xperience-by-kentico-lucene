@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<om.contactgroup>
+  <ContactGroupDescription>
+    <![CDATA[Contacts representing B2B / wholesale customer personas. Used by the personalized Testimonial widget on the home page.]]>
+  </ContactGroupDescription>
+  <ContactGroupDisplayName>Business customers</ContactGroupDisplayName>
+  <ContactGroupEnabled>True</ContactGroupEnabled>
+  <ContactGroupGUID>f3a9e2b1-4c8d-4e5f-9a10-2b3c4d5e6f70</ContactGroupGUID>
+  <ContactGroupIsRecipientList>False</ContactGroupIsRecipientList>
+  <ContactGroupIsSegment>False</ContactGroupIsSegment>
+  <ContactGroupName>DancingGoat.BusinessCustomers</ContactGroupName>
+</om.contactgroup>

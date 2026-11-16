@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<commerce.promotion>
+  <PromotionActiveFromWhen>2025-11-05 23:00:00Z</PromotionActiveFromWhen>
+  <PromotionCreatedByUserID>
+    <CodeName>administrator</CodeName>
+    <GUID>6415b8ce-8072-4bcd-8e48-9d7178b826b7</GUID>
+    <ObjectType>cms.user</ObjectType>
+  </PromotionCreatedByUserID>
+  <PromotionCreatedWhen>2025-11-06 14:42:59Z</PromotionCreatedWhen>
+  <PromotionCustomerEligibility>all</PromotionCustomerEligibility>
+  <PromotionDescription>10% discount for all coffees.</PromotionDescription>
+  <PromotionDisplayName>Coffees - 10% off</PromotionDisplayName>
+  <PromotionGUID>c4a51d00-6ec0-48db-85ed-2fb8aa0b88e3</PromotionGUID>
+  <PromotionModifiedByUserID>
+    <CodeName>administrator</CodeName>
+    <GUID>6415b8ce-8072-4bcd-8e48-9d7178b826b7</GUID>
+    <ObjectType>cms.user</ObjectType>
+  </PromotionModifiedByUserID>
+  <PromotionName>Coffees-10_Off</PromotionName>
+  <PromotionRuleConfiguration>
+    <![CDATA[{"Scope":"categories","ProductCategories":[{"Identifier":"cfe8a882-9424-4d03-81a6-a941fd559cde"}],"Products":[],"ProductTags":[],"DiscountValueType":"Percentage","DiscountValue":10}]]>
+  </PromotionRuleConfiguration>
+  <PromotionRuleIdentifier>DancingGoatCatalogPromotionRule</PromotionRuleIdentifier>
+  <PromotionType>catalog</PromotionType>
+</commerce.promotion>

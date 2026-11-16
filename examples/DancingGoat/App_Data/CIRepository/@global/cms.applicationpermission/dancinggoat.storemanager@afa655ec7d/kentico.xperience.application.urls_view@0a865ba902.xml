@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<cms.applicationpermission>
+  <ApplicationName>Kentico.Xperience.Application.Urls</ApplicationName>
+  <ApplicationPermissionGuid>0af8a891-f83b-4450-8da3-b20f8a563734</ApplicationPermissionGuid>
+  <PermissionName>View</PermissionName>
+  <RoleID>
+    <CodeName>DancingGoat.StoreManager</CodeName>
+    <GUID>d0ec2aaf-4452-4eeb-94cd-4dfe4b2e983b</GUID>
+    <ObjectType>cms.role</ObjectType>
+  </RoleID>
+</cms.applicationpermission>

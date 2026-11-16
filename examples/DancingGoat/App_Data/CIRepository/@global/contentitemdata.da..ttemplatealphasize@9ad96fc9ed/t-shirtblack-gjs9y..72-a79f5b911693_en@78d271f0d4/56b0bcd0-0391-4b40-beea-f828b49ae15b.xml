@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<contentitemdata.dancinggoat.producttemplatealphasize>
+  <ContentItemDataCommonDataID>
+    <GUID>50d64fbd-770c-4899-8172-a79f5b911693</GUID>
+    <ObjectType>cms.contentitemcommondata</ObjectType>
+    <Parent>
+      <CodeName>T-shirtBlack-gjs9yniw</CodeName>
+      <GUID>37fc0fce-5f95-42e1-94e3-e61475755dc5</GUID>
+      <ObjectType>cms.contentitem</ObjectType>
+    </Parent>
+  </ContentItemDataCommonDataID>
+  <ContentItemDataGUID>56b0bcd0-0391-4b40-beea-f828b49ae15b</ContentItemDataGUID>
+  <ProductVariants>
+    <![CDATA[[{"Identifier":"e7dc1611-4405-43ee-ba5a-aff1a8307a5a"},{"Identifier":"686cad9d-d78d-4a8c-a3b4-af2e3d2e9f3f"},{"Identifier":"8f4eaaf4-c3d0-42bc-b111-fd289a36cab8"}]]]>
+  </ProductVariants>
+</contentitemdata.dancinggoat.producttemplatealphasize>

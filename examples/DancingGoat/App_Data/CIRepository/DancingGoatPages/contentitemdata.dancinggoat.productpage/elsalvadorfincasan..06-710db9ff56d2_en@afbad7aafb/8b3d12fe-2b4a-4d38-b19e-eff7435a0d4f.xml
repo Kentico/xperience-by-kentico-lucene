@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<contentitemdata.dancinggoat.productpage>
+  <ContentItemDataCommonDataID>
+    <GUID>e07415e4-f862-4bd2-9b06-710db9ff56d2</GUID>
+    <ObjectType>cms.contentitemcommondata</ObjectType>
+    <Parent>
+      <CodeName>ElSalvadorFincaSanJose-64iaoyy6</CodeName>
+      <GUID>b0c28347-59f4-450a-aded-eb533ee41431</GUID>
+      <ObjectType>cms.contentitem</ObjectType>
+    </Parent>
+  </ContentItemDataCommonDataID>
+  <ContentItemDataGUID>8b3d12fe-2b4a-4d38-b19e-eff7435a0d4f</ContentItemDataGUID>
+  <ProductPageProduct>
+    <![CDATA[[{"Identifier":"cd3098ae-f4d3-409a-887a-3e4c6e0c856e"}]]]>
+  </ProductPageProduct>
+</contentitemdata.dancinggoat.productpage>

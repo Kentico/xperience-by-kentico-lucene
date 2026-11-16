@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<cms.applicationpermission>
+  <ApplicationName>
+    <![CDATA[Kentico.Xperience.Application.WebPages_55e3ae4b-3843-46b8-95d5-79611c371d6f]]>
+  </ApplicationName>
+  <ApplicationPermissionGuid>0e7035f2-0b4e-482e-afe7-3154fe5636d6</ApplicationPermissionGuid>
+  <PermissionName>ManagePermissions</PermissionName>
+  <RoleID>
+    <CodeName>DancingGoat.DigitalChannelManager</CodeName>
+    <GUID>80f9aa61-d17c-45f0-9b9a-9ff3c301438c</GUID>
+    <ObjectType>cms.role</ObjectType>
+  </RoleID>
+</cms.applicationpermission>

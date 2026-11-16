@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<cms.notificationemail>
+  <NotificationEmailContent>
+    <![CDATA[<p>Hi,</p><p>Contact {{ContactName}} is passing through the "{{ProcessDisplayName}}" automation process.</p><p>{{NotificationReason}}</p>]]>
+  </NotificationEmailContent>
+  <NotificationEmailDisplayName>Automation process notification</NotificationEmailDisplayName>
+  <NotificationEmailEventType>Custom</NotificationEmailEventType>
+  <NotificationEmailGUID>d66ff563-66cb-4514-a3de-912696a13406</NotificationEmailGUID>
+  <NotificationEmailName>DancingGoat.AutomationProcessNotification</NotificationEmailName>
+  <NotificationEmailNotificationEmailTemplateID>
+    <CodeName>Kentico.General</CodeName>
+    <GUID>fd1107c3-3b5d-4372-972e-5e4890f12f71</GUID>
+    <ObjectType>cms.notificationemailtemplate</ObjectType>
+  </NotificationEmailNotificationEmailTemplateID>
+  <NotificationEmailSender>no-reply</NotificationEmailSender>
+  <NotificationEmailSubject>
+    <![CDATA[Contact {{ContactName}} in the "{{ProcessDisplayName}}" process]]>
+  </NotificationEmailSubject>
+</cms.notificationemail>

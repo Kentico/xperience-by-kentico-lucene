@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<contentitemdata.dancinggoat.productpage>
+  <ContentItemDataCommonDataID>
+    <GUID>6ddb4dcd-872d-48f7-9458-42ddcef25956</GUID>
+    <ObjectType>cms.contentitemcommondata</ObjectType>
+    <Parent>
+      <CodeName>EthiopiaYirgacheffe_decaf-gv4k2na5</CodeName>
+      <GUID>4b68fb92-4557-4858-9298-6b523498ccff</GUID>
+      <ObjectType>cms.contentitem</ObjectType>
+    </Parent>
+  </ContentItemDataCommonDataID>
+  <ContentItemDataGUID>02c9424d-610b-4698-9285-7763b5818c46</ContentItemDataGUID>
+  <ProductPageProduct>
+    <![CDATA[[{"Identifier":"83d7e1e9-bafb-4eba-820e-33be30538aa1"}]]]>
+  </ProductPageProduct>
+</contentitemdata.dancinggoat.productpage>

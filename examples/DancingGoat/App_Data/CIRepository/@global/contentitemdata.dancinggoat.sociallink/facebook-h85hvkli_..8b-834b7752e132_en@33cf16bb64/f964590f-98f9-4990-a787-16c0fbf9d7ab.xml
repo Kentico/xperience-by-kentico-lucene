@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<contentitemdata.dancinggoat.sociallink>
+  <ContentItemDataCommonDataID>
+    <GUID>ed509950-7b17-4ce7-838b-834b7752e132</GUID>
+    <ObjectType>cms.contentitemcommondata</ObjectType>
+    <Parent>
+      <CodeName>Facebook-h85hvkli</CodeName>
+      <GUID>28ec44a4-17e5-4aa9-a8f3-63e6c23e93b1</GUID>
+      <ObjectType>cms.contentitem</ObjectType>
+    </Parent>
+  </ContentItemDataCommonDataID>
+  <ContentItemDataGUID>f964590f-98f9-4990-a787-16c0fbf9d7ab</ContentItemDataGUID>
+  <SocialLinkIcon>
+    <![CDATA[[{"Identifier":"c922749d-1ff6-4132-ad90-94e6d36ec9f1"}]]]>
+  </SocialLinkIcon>
+  <SocialLinkTitle>Follow us on Facebook</SocialLinkTitle>
+  <SocialLinkUrl>https://www.facebook.com/Dancing.Goat</SocialLinkUrl>
+</contentitemdata.dancinggoat.sociallink>

@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<cms.webpageitem>
+  <WebPageItemContentItemID>
+    <CodeName>CoffeeSamples-joncqzvf</CodeName>
+    <GUID>ddd8fd89-7656-4374-a681-fdf6cb149b67</GUID>
+    <ObjectType>cms.contentitem</ObjectType>
+  </WebPageItemContentItemID>
+  <WebPageItemGUID>3d56a04b-4c61-4241-b103-625a1613340d</WebPageItemGUID>
+  <WebPageItemName>CoffeeSamples-joncqzvf</WebPageItemName>
+  <WebPageItemOrder>2</WebPageItemOrder>
+  <WebPageItemParentID>
+    <CodeName>LandingPages-lohwgdiy</CodeName>
+    <GUID>ecf5e439-038d-46ff-bfca-e0ca1902e1ad</GUID>
+    <ObjectType>cms.webpageitem</ObjectType>
+  </WebPageItemParentID>
+  <WebPageItemTreePath>/Landing_pages/Coffee_samples</WebPageItemTreePath>
+  <WebPageItemWebsiteChannelID>
+    <GUID>55e3ae4b-3843-46b8-95d5-79611c371d6f</GUID>
+    <ObjectType>cms.websitechannel</ObjectType>
+    <Parent>
+      <CodeName>DancingGoatPages</CodeName>
+      <GUID>c430f96d-bd56-4448-b6ab-bce41a58f186</GUID>
+      <ObjectType>cms.channel</ObjectType>
+    </Parent>
+  </WebPageItemWebsiteChannelID>
+</cms.webpageitem>

@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<cms.tag>
+  <TagGUID>6aafec28-dabc-4090-bf59-b9c1ba62dd24</TagGUID>
+  <TagMetadata>
+    <![CDATA[{"Translations":{"fc939370-8f94-4fc9-8cc4-bfdef6ab748c":{"Title":null,"Description":null}}}]]>
+  </TagMetadata>
+  <TagName>HotTips</TagName>
+  <TagOrder>2</TagOrder>
+  <TagTaxonomyID>
+    <CodeName>ProductTags</CodeName>
+    <GUID>1477faae-3c0b-4d40-baf0-e0d1315b8238</GUID>
+    <ObjectType>cms.taxonomy</ObjectType>
+  </TagTaxonomyID>
+  <TagTitle>Hot tips</TagTitle>
+</cms.tag>

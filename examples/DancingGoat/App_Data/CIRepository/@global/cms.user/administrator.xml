@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<cms.user>
+  <Email>administrator@localhost.local</Email>
+  <FirstName>Global</FirstName>
+  <LastName>Administrator</LastName>
+  <UserAdministrationAccess>True</UserAdministrationAccess>
+  <UserAuthenticatorSharedKeyResetRequested>False</UserAuthenticatorSharedKeyResetRequested>
+  <UserEnabled>True</UserEnabled>
+  <UserGUID>6415b8ce-8072-4bcd-8e48-9d7178b826b7</UserGUID>
+  <UserIsExternal>False</UserIsExternal>
+  <UserIsPendingRegistration>False</UserIsPendingRegistration>
+  <UserName>administrator</UserName>
+  <UserPassword>
+    <![CDATA[AQAAAAIAAYagAAAAEH6leouLcyLg0X0h0qGykgxTfx45rQk96/bUOxnL5/eDjJBle5MaG3K7VlXCMM+q/A==]]>
+  </UserPassword>
+  <UserPasswordLastChanged>2026-11-16 16:17:09Z</UserPasswordLastChanged>
+  <UserSecurityStamp>7d4e5b0d-9046-47b9-93e7-24bb5c162ee5</UserSecurityStamp>
+</cms.user>

@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<contentitemdata.dancinggoat.image>
+  <ContentItemDataCommonDataID>
+    <GUID>be9f8459-594d-4758-817e-b17366c25ac9</GUID>
+    <ObjectType>cms.contentitemcommondata</ObjectType>
+    <Parent>
+      <CodeName>Banners_CafeBar</CodeName>
+      <GUID>8391b316-9628-4790-8034-42e672acc963</GUID>
+      <ObjectType>cms.contentitem</ObjectType>
+    </Parent>
+  </ContentItemDataCommonDataID>
+  <ContentItemDataGUID>60514071-4e99-4b2e-a85c-4b5319bd7f42</ContentItemDataGUID>
+  <ImageFile>
+    <![CDATA[{"Original":{"Identifier":"f638390d-9b39-4087-98a0-89d6da142799","Name":"cafe-bar.jpg","Extension":".jpg","Size":536841,"Width":2080,"Height":3120,"LastModified":"0001-01-01T00:00:00Z"},"OptimizationParameters":{"OutputExtension":"webp","Quality":70,"WidthLimit":null,"HeightLimit":null},"Variants":{},"FocalPoint":{"X":1040,"Y":1560},"Identifier":"a894de87-24ce-49f7-88e2-abc314560334","Name":"cafe-bar.webp","Extension":".webp","Size":225654,"Width":2080,"Height":3120,"LastModified":"2026-08-12T07:32:55.1936158Z"}]]>
+  </ImageFile>
+  <ImageShortDescription>
+    <![CDATA[Chemex brewer on the café bar]]>
+  </ImageShortDescription>
+</contentitemdata.dancinggoat.image>

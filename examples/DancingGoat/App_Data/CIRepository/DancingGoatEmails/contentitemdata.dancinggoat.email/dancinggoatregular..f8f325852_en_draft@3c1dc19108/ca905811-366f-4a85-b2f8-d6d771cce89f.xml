@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<contentitemdata.dancinggoat.email>
+  <BannerLogo>
+    <![CDATA[[{"Identifier":"96aaf7e4-b57b-4fb4-ae2c-25e8191e7079"}]]]>
+  </BannerLogo>
+  <Content>
+    <![CDATA[<p>Hello, {!ResolveDynamicText("Recipient.FirstName","friend")!}!</p><p id="isPasted">Welcome to the first lesson in our series about coffee. So go get a cup, sit back and enjoy reading!</p><h1><strong>Where does coffee come from and where does it grow? </strong></h1><h3>Coffee beans: Lesson 1</h3><p>The history of coffee is patchy and full of myth and hearsay.<br><br>One of the most popular story goes that Kaldi, an Ethiopian goat herder, saw his goats eating coffee ‘berries’ and as a result becoming elated. So, Kaldi then tried them himself and thus the potential of coffee was discovered. And also a name of our roastery - <a href="~/" data-channel-guid="55e3ae4b-3843-46b8-95d5-79611c371d6f" target="_blank" rel="noopener noreferrer">Dancing Goats</a>.<br><br>But, It is far more likely that uses for coffee were developed over time and were discovered by people tasting various parts of the ‘cherry’, nevertheless, the old fables do add a bit of romance and are very cute.<br><br>Coffee requires a warm climate and lots of moisture, so it is produced within a belt extending around the world between the Tropic of Cancer and the Tropic of Capricorn.<br><br>Coffee grows on trees that flower and produce fleshy red fruit (orange or yellow is also possible) called a drupe though it is popularly referred to as the ‘berry’ or ‘cherry’. What we refer to as coffee beans are actually seeds, which are produced in the center of the drupe, often in pairs. After harvesting, the flesh of the drupe is washed or dried and the ‘beans’ extracted.<br><br>Coffee beans vary in their shape, size, color as well as flavor depending on the region and conditions in which they were grown. The difference of aromas and flavors between various regional varietals is as vast as the regions they grow in. Just like the teas and wines of the world, and even more so. It is always worth trying new varietals that may stimulate your taste buds in a different way.<br><br>The two major species of coffee are Coffea Arabica and Coffea Canephora (also called Robusta Coffee).<br><br>Arabica is believed to be the first species of coffee to have been cultivated.<br><br>It requires more care during cultivation and is considered to produce better coffee than Robusta. Arabica plants grow at high altitudes of around 1000 to 2000 meters, approximately 3200 to 6500 ft, above sea level in regions across South and Central America, as well as Africa. Arabica is costlier to grow, produces lower yields than Robusta despite higher labor intensiveness. Despite all that, it is considered superior to Robusta. The high demand and lower availability drives the price high. Arabica is the species most associated with speciality (sometimes referred to as gourmet) coffees.<br><br>The only place where Arabica coffee grows indigenously is Ethiopia. It is the birth place of coffee and also the only place in which it truly grows wild. All countries that produce Arabica coffees have transplanted plant stock directly from Ethiopia or from other countries that have previously done.</p>]]>
+  </Content>
+  <ContentItemDataCommonDataID>
+    <GUID>556e64e1-33ad-4745-bf17-97ef8f325852</GUID>
+    <ObjectType>cms.contentitemcommondata</ObjectType>
+    <Parent>
+      <CodeName>DancingGoatRegular-jspvrlaw</CodeName>
+      <GUID>b6d5cbe4-2806-492a-8412-584183b225a1</GUID>
+      <ObjectType>cms.contentitem</ObjectType>
+    </Parent>
+  </ContentItemDataCommonDataID>
+  <ContentItemDataGUID>ca905811-366f-4a85-b2f8-d6d771cce89f</ContentItemDataGUID>
+  <EmailSenderID>
+    <CodeName>no-reply</CodeName>
+    <GUID>3631fdc8-9e83-4e36-b217-68a97e41a6c1</GUID>
+    <ObjectType>emaillibrary.emailchannelsender</ObjectType>
+    <Parent>
+      <GUID>be820547-d1e2-4f46-a9b3-c3a6780953d2</GUID>
+      <ObjectType>emaillibrary.emailchannel</ObjectType>
+      <Parent>
+        <CodeName>DancingGoatEmails</CodeName>
+        <GUID>85813214-7d3e-4ec9-8d92-e762fd61dc81</GUID>
+        <ObjectType>cms.channel</ObjectType>
+      </Parent>
+    </Parent>
+  </EmailSenderID>
+  <EmailSubject>Dancing Goat Coffee Lesson</EmailSubject>
+  <EmailTemplateID>
+    <CodeName>DancingGoatRegularTemplate</CodeName>
+    <GUID>8503e10c-5a82-4a2f-a1ef-0a11ccdc017e</GUID>
+    <ObjectType>emaillibrary.emailtemplate</ObjectType>
+  </EmailTemplateID>
+  <SocialPlatforms>
+    <![CDATA[[{"Identifier":"28ec44a4-17e5-4aa9-a8f3-63e6c23e93b1"},{"Identifier":"015129c5-8972-47b8-963c-e3d52ef69e7e"}]]]>
+  </SocialPlatforms>
+</contentitemdata.dancinggoat.email>
