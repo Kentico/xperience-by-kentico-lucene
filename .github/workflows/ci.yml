@@ -134,12 +134,12 @@ jobs:
 
       - name: Write license file
         env:
-          XPERIENCE_BY_KENTICO_LICENSE: ${{ secrets.XPERIENCE_BY_KENTICO_LICENSE }}
+          XPERIENCE_LICENSE_KEY: ${{ secrets.XPERIENCE_LICENSE_KEY }}
         run: |
-          if ([string]::IsNullOrWhiteSpace($env:XPERIENCE_BY_KENTICO_LICENSE)) {
-            throw "The XPERIENCE_BY_KENTICO_LICENSE repository secret is not set."
+          if ([string]::IsNullOrWhiteSpace($env:XPERIENCE_LICENSE_KEY)) {
+            throw "The XPERIENCE_LICENSE_KEY repository secret is not set."
           }
-          Set-Content -Path "$env:RUNNER_TEMP/license.txt" -Value $env:XPERIENCE_BY_KENTICO_LICENSE -NoNewline
+          Set-Content -Path "$env:RUNNER_TEMP/license.txt" -Value $env:XPERIENCE_LICENSE_KEY -NoNewline
 
       - name: Create database from template
         run: |
