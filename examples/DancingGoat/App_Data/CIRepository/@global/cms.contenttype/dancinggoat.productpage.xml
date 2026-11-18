@@ -38,6 +38,9 @@
           </ValidationRuleConfiguration>
         </validationrulesdata>
       </field>
+      <schema guid="7c7b596d-5b91-40a5-8ded-f2e4757d8e66" name="7c7b596d-5b91-40a5-8ded-f2e4757d8e66">
+        <properties />
+      </schema>
     </form>
   </ClassFormDefinition>
   <ClassGUID>f943db37-2aa0-41aa-9a47-3810a9c6d2cf</ClassGUID>

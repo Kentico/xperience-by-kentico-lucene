@@ -12,21 +12,27 @@
   </ContentItemCommonDataContentLanguageID>
   <ContentItemCommonDataGUID>455ecded-6b64-485c-ad3c-d4b96effa019</ContentItemCommonDataGUID>
   <ContentItemCommonDataIsLatest>True</ContentItemCommonDataIsLatest>
-  <ContentItemCommonDataLastPublishedWhen>2024-03-07 12:31:11Z</ContentItemCommonDataLastPublishedWhen>
+  <ContentItemCommonDataLastPublishedWhen>2026-11-16 16:20:15Z</ContentItemCommonDataLastPublishedWhen>
   <ContentItemCommonDataVersionStatus>2</ContentItemCommonDataVersionStatus>
   <ContentItemCommonDataVisualBuilderTemplateConfiguration>
-    <![CDATA[{"identifier":"DancingGoat.Article","properties":null,"fieldIdentifiers":null}]]>
+<![CDATA[
+{
+  "identifier": "DancingGoat.Article",
+  "properties": null,
+  "fieldIdentifiers": null
+}
+]]>
   </ContentItemCommonDataVisualBuilderTemplateConfiguration>
   <ProductFieldCategory />
-  <SEOFieldsAllowSearchIndexing>True</SEOFieldsAllowSearchIndexing>
   <SEOFieldsDescription>
     <![CDATA[Espresso and filtered coffee. Two categories of coffee that differ in preparation. Learn about individual types of coffee that belong to these categories.]]>
   </SEOFieldsDescription>
+  <SEOFieldsNoIndex>False</SEOFieldsNoIndex>
   <SEOFieldsTitle>Coffee Beverages Explained - Dancing Goat</SEOFieldsTitle>
   <ContentItemReferences>
     <cms.contentitemreference>
       <ContentItemReferenceGroupGUID>04b5735c-f3b6-4dba-af49-1c748e952820</ContentItemReferenceGroupGUID>
-      <ContentItemReferenceGUID>96d3df60-fff0-4e3b-b130-87b7ce42a721</ContentItemReferenceGUID>
+      <ContentItemReferenceGUID>f86b8309-a78b-4583-8bb6-3eeeb758072f</ContentItemReferenceGUID>
       <ContentItemReferenceSourceCommonDataID>
         <GUID>455ecded-6b64-485c-ad3c-d4b96effa019</GUID>
         <ObjectType>cms.contentitemcommondata</ObjectType>

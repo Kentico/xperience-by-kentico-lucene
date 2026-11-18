@@ -129,6 +129,20 @@
           </TaxonomyGroup>
         </settings>
       </field>
+      <field allowempty="true" column="CafeOrder" columntype="integer" enabled="true" guid="b0866bd1-af97-43b1-9ede-5814720e40df" visible="true">
+        <properties>
+          <defaultvalue>100</defaultvalue>
+          <explanationtextashtml>False</explanationtextashtml>
+          <fieldcaption>Order</fieldcaption>
+          <fielddescription>
+            <![CDATA[Lower numbers come first in café listings.]]>
+          </fielddescription>
+          <fielddescriptionashtml>False</fielddescriptionashtml>
+        </properties>
+        <settings>
+          <controlname>Kentico.Administration.NumberInput</controlname>
+        </settings>
+      </field>
     </form>
   </ClassFormDefinition>
   <ClassGUID>2f06d20b-3357-48e6-b0f8-2ca7ef737237</ClassGUID>

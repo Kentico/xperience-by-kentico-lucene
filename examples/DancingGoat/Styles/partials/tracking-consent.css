@@ -1,0 +1,51 @@
+/* Consent — cookie bar + privacy page consent items */
+.consent-item {
+    &:not(:first-of-type) {
+        border-top: 1px solid var(--color-line);
+    }
+
+    .consent-heading {
+        margin: 0 0 8px 0;
+    }
+}
+
+.cookie-consent {
+    font-size: var(--text-md);
+    line-height: var(--leading-body);
+    padding: 16px max(32px, calc((100% - 1200px) / 2));
+    background: var(--color-band);
+    color: var(--color-band-ink);
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 90;
+    box-shadow: 0 -10px 30px rgba(20, 12, 8, 0.25);
+
+    a { color: var(--color-accent-on-dark); border-bottom: 1px solid currentColor; }
+
+    .consent-text {
+        padding-bottom: 10px;
+    }
+
+    .consent-buttons {
+        text-align: right;
+        margin: 8px 0 0 0;
+    }
+
+    .btn-consent {
+        background: var(--color-accent-text);
+        color: var(--color-accent-ink);
+        border: none;
+        border-radius: var(--radius-btn);
+        padding: 12px 24px;
+        font-family: var(--font-sans);
+        font-size: var(--text-sm);
+        font-weight: 600;
+        letter-spacing: 0.04em;
+        cursor: pointer;
+        transition: filter 0.2s;
+    }
+
+    .btn-consent:hover { filter: brightness(1.08); }
+}

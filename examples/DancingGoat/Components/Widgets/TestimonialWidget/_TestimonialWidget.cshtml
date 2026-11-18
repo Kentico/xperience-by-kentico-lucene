@@ -1,0 +1,42 @@
+﻿@using DancingGoat.Helpers
+
+@model DancingGoat.Widgets.TestimonialWidgetViewModel
+
+@inject Kentico.Builder.Web.Mvc.IAdminBuildersLocalizationService localizationService
+
+@if (Model == null)
+{
+    @if (Context.Kentico().PageBuilder().EditMode)
+    {
+        <h3 class="grid-empty">
+            @localizationService.LocalizeString("{$dancinggoat.testimonialwidget.selecttestimonial$}")
+        </h3>
+    }
+}
+else
+{
+    <section class="block">
+        <div class="wrap">
+            <div class="section-head reveal">
+                <div>
+                    <h2 class="display">@HeadingFormatter.Format(string.IsNullOrWhiteSpace(Model.Heading) ? HtmlLocalizer["What people say"].Value : Model.Heading)</h2>
+                </div>
+            </div>
+            <div class="reference-card reveal @(string.IsNullOrEmpty(Model.ImagePath) ? "no-media" : null)">
+                @if (!string.IsNullOrEmpty(Model.ImagePath))
+                {
+                    <div class="media"><img src="@Url.Content(Model.ImagePath)" alt="@Model.Author" loading="lazy"></div>
+                }
+                <blockquote>
+                    <span class="quote-mark">&ldquo;</span>
+                    <p class="quote-text">@Model.Quote</p>
+                    <div class="quote-name">@Model.Author</div>
+                    @if (!string.IsNullOrEmpty(Model.AuthorRole))
+                    {
+                        <div class="quote-desc">@Model.AuthorRole</div>
+                    }
+                </blockquote>
+            </div>
+        </div>
+    </section>
+}

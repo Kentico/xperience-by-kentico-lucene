@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<cms.tag>
+  <TagGUID>5fc4b5c0-bb7a-4c92-b7c8-6203cadaba16</TagGUID>
+  <TagMetadata>
+    <![CDATA[{"Translations":{"fc939370-8f94-4fc9-8cc4-bfdef6ab748c":{"Title":"Or\u00EDgenes del caf\u00E9","Description":null}}}]]>
+  </TagMetadata>
+  <TagName>CoffeeOrigins</TagName>
+  <TagOrder>1</TagOrder>
+  <TagTaxonomyID>
+    <CodeName>ArticleTopics</CodeName>
+    <GUID>0c9ecd33-ebd3-490b-bd2a-736a63e283d7</GUID>
+    <ObjectType>cms.taxonomy</ObjectType>
+  </TagTaxonomyID>
+  <TagTitle>Coffee origins</TagTitle>
+</cms.tag>

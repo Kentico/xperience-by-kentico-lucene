@@ -2,8 +2,9 @@
 <contentitemdata.dancinggoat.cafe>
   <CafeCity>Chicago</CafeCity>
   <CafeCountry>USA, Illinois</CafeCountry>
-  <CafeIsCompanyCafe>False</CafeIsCompanyCafe>
+  <CafeIsCompanyCafe>True</CafeIsCompanyCafe>
   <CafeName>Chicago</CafeName>
+  <CafeOrder>3</CafeOrder>
   <CafePhone>773-539-1306</CafePhone>
   <CafePhoto>
     <![CDATA[[{"Identifier":"ff45b4fc-f3c3-4171-b1eb-845411e46c54"}]]]>

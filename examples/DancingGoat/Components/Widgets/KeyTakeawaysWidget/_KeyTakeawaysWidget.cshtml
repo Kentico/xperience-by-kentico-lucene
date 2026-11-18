@@ -1,0 +1,37 @@
+﻿@using DancingGoat.Helpers
+@using DancingGoat.Widgets
+
+@model KeyTakeawaysWidgetViewModel
+
+@inject Kentico.Builder.Web.Mvc.IAdminBuildersLocalizationService adminLocalizationService
+@inject CMS.Core.ILocalizationService localizationService
+
+@if (Model.Takeaways.Count == 0)
+{
+    @if (Context.Kentico().PageBuilder().EditMode)
+    {
+        <h3 class="grid-empty">
+            @adminLocalizationService.LocalizeString("{$dancinggoat.keytakeawayswidget.empty$}")
+        </h3>
+    }
+}
+else
+{
+    var hasHeading = !string.IsNullOrEmpty(Model.Heading);
+    var heading = hasHeading ? Model.Heading : localizationService.GetString("dancinggoat.keytakeawayswidget.title");
+    var headingOrigin = hasHeading ? Model.GetAiProvenanceOrigin(nameof(KeyTakeawaysWidgetProperties.Heading)) : CMS.ContentEngine.AiProvenanceOrigin.None;
+
+    <section class="takeaways">
+        <ai-scope origin="@headingOrigin" label-position="After">
+            <h3 class="display">@HeadingFormatter.Format(heading)</h3>
+        </ai-scope>
+        <ai-scope origin="@Model.GetAiProvenanceOrigin(nameof(KeyTakeawaysWidgetProperties.Text))">
+            <ul class="takeaways-list">
+                @foreach (var takeaway in Model.Takeaways)
+                {
+                    <li>@takeaway</li>
+                }
+            </ul>
+        </ai-scope>
+    </section>
+}

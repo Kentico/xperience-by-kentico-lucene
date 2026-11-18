@@ -1,0 +1,47 @@
+@using System
+@using DancingGoat.Helpers.Generator
+@using DancingGoat.Services
+@using Kentico.Content.Web.Mvc.PageBuilder
+@using Kentico.Forms.Web.Mvc.Widgets
+@using Kentico.Xperience.Admin.Base.Forms
+
+@inject WebPageUrlProvider webPageUrlProvider
+
+@{
+    var privacyPageUrl = await webPageUrlProvider.PrivacyPageUrl(cancellationToken: Context.RequestAborted);
+
+    var subscriptionFormWidgetProperties = new FormWidgetProperties
+    {
+        SelectedForm = new List<ObjectRelatedItem> { new() { ObjectCodeName = DigitalMarketingGeneratorConstants.NEWSLETTER_SUBSCRIPTION_FORM_NAME } },
+        AfterSubmitDisplayText = HtmlLocalizer["Thank you for subscribing! Now we just need to confirm your email address - please click the link in the email we sent you. Thanks!"].Value
+    };
+}
+
+<footer class="footer">
+    <div class="wrap footer-inner">
+        <div class="footer-grid">
+            <div class="footer-brand">
+                <div class="brand">
+                    <img class="footer-logo" alt="Dancing Goat" src="~/Content/Images/logo.svg" />
+                </div>
+                <p class="footer-tag">@HtmlLocalizer["Small-batch specialty coffee, sourced directly from micro farms and roasted in Chicago."]</p>
+            </div>
+            <div>
+                <h2>@HtmlLocalizer["Contact"]</h2>
+                <vc:company-address />
+                <vc:social-links />
+            </div>
+            <div>
+                <h2>@HtmlLocalizer["News & updates"]</h2>
+                <p class="subscribe-note">@HtmlLocalizer["Fresh crops, café openings and brewing tips — once a month, no noise."]</p>
+                <div class="subscribe-form">
+                    @await Html.Kentico().RenderStandaloneWidgetAsync(SystemComponentIdentifiers.FORM_WIDGET_IDENTIFIER, subscriptionFormWidgetProperties)
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <span>@HtmlLocalizer["Copyright © {0} Dancing Goat. All rights reserved.", DateTime.Now.Year]</span>
+            <a href="@privacyPageUrl">@HtmlLocalizer["Privacy & cookies"]</a>
+        </div>
+    </div>
+</footer>

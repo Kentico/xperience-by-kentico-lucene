@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<cms.tag>
+  <TagGUID>4bfed9d2-ba32-460a-b891-11c6e37cfa2d</TagGUID>
+  <TagMetadata>
+    <![CDATA[{"Translations":{"fc939370-8f94-4fc9-8cc4-bfdef6ab748c":{"Title":null,"Description":null}}}]]>
+  </TagMetadata>
+  <TagName>BrewingEquipment</TagName>
+  <TagOrder>5</TagOrder>
+  <TagTaxonomyID>
+    <CodeName>ImageTags</CodeName>
+    <GUID>b4c5f28d-b291-42fd-8104-8a314d4ed30f</GUID>
+    <ObjectType>cms.taxonomy</ObjectType>
+  </TagTaxonomyID>
+  <TagTitle>Brewing equipment</TagTitle>
+</cms.tag>

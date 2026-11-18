@@ -1,0 +1,10 @@
+﻿@using DancingGoat.Helpers
+
+@model TemplateViewModel
+
+@{
+    Layout = "~/Views/Shared/_DancingGoatLayout.cshtml";
+}
+
+<editable-area area-identifier="main"
+               area-options-allowed-widgets="@AreaRestrictionHelper.GetHomePageRestrictions()" />

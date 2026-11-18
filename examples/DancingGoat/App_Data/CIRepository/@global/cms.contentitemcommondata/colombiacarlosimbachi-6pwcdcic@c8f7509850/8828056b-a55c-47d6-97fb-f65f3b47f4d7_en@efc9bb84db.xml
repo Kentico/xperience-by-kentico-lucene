@@ -26,6 +26,9 @@
   </ProductFieldImage>
   <ProductFieldName>Colombia Carlos Imbachi</ProductFieldName>
   <ProductFieldPrice>6</ProductFieldPrice>
+  <ProductFieldTags>
+    <![CDATA[[{"Identifier":"9eb035ac-728a-4236-a2c6-51e0ed4ba07a"}]]]>
+  </ProductFieldTags>
   <ProductSKUCode>CAF-COL-IMBA</ProductSKUCode>
   <ContentItemReferences>
     <cms.contentitemreference>

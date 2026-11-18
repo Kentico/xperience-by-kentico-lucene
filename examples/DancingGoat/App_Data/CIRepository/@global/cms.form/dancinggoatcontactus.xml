@@ -30,7 +30,6 @@
             }
           ],
           "properties": {
-            "$type": "DancingGoat.Components.FormSections.TitledSection.TitledSectionProperties, Kentico.Xperience.DancingGoat",
             "title": "\u003ch2\u003eSend us a message\u003c/h2\u003e"
           }
         }

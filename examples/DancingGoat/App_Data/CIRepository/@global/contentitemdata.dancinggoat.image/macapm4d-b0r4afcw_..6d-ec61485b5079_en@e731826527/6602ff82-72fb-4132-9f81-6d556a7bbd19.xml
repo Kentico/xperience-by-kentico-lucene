@@ -13,4 +13,7 @@
   <ImageFile>
     <![CDATA[{"Original":{"Identifier":"a312c0de-5e56-4a1d-99b9-75a638cbe2e8","Name":"macap-m4d.jpg","Extension":".jpg","Size":10218,"Width":400,"Height":400,"LastModified":"2025-02-03T14:31:41.2042795Z"},"OptimizationParameters":{"OutputExtension":"webp","Quality":70,"WidthLimit":null,"HeightLimit":null},"Variants":{},"FocalPoint":{"X":200,"Y":200},"Identifier":"e29338af-b945-4fdc-9a6f-482308d85022","Name":"macap-m4d.webp","Extension":".webp","Size":3806,"Width":400,"Height":400,"LastModified":"2025-02-03T14:31:41.2345509Z"}]]>
   </ImageFile>
+  <ImageTags>
+    <![CDATA[[{"Identifier":"c456a8b4-f136-4ea6-8b88-63190e4d9663"},{"Identifier":"4bfed9d2-ba32-460a-b891-11c6e37cfa2d"}]]]>
+  </ImageTags>
 </contentitemdata.dancinggoat.image>

@@ -1,0 +1,33 @@
+@using DancingGoat.Models
+
+@model OrderSummaryViewModel
+
+<div data-order-summary>
+    <h3>@HtmlLocalizer["Order summary"]</h3>
+
+    @if (Model.ShoppingCart?.Items.Any() ?? false)
+    {
+        <div class="co-lines">
+            @foreach (var item in Model.ShoppingCart.Items)
+            {
+                <div class="co-line">
+                    <span class="co-thumb">
+                        @if (!string.IsNullOrEmpty(item.ImageUrl))
+                        {
+                            <img src="@Url.Content(item.ImageUrl)" alt="" loading="lazy" />
+                        }
+                    </span>
+                    <span>@item.Name <span class="co-qty">&times; @item.Quantity</span></span>
+                    <span><price>@item.TotalPrice</price></span>
+                </div>
+            }
+        </div>
+        <hr class="co-divider" />
+
+        <partial name="_ShoppingCartTotalsConfirmation" model="Model" />
+    }
+    else
+    {
+        <p class="summary-note">@HtmlLocalizer["Shopping cart is empty"]</p>
+    }
+</div>

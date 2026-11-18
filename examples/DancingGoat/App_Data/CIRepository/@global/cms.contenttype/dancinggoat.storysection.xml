@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<cms.contenttype>
+  <ClassContentTypeType>Reusable</ClassContentTypeType>
+  <ClassDisplayName>Story section</ClassDisplayName>
+  <ClassFormDefinition>
+    <form>
+      <field column="ContentItemDataID" columntype="integer" enabled="true" guid="fe0dde3b-e0c9-4ca0-9c0f-109e5be8c011" isPK="true" />
+      <field column="ContentItemDataCommonDataID" columntype="integer" enabled="true" guid="6775eef6-5f21-4215-84c4-a42bbb22bf5e" refobjtype="cms.contentitemcommondata" reftype="Required" system="true" />
+      <field column="ContentItemDataGUID" columntype="guid" enabled="true" guid="eed6bf45-7f12-4e3b-be48-0fb9a54f88ff" isunique="true" system="true" />
+      <field column="StorySectionTitle" columnsize="200" columntype="text" enabled="true" guid="e634695a-d963-4dcf-98c6-9b5626cca122" visible="true">
+        <properties>
+          <explanationtextashtml>False</explanationtextashtml>
+          <fieldcaption>Title</fieldcaption>
+          <fielddescriptionashtml>False</fielddescriptionashtml>
+          <includeincontentgeneration>True</includeincontentgeneration>
+        </properties>
+        <settings>
+          <controlname>Kentico.Administration.TextInput</controlname>
+        </settings>
+      </field>
+      <field column="StorySectionText" columntype="longtext" enabled="true" guid="95b69688-1300-4c7a-aa57-63ce7fbd5955" visible="true">
+        <properties>
+          <explanationtextashtml>False</explanationtextashtml>
+          <fieldcaption>Text</fieldcaption>
+          <fielddescriptionashtml>False</fielddescriptionashtml>
+          <includeincontentgeneration>True</includeincontentgeneration>
+        </properties>
+        <settings>
+          <controlname>Kentico.Administration.TextArea</controlname>
+          <CopyButtonVisible>False</CopyButtonVisible>
+          <MaxRowsNumber>20</MaxRowsNumber>
+          <MinRowsNumber>5</MinRowsNumber>
+        </settings>
+      </field>
+    </form>
+  </ClassFormDefinition>
+  <ClassGUID>b5878fde-3f50-4d8a-8cc1-eaccb655d81e</ClassGUID>
+  <ClassHasUnmanagedDbSchema>False</ClassHasUnmanagedDbSchema>
+  <ClassIconClass>xp-book-opened</ClassIconClass>
+  <ClassName>DancingGoat.StorySection</ClassName>
+  <ClassShortName>DancingGoatStorySectionNooqfmgp</ClassShortName>
+  <ClassTableName>DancingGoat_StorySection</ClassTableName>
+  <ClassType>Content</ClassType>
+</cms.contenttype>

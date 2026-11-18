@@ -53,10 +53,12 @@ namespace Samples.DancingGoat
         {
             using (var writer = CreateWriter(outputFormat))
             {
-                var dataCollector = new SampleContactDataCollectorCore(writer, activityInfoProvider, countryInfoProvider, stateInfoProvider, consentAgreementInfoProvider, bizFormInfoProvider);
+                var dataCollector = new SampleContactDataCollectorCore(activityInfoProvider, countryInfoProvider, stateInfoProvider, consentAgreementInfoProvider, bizFormInfoProvider);
+                dataCollector.CollectData(identities, writer);
+
                 return new PersonalDataCollectorResult
                 {
-                    Text = dataCollector.CollectData(identities)
+                    Text = writer.GetResult()
                 };
             }
         }

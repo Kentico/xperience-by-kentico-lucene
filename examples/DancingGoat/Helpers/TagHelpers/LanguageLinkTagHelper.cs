@@ -55,22 +55,24 @@ namespace DancingGoat.Helpers
 
         public override async Task ProcessAsync(TagHelperContext context, TagHelperOutput output)
         {
+            var isCurrentLanguage = string.Equals(currentLanguageRetriever.Get(), LanguageName, StringComparison.InvariantCultureIgnoreCase);
+
             // Page data context is initialized
             if (pageDataContextRetriever.TryRetrieve(out var webPageContext))
             {
                 var url = await webPageUrlRetriever.Retrieve(webPageContext.WebPage.WebPageItemID, LanguageName);
 
-                CreateActionLinkWithHref(output, url.RelativePath);
+                CreateActionLinkWithHref(output, ResolveLanguageSwitchHref(url), isCurrentLanguage);
                 return;
             }
 
             var httpContext = httpContextAccessor.HttpContext;
 
             // Create a link for the current language (the URL stays as it is)
-            if (currentLanguageRetriever.Get() == LanguageName)
+            if (isCurrentLanguage)
             {
                 var url = UriHelper.GetEncodedUrl(httpContext.Request);
-                CreateActionLinkWithHref(output, url);
+                CreateActionLinkWithHref(output, url, true);
                 return;
             }
 
@@ -98,10 +100,37 @@ namespace DancingGoat.Helpers
         }
 
 
-        private void CreateActionLinkWithHref(TagHelperOutput output, string url)
+        private string ResolveLanguageSwitchHref(WebPageUrl url)
+        {
+            // A language served from its own domain lives on a different host than the current request, so the link
+            // has to cross hosts via the absolute URL. A same-host target (path-prefix channels) keeps the relative
+            // path. A channel domain without a port (e.g. "localhost") matches the request on any port, so the port is
+            // only compared when the domain specifies one.
+            var currentHost = httpContextAccessor.HttpContext?.Request.Host;
+
+            if (currentHost is not { HasValue: true } host
+                || !Uri.TryCreate(url.AbsoluteUrl, UriKind.Absolute, out var absoluteUri))
+            {
+                return url.RelativePath;
+            }
+
+            var isSameHost = string.Equals(absoluteUri.Host, host.Host, StringComparison.OrdinalIgnoreCase)
+                && (absoluteUri.IsDefaultPort || absoluteUri.Port == host.Port);
+
+            return isSameHost ? url.RelativePath : url.AbsoluteUrl;
+        }
+
+
+        private void CreateActionLinkWithHref(TagHelperOutput output, string url, bool isCurrentLanguage)
         {
             output.TagName = "a";
             output.Attributes.Add("href", url);
+
+            if (isCurrentLanguage)
+            {
+                output.Attributes.Add("aria-current", "true");
+            }
+
             output.TagMode = TagMode.StartTagAndEndTag;
             output.Content.SetContent(LinkText);
         }

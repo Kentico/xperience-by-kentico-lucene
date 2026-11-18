@@ -1,0 +1,125 @@
+/*
+ * Base — page canvas, container, accessibility, section rhythm, reveal motion.
+ * The design was authored against UA defaults (no global reset): headings and
+ * paragraphs keep their user-agent margins unless a component overrides them.
+ */
+* { box-sizing: border-box; }
+
+@media (prefers-reduced-motion: no-preference) {
+    html { scroll-behavior: smooth; }
+}
+
+body {
+    margin: 0;
+    background: var(--color-paper);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    font-size: var(--text-base);
+    line-height: var(--leading-body);
+    -webkit-font-smoothing: antialiased;
+}
+
+/*
+ * Sticky footer: a page shorter than the viewport still ends with the footer on the bottom edge,
+ * with nothing showing underneath it. Scoped to the layouts that render a footer - _Layout.cshtml
+ * renders neither footer nor main and must keep normal block flow.
+ */
+body:has(> footer) {
+    /* dvh, so a mobile browser's collapsing toolbar does not leave the footer short of the edge. */
+    min-height: 100dvh;
+    display: flex;
+    flex-direction: column;
+}
+
+body > main { flex: 1 0 auto; }
+
+img { display: block; max-width: 100%; }
+
+a { color: inherit; text-decoration: none; }
+
+button, input, select, textarea { font-family: var(--font-sans); }
+
+.wrap {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 32px;
+}
+
+/* ---------- accessibility: focus + skip link ---------- */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+[tabindex]:focus-visible {
+    outline: 2px solid var(--color-accent-text);
+    outline-offset: 2px;
+}
+
+.skip-link {
+    position: absolute;
+    left: 16px;
+    top: -60px;
+    z-index: 200;
+    background: var(--color-ink);
+    color: var(--color-ink-inverse);
+    padding: 12px 18px;
+    border-radius: 10px;
+    font-size: var(--text-md);
+    font-weight: 600;
+    transition: top 0.2s;
+}
+.skip-link:focus { top: 16px; }
+
+.visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+    border: 0;
+}
+
+/* ---------- section rhythm ---------- */
+section.block { padding: 110px 0 0 0; }
+
+.block-tight { padding-top: 56px; }
+.block-tight > .wrap > :first-child { margin-top: 0; }
+
+/* ---------- reveal on scroll (hidden state only after JS opts in) ---------- */
+@media (prefers-reduced-motion: no-preference) {
+    html.js-reveal .reveal { opacity: 0; transform: translateY(26px); transition: opacity 0.7s ease, transform 0.7s ease; }
+    html.js-reveal .reveal.in { opacity: 1; transform: none; }
+}
+
+@keyframes spin-slow { to { transform: rotate(360deg); } }
+
+/* ---------- reduced motion ---------- */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        transition-delay: 0ms !important;
+    }
+
+    .btn:hover,
+    .product-card:hover,
+    .side-card:hover,
+    .product-card:hover .media img,
+    .article-feature:hover .media img,
+    .article-card:hover .media img,
+    .cafe-card:hover img,
+    .cafe-card:hover .cafe-go {
+        transform: none;
+    }
+
+    .btn-solid:hover {
+        filter: none;
+    }
+}

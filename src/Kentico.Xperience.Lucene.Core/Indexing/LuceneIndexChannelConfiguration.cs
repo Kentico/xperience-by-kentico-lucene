@@ -18,6 +18,10 @@ public sealed class LuceneIndexChannelConfiguration
     /// <summary>
     /// The display name of the website channel.
     /// </summary>
+    /// <remarks>
+    /// The value is not persisted by <see cref="ILuceneConfigurationStorageService"/>. Configurations loaded from storage
+    /// always use the current <see cref="ChannelInfo.ChannelDisplayName"/>.
+    /// </remarks>
     public string ChannelDisplayName { get; init; }
 
 
@@ -37,6 +41,47 @@ public sealed class LuceneIndexChannelConfiguration
     {
         WebsiteChannelName = websiteChannelName;
         ChannelDisplayName = channelDisplayName;
+    }
+
+    /// <summary>
+    /// Creates a website channel configuration for a Lucene index, using <paramref name="websiteChannelName"/>
+    /// as the <see cref="ChannelDisplayName"/>.
+    /// </summary>
+    /// <param name="websiteChannelName">The code name of the website channel.</param>
+    /// <param name="includedPaths">The paths and content types to index for the channel.</param>
+    /// <remarks>
+    /// Use this constructor when defining an index in code. The display name is not persisted, so it does not need to be loaded from <see cref="ChannelInfo"/>.
+    /// </remarks>
+    public LuceneIndexChannelConfiguration(string websiteChannelName, IEnumerable<LuceneIndexIncludedPath> includedPaths)
+        : this(websiteChannelName, websiteChannelName, includedPaths)
+    {
+    }
+
+
+    /// <summary>
+    /// Creates a website channel configuration for a Lucene index.
+    /// </summary>
+    /// <param name="websiteChannelName">The code name of the website channel.</param>
+    /// <param name="channelDisplayName">The display name of the website channel. The value is not persisted by <see cref="ILuceneConfigurationStorageService"/>.</param>
+    /// <param name="includedPaths">The paths and content types to index for the channel.</param>
+    public LuceneIndexChannelConfiguration(
+        string websiteChannelName,
+        string channelDisplayName,
+        IEnumerable<LuceneIndexIncludedPath> includedPaths)
+    {
+        ArgumentException.ThrowIfNullOrWhiteSpace(websiteChannelName);
+        ArgumentException.ThrowIfNullOrWhiteSpace(channelDisplayName);
+        ArgumentNullException.ThrowIfNull(includedPaths);
+
+        var paths = includedPaths.ToList();
+        if (paths.Count == 0)
+        {
+            throw new ArgumentException("At least one included path must be provided.", nameof(includedPaths));
+        }
+
+        WebsiteChannelName = websiteChannelName;
+        ChannelDisplayName = channelDisplayName;
+        IncludedPaths = paths;
     }
 
 

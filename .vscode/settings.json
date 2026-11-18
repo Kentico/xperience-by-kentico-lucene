@@ -35,7 +35,7 @@
   },
   "dotnet.defaultSolution": "Kentico.Xperience.Lucene.sln",
 
-  "eslint.workingDirectories": ["./src/Kentico.Xperience.Lucene/Admin/Client"],
+  "eslint.workingDirectories": ["./src/Kentico.Xperience.Lucene.Admin/Client"],
   "[aspnetcorerazor]": {
     "editor.defaultFormatter": "ms-dotnettools.csharp"
   }

@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<contentitemdata.dancinggoat.navigationitem>
+  <ContentItemDataCommonDataID>
+    <GUID>3d9c1f5a-6b02-4e77-9d31-5a8f42c7be10</GUID>
+    <ObjectType>cms.contentitemcommondata</ObjectType>
+    <Parent>
+      <CodeName>Store-vvy7dhrj</CodeName>
+      <GUID>f06ab225-4239-4e7d-91a8-d58477959d38</GUID>
+      <ObjectType>cms.contentitem</ObjectType>
+    </Parent>
+  </ContentItemDataCommonDataID>
+  <ContentItemDataGUID>7c4e0b93-1af5-42d8-8b60-c31d9e5a7f24</ContentItemDataGUID>
+  <NavigationItemLink>
+    <![CDATA[[{"WebPageGuid":"888992c0-8702-4c4d-b50e-ac7c61f0a2fe"}]]]>
+  </NavigationItemLink>
+  <NavigationItemName>Tienda</NavigationItemName>
+</contentitemdata.dancinggoat.navigationitem>

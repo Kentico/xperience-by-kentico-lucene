@@ -51,6 +51,8 @@ namespace DancingGoat.Controllers
         {
             var article = await contentRetriever.RetrieveCurrentPage<ArticlePage>(
                 new RetrieveCurrentPageParameters { IncludeSecuredItems = true, LinkedItemsMaxLevel = 3 },
+                query => query.WithAiProvenance(),
+                new RetrievalCacheSettings("WithAiProvenance"),
                 HttpContext.RequestAborted
             );
 

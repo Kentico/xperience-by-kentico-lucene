@@ -25,7 +25,7 @@ module.exports = (opts, argv) => {
         clean: true
     },
     devServer: {
-      port: 3009,
+      port: 3074,
     },
   };
 

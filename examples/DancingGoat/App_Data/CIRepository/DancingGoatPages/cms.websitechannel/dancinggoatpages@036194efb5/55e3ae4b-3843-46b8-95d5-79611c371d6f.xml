@@ -9,6 +9,7 @@
   <WebsiteChannelDomain>localhost</WebsiteChannelDomain>
   <WebsiteChannelGUID>55e3ae4b-3843-46b8-95d5-79611c371d6f</WebsiteChannelGUID>
   <WebsiteChannelHomePage>/Home</WebsiteChannelHomePage>
+  <WebsiteChannelLanguageRoutingMode>0</WebsiteChannelLanguageRoutingMode>
   <WebsiteChannelPrimaryContentLanguageID>
     <CodeName>en</CodeName>
     <GUID>e4a8fb12-ebc2-45d0-930f-c9fba2780c85</GUID>

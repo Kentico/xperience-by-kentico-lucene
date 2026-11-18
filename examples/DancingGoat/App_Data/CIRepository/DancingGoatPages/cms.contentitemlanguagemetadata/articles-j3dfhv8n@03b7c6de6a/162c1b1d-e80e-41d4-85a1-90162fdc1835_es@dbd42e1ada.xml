@@ -16,7 +16,9 @@
     <ObjectType>cms.user</ObjectType>
   </ContentItemLanguageMetadataCreatedByUserID>
   <ContentItemLanguageMetadataCreatedWhen>2023-09-07 12:19:12Z</ContentItemLanguageMetadataCreatedWhen>
-  <ContentItemLanguageMetadataDisplayName>Articulos</ContentItemLanguageMetadataDisplayName>
+  <ContentItemLanguageMetadataDisplayName>
+    <![CDATA[Artículos]]>
+  </ContentItemLanguageMetadataDisplayName>
   <ContentItemLanguageMetadataGUID>162c1b1d-e80e-41d4-85a1-90162fdc1835</ContentItemLanguageMetadataGUID>
   <ContentItemLanguageMetadataHasImageAsset>False</ContentItemLanguageMetadataHasImageAsset>
   <ContentItemLanguageMetadataLatestVersionStatus>2</ContentItemLanguageMetadataLatestVersionStatus>

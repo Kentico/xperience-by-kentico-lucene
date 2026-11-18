@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<cms.tag>
+  <TagGUID>9c3a05a5-4bb7-422f-a1c8-f12f1d292496</TagGUID>
+  <TagMetadata>
+    <![CDATA[{"Translations":{"fc939370-8f94-4fc9-8cc4-bfdef6ab748c":{"Title":"Comunidad","Description":null}}}]]>
+  </TagMetadata>
+  <TagName>Community</TagName>
+  <TagOrder>4</TagOrder>
+  <TagTaxonomyID>
+    <CodeName>ArticleTopics</CodeName>
+    <GUID>0c9ecd33-ebd3-490b-bd2a-736a63e283d7</GUID>
+    <ObjectType>cms.taxonomy</ObjectType>
+  </TagTaxonomyID>
+  <TagTitle>Community</TagTitle>
+</cms.tag>

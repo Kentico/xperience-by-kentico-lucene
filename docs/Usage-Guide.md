@@ -26,6 +26,103 @@ Future updates to indexes will be tracked in the CI repository [unless they are 
 
 See [Managing search indexes](Managing-Indexes.md)
 
+## Defining an index in code
+
+Indexes can also be created from code, for example in a custom module, so every environment gets the same configuration.
+
+1. Build a `LuceneIndexModel` with the index name, strategy name (as registered with `RegisterStrategy`), analyzer name, language names, reusable content type names, and one `LuceneIndexChannelConfiguration` per website channel. Use `new LuceneIndexChannelConfiguration(websiteChannelName, includedPaths)`; the channel display name is not stored, so there is no need to load it.
+2. Read the stored configuration with `ILuceneConfigurationStorageService.GetIndexDataOrNullAsync(indexName)`.
+3. If it does not exist, call `ILuceneConfigurationStorageService.TryCreateIndex(model)` and check the returned `bool`. `ILuceneIndexManager.AddIndex(model)` also works but ignores that result.
+4. If it exists and differs, set `model.Id` to the stored `Id` and call `TryEditIndexAsync(model)`. Set `LuceneIndexIncludedPath.Identifier` to the stored path's identifier to keep an existing path; paths without an identifier replace the stored ones.
+5. Rebuild the index (`ILuceneClient.Rebuild`) after creating it or changing anything that affects the stored documents: strategy, analyzer, languages, channels, paths, or content types. Changes to the strategy's mapping code also need a rebuild. Run the rebuild after `ApplicationEvents.Initialized` and do not block startup on it.
+
+The library creates its configuration tables on `ApplicationEvents.Initialized`. If your module reads or writes index configuration in `OnInit`, call `LuceneModuleInstaller.Install()` first, or the tables may not exist yet on a new database.
+
+If your project uses Continuous Integration, index configuration created in the administration is serialized like other objects, which is usually simpler than defining it in code. The DancingGoat example does this.
+
+The following module creates an index on startup, or updates it when the stored configuration differs:
+
+```csharp
+using CMS;
+using CMS.Base;
+using CMS.Core;
+using CMS.DataEngine;
+
+using Kentico.Xperience.Lucene.Core;
+using Kentico.Xperience.Lucene.Core.Indexing;
+
+using Microsoft.Extensions.DependencyInjection;
+
+[assembly: RegisterModule(typeof(SearchIndexModule))]
+
+internal sealed class SearchIndexModule : Module
+{
+    private const string INDEX_NAME = "SiteSearch";
+
+    public SearchIndexModule() : base(nameof(SearchIndexModule)) { }
+
+    protected override void OnInit(ModuleInitParameters parameters)
+    {
+        base.OnInit(parameters);
+
+        var services = parameters.Services;
+
+        // Configuration tables are installed on ApplicationEvents.Initialized, which runs after OnInit.
+        services.GetRequiredService<LuceneModuleInstaller>().Install();
+
+        var desired = new LuceneIndexModel
+        {
+            IndexName = INDEX_NAME,
+            StrategyName = "SiteSearchStrategy", // as registered with RegisterStrategy
+            AnalyzerName = "Standard",
+            LanguageNames = ["en"],
+            Channels =
+            [
+                new LuceneIndexChannelConfiguration("MyWebsiteChannel",
+                [
+                    new LuceneIndexIncludedPath("/%") { ContentTypes = [new LuceneIndexContentType("MySite.ArticlePage", "Article page", 0)] }
+                ])
+            ]
+        };
+
+        var storage = services.GetRequiredService<ILuceneConfigurationStorageService>();
+        var existing = storage.GetIndexDataOrNullAsync(INDEX_NAME).GetAwaiter().GetResult();
+        bool changed;
+
+        if (existing is null)
+        {
+            changed = storage.TryCreateIndex(desired);
+        }
+        else if (!IsSameConfiguration(existing, desired))
+        {
+            desired.Id = existing.Id;
+            changed = storage.TryEditIndexAsync(desired).GetAwaiter().GetResult();
+        }
+        else
+        {
+            changed = false;
+        }
+
+        if (changed)
+        {
+            ApplicationEvents.Initialized.Execute += (_, _) =>
+            {
+                using (ExecutionContext.SuppressFlow())
+                {
+                    _ = Task.Run(() => services.GetRequiredService<ILuceneClient>().Rebuild(INDEX_NAME, CancellationToken.None));
+                }
+            };
+        }
+    }
+
+    // Compare every part of the model (strategy, analyzer, languages, reusable types,
+    // channels, paths, content types) so any change is saved and triggers a rebuild.
+    private static bool IsSameConfiguration(LuceneIndexModel existing, LuceneIndexModel desired) => /* ... */ false;
+}
+```
+
+`IsSameConfiguration` is left to you. Compare the whole model, not only the parts you expect to change, or edits such as a new content type or language are silently ignored on existing databases.
+
 ## Search index querying
 
 See [Search index querying](Search-index-querying.md)

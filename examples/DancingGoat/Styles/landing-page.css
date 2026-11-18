@@ -1,0 +1,39 @@
+/*
+ * Landing page stylesheet — compiled by Tailwind CSS to
+ * wwwroot/Content/Styles/Landing-page.css. Used by _LandingPageLayout.cshtml,
+ * which renders <body class="landing-page campaign">.
+ *
+ * Import order is load-bearing: landing-page-campaign.css overrides landing-page-shell.css, which overrides the
+ * shared partials.
+ *
+ * store.css and forms.css are required here, not incidental: the landing page
+ * allows the DancingGoat.LandingPage.ProductCardWidget (store.css) and the
+ * Kentico form widget in the signup area (forms.css).
+ */
+@layer theme, base, components, utilities;
+@import "tailwindcss/theme.css" layer(theme);
+@import "tailwindcss/utilities.css" layer(utilities) source(none);
+
+@source "../Views";
+@source "../Components";
+@source "../PageTemplates";
+
+@source not inline("container");
+@source not inline("flex");
+@source not inline("grid");
+@source not inline("{static,block,hidden,inline,flex-wrap,filter,table,contents,collapse,underline,uppercase,invert,transform,border,resize,isolate,sticky,fixed,absolute,relative}");
+
+@import "./partials/theme.css";
+@import "./partials/fonts.css";
+@import "./partials/base.css";
+@import "./partials/type.css";
+@import "./partials/buttons.css";
+@import "./partials/hero.css";
+@import "./partials/sections.css";
+@import "./partials/widgets.css";
+@import "./partials/store.css";
+@import "./partials/forms.css";
+@import "./partials/footer.css";
+@import "./partials/tracking-consent.css";
+@import "./partials/landing-page-shell.css";
+@import "./partials/landing-page-campaign.css";

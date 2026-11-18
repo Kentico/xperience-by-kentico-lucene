@@ -72,6 +72,12 @@ namespace DancingGoat.Models
 
 
 		/// <summary>
+		/// ArticlePageTopics.
+		/// </summary>
+		public IEnumerable<TagReference> ArticlePageTopics { get; set; }
+
+
+		/// <summary>
 		/// SEOFieldsTitle.
 		/// </summary>
 		public string SEOFieldsTitle { get; set; }
@@ -84,8 +90,14 @@ namespace DancingGoat.Models
 
 
 		/// <summary>
-		/// SEOFieldsAllowSearchIndexing.
+		/// SEOFieldsOGImage.
 		/// </summary>
-		public bool SEOFieldsAllowSearchIndexing { get; set; }
+		public IEnumerable<Image> SEOFieldsOGImage { get; set; }
+
+
+		/// <summary>
+		/// SEOFieldsNoIndex.
+		/// </summary>
+		public bool SEOFieldsNoIndex { get; set; }
 	}
 }

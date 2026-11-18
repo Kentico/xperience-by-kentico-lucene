@@ -53,6 +53,29 @@
           </AdditionalActionConfiguration>
         </additionalactionsdata>
       </field>
+      <field allowempty="true" column="ImageTags" columnprecision="0" columntype="taxonomy" enabled="true" guid="01a75a9a-3dd5-4d83-9a3b-ecaecf9e93c9" visible="true">
+        <properties>
+          <explanationtextashtml>False</explanationtextashtml>
+          <fieldcaption>Image tags</fieldcaption>
+          <fielddescriptionashtml>False</fielddescriptionashtml>
+          <includeincontentgeneration>False</includeincontentgeneration>
+          <includeintranslation>True</includeintranslation>
+        </properties>
+        <settings>
+          <controlname>Kentico.Administration.TagSelector</controlname>
+          <TaxonomyGroup>
+            <![CDATA[["b4c5f28d-b291-42fd-8104-8a314d4ed30f"]]]>
+          </TaxonomyGroup>
+        </settings>
+        <additionalactionsdata>
+          <AdditionalActionConfiguration>
+            <AdditionalActionIdentifier>
+              <![CDATA[Kentico.Administration.AiraMassUploadImageTagsRetrieval]]>
+            </AdditionalActionIdentifier>
+            <AdditionalActionValues />
+          </AdditionalActionConfiguration>
+        </additionalactionsdata>
+      </field>
     </form>
   </ClassFormDefinition>
   <ClassGUID>fd1947a4-e04b-441b-a76c-1ed826fb766e</ClassGUID>

@@ -12,6 +12,8 @@ on:
       - "**.targets"
       - "**.sln"
       - "**/Client/**/*.json"
+      - "**.cshtml"
+      - "examples/DancingGoat/App_Data/CIRepository/**"
   pull_request:
     branches: [main]
     paths:
@@ -24,6 +26,8 @@ on:
       - "**.targets"
       - "**.sln"
       - "**/Client/**/*.json"
+      - "**.cshtml"
+      - "examples/DancingGoat/App_Data/CIRepository/**"
 
 jobs:
   dotnet-format:
@@ -76,3 +80,104 @@ jobs:
 
       - name: Test Solution
         run: dotnet test --configuration Release --no-build --no-restore
+
+  example-ci-restore:
+    name: example-ci-restore
+    runs-on: ubuntu-latest
+    needs: build
+    # Repository secrets are not available to pull requests from forks.
+    if: github.event_name == 'push' || github.event.pull_request.head.repo.full_name == github.repository
+    defaults:
+      run:
+        shell: pwsh
+        working-directory: examples/DancingGoat
+
+    services:
+      mssql:
+        image: mcr.microsoft.com/mssql/server:2022-latest
+        env:
+          ACCEPT_EULA: "Y"
+          MSSQL_SA_PASSWORD: Pass@12345
+        ports:
+          - 1433:1433
+        options: >-
+          --health-cmd "/opt/mssql-tools18/bin/sqlcmd -S localhost -U sa -P Pass@12345 -C -Q 'SELECT 1'"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 12
+
+    env:
+      DOTNET_CLI_TELEMETRY_OPTOUT: 1
+      DOTNET_SKIP_FIRST_TIME_EXPERIENCE: 1
+      DOTNET_NOLOGO: 1
+      # Local demo credentials only. The administrator password matches the hash stored in the CI repository.
+      XPERIENCE_ADMIN_PASSWORD: Pass@12345
+      ConnectionStrings__CMSConnectionString: "Data Source=localhost,1433;Initial Catalog=xperience-by-kentico-lucene;User ID=sa;Password=Pass@12345;Encrypt=False;Connect Timeout=60"
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          global-json-file: global.json
+
+      - name: "Install Node.js from package.json version"
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: "src/Kentico.Xperience.Lucene.Admin/Client/package.json"
+
+      - name: Build example
+        run: |
+          dotnet restore --locked-mode
+          dotnet build --no-restore
+
+      - name: Write license file
+        env:
+          XPERIENCE_LICENSE_KEY: ${{ secrets.XPERIENCE_LICENSE_KEY }}
+        run: |
+          if ([string]::IsNullOrWhiteSpace($env:XPERIENCE_LICENSE_KEY)) {
+            throw "The XPERIENCE_LICENSE_KEY repository secret is not set."
+          }
+          Set-Content -Path "$env:RUNNER_TEMP/license.txt" -Value $env:XPERIENCE_LICENSE_KEY -NoNewline
+
+      - name: Create database from template
+        run: |
+          $salt = (Get-Content appsettings.json -Raw | ConvertFrom-Json).CMSHashStringSalt
+          dotnet tool restore
+          dotnet kentico-xperience-dbmanager -- -s "localhost,1433" -u sa -p "Pass@12345" -d "xperience-by-kentico-lucene" `
+            -a "$env:XPERIENCE_ADMIN_PASSWORD" --hash-string-salt "$salt" --license-file "$env:RUNNER_TEMP/license.txt"
+
+      - name: Restore CI repository
+        run: |
+          dotnet run --no-build --launch-profile DancingGoat -- --kxp-ci-enable
+          dotnet run --no-build --launch-profile DancingGoat -- --kxp-ci-restore
+
+      - name: Smoke test search
+        run: |
+          $site = Start-Process dotnet -ArgumentList 'run', '--no-build', '--launch-profile', 'DancingGoat' -PassThru
+          try {
+            $ready = $false
+            for ($i = 0; $i -lt 60 -and -not $ready; $i++) {
+              Start-Sleep -Seconds 2
+              try { $null = Invoke-WebRequest 'http://localhost:14536/' -TimeoutSec 30; $ready = $true } catch { }
+            }
+            if (-not $ready) { throw 'The site did not start.' }
+
+            # The empty index is rebuilt in the background on startup.
+            $results = 0
+            for ($i = 0; $i -lt 30 -and $results -eq 0; $i++) {
+              Start-Sleep -Seconds 2
+              $content = (Invoke-WebRequest 'http://localhost:14536/search?query=coffee').Content
+              $match = [regex]::Match($content, '(\d+) results')
+              if ($match.Success) { $results = [int]$match.Groups[1].Value }
+            }
+            if ($results -eq 0) { throw 'Search returned no results for "coffee".' }
+            "Search returned $results results for 'coffee'."
+
+            $status = (Invoke-WebRequest 'http://localhost:14536/es/buscar').StatusCode
+            if ($status -ne 200) { throw "/es/buscar returned $status." }
+          }
+          finally {
+            Stop-Process -Id $site.Id -Force -ErrorAction SilentlyContinue
+          }

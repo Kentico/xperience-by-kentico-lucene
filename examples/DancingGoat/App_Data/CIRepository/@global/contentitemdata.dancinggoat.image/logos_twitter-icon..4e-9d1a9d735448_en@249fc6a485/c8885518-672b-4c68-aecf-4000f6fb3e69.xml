@@ -11,6 +11,10 @@
   </ContentItemDataCommonDataID>
   <ContentItemDataGUID>c8885518-672b-4c68-aecf-4000f6fb3e69</ContentItemDataGUID>
   <ImageFile>
-    <![CDATA[{"Variants":{},"FocalPoint":{"X":22,"Y":22},"Identifier":"74b3b158-033a-4a42-9989-52baf2b411e4","Name":"twitter-icon.png","Extension":".png","Size":1796,"Width":45,"Height":45,"LastModified":"2023-06-14T15:35:07.2340929Z"}]]>
+    <![CDATA[{"Original":{"Identifier":"6ef822b2-dfae-4ae2-97a4-a854df037672","Name":"x.png","Extension":".png","Size":5943,"Width":320,"Height":320,"LastModified":"2026-08-12T11:31:49.6050552Z"},"OptimizationParameters":{"OutputExtension":"webp","Quality":70,"WidthLimit":null,"HeightLimit":null},"Variants":{},"FocalPoint":{"X":163,"Y":125},"Identifier":"8215d679-b329-4fa2-ad88-e9163a8df88c","Name":"x.webp","Extension":".webp","Size":6334,"Width":320,"Height":320,"LastModified":"2026-08-12T11:31:49.6901143Z"}]]>
   </ImageFile>
+  <ImageShortDescription>X</ImageShortDescription>
+  <ImageTags>
+    <![CDATA[[{"Identifier":"acda48c2-9ca1-4f13-943f-5fd8999798f6"}]]]>
+  </ImageTags>
 </contentitemdata.dancinggoat.image>

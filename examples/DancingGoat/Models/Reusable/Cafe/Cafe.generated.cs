@@ -98,5 +98,11 @@ namespace DancingGoat.Models
 		/// CafePromotion.
 		/// </summary>
 		public IEnumerable<TagReference> CafePromotion { get; set; }
+
+
+		/// <summary>
+		/// CafeOrder.
+		/// </summary>
+		public int CafeOrder { get; set; }
 	}
 }

@@ -1,0 +1,26 @@
+﻿@using DancingGoat.Models
+
+@model ShoppingCartViewModel
+
+@*
+    What a cart change affects, returned together so a background update can swap it all from a
+    single response: the two regions on the page, plus the header badge every cart change moves.
+    The cart page renders the same partials inside matching containers.
+
+    Emptying the cart replaces the whole page with the empty-cart screen, which lives outside these
+    regions, so the marker below tells the script to reload rather than swap.
+*@
+@if (!Model.Items.Any())
+{
+    <div data-cart-empty></div>
+}
+else
+{
+    <div data-cart-lines>
+        <partial name="_ShoppingCartContentEdit" model="Model" />
+    </div>
+    <div data-cart-totals>
+        <partial name="_ShoppingCartTotals" model="Model" />
+    </div>
+    <vc:cart-badge />
+}

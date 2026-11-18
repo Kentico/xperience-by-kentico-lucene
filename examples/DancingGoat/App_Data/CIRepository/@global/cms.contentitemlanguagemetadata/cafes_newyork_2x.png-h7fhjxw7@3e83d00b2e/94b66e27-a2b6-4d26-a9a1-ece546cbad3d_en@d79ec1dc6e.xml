@@ -16,13 +16,24 @@
     <ObjectType>cms.user</ObjectType>
   </ContentItemLanguageMetadataCreatedByUserID>
   <ContentItemLanguageMetadataCreatedWhen>2023-07-10 11:27:24Z</ContentItemLanguageMetadataCreatedWhen>
-  <ContentItemLanguageMetadataDisplayName>(Cafes) newyork@2x.png</ContentItemLanguageMetadataDisplayName>
+  <ContentItemLanguageMetadataDisplayName>(Cafes) cafe-newyork.jpg</ContentItemLanguageMetadataDisplayName>
   <ContentItemLanguageMetadataGUID>94b66e27-a2b6-4d26-a9a1-ece546cbad3d</ContentItemLanguageMetadataGUID>
   <ContentItemLanguageMetadataHasImageAsset>True</ContentItemLanguageMetadataHasImageAsset>
   <ContentItemLanguageMetadataLatestVersionStatus>2</ContentItemLanguageMetadataLatestVersionStatus>
   <ContentItemLanguageMetadataModifiedByUserID>
-    <CodeName>administrator</CodeName>
-    <GUID>6415b8ce-8072-4bcd-8e48-9d7178b826b7</GUID>
+    <CodeName>kentico-system-service</CodeName>
+    <GUID>87fb6822-3c7a-4207-a03f-e8d20d850ab2</GUID>
     <ObjectType>cms.user</ObjectType>
   </ContentItemLanguageMetadataModifiedByUserID>
+  <ContentItemTags>
+    <cms.contentitemtag>
+      <ContentItemTagContentItemLanguageMetadataID>
+        <GUID>94b66e27-a2b6-4d26-a9a1-ece546cbad3d</GUID>
+        <ObjectType>cms.contentitemlanguagemetadata</ObjectType>
+      </ContentItemTagContentItemLanguageMetadataID>
+      <ContentItemTagFieldGUID>01a75a9a-3dd5-4d83-9a3b-ecaecf9e93c9</ContentItemTagFieldGUID>
+      <ContentItemTagGUID>3c3c40d3-8bec-4c10-adfe-31dd45a1a7d5</ContentItemTagGUID>
+      <ContentItemTagTagGUID>1e13aa82-2df1-4446-b7a3-a91f9aeec304</ContentItemTagTagGUID>
+    </cms.contentitemtag>
+  </ContentItemTags>
 </cms.contentitemlanguagemetadata>

@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<contentitemdata.dancinggoat.testimonial>
+  <ContentItemDataCommonDataID>
+    <GUID>56ee6369-e762-4d0f-99e0-6a28155ed63d</GUID>
+    <ObjectType>cms.contentitemcommondata</ObjectType>
+    <Parent>
+      <CodeName>DancingGoatTestimonialDeborahReyes</CodeName>
+      <GUID>8ae35352-f21e-451e-953c-1408ed9c9181</GUID>
+      <ObjectType>cms.contentitem</ObjectType>
+    </Parent>
+  </ContentItemDataCommonDataID>
+  <ContentItemDataGUID>85890d3e-3213-477a-90c4-445ab0233e47</ContentItemDataGUID>
+  <TestimonialAuthor>Deborah Reyes</TestimonialAuthor>
+  <TestimonialAuthorRole>Head of Procurement, Bristol Coffee House Group</TestimonialAuthorRole>
+  <TestimonialQuote>
+    <![CDATA[Dancing Goat has been our wholesale partner for three years. Deliveries are always on time, the quality is consistent across every batch, and their team helps us train our baristas. Our procurement could not be simpler.]]>
+  </TestimonialQuote>
+</contentitemdata.dancinggoat.testimonial>

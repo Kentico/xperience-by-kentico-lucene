@@ -26,6 +26,9 @@
   </ProductFieldImage>
   <ProductFieldName>T-shirt White</ProductFieldName>
   <ProductFieldPrice>11.99</ProductFieldPrice>
+  <ProductFieldTags>
+    <![CDATA[[{"Identifier":"9eb035ac-728a-4236-a2c6-51e0ed4ba07a"}]]]>
+  </ProductFieldTags>
   <ContentItemReferences>
     <cms.contentitemreference>
       <ContentItemReferenceGroupGUID>7307ad92-817c-4a42-ae99-67ffa727bac5</ContentItemReferenceGroupGUID>

@@ -1,0 +1,312 @@
+/*
+ * Page Builder widget surfaces — events (card + slider), articles (feature +
+ * grid), story band, reference/testimonial card, cafe cards.
+ */
+
+/* ---------- events ---------- */
+.event-card {
+    display: grid;
+    grid-template-columns: 1.05fr 0.95fr;
+    background: var(--color-card);
+    border: 1px solid var(--color-line);
+    border-radius: var(--radius-card);
+    overflow: hidden;
+}
+
+.event-info { padding: 56px 60px; display: flex; flex-direction: column; justify-content: center; }
+
+.event-info h3 { margin-bottom: 16px; }
+.event-info .article-date { display: block; margin-bottom: 14px; }
+
+.event-promo { color: var(--color-ink-soft); margin: 0 0 30px 0; max-width: 46ch; }
+
+.event-meta { list-style: none; margin: 0 0 34px 0; padding: 0; display: grid; gap: 12px; }
+
+.event-meta li {
+    display: flex;
+    gap: 14px;
+    align-items: baseline;
+    font-size: var(--text-md);
+    border-top: 1px solid var(--color-line);
+    padding-top: 12px;
+}
+
+.event-meta .k {
+    flex: none;
+    width: 72px;
+    color: var(--color-accent-text);
+}
+
+.event-media { position: relative; min-height: 460px; }
+.event-media img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+
+/* events slider */
+.event-slider { position: relative; }
+.event-nav { position: absolute; z-index: 2; right: 0; top: 50%; transform: translate(50%, -50%); display: flex; flex-direction: column; gap: 10px; }
+.event-arrow {
+    width: 46px; height: 46px;
+    display: inline-flex; align-items: center; justify-content: center;
+    border: 1px solid var(--color-line);
+    background: var(--color-card);
+    color: var(--color-ink);
+    border-radius: 999px;
+    cursor: pointer;
+    transition: background 0.18s ease, color 0.18s ease, border-color 0.18s ease, opacity 0.18s ease;
+}
+.event-arrow svg { width: 20px; height: 20px; }
+.event-arrow:hover { background: var(--color-band); color: var(--color-band-ink); border-color: var(--color-band); }
+.event-arrow:disabled { opacity: 0.35; cursor: default; }
+.event-arrow:disabled:hover { background: var(--color-card); color: var(--color-ink); border-color: var(--color-line); }
+.event-nav .event-arrow { background: var(--color-card); color: var(--color-ink); box-shadow: 0 2px 10px rgba(20, 15, 13, 0.14); border-color: transparent; }
+.event-nav .event-arrow:hover { background: var(--color-band); color: var(--color-band-ink); }
+
+.event-viewport { overflow: hidden; border-radius: var(--radius-card); }
+.event-track {
+    display: flex;
+    transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.event-track .event-card {
+    flex: 0 0 100%;
+    min-width: 0;
+}
+.event-dots { display: flex; justify-content: center; gap: 0; margin-top: 28px; }
+.event-dot {
+    width: 24px; height: 24px;
+    display: grid;
+    place-items: center;
+    border: none;
+    padding: 0;
+    background: none;
+    cursor: pointer;
+}
+.event-dot::before {
+    content: "";
+    width: 9px; height: 9px;
+    border-radius: 999px;
+    background: var(--color-ink-soft);
+    transition: background 0.18s ease, transform 0.18s ease;
+}
+.event-dot:hover::before { background: var(--color-ink); }
+.event-dot[aria-current="true"]::before { background: var(--color-accent-text); transform: scale(1.25); }
+
+/* ---------- articles (feature + grid) ---------- */
+.article-feature {
+    position: relative;
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: 56px;
+    align-items: center;
+    margin-bottom: 26px;
+}
+
+.article-feature .media {
+    border-radius: var(--radius-card);
+    overflow: hidden;
+    aspect-ratio: 4 / 3;
+}
+
+.article-feature .media img, .article-card .media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s cubic-bezier(0.2, 0.6, 0.2, 1);
+}
+
+.article-feature:hover .media img, .article-card:hover .media img { transform: scale(1.045); }
+
+.article-date {
+    color: var(--color-accent-text);
+}
+
+.article-feature h3 { margin: 14px 0 18px 0; }
+
+.article-feature .summary { color: var(--color-ink-soft); max-width: 52ch; margin: 0 0 26px 0; }
+
+.article-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 26px;
+}
+
+.article-card { position: relative; display: block; }
+
+.ac-overlay { position: absolute; inset: 0; z-index: 1; border-radius: var(--radius-card); }
+
+.article-card .media {
+    border-radius: calc(var(--radius-card) - 6px);
+    overflow: hidden;
+    aspect-ratio: 4 / 3;
+    margin-bottom: 18px;
+}
+
+.article-card :is(h3, h4) {
+    margin: 8px 0 8px 0;
+}
+
+.article-card:hover :is(h3, h4) { color: var(--color-accent-text); }
+
+.article-card p { font-size: var(--text-sm); color: var(--color-ink-soft); margin: 0; }
+
+.articles-cta { text-align: center; margin-top: 52px; }
+
+/* ---------- our story ---------- */
+.section-head + .story-band { margin-top: 0; }
+.story-band {
+    margin-top: 110px;
+    background: var(--color-band);
+    color: var(--color-band-ink);
+    border-radius: calc(var(--radius-card) + 8px);
+    overflow: hidden;
+    position: relative;
+}
+
+.story-inner {
+    position: relative;
+    z-index: 2;
+    padding: 110px 64px;
+    max-width: 1000px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.story-inner .display { font-size: var(--text-quote); font-weight: 400; line-height: var(--leading-relaxed); }
+
+.story-band .grain {
+    position: absolute;
+    inset: 0;
+    background-image: url("../Images/beans-dark.jpg");
+    background-size: cover;
+    background-position: center;
+    opacity: 0.16;
+}
+
+/* ---------- reference / testimonial ---------- */
+.reference-card {
+    display: grid;
+    grid-template-columns: 380px 1fr;
+    gap: 64px;
+    align-items: center;
+}
+
+.reference-card .media {
+    border-radius: var(--radius-card);
+    overflow: hidden;
+    aspect-ratio: 4 / 5;
+}
+
+.reference-card .media img { width: 100%; height: 100%; object-fit: cover; }
+.reference-card blockquote { margin: 0; }
+
+/* testimonial without an image — quote only */
+.reference-card.no-media { grid-template-columns: 1fr; }
+
+/* ---------- card widget ---------- */
+.card-body { display: flex; justify-content: center; }
+.card-section {
+    position: relative;
+    width: 100%;
+    min-height: 320px;
+    border-radius: var(--radius-card);
+    overflow: hidden;
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    align-items: flex-end;
+}
+.card-section::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(24, 15, 10, 0.75) 0%, rgba(24, 15, 10, 0) 60%);
+}
+.card-text {
+    position: relative;
+    z-index: 2;
+    color: var(--color-cream);
+    padding: 24px 26px;
+    font-family: var(--font-sans);
+    font-weight: var(--display-weight);
+    font-size: var(--text-h4);
+    line-height: var(--leading-heading);
+}
+
+/* ---------- cafes ---------- */
+.cafe-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 26px; }
+
+.cafe-card {
+    position: relative;
+    border-radius: var(--radius-card);
+    overflow: hidden;
+    aspect-ratio: 3 / 3.8;
+    display: flex;
+    align-items: flex-end;
+}
+
+.cafe-card img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s cubic-bezier(0.2, 0.6, 0.2, 1);
+}
+
+.cafe-card:hover img { transform: scale(1.05); }
+/* contacts cafés: no hover zoom */
+.cafe-grid.no-hover .cafe-card:hover img { transform: none; }
+
+.cafe-card::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(24, 15, 10, 0.85) 0%, rgba(24, 15, 10, 0) 55%);
+}
+
+.cafe-label {
+    position: relative;
+    z-index: 2;
+    color: var(--color-cream);
+    padding: 30px;
+    width: 100%;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.cafe-label h3 { margin: 0 0 4px 0; }
+
+.cafe-label .hours { font-size: var(--text-xs); color: rgba(251, 246, 238, 0.92); }
+
+.cafe-card address { font-style: normal; font-size: var(--text-xs); color: rgba(251, 246, 238, 0.8); line-height: var(--leading-body); }
+
+.cafe-go {
+    flex: none;
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    border: 1px solid rgba(251, 246, 238, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    transition: background 0.2s, transform 0.2s;
+}
+
+.cafe-card:hover .cafe-go { background: var(--color-accent); border-color: var(--color-accent); transform: rotate(45deg); }
+.cafe-grid.no-hover .cafe-card:hover .cafe-go { background: transparent; border-color: currentColor; transform: none; }
+
+/* ---------- responsive ---------- */
+@media (max-width: 1080px) {
+    .article-grid { grid-template-columns: repeat(2, 1fr); }
+    .event-card { grid-template-columns: 1fr; }
+    .event-media { min-height: 320px; }
+    .reference-card { grid-template-columns: 1fr; gap: 36px; }
+    .reference-card .media { max-width: 380px; }
+    .cafe-grid { grid-template-columns: 1fr; }
+    .article-feature { grid-template-columns: 1fr; gap: 30px; }
+}
+
+@media (max-width: 640px) {
+    .article-grid { grid-template-columns: 1fr; }
+}

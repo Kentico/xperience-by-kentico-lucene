@@ -13,12 +13,12 @@
   <ContentItemCommonDataFirstPublishedWhen>2025-07-11 08:02:36Z</ContentItemCommonDataFirstPublishedWhen>
   <ContentItemCommonDataGUID>f055f306-7825-4e83-9aa5-fd10942cce0a</ContentItemCommonDataGUID>
   <ContentItemCommonDataIsLatest>True</ContentItemCommonDataIsLatest>
-  <ContentItemCommonDataLastPublishedWhen>2025-12-09 09:16:09Z</ContentItemCommonDataLastPublishedWhen>
+  <ContentItemCommonDataLastPublishedWhen>2025-12-18 09:27:34Z</ContentItemCommonDataLastPublishedWhen>
   <ContentItemCommonDataVersionStatus>2</ContentItemCommonDataVersionStatus>
   <ContentItemReferences>
     <cms.contentitemreference>
       <ContentItemReferenceGroupGUID>8cc584c3-2a5f-4c45-9267-c946f766399a</ContentItemReferenceGroupGUID>
-      <ContentItemReferenceGUID>f587efa8-2841-4edb-a44e-65a1f4fb136f</ContentItemReferenceGUID>
+      <ContentItemReferenceGUID>3565c40d-f93c-48c3-96a6-5136b5430488</ContentItemReferenceGUID>
       <ContentItemReferenceSourceCommonDataID>
         <GUID>f055f306-7825-4e83-9aa5-fd10942cce0a</GUID>
         <ObjectType>cms.contentitemcommondata</ObjectType>

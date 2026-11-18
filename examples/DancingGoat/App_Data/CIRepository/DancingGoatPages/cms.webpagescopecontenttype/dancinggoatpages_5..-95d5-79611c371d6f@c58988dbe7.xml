@@ -42,6 +42,13 @@
         <ObjectType>cms.contenttype</ObjectType>
       </WebPageScopeContentTypeContentTypeID>
     </Binding>
+    <Binding id="cms.contenttype_DancingGoat.SearchPage">
+      <WebPageScopeContentTypeContentTypeID>
+        <CodeName>DancingGoat.SearchPage</CodeName>
+        <GUID>8ff99ca1-ba35-46f9-8ac0-3806adb8e818</GUID>
+        <ObjectType>cms.contenttype</ObjectType>
+      </WebPageScopeContentTypeContentTypeID>
+    </Binding>
     <Binding id="cms.contenttype_DancingGoat.ShoppingCart">
       <WebPageScopeContentTypeContentTypeID>
         <CodeName>DancingGoat.ShoppingCart</CodeName>

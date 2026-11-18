@@ -13,7 +13,7 @@
   <ContentItemCommonDataFirstPublishedWhen>2025-02-04 14:08:23Z</ContentItemCommonDataFirstPublishedWhen>
   <ContentItemCommonDataGUID>186eba75-325e-4bf4-bb55-53c18f57efe0</ContentItemCommonDataGUID>
   <ContentItemCommonDataIsLatest>True</ContentItemCommonDataIsLatest>
-  <ContentItemCommonDataLastPublishedWhen>2025-09-11 08:39:48Z</ContentItemCommonDataLastPublishedWhen>
+  <ContentItemCommonDataLastPublishedWhen>2026-08-12 12:10:06Z</ContentItemCommonDataLastPublishedWhen>
   <ContentItemCommonDataVersionStatus>2</ContentItemCommonDataVersionStatus>
   <ProductFieldCategory>
     <![CDATA[[{"Identifier":"c33dd46a-0896-4920-b326-7e80659f7600"}]]]>
@@ -26,9 +26,7 @@
   </ProductFieldImage>
   <ProductFieldName>Hario Mini Mill Slim</ProductFieldName>
   <ProductFieldPrice>23.9</ProductFieldPrice>
-  <ProductFieldTags>
-    <![CDATA[[{"Identifier":"6aafec28-dabc-4090-bf59-b9c1ba62dd24"}]]]>
-  </ProductFieldTags>
+  <ProductFieldTags>[]</ProductFieldTags>
   <ProductManufacturerTag>
     <![CDATA[[{"Identifier":"887ff3b9-3b62-4382-91f1-ece3be3d2fc8"}]]]>
   </ProductManufacturerTag>
@@ -36,7 +34,7 @@
   <ContentItemReferences>
     <cms.contentitemreference>
       <ContentItemReferenceGroupGUID>af37d29a-2fc8-4ead-82ef-d5ec6998f910</ContentItemReferenceGroupGUID>
-      <ContentItemReferenceGUID>03fd87f0-cfd3-477e-80fc-9ff042d83831</ContentItemReferenceGUID>
+      <ContentItemReferenceGUID>288ec399-9de0-4d8c-8e78-ae5be123a503</ContentItemReferenceGUID>
       <ContentItemReferenceSourceCommonDataID>
         <GUID>186eba75-325e-4bf4-bb55-53c18f57efe0</GUID>
         <ObjectType>cms.contentitemcommondata</ObjectType>

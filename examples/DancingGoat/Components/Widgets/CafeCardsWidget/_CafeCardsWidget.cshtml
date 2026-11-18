@@ -1,0 +1,36 @@
+﻿@using DancingGoat.Helpers
+
+@model DancingGoat.Widgets.CafeCardsWidgetViewModel
+
+@inject Kentico.Builder.Web.Mvc.IAdminBuildersLocalizationService localizationService
+
+@if (!Model.Cafes.Any())
+{
+    @if (Context.Kentico().PageBuilder().EditMode)
+    {
+        <h3 class="grid-empty">
+            @localizationService.LocalizeString("{$dancinggoat.cafecardswidget.selectfolder$}")
+        </h3>
+    }
+}
+else
+{
+    <section class="block">
+        <div class="wrap">
+            <div class="section-head reveal">
+                <div>
+                    <h2 class="display">@HeadingFormatter.Format(string.IsNullOrWhiteSpace(Model.Heading) ? HtmlLocalizer["Visit our cafés"].Value : Model.Heading)</h2>
+                </div>
+                <a class="section-link" href="@Model.ContactsPagePath">@HtmlLocalizer["All locations"] &rarr;</a>
+            </div>
+            <div class="cafe-grid">
+                @foreach (var cafe in Model.Cafes)
+                {
+                    <a href="@Model.ContactsPagePath" class="cafe-card reveal">
+                        <vc:cafe cafe="@cafe" />
+                    </a>
+                }
+            </div>
+        </div>
+    </section>
+}

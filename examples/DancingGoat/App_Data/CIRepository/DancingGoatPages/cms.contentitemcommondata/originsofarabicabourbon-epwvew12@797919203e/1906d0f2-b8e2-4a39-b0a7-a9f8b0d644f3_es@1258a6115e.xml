@@ -12,17 +12,23 @@
   </ContentItemCommonDataContentLanguageID>
   <ContentItemCommonDataGUID>1906d0f2-b8e2-4a39-b0a7-a9f8b0d644f3</ContentItemCommonDataGUID>
   <ContentItemCommonDataIsLatest>True</ContentItemCommonDataIsLatest>
-  <ContentItemCommonDataLastPublishedWhen>2024-03-07 15:03:02Z</ContentItemCommonDataLastPublishedWhen>
+  <ContentItemCommonDataLastPublishedWhen>2026-11-16 16:20:29Z</ContentItemCommonDataLastPublishedWhen>
   <ContentItemCommonDataVersionStatus>2</ContentItemCommonDataVersionStatus>
   <ContentItemCommonDataVisualBuilderTemplateConfiguration>
-    <![CDATA[{"identifier":"DancingGoat.Article","properties":null,"fieldIdentifiers":null}]]>
+<![CDATA[
+{
+  "identifier": "DancingGoat.Article",
+  "properties": null,
+  "fieldIdentifiers": null
+}
+]]>
   </ContentItemCommonDataVisualBuilderTemplateConfiguration>
   <ProductFieldCategory />
-  <SEOFieldsAllowSearchIndexing>True</SEOFieldsAllowSearchIndexing>
+  <SEOFieldsNoIndex>False</SEOFieldsNoIndex>
   <ContentItemReferences>
     <cms.contentitemreference>
       <ContentItemReferenceGroupGUID>04b5735c-f3b6-4dba-af49-1c748e952820</ContentItemReferenceGroupGUID>
-      <ContentItemReferenceGUID>d022007d-2670-4d13-af2e-d73f2e7fee49</ContentItemReferenceGUID>
+      <ContentItemReferenceGUID>9d183be7-c6a8-4efc-903b-c92e1cef197b</ContentItemReferenceGUID>
       <ContentItemReferenceSourceCommonDataID>
         <GUID>1906d0f2-b8e2-4a39-b0a7-a9f8b0d644f3</GUID>
         <ObjectType>cms.contentitemcommondata</ObjectType>

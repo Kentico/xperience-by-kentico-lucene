@@ -13,6 +13,14 @@
         <settings>
           <controlname>Kentico.Administration.TextInput</controlname>
         </settings>
+        <validationrulesdata>
+          <ValidationRuleConfiguration>
+            <ValidationRuleIdentifier>Kentico.Administration.MaximumLength</ValidationRuleIdentifier>
+            <RuleValues>
+              <MaxLength>45</MaxLength>
+            </RuleValues>
+          </ValidationRuleConfiguration>
+        </validationrulesdata>
         <properties>
           <explanationtextashtml>False</explanationtextashtml>
           <fieldcaption>{$base.workspaces.workspace.workspacename$}</fieldcaption>
@@ -25,6 +33,14 @@
           <HasAutomaticCodeNameGenerationOption>True</HasAutomaticCodeNameGenerationOption>
           <IsCollapsed>True</IsCollapsed>
         </settings>
+        <validationrulesdata>
+          <ValidationRuleConfiguration>
+            <ValidationRuleIdentifier>Kentico.Administration.MaximumLength</ValidationRuleIdentifier>
+            <RuleValues>
+              <MaxLength>45</MaxLength>
+            </RuleValues>
+          </ValidationRuleConfiguration>
+        </validationrulesdata>
         <properties>
           <explanationtextashtml>False</explanationtextashtml>
           <fieldcaption>{$base.workspaces.workspace.codename$}</fieldcaption>

@@ -11,6 +11,12 @@
   </ContentItemDataCommonDataID>
   <ContentItemDataGUID>25d71cfb-0f05-4ab6-bea0-72436e377d85</ContentItemDataGUID>
   <ImageFile>
-    <![CDATA[{"Variants":{},"FocalPoint":{"X":430,"Y":413},"Identifier":"aa3a569a-cc3c-4598-94bc-6e645c31f474","Name":"boston@2x.png","Extension":".png","Size":193425,"Width":860,"Height":826,"LastModified":"2023-07-10T13:26:22.8037651Z"}]]>
+    <![CDATA[{"Original":{"Identifier":"96d8c94e-c80d-46b6-b10b-1ce5071b02db","Name":"cafe-boston.jpg","Extension":".jpg","Size":234055,"Width":1122,"Height":1402,"LastModified":"2026-08-12T11:20:15.5448443Z"},"OptimizationParameters":{"OutputExtension":"webp","Quality":70,"WidthLimit":null,"HeightLimit":null},"Variants":{},"FocalPoint":{"X":561,"Y":701},"Identifier":"70d301bf-3c5c-4e9d-9ce3-564aa1de7aa7","Name":"cafe-boston.webp","Extension":".webp","Size":112952,"Width":1122,"Height":1402,"LastModified":"2026-08-12T11:21:11.4344179Z"}]]>
   </ImageFile>
+  <ImageShortDescription>
+    <![CDATA[Warmly lit wooden bar and espresso machine at the Boston coffee place]]>
+  </ImageShortDescription>
+  <ImageTags>
+    <![CDATA[[{"Identifier":"1e13aa82-2df1-4446-b7a3-a91f9aeec304"}]]]>
+  </ImageTags>
 </contentitemdata.dancinggoat.image>

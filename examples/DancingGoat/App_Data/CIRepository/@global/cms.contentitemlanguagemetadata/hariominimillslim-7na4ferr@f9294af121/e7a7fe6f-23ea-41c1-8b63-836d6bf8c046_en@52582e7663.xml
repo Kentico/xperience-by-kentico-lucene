@@ -21,20 +21,11 @@
   <ContentItemLanguageMetadataHasImageAsset>False</ContentItemLanguageMetadataHasImageAsset>
   <ContentItemLanguageMetadataLatestVersionStatus>2</ContentItemLanguageMetadataLatestVersionStatus>
   <ContentItemLanguageMetadataModifiedByUserID>
-    <CodeName>administrator</CodeName>
-    <GUID>6415b8ce-8072-4bcd-8e48-9d7178b826b7</GUID>
+    <CodeName>kentico-system-service</CodeName>
+    <GUID>87fb6822-3c7a-4207-a03f-e8d20d850ab2</GUID>
     <ObjectType>cms.user</ObjectType>
   </ContentItemLanguageMetadataModifiedByUserID>
   <ContentItemTags>
-    <cms.contentitemtag>
-      <ContentItemTagContentItemLanguageMetadataID>
-        <GUID>e7a7fe6f-23ea-41c1-8b63-836d6bf8c046</GUID>
-        <ObjectType>cms.contentitemlanguagemetadata</ObjectType>
-      </ContentItemTagContentItemLanguageMetadataID>
-      <ContentItemTagFieldGUID>a3b6d816-b57b-4e96-bd98-3afdff882619</ContentItemTagFieldGUID>
-      <ContentItemTagGUID>55e9a998-508e-43a2-9c06-d13c77587f84</ContentItemTagGUID>
-      <ContentItemTagTagGUID>6aafec28-dabc-4090-bf59-b9c1ba62dd24</ContentItemTagTagGUID>
-    </cms.contentitemtag>
     <cms.contentitemtag>
       <ContentItemTagContentItemLanguageMetadataID>
         <GUID>e7a7fe6f-23ea-41c1-8b63-836d6bf8c046</GUID>

@@ -1,0 +1,55 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<cms.contenttype>
+  <ClassContentTypeType>Reusable</ClassContentTypeType>
+  <ClassDisplayName>Testimonial</ClassDisplayName>
+  <ClassFormDefinition>
+    <form>
+      <field column="ContentItemDataID" columntype="integer" enabled="true" guid="c3504216-45ff-4316-a144-9819fdc2e8d3" isPK="true" />
+      <field column="ContentItemDataCommonDataID" columntype="integer" enabled="true" guid="9eb73604-fee4-4503-8711-0fbe1fb77fc0" refobjtype="cms.contentitemcommondata" reftype="Required" system="true" />
+      <field column="ContentItemDataGUID" columntype="guid" enabled="true" guid="93becea3-a394-4108-b5b3-d0c827b110e7" isunique="true" system="true" />
+      <field column="TestimonialQuote" columntype="longtext" enabled="true" guid="99467e9c-cc94-410e-bd8b-514fbedabc81" visible="true">
+        <properties>
+          <explanationtextashtml>False</explanationtextashtml>
+          <fieldcaption>Quote</fieldcaption>
+          <fielddescriptionashtml>False</fielddescriptionashtml>
+          <includeincontentgeneration>True</includeincontentgeneration>
+        </properties>
+        <settings>
+          <controlname>Kentico.Administration.TextArea</controlname>
+          <CopyButtonVisible>False</CopyButtonVisible>
+          <MaxRowsNumber>10</MaxRowsNumber>
+          <MinRowsNumber>3</MinRowsNumber>
+        </settings>
+      </field>
+      <field column="TestimonialAuthor" columnsize="200" columntype="text" enabled="true" guid="c498a2ec-a964-4ab4-b139-6408895455a7" visible="true">
+        <properties>
+          <explanationtextashtml>False</explanationtextashtml>
+          <fieldcaption>Author</fieldcaption>
+          <fielddescriptionashtml>False</fielddescriptionashtml>
+          <includeincontentgeneration>True</includeincontentgeneration>
+        </properties>
+        <settings>
+          <controlname>Kentico.Administration.TextInput</controlname>
+        </settings>
+      </field>
+      <field allowempty="true" column="TestimonialAuthorRole" columnsize="200" columntype="text" enabled="true" guid="74e008f2-f0b1-4855-a648-9381af21de44" visible="true">
+        <properties>
+          <explanationtextashtml>False</explanationtextashtml>
+          <fieldcaption>Author role</fieldcaption>
+          <fielddescriptionashtml>False</fielddescriptionashtml>
+          <includeincontentgeneration>True</includeincontentgeneration>
+        </properties>
+        <settings>
+          <controlname>Kentico.Administration.TextInput</controlname>
+        </settings>
+      </field>
+    </form>
+  </ClassFormDefinition>
+  <ClassGUID>114d7a4f-a114-457e-bd56-50135db6b3e8</ClassGUID>
+  <ClassHasUnmanagedDbSchema>False</ClassHasUnmanagedDbSchema>
+  <ClassIconClass>xp-message</ClassIconClass>
+  <ClassName>DancingGoat.Testimonial</ClassName>
+  <ClassShortName>DancingGoatTestimonialYhzbh5h8</ClassShortName>
+  <ClassTableName>DancingGoat_Testimonial</ClassTableName>
+  <ClassType>Content</ClassType>
+</cms.contenttype>

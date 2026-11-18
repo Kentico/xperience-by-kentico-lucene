@@ -13,4 +13,7 @@
   <ImageFile>
     <![CDATA[{"Original":{"Identifier":"868dce03-882f-4503-8d9d-c6f775e8758f","Name":"T-shirt White.jpg","Extension":".jpg","Size":449961,"Width":2800,"Height":2549,"LastModified":"2025-03-27T07:23:06.3092433Z"},"OptimizationParameters":{"OutputExtension":"webp","Quality":70,"WidthLimit":null,"HeightLimit":null},"Variants":{},"FocalPoint":{"X":1308,"Y":841},"Identifier":"d45b355b-26a6-444f-aeb7-14d2ca1187a2","Name":"T-shirt White.webp","Extension":".webp","Size":123750,"Width":2800,"Height":2549,"LastModified":"2025-03-27T07:23:09.6909001Z"}]]>
   </ImageFile>
+  <ImageTags>
+    <![CDATA[[{"Identifier":"c456a8b4-f136-4ea6-8b88-63190e4d9663"}]]]>
+  </ImageTags>
 </contentitemdata.dancinggoat.image>

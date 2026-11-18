@@ -44,5 +44,11 @@ namespace DancingGoat.Models
 		/// ImageShortDescription.
 		/// </summary>
 		public string ImageShortDescription { get; set; }
+
+
+		/// <summary>
+		/// ImageTags.
+		/// </summary>
+		public IEnumerable<TagReference> ImageTags { get; set; }
 	}
 }

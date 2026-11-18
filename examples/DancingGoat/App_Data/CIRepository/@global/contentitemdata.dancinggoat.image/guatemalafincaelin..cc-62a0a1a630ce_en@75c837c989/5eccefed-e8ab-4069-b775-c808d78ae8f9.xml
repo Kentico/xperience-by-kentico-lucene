@@ -13,4 +13,7 @@
   <ImageFile>
     <![CDATA[{"Original":{"Identifier":"1be121bb-cddd-4c73-a181-20fed97719a3","Name":"guatemala.jpg","Extension":".jpg","Size":16406,"Width":400,"Height":400,"LastModified":"2025-02-03T14:11:59.3851864Z"},"OptimizationParameters":{"OutputExtension":"webp","Quality":70,"WidthLimit":null,"HeightLimit":null},"Variants":{},"FocalPoint":{"X":200,"Y":200},"Identifier":"47c3dce1-2bf5-4446-97e2-b7872cf00d33","Name":"guatemala.webp","Extension":".webp","Size":6712,"Width":400,"Height":400,"LastModified":"2025-02-03T14:11:59.4363066Z"}]]>
   </ImageFile>
+  <ImageTags>
+    <![CDATA[[{"Identifier":"c456a8b4-f136-4ea6-8b88-63190e4d9663"},{"Identifier":"df1d5186-7e1a-4602-97fd-92dd878116a3"}]]]>
+  </ImageTags>
 </contentitemdata.dancinggoat.image>

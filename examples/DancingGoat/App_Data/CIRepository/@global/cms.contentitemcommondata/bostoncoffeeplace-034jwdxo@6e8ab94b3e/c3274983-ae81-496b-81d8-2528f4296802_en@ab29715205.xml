@@ -13,26 +13,26 @@
   <ContentItemCommonDataFirstPublishedWhen>2024-09-23 10:30:27Z</ContentItemCommonDataFirstPublishedWhen>
   <ContentItemCommonDataGUID>c3274983-ae81-496b-81d8-2528f4296802</ContentItemCommonDataGUID>
   <ContentItemCommonDataIsLatest>True</ContentItemCommonDataIsLatest>
-  <ContentItemCommonDataLastPublishedWhen>2024-09-23 10:30:27Z</ContentItemCommonDataLastPublishedWhen>
+  <ContentItemCommonDataLastPublishedWhen>2026-08-12 11:25:31Z</ContentItemCommonDataLastPublishedWhen>
   <ContentItemCommonDataVersionStatus>2</ContentItemCommonDataVersionStatus>
   <ProductFieldCategory />
   <ContentItemReferences>
     <cms.contentitemreference>
       <ContentItemReferenceGroupGUID>323d44df-162d-4dfa-8dd1-76ed849375ef</ContentItemReferenceGroupGUID>
-      <ContentItemReferenceGUID>296fbe80-ffbc-4898-8c30-0b48435a226f</ContentItemReferenceGUID>
+      <ContentItemReferenceGUID>0b3a4556-7621-463f-8c6c-3ac4236b38bf</ContentItemReferenceGUID>
       <ContentItemReferenceSourceCommonDataID>
         <GUID>c3274983-ae81-496b-81d8-2528f4296802</GUID>
         <ObjectType>cms.contentitemcommondata</ObjectType>
       </ContentItemReferenceSourceCommonDataID>
       <ContentItemReferenceTargetItemID>
-        <CodeName>BoliviaFincaIllimani-9nut1evb</CodeName>
-        <GUID>38d6115a-a102-4b4c-8f07-cf21ad100a57</GUID>
+        <CodeName>BrazilNaturalBarraGrande-g30f5chq</CodeName>
+        <GUID>e4221260-983d-41b3-9589-06ea73c2bfb1</GUID>
         <ObjectType>cms.contentitem</ObjectType>
       </ContentItemReferenceTargetItemID>
     </cms.contentitemreference>
     <cms.contentitemreference>
       <ContentItemReferenceGroupGUID>323d44df-162d-4dfa-8dd1-76ed849375ef</ContentItemReferenceGroupGUID>
-      <ContentItemReferenceGUID>b97fc31c-98a0-4614-b5e5-ba24bdf8242e</ContentItemReferenceGUID>
+      <ContentItemReferenceGUID>eda07278-db23-43b8-a70a-51621d780f22</ContentItemReferenceGUID>
       <ContentItemReferenceSourceCommonDataID>
         <GUID>c3274983-ae81-496b-81d8-2528f4296802</GUID>
         <ObjectType>cms.contentitemcommondata</ObjectType>
@@ -45,7 +45,7 @@
     </cms.contentitemreference>
     <cms.contentitemreference>
       <ContentItemReferenceGroupGUID>323d44df-162d-4dfa-8dd1-76ed849375ef</ContentItemReferenceGroupGUID>
-      <ContentItemReferenceGUID>f62238dc-37b1-4d5a-aa30-ce7903a3c0fb</ContentItemReferenceGUID>
+      <ContentItemReferenceGUID>9e51b3b8-ff33-48c8-8633-ba77e576f2c9</ContentItemReferenceGUID>
       <ContentItemReferenceSourceCommonDataID>
         <GUID>c3274983-ae81-496b-81d8-2528f4296802</GUID>
         <ObjectType>cms.contentitemcommondata</ObjectType>
@@ -58,20 +58,20 @@
     </cms.contentitemreference>
     <cms.contentitemreference>
       <ContentItemReferenceGroupGUID>323d44df-162d-4dfa-8dd1-76ed849375ef</ContentItemReferenceGroupGUID>
-      <ContentItemReferenceGUID>ddd982ec-cc44-493f-bce4-ea2b82635f94</ContentItemReferenceGUID>
+      <ContentItemReferenceGUID>d86d6ee7-a4cf-4b7a-a083-c240994d4fb1</ContentItemReferenceGUID>
       <ContentItemReferenceSourceCommonDataID>
         <GUID>c3274983-ae81-496b-81d8-2528f4296802</GUID>
         <ObjectType>cms.contentitemcommondata</ObjectType>
       </ContentItemReferenceSourceCommonDataID>
       <ContentItemReferenceTargetItemID>
-        <CodeName>BrazilNaturalBarraGrande-g30f5chq</CodeName>
-        <GUID>e4221260-983d-41b3-9589-06ea73c2bfb1</GUID>
+        <CodeName>BoliviaFincaIllimani-9nut1evb</CodeName>
+        <GUID>38d6115a-a102-4b4c-8f07-cf21ad100a57</GUID>
         <ObjectType>cms.contentitem</ObjectType>
       </ContentItemReferenceTargetItemID>
     </cms.contentitemreference>
     <cms.contentitemreference>
       <ContentItemReferenceGroupGUID>1e4c0c62-4056-4acd-ac2e-d96ba01adff7</ContentItemReferenceGroupGUID>
-      <ContentItemReferenceGUID>ef16d6f2-48ef-4113-a67b-25571f4883a1</ContentItemReferenceGUID>
+      <ContentItemReferenceGUID>f4693a77-8c5a-499d-9c4e-e7d3f7c0c811</ContentItemReferenceGUID>
       <ContentItemReferenceSourceCommonDataID>
         <GUID>c3274983-ae81-496b-81d8-2528f4296802</GUID>
         <ObjectType>cms.contentitemcommondata</ObjectType>

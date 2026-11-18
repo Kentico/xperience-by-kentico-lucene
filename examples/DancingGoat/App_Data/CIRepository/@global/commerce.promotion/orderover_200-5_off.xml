@@ -7,6 +7,7 @@
     <ObjectType>cms.user</ObjectType>
   </PromotionCreatedByUserID>
   <PromotionCreatedWhen>2025-12-02 14:53:56Z</PromotionCreatedWhen>
+  <PromotionCustomerEligibility>all</PromotionCustomerEligibility>
   <PromotionDescription>5% off on orders over $200.</PromotionDescription>
   <PromotionDisplayName>Order over $200 - 5% off</PromotionDisplayName>
   <PromotionGUID>1e038926-7e22-4536-ad17-422af449a3a0</PromotionGUID>

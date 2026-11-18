@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<cms.taxonomy>
+  <TaxonomyDescription>Topics used to group and filter articles.</TaxonomyDescription>
+  <TaxonomyGUID>0c9ecd33-ebd3-490b-bd2a-736a63e283d7</TaxonomyGUID>
+  <TaxonomyMetadata>
+    <![CDATA[{"Translations":{"fc939370-8f94-4fc9-8cc4-bfdef6ab748c":{"Title":"Temas de art\u00EDculos"}}}]]>
+  </TaxonomyMetadata>
+  <TaxonomyName>ArticleTopics</TaxonomyName>
+  <TaxonomyTitle>Article topics</TaxonomyTitle>
+</cms.taxonomy>

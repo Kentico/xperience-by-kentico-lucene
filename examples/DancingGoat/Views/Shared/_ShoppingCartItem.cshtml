@@ -1,0 +1,61 @@
+﻿@using DancingGoat.Commerce
+@using DancingGoat.Models
+
+@model ShoppingCartItemDisplayViewModel
+
+@{
+    var cartItem = Model.Item;
+    var routeData = new Dictionary<string, string> { { "languageName", Model.LanguageName } };
+}
+
+<div class="cart-line">
+    @if (!string.IsNullOrEmpty(cartItem.ImageUrl))
+    {
+        <a class="cart-thumb" href="@cartItem.DetailUrl" tabindex="-1" aria-hidden="true">
+            <img src="@Url.Content(cartItem.ImageUrl)" alt="" loading="lazy" />
+        </a>
+    }
+    else
+    {
+        <span class="cart-thumb"></span>
+    }
+    <form class="cart-line-body" data-cart-form asp-action="HandleUpdateRemove" asp-controller="DancingGoatShoppingCart" asp-all-route-data="@routeData" method="post">
+        <input type="hidden" name="contentItemId" value="@cartItem.ContentItemId" />
+        <input type="hidden" name="variantId" value="@cartItem.VariantId" />
+
+        <div class="cart-line-main">
+            <a class="cart-name" href="@cartItem.DetailUrl">@cartItem.Name</a>
+            @* The undiscounted price per piece: any discount is shown on the line total, not here. *@
+            <div class="cart-meta">
+                @if (!string.IsNullOrEmpty(cartItem.Sku))
+                {
+                    <span class="cart-sku">@cartItem.Sku</span><text> &middot; </text>
+                }
+                <price>@cartItem.UnitListPrice</price> @HtmlLocalizer["each"]
+            </div>
+            @Html.ValidationMessage(cartItem.ContentItemId.ToString(), new { @class = "field-validation-error" })
+            <div class="qty" data-qty-stepper data-qty-submit data-qty-key="@cartItem.ContentItemId-@cartItem.VariantId">
+                <button type="button" data-qty-step="-1" aria-label="@HtmlLocalizer["Decrease quantity"]">&minus;</button>
+                <input type="number" name="quantity" value="@cartItem.Quantity" min="1" max="1000" aria-label="@HtmlLocalizer["Quantity"]" aria-describedby="qtyAutoUpdateHint" />
+                <button type="button" data-qty-step="1" aria-label="@HtmlLocalizer["Increase quantity"]">+</button>
+            </div>
+            <button type="submit" class="qty-update" data-qty-submitter data-cart-announce="@HtmlLocalizer["Quantity updated."]" name="action" value="@DancingGoatShoppingCartController.UPDATE_ITEM_QUANTITY">@HtmlLocalizer["Update"]</button>
+        </div>
+
+        <div class="cart-line-side">
+            <div class="line-total">
+                @if (cartItem.HasDiscount)
+                {
+                    <s class="price-old"><price>@cartItem.ListPrice</price></s>
+                }
+                <price>@cartItem.TotalPrice</price>
+            </div>
+            <button class="link-remove" data-cart-focus="remove-@cartItem.ContentItemId-@cartItem.VariantId" data-cart-focus-group="line" data-cart-announce="@HtmlLocalizer["Item removed from your cart."]" name="action" value="@DancingGoatShoppingCartController.REMOVE_ITEM">@HtmlLocalizer["Remove"]</button>
+        </div>
+
+        @if (cartItem.PromotionBreakdowns.Count > 0)
+        {
+            <partial name="_PromotionBreakdowns" model="cartItem.PromotionBreakdowns" />
+        }
+    </form>
+</div>

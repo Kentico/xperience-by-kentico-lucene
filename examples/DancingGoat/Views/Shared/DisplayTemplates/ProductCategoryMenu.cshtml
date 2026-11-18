@@ -1,13 +1,23 @@
 ﻿@using DancingGoat.Models
+@using DancingGoat.Services
+
+@inject WebPageUrlProvider webPageUrlProvider
 
 @model IEnumerable<NavigationItemViewModel>
 
-<nav>
-    <ul class="category-menu">
-    @foreach (var item in Model) 
+@{
+    var storeUrl = await webPageUrlProvider.StorePageUrl(cancellationToken: Context.RequestAborted);
+}
+
+<nav aria-label="@HtmlLocalizer["Product categories"]">
+    <ul class="cat-tabs">
+        <li>
+            <a class="cat-tab" href="@storeUrl" asp-active="@storeUrl">@HtmlLocalizer["Recommended"]</a>
+        </li>
+    @foreach (var item in Model)
     {
         <li>
-            <a href="@item.RelativeUrl" asp-active="@item.RelativeUrl">@item.Caption</a>
+            <a class="cat-tab" href="@item.RelativeUrl" asp-active="@item.RelativeUrl">@item.Caption</a>
         </li>
     }
     </ul>

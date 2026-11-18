@@ -13,5 +13,7 @@
   <NavigationItemLink>
     <![CDATA[[{"WebPageGuid":"4c572828-78af-49ce-89e5-5a87a31ec2cd"}]]]>
   </NavigationItemLink>
-  <NavigationItemName>Articulos</NavigationItemName>
+  <NavigationItemName>
+    <![CDATA[Artículos]]>
+  </NavigationItemName>
 </contentitemdata.dancinggoat.navigationitem>

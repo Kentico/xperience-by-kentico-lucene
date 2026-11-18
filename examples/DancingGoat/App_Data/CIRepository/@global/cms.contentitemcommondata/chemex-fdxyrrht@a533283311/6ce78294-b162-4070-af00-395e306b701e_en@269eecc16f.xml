@@ -26,6 +26,9 @@
   </ProductFieldImage>
   <ProductFieldName>Chemex</ProductFieldName>
   <ProductFieldPrice>49.9</ProductFieldPrice>
+  <ProductFieldTags>
+    <![CDATA[[{"Identifier":"9eb035ac-728a-4236-a2c6-51e0ed4ba07a"}]]]>
+  </ProductFieldTags>
   <ProductManufacturerTag>
     <![CDATA[[{"Identifier":"8eee6d28-ef4d-4ef7-90c1-c984ca76b0e7"}]]]>
   </ProductManufacturerTag>

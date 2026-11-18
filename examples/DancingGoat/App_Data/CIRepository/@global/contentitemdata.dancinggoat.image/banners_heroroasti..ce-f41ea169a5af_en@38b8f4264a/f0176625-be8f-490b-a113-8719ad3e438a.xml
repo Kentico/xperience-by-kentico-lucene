@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<contentitemdata.dancinggoat.image>
+  <ContentItemDataCommonDataID>
+    <GUID>bb88abea-c281-41d6-b5ce-f41ea169a5af</GUID>
+    <ObjectType>cms.contentitemcommondata</ObjectType>
+    <Parent>
+      <CodeName>Banners_HeroRoasting</CodeName>
+      <GUID>5a513906-1f58-4b35-96c5-c4f7cee70c22</GUID>
+      <ObjectType>cms.contentitem</ObjectType>
+    </Parent>
+  </ContentItemDataCommonDataID>
+  <ContentItemDataGUID>f0176625-be8f-490b-a113-8719ad3e438a</ContentItemDataGUID>
+  <ImageFile>
+    <![CDATA[{"Original":{"Identifier":"f6418eb2-2fe8-4d9c-b14d-07d52da2592d","Name":"hero-roasting.jpg","Extension":".jpg","Size":160025,"Width":636,"Height":442,"LastModified":"0001-01-01T00:00:00Z"},"OptimizationParameters":{"OutputExtension":"webp","Quality":70,"WidthLimit":null,"HeightLimit":null},"Variants":{},"FocalPoint":{"X":318,"Y":221},"Identifier":"91a90077-8498-4dc0-b7d2-27c9682889fb","Name":"hero-roasting.webp","Extension":".webp","Size":67544,"Width":636,"Height":442,"LastModified":"2026-08-12T07:32:34.7188944Z"}]]>
+  </ImageFile>
+  <ImageShortDescription>Coffee beans tumbling in a drum roaster</ImageShortDescription>
+</contentitemdata.dancinggoat.image>

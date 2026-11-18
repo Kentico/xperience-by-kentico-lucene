@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 
+using CMS.Base;
 using CMS.ContentEngine;
 
 using DancingGoat.Models;
@@ -8,9 +10,11 @@ using DancingGoat.Models;
 namespace DancingGoat.Commerce;
 
 /// <summary>
-/// Handles events related to content items.
+/// Validates that product SKU codes are unique when a product content item is created or updated.
 /// </summary>
-internal sealed class ProductSkuValidationEventHandler
+internal sealed class ProductSkuValidationEventHandler :
+    IAsyncEventHandler<BeforeCreateContentItemEvent>,
+    IAsyncEventHandler<BeforeUpdateDraftEvent>
 {
     private readonly ProductSkuValidator productSkuValidator;
 
@@ -24,28 +28,31 @@ internal sealed class ProductSkuValidationEventHandler
     }
 
 
-    public void Initialize()
-    {
-        ContentItemEvents.Create.Before += (sender, args) => ValidateUniqueSKU(args.ContentItemData, args.ID).GetAwaiter().GetResult();
-        ContentItemEvents.UpdateDraft.Before += (sender, args) => ValidateUniqueSKU(args.ContentItemData, args.ID).GetAwaiter().GetResult();
-    }
+    /// <summary>
+    /// Validates SKU uniqueness before a content item is created.
+    /// </summary>
+    public Task HandleAsync(BeforeCreateContentItemEvent asyncEvent, CancellationToken cancellationToken)
+        => ValidateUniqueSku(asyncEvent.Data.ContentItemData, asyncEvent.Data.ID, cancellationToken);
 
 
     /// <summary>
-    /// Validates that the SKU code is unique for the given content item.
+    /// Validates SKU uniqueness before an existing content item draft is updated.
     /// </summary>
-    /// <param name="contentItemData">The content item data to validate.</param>
-    /// <param name="contentItemId">The ID of the content item being created or updated.</param>
-    private async Task ValidateUniqueSKU(ContentItemData contentItemData, int? contentItemId)
-    {
-        if (contentItemData.TryGetValue<string>(nameof(IProductSKU.ProductSKUCode), out var skuCode))
-        {
-            int? duplicatedContentItemIdentifier = await productSkuValidator.GetCollidingContentItem(skuCode, contentItemId);
+    public Task HandleAsync(BeforeUpdateDraftEvent asyncEvent, CancellationToken cancellationToken)
+        => ValidateUniqueSku(asyncEvent.Data.ContentItemData, asyncEvent.Data.ID, cancellationToken);
 
-            if (duplicatedContentItemIdentifier != null)
-            {
-                throw new InvalidOperationException($"The SKU code '{skuCode}' is already used by the content item '{duplicatedContentItemIdentifier}'.");
-            }
+
+    private async Task ValidateUniqueSku(ContentItemData contentItemData, int? contentItemId, CancellationToken cancellationToken)
+    {
+        if (!contentItemData.TryGetValue<string>(nameof(IProductSKU.ProductSKUCode), out var skuCode))
+        {
+            return;
+        }
+
+        var duplicatedContentItemIdentifier = await productSkuValidator.GetCollidingContentItem(skuCode, contentItemId, cancellationToken);
+        if (duplicatedContentItemIdentifier != null)
+        {
+            throw new InvalidOperationException($"The SKU code '{skuCode}' is already used by the content item '{duplicatedContentItemIdentifier}'.");
         }
     }
 }

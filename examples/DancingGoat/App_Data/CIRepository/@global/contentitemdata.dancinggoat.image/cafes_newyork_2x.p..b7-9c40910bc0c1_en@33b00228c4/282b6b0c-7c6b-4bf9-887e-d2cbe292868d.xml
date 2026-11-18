@@ -11,6 +11,12 @@
   </ContentItemDataCommonDataID>
   <ContentItemDataGUID>282b6b0c-7c6b-4bf9-887e-d2cbe292868d</ContentItemDataGUID>
   <ImageFile>
-    <![CDATA[{"Variants":{},"FocalPoint":{"X":387,"Y":407},"Identifier":"3cbcc052-51f8-4680-87c9-4cf4faeec718","Name":"newyork@2x.png","Extension":".png","Size":180175,"Width":774,"Height":814,"LastModified":"2023-07-10T13:27:23.4801193Z"}]]>
+    <![CDATA[{"Original":{"Identifier":"40dee36a-9e9a-44c4-8d31-1fb64bbe2413","Name":"cafe-newyork.jpg","Extension":".jpg","Size":266509,"Width":1200,"Height":1800,"LastModified":"2026-08-12T11:20:08.1775863Z"},"OptimizationParameters":{"OutputExtension":"webp","Quality":70,"WidthLimit":null,"HeightLimit":null},"Variants":{},"FocalPoint":{"X":387,"Y":407},"Identifier":"a72ee217-c2bb-403d-b9e1-ef4190bf3c78","Name":"cafe-newyork.webp","Extension":".webp","Size":105284,"Width":1200,"Height":1800,"LastModified":"2026-08-12T11:20:56.6544634Z"}]]>
   </ImageFile>
+  <ImageShortDescription>
+    <![CDATA[Warmly lit bar of the New York café]]>
+  </ImageShortDescription>
+  <ImageTags>
+    <![CDATA[[{"Identifier":"1e13aa82-2df1-4446-b7a3-a91f9aeec304"}]]]>
+  </ImageTags>
 </contentitemdata.dancinggoat.image>

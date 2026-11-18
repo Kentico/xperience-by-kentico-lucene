@@ -17,6 +17,7 @@
       <field allowempty="true" column="ContentItemCommonDataVisualBuilderTemplateConfiguration" columnprecision="0" columntype="longtext" enabled="true" guid="0d5a573b-759a-4dd7-a86b-be2ef2f5bac4" system="true" />
       <field allowempty="true" column="ContentItemCommonDataFirstPublishedWhen" columnprecision="7" columntype="datetime" enabled="true" guid="1318327e-9a4c-47e7-be2e-3da0fe99c15e" system="true" />
       <field allowempty="true" column="ContentItemCommonDataLastPublishedWhen" columnprecision="7" columntype="datetime" enabled="true" guid="169ce320-e362-4b70-b4dd-cc055082c254" system="true" />
+      <field allowempty="true" column="ContentItemCommonDataAiProvenance" columnprecision="0" columntype="longtext" enabled="true" guid="201b1fba-6c7c-46e1-badc-077eab8f4df1" system="true" />
       <schema guid="7c7b596d-5b91-40a5-8ded-f2e4757d8e66" name="SEOFields">
         <properties>
           <description>Schema representing SEO fields </description>
@@ -48,13 +49,33 @@
           <MinRowsNumber>3</MinRowsNumber>
         </settings>
       </field>
-      <field allowempty="true" column="SEOFieldsAllowSearchIndexing" columnprecision="0" columntype="boolean" enabled="true" guid="af054025-144e-4b75-b102-dfa908f9b382" visible="true">
+      <field allowempty="true" column="SEOFieldsOGImage" columntype="contentitemreference" enabled="true" guid="e80cf9be-36f4-494e-a3ff-0a32affd066a" visible="true">
         <properties>
-          <defaultvalue>True</defaultvalue>
           <explanationtextashtml>False</explanationtextashtml>
-          <fieldcaption>Allow search indexing</fieldcaption>
+          <fieldcaption>OpenGraph image</fieldcaption>
           <fielddescription>
-            <![CDATA[When enabled, adds the page to the sitemap. When disabled, removes the page from the sitemap and disables search engine indexing for the page.]]>
+            <![CDATA[Image used when the page is shared on social media (og:image). Leave empty to use the page's default image.]]>
+          </fielddescription>
+          <fielddescriptionashtml>False</fielddescriptionashtml>
+          <includeincontentgeneration>True</includeincontentgeneration>
+          <kxp_schema_identifier>7c7b596d-5b91-40a5-8ded-f2e4757d8e66</kxp_schema_identifier>
+        </properties>
+        <settings>
+          <AllowedContentItemTypeIdentifiers>
+            <![CDATA[["fd1947a4-e04b-441b-a76c-1ed826fb766e"]]]>
+          </AllowedContentItemTypeIdentifiers>
+          <controlname>Kentico.Administration.ContentItemSelector</controlname>
+          <MaximumItems>1</MaximumItems>
+          <SelectionType>contentTypes</SelectionType>
+        </settings>
+      </field>
+      <field allowempty="true" column="SEOFieldsNoIndex" columntype="boolean" enabled="true" guid="d32f0c84-247b-4616-93df-271f12a2acb4" visible="true">
+        <properties>
+          <defaultvalue>False</defaultvalue>
+          <explanationtextashtml>False</explanationtextashtml>
+          <fieldcaption>No-index</fieldcaption>
+          <fielddescription>
+            <![CDATA[When enabled, excludes the page from the sitemap and emits a noindex robots directive. Leave unchecked to keep the page indexable.]]>
           </fielddescription>
           <fielddescriptionashtml>False</fielddescriptionashtml>
           <kxp_schema_identifier>7c7b596d-5b91-40a5-8ded-f2e4757d8e66</kxp_schema_identifier>

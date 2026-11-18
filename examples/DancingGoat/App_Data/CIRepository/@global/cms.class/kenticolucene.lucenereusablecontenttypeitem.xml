@@ -3,18 +3,18 @@
   <ClassDisplayName>Lucene Reusable Content Type Item</ClassDisplayName>
   <ClassFormDefinition>
     <form>
-      <field column="LuceneReusableContentTypeItemId" columntype="integer" enabled="true" guid="658db10e-901c-4cdf-9ada-64e16e2a705a" isPK="true" />
-      <field column="LuceneReusableContentTypeItemContentTypeName" columnprecision="0" columnsize="100" columntype="text" enabled="true" guid="b57501ef-9337-4efc-8616-fdf263962160" visible="true" />
-      <field column="LuceneReusableContentTypeItemGuid" columnprecision="0" columntype="guid" enabled="true" guid="077fd2fd-6d7c-4f11-8455-dba28288e215" visible="true" />
-      <field column="LuceneReusableContentTypeItemIndexItemId" columnprecision="0" columntype="integer" enabled="true" guid="bb234827-265d-4e16-9f4e-f5f17581aa62" refobjtype="kenticolucene.luceneindexitem" reftype="Required" visible="true" />
+      <field column="LuceneReusableContentTypeItemId" columntype="integer" enabled="true" guid="a595ab28-23e3-4970-a7c3-acc8e13f1806" isPK="true" />
+      <field column="LuceneReusableContentTypeItemContentTypeName" columnprecision="0" columnsize="100" columntype="text" enabled="true" guid="d1f71a02-c1b5-4db7-ae37-1570a7caf087" visible="true" />
+      <field column="LuceneReusableContentTypeItemGuid" columnprecision="0" columntype="guid" enabled="true" guid="fc2e000b-2d0a-4b28-8d4b-2f5a917bc62a" visible="true" />
+      <field column="LuceneReusableContentTypeItemIndexItemId" columnprecision="0" columntype="integer" enabled="true" guid="e9fb8ec6-c661-40ce-bfd1-3d46789acecf" refobjtype="kenticolucene.luceneindexitem" reftype="Required" visible="true" />
     </form>
   </ClassFormDefinition>
-  <ClassGUID>ef2b687b-f391-4ead-918f-81ffc8ec13f4</ClassGUID>
+  <ClassGUID>2e02edc3-367f-4db0-b906-f88adc78fe8c</ClassGUID>
   <ClassHasUnmanagedDbSchema>False</ClassHasUnmanagedDbSchema>
   <ClassName>KenticoLucene.LuceneReusableContentTypeItem</ClassName>
   <ClassResourceID>
     <CodeName>CMS.Integration.Lucene</CodeName>
-    <GUID>64d17337-c02d-4b7f-8e6f-a61f4a2e7d91</GUID>
+    <GUID>832ed5a3-9970-404c-992f-f4dbe5c0dc94</GUID>
     <ObjectType>cms.resource</ObjectType>
   </ClassResourceID>
   <ClassTableName>KenticoLucene_LuceneReusableContentTypeItem</ClassTableName>

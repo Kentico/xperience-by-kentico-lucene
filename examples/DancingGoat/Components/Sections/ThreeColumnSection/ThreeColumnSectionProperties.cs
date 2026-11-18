@@ -10,7 +10,7 @@ namespace DancingGoat.Sections
         /// <summary>
         /// Title of the section.
         /// </summary>
-        [TextInputComponent(Label = "Title", Order = 1)]
+        [TextInputComponent(Label = "{$dancinggoat.threecolumnsection.title.label$}", Order = 1)]
         public string Title { get; set; }
     }
 }

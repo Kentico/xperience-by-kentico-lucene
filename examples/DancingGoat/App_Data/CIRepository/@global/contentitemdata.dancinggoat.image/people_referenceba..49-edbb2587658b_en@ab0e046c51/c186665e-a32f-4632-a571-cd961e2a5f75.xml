@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<contentitemdata.dancinggoat.image>
+  <ContentItemDataCommonDataID>
+    <GUID>1b7f95bc-7730-46d9-8c49-edbb2587658b</GUID>
+    <ObjectType>cms.contentitemcommondata</ObjectType>
+    <Parent>
+      <CodeName>People_ReferenceBarista</CodeName>
+      <GUID>a0672f6b-b97e-470f-8cf4-8108a826d471</GUID>
+      <ObjectType>cms.contentitem</ObjectType>
+    </Parent>
+  </ContentItemDataCommonDataID>
+  <ContentItemDataGUID>c186665e-a32f-4632-a571-cd961e2a5f75</ContentItemDataGUID>
+  <ImageFile>
+    <![CDATA[{"Original":{"Identifier":"ddb4c19c-759d-4acf-9139-ed927038cc33","Name":"reference-barista.jpg","Extension":".jpg","Size":60428,"Width":980,"Height":655,"LastModified":"0001-01-01T00:00:00Z"},"OptimizationParameters":{"OutputExtension":"webp","Quality":70,"WidthLimit":null,"HeightLimit":null},"Variants":{},"FocalPoint":{"X":490,"Y":327},"Identifier":"9079bde2-4f6a-420d-8751-8f8f31060498","Name":"reference-barista.webp","Extension":".webp","Size":31040,"Width":980,"Height":655,"LastModified":"2026-08-12T07:32:51.1361227Z"}]]>
+  </ImageFile>
+  <ImageShortDescription>Barista tasting espresso at the machine</ImageShortDescription>
+</contentitemdata.dancinggoat.image>

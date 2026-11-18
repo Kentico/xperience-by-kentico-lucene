@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <cms.scheduledtaskconfiguration>
   <ScheduledTaskConfigurationCreatedDynamically>False</ScheduledTaskConfigurationCreatedDynamically>
-  <ScheduledTaskConfigurationData />
+  <ScheduledTaskConfigurationData>0</ScheduledTaskConfigurationData>
   <ScheduledTaskConfigurationDeleteAfterLastRun>False</ScheduledTaskConfigurationDeleteAfterLastRun>
   <ScheduledTaskConfigurationDisplayName>Periodically contacts license server</ScheduledTaskConfigurationDisplayName>
   <ScheduledTaskConfigurationEnabled>True</ScheduledTaskConfigurationEnabled>

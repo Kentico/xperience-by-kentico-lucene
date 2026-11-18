@@ -11,6 +11,12 @@
   </ContentItemDataCommonDataID>
   <ContentItemDataGUID>07ab484d-ccaf-417d-8792-6148757e91d6</ContentItemDataGUID>
   <ImageFile>
-    <![CDATA[{"Variants":{},"FocalPoint":{"X":432,"Y":409},"Identifier":"74841585-62f1-4966-984a-075a0af3a554","Name":"chicago@2x.png","Extension":".png","Size":185779,"Width":864,"Height":818,"LastModified":"2023-07-10T13:28:32.7058727Z"}]]>
+    <![CDATA[{"Original":{"Identifier":"d993d406-8cc2-4d9a-97c0-b53cbab48192","Name":"cafe-chicago.jpg","Extension":".jpg","Size":252594,"Width":1122,"Height":1402,"LastModified":"2026-08-12T11:20:18.3127873Z"},"OptimizationParameters":{"OutputExtension":"webp","Quality":70,"WidthLimit":null,"HeightLimit":null},"Variants":{},"FocalPoint":{"X":561,"Y":701},"Identifier":"e90f719d-11e9-4e42-b53c-0afc921708d2","Name":"cafe-chicago.webp","Extension":".webp","Size":122462,"Width":1122,"Height":1402,"LastModified":"2026-08-12T11:21:21.70471Z"}]]>
   </ImageFile>
+  <ImageShortDescription>
+    <![CDATA[Warmly lit café interior with marble tables at the Chicago café]]>
+  </ImageShortDescription>
+  <ImageTags>
+    <![CDATA[[{"Identifier":"1e13aa82-2df1-4446-b7a3-a91f9aeec304"}]]]>
+  </ImageTags>
 </contentitemdata.dancinggoat.image>

@@ -3,10 +3,14 @@
 
 @model CustomerViewModel
 
-<h4>@HtmlLocalizer["Customer details"]</h4>
+<h2><span class="step">@(ViewData["Step"] ?? "01")</span>@HtmlLocalizer["Customer details"]</h2>
 
-@Html.ValidatedEditorFor(m => m.FirstName)
-@Html.ValidatedEditorFor(m => m.LastName)
+<div class="form-2col">
+    @Html.ValidatedEditorFor(m => m.FirstName)
+    @Html.ValidatedEditorFor(m => m.LastName)
+</div>
 @Html.ValidatedEditorFor(m => m.Company)
-@Html.ValidatedEditorFor(m => m.Email)
-@Html.ValidatedEditorFor(m => m.PhoneNumber)
+<div class="form-2col">
+    @Html.ValidatedEditorFor(m => m.Email)
+    @Html.ValidatedEditorFor(m => m.PhoneNumber)
+</div>

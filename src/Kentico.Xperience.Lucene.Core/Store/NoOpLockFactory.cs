@@ -1,5 +1,7 @@
 using Lucene.Net.Store;
 
+using Lock = Lucene.Net.Store.Lock;
+
 namespace Kentico.Xperience.Lucene.Core.Store;
 
 /// <summary>

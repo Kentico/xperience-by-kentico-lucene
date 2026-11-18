@@ -12,21 +12,27 @@
   </ContentItemCommonDataContentLanguageID>
   <ContentItemCommonDataGUID>1fc8e4e3-4868-4c3f-a340-05d709617c71</ContentItemCommonDataGUID>
   <ContentItemCommonDataIsLatest>True</ContentItemCommonDataIsLatest>
-  <ContentItemCommonDataLastPublishedWhen>2024-03-07 12:31:35Z</ContentItemCommonDataLastPublishedWhen>
+  <ContentItemCommonDataLastPublishedWhen>2026-11-16 16:20:29Z</ContentItemCommonDataLastPublishedWhen>
   <ContentItemCommonDataVersionStatus>2</ContentItemCommonDataVersionStatus>
   <ContentItemCommonDataVisualBuilderTemplateConfiguration>
-    <![CDATA[{"identifier":"DancingGoat.Article","properties":null,"fieldIdentifiers":null}]]>
+<![CDATA[
+{
+  "identifier": "DancingGoat.Article",
+  "properties": null,
+  "fieldIdentifiers": null
+}
+]]>
   </ContentItemCommonDataVisualBuilderTemplateConfiguration>
   <ProductFieldCategory />
-  <SEOFieldsAllowSearchIndexing>True</SEOFieldsAllowSearchIndexing>
   <SEOFieldsDescription>
     <![CDATA[Arabica Bourbon, now sold only in Japan, has been brought back to life by enthusiasts after being almost forgotten for nearly sixty years.]]>
   </SEOFieldsDescription>
+  <SEOFieldsNoIndex>False</SEOFieldsNoIndex>
   <SEOFieldsTitle>Origins of Arabica Bourbon - Dancing Goat</SEOFieldsTitle>
   <ContentItemReferences>
     <cms.contentitemreference>
       <ContentItemReferenceGroupGUID>04b5735c-f3b6-4dba-af49-1c748e952820</ContentItemReferenceGroupGUID>
-      <ContentItemReferenceGUID>5ac6c4b2-d8da-48ff-afa7-6725cacbad9c</ContentItemReferenceGUID>
+      <ContentItemReferenceGUID>6860b158-7408-4198-8eca-7b3b722b1ac4</ContentItemReferenceGUID>
       <ContentItemReferenceSourceCommonDataID>
         <GUID>1fc8e4e3-4868-4c3f-a340-05d709617c71</GUID>
         <ObjectType>cms.contentitemcommondata</ObjectType>

@@ -1,0 +1,66 @@
+/*
+ * AI disclosure — the AI scope around disclosed text.
+ * The AI generated / AI modified label is SVG artwork (wwwroot/Content/Images/AiLabels)
+ * with a caption next to it. The label is a toggle: pressing it softens the pill and draws
+ * a dashed underline under every line of its field, without moving the text. Colours come
+ * from the theme tokens; on the dark band the soft inks are rgba() literals, as elsewhere.
+ */
+
+/* ---------- AI label ---------- */
+.ai-scope {
+    --ai-label-pill: var(--color-ink);
+    --ai-label-pill-hover: var(--color-band);
+    --ai-label-pill-pressed: var(--color-ink-soft);
+    --ai-label-glyph: var(--color-ink-inverse);
+    --ai-scope-underline: var(--color-field-border);
+    --ai-scope-caption: var(--color-ink-soft);
+}
+
+.ai-scope-on-dark {
+    --ai-label-pill: var(--color-ink-inverse);
+    --ai-label-pill-hover: rgba(242, 234, 224, 0.9);
+    --ai-label-pill-pressed: rgba(242, 234, 224, 0.72);
+    --ai-label-glyph: var(--color-band);
+    --ai-scope-underline: rgba(242, 234, 224, 0.3);
+    --ai-scope-caption: rgba(242, 234, 224, 0.72);
+}
+
+.ai-scope-head { display: flex; align-items: center; gap: 12px; }
+
+/* above long-form text: the label opens the block, separated from the first paragraph */
+.ai-scope-label-before > .ai-scope-head { padding-bottom: 28px; }
+
+/* below a short paragraph, e.g. the article lede */
+.ai-scope-label-after > .ai-scope-head { margin-top: 16px; }
+
+.ai-label {
+    --ai-label-fill: var(--ai-label-pill);
+    display: inline-flex;
+    flex: none;
+    padding: 0;
+    border: 0;
+    border-radius: 999px;
+    background: none;
+    cursor: pointer;
+}
+
+/* hover only recolours the pill, so the small target never moves; the focus ring comes from base.css */
+.ai-label:hover { --ai-label-fill: var(--ai-label-pill-hover); }
+
+.ai-label[aria-pressed="true"] { --ai-label-fill: var(--ai-label-pill-pressed); }
+
+.ai-label svg { display: block; }
+
+.ai-scope-caption { margin: 0; font-size: var(--text-sm); line-height: var(--leading-relaxed); color: var(--ai-scope-caption); }
+
+/* the underline carries down to every line of the field; the text never moves */
+.ai-scope-body.is-highlighted {
+    text-decoration: underline dashed 1px var(--ai-scope-underline);
+    text-underline-offset: 0.42em;
+    text-decoration-skip-ink: none;
+}
+
+/* below text on the dark story band: a centred column */
+.story-inner .ai-scope-head { flex-direction: column; gap: 8px; margin-top: 28px; }
+
+.takeaways .ai-scope-head { padding-bottom: 8px; }

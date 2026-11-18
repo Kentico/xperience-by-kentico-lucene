@@ -58,11 +58,18 @@
           <explanationtextashtml>False</explanationtextashtml>
           <fieldcaption>Text</fieldcaption>
           <fielddescriptionashtml>False</fielddescriptionashtml>
+          <includeintranslation>True</includeintranslation>
         </properties>
         <settings>
           <ConfigurationName>Kentico.Administration.WebsitesStructuredContent</ConfigurationName>
           <controlname>Kentico.Administration.RichTextEditor</controlname>
         </settings>
+        <additionalactionsdata>
+          <AdditionalActionConfiguration>
+            <AdditionalActionIdentifier>Kentico.Administration.AiraTextRefinement</AdditionalActionIdentifier>
+            <AdditionalActionValues />
+          </AdditionalActionConfiguration>
+        </additionalactionsdata>
       </field>
       <field allowempty="true" column="ArticleRelatedPages" columnprecision="0" columntype="contentitemreference" enabled="true" guid="49eea67f-5a3a-4a0a-a4a4-42cf4e2117c0" visible="true">
         <properties>
@@ -81,6 +88,19 @@
       <schema guid="7c7b596d-5b91-40a5-8ded-f2e4757d8e66" name="7c7b596d-5b91-40a5-8ded-f2e4757d8e66">
         <properties />
       </schema>
+      <field allowempty="true" column="ArticlePageTopics" columntype="taxonomy" enabled="true" guid="cfaa5065-f5a0-4ce4-a44b-2c7a1e5a8274" visible="true">
+        <properties>
+          <explanationtextashtml>False</explanationtextashtml>
+          <fieldcaption>Topics</fieldcaption>
+          <fielddescriptionashtml>False</fielddescriptionashtml>
+        </properties>
+        <settings>
+          <controlname>Kentico.Administration.TagSelector</controlname>
+          <TaxonomyGroup>
+            <![CDATA[["0c9ecd33-ebd3-490b-bd2a-736a63e283d7"]]]>
+          </TaxonomyGroup>
+        </settings>
+      </field>
     </form>
   </ClassFormDefinition>
   <ClassGUID>9b5e6c86-ebd1-4471-8f5d-dca72e39b12b</ClassGUID>

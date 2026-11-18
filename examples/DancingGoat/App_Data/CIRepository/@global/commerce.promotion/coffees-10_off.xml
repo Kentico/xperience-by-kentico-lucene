@@ -7,6 +7,7 @@
     <ObjectType>cms.user</ObjectType>
   </PromotionCreatedByUserID>
   <PromotionCreatedWhen>2025-11-06 14:42:59Z</PromotionCreatedWhen>
+  <PromotionCustomerEligibility>all</PromotionCustomerEligibility>
   <PromotionDescription>10% discount for all coffees.</PromotionDescription>
   <PromotionDisplayName>Coffees - 10% off</PromotionDisplayName>
   <PromotionGUID>c4a51d00-6ec0-48db-85ed-2fb8aa0b88e3</PromotionGUID>
