@@ -17,7 +17,8 @@ Fill out the search index form, populating the fields with your custom values.
 - Index Name - the name of the displayed index.
 - Included Reusable Content Types - these are the reusable content types that will be processed by your custom indexing strategy.
 If no option is selected, no items will be processed.
-- Indexed Languages - the index will only include content in the selected languages.
+- Indexed Languages - the languages used to query content for the index.
+- Use language fallbacks - controls which content is retrieved by `DefaultLuceneClient` and sent to the indexing strategy during a rebuild. When enabled, content from a configured fallback language can be included if a selected language variant is unavailable. When disabled, only content in the selected languages is retrieved. This applies to both web pages and reusable content items. The setting defaults to enabled, including for existing indexes. Rebuild the index after changing it to apply the setting to existing documents.
 - Indexing Strategy - the indexing strategy specified in code during dependency registration of a custom indexing strategies.
   - In case you do not want the default strategy to appear here, use the builder and set the `IncludeDefaultStrategy` property to `false`.
 - Lucene Analyzer - the Lucene analyzer which indexes use to analyze text.

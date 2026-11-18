@@ -104,6 +104,17 @@ public partial class LuceneIndexItemInfo : AbstractInfo<LuceneIndexItemInfo, IIn
 
 
     /// <summary>
+    /// Whether indexing queries use language fallbacks. Unset values preserve the existing fallback behavior.
+    /// </summary>
+    [DatabaseField]
+    public virtual bool LuceneIndexItemUseLanguageFallbacks
+    {
+        get => ValidationHelper.GetBoolean(GetValue(nameof(LuceneIndexItemUseLanguageFallbacks)), true);
+        set => SetValue(nameof(LuceneIndexItemUseLanguageFallbacks), value);
+    }
+
+
+    /// <summary>
     /// Rebuild hook.
     /// </summary>
     [DatabaseField]

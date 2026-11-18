@@ -122,6 +122,17 @@ public class LuceneModuleInstaller(IInfoProvider<ResourceInfo> resourceProvider)
 
         formItem = new FormFieldInfo
         {
+            Name = nameof(LuceneIndexItemInfo.LuceneIndexItemUseLanguageFallbacks),
+            AllowEmpty = true,
+            Visible = true,
+            DataType = "boolean",
+            DefaultValue = "true",
+            Enabled = true
+        };
+        formInfo.AddFormItem(formItem);
+
+        formItem = new FormFieldInfo
+        {
             Name = nameof(LuceneIndexItemInfo.LuceneIndexItemRebuildHook),
             AllowEmpty = true,
             Visible = true,
