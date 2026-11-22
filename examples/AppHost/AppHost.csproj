@@ -14,6 +14,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <!-- Not a resource (AddDotnetProject runs it by path): keeps DancingGoat in the project graph
+         that dotnet watch hot-reloads in watch mode -->
     <ProjectReference Include="..\DancingGoat\DancingGoat.csproj" ReferenceOutputAssembly="false" />
   </ItemGroup>
 
