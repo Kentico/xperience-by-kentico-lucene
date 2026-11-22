@@ -38,6 +38,10 @@
 | Recompile styles + bundles | `npm run build`                            |
 | Accessibility scan        | `npm run a11y -- <url> [<url> ...]`         |
 
+Sample npm dependencies skip install scripts by default. Before the first
+accessibility scan, install ChromeDriver with
+`npm rebuild chromedriver --ignore-scripts=false`.
+
 From the repository root, `aspire run` starts the site and Lucene admin client.
 The root `setup-local` skill and `scripts/Initialize-Database.ps1` use the root
 dbmanager tool and preserve the committed macro salt and existing CI objects.

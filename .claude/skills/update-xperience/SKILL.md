@@ -70,7 +70,7 @@ Review `git status --short examples/DancingGoat/App_Data/CIRepository`: changes 
 ## 8. Validate
 
 1. `dotnet test --configuration Release --no-build`
-2. `dotnet format --no-restore --verify-no-changes`
+2. `dotnet format Kentico.Xperience.Lucene.slnx --no-restore --severity error --verify-no-changes`
 3. In each `src/*/Client`: `npm run typecheck`, `npm run lint`, and `npm run format:check`
 
 Done when all three pass.
