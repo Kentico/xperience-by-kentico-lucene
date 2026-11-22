@@ -31,7 +31,7 @@ dotnet tool restore
 dotnet restore Kentico.Xperience.Lucene.slnx --locked-mode
 dotnet build Kentico.Xperience.Lucene.slnx --configuration Release --no-restore -p:SIGN_FILE=false
 dotnet test Kentico.Xperience.Lucene.slnx --configuration Release --no-build --no-restore
-dotnet format Kentico.Xperience.Lucene.slnx --no-restore --severity error --verify-no-changes
+dotnet format --no-restore --verify-no-changes
 ```
 
 Regenerate affected lockfiles with `dotnet restore --force-evaluate` after dependency

@@ -8,13 +8,12 @@ The requirements to setup, develop, and build this project are listed below.
 
 .NET SDK 11.0.100
 
-- <https://dotnet.microsoft.com/en-us/download/dotnet/11.0>
 - See the `global.json` file for specific SDK requirements
 - The current library targets .NET 10; SDK 11 is the repository's build toolchain.
 
 ### Node.js Runtime
 
-- [Node.js](https://nodejs.org/en/download) 26 (`>=26`)
+- [Node.js](https://nodejs.org/en/download) 26
 - [NVM for Windows](https://github.com/coreybutler/nvm-windows) to manage multiple installed versions of Node.js
 - See `engines` in `src/Kentico.Xperience.Lucene.Admin/Client/package.json` for specific version requirements
 
@@ -47,24 +46,7 @@ See the [DancingGoat README](../examples/DancingGoat/README.md) for full setup s
 
 ### Database Setup
 
-Running the example project requires a licensed Xperience by Kentico database. Build DancingGoat, then run the setup script from the repository root:
-
-```powershell
-dotnet build
-./scripts/Initialize-Database.ps1 -LicenseFile "<license_file_path>"
-```
-
-The script uses the sample's configured SQL Server and database by default, creates the database, and restores `examples/DancingGoat/App_Data/CIRepository`. See `./scripts/Initialize-Database.ps1 -?` for SQL Server, authentication, and database options. It does not replace an existing database unless `-Recreate` is supplied.
-
-The `administrator` account uses the password `Pass@12345` stored in the sample's CI repository. Without a license file, add the license when you first sign in to the administration.
-
-### Local services and Aspire
-
-The sample uses a local SQL Server and Mailpit by default. Mailpit listens on `localhost:1025` for SMTP and provides an inbox at <http://localhost:8025>. Start Mailpit with Docker if it is not already running:
-
-```powershell
-docker run -d --name mailpit --restart unless-stopped -p 1025:1025 -p 8025:8025 axllent/mailpit
-```
+Use the root `setup-local` skill to configure DancingGoat with the existing local database and services. It also restores the sample's committed CI objects. Do not recreate the database as part of routine setup.
 
 The Aspire AppHost starts DancingGoat and the admin client development server together. Install the [Aspire CLI](https://aspire.dev/get-started/install-cli/) and run this from the repository root:
 
@@ -118,25 +100,11 @@ Playwright tests cover DancingGoat search and the Lucene administration. They re
    - `refactor/` - for restructuring of existing features
    - `fix/` - for bugfixes
 
-1. Run `dotnet format` against `Kentico.Xperience.Lucene.slnx`
-
-   > use `.NET: format (Lucene)` VS Code task.
+1. Run `dotnet format --no-restore --verify-no-changes` from the repository root.
 
 1. Commit changes, with a commit message preferably following the [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/#summary) convention.
 
-1. If you changed TypeScript, run `npm run format`, `npm run lint`, and `npm run typecheck` in `src/Kentico.Xperience.Lucene.Admin/Client` or `tests/e2e`.
-
-The shared `.claude/skills` guidance is available to Copilot and Claude. Use `setup-local` for local database setup, `update-xperience` for Xperience version updates, and `update-template` to review template changes.
-
-### Validate packages
-
-The Release package build uses the same project targets as CI and Azure DevOps. It creates all three NuGet packages with the admin client and other embedded assets included:
-
-```powershell
-dotnet pack src/Kentico.Xperience.Lucene.Libs.slnx --configuration Release -p:SIGN_FILE=false
-```
-
-The normal Release build embeds the admin client and other required assets. For end-to-end testing, build and run DancingGoat with the solution workflow rather than substituting locally generated packages.
+Run the build and test commands listed in the root `AGENTS.md`. The required CI jobs are `build_and_test` and `e2e`.
 
 ### Create a PR
 
