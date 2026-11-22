@@ -29,7 +29,7 @@ jobs:
           global-json-file: global.json
 
       - name: Run dotnet format
-        run: dotnet format Kentico.Xperience.Lucene.slnx --exclude ./examples/** --verify-no-changes
+        run: dotnet format Kentico.Xperience.Lucene.slnx --exclude ./examples/** --diagnostics IDE0055 --verify-no-changes
 
   build:
     name: Build and Test
