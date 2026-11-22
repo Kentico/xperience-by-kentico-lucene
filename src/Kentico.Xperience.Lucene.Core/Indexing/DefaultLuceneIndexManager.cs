@@ -102,7 +102,7 @@ internal class DefaultLuceneIndexManager : ILuceneIndexManager
         storageService.TryCreateIndex(indexConfiguration);
     }
 
-    private ISet<string> GetLuceneDependencyCacheKeys()
+    private static ISet<string> GetLuceneDependencyCacheKeys()
     {
         var dependencyCacheKeys = new HashSet<string>
         {

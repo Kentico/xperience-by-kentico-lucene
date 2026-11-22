@@ -1,7 +1,7 @@
 import {
   RoutingContentPlaceholder,
   usePageCommand,
-} from '@kentico/xperience-admin-base';
+} from "@kentico/xperience-admin-base";
 import {
   Box,
   Headline,
@@ -11,9 +11,9 @@ import {
   Table,
   type TableColumn,
   type TableRow,
-} from '@kentico/xperience-admin-components';
-import React from 'react';
-import Localization from '../localization/localization.json';
+} from "@kentico/xperience-admin-components";
+import type * as React from "react";
+import Localization from "../localization/localization.json";
 
 interface IndexedContentPageProps {
   readonly pathColumns: TableColumn[];
@@ -27,7 +27,7 @@ interface PathDetailArguments {
 }
 
 const Commands = {
-  ShowPathDetail: 'ShowPathDetail',
+  ShowPathDetail: "ShowPathDetail",
 };
 
 export const IndexedContentTemplate = ({
@@ -35,8 +35,8 @@ export const IndexedContentTemplate = ({
   pathRows,
   propertyColumns,
   propertyRows,
-}: IndexedContentPageProps): JSX.Element => {
-  usePageCommand<void, PathDetailArguments>(Commands.ShowPathDetail);
+}: IndexedContentPageProps): React.JSX.Element => {
+  usePageCommand<undefined, PathDetailArguments>(Commands.ShowPathDetail);
 
   return (
     <RoutingContentPlaceholder>

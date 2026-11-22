@@ -76,10 +76,10 @@ public class LuceneIndexConfigurationComponent : FormComponent<LuceneIndexConfig
 
     protected override async Task ConfigureClientProperties(LuceneIndexConfigurationComponentClientProperties properties)
     {
-        var allWebsiteContentTypes = DataClassInfoProvider.ProviderObject
+        var allWebsiteContentTypes = (await DataClassInfoProvider.ProviderObject
             .Get()
             .WhereEquals(nameof(DataClassInfo.ClassContentTypeType), "Website")
-            .GetEnumerableTypedResult()
+            .GetEnumerableTypedResultAsync(cancellationToken: CancellationToken.None))
             .Select(x => new LuceneIndexContentType(x.ClassName, x.ClassDisplayName, 0));
 
         properties.Value = Value ?? [];

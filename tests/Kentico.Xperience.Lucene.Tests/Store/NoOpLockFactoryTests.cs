@@ -35,10 +35,7 @@ public class NoOpLockFactoryTests
 
 
     [Test]
-    public void ClearLock_DoesNotThrow()
-    {
-        Assert.DoesNotThrow(() => NoOpLockFactory.Instance.ClearLock("test.lock"));
-    }
+    public void ClearLock_DoesNotThrow() => Assert.DoesNotThrow(() => NoOpLockFactory.Instance.ClearLock("test.lock"));
 
 
     [Test]
@@ -107,9 +104,7 @@ public class NoOpLockTests
 
 
     [Test]
-    public void Dispose_DoesNotThrow()
-    {
+    public void Dispose_DoesNotThrow() =>
         // Lock implements IDisposable via Lucene.Net.Store.Lock base class
         Assert.DoesNotThrow(() => NoOpLock.Instance.Dispose());
-    }
 }

@@ -4,27 +4,38 @@
     <CentralPackageVersionOverrideEnabled>false</CentralPackageVersionOverrideEnabled>
     <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
     <DisableImplicitNuGetFallbackFolder>true</DisableImplicitNuGetFallbackFolder>
+    <CentralPackageTransitivePinningEnabled>false</CentralPackageTransitivePinningEnabled>
   </PropertyGroup>
   <ItemGroup>
-    <PackageVersion Include="Kentico.Xperience.Admin" Version="31.0.0" />
-    <PackageVersion Include="Kentico.Xperience.Azurestorage" Version="31.0.0" />
-    <PackageVersion Include="Kentico.Xperience.Cloud" Version="31.0.0" />
-    <PackageVersion Include="Kentico.Xperience.Core" Version="31.0.0" />
-    <PackageVersion Include="Kentico.Xperience.Imageprocessing" Version="31.0.0" />
-    <PackageVersion Include="kentico.xperience.mjml" Version="31.0.0" />
-    <PackageVersion Include="Kentico.Xperience.WebApp" Version="31.0.0" />
-    <PackageVersion Include="Kentico.Xperience.Core.Tests" Version="31.0.0" />
-    <PackageVersion Include="Kentico.Xperience.Lucene" Version="" Condition="'$(LOCAL_NUGET)' == 'true'" />
+    <PackageVersion Include="Kentico.Xperience.Admin" Version="31.6.0" />
+    <PackageVersion Include="Kentico.Xperience.Azurestorage" Version="31.6.0" />
+    <PackageVersion Include="Kentico.Xperience.Cloud" Version="31.6.0" />
+    <PackageVersion Include="Kentico.Xperience.Core" Version="31.6.0" />
+    <PackageVersion Include="Kentico.Xperience.Imageprocessing" Version="31.6.0" />
+    <PackageVersion Include="kentico.xperience.mjml" Version="31.6.0" />
+    <PackageVersion Include="Kentico.Xperience.WebApp" Version="31.6.0" />
+    <PackageVersion Include="Kentico.Xperience.Core.Tests" Version="31.6.0" />
     <PackageVersion Include="Lucene.Net" Version="4.8.0-beta00017" />
     <PackageVersion Include="Lucene.Net.Analysis.Common" Version="4.8.0-beta00017" />
     <PackageVersion Include="Lucene.Net.Facet" Version="4.8.0-beta00017" />
-    <PackageVersion Include="SonarAnalyzer.CSharp" Version="9.17.0.82934" />
-    <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.14.1" />
-    <PackageVersion Include="NUnit" Version="4.3.2" />
-    <PackageVersion Include="NUnit3TestAdapter" Version="5.0.0" />
-    <PackageVersion Include="NUnit.Analyzers" Version="4.9.1" />
-    <PackageVersion Include="coverlet.collector" Version="6.0.4" />
+    <PackageVersion Include="SonarAnalyzer.CSharp" Version="10.36.0.15337" />
+    <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="18.12.0" />
+    <PackageVersion Include="NUnit" Version="5.0.0" />
+    <PackageVersion Include="NUnit3TestAdapter" Version="6.3.1" />
+    <PackageVersion Include="NUnit.Analyzers" Version="4.15.0" />
+    <PackageVersion Include="coverlet.collector" Version="10.1.0" />
     <PackageVersion Include="NSubstitute" Version="5.3.0" />
     <PackageVersion Include="AutoFixture" Version="4.18.1" />
+    <PackageVersion Include="Aspire.Hosting.AppHost" Version="17.0.0" />
+    <PackageVersion Include="Aspire.Hosting.Dotnet" Version="17.0.0" />
+    <PackageVersion Include="Aspire.Hosting.JavaScript" Version="17.0.0" />
+    <PackageVersion Include="Aspire.Hosting.SqlServer" Version="17.0.0" />
+    <PackageVersion Include="CommunityToolkit.Aspire.Hosting.MailPit" Version="13.6.1" />
+  </ItemGroup>
+  <ItemGroup Label="Transitive security updates">
+    <PackageVersion Include="AngleSharp" Version="1.8.4" />
+    <PackageVersion Include="HtmlSanitizer" Version="9.2.1039" />
+    <PackageVersion Include="Magick.NET-Q8-AnyCPU" Version="14.17.2" />
+    <PackageVersion Include="System.Security.Cryptography.Pkcs" Version="10.0.15" />
   </ItemGroup>
 </Project>

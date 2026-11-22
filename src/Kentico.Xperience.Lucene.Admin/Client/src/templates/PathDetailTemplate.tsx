@@ -1,4 +1,4 @@
-import { usePageCommand } from '@kentico/xperience-admin-base';
+import { usePageCommand } from "@kentico/xperience-admin-base";
 import {
   Box,
   Headline,
@@ -10,12 +10,12 @@ import {
   type TableCell,
   type TableColumn,
   type TableRow,
-} from '@kentico/xperience-admin-components';
-import React, { useState } from 'react';
-import Localization from '../localization/localization.json';
+} from "@kentico/xperience-admin-components";
+import React, { useState } from "react";
+import Localization from "../localization/localization.json";
 
 const ListingCommands = {
-  LoadData: 'LoadData',
+  LoadData: "LoadData",
 };
 
 interface PathDetailPageProps {
@@ -36,7 +36,7 @@ interface LoadDataResult {
 export const PathDetailTemplate = ({
   aliasPath,
   columns,
-}: PathDetailPageProps): JSX.Element => {
+}: PathDetailPageProps): React.JSX.Element => {
   const tableRef = React.createRef<HTMLDivElement>();
 
   const [tableData, setTableData] = useState<LoadDataResult>({

@@ -1,102 +1,105 @@
 name: "CI: Build and Test"
 
 on:
-  push:
-    branches: [main]
-    paths:
-      - "**.cs"
-      - "**.tsx"
-      - "**.js"
-      - "**.csproj"
-      - "**.props"
-      - "**.targets"
-      - "**.sln"
-      - "**/Client/**/*.json"
-      - "**.cshtml"
-      - "examples/DancingGoat/App_Data/CIRepository/**"
   pull_request:
     branches: [main]
-    paths:
-      - ".github/workflows/ci.yml"
-      - "**.cs"
-      - "**.tsx"
-      - "**.js"
-      - "**.csproj"
-      - "**.props"
-      - "**.targets"
-      - "**.sln"
-      - "**/Client/**/*.json"
-      - "**.cshtml"
-      - "examples/DancingGoat/App_Data/CIRepository/**"
+  push:
+    branches: [main]
+  # Merge queue: each queued pull request is tested on top of main and the ones ahead of it,
+  # so open pull requests never need updating and re-running after another one merges
+  merge_group:
+    types: [checks_requested]
+
+permissions:
+  contents: read
+
+# A newer push to the same pull request or branch cancels the run in progress
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
-  dotnet-format:
-    name: dotnet-format
+  build_and_test:
+    name: Build and Test
     runs-on: ubuntu-latest
-
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Setup .NET
-        uses: actions/setup-dotnet@v4
-        with:
-          global-json-file: global.json
-
-      - name: Run dotnet format
-        run: dotnet format Kentico.Xperience.Lucene.sln --exclude ./examples/** --verify-no-changes
-
-  build:
-    name: build
-    runs-on: ubuntu-latest
-    needs: dotnet-format
     defaults:
       run:
         shell: pwsh
 
     env:
+      ASPNETCORE_ENVIRONMENT: CI
       DOTNET_CLI_TELEMETRY_OPTOUT: 1
       DOTNET_SKIP_FIRST_TIME_EXPERIENCE: 1
       DOTNET_NOLOGO: 1
+      # Azure Pipelines signs release artifacts; GitHub CI does not.
       SIGN_FILE: false
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
       - name: Setup .NET
-        uses: actions/setup-dotnet@v4
+        uses: actions/setup-dotnet@v6
         with:
           global-json-file: global.json
+          cache: true
+          cache-dependency-path: "**/packages.lock.json"
 
-      - name: "Install Node.js from package.json version"
-        uses: actions/setup-node@v4
+      - name: Setup Node.js
+        uses: actions/setup-node@v7
         with:
-          node-version-file: "src/Kentico.Xperience.Lucene.Admin/Client/package.json"
+          node-version: 26
+          cache: npm
+          cache-dependency-path: "**/package-lock.json"
+
+      # The e2e job runs only with a license; static checks run here for every PR
+      - name: Check e2e tests
+        working-directory: tests/e2e
+        run: |
+          npm ci
+          npm run typecheck
+          npm run lint
+          npm run format:check
 
       - name: Install dependencies
-        run: dotnet restore --locked-mode
+        run: dotnet restore Kentico.Xperience.Lucene.slnx --locked-mode
 
+      - name: Check formatting
+        run: dotnet format Kentico.Xperience.Lucene.slnx --no-restore --verify-no-changes
+
+      # template:admin:start
+      # Release build runs npm ci and npm run build for the admin client
+      # template:admin:end
       - name: Build Solution
-        run: dotnet build --configuration Release --no-restore
+        run: dotnet build Kentico.Xperience.Lucene.slnx --configuration Release --no-restore
+
+      # template:admin:start
+      - name: Check admin client
+        working-directory: src/Kentico.Xperience.Lucene.Admin/Client
+        run: |
+          npm run typecheck
+          npm run lint
+          npm run format:check
+      # template:admin:end
 
       - name: Test Solution
-        run: dotnet test --configuration Release --no-build --no-restore
+        run: dotnet test Kentico.Xperience.Lucene.slnx --configuration Release --no-build --no-restore
 
-  example-ci-restore:
-    name: example-ci-restore
+  # Needs an Xperience license (XPERIENCE_LICENSE_KEY repository secret, and the same
+  # Dependabot secret for Dependabot PRs). Without it - e.g. PRs from forks - every
+  # step after checkout is skipped and the job passes.
+  # Runs in parallel with build_and_test: building here is faster than waiting for its output.
+  e2e:
+    name: E2E Tests
     runs-on: ubuntu-latest
-    needs: build
-    # Repository secrets are not available to pull requests from forks.
-    if: github.event_name == 'push' || github.event.pull_request.head.repo.full_name == github.repository
     defaults:
       run:
         shell: pwsh
-        working-directory: examples/DancingGoat
 
     services:
-      mssql:
+      sql:
         image: mcr.microsoft.com/mssql/server:2022-latest
         env:
-          ACCEPT_EULA: "Y"
+          ACCEPT_EULA: Y
           MSSQL_SA_PASSWORD: Pass@12345
         ports:
           - 1433:1433
@@ -104,80 +107,87 @@ jobs:
           --health-cmd "/opt/mssql-tools18/bin/sqlcmd -S localhost -U sa -P Pass@12345 -C -Q 'SELECT 1'"
           --health-interval 10s
           --health-timeout 5s
-          --health-retries 12
+          --health-retries 10
+      # Pinned; dependabot does not update service images - bump by hand
+      mailpit:
+        image: axllent/mailpit:v1.31.6
+        ports:
+          - 1025:1025
+          - 8025:8025
 
     env:
+      ASPNETCORE_ENVIRONMENT: CI
       DOTNET_CLI_TELEMETRY_OPTOUT: 1
       DOTNET_SKIP_FIRST_TIME_EXPERIENCE: 1
       DOTNET_NOLOGO: 1
-      # Local demo credentials only. The administrator password matches the hash stored in the CI repository.
-      XPERIENCE_ADMIN_PASSWORD: Pass@12345
-      ConnectionStrings__CMSConnectionString: "Data Source=localhost,1433;Initial Catalog=xperience-by-kentico-lucene;User ID=sa;Password=Pass@12345;Encrypt=False;Connect Timeout=60"
+      HAS_LICENSE: ${{ secrets.XPERIENCE_LICENSE_KEY != '' }}
+      DANCING_GOAT_BASE_URL: http://localhost:14536
+      # The Xperience parser rejects --urls, so Kestrel's address comes from ASPNETCORE_URLS
+      ASPNETCORE_URLS: http://localhost:14536
+      E2E_WEB_SERVER_COMMAND: dotnet run --project ../../examples/DancingGoat --configuration Release --no-build --no-launch-profile
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
+
+      - name: Skip without license
+        if: env.HAS_LICENSE != 'true'
+        run: Write-Host "::notice title=E2E skipped::XPERIENCE_LICENSE_KEY is not available to this run."
 
       - name: Setup .NET
-        uses: actions/setup-dotnet@v4
+        if: env.HAS_LICENSE == 'true'
+        uses: actions/setup-dotnet@v6
         with:
           global-json-file: global.json
+          cache: true
+          cache-dependency-path: "**/packages.lock.json"
 
-      - name: "Install Node.js from package.json version"
-        uses: actions/setup-node@v4
+      - name: Setup Node.js
+        if: env.HAS_LICENSE == 'true'
+        uses: actions/setup-node@v7
         with:
-          node-version-file: "src/Kentico.Xperience.Lucene.Admin/Client/package.json"
+          node-version: 26
+          cache: npm
+          cache-dependency-path: "**/package-lock.json"
 
-      - name: Build example
+      # template:admin:start
+      # Release build embeds the admin client (npm ci + npm run build)
+      # template:admin:end
+      - name: Build
+        if: env.HAS_LICENSE == 'true'
         run: |
-          dotnet restore --locked-mode
-          dotnet build --no-restore
+          dotnet restore Kentico.Xperience.Lucene.slnx --locked-mode
+          dotnet build Kentico.Xperience.Lucene.slnx --configuration Release --no-restore
 
-      - name: Write license file
+      # Restores examples/DancingGoat/App_Data/CIRepository with the Release build's Xperience CLI
+      - name: Create database
+        if: env.HAS_LICENSE == 'true'
         env:
           XPERIENCE_LICENSE_KEY: ${{ secrets.XPERIENCE_LICENSE_KEY }}
         run: |
-          if ([string]::IsNullOrWhiteSpace($env:XPERIENCE_LICENSE_KEY)) {
-            throw "The XPERIENCE_LICENSE_KEY repository secret is not set."
-          }
-          Set-Content -Path "$env:RUNNER_TEMP/license.txt" -Value $env:XPERIENCE_LICENSE_KEY -NoNewline
+          $license = Join-Path $env:RUNNER_TEMP 'xperience-license.txt'
+          Set-Content $license $env:XPERIENCE_LICENSE_KEY -NoNewline
+          ./scripts/Initialize-Database.ps1 `
+            -LicenseFile $license `
+            -Configuration Release
+          Remove-Item $license
 
-      - name: Create database from template
+      - name: Install Playwright
+        if: env.HAS_LICENSE == 'true'
+        working-directory: tests/e2e
         run: |
-          $salt = (Get-Content appsettings.json -Raw | ConvertFrom-Json).CMSHashStringSalt
-          dotnet tool restore
-          dotnet kentico-xperience-dbmanager -- -s "localhost,1433" -u sa -p "Pass@12345" -d "xperience-by-kentico-lucene" `
-            -a "$env:XPERIENCE_ADMIN_PASSWORD" --hash-string-salt "$salt" --license-file "$env:RUNNER_TEMP/license.txt"
+          npm ci
+          npx playwright install --with-deps chromium
 
-      - name: Restore CI repository
-        run: |
-          dotnet run --no-build --launch-profile DancingGoat -- --kxp-ci-enable
-          dotnet run --no-build --launch-profile DancingGoat -- --kxp-ci-restore
+      - name: Run e2e tests
+        if: env.HAS_LICENSE == 'true'
+        working-directory: tests/e2e
+        run: npm test
 
-      - name: Smoke test search
-        run: |
-          $site = Start-Process dotnet -ArgumentList 'run', '--no-build', '--launch-profile', 'DancingGoat' -PassThru
-          try {
-            $ready = $false
-            for ($i = 0; $i -lt 60 -and -not $ready; $i++) {
-              Start-Sleep -Seconds 2
-              try { $null = Invoke-WebRequest 'http://localhost:14536/' -TimeoutSec 30; $ready = $true } catch { }
-            }
-            if (-not $ready) { throw 'The site did not start.' }
-
-            # The empty index is rebuilt in the background on startup.
-            $results = 0
-            for ($i = 0; $i -lt 30 -and $results -eq 0; $i++) {
-              Start-Sleep -Seconds 2
-              $content = (Invoke-WebRequest 'http://localhost:14536/search?query=coffee').Content
-              $match = [regex]::Match($content, '(\d+) results')
-              if ($match.Success) { $results = [int]$match.Groups[1].Value }
-            }
-            if ($results -eq 0) { throw 'Search returned no results for "coffee".' }
-            "Search returned $results results for 'coffee'."
-
-            $status = (Invoke-WebRequest 'http://localhost:14536/es/buscar').StatusCode
-            if ($status -ne 200) { throw "/es/buscar returned $status." }
-          }
-          finally {
-            Stop-Process -Id $site.Id -Force -ErrorAction SilentlyContinue
-          }
+      # Failure artifacts may be public and traces include signed-in admin pages.
+      - name: Upload Playwright report
+        if: failure() && env.HAS_LICENSE == 'true'
+        uses: actions/upload-artifact@v7
+        with:
+          name: playwright-report
+          path: tests/e2e/playwright-report
+          retention-days: 7

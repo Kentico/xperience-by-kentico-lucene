@@ -106,7 +106,7 @@ internal class DefaultLuceneTaskLogger : ILuceneTaskLogger
             ))
             .WhereEquals(nameof(ContentItemLanguageMetadataInfo.ContentItemLanguageMetadataContentItemID), webPageItemInfo.WebPageItemContentItemID)
             .WhereEquals(nameof(ContentItemLanguageMetadataInfo.ContentItemLanguageMetadataLatestVersionStatus), VersionStatus.Published) // We only care about security changes for published items.
-            .GetEnumerableTypedResultAsync();
+            .GetEnumerableTypedResultAsync(cancellationToken: CancellationToken.None);
 
         foreach (var item in languageItemsWhereThisPageIsDefined)
         {

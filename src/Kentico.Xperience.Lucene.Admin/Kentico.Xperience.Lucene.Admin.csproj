@@ -40,6 +40,11 @@
       </AdminClientPath>
     </ItemGroup>
   </Target>
+
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
+
   <ItemGroup>
     <PackageReference Include="Kentico.Xperience.Admin" />
   </ItemGroup>

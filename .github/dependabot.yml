@@ -1,0 +1,57 @@
+version: 2
+updates:
+  - package-ecosystem: nuget
+    directory: /
+    schedule:
+      interval: weekly
+    cooldown:
+      default-days: 3
+      semver-major-days: 7
+    ignore:
+      - dependency-name: "Kentico.Xperience.*"
+    groups:
+      aspire:
+        patterns: ["Aspire.*", "CommunityToolkit.Aspire.*"]
+      nuget:
+        patterns: ["*"]
+
+  - package-ecosystem: npm
+    directories:
+      - /src/Kentico.Xperience.Lucene.Admin/Client
+      - /tests/e2e
+    schedule:
+      interval: weekly
+    cooldown:
+      default-days: 3
+      semver-major-days: 7
+    ignore:
+      - dependency-name: "@kentico/*"
+      - dependency-name: "react"
+      - dependency-name: "react-dom"
+      - dependency-name: "@types/react"
+      - dependency-name: "@types/react-dom"
+      - dependency-name: "@babel/*"
+        versions: [">=8"]
+      - dependency-name: "typescript"
+        versions: [">=7"]
+    groups:
+      npm:
+        patterns: ["*"]
+
+  - package-ecosystem: dotnet-sdk
+    directory: /
+    schedule:
+      interval: weekly
+    cooldown:
+      default-days: 3
+      semver-major-days: 7
+
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+    cooldown:
+      default-days: 3
+    groups:
+      github-actions:
+        patterns: ["*"]

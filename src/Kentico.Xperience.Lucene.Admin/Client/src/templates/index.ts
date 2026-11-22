@@ -1,3 +1,3 @@
-export * from './IndexedContentTemplate';
-export * from './PathDetailTemplate';
-export * from './LuceneSearchIndexConfigurationFormComponent';
+export * from "./IndexedContentTemplate";
+export * from "./PathDetailTemplate";
+export * from "./LuceneSearchIndexConfigurationFormComponent";

@@ -1,7 +1,8 @@
-import { IncludedPath } from './IncludedPath';
+import type { IncludedPath } from "./IncludedPath";
 
 export interface LuceneIndexChannelConfiguration {
-    websiteChannelName: string | null;
-    channelDisplayName: string | null;
-    includedPaths: IncludedPath[];
+  [key: string]: string | IncludedPath[] | null;
+  websiteChannelName: string | null;
+  channelDisplayName: string | null;
+  includedPaths: IncludedPath[];
 }

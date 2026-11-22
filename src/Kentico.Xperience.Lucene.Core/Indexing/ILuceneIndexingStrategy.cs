@@ -10,14 +10,14 @@ public interface ILuceneIndexingStrategy
     /// </summary>
     /// <param name="item">The <see cref="IIndexEventItemModel"/> currently being indexed.</param>
     /// <returns>Modified Lucene document.</returns>
-    Task<Document?> MapToLuceneDocumentOrNull(IIndexEventItemModel item);
+    public Task<Document?> MapToLuceneDocumentOrNull(IIndexEventItemModel item);
 
 
     /// <summary>
     /// When overridden and configuration supplied, indexing will also create taxonomy index for facet search
     /// </summary>
     /// <returns>Facet configuration for the index that is used in indexing and querying</returns>
-    FacetsConfig? FacetsConfigFactory();
+    public FacetsConfig? FacetsConfigFactory();
 
 
     /// <summary>
@@ -25,7 +25,7 @@ public interface ILuceneIndexingStrategy
     /// </summary>
     /// <param name="changedItem">The web page item that was modified</param>
     /// <returns>Items that should be passed to <see cref="MapToLuceneDocumentOrNull"/> for indexing</returns>
-    Task<IEnumerable<IIndexEventItemModel>> FindItemsToReindex(IndexEventWebPageItemModel changedItem);
+    public Task<IEnumerable<IIndexEventItemModel>> FindItemsToReindex(IndexEventWebPageItemModel changedItem);
 
 
     /// <summary>
@@ -33,5 +33,5 @@ public interface ILuceneIndexingStrategy
     /// </summary>
     /// <param name="changedItem">The reusable content item that was modified</param>
     /// <returns>Items that should be passed to <see cref="MapToLuceneDocumentOrNull"/> for indexing</returns>
-    Task<IEnumerable<IIndexEventItemModel>> FindItemsToReindex(IndexEventReusableItemModel changedItem);
+    public Task<IEnumerable<IIndexEventItemModel>> FindItemsToReindex(IndexEventReusableItemModel changedItem);
 }

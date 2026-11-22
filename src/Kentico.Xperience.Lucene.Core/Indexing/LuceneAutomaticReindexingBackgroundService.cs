@@ -91,8 +91,9 @@ internal sealed class LuceneAutomaticReindexingBackgroundService : ApplicationLi
     {
         try
         {
-            var assembly = GetAppBuildVersion();
-            var luceneAssemblyVersionItems = await luceneAssemblyVersionInfoProvider.Get().GetEnumerableTypedResultAsync();
+            string assembly = GetAppBuildVersion();
+            var luceneAssemblyVersionItems = await luceneAssemblyVersionInfoProvider.Get()
+                .GetEnumerableTypedResultAsync(cancellationToken: CancellationToken.None);
 
             var luceneIndexesToRebuild = luceneIndexManager
                 .GetAllIndices()
@@ -100,7 +101,7 @@ internal sealed class LuceneAutomaticReindexingBackgroundService : ApplicationLi
 
             foreach (var index in luceneIndexesToRebuild)
             {
-                var assemblyVersionDiffers = await SetIfLuceneIndexAssemblyVersionDiffersAsync(index, luceneAssemblyVersionItems, assembly, cancellationToken);
+                bool assemblyVersionDiffers = await SetIfLuceneIndexAssemblyVersionDiffersAsync(index, luceneAssemblyVersionItems, assembly, cancellationToken);
                 if (assemblyVersionDiffers)
                 {
                     await luceneClient.Rebuild(index.IndexName, cancellationToken);
@@ -135,7 +136,7 @@ internal sealed class LuceneAutomaticReindexingBackgroundService : ApplicationLi
                 LuceneIndexAssemblyVersionItemIndexItemId = index.Identifier
             };
 
-        var assemblyVersionDiffers = !Equals(assemblyVersionItem.LuceneIndexAssemblyVersionItemAssemblyVersion, assemblyName);
+        bool assemblyVersionDiffers = !Equals(assemblyVersionItem.LuceneIndexAssemblyVersionItemAssemblyVersion, assemblyName);
 
         if (assemblyVersionDiffers)
         {

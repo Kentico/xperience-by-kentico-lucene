@@ -11,7 +11,7 @@ public interface ILuceneConfigurationStorageService
     /// </summary>
     /// <param name="configuration">The <see cref="LuceneIndexModel"/> to be created.</param>
     /// <returns><see cref="bool"/> indication whether the creation was successful.</returns>
-    bool TryCreateIndex(LuceneIndexModel configuration);
+    public bool TryCreateIndex(LuceneIndexModel configuration);
 
 
     /// <summary>
@@ -19,7 +19,7 @@ public interface ILuceneConfigurationStorageService
     /// </summary>
     /// <param name="configuration">The <see cref="LuceneIndexModel"/> to be edited.</param>
     /// <returns><see cref="bool"/> indication whether the editation was successful.</returns>
-    Task<bool> TryEditIndexAsync(LuceneIndexModel configuration);
+    public Task<bool> TryEditIndexAsync(LuceneIndexModel configuration);
 
 
     /// <summary>
@@ -27,7 +27,7 @@ public interface ILuceneConfigurationStorageService
     /// </summary>
     /// <param name="configuration">The <see cref="LuceneIndexModel"/> to be deleted.</param>
     /// <returns><see cref="bool"/> indication whether the deletion was successful.</returns>
-    bool TryDeleteIndex(LuceneIndexModel configuration);
+    public bool TryDeleteIndex(LuceneIndexModel configuration);
 
 
     /// <summary>
@@ -35,7 +35,7 @@ public interface ILuceneConfigurationStorageService
     /// </summary>
     /// <param name="id">The id of the <see cref="LuceneIndex"/> to be deleted.</param>
     /// <returns><see cref="bool"/> indication whether the deletion was successful.</returns>
-    bool TryDeleteIndex(int id);
+    public bool TryDeleteIndex(int id);
 
 
     /// <summary>
@@ -43,7 +43,7 @@ public interface ILuceneConfigurationStorageService
     /// </summary>
     /// <param name="indexId">The id of the index.</param>
     /// <returns>The <see cref="Nullable{LuceneIndexModel}"/>.</returns>
-    Task<LuceneIndexModel?> GetIndexDataOrNullAsync(int indexId);
+    public Task<LuceneIndexModel?> GetIndexDataOrNullAsync(int indexId);
 
 
     /// <summary>
@@ -51,26 +51,26 @@ public interface ILuceneConfigurationStorageService
     /// </summary>
     /// <param name="indexName">The name of the index.</param>
     /// <returns>The <see cref="Nullable{LuceneIndexModel}"/>.</returns>
-    Task<LuceneIndexModel?> GetIndexDataOrNullAsync(string indexName);
+    public Task<LuceneIndexModel?> GetIndexDataOrNullAsync(string indexName);
 
 
     /// <summary>
     /// Gets the names of the existing indexes.
     /// </summary>
     /// <returns>The names of the existing indexes.</returns>
-    List<string> GetExistingIndexNames();
+    public List<string> GetExistingIndexNames();
 
 
     /// <summary>
     /// Gets the ids of the existing indexes.
     /// </summary>
     /// <returns>The ids of the existing indexes.</returns>
-    List<int> GetIndexIds();
+    public List<int> GetIndexIds();
 
 
     /// <summary>
     /// Gets all index configurations.
     /// </summary>
     /// <returns>All registered <see cref="IEnumerable{LuceneIndexModel}"/>.</returns>
-    Task<IEnumerable<LuceneIndexModel>> GetAllIndexDataAsync();
+    public Task<IEnumerable<LuceneIndexModel>> GetAllIndexDataAsync();
 }

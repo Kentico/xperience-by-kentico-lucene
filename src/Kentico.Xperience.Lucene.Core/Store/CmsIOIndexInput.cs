@@ -172,15 +172,14 @@ internal class CmsIOIndexInput : BufferedIndexInput
     /// Larger buffers reduce the number of read operations, which is important
     /// for CMS.IO with Azure Blob Storage where each read may trigger cache validation.
     /// </summary>
-    private static int DetermineBufferSize(IOContext context)
-    {
+    private static int DetermineBufferSize(IOContext context) =>
 #pragma warning disable IDE0072 // Missing cases are intentional here to provide specific buffer sizes for known contexts
-        return context.Context switch
+        context.Context switch
         {
             IOContext.UsageContext.MERGE => 64 * 1024,  // 64KB for merges
             IOContext.UsageContext.READ => 16 * 1024,   // 16KB for normal reads (reduces cache validation overhead)
             _ => 8 * 1024                                // 8KB default
         };
 #pragma warning restore IDE0072
-    }
+
 }

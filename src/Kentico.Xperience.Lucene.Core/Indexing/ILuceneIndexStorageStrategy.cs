@@ -19,7 +19,7 @@ public interface ILuceneIndexStorageStrategy
     /// Gets all existing indices.
     /// </summary>
     /// <param name="indexStoragePath">Path root of the index storage.</param>
-    IEnumerable<IndexStorageModel> GetExistingIndices(string indexStoragePath);
+    public IEnumerable<IndexStorageModel> GetExistingIndices(string indexStoragePath);
 
     /// <summary>
     /// Formats path of an index in a specified generation.
@@ -27,7 +27,7 @@ public interface ILuceneIndexStorageStrategy
     /// <param name="indexRoot">Root path of the index.</param>
     /// <param name="generation">Indexing generation.</param>
     /// <param name="isPublished">Parameter specifying whether the index has been published.</param>
-    string FormatPath(string indexRoot, int generation, bool isPublished);
+    public string FormatPath(string indexRoot, int generation, bool isPublished);
 
     /// <summary>
     /// Formats path of a taxonomy of an index in a specified generation.
@@ -35,31 +35,31 @@ public interface ILuceneIndexStorageStrategy
     /// <param name="indexRoot">Root path of the index.</param>
     /// <param name="generation">Indexing generation.</param>
     /// <param name="isPublished">Parameter specifying whether the taxonomy has been published.</param>
-    string FormatTaxonomyPath(string indexRoot, int generation, bool isPublished);
+    public string FormatTaxonomyPath(string indexRoot, int generation, bool isPublished);
 
     /// <summary>
     /// Publishes the index.
     /// </summary>
     /// <param name="storage">Index storage model.</param>
-    void PublishIndex(IndexStorageModel storage);
+    public void PublishIndex(IndexStorageModel storage);
 
     /// <summary>
     /// Schedules removal of files of an index.
     /// </summary>
     /// <param name="storage">Index storage model.</param>
-    bool ScheduleRemoval(IndexStorageModel storage);
+    public bool ScheduleRemoval(IndexStorageModel storage);
 
     /// <summary>
     /// Performs cleanup of files of an index.
     /// </summary>
     /// <param name="indexStoragePath">Path root of the index storage.</param>
-    bool PerformCleanup(string indexStoragePath);
+    public bool PerformCleanup(string indexStoragePath);
 
     /// <summary>
     /// Deletes all files associated with an index.
     /// </summary>
     /// <param name="indexStoragePath">Path root of the index storage.</param>
-    Task<bool> DeleteIndex(string indexStoragePath);
+    public Task<bool> DeleteIndex(string indexStoragePath);
 }
 
 internal class GenerationStorageStrategy : ILuceneIndexStorageStrategy
@@ -398,7 +398,7 @@ internal class GenerationStorageStrategy : ILuceneIndexStorageStrategy
         bool Success,
         [property: MemberNotNullWhen(true, "Success")] IndexStorageModelParseResult? Result
     );
-    private IndexStorageModelParsingResult ParseIndexStorageModel(string directoryPath)
+    private static IndexStorageModelParsingResult ParseIndexStorageModel(string directoryPath)
     {
         if (string.IsNullOrWhiteSpace(directoryPath))
         {
@@ -410,7 +410,9 @@ internal class GenerationStorageStrategy : ILuceneIndexStorageStrategy
             var dirInfo = CmsDirectoryInfo.New(directoryPath);
             if (dirInfo.Name is { Length: > 0 } directoryName)
             {
+#pragma warning disable S6444 // Fixed prefixes and a single optional suffix match linearly; a timeout would change existing parsing behavior.
                 var matchResult = Regex.Match(directoryName, "i-g(?<generation>[0-9]*)-p_(?<published>(true)|(false))(_(?<taxonomy>[a-z0-9]*)){0,1}", RegexOptions.IgnoreCase | RegexOptions.Singleline);
+#pragma warning restore S6444
                 switch (matchResult)
                 {
                     case { Success: true } r

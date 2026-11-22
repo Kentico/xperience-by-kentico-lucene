@@ -345,7 +345,7 @@ public class LuceneIndexSearcherProviderTests
 
         provider.Dispose();
         Assert.That(openedDirs, Is.Not.Empty);
-        Assert.That(openedDirs, Has.All.Matches<TrackingRamDirectory>(d => d.IsDisposed),
+        Assert.That(openedDirs, Has.All.Matches<TrackingRamDirectory>(d => d is { IsDisposed: true }),
             "every opened generation should be disposed once retired and drained");
     }
 

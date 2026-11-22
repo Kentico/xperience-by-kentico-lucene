@@ -1,137 +1,116 @@
 # Contributing Setup
 
+This documents the steps maintainers and developers follow to work on the library and sample.
+
 ## Required Software
 
-The requirements to setup, develop, and build this project are listed below.
+The requirements to set up, develop, and build this project are listed below.
 
 ### .NET SDK
 
-.NET SDK 10.0 or newer
+Use the exact SDK version in `global.json`. The projects target .NET 10.
 
-- <https://dotnet.microsoft.com/en-us/download/dotnet/10.0>
-- See the `global.json` file for specific SDK requirements
+- See `global.json` for the pinned SDK version.
+- The library's Xperience minimum is 31.6.0; DancingGoat uses 31.10.0.
 
 ### Node.js Runtime
 
-- [Node.js](https://nodejs.org/en/download) 24 (`>=24.22.1 <25`)
-- [NVM for Windows](https://github.com/coreybutler/nvm-windows) to manage multiple installed versions of Node.js
-- See `engines` in `src/Kentico.Xperience.Lucene.Admin/Client/package.json` for specific version requirements
+- [Node.js](https://nodejs.org/en/download) 26 LTS.
+- [NVM for Windows](https://github.com/coreybutler/nvm-windows) to manage multiple installed versions.
+- See `engines` in the admin client and e2e `package.json` files for exact requirements.
 
-### C# Editor
+#### Minimum package age
 
-- VS Code
-- Visual Studio
-- Rider
+The admin client and e2e npm folders set `min-release-age=3`. Dependabot uses a three-day default cooldown and seven days for major updates. Apply the configured age policy to dependency updates, including warning and vulnerability fixes; do not bypass it with exclusions. `npm ci` uses the committed lockfile. An `npm install` or `npm update` that resolves a newer release may need to wait until that release is eligible. npm audit advisories are informational, not a validation gate.
 
 ### Database
 
-SQL Server 2019 or newer compatible database
+SQL Server 2019 or newer compatible database.
 
-- [SQL Server Linux](https://learn.microsoft.com/en-us/sql/linux/sql-server-linux-setup)
-- [SQL Server in Docker](https://learn.microsoft.com/en-us/sql/linux/quickstart-install-connect-docker)
+- [SQL Server on Linux](https://learn.microsoft.com/en-us/sql/linux/install-upgrade/setup?view=sql-server-ver15)
 
-### SQL Editor
+### Email
 
-- MS SQL Server Management Studio
-- VS Code with the [SQL Server (mssql)](https://marketplace.visualstudio.com/items?itemName=ms-mssql.mssql) extension
+The local sample uses Mailpit to capture email. The existing service listens on `localhost:1025` (SMTP) and its inbox is at <http://localhost:8025>.
 
-## Example Project
-
-See the [DancingGoat README](../examples/DancingGoat/README.md) for full setup steps.
+## Sample Project
 
 ### Database Setup
 
-Running the example project requires creating a new Xperience by Kentico database using the included template.
+Use the root [setup-local skill](../.claude/skills/setup-local/SKILL.md) for local setup. It uses the existing SQL Server and Mailpit services, preserves the committed macro salt and CI objects, and does not recreate a database during routine setup. Use a separately named database for fresh verification; see the skill before creating or updating one.
 
-Change directory in your console to `./examples/DancingGoat`, restore the database tools, and create the database:
+### Continuous Integration repository
 
-```powershell
-dotnet tool restore
-dotnet kentico-xperience-dbmanager -- -s "<sql_server_name>" -d "<database_name>" -a "Pass@12345" --hash-string-salt "<hash_string_salt>" --license-file "<license_file_path>"
-```
-
-See the Xperience documentation on [creating the project database](https://docs.kentico.com/documentation/developers-and-admins/installation#create-the-project-database) for all parameters.
-
-Then enable Continuous Integration and restore the example's search objects (index, search page, article topics) from `App_Data/CIRepository`:
+`examples/DancingGoat/App_Data/CIRepository` stores the sample's Xperience objects, including the Lucene index, search page, taxonomy, and related content types. Make intended content or configuration changes through Xperience while CI is enabled, then store and review them with:
 
 ```powershell
-dotnet run -- --kxp-ci-enable
-dotnet run -- --kxp-ci-restore
+dotnet run --project examples/DancingGoat -- --kxp-ci-store
 ```
 
-### Admin Customization
+Restore committed objects after pulling changes or when deliberately discarding local administration changes:
 
-The example project runs the Admin customization in development mode. `examples/DancingGoat/appsettings.Development.json` already contains the proxy configuration:
-
-```json
-"CMSAdminClientModuleSettings": {
-  "kentico-xperience-integrations-lucene-admin": {
-    "Mode": "Proxy",
-    "Port": 3074
-  }
-}
+```powershell
+dotnet run --project examples/DancingGoat -- --kxp-ci-restore
 ```
 
-The port must match `devServer.port` in `src/Kentico.Xperience.Lucene.Admin/Client/webpack.config.js`.
+Do not hand-edit or re-sign CI objects. Keep the existing index, localized routes, facets, and content behavior intact.
 
-The Xperience web application requests client modules from a webpack dev server that runs parallel to the Xperience application.
+### Run with Aspire
 
-Changes to client code are immediately integrated and don’t require a restart or rebuild of the web application.
+[Aspire](https://aspire.dev) starts DancingGoat and the admin client together. Install the [Aspire CLI](https://aspire.dev/get-started/install-cli/), then run from the repository root:
 
-Before you start developing, the webpack server needs to be manually started by running
-
-```bash
-npm install
-npm run start
+```powershell
+aspire run
 ```
 
-from the root of the module folder, in our case in the `/src/Kentico.Xperience.Lucene.Admin/Client` folder.
+The site is at <http://localhost:14536>. Development uses Proxy mode for `kentico-xperience-integrations-lucene-admin` on port 3074; CI uses embedded admin assets. Aspire uses the existing local SQL Server and Mailpit services by default. Container-managed services are an explicit alternative.
 
-> While proxy mode is configured, the Lucene admin UI pages will not load unless the webpack dev server is running.
+Without Aspire, start the admin client with `npm start` from `src/Kentico.Xperience.Lucene.Admin/Client`, then run DancingGoat with `dotnet run --project examples/DancingGoat`.
+
+### End-to-end tests
+
+Playwright tests live in `tests/e2e` and require a licensed database. See the [e2e README](../tests/e2e/README.md) for browser setup and commands. Run `npm ci` in the affected client/e2e folder to install dependencies. The sample's `.npmrc` skips install scripts; before its first accessibility scan, run `npm rebuild chromedriver --ignore-scripts=false` in `examples/DancingGoat`.
 
 ## Development Workflow
 
-### Prepare your Git branch and commits
+Central transitive pinning is disabled for packable library projects under `src` and enabled for the running sample and test projects under `examples` and `tests`. When changing a transitive security pin, regenerate the affected lockfiles and inspect packed library nuspecs to keep their dependency contracts intentional.
 
-1. Create a new branch with one of the following prefixes
+1. Create a branch with a suitable prefix:
+   - `feat/` for new functionality
+   - `refactor/` for restructuring
+   - `fix/` for bug fixes
+2. Run `dotnet format --no-restore --verify-no-changes` from the repository root (or use the `dotnet: format` VS Code task).
+3. If you change TypeScript, run `npm run format`, `npm run lint`, and `npm run typecheck` in the affected admin client or e2e folder. CI fails on formatting or type/lint errors.
+4. Run the build and test commands in the root `AGENTS.md`.
+5. Commit changes with a clear message, preferably following [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/#summary).
+6. Create a pull request with the `create-pull-request` skill and `.github/PULL_REQUEST_TEMPLATE.md`. Include screenshots or video for UI changes and note any maintainer actions.
 
-   - `feat/` - for new functionality
-   - `refactor/` - for restructuring of existing features
-   - `fix/` - for bugfixes
+This repository uses LF line endings for text files. EditorConfig and Git enforce them; no Git line-ending override is needed.
 
-1. Run `dotnet format` against the `Kentico.Xperience.Lucene` solution
+## Merging pull requests
 
-   > use `.NET: format (Lucene)` VS Code task.
+Use **Merge when ready** to add a pull request to the merge queue. The required CI jobs are `build_and_test` and `e2e`; the queue tests each change on top of `main` and earlier queued changes.
 
-1. Commit changes, with a commit message preferably following the [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/#summary) convention.
+## Repository settings
 
-### Test the package locally using the following commands
+An admin applies these settings. Check them with `./scripts/Test-RepositorySettings.ps1` while signed in with GitHub CLI; the script reports missing settings and does not apply changes.
 
-1. Generate a local package using the VS Code `.NET: pack (Lucene)` task or execute its command and arguments at the command line
-   This will generate a new `Kentico.Xperience.Lucene` package in the `nuget-local` folder with a version matching the version in your `Directory.Build.props`
+- `.github/CODEOWNERS` names an owner that GitHub resolves; the owner team has the Admin role, and outside collaborators are added through teams.
+- **Settings** > **General** > **Automatically delete head branches**: on.
+- Import the `main` branch rulesets from `.github/rulesets`:
+  - `protect-main.json` blocks deleting `main` and force-pushing, requires the supported-integration review policies, and enables Copilot code review.
+  - `merge-queue.json` requires the `Build and Test` and `E2E Tests` checks and squash merge queue; repository admins may bypass either ruleset only through a pull request.
+- **Settings** > **Advanced Security**:
+  - Enable the dependency graph and confirm manifests are detected.
+  - Enable Dependabot alerts, with an auto-triage rule for low-impact development dependency alerts.
+  - Enable Dependabot security updates and grouped security updates.
 
-1. Update the `Directory.Packages.props` to populate the `Kentico.Xperience.Lucene` package `Version=""` with the matching the value from the project's `Directory.Build.props`
+## Releasing
 
-   > In the future, we will be able to use floating versions to automatically select the highest (local) package version
+The package version comes from `VersionPrefix` and `VersionSuffix` in `Directory.Build.props`.
 
-1. Build the solution with the `LOCAL_NUGET=true` property
-
-   > You can use the VS Code `.NET: build (Solution) - LOCAL_NUGET` task
-
-1. Make sure the `Kentico.Xperience.Lucene.dll` version in the `examples\DancingGoat\bin\Debug\net10.0\` folder is the right version
-
-1. Run the `DancingGoat` application and ensure all functionality is correct
-
-   > You can use the `.NET Launch (DancingGoat) - LOCAL_NUGET` launch setting in VS Code
-
-1. Undo the `Directory.Packages.props` version number change to ensure it is not committed to the repository
-
-1. Perform a normal build to reset any modified `packages.lock.json` files
-
-### Create a PR
-
-Once ready, create a PR on GitHub. The PR will need to have all comments resolved and all tests passing before it will be merged.
-
-- The PR should have a helpful description of the scope of changes being contributed.
-- Include screenshots or video to reflect UX or UI updates
-- Indicate if new settings need to be applied when the changes are merged - locally or in other environments
+1. Set `VersionPrefix` to the new version. For a pre-release, set `VersionSuffix` to `prerelease-1` and raise the number for each further pre-release of the same version.
+2. Merge the version change to `main` through a pull request.
+3. Run the manual Azure DevOps pipeline at `.azuredevops/pipelines/build-and-release.yaml`. It builds, signs, tests, and packs the packages, then publishes them to NuGet.org after approval.
+4. Test a pre-release in a real project. When it is ready, remove `VersionSuffix`, merge the change, and run the pipeline for the full release.
+5. After a successful full release, create the GitHub release and tag `v<version>` on the released commit, with generated release notes. If a version is already on NuGet.org, raise it instead of rerunning the publish.

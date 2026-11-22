@@ -1,0 +1,5 @@
+package-lock.json
+playwright/
+playwright-report/
+test-results/
+*.md

@@ -328,7 +328,7 @@ public class IndexStorageContextTests
 
         var context = CreateContext();
 
-        var result = await context.DeleteIndex();
+        bool result = await context.DeleteIndex();
 
         Assert.That(result, Is.True);
         await strategy.Received(1).DeleteIndex(IndexRoot);

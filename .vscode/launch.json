@@ -5,49 +5,29 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": ".NET Launch (DancingGoat)",
+      "name": ".NET Core Launch (web)",
       "type": "coreclr",
       "request": "launch",
-      "launchBrowser": {
-        "enabled": false
-      },
-      "launchSettingsProfile": "DancingGoat",
-      "preLaunchTask": ".NET: build (Solution)",
-      "program": "${workspaceFolder}/examples/DancingGoat/bin/Debug/net10.0/DancingGoat.dll",
-      "cwd": "${workspaceFolder}/examples/DancingGoat",
-      "stopAtEntry": false,
-      "serverReadyAction": {
-        "action": "openExternally",
-        "pattern": "\\bNow listening on:\\s+(https?://\\S+)"
-      },
-      "sourceFileMap": {
-        "/Views": "${workspaceFolder}/Views"
-      }
-    },
-    {
-      "name": ".NET Launch (DancingGoat) - LOCAL_NUGET",
-      "type": "coreclr",
-      "request": "launch",
-      "preLaunchTask": ".NET: build (Solution) - LOCAL_NUGET",
+      "preLaunchTask": "dotnet: build",
       "program": "${workspaceFolder}/examples/DancingGoat/bin/Debug/net10.0/DancingGoat.dll",
       "args": [],
       "cwd": "${workspaceFolder}/examples/DancingGoat",
       "stopAtEntry": false,
       "serverReadyAction": {
         "action": "openExternally",
-        "pattern": "\\bNow listening on:\\s+(https?://\\S+)"
+        "pattern": "\\bNow listening on:\\s+(https?://\\S+)",
       },
       "env": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
+        "ASPNETCORE_ENVIRONMENT": "Development",
       },
       "sourceFileMap": {
-        "/Views": "${workspaceFolder}/Views"
-      }
+        "/Views": "${workspaceFolder}/examples/DancingGoat/Views",
+      },
     },
     {
-      "name": ".NET Attach",
+      "name": ".NET Core Attach",
       "type": "coreclr",
-      "request": "attach"
-    }
-  ]
+      "request": "attach",
+    },
+  ],
 }

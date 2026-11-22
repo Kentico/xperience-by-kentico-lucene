@@ -33,7 +33,6 @@
     <PackageReference Include="kentico.xperience.webapp" />
     <PackageReference Include="AngleSharp" />
     <PackageReference Include="Lucene.Net.Highlighter" />
-    <PackageReference Include="Kentico.Xperience.Lucene" Condition="'$(LOCAL_NUGET)' == 'true'" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\src\Kentico.Xperience.Lucene\Kentico.Xperience.Lucene.csproj" />

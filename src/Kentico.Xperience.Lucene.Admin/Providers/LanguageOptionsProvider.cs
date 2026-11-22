@@ -26,7 +26,7 @@ internal class LanguageOptionsProvider : IGeneralSelectorDataProvider
         itemQuery.Page(pageIndex, 20);
 
         // Retrieves the users and converts them into ObjectSelectorListItem<string> options
-        var items = (await itemQuery.GetEnumerableTypedResultAsync()).Select(x => new ObjectSelectorListItem<string>()
+        var items = (await itemQuery.GetEnumerableTypedResultAsync(cancellationToken: CancellationToken.None)).Select(x => new ObjectSelectorListItem<string>()
         {
             Value = x.ContentLanguageName,
             Text = x.ContentLanguageDisplayName,
@@ -57,7 +57,7 @@ internal class LanguageOptionsProvider : IGeneralSelectorDataProvider
         var itemQuery = contentLanguageInfoProvider.Get()
             .WhereIn(nameof(ContentLanguageInfo.ContentLanguageName), selectedValuesList);
 
-        var itemsByName = (await itemQuery.GetEnumerableTypedResultAsync())
+        var itemsByName = (await itemQuery.GetEnumerableTypedResultAsync(cancellationToken: CancellationToken.None))
             .ToDictionary(x => x.ContentLanguageName, x => new ObjectSelectorListItem<string>()
             {
                 Value = x.ContentLanguageName,

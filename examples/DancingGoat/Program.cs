@@ -81,6 +81,7 @@ if (builder.Environment.IsDevelopment())
     builder.Services.Configure<UrlResolveOptions>(options => options.UseSSL = false);
 }
 
+builder.AddDancingGoatLocalEnvironment();
 builder.AddDancingGoatManagementApi();
 
 var app = builder.Build();

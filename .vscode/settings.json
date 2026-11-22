@@ -14,29 +14,25 @@
 
   "editor.formatOnSave": true,
   "editor.defaultFormatter": "esbenp.prettier-vscode",
-  "editor.codeActionsOnSave": {
-    "source.fixAll.eslint": "explicit"
-  },
 
   "[markdown]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
-
-  "[xml]": {
-    "editor.defaultFormatter": "DotJoshJohnson.xml"
   },
 
   "[csharp]": {
     "editor.defaultFormatter": "ms-dotnettools.csharp"
   },
 
-  "files.associations": {
-    ".azuredevops/**/*.yaml": "azure-pipelines"
-  },
-  "dotnet.defaultSolution": "Kentico.Xperience.Lucene.sln",
-
-  "eslint.workingDirectories": ["./src/Kentico.Xperience.Lucene.Admin/Client"],
   "[aspnetcorerazor]": {
     "editor.defaultFormatter": "ms-dotnettools.csharp"
-  }
+  },
+
+  // template:azure:start
+  "files.associations": {
+    ".azuredevops/**/*.{yml,yaml}": "azure-pipelines"
+  },
+  // template:azure:end
+
+  "dotnet.defaultSolution": "Kentico.Xperience.Lucene.slnx",
+  "dotnet.solution.autoOpen": "Kentico.Xperience.Lucene.slnx"
 }

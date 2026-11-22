@@ -34,24 +34,25 @@ Lucene indexes are stored using the [CMS.IO](https://docs.kentico.com/x/4YfWCQ) 
 
 ## Library Version Matrix
 
-| Xperience Version   | Library Version |
-| ------------------- | --------------- |
-| >= 31.0.0           | >= 14.0.0       |
-| >= 30.9.0           | >= 13.0.0       |
-| >= 30.8.0           | >= 12.5.0       |
-| >= 30.6.0           | >= 12.4.0       |
-| >= 30.5.1           | >= 12.3.0       |
-| >= 30.0.1           | >= 11.0.1       |
-| >= 30.0.0           | >= 11.0.0       |
-| >= 29.3.3           | >= 8.1.0        |
-| >= 29.0.0           | >= 6.1.x        |
-| >= 28.4.3, < 29.0.0 | >= 5.x.x        |
-| >= 28.0.0           | >= 3.x.x        |
-| >= 26.2.0, < 27.0.0 | >= 2.x, < 3.x.x |
+| Xperience Version   | Library Version               |
+| ------------------- | ----------------------------- |
+| >= 31.6.0           | >= 16.0.0 (.NET 10+)          |
+| >= 31.0.0           | >= 14.0.0, < 16.0.0 (.NET 8+) |
+| >= 30.9.0           | >= 13.0.0                     |
+| >= 30.8.0           | >= 12.5.0                     |
+| >= 30.6.0           | >= 12.4.0                     |
+| >= 30.5.1           | >= 12.3.0                     |
+| >= 30.0.1           | >= 11.0.1                     |
+| >= 30.0.0           | >= 11.0.0                     |
+| >= 29.3.3           | >= 8.1.0                      |
+| >= 29.0.0           | >= 6.1.x                      |
+| >= 28.4.3, < 29.0.0 | >= 5.x.x                      |
+| >= 28.0.0           | >= 3.x.x                      |
+| >= 26.2.0, < 27.0.0 | >= 2.x, < 3.x.x               |
 
 ## Dependencies
 
-- [ASP.NET Core 8.0](https://dotnet.microsoft.com/en-us/download) or newer
+- [ASP.NET Core 10.0](https://dotnet.microsoft.com/en-us/download/dotnet/10.0) or newer
 - [Xperience by Kentico](https://docs.kentico.com/changelog)
 
 ## Package Installation

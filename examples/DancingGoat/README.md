@@ -27,12 +27,37 @@ Content and configuration that search depends on is stored in the CI repository 
 
 ### Prerequisites
 
-- .NET SDK version from [`global.json`](../../global.json) (.NET 10)
+- Exact .NET 11 SDK from [`global.json`](../../global.json), with .NET 10 runtime/targets
 - SQL Server 2019 or newer
 - Node.js version from `engines` in [`src/Kentico.Xperience.Lucene.Admin/Client/package.json`](../../src/Kentico.Xperience.Lucene.Admin/Client/package.json) (needed for the admin UI dev server)
 - An Xperience by Kentico [license key](https://docs.kentico.com/documentation/developers-and-admins/installation/licenses) saved in a text file
 
-### 1. Create the database
+### 1. Initialize a local database
+
+Use the shared root `setup-local` skill, or run from the repository root after a
+Release build:
+
+```powershell
+dotnet tool restore
+dotnet restore Kentico.Xperience.Lucene.slnx --locked-mode
+dotnet build examples\DancingGoat --configuration Release --no-restore -p:SIGN_FILE=false
+.\scripts\Initialize-Database.ps1 -DatabaseName "<new-local-database>" -LicenseFile "<license_file_path>" -Configuration Release
+```
+
+The root dbmanager tool follows the sample's Xperience version (31.10.0); library
+minimum remains 31.6.0. The helper preserves the committed macro salt, saves the
+connection in the sample's existing user-secrets store, restores Lucene's CI
+objects and enables CI. Choosing a new database changes the sample's local
+user-secrets connection; `-SaveTo None` avoids that and requires a runtime
+connection override. Never recreate an existing database without approval.
+
+Existing SQL Server and Mailpit are the default; SMTP uses localhost:1025 and
+Mailpit UI localhost:8025. Container-managed services are an explicit AppHost
+alternative. `aspire run` starts the site and admin client together.
+Development configures email processing and a 48-hour admin session; CI uses
+embedded client assets. Production settings are unchanged.
+
+### Manual database setup (alternative)
 
 The site's content is included in `Data/Template.zip`. The `kentico-xperience-dbmanager` tool creates the database from it and writes the `CMSConnectionString` to `appsettings.json`.
 
@@ -105,7 +130,7 @@ In VS Code you can also use the `.NET Launch (DancingGoat)` launch configuration
 
 ## AI-assisted development
 
-The project is set up for AI coding assistants: agent instructions (`AGENTS.md`), a design-guidance skill (`.claude/skills`, `.github/skills`), and the Kentico [Documentation MCP](https://docs.kentico.com/x/mcp_server_xp) and [Management MCP](https://docs.kentico.com/x/management_api_xp) servers configured in the repository root `.mcp.json`.
+The project is set up for AI coding assistants: root and sample `AGENTS.md`, shared skills in root `.claude/skills` (for both Copilot and Claude), and Kentico [Documentation MCP](https://docs.kentico.com/x/mcp_server_xp), [Management MCP](https://docs.kentico.com/x/management_api_xp) and Aspire servers in root `.mcp.json`. Design guidance is scoped to this sample.
 
 To learn more about Kentico's suite of AI development tools, see the [KentiCopilot](https://docs.kentico.com/x/kenticocopilot_guides) documentation.
 

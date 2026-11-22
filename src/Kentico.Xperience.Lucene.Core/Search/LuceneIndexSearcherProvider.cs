@@ -30,7 +30,7 @@ internal sealed class LuceneIndexSearcherProvider : IDisposable
 
     private readonly ILuceneIndexService indexService;
     private readonly ConcurrentDictionary<string, CachedIndex> cache = new(StringComparer.OrdinalIgnoreCase);
-    private readonly object creationLock = new();
+    private readonly Lock creationLock = new();
     private bool disposed;
 
 
@@ -94,7 +94,7 @@ internal sealed class LuceneIndexSearcherProvider : IDisposable
 
         disposed = true;
 
-        foreach (var key in cache.Keys.ToArray())
+        foreach (string key in cache.Keys.ToArray())
         {
             if (cache.TryRemove(key, out var cached))
             {

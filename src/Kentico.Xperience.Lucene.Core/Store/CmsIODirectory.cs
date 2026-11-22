@@ -46,10 +46,7 @@ internal class CmsIODirectory : BaseDirectory
     /// <param name="path">The path to the directory</param>
     /// <param name="lockFactory">The lock factory to use</param>
     /// <returns>A CmsIODirectory instance representing the opened directory at the specified path.</returns>
-    public static CmsIODirectory Open(string path, LockFactory lockFactory)
-    {
-        return new CmsIODirectory(path, lockFactory);
-    }
+    public static CmsIODirectory Open(string path, LockFactory lockFactory) => new(path, lockFactory);
 
 
     /// <summary>
@@ -67,7 +64,9 @@ internal class CmsIODirectory : BaseDirectory
 
         EnsureDirectoryExists();
 
+#pragma warning disable S1699 // BaseDirectory has no lock-factory constructor; initialize the caller-selected factory after base setup.
         SetLockFactory(lockFactory);
+#pragma warning restore S1699
     }
 
 
@@ -183,7 +182,7 @@ internal class CmsIODirectory : BaseDirectory
         // With Azure Blob Storage, writes are already durable once the stream is closed.
         // For local filesystem, we can optionally force a flush.
 
-        foreach (var name in names)
+        foreach (string name in names)
         {
             string filePath = GetFilePath(name);
             if (CmsFile.Exists(filePath))
@@ -207,10 +206,7 @@ internal class CmsIODirectory : BaseDirectory
     /// <summary>
     /// Closes the directory, releasing any resources.
     /// </summary>
-    protected override void Dispose(bool disposing)
-    {
-        IsOpen = false;
-    }
+    protected override void Dispose(bool disposing) => IsOpen = false;
 
 
     /// <summary>
@@ -288,7 +284,7 @@ internal class CmsIODirectory : BaseDirectory
     internal static string RestoreCodecNameCase(string fileName)
     {
         var lookup = codecNameLookup.Value;
-        var parts = fileName.Split('_');
+        string[] parts = fileName.Split('_');
 
         for (int i = 0; i < parts.Length; i++)
         {

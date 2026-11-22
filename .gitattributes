@@ -1,33 +1,33 @@
 # Auto detect text files and perform LF normalization
-*                   text=auto
-*                   text eol=crlf
+
+*                   text=auto eol=lf
 
 *.cs                text diff=csharp
 *.cshtml            text diff=html
 
-*.sln               text eol=crlf
-*.csproj            text eol=crlf
-*.vcproj            text eol=crlf
-*.sqlproj           text eol=crlf
-*.config            text eol=crlf
+*.sln               text
+*.slnx              text
+*.csproj            text
+*.vcproj            text
+*.sqlproj           text
 
-*.xproj             text eol=crlf
-*.props             text eol=crlf
-*.filters           text eol=crlf
-*.vcxitems          text eol=crlf
+*.xproj             text
+*.props             text
+*.filters           text
+*.vcxitems          text
 
-*.yaml              text eol=crlf
-*.yml               text eol=crlf
+*.yaml              text
+*.yml               text
 
-*.css               text eol=crlf diff=css
-*.html              text eol=crlf diff=html
-*.js                text eol=crlf
-*.jsx               text eol=crlf
-*.ts                text eol=crlf
-*.tsx               text eol=crlf
+*.css               text diff=css
+*.html              text diff=html
+*.js                text
+*.jsx               text
+*.ts                text
+*.tsx               text
 
-package.json        text eol=crlf
-package-lock.json   text eol=crlf -diff
+package.json        text
+package-lock.json   text -diff
 
 *.sql               linguist-detectable=true
 *.sql               linguist-language=sql
@@ -37,7 +37,7 @@ tsconfig.json       linguist-language=JSON-with-Comments
 *.webm              binary
 *.mp4               binary
 
-*.svg               text eol=crlf
+*.svg               text
 *.ico               binary
 *.gif               binary
 *.pdf               binary
@@ -48,5 +48,3 @@ tsconfig.json       linguist-language=JSON-with-Comments
 
 *.woff              binary
 *.woff2             binary
-
-*.zip               binary

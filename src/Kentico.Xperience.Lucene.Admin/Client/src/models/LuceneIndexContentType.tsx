@@ -1,4 +1,5 @@
 export interface LuceneIndexContentType {
-    contentTypeName: string;
-    contentTypeDisplayName: string;
+  [key: string]: string;
+  contentTypeName: string;
+  contentTypeDisplayName: string;
 }

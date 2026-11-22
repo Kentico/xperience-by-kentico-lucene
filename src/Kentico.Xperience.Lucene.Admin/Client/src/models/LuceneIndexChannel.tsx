@@ -1,4 +1,4 @@
 export interface LuceneIndexChannel {
-    channelName: string;
-    channelDisplayName: string;
+  channelName: string;
+  channelDisplayName: string;
 }

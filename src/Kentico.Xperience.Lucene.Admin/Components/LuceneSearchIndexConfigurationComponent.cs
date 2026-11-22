@@ -137,9 +137,10 @@ internal sealed class LuceneSearchIndexConfigurationComponent : FormComponent<Fo
     [FormComponentCommand]
     public async Task<ICommandResponse<RowActionResult>> AddWebsiteChannelConfiguration(string websiteChannelName)
     {
-        var websiteChannel = channelProvider
+        var websiteChannel = (await channelProvider
             .Get()
             .WhereEquals(nameof(ChannelInfo.ChannelName), websiteChannelName)
+            .GetEnumerableTypedResultAsync(cancellationToken: CancellationToken.None))
             .FirstOrDefault();
 
         var user = await authenticatedUserAccessor.Get();
@@ -167,12 +168,12 @@ internal sealed class LuceneSearchIndexConfigurationComponent : FormComponent<Fo
         var allWebsiteChannels = await channelProvider
             .Get()
             .WhereEquals(nameof(ChannelInfo.ChannelType), ChannelType.Website.ToString())
-            .GetEnumerableTypedResultAsync();
+            .GetEnumerableTypedResultAsync(cancellationToken: CancellationToken.None);
 
-        var allWebsiteContentTypes = DataClassInfoProvider.ProviderObject
+        var allWebsiteContentTypes = (await DataClassInfoProvider.ProviderObject
             .Get()
             .WhereEquals(nameof(DataClassInfo.ClassContentTypeType), "Website")
-            .GetEnumerableTypedResult()
+            .GetEnumerableTypedResultAsync(cancellationToken: CancellationToken.None))
             .Select(x => new LuceneIndexContentType(x.ClassName, x.ClassDisplayName, 0));
 
         properties.Value = Value ?? [];
@@ -210,9 +211,10 @@ internal sealed class LuceneSearchIndexConfigurationComponent : FormComponent<Fo
 
     private async Task<ICommandResponse<RowActionSuccessResult>?> GetInvalidValidationResultOrNull(string permission, string channelName, string methodName, string action)
     {
-        var channel = channelProvider
+        var channel = (await channelProvider
                 .Get()
                 .WhereEquals(nameof(ChannelInfo.ChannelName), channelName)
+                .GetEnumerableTypedResultAsync(cancellationToken: CancellationToken.None))
                 .FirstOrDefault();
 
         var user = await authenticatedUserAccessor.Get();

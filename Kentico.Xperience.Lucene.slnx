@@ -1,0 +1,14 @@
+<Solution>
+  <Folder Name="/examples/">
+    <Project Path="examples/AppHost/AppHost.csproj" />
+    <Project Path="examples/DancingGoat/DancingGoat.csproj" />
+  </Folder>
+  <Folder Name="/src/">
+    <Project Path="src/Kentico.Xperience.Lucene.Admin/Kentico.Xperience.Lucene.Admin.csproj" />
+    <Project Path="src/Kentico.Xperience.Lucene.Core/Kentico.Xperience.Lucene.Core.csproj" />
+    <Project Path="src/Kentico.Xperience.Lucene/Kentico.Xperience.Lucene.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/Kentico.Xperience.Lucene.Tests/Kentico.Xperience.Lucene.Core.Tests.csproj" />
+  </Folder>
+</Solution>

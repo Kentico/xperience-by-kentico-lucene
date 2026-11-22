@@ -447,7 +447,8 @@ internal class DefaultLuceneClient : ILuceneClient
     private Task<IEnumerable<ContentLanguageInfo>> GetAllLanguages() =>
         cache.LoadAsync(async cs =>
         {
-            var results = await languageProvider.Get().GetEnumerableTypedResultAsync();
+            var results = await languageProvider.Get()
+                .GetEnumerableTypedResultAsync(cancellationToken: CancellationToken.None);
 
             cs.GetCacheDependency = () => CacheHelper.GetCacheDependency($"{ContentLanguageInfo.OBJECT_TYPE}|all");
 

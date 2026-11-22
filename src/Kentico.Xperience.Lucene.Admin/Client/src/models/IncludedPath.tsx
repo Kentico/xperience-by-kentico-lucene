@@ -1,7 +1,8 @@
-import { LuceneIndexContentType } from './LuceneIndexContentType';
+import type { LuceneIndexContentType } from "./LuceneIndexContentType";
 
 export interface IncludedPath {
-    aliasPath: string | null;
-    contentTypes: LuceneIndexContentType[];
-    identifier: string | null;
+  [key: string]: string | LuceneIndexContentType[] | null;
+  aliasPath: string | null;
+  contentTypes: LuceneIndexContentType[];
+  identifier: string | null;
 }
