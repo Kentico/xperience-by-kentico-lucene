@@ -4,7 +4,7 @@ description: Set up Lucene's local DancingGoat environment with existing SQL Ser
 ---
 
 Run from the repository root. Root `.claude/skills` works for both Copilot and
-Claude; do not install duplicate per-tool skills or run the one-time setup-repo.
+Claude.
 
 ## 1. Prerequisites
 
@@ -34,7 +34,7 @@ dotnet build Kentico.Xperience.Lucene.slnx --configuration Release --no-restore 
 
 Use `npm ci` in `src/Kentico.Xperience.Lucene.Admin/Client` and `tests/e2e`,
 then `npm run install:browsers` in `tests/e2e` when browser checks are required.
-Release builds embed admin assets; there is no LOCAL_NUGET emulation.
+Release builds embed the admin client assets.
 Non-Xperience dependency versions must be at least the adopted template's versions;
 newer compatible fixes must satisfy its cooldown/minimum-release-age. Setup itself
 does not change manifests or locks to bypass missing-dependency errors.

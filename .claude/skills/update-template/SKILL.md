@@ -3,12 +3,10 @@ name: update-template
 description: Check newer releases of the Kentico repository template whose tooling Lucene adopted, preserving its three-package layout, supported Xperience versions, sample search and module identity. Use when updating or checking template tooling.
 ---
 
-Brings changes from newer releases of the template (`Kentico/repo-template-xperience`) into this repository. `.config/template.json` records the last template commit and release adopted, the setup choices, and changes skipped on purpose. You decide per change whether it fits this project; most releases touch only a few files. Each step ends on its completion criterion; move on only when it holds.
+Brings applicable changes from newer releases of `Kentico/repo-template-xperience` into this repository. `.config/template.json` records the pinned template source, reviewed release, setup choices, and changes skipped on purpose. Decide per change whether it fits this project; each step ends on its completion criterion.
 
-Lucene adopted tooling, not the template's first commit. The pinned v1.0.0 SHA is
-the reviewed scaffold source, not proof of complete integration validation.
-The baseline finder is only an inference aid. `provenance` separately records
-post-release scripts and pending integration validation; preserve these fields.
+The manifest pins the reviewed template release/source and records adaptation
+provenance separately from integration validation; preserve these fields.
 The compare renderer narrowly maps the template's base implementation to `.Core`,
 retains the aggregate sample reference, includes all three solution/package entries,
 and uses `kentico-xperience-integrations-lucene-admin`. Preserve these adaptations
@@ -17,7 +15,6 @@ when updating the skill itself; run `scripts/Test-TemplateRendering.ps1`.
 
 ## 1. Check the starting state
 
-- `git remote get-url origin` does not point at `Kentico/repo-template-xperience` (the template itself), and `Kentico.Xperience.RepoTemplate.slnx` does not exist (an unset-up repository runs `setup-repo` instead).
 - `git status --short` is empty. If not, stop and ask the user how to proceed.
 - `gh auth status` succeeds.
 - Work on the app-managed feature branch; do not switch or rename branches with raw Git commands.
@@ -29,11 +26,11 @@ Done when all hold.
 Read `.config/template.json`:
 
 - `template`: the template repository
-- `commit`, `version`: the last template commit and release adopted (both `null` until the first update)
+- `commit`, `version`: the pinned source commit and template release last reviewed
 - `setup`: the `setup-repo` choices (family, name, display name, example, admin, GitHub owner, repository slug, author)
 - `skipped`: changes not adopted, each with its release and reason
 
-If the file is missing (the repository predates it), create it in that shape. Fill `setup` from the repository: the solution name gives family and name (`Kentico.Xperience.<Name>`: Kentico, `Kentico.Xperience.Labs.<Name>`: Labs, `XperienceCommunity.<Name>`: Community), a `src/*.Admin` project means `noAdmin: false`, `<IsPackable>false</IsPackable>` in `Directory.Build.props` means `example: true`, and `git remote get-url origin` gives owner and slug. Done when the manifest exists with `setup` filled.
+If the file is missing, record the reviewed template source and setup choices after inspecting the current package layout and repository remote. Use the complete adoption inventory to identify applicable files. Done when the manifest identifies the reviewed source and local setup.
 
 ## 3. Fetch the template
 
@@ -48,20 +45,18 @@ Run every later template command as `git -C $tmpl ...`. Done when `git -C $tmpl 
 
 ## 4. Find the baseline
 
-The baseline is the template commit this repository matches:
+Use the manifest's pinned commit as the comparison baseline:
 
-1. `commit` from the manifest, if set.
-2. Otherwise the template commit whose tree equals this repository's first commit's tree. GitHub creates a repository from a template as one commit with the template's files:
-   `git rev-parse "$(git rev-list --max-parents=0 HEAD)^{tree}"`, then find that tree in `git -C $tmpl log --format="%H %T" main`.
-3. Otherwise (squashed history, or a repository created from an earlier copy of the template, whose commits are not in this template's history): run `./.claude/skills/update-template/scripts/Find-TemplateBaseline.ps1 -Template $tmpl`. It ranks template commits by how many files this repository has unchanged. When several score alike, read what each later one changed (`git -C $tmpl show --stat <commit>`) and check whether this repository has it; the baseline is the last one it has. Prefer commits from before this repository's first commit (`AfterRepo` false). Tell the user the baseline is inferred and why.
+1. Verify `commit` exists in the template and corresponds to the recorded release/source.
+2. If no commit is recorded, use the adoption inventory and inspect the candidate release's full relevant file set. `Find-TemplateBaseline.ps1` may rank candidates for review only; similarity is not proof of a historical baseline. Record the chosen reviewed source commit and uncertainty in `provenance`.
 
-Done when the baseline commit is known.
+Done when the comparison source is verified and recorded.
 
 ## 5. List newer releases
 
 Newer releases are the template's `v*` tags whose commit is not an ancestor of the baseline (`git -C $tmpl merge-base --is-ancestor <tag> <baseline>` fails), oldest first. Read each one's notes with `gh release view <tag> --repo Kentico/repo-template-xperience`.
 
-If there are none, report no newer release; do not claim migration validation passed or delete the app-managed branch. Done when the list and notes are read.
+If there are none, report that no newer release is available. Done when the list and notes are read.
 
 ## 6. Update this skill first
 
@@ -73,7 +68,7 @@ git -C $tmpl archive --output $zip <latest tag> .claude/skills/update-template
 Expand-Archive $zip -DestinationPath <outside-repository-review-folder>
 ```
 
-Done when this skill matches the latest tag.
+Done when relevant changes are incorporated and Lucene-specific adaptations remain intact.
 
 ## 7. Review each release
 

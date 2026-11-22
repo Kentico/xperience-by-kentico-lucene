@@ -130,7 +130,7 @@ In VS Code you can also use the `.NET Launch (DancingGoat)` launch configuration
 
 ## AI-assisted development
 
-The project is set up for AI coding assistants: root and sample `AGENTS.md`, shared skills in root `.claude/skills` (for both Copilot and Claude), and Kentico [Documentation MCP](https://docs.kentico.com/x/mcp_server_xp), [Management MCP](https://docs.kentico.com/x/management_api_xp) and Aspire servers in root `.mcp.json`. Design guidance is scoped to this sample. Tooling was adopted from the repository template, not used to generate this repository's first commit.
+The project is set up for AI coding assistants: root and sample `AGENTS.md`, shared skills in root `.claude/skills` (for both Copilot and Claude), and Kentico [Documentation MCP](https://docs.kentico.com/x/mcp_server_xp), [Management MCP](https://docs.kentico.com/x/management_api_xp) and Aspire servers in root `.mcp.json`. Design guidance is scoped to this sample.
 
 To learn more about Kentico's suite of AI development tools, see the [KentiCopilot](https://docs.kentico.com/x/kenticocopilot_guides) documentation.
 
