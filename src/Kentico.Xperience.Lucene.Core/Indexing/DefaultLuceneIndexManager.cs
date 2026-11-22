@@ -41,6 +41,7 @@ internal class DefaultLuceneIndexManager : ILuceneIndexManager
 
             if (indexConfiguration == null)
             {
+                cs.Cached = false;
                 return default;
             }
             cs.CacheDependency = CacheHelper.GetCacheDependency(GetLuceneDependencyCacheKeys());
@@ -60,6 +61,7 @@ internal class DefaultLuceneIndexManager : ILuceneIndexManager
 
             if (indexConfiguration == null)
             {
+                cs.Cached = false;
                 return default;
             }
             cs.CacheDependency = CacheHelper.GetCacheDependency(GetLuceneDependencyCacheKeys());
