@@ -1,4 +1,4 @@
-import type { LuceneIndexContentType } from './LuceneIndexContentType';
+import type { LuceneIndexContentType } from "./LuceneIndexContentType";
 
 export interface IncludedPath {
   [key: string]: string | LuceneIndexContentType[] | null;

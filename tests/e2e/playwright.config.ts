@@ -6,7 +6,7 @@ import {
   webServerTimeoutMs,
 } from "./shared/config";
 
-const isCi = Boolean(process.env.CI);
+const isCi = !!process.env.CI;
 
 export default defineConfig({
   testDir: ".",

@@ -11,14 +11,5 @@
     "noEmit": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true
-  },
-  "include": [
-    "playwright.config.ts",
-    "screenshots.config.ts",
-    "admin/**/*.ts",
-    "live-site/**/*.ts",
-    "screenshots/**/*.ts",
-    "shared/**/*.ts"
-  ],
-  "exclude": ["node_modules", "playwright-report", "test-results"]
+  }
 }

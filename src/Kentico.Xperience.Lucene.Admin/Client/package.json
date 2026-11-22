@@ -4,12 +4,12 @@
   "description": "Xperience by Kentico Lucene administration project.",
   "private": true,
   "scripts": {
-    "start": "npm run lint && webpack serve --mode development",
-    "build:dev": "npm run lint && webpack --mode=development",
-    "build": "npm run lint && webpack --mode=production",
+    "start": "webpack serve --mode development",
+    "build:dev": "webpack --mode development",
+    "build": "webpack --mode production",
     "typecheck": "tsc --noEmit",
-    "lint": "eslint src --max-warnings=0",
-    "lint:fix": "eslint src --fix",
+    "lint": "eslint --max-warnings=0",
+    "lint:fix": "eslint --fix",
     "format": "prettier --write .",
     "format:check": "prettier --check ."
   },

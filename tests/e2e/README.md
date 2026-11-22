@@ -35,7 +35,5 @@ The `build_and_test` CI job runs static checks and the Release build/tests for e
 | --------------------------- | --------------------------------------------------------------------------- |
 | `DANCING_GOAT_BASE_URL`     | `applicationUrl` from `examples/DancingGoat/Properties/launchSettings.json` |
 | `ADMIN_BASE_URL`            | `<base URL>/admin`                                                          |
-| `E2E_ADMIN_USERNAME`        | `administrator`                                                             |
-| `E2E_ADMIN_PASSWORD`        | `Pass@12345`                                                                |
 | `E2E_WEB_SERVER_COMMAND`    | `dotnet run --project examples/DancingGoat`                                 |
 | `E2E_WEB_SERVER_TIMEOUT_MS` | `180000`                                                                    |

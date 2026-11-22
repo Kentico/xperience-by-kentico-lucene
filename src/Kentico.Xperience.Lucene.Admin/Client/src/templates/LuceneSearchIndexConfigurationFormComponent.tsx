@@ -5,7 +5,7 @@ import type {
   TableCell,
   TableColumn,
   TableRow,
-} from '@kentico/xperience-admin-components';
+} from "@kentico/xperience-admin-components";
 import {
   Button,
   ButtonType,
@@ -13,22 +13,22 @@ import {
   ColumnContentType,
   Stack,
   Table,
-} from '@kentico/xperience-admin-components';
-import { useFormComponentCommandProvider } from '@kentico/xperience-admin-base';
-import React, { useState } from 'react';
+} from "@kentico/xperience-admin-components";
+import { useFormComponentCommandProvider } from "@kentico/xperience-admin-base";
+import React, { useState } from "react";
 import type {
   CSSObjectWithLabel,
   GroupBase,
   SingleValue,
   StylesConfig,
-} from 'react-select';
-import Select from 'react-select';
-import type { LuceneIndexConfigurationFormComponentProps } from '../models/LuceneIndexConfigurationFormComponentProps';
-import type { LuceneIndexChannelConfiguration } from '../models/LuceneIndexChannelConfiguration';
-import type { OptionType } from '../models/OptionType';
-import type { LuceneIndexChannel } from '../models/LuceneIndexChannel';
-import { LuceneIncludedPathConfiguration } from './LuceneIncludedPathConfiguration';
-import type { RowActionSuccessResult } from '../models/RowActionSuccessResult';
+} from "react-select";
+import Select from "react-select";
+import type { LuceneIndexConfigurationFormComponentProps } from "../models/LuceneIndexConfigurationFormComponentProps";
+import type { LuceneIndexChannelConfiguration } from "../models/LuceneIndexChannelConfiguration";
+import type { OptionType } from "../models/OptionType";
+import type { LuceneIndexChannel } from "../models/LuceneIndexChannel";
+import { LuceneIncludedPathConfiguration } from "./LuceneIncludedPathConfiguration";
+import type { RowActionSuccessResult } from "../models/RowActionSuccessResult";
 
 export const LuceneSearchIndexConfigurationFormComponent = (
   props: LuceneIndexConfigurationFormComponentProps,
@@ -87,15 +87,15 @@ export const LuceneSearchIndexConfigurationFormComponent = (
     const getCells = (
       channel: LuceneIndexChannelConfiguration,
     ): TableCell[] => {
-      const channelName = channel.websiteChannelName?.toString() ?? '';
-      const channelDisplayName = channel.channelDisplayName?.toString() ?? '';
+      const channelName = channel.websiteChannelName?.toString() ?? "";
+      const channelDisplayName = channel.channelDisplayName?.toString() ?? "";
       const cell: StringCell = {
         type: CellType.String,
         value: channelDisplayName,
       };
       const deleteAction: TableAction = {
-        label: 'delete',
-        icon: 'xp-bin',
+        label: "delete",
+        icon: "xp-bin",
         disabled: false,
         destructive: true,
       };
@@ -104,7 +104,7 @@ export const LuceneSearchIndexConfigurationFormComponent = (
         async () => {
           const response = await executeCommand<RowActionSuccessResult, string>(
             props,
-            'DeleteWebsiteChannelConfiguration',
+            "DeleteWebsiteChannelConfiguration",
             channelName,
           );
           if (!response?.success) {
@@ -133,7 +133,7 @@ export const LuceneSearchIndexConfigurationFormComponent = (
 
     return channels.map((channel) => {
       const row: TableRow = {
-        identifier: channel.websiteChannelName ?? '',
+        identifier: channel.websiteChannelName ?? "",
         cells: getCells(channel),
         disabled: false,
       };
@@ -148,10 +148,10 @@ export const LuceneSearchIndexConfigurationFormComponent = (
     const columns: TableColumn[] = [];
 
     const column: TableColumn = {
-      name: 'Website Channel',
+      name: "Website Channel",
       visible: true,
       contentType: ColumnContentType.Text,
-      caption: '',
+      caption: "",
       minWidth: 0,
       maxWidth: 1000,
       sortable: true,
@@ -159,10 +159,10 @@ export const LuceneSearchIndexConfigurationFormComponent = (
     };
 
     const actionColumn: TableColumn = {
-      name: 'Actions',
+      name: "Actions",
       visible: true,
       contentType: ColumnContentType.Action,
-      caption: '',
+      caption: "",
       minWidth: 0,
       maxWidth: 1000,
       sortable: false,
@@ -184,7 +184,7 @@ export const LuceneSearchIndexConfigurationFormComponent = (
 
   const showChannelDetail = (identifier: unknown): void => {
     if (!showChannelEdit) {
-      if (typeof identifier !== 'string') {
+      if (typeof identifier !== "string") {
         return;
       }
 
@@ -247,12 +247,12 @@ export const LuceneSearchIndexConfigurationFormComponent = (
         return x.identifier === channel.websiteChannelName;
       })
     ) {
-      if (channel.websiteChannelName === '' || !channel.websiteChannelName) {
-        alert('Invalid Channel');
+      if (channel.websiteChannelName === "" || !channel.websiteChannelName) {
+        alert("Invalid Channel");
       } else {
         const response = await executeCommand<RowActionSuccessResult, string>(
           props,
-          'AddWebsiteChannelConfiguration',
+          "AddWebsiteChannelConfiguration",
           channel.websiteChannelName,
         );
         if (!response?.success) {
@@ -269,7 +269,7 @@ export const LuceneSearchIndexConfigurationFormComponent = (
       });
 
       if (rowIndex === -1) {
-        alert('Invalid edit');
+        alert("Invalid edit");
         return;
       }
 
@@ -277,7 +277,7 @@ export const LuceneSearchIndexConfigurationFormComponent = (
         return x.websiteChannelName === channel.websiteChannelName;
       });
       if (propPathIndex === -1) {
-        alert('Invalid edit');
+        alert("Invalid edit");
         return;
       }
 
@@ -290,7 +290,7 @@ export const LuceneSearchIndexConfigurationFormComponent = (
       const response = await executeCommand<
         RowActionSuccessResult,
         LuceneIndexChannelConfiguration
-      >(props, 'SaveWebsiteChannelConfiguration', updatedChannel);
+      >(props, "SaveWebsiteChannelConfiguration", updatedChannel);
       if (!response?.success) {
         return;
       }
@@ -325,35 +325,35 @@ export const LuceneSearchIndexConfigurationFormComponent = (
   const customStyle: StylesConfig<OptionType, false, GroupBase<OptionType>> = {
     control: (styles, { isFocused }) => ({
       ...styles,
-      backgroundColor: 'white',
-      borderColor: isFocused ? 'black' : 'gray',
-      '&:hover': {
-        borderColor: 'black',
+      backgroundColor: "white",
+      borderColor: isFocused ? "black" : "gray",
+      "&:hover": {
+        borderColor: "black",
       },
       borderRadius: 20,
-      boxShadow: 'gray',
+      boxShadow: "gray",
       padding: 2,
-      minHeight: 'fit-content',
+      minHeight: "fit-content",
     }),
     option: (styles, { isSelected }) => {
       return {
         ...styles,
-        backgroundColor: isSelected ? '#bab4f0' : 'white',
-        '&:hover': {
-          backgroundColor: isSelected ? '#a097f7' : 'lightgray',
+        backgroundColor: isSelected ? "#bab4f0" : "white",
+        "&:hover": {
+          backgroundColor: isSelected ? "#a097f7" : "lightgray",
         },
-        color: isSelected ? 'purple' : 'black',
-        cursor: 'pointer',
+        color: isSelected ? "purple" : "black",
+        cursor: "pointer",
       };
     },
     input: (styles) => ({ ...styles }),
-    container: (styles) => ({ ...styles, borderColor: 'gray' }),
+    container: (styles) => ({ ...styles, borderColor: "gray" }),
     placeholder: (styles) => ({ ...styles }),
     dropdownIndicator: (styles, state): CSSObjectWithLabel => ({
       ...styles,
       transform: state.selectProps.menuIsOpen
-        ? 'rotate(180deg)'
-        : 'rotate(0deg)',
+        ? "rotate(180deg)"
+        : "rotate(0deg)",
     }),
     menu: (styles) => ({
       ...styles,
@@ -369,7 +369,7 @@ export const LuceneSearchIndexConfigurationFormComponent = (
         onRowClick={showChannelDetail}
       />
       {showChannelEdit && (
-        <div style={{ marginTop: '20px' }}>
+        <div style={{ marginTop: "20px" }}>
           <Select
             closeMenuOnSelect={true}
             isMulti={false}
@@ -380,7 +380,7 @@ export const LuceneSearchIndexConfigurationFormComponent = (
             styles={customStyle}
           />
           {showPathConfiguration && (
-            <div style={{ maxWidth: '95%', margin: '20px auto' }}>
+            <div style={{ maxWidth: "95%", margin: "20px auto" }}>
               <LuceneIncludedPathConfiguration
                 possibleContentTypeItems={props.possibleContentTypeItems}
                 value={channel.includedPaths}
@@ -393,7 +393,7 @@ export const LuceneSearchIndexConfigurationFormComponent = (
               />
             </div>
           )}
-          <div style={{ marginTop: '20px' }}>
+          <div style={{ marginTop: "20px" }}>
             <Button
               type={ButtonType.Button}
               label="Save website channel configuration"
@@ -405,7 +405,7 @@ export const LuceneSearchIndexConfigurationFormComponent = (
         </div>
       )}
       {showAddNewChannelConfiguration && (
-        <div style={{ marginTop: '20px' }}>
+        <div style={{ marginTop: "20px" }}>
           <Button
             type={ButtonType.Button}
             label="Add new website channel configuration"

@@ -1,5 +1,5 @@
-import type { IncludedPath } from './IncludedPath';
-import type { LuceneIndexContentType } from './LuceneIndexContentType';
+import type { IncludedPath } from "./IncludedPath";
+import type { LuceneIndexContentType } from "./LuceneIndexContentType";
 
 export interface LuceneIncludedPathConfigurationProps {
   value: IncludedPath[];
