@@ -7,7 +7,7 @@ test.describe("DancingGoat Lucene search", () => {
   }) => {
     await openCoffeeSearchWhenReady(page);
 
-    await expect(page.getByRole("status")).toContainText(/\d+ results/);
+    await expect(page.locator(".search-count")).toContainText(/\d+ results/);
     await expect(page.locator(".search-result")).toHaveCount(1);
     await expect(
       page.getByRole("navigation", { name: "Search result pages" }),

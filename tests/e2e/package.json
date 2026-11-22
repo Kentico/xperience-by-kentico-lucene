@@ -1,5 +1,5 @@
 {
-  "name": "kentico-lucene-e2e",
+  "name": "lucene-e2e",
   "version": "1.0.0",
   "description": "Playwright tests for the Xperience by Kentico Lucene integration.",
   "private": true,

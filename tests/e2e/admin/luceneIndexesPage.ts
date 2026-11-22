@@ -24,8 +24,7 @@ export class LuceneIndexesPage {
   }
 
   async openIndex(): Promise<void> {
-    const editAction = this.indexRow.getByRole("button", { name: /edit/i });
-    await editAction.click();
+    await this.indexRow.getByRole("link").click();
     await expect(this.page.getByLabel("Index Name")).toHaveValue(
       luceneIndexName,
     );
@@ -47,7 +46,12 @@ export class LuceneIndexesPage {
       }),
     });
 
-    return channelTable.getByRole("row").nth(1);
+    return channelTable.getByRole("row").filter({
+      has: this.page.getByRole("cell", {
+        name: "Dancing Goat Pages",
+        exact: true,
+      }),
+    });
   }
 
   includedPathRow(path: string): Locator {
@@ -55,19 +59,26 @@ export class LuceneIndexesPage {
       has: this.page.getByRole("columnheader", { name: "Path" }),
     });
 
-    return pathTable.getByRole("row").filter({ hasText: path });
+    return pathTable.getByRole("row").filter({
+      has: this.page.getByRole("cell", { name: path, exact: true }),
+    });
   }
 
   async addIncludedPath(path: string): Promise<string> {
     await this.page.getByRole("button", { name: "Add new path" }).click();
     await this.page.getByLabel("Included Path").fill(path);
 
-    const contentTypes = this.page.getByPlaceholder("Select content types");
+    const contentTypes = this.page
+      .getByText("Included content types", { exact: true })
+      .locator("..")
+      .locator("..")
+      .getByRole("combobox");
     await contentTypes.click();
     const firstOption = this.page.getByRole("option").first();
     await expect(firstOption).toBeVisible();
     const contentType = await firstOption.innerText();
     await firstOption.click();
+    await contentTypes.press("Escape");
 
     await this.page.getByRole("button", { name: "Save Path" }).click();
     await expect(this.includedPathRow(path)).toBeVisible();
@@ -121,7 +132,7 @@ export class LuceneIndexesPage {
       const pathRow = this.includedPathRow(path);
       if (await pathRow.count()) {
         await pathRow.hover();
-        await pathRow.getByRole("button", { name: /delete/i }).click();
+        await pathRow.getByTestId("button-delete").click();
         removedPath = true;
       }
     }
@@ -133,8 +144,7 @@ export class LuceneIndexesPage {
   }
 
   async rebuildIndex(): Promise<void> {
-    await this.indexRow.getByRole("checkbox").check();
-    await this.page.getByRole("button", { name: "Rebuild" }).click();
+    await this.indexRow.getByTestId("button-Rebuild").click();
     await expect(this.page.getByText(/Indexing in progress\./)).toBeVisible();
   }
 }

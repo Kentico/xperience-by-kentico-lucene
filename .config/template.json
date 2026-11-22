@@ -36,7 +36,7 @@
   ],
   "provenance": {
     "adoption": "existing-repository-overlay",
-    "integrationValidation": "pending",
+    "integrationValidation": "passed",
     "dependencyPolicy": "Non-Xperience dependencies at least adopted template versions; newer compatible warning/vulnerability fixes subject to cooldown/minimum-release-age. Kentico library 31.6.0 and sample 31.10.0 are the supported baselines; preserve APIs, package graph and test behavior.",
     "borrowedScripts": {
       "sourceCommit": "2b4598eaaa9944693c0f23e28fc30d63fcde92d9",
@@ -52,7 +52,19 @@
       "Map the template NUnit project to the existing Kentico.Xperience.Lucene.Core.Tests.csproj and preserve its assembly identity.",
       "Preserve actual admin module identity during ordered token rendering.",
       "Shared canonical DancingGoat design skill retained from Lucene, not replaced with template design guidance.",
-      "Database initialization preserves committed settings on failure and rejects a conflicting macro salt."
+      "Database initialization preserves committed settings on failure and rejects a conflicting macro salt.",
+      "Retain the configured Azure DevOps build-and-release.yaml path; pipeline content follows the rendered scaffold and publishes all three packages.",
+      "Keep explicit resource inclusion and shipped package metadata; preserve existing API-specific analyzer exclusions. S6444 and S1699 exceptions are localized to compatibility-sensitive operations.",
+      "Serialize browser tests because they mutate the same Lucene index; retain Lucene search, channel/path persistence and localized coverage.",
+      "Omit TypeScript baseUrl because TypeScript 6 rejects it and the client has no base-URL imports.",
+      "Use coverlet.collector 10.1.0, the newest age-eligible release at adoption; the template's 10.1.1 had not cleared the required cooldown."
+    ],
+    "validation": [
+      "Locked restore, unfiltered full-solution formatting, Release build and all 65 existing NUnit cases passed.",
+      "Client and browser format, lint and typecheck gates passed; production and development webpack builds passed.",
+      "All seven licensed Playwright cases passed in Aspire Development/Proxy and standalone Release/embedded modes using a separate database.",
+      "All three 16.0.0 packages contain only net10.0 library assets and preserve their dependency graph; Admin embeds the exact production bundle and library dependencies contain no Semantic Kernel.",
+      "Exported API diffs against original 15.0.6 net8.0 assemblies built from d12b67d show no changed, added or removed types or members."
     ]
   }
 }
