@@ -52,6 +52,12 @@ stages:
             inputs:
               version: $(PACKAGE_JSON_NODE_VERSION)
 
+          - task: UseDotNet@2
+            displayName: Install .NET SDK from global.json
+            inputs:
+              packageType: sdk
+              useGlobalJson: true
+
           - task: DotNetCoreCLI@2
             displayName: Restore dotnet tools
             inputs:

@@ -1,36 +1,38 @@
-import {
+import type {
   ActionCell,
-  Button,
-  ButtonType,
-  CellType,
-  ColumnContentType,
-  Stack,
   StringCell,
-  Table,
   TableAction,
   TableCell,
   TableColumn,
   TableRow,
 } from '@kentico/xperience-admin-components';
+import {
+  Button,
+  ButtonType,
+  CellType,
+  ColumnContentType,
+  Stack,
+  Table,
+} from '@kentico/xperience-admin-components';
 import { useFormComponentCommandProvider } from '@kentico/xperience-admin-base';
-import React, { useEffect, useState } from 'react';
-import Select, {
+import React, { useState } from 'react';
+import type {
   CSSObjectWithLabel,
   GroupBase,
   SingleValue,
   StylesConfig,
 } from 'react-select';
-import { LuceneIndexConfigurationFormComponentProps } from '../models/LuceneIndexConfigurationFormComponentProps';
-import { LuceneIndexChannelConfiguration } from '../models/LuceneIndexChannelConfiguration';
-import { OptionType } from '../models/OptionType';
-import { LuceneIndexChannel } from '../models/LuceneIndexChannel';
+import Select from 'react-select';
+import type { LuceneIndexConfigurationFormComponentProps } from '../models/LuceneIndexConfigurationFormComponentProps';
+import type { LuceneIndexChannelConfiguration } from '../models/LuceneIndexChannelConfiguration';
+import type { OptionType } from '../models/OptionType';
+import type { LuceneIndexChannel } from '../models/LuceneIndexChannel';
 import { LuceneIncludedPathConfiguration } from './LuceneIncludedPathConfiguration';
-import { RowActionSuccessResult } from '../models/RowActionSuccessResult';
+import type { RowActionSuccessResult } from '../models/RowActionSuccessResult';
 
 export const LuceneSearchIndexConfigurationFormComponent = (
   props: LuceneIndexConfigurationFormComponentProps,
-): JSX.Element => {
-  const [rows, setRows] = useState<TableRow[]>([]);
+): React.JSX.Element => {
   const [showChannelEdit, setShowChannelEdit] = useState<boolean>(false);
   const [showAddNewChannelConfiguration, setShowAddNewChannelConfiguration] =
     useState<boolean>(true);
@@ -47,12 +49,14 @@ export const LuceneSearchIndexConfigurationFormComponent = (
 
     return emptyChannel;
   };
-  const getUnconfiguredChannelOptions = (): OptionType[] => {
+  const getUnconfiguredChannelOptions = (
+    configuredChannels: LuceneIndexChannelConfiguration[] = props.value,
+  ): OptionType[] => {
     const filteredOptions: OptionType[] =
       props.possibleChannels
         ?.filter(
           (possibleChannel) =>
-            !props.value.some(
+            !configuredChannels.some(
               (existingChannel) =>
                 existingChannel.websiteChannelName ===
                 possibleChannel.channelName,
@@ -80,18 +84,11 @@ export const LuceneSearchIndexConfigurationFormComponent = (
   const prepareRows = (
     channels: LuceneIndexChannelConfiguration[],
   ): TableRow[] => {
-    if (channels === undefined) {
-      return [];
-    }
-
     const getCells = (
       channel: LuceneIndexChannelConfiguration,
     ): TableCell[] => {
       const channelName = channel.websiteChannelName?.toString() ?? '';
       const channelDisplayName = channel.channelDisplayName?.toString() ?? '';
-      if (channelName === null) {
-        return [];
-      }
       const cell: StringCell = {
         type: CellType.String,
         value: channelDisplayName,
@@ -114,17 +111,12 @@ export const LuceneSearchIndexConfigurationFormComponent = (
             return;
           }
 
-          props.value =
-            props.value.filter((x) => x.websiteChannelName !== channelName) ??
-            [];
-
-          if (props.onChange) {
-            props.onChange(props.value);
-          }
-
-          setRows(prepareRows(props.value));
+          const newValue = props.value.filter(
+            (x) => x.websiteChannelName !== channelName,
+          );
+          props.onChange?.(newValue);
           setShowChannelEdit(false);
-          setChannelOptions(getUnconfiguredChannelOptions());
+          setChannelOptions(getUnconfiguredChannelOptions(newValue));
           setShowAddNewChannelConfiguration(true);
           setEmptyChannel();
         };
@@ -150,15 +142,7 @@ export const LuceneSearchIndexConfigurationFormComponent = (
     });
   };
 
-  useEffect(() => {
-    if (props.value === null || props.value === undefined) {
-      props.value = [];
-    }
-    if (props.onChange !== null && props.onChange !== undefined) {
-      props.onChange(props.value);
-    }
-    setRows(() => prepareRows(props.value));
-  }, [props?.value]);
+  const rows = prepareRows(props.value);
 
   const prepareColumns = (): TableColumn[] => {
     const columns: TableColumn[] = [];
@@ -200,14 +184,24 @@ export const LuceneSearchIndexConfigurationFormComponent = (
 
   const showChannelDetail = (identifier: unknown): void => {
     if (!showChannelEdit) {
-      const selectedChannelName = identifier as string;
+      if (typeof identifier !== 'string') {
+        return;
+      }
+
+      const selectedChannelName = identifier;
       const selectedChannel = props.value.find(
         (x) => x.websiteChannelName === selectedChannelName,
-      ) as LuceneIndexChannelConfiguration;
+      );
+      if (!selectedChannel) {
+        return;
+      }
 
       setChannel(selectedChannel);
 
-      const option: OptionType = selectChannelOption(selectedChannelName);
+      const option = selectChannelOption(selectedChannelName);
+      if (!option) {
+        return;
+      }
 
       const filteredOptions: OptionType[] = getUnconfiguredChannelOptions();
       filteredOptions.push(option);
@@ -220,10 +214,16 @@ export const LuceneSearchIndexConfigurationFormComponent = (
     setShowAddNewChannelConfiguration(!showAddNewChannelConfiguration);
   };
 
-  const selectChannelOption = (selectedChannelName: string): OptionType => {
-    const selectedChannel: LuceneIndexChannel = props.possibleChannels?.find(
-      (x) => x.channelName === selectedChannelName,
-    ) as LuceneIndexChannel;
+  const selectChannelOption = (
+    selectedChannelName: string,
+  ): OptionType | undefined => {
+    const selectedChannel: LuceneIndexChannel | undefined =
+      props.possibleChannels?.find(
+        (x) => x.channelName === selectedChannelName,
+      );
+    if (!selectedChannel) {
+      return undefined;
+    }
 
     const selectedOption: OptionType = {
       value: selectedChannel.channelName,
@@ -259,8 +259,9 @@ export const LuceneSearchIndexConfigurationFormComponent = (
           return;
         }
 
-        props.value.push(channel);
-        setRows(prepareRows(props.value));
+        const newValue = [...props.value, channel];
+        props.onChange?.(newValue);
+        setChannelOptions(getUnconfiguredChannelOptions(newValue));
       }
     } else {
       const rowIndex = rows.findIndex((x) => {
@@ -269,15 +270,16 @@ export const LuceneSearchIndexConfigurationFormComponent = (
 
       if (rowIndex === -1) {
         alert('Invalid edit');
+        return;
       }
 
-      const newRows = rows;
-      const editedRow = rows[rowIndex];
-      const cellInNewRow = rows[rowIndex].cells[0] as StringCell;
-      cellInNewRow.value = channel.websiteChannelName ?? '';
       const propPathIndex = props.value.findIndex((x) => {
         return x.websiteChannelName === channel.websiteChannelName;
       });
+      if (propPathIndex === -1) {
+        alert('Invalid edit');
+        return;
+      }
 
       const updatedChannel: LuceneIndexChannelConfiguration = {
         websiteChannelName: channel.websiteChannelName,
@@ -293,19 +295,16 @@ export const LuceneSearchIndexConfigurationFormComponent = (
         return;
       }
 
-      props.value[propPathIndex] = updatedChannel;
-
-      editedRow.cells[0] = cellInNewRow;
-      editedRow.identifier = channel.websiteChannelName ?? '';
-
-      newRows[rowIndex] = editedRow;
-      setRows(newRows);
+      const newValue = props.value.map((value, index) =>
+        index === propPathIndex ? updatedChannel : value,
+      );
+      props.onChange?.(newValue);
+      setChannelOptions(getUnconfiguredChannelOptions(newValue));
     }
 
     setShowAddNewChannelConfiguration(true);
     setEmptyChannel();
     setShowChannelEdit(false);
-    setChannelOptions(getUnconfiguredChannelOptions());
   };
 
   const selectChannel = (newValue: SingleValue<OptionType>): void => {
@@ -323,7 +322,6 @@ export const LuceneSearchIndexConfigurationFormComponent = (
     selectChannelOption(newValue.value);
   };
 
-  /* eslint-disable @typescript-eslint/naming-convention */
   const customStyle: StylesConfig<OptionType, false, GroupBase<OptionType>> = {
     control: (styles, { isFocused }) => ({
       ...styles,
@@ -361,7 +359,6 @@ export const LuceneSearchIndexConfigurationFormComponent = (
       ...styles,
       zIndex: 9999,
     }),
-    /* eslint-enable @typescript-eslint/naming-convention */
   };
 
   return (
@@ -387,12 +384,12 @@ export const LuceneSearchIndexConfigurationFormComponent = (
               <LuceneIncludedPathConfiguration
                 possibleContentTypeItems={props.possibleContentTypeItems}
                 value={channel.includedPaths}
-                onChange={(newPaths) =>
+                onChange={(newPaths) => {
                   setChannel((prev) => ({
                     ...prev,
                     includedPaths: newPaths,
-                  }))
-                }
+                  }));
+                }}
               />
             </div>
           )}
@@ -400,7 +397,9 @@ export const LuceneSearchIndexConfigurationFormComponent = (
             <Button
               type={ButtonType.Button}
               label="Save website channel configuration"
-              onClick={saveWebsiteChannelConfiguration}
+              onClick={() => {
+                void saveWebsiteChannelConfiguration();
+              }}
             ></Button>
           </div>
         </div>

@@ -1,5 +1,6 @@
 import { expect, test } from "@playwright/test";
-import { LuceneIndexesPage, luceneIndexName } from "./luceneIndexesPage";
+import { LuceneIndexesPage } from "./luceneIndexesPage";
+import { openCoffeeSearchWhenReady } from "../shared/search";
 
 test.describe("Lucene index administration", () => {
   test("lists and opens the configured search index", async ({ page }) => {
@@ -14,14 +15,15 @@ test.describe("Lucene index administration", () => {
     ).toBeVisible();
   });
 
-  test("starts a rebuild from the index listing", async ({ page }) => {
+  test("rebuilds the index and returns coffee search results", async ({
+    page,
+  }) => {
     const indexes = new LuceneIndexesPage(page);
 
     await indexes.goto();
     await indexes.expectIndexListed();
     await indexes.rebuildIndex();
-    await expect(
-      page.getByText(luceneIndexName, { exact: true }),
-    ).toBeVisible();
+    await openCoffeeSearchWhenReady(page);
+    await expect(page.locator(".search-result")).toHaveCount(1);
   });
 });

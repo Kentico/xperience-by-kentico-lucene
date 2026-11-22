@@ -36,7 +36,7 @@ interface LoadDataResult {
 export const PathDetailTemplate = ({
   aliasPath,
   columns,
-}: PathDetailPageProps): JSX.Element => {
+}: PathDetailPageProps): React.JSX.Element => {
   const tableRef = React.createRef<HTMLDivElement>();
 
   const [tableData, setTableData] = useState<LoadDataResult>({

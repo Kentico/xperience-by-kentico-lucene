@@ -1,4 +1,4 @@
-import { IncludedPath } from './IncludedPath';
+import type { IncludedPath } from './IncludedPath';
 
 export interface LuceneIndexChannelConfiguration {
   websiteChannelName: string | null;

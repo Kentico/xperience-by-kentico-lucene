@@ -12,7 +12,7 @@ import {
   type TableColumn,
   type TableRow,
 } from '@kentico/xperience-admin-components';
-import React from 'react';
+import type * as React from 'react';
 import Localization from '../localization/localization.json';
 
 interface IndexedContentPageProps {
@@ -35,8 +35,8 @@ export const IndexedContentTemplate = ({
   pathRows,
   propertyColumns,
   propertyRows,
-}: IndexedContentPageProps): JSX.Element => {
-  usePageCommand<void, PathDetailArguments>(Commands.ShowPathDetail);
+}: IndexedContentPageProps): React.JSX.Element => {
+  usePageCommand<undefined, PathDetailArguments>(Commands.ShowPathDetail);
 
   return (
     <RoutingContentPlaceholder>

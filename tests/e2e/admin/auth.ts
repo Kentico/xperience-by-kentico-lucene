@@ -1,4 +1,4 @@
-import { expect, type Locator, type Page } from "@playwright/test";
+import { errors, expect, type Locator, type Page } from "@playwright/test";
 import { adminBaseUrl, adminPassword, adminUsername } from "../shared/config";
 
 const usernameSelectors = [
@@ -72,8 +72,12 @@ async function isVisibleWithin(
   try {
     await waitForAnyVisible(page, selectors, timeoutMs);
     return true;
-  } catch {
-    return false;
+  } catch (error) {
+    if (error instanceof errors.TimeoutError) {
+      return false;
+    }
+
+    throw error;
   }
 }
 

@@ -13,7 +13,8 @@ import {
   type TableColumn,
   type TableRow,
 } from '@kentico/xperience-admin-components';
-import React, { type CSSProperties, useEffect, useState } from 'react';
+import type * as React from 'react';
+import { type CSSProperties, useState } from 'react';
 import { IoCheckmarkSharp } from 'react-icons/io5';
 import { MdOutlineCancel } from 'react-icons/md';
 import { RxCross1 } from 'react-icons/rx';
@@ -28,14 +29,13 @@ import Select, {
   components,
 } from 'react-select';
 import { Tooltip } from 'react-tooltip';
-import { IncludedPath } from '../models/IncludedPath';
-import { LuceneIncludedPathConfigurationProps } from '../models/LuceneIncludedPathConfigurationProps';
-import { OptionType } from '../models/OptionType';
+import type { IncludedPath } from '../models/IncludedPath';
+import type { LuceneIncludedPathConfigurationProps } from '../models/LuceneIncludedPathConfigurationProps';
+import type { OptionType } from '../models/OptionType';
 
 export const LuceneIncludedPathConfiguration = (
   props: LuceneIncludedPathConfigurationProps,
-): JSX.Element => {
-  const [rows, setRows] = useState<TableRow[]>([]);
+): React.JSX.Element => {
   const [showPathEdit, setShowPathEdit] = useState<boolean>(false);
   const [contentTypesValue, setContentTypesValue] = useState<OptionType[]>([]);
   const [path, setPath] = useState<string>('');
@@ -44,9 +44,6 @@ export const LuceneIncludedPathConfiguration = (
   const [isClearIndicatorHover, setIsClearIndicatorHover] = useState(false);
 
   const prepareRows = (paths: IncludedPath[]): TableRow[] => {
-    if (paths === undefined) {
-      return [];
-    }
     const getCells = (path: IncludedPath): TableCell[] => {
       const pathVal: string = path.aliasPath?.toString() ?? '';
       if (path.aliasPath === null) {
@@ -63,21 +60,15 @@ export const LuceneIncludedPathConfiguration = (
         destructive: true,
       };
 
-      const deletePath: () => Promise<void> = async () => {
-        await new Promise(() => {
-          const newValue = props.value.filter((x) => x.aliasPath !== pathVal);
-
-          if (props.onChange !== null && props.onChange !== undefined) {
-            props.onChange(newValue);
-          }
-
-          setRows(prepareRows(props.value));
-          setShowPathEdit(false);
-          setContentTypesValue([]);
-          setEditedIdentifier('');
-          setPath('');
-          setShowAddNewPath(true);
-        });
+      const deletePath = (): Promise<void> => {
+        const newValue = props.value.filter((x) => x.aliasPath !== pathVal);
+        props.onChange?.(newValue);
+        setShowPathEdit(false);
+        setContentTypesValue([]);
+        setEditedIdentifier('');
+        setPath('');
+        setShowAddNewPath(true);
+        return Promise.resolve();
       };
 
       const deletePathCell: ActionCell = {
@@ -99,15 +90,8 @@ export const LuceneIncludedPathConfiguration = (
       return row;
     });
   };
-  useEffect(() => {
-    if (props.value === null || props.value === undefined) {
-      props.value = [];
-    }
-    if (props.onChange !== null && props.onChange !== undefined) {
-      props.onChange(props.value);
-    }
-    setRows(() => prepareRows(props.value));
-  }, [props?.value]);
+  const rows = prepareRows(props.value);
+
   const prepareColumns = (): TableColumn[] => {
     const columns: TableColumn[] = [];
 
@@ -138,13 +122,10 @@ export const LuceneIncludedPathConfiguration = (
     return columns;
   };
   const showContentItems = (identifier: unknown): void => {
-    let rowIndex = -1;
-    for (let i = 0; i < rows.length; i++) {
-      if ((rows[i].identifier as string) === (identifier as string)) {
-        rowIndex = i;
-      }
+    const row = rows.find((item) => item.identifier === identifier);
+    if (!row) {
+      return;
     }
-    const row = rows[rowIndex];
 
     setPath((row.cells[0] as StringCell).value);
 
@@ -165,7 +146,7 @@ export const LuceneIncludedPathConfiguration = (
           return option;
         }) ?? [];
 
-    setContentTypesValue(contentTypes ?? []);
+    setContentTypesValue(contentTypes);
     setShowPathEdit(!showPathEdit);
     setShowAddNewPath(!showAddNewPath);
   };
@@ -190,10 +171,7 @@ export const LuceneIncludedPathConfiguration = (
           };
           // Create a new array instead of mutating props.value
           const newPaths = [...props.value, newPath];
-          if (props.onChange) {
-            props.onChange(newPaths);
-          }
-          setRows(prepareRows(newPaths));
+          props.onChange?.(newPaths);
         }
       } else {
         alert('This path already exists!');
@@ -218,10 +196,7 @@ export const LuceneIncludedPathConfiguration = (
       const newPaths = props.value.map((p, idx) =>
         idx === propPathIndex ? updatedPath : p,
       );
-      if (props.onChange) {
-        props.onChange(newPaths);
-      }
-      setRows(prepareRows(newPaths));
+      props.onChange?.(newPaths);
     }
 
     setEditedIdentifier('');
@@ -244,10 +219,9 @@ export const LuceneIncludedPathConfiguration = (
       return option;
     }) ?? [];
   const selectContentTypes = (newValue: MultiValue<OptionType>): void => {
-    setContentTypesValue(newValue as OptionType[]);
+    setContentTypesValue([...newValue]);
   };
 
-  /* eslint-disable @typescript-eslint/naming-convention */
   const customStyle: StylesConfig<OptionType, true, GroupBase<OptionType>> = {
     control: (styles, { isFocused }) => ({
       ...styles,
@@ -305,7 +279,6 @@ export const LuceneIncludedPathConfiguration = (
         height: '100%',
       },
     }),
-    /* eslint-enable @typescript-eslint/naming-convention */
   };
 
   const MultiValueRemoveStyle: CSSProperties = {
@@ -315,7 +288,7 @@ export const LuceneIncludedPathConfiguration = (
   };
   const MultiValueRemove = (
     props: MultiValueRemoveProps<OptionType>,
-  ): JSX.Element => {
+  ): React.JSX.Element => {
     return (
       <components.MultiValueRemove {...props}>
         <RxCross1 style={MultiValueRemoveStyle} />
@@ -325,7 +298,7 @@ export const LuceneIncludedPathConfiguration = (
 
   const Option = (
     props: OptionProps<OptionType, true, GroupBase<OptionType>>,
-  ): JSX.Element => {
+  ): React.JSX.Element => {
     return (
       <components.Option {...props}>
         {props.isSelected ? (
@@ -351,7 +324,7 @@ export const LuceneIncludedPathConfiguration = (
   };
   const ClearIndicator = (
     props: ClearIndicatorProps<OptionType>,
-  ): JSX.Element => {
+  ): React.JSX.Element => {
     return (
       <components.ClearIndicator {...props}>
         <Tooltip id="clear-content-type-select-tooltip-1" />

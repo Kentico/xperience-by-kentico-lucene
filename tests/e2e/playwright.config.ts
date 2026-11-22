@@ -11,10 +11,10 @@ const isCi = Boolean(process.env.CI);
 export default defineConfig({
   testDir: ".",
   testIgnore: ["node_modules/**"],
-  fullyParallel: true,
+  fullyParallel: false,
   forbidOnly: isCi,
   retries: isCi ? 2 : 0,
-  workers: isCi ? 1 : undefined,
+  workers: 1,
   reporter: [["list"], ["html", { open: "never" }]],
   use: {
     baseURL: appBaseUrl,
