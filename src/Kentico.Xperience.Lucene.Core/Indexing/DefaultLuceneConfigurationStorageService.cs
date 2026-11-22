@@ -133,19 +133,25 @@ internal class DefaultLuceneConfigurationStorageService : ILuceneConfigurationSt
     /// <inheritdoc />
     public async Task<LuceneIndexModel?> GetIndexDataOrNullAsync(int indexId)
     {
-        var indexInfo = indexProvider.Get(indexId);
+        var indexInfo = await indexProvider.GetAsync(indexId, CancellationToken.None);
         if (indexInfo == default)
         {
             return default;
         }
 
-        var paths = pathProvider.Get().WhereEquals(nameof(LuceneIncludedPathItemInfo.LuceneIncludedPathItemIndexItemId), indexInfo.LuceneIndexItemId).GetEnumerableTypedResult();
+        var paths = await pathProvider.Get()
+            .WhereEquals(nameof(LuceneIncludedPathItemInfo.LuceneIncludedPathItemIndexItemId), indexInfo.LuceneIndexItemId)
+            .GetEnumerableTypedResultAsync(cancellationToken: CancellationToken.None);
 
         var webPageContentTypes = await GetLuceneWebPageContentTypesAsync();
 
-        var languages = languageProvider.Get().WhereEquals(nameof(LuceneIndexLanguageItemInfo.LuceneIndexLanguageItemIndexItemId), indexInfo.LuceneIndexItemId).GetEnumerableTypedResult();
+        var languages = await languageProvider.Get()
+            .WhereEquals(nameof(LuceneIndexLanguageItemInfo.LuceneIndexLanguageItemIndexItemId), indexInfo.LuceneIndexItemId)
+            .GetEnumerableTypedResultAsync(cancellationToken: CancellationToken.None);
 
-        var reusableContentTypes = reusableContentTypeProvider.Get().WhereEquals(nameof(LuceneReusableContentTypeItemInfo.LuceneReusableContentTypeItemIndexItemId), indexInfo.LuceneIndexItemId).GetEnumerableTypedResult();
+        var reusableContentTypes = await reusableContentTypeProvider.Get()
+            .WhereEquals(nameof(LuceneReusableContentTypeItemInfo.LuceneReusableContentTypeItemIndexItemId), indexInfo.LuceneIndexItemId)
+            .GetEnumerableTypedResultAsync(cancellationToken: CancellationToken.None);
 
         var channelInfos = await GetChannelInfos();
 
@@ -156,19 +162,25 @@ internal class DefaultLuceneConfigurationStorageService : ILuceneConfigurationSt
     /// <inheritdoc />
     public async Task<LuceneIndexModel?> GetIndexDataOrNullAsync(string indexName)
     {
-        var indexInfo = indexProvider.Get(indexName);
+        var indexInfo = await indexProvider.GetAsync(indexName, CancellationToken.None);
         if (indexInfo == default)
         {
             return default;
         }
 
-        var paths = pathProvider.Get().WhereEquals(nameof(LuceneIncludedPathItemInfo.LuceneIncludedPathItemIndexItemId), indexInfo.LuceneIndexItemId).GetEnumerableTypedResult();
+        var paths = await pathProvider.Get()
+            .WhereEquals(nameof(LuceneIncludedPathItemInfo.LuceneIncludedPathItemIndexItemId), indexInfo.LuceneIndexItemId)
+            .GetEnumerableTypedResultAsync(cancellationToken: CancellationToken.None);
 
         var webPageContentTypes = await GetLuceneWebPageContentTypesAsync();
 
-        var languages = languageProvider.Get().WhereEquals(nameof(LuceneIndexLanguageItemInfo.LuceneIndexLanguageItemIndexItemId), indexInfo.LuceneIndexItemId).GetEnumerableTypedResult();
+        var languages = await languageProvider.Get()
+            .WhereEquals(nameof(LuceneIndexLanguageItemInfo.LuceneIndexLanguageItemIndexItemId), indexInfo.LuceneIndexItemId)
+            .GetEnumerableTypedResultAsync(cancellationToken: CancellationToken.None);
 
-        var reusableContentTypes = reusableContentTypeProvider.Get().WhereEquals(nameof(LuceneReusableContentTypeItemInfo.LuceneReusableContentTypeItemIndexItemId), indexInfo.LuceneIndexItemId).GetEnumerableTypedResult();
+        var reusableContentTypes = await reusableContentTypeProvider.Get()
+            .WhereEquals(nameof(LuceneReusableContentTypeItemInfo.LuceneReusableContentTypeItemIndexItemId), indexInfo.LuceneIndexItemId)
+            .GetEnumerableTypedResultAsync(cancellationToken: CancellationToken.None);
 
         var channelInfos = await GetChannelInfos();
 
@@ -187,19 +199,19 @@ internal class DefaultLuceneConfigurationStorageService : ILuceneConfigurationSt
     /// <inheritdoc />
     public async Task<IEnumerable<LuceneIndexModel>> GetAllIndexDataAsync()
     {
-        var indexInfos = indexProvider.Get().GetEnumerableTypedResult().ToList();
+        var indexInfos = (await indexProvider.Get().GetEnumerableTypedResultAsync(cancellationToken: CancellationToken.None)).ToList();
         if (indexInfos.Count == 0)
         {
             return [];
         }
 
-        var paths = pathProvider.Get().ToList();
+        var paths = (await pathProvider.Get().GetEnumerableTypedResultAsync(cancellationToken: CancellationToken.None)).ToList();
 
         var webPageContentTypes = await GetLuceneWebPageContentTypesAsync();
 
-        var languages = languageProvider.Get().ToList();
+        var languages = (await languageProvider.Get().GetEnumerableTypedResultAsync(cancellationToken: CancellationToken.None)).ToList();
 
-        var reusableContentTypes = reusableContentTypeProvider.Get().ToList();
+        var reusableContentTypes = (await reusableContentTypeProvider.Get().GetEnumerableTypedResultAsync(cancellationToken: CancellationToken.None)).ToList();
 
         var channelInfos = await GetChannelInfos();
 
@@ -212,7 +224,7 @@ internal class DefaultLuceneConfigurationStorageService : ILuceneConfigurationSt
     {
         configuration.IndexName = RemoveWhitespacesUsingStringBuilder(configuration.IndexName ?? string.Empty);
 
-        var indexInfo = indexProvider.Get(configuration.Id);
+        var indexInfo = await indexProvider.GetAsync(configuration.Id, CancellationToken.None);
 
         if (indexInfo is null)
         {
@@ -224,7 +236,7 @@ internal class DefaultLuceneConfigurationStorageService : ILuceneConfigurationSt
         indexInfo.LuceneIndexItemAnalyzerName = configuration.AnalyzerName ?? string.Empty;
         indexInfo.LuceneIndexItemIndexName = configuration.IndexName ?? string.Empty;
 
-        indexProvider.Set(indexInfo);
+        await indexProvider.SetAsync(indexInfo, CancellationToken.None);
 
         RemoveUnusedIndexLanguages(configuration);
         await SetNewIndexLanguagesAsync(configuration, indexInfo);
@@ -291,7 +303,7 @@ internal class DefaultLuceneConfigurationStorageService : ILuceneConfigurationSt
                     (string)dataContainer[nameof(LuceneContentTypeItemInfo.LuceneContentTypeItemContentTypeName)],
                     (string)dataContainer[nameof(DataClassInfo.ClassDisplayName)],
                     (int)dataContainer[nameof(LuceneContentTypeItemInfo.LuceneContentTypeItemIncludedPathItemId)]);
-            });
+            }, cancellationToken: CancellationToken.None);
 
 
     private void RemoveUnusedIndexLanguages(LuceneIndexModel configuration)
@@ -321,7 +333,7 @@ internal class DefaultLuceneConfigurationStorageService : ILuceneConfigurationSt
         var existingLanguages = await languageProvider
              .Get()
              .WhereEquals(nameof(LuceneIndexLanguageItemInfo.LuceneIndexLanguageItemIndexItemId), configuration.Id)
-             .GetEnumerableTypedResultAsync();
+             .GetEnumerableTypedResultAsync(cancellationToken: CancellationToken.None);
 
         return configuration.LanguageNames.Where(x => !existingLanguages.Any(y => y.LuceneIndexLanguageItemName == x));
     }
@@ -332,7 +344,7 @@ internal class DefaultLuceneConfigurationStorageService : ILuceneConfigurationSt
         var existingReusableContentTypes = await reusableContentTypeProvider
             .Get()
             .WhereEquals(nameof(LuceneReusableContentTypeItemInfo.LuceneReusableContentTypeItemIndexItemId), configuration.Id)
-            .GetEnumerableTypedResultAsync();
+            .GetEnumerableTypedResultAsync(cancellationToken: CancellationToken.None);
 
         return configuration.ReusableContentTypeNames.Where(x => !existingReusableContentTypes.Any(y => y.LuceneReusableContentTypeItemContentTypeName == x));
     }
@@ -350,7 +362,7 @@ internal class DefaultLuceneConfigurationStorageService : ILuceneConfigurationSt
                 LuceneIndexLanguageItemIndexItemId = indexInfo.LuceneIndexItemId,
             };
 
-            languageProvider.Set(languageInfo);
+            await languageProvider.SetAsync(languageInfo, CancellationToken.None);
         }
     }
 
@@ -367,7 +379,7 @@ internal class DefaultLuceneConfigurationStorageService : ILuceneConfigurationSt
                 LuceneReusableContentTypeItemIndexItemId = indexInfo.LuceneIndexItemId,
             };
 
-            reusableContentTypeProvider.Set(reusableContentTypeInfo);
+            await reusableContentTypeProvider.SetAsync(reusableContentTypeInfo, CancellationToken.None);
         }
     }
 
@@ -379,7 +391,7 @@ internal class DefaultLuceneConfigurationStorageService : ILuceneConfigurationSt
             .WhereEquals(nameof(LuceneIncludedPathItemInfo.LuceneIncludedPathItemIndexItemId), configuration.Id)
             .WhereNotIn(nameof(LuceneIncludedPathItemInfo.LuceneIncludedPathItemId), configuration.Channels.GetIdsOfAllIncludedPaths());
 
-        var removedPaths = await removePathsQuery.GetEnumerableTypedResultAsync();
+        var removedPaths = await removePathsQuery.GetEnumerableTypedResultAsync(cancellationToken: CancellationToken.None);
 
         pathProvider.BulkDelete(removePathsQuery);
 
@@ -399,7 +411,7 @@ internal class DefaultLuceneConfigurationStorageService : ILuceneConfigurationSt
         => await pathProvider
             .Get()
             .WhereEquals(nameof(LuceneIncludedPathItemInfo.LuceneIncludedPathItemIndexItemId), configuration.Id)
-            .GetEnumerableTypedResultAsync();
+            .GetEnumerableTypedResultAsync(cancellationToken: CancellationToken.None);
 
 
     private void SetNewIndexPaths(LuceneIndexModel configuration, HashSet<int> existingPathIds, LuceneIndexItemInfo indexInfo)
@@ -450,7 +462,7 @@ internal class DefaultLuceneConfigurationStorageService : ILuceneConfigurationSt
         => await contentTypeProvider
         .Get()
         .WhereIn(nameof(LuceneContentTypeItemInfo.LuceneContentTypeItemIncludedPathItemId), configuration.Channels.GetIdsOfAllIncludedPaths())
-        .GetEnumerableTypedResultAsync();
+        .GetEnumerableTypedResultAsync(cancellationToken: CancellationToken.None);
 
 
     private void RemoveUnusedIndexContentTypesFromEditedPaths(IEnumerable<LuceneContentTypeItemInfo> allExistingContentTypes, LuceneIndexModel configuration)
@@ -461,7 +473,7 @@ internal class DefaultLuceneConfigurationStorageService : ILuceneConfigurationSt
     }
 
 
-    private void UpdateEditedIndexPaths(LuceneIndexModel configuration, IEnumerable<LuceneIncludedPathItemInfo> existingPaths)
+    private static void UpdateEditedIndexPaths(LuceneIndexModel configuration, IEnumerable<LuceneIncludedPathItemInfo> existingPaths)
     {
         foreach (var path in existingPaths)
         {
@@ -505,5 +517,7 @@ internal class DefaultLuceneConfigurationStorageService : ILuceneConfigurationSt
     }
 
     private Task<IEnumerable<ChannelInfo>> GetChannelInfos()
-        => channelProvider.Get().WhereEquals(nameof(ChannelInfo.ChannelType), ChannelType.Website.ToString()).GetEnumerableTypedResultAsync();
+        => channelProvider.Get()
+            .WhereEquals(nameof(ChannelInfo.ChannelType), ChannelType.Website.ToString())
+            .GetEnumerableTypedResultAsync(cancellationToken: CancellationToken.None);
 }

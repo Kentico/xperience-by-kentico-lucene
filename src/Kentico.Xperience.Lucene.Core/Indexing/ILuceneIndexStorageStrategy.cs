@@ -398,7 +398,7 @@ internal class GenerationStorageStrategy : ILuceneIndexStorageStrategy
         bool Success,
         [property: MemberNotNullWhen(true, "Success")] IndexStorageModelParseResult? Result
     );
-    private IndexStorageModelParsingResult ParseIndexStorageModel(string directoryPath)
+    private static IndexStorageModelParsingResult ParseIndexStorageModel(string directoryPath)
     {
         if (string.IsNullOrWhiteSpace(directoryPath))
         {
@@ -410,7 +410,9 @@ internal class GenerationStorageStrategy : ILuceneIndexStorageStrategy
             var dirInfo = CmsDirectoryInfo.New(directoryPath);
             if (dirInfo.Name is { Length: > 0 } directoryName)
             {
+#pragma warning disable S6444 // This pattern has no nested quantifiers and matches linearly; a timeout would change existing parsing behavior.
                 var matchResult = Regex.Match(directoryName, "i-g(?<generation>[0-9]*)-p_(?<published>(true)|(false))(_(?<taxonomy>[a-z0-9]*)){0,1}", RegexOptions.IgnoreCase | RegexOptions.Singleline);
+#pragma warning restore S6444
                 switch (matchResult)
                 {
                     case { Success: true } r

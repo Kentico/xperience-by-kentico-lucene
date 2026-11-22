@@ -169,7 +169,7 @@ internal class DefaultLuceneTaskProcessor : ILuceneTaskProcessor
             return null;
         }
 
-        await AddBaseProperties(queueItem.ItemToIndex, data!);
+        await AddBaseProperties(queueItem.ItemToIndex, data);
 
         return data;
     }

@@ -27,7 +27,7 @@ internal class DeleteIndexWebFarmTask : WebFarmTaskBase
         eventLog.LogInformation("Lucene Delete Task", "Execute", message);
 
         var luceneIndex = luceneIndexManager.GetRequiredIndex(IndexName!);
-        luceneIndex!.StorageContext.DeleteIndex().GetAwaiter().GetResult();
+        luceneIndex.StorageContext.DeleteIndex().GetAwaiter().GetResult();
 
         // This server performed the delete locally; drop its cached searcher.
         searcherProvider.Invalidate(luceneIndex.IndexName);

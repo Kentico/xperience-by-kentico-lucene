@@ -64,7 +64,9 @@ internal class CmsIODirectory : BaseDirectory
 
         EnsureDirectoryExists();
 
+#pragma warning disable S1699 // BaseDirectory has no lock-factory constructor; initialize the caller-selected factory after base setup.
         SetLockFactory(lockFactory);
+#pragma warning restore S1699
     }
 
 

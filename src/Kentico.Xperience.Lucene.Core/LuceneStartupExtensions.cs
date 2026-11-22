@@ -57,7 +57,7 @@ public static class LuceneStartupExtensions
     }
 
 
-    private static IServiceCollection AddLuceneServicesInternal(this IServiceCollection services, IConfiguration? configuration = null)
+    private static void AddLuceneServicesInternal(this IServiceCollection services, IConfiguration? configuration = null)
     {
         if (configuration is not null)
         {
@@ -79,7 +79,5 @@ public static class LuceneStartupExtensions
             .AddSingleton<ILuceneIndexManager, DefaultLuceneIndexManager>()
             .AddTransient<DefaultLuceneIndexingStrategy>()
             .AddHostedService<LuceneAutomaticReindexingBackgroundService>();
-
-        return services;
     }
 }

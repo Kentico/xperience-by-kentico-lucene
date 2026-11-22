@@ -23,7 +23,7 @@ internal class ReusableContentOptionsProvider : IGeneralSelectorDataProvider
         itemQuery.Page(pageIndex, 20);
 
         // Retrieves the reusable content types and converts them into ObjectSelectorListItem<string> options
-        var items = (await itemQuery.GetEnumerableTypedResultAsync()).Select(x => new ObjectSelectorListItem<string>()
+        var items = (await itemQuery.GetEnumerableTypedResultAsync(cancellationToken: CancellationToken.None)).Select(x => new ObjectSelectorListItem<string>()
         {
             Value = x.ClassName,
             Text = x.ClassDisplayName,
@@ -44,7 +44,7 @@ internal class ReusableContentOptionsProvider : IGeneralSelectorDataProvider
             .Get()
             .WhereEquals(nameof(DataClassInfo.ClassContentTypeType), "Reusable");
 
-        var items = (await itemQuery.GetEnumerableTypedResultAsync()).Select(x => new ObjectSelectorListItem<string>()
+        var items = (await itemQuery.GetEnumerableTypedResultAsync(cancellationToken: CancellationToken.None)).Select(x => new ObjectSelectorListItem<string>()
         {
             Value = x.ClassName,
             Text = x.ClassDisplayName,
