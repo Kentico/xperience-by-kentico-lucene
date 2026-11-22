@@ -33,7 +33,7 @@ import { LuceneIncludedPathConfigurationProps } from '../models/LuceneIncludedPa
 import { OptionType } from '../models/OptionType';
 
 export const LuceneIncludedPathConfiguration = (
-    props: LuceneIncludedPathConfigurationProps,
+  props: LuceneIncludedPathConfigurationProps,
 ): JSX.Element => {
   const [rows, setRows] = useState<TableRow[]>([]);
   const [showPathEdit, setShowPathEdit] = useState<boolean>(false);
@@ -64,7 +64,7 @@ export const LuceneIncludedPathConfiguration = (
       };
 
       const deletePath: () => Promise<void> = async () => {
-          await new Promise(() => {
+        await new Promise(() => {
           const newValue = props.value.filter((x) => x.aliasPath !== pathVal);
 
           if (props.onChange !== null && props.onChange !== undefined) {
@@ -199,7 +199,9 @@ export const LuceneIncludedPathConfiguration = (
         alert('This path already exists!');
       }
     } else {
-      const propPathIndex = props.value.findIndex((p) => p.aliasPath === editedIdentifier);
+      const propPathIndex = props.value.findIndex(
+        (p) => p.aliasPath === editedIdentifier,
+      );
       if (propPathIndex === -1) {
         alert('Invalid edit');
         return;
@@ -214,7 +216,7 @@ export const LuceneIncludedPathConfiguration = (
       };
       // Create a new array with the updated path
       const newPaths = props.value.map((p, idx) =>
-        idx === propPathIndex ? updatedPath : p
+        idx === propPathIndex ? updatedPath : p,
       );
       if (props.onChange) {
         props.onChange(newPaths);
@@ -247,19 +249,18 @@ export const LuceneIncludedPathConfiguration = (
 
   /* eslint-disable @typescript-eslint/naming-convention */
   const customStyle: StylesConfig<OptionType, true, GroupBase<OptionType>> = {
-    control: (styles, { isFocused }) =>
-      ({
-        ...styles,
-        backgroundColor: 'white',
-        borderColor: isFocused ? 'black' : 'gray',
-        '&:hover': {
-          borderColor: 'black',
-        },
-        borderRadius: 20,
-        boxShadow: 'gray',
-        padding: 2,
-        minHeight: 'fit-content',
-      }) as CSSObjectWithLabel,
+    control: (styles, { isFocused }) => ({
+      ...styles,
+      backgroundColor: 'white',
+      borderColor: isFocused ? 'black' : 'gray',
+      '&:hover': {
+        borderColor: 'black',
+      },
+      borderRadius: 20,
+      boxShadow: 'gray',
+      padding: 2,
+      minHeight: 'fit-content',
+    }),
     option: (styles, { isSelected }) => {
       return {
         ...styles,
@@ -269,46 +270,41 @@ export const LuceneIncludedPathConfiguration = (
         },
         color: isSelected ? 'purple' : 'black',
         cursor: 'pointer',
-      } as CSSObjectWithLabel;
+      };
     },
     input: (styles) => ({ ...styles }),
-    container: (styles) =>
-      ({ ...styles, borderColor: 'gray' }) as CSSObjectWithLabel,
+    container: (styles) => ({ ...styles, borderColor: 'gray' }),
     placeholder: (styles) => ({ ...styles }),
-    multiValue: (styles) =>
-      ({
-        ...styles,
-        backgroundColor: '#287ab5',
-        borderRadius: 10,
-        height: 35,
-        alignItems: 'center',
-      }) as CSSObjectWithLabel,
-    multiValueLabel: (styles) =>
-      ({
-        ...styles,
-        color: 'white',
-        fontSize: 14,
-        alignContent: 'center',
-      }) as CSSObjectWithLabel,
+    multiValue: (styles) => ({
+      ...styles,
+      backgroundColor: '#287ab5',
+      borderRadius: 10,
+      height: 35,
+      alignItems: 'center',
+    }),
+    multiValueLabel: (styles) => ({
+      ...styles,
+      color: 'white',
+      fontSize: 14,
+      alignContent: 'center',
+    }),
     indicatorSeparator: () => ({}),
-    dropdownIndicator: (styles, state): CSSObjectWithLabel =>
-      ({
-        ...styles,
-        transform: state.selectProps.menuIsOpen
-          ? 'rotate(180deg)'
-          : 'rotate(0deg)',
-      }) as CSSObjectWithLabel,
-    multiValueRemove: (styles) =>
-      ({
-        ...styles,
-        '&:hover': {
-          background: '#287ab5',
-          borderRadius: 10,
-          cursor: 'pointer',
-          filter: 'grayscale(40%)',
-          height: '100%',
-        },
-      }) as CSSObjectWithLabel,
+    dropdownIndicator: (styles, state): CSSObjectWithLabel => ({
+      ...styles,
+      transform: state.selectProps.menuIsOpen
+        ? 'rotate(180deg)'
+        : 'rotate(0deg)',
+    }),
+    multiValueRemove: (styles) => ({
+      ...styles,
+      '&:hover': {
+        background: '#287ab5',
+        borderRadius: 10,
+        cursor: 'pointer',
+        filter: 'grayscale(40%)',
+        height: '100%',
+      },
+    }),
     /* eslint-enable @typescript-eslint/naming-convention */
   };
 

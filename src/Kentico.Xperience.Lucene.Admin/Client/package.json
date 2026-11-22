@@ -7,10 +7,14 @@
     "start": "npm run lint && webpack serve --mode development",
     "build:dev": "npm run lint && webpack --mode=development",
     "build": "npm run lint && webpack --mode=production",
-    "lint": "npx eslint src/**/*.tsx"
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint src --max-warnings=0",
+    "lint:fix": "eslint src --fix",
+    "format": "prettier --write .",
+    "format:check": "prettier --check ."
   },
   "engines": {
-    "node": ">=24.22.1 <25"
+    "node": ">=26"
   },
   "dependencies": {
     "@kentico/xperience-admin-base": "31.0.0",
@@ -21,28 +25,28 @@
     "react-tooltip": "5.29.0"
   },
   "devDependencies": {
-    "@babel/core": "7.27.4",
-    "@babel/eslint-parser": "7.27.5",
-    "@babel/plugin-transform-runtime": "7.27.4",
-    "@babel/preset-env": "7.27.2",
-    "@babel/preset-react": "7.27.1",
-    "@babel/preset-typescript": "7.27.1",
+    "@babel/core": "7.29.13",
+    "@babel/eslint-parser": "7.29.13",
+    "@babel/plugin-transform-runtime": "7.29.7",
+    "@babel/preset-env": "7.29.14",
+    "@babel/preset-react": "7.29.7",
+    "@babel/preset-typescript": "7.29.7",
     "@kentico/xperience-webpack-config": "31.0.0",
     "@types/react": "18.3.23",
     "@types/react-dom": "18.3.7",
-    "@typescript-eslint/eslint-plugin": "8.34.0",
-    "babel-loader": "10.0.0",
-    "eslint": "9.28.0",
-    "eslint-config-prettier": "10.1.5",
-    "eslint-plugin-n": "17.20.0",
-    "eslint-plugin-promise": "7.2.1",
+    "@typescript-eslint/eslint-plugin": "8.73.0",
+    "babel-loader": "10.1.1",
+    "eslint": "9.39.5",
+    "eslint-config-prettier": "10.1.8",
+    "eslint-plugin-n": "17.24.0",
+    "eslint-plugin-promise": "7.3.0",
     "eslint-plugin-react": "7.37.5",
-    "globals": "16.2.0",
-    "prettier": "3.5.3",
-    "typescript": "5.8.3",
-    "webpack": "5.99.9",
+    "globals": "16.5.0",
+    "prettier": "3.10.1",
+    "typescript": "5.9.3",
+    "webpack": "5.112.2",
     "webpack-cli": "6.0.1",
-    "webpack-dev-server": "5.2.2"
+    "webpack-dev-server": "5.2.7"
   },
   "overrides": {
     "react": "$react",

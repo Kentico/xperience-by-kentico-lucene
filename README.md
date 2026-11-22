@@ -36,7 +36,8 @@ Lucene indexes are stored using the [CMS.IO](https://docs.kentico.com/x/4YfWCQ) 
 
 | Xperience Version   | Library Version |
 | ------------------- | --------------- |
-| >= 31.0.0           | >= 14.0.0       |
+| >= 31.0.0           | >= 16.0.0 (.NET 10+) |
+| >= 31.0.0           | >= 14.0.0, < 16.0.0 (.NET 8+) |
 | >= 30.9.0           | >= 13.0.0       |
 | >= 30.8.0           | >= 12.5.0       |
 | >= 30.6.0           | >= 12.4.0       |
@@ -51,7 +52,7 @@ Lucene indexes are stored using the [CMS.IO](https://docs.kentico.com/x/4YfWCQ) 
 
 ## Dependencies
 
-- [ASP.NET Core 8.0](https://dotnet.microsoft.com/en-us/download) or newer
+- [ASP.NET Core 10.0](https://dotnet.microsoft.com/en-us/download/dotnet/10.0) or newer
 - [Xperience by Kentico](https://docs.kentico.com/changelog)
 
 ## Package Installation

@@ -3,9 +3,8 @@ import { LuceneIndexContentType } from './LuceneIndexContentType';
 import { LuceneIndexChannelConfiguration } from './LuceneIndexChannelConfiguration';
 import { LuceneIndexChannel } from './LuceneIndexChannel';
 
-export interface LuceneIndexConfigurationFormComponentProps
-    extends FormComponentProps {
-    value: LuceneIndexChannelConfiguration[];
-    possibleContentTypeItems: LuceneIndexContentType[] | null;
-    possibleChannels: LuceneIndexChannel[] | null;
+export interface LuceneIndexConfigurationFormComponentProps extends FormComponentProps {
+  value: LuceneIndexChannelConfiguration[];
+  possibleContentTypeItems: LuceneIndexContentType[] | null;
+  possibleChannels: LuceneIndexChannel[] | null;
 }

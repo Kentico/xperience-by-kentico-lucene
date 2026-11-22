@@ -6,16 +6,21 @@ The requirements to setup, develop, and build this project are listed below.
 
 ### .NET SDK
 
-.NET SDK 10.0 or newer
+.NET SDK 11.0.100
 
-- <https://dotnet.microsoft.com/en-us/download/dotnet/10.0>
+- <https://dotnet.microsoft.com/en-us/download/dotnet/11.0>
 - See the `global.json` file for specific SDK requirements
+- The current library targets .NET 10; SDK 11 is the repository's build toolchain.
 
 ### Node.js Runtime
 
-- [Node.js](https://nodejs.org/en/download) 24 (`>=24.22.1 <25`)
+- [Node.js](https://nodejs.org/en/download) 26 (`>=26`)
 - [NVM for Windows](https://github.com/coreybutler/nvm-windows) to manage multiple installed versions of Node.js
 - See `engines` in `src/Kentico.Xperience.Lucene.Admin/Client/package.json` for specific version requirements
+
+### Minimum npm package age
+
+The client and end-to-end test `.npmrc` files require packages to be at least three days old. Dependabot uses the same default cooldown in `.github/dependabot.yml`. This delay reduces exposure to compromised or broken new releases.
 
 ### C# Editor
 
@@ -29,6 +34,7 @@ SQL Server 2019 or newer compatible database
 
 - [SQL Server Linux](https://learn.microsoft.com/en-us/sql/linux/sql-server-linux-setup)
 - [SQL Server in Docker](https://learn.microsoft.com/en-us/sql/linux/quickstart-install-connect-docker)
+- Docker is only needed when using the optional container-managed SQL Server or Mailpit services.
 
 ### SQL Editor
 
@@ -41,23 +47,32 @@ See the [DancingGoat README](../examples/DancingGoat/README.md) for full setup s
 
 ### Database Setup
 
-Running the example project requires creating a new Xperience by Kentico database using the included template.
-
-Change directory in your console to `./examples/DancingGoat`, restore the database tools, and create the database:
+Running the example project requires a licensed Xperience by Kentico database. Build DancingGoat, then run the setup script from the repository root:
 
 ```powershell
-dotnet tool restore
-dotnet kentico-xperience-dbmanager -- -s "<sql_server_name>" -d "<database_name>" -a "Pass@12345" --hash-string-salt "<hash_string_salt>" --license-file "<license_file_path>"
+dotnet build
+./scripts/Initialize-Database.ps1 -LicenseFile "<license_file_path>"
 ```
 
-See the Xperience documentation on [creating the project database](https://docs.kentico.com/documentation/developers-and-admins/installation#create-the-project-database) for all parameters.
+The script uses the sample's configured SQL Server and database by default, creates the database, and restores `examples/DancingGoat/App_Data/CIRepository`. See `./scripts/Initialize-Database.ps1 -?` for SQL Server, authentication, and database options. It does not replace an existing database unless `-Recreate` is supplied.
 
-Then enable Continuous Integration and restore the example's search objects (index, search page, article topics) from `App_Data/CIRepository`:
+The `administrator` account uses the password `Pass@12345` stored in the sample's CI repository. Without a license file, add the license when you first sign in to the administration.
+
+### Local services and Aspire
+
+The sample uses a local SQL Server and Mailpit by default. Mailpit listens on `localhost:1025` for SMTP and provides an inbox at <http://localhost:8025>. Start Mailpit with Docker if it is not already running:
 
 ```powershell
-dotnet run -- --kxp-ci-enable
-dotnet run -- --kxp-ci-restore
+docker run -d --name mailpit --restart unless-stopped -p 1025:1025 -p 8025:8025 axllent/mailpit
 ```
+
+The Aspire AppHost starts DancingGoat and the admin client development server together. Install the [Aspire CLI](https://aspire.dev/get-started/install-cli/) and run this from the repository root:
+
+```powershell
+aspire run
+```
+
+By default, the AppHost uses the existing local SQL Server and Mailpit services. Container-managed SQL Server or Mailpit can be enabled explicitly in the AppHost user secrets; see `examples/AppHost` and the [DancingGoat README](../examples/DancingGoat/README.md). Set `XPERIENCE_LICENSE_FILE` to install a license when creating a container database.
 
 ### Admin Customization
 
@@ -81,13 +96,17 @@ Changes to client code are immediately integrated and don’t require a restart 
 Before you start developing, the webpack server needs to be manually started by running
 
 ```bash
-npm install
+npm ci
 npm run start
 ```
 
 from the root of the module folder, in our case in the `/src/Kentico.Xperience.Lucene.Admin/Client` folder.
 
 > While proxy mode is configured, the Lucene admin UI pages will not load unless the webpack dev server is running.
+
+### End-to-end tests
+
+Playwright tests cover DancingGoat search and the Lucene administration. They require a licensed database and Chromium. See the [e2e guide](../tests/e2e/README.md) for setup, commands, and environment variables.
 
 ## Development Workflow
 
@@ -99,34 +118,25 @@ from the root of the module folder, in our case in the `/src/Kentico.Xperience.L
    - `refactor/` - for restructuring of existing features
    - `fix/` - for bugfixes
 
-1. Run `dotnet format` against the `Kentico.Xperience.Lucene` solution
+1. Run `dotnet format` against `Kentico.Xperience.Lucene.slnx`
 
    > use `.NET: format (Lucene)` VS Code task.
 
 1. Commit changes, with a commit message preferably following the [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/#summary) convention.
 
-### Test the package locally using the following commands
+1. If you changed TypeScript, run `npm run format`, `npm run lint`, and `npm run typecheck` in `src/Kentico.Xperience.Lucene.Admin/Client` or `tests/e2e`.
 
-1. Generate a local package using the VS Code `.NET: pack (Lucene)` task or execute its command and arguments at the command line
-   This will generate a new `Kentico.Xperience.Lucene` package in the `nuget-local` folder with a version matching the version in your `Directory.Build.props`
+The shared `.claude/skills` guidance is available to Copilot and Claude. Use `setup-local` for local database setup, `update-xperience` for Xperience version updates, and `update-template` to review template changes.
 
-1. Update the `Directory.Packages.props` to populate the `Kentico.Xperience.Lucene` package `Version=""` with the matching the value from the project's `Directory.Build.props`
+### Validate packages
 
-   > In the future, we will be able to use floating versions to automatically select the highest (local) package version
+The Release package build uses the same project targets as CI and Azure DevOps. It creates all three NuGet packages with the admin client and other embedded assets included:
 
-1. Build the solution with the `LOCAL_NUGET=true` property
+```powershell
+dotnet pack src/Kentico.Xperience.Lucene.Libs.slnx --configuration Release -p:SIGN_FILE=false
+```
 
-   > You can use the VS Code `.NET: build (Solution) - LOCAL_NUGET` task
-
-1. Make sure the `Kentico.Xperience.Lucene.dll` version in the `examples\DancingGoat\bin\Debug\net10.0\` folder is the right version
-
-1. Run the `DancingGoat` application and ensure all functionality is correct
-
-   > You can use the `.NET Launch (DancingGoat) - LOCAL_NUGET` launch setting in VS Code
-
-1. Undo the `Directory.Packages.props` version number change to ensure it is not committed to the repository
-
-1. Perform a normal build to reset any modified `packages.lock.json` files
+The normal Release build embeds the admin client and other required assets. For end-to-end testing, build and run DancingGoat with the solution workflow rather than substituting locally generated packages.
 
 ### Create a PR
 

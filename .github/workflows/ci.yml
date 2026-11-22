@@ -3,31 +3,17 @@ name: "CI: Build and Test"
 on:
   push:
     branches: [main]
-    paths:
-      - "**.cs"
-      - "**.tsx"
-      - "**.js"
-      - "**.csproj"
-      - "**.props"
-      - "**.targets"
-      - "**.sln"
-      - "**/Client/**/*.json"
-      - "**.cshtml"
-      - "examples/DancingGoat/App_Data/CIRepository/**"
   pull_request:
     branches: [main]
-    paths:
-      - ".github/workflows/ci.yml"
-      - "**.cs"
-      - "**.tsx"
-      - "**.js"
-      - "**.csproj"
-      - "**.props"
-      - "**.targets"
-      - "**.sln"
-      - "**/Client/**/*.json"
-      - "**.cshtml"
-      - "examples/DancingGoat/App_Data/CIRepository/**"
+  merge_group:
+    types: [checks_requested]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   dotnet-format:
@@ -35,18 +21,18 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
       - name: Setup .NET
-        uses: actions/setup-dotnet@v4
+        uses: actions/setup-dotnet@v6
         with:
           global-json-file: global.json
 
       - name: Run dotnet format
-        run: dotnet format Kentico.Xperience.Lucene.sln --exclude ./examples/** --verify-no-changes
+        run: dotnet format Kentico.Xperience.Lucene.slnx --exclude ./examples/** --verify-no-changes
 
   build:
-    name: build
+    name: Build and Test
     runs-on: ubuntu-latest
     needs: dotnet-format
     defaults:
@@ -60,33 +46,54 @@ jobs:
       SIGN_FILE: false
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
       - name: Setup .NET
-        uses: actions/setup-dotnet@v4
+        uses: actions/setup-dotnet@v6
         with:
           global-json-file: global.json
 
-      - name: "Install Node.js from package.json version"
-        uses: actions/setup-node@v4
+      - name: Setup Node.js
+        uses: actions/setup-node@v7
         with:
-          node-version-file: "src/Kentico.Xperience.Lucene.Admin/Client/package.json"
+          node-version: 26
+          cache: npm
+          cache-dependency-path: "**/package-lock.json"
+
+      - name: Check e2e tests
+        working-directory: tests/e2e
+        run: |
+          npm ci
+          npm run typecheck
+          npm run lint
+          npm run format:check
+
+      - name: Install admin client dependencies
+        working-directory: src/Kentico.Xperience.Lucene.Admin/Client
+        run: npm ci
 
       - name: Install dependencies
-        run: dotnet restore --locked-mode
+        run: dotnet restore Kentico.Xperience.Lucene.slnx --locked-mode
 
       - name: Build Solution
-        run: dotnet build --configuration Release --no-restore
+        run: dotnet build Kentico.Xperience.Lucene.slnx --configuration Release --no-restore
+
+      - name: Check admin client
+        working-directory: src/Kentico.Xperience.Lucene.Admin/Client
+        run: |
+          npm run typecheck
+          npm run lint
+          npm run format:check
 
       - name: Test Solution
-        run: dotnet test --configuration Release --no-build --no-restore
+        run: dotnet test Kentico.Xperience.Lucene.slnx --configuration Release --no-build --no-restore
 
   example-ci-restore:
     name: example-ci-restore
     runs-on: ubuntu-latest
     needs: build
     # Repository secrets are not available to pull requests from forks.
-    if: github.event_name == 'push' || github.event.pull_request.head.repo.full_name == github.repository
+    if: github.event_name == 'push' || github.event.pull_request.head.repo.full_name == github.repository || github.event_name == 'merge_group'
     defaults:
       run:
         shell: pwsh
@@ -115,22 +122,24 @@ jobs:
       ConnectionStrings__CMSConnectionString: "Data Source=localhost,1433;Initial Catalog=xperience-by-kentico-lucene;User ID=sa;Password=Pass@12345;Encrypt=False;Connect Timeout=60"
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
       - name: Setup .NET
-        uses: actions/setup-dotnet@v4
+        uses: actions/setup-dotnet@v6
         with:
           global-json-file: global.json
 
-      - name: "Install Node.js from package.json version"
-        uses: actions/setup-node@v4
+      - name: Setup Node.js
+        uses: actions/setup-node@v7
         with:
-          node-version-file: "src/Kentico.Xperience.Lucene.Admin/Client/package.json"
+          node-version: 26
+          cache: npm
+          cache-dependency-path: "**/package-lock.json"
 
       - name: Build example
         run: |
-          dotnet restore --locked-mode
-          dotnet build --no-restore
+          dotnet restore ../../Kentico.Xperience.Lucene.slnx --locked-mode
+          dotnet build ../../Kentico.Xperience.Lucene.slnx --configuration Debug --no-restore
 
       - name: Write license file
         env:
@@ -181,3 +190,107 @@ jobs:
           finally {
             Stop-Process -Id $site.Id -Force -ErrorAction SilentlyContinue
           }
+
+  e2e:
+    name: E2E Tests
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: pwsh
+
+    services:
+      sql:
+        image: mcr.microsoft.com/mssql/server:2022-latest
+        env:
+          ACCEPT_EULA: "Y"
+          MSSQL_SA_PASSWORD: Pass@12345
+        ports:
+          - 1433:1433
+        options: >-
+          --health-cmd "/opt/mssql-tools18/bin/sqlcmd -S localhost -U sa -P Pass@12345 -C -Q 'SELECT 1'"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 10
+      mailpit:
+        image: axllent/mailpit:v1.31.6
+        ports:
+          - 1025:1025
+          - 8025:8025
+
+    env:
+      ASPNETCORE_ENVIRONMENT: CI
+      ASPNETCORE_URLS: http://localhost:14536
+      DANCING_GOAT_BASE_URL: http://localhost:14536
+      E2E_WEB_SERVER_COMMAND: dotnet run --project ../../examples/DancingGoat --configuration Release --no-build --no-launch-profile
+      E2E_ADMIN_PASSWORD: Pass@12345
+      HAS_LICENSE: ${{ secrets.XPERIENCE_LICENSE_KEY != '' }}
+      DOTNET_CLI_TELEMETRY_OPTOUT: 1
+      DOTNET_SKIP_FIRST_TIME_EXPERIENCE: 1
+      DOTNET_NOLOGO: 1
+      ConnectionStrings__CMSConnectionString: "Data Source=localhost,1433;Initial Catalog=xperience-by-kentico-lucene;User ID=sa;Password=Pass@12345;Encrypt=False;Connect Timeout=60"
+
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Skip without license
+        if: env.HAS_LICENSE != 'true'
+        run: Write-Host "::notice title=E2E skipped::XPERIENCE_LICENSE_KEY is not available to this run."
+
+      - name: Setup .NET
+        if: env.HAS_LICENSE == 'true'
+        uses: actions/setup-dotnet@v6
+        with:
+          global-json-file: global.json
+          cache: true
+          cache-dependency-path: "**/packages.lock.json"
+
+      - name: Setup Node.js
+        if: env.HAS_LICENSE == 'true'
+        uses: actions/setup-node@v7
+        with:
+          node-version: 26
+          cache: npm
+          cache-dependency-path: "**/package-lock.json"
+
+      - name: Build
+        if: env.HAS_LICENSE == 'true'
+        run: |
+          dotnet restore Kentico.Xperience.Lucene.slnx --locked-mode
+          dotnet build Kentico.Xperience.Lucene.slnx --configuration Release --no-restore
+
+      - name: Create database and restore CI repository
+        if: env.HAS_LICENSE == 'true'
+        env:
+          XPERIENCE_LICENSE_KEY: ${{ secrets.XPERIENCE_LICENSE_KEY }}
+        run: |
+          $license = Join-Path $env:RUNNER_TEMP 'xperience-license.txt'
+          Set-Content $license $env:XPERIENCE_LICENSE_KEY -NoNewline
+          ./scripts/Initialize-Database.ps1 `
+            -ServerName 'localhost,1433' `
+            -DatabaseName 'xperience-by-kentico-lucene' `
+            -Username 'sa' `
+            -Password 'Pass@12345' `
+            -AdminPassword $env:E2E_ADMIN_PASSWORD `
+            -LicenseFile $license `
+            -Configuration Release
+          Remove-Item $license
+
+      - name: Install Playwright
+        if: env.HAS_LICENSE == 'true'
+        working-directory: tests/e2e
+        run: |
+          npm ci
+          npx playwright install --with-deps chromium
+
+      - name: Run e2e tests
+        if: env.HAS_LICENSE == 'true'
+        working-directory: tests/e2e
+        run: npm test
+
+      - name: Upload Playwright report
+        if: failure() && env.HAS_LICENSE == 'true'
+        uses: actions/upload-artifact@v7
+        with:
+          name: playwright-report
+          path: tests/e2e/playwright-report
+          retention-days: 7

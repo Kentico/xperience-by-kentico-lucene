@@ -33,7 +33,7 @@
   "files.associations": {
     ".azuredevops/**/*.yaml": "azure-pipelines"
   },
-  "dotnet.defaultSolution": "Kentico.Xperience.Lucene.sln",
+  "dotnet.defaultSolution": "Kentico.Xperience.Lucene.slnx",
 
   "eslint.workingDirectories": ["./src/Kentico.Xperience.Lucene.Admin/Client"],
   "[aspnetcorerazor]": {

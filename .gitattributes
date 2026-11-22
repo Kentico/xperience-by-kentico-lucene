@@ -6,6 +6,7 @@
 *.cshtml            text diff=html
 
 *.sln               text eol=crlf
+*.slnx              text eol=crlf
 *.csproj            text eol=crlf
 *.vcproj            text eol=crlf
 *.sqlproj           text eol=crlf

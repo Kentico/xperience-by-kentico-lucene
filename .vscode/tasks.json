@@ -13,18 +13,6 @@
       "problemMatcher": "$msCompile"
     },
     {
-      "label": ".NET: build (Solution) - LOCAL_NUGET",
-      "command": "dotnet",
-      "type": "process",
-      "args": [
-        "build",
-        "-p:LOCAL_NUGET=true",
-        "/property:GenerateFullPaths=true",
-        "/consoleloggerparameters:NoSummary"
-      ],
-      "problemMatcher": "$msCompile"
-    },
-    {
       "label": ".NET: rebuild (Solution)",
       "command": "dotnet",
       "type": "process",
@@ -64,29 +52,11 @@
       "type": "process",
       "args": [
         "format",
-        "Kentico.Xperience.Lucene.sln",
+        "Kentico.Xperience.Lucene.slnx",
         "--exclude",
         "./examples/**"
       ],
       "problemMatcher": "$msCompile"
-    },
-    {
-      "label": ".NET: pack (Lucene)",
-      "command": "dotnet",
-      "type": "process",
-      "args": [
-        "pack",
-        "./src/Kentico.Xperience.Lucene",
-        "-c",
-        "Release",
-        "-o",
-        "nuget-local",
-        "-p:SIGN_FILE=false"
-      ],
-      "problemMatcher": "$msCompile",
-      "options": {
-        "cwd": "${workspaceFolder}"
-      }
     },
     {
       "label": ".NET: watch (DancingGoat)",
@@ -151,6 +121,55 @@
       "problemMatcher": [],
       "label": "npm: start - src/Kentico.Xperience.Lucene.Admin/Client",
       "detail": "webpack serve --mode development"
+    },
+    {
+      "type": "npm",
+      "script": "typecheck",
+      "path": "src/Kentico.Xperience.Lucene.Admin/Client",
+      "problemMatcher": [],
+      "label": "npm: typecheck - admin client"
+    },
+    {
+      "type": "npm",
+      "script": "lint",
+      "path": "src/Kentico.Xperience.Lucene.Admin/Client",
+      "problemMatcher": [],
+      "label": "npm: lint - admin client"
+    },
+    {
+      "type": "npm",
+      "script": "format:check",
+      "path": "src/Kentico.Xperience.Lucene.Admin/Client",
+      "problemMatcher": [],
+      "label": "npm: format:check - admin client"
+    },
+    {
+      "type": "npm",
+      "script": "typecheck",
+      "path": "tests/e2e",
+      "problemMatcher": [],
+      "label": "npm: typecheck - e2e"
+    },
+    {
+      "type": "npm",
+      "script": "lint",
+      "path": "tests/e2e",
+      "problemMatcher": [],
+      "label": "npm: lint - e2e"
+    },
+    {
+      "type": "npm",
+      "script": "test",
+      "path": "tests/e2e",
+      "problemMatcher": [],
+      "label": "npm: test - e2e"
+    },
+    {
+      "type": "npm",
+      "script": "format:check",
+      "path": "tests/e2e",
+      "problemMatcher": [],
+      "label": "npm: format:check - e2e"
     }
   ]
 }

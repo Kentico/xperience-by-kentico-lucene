@@ -20,9 +20,9 @@ module.exports = (opts, argv) => {
           loader: 'babel-loader',
         },
       ],
-      },
+    },
     output: {
-        clean: true
+      clean: true,
     },
     devServer: {
       port: 3074,
