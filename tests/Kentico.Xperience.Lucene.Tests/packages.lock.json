@@ -1200,11 +1200,6 @@
           "System.Configuration.ConfigurationManager": "8.0.0"
         }
       },
-      "System.Security.Cryptography.Pkcs": {
-        "type": "Transitive",
-        "resolved": "8.0.1",
-        "contentHash": "CoCRHFym33aUSf/NtWSVSZa99dkd0Hm7OCZUxORBjRB16LNhIEOf8THPqzIYlvKM0nNDAPTRBa1FxEECrgaxxA=="
-      },
       "System.Security.Cryptography.ProtectedData": {
         "type": "Transitive",
         "resolved": "8.0.0",
@@ -1222,7 +1217,7 @@
         "type": "Project",
         "dependencies": {
           "Kentico.Xperience.Admin": "[31.0.0, )",
-          "Kentico.Xperience.Lucene.Core": "[15.0.6, )"
+          "Kentico.Xperience.Lucene.Core": "[16.0.0, )"
         }
       },
       "kentico.xperience.lucene.core": {
@@ -1287,6 +1282,12 @@
           "Lucene.Net.Join": "4.8.0-beta00017",
           "Lucene.Net.Queries": "4.8.0-beta00017"
         }
+      },
+      "System.Security.Cryptography.Pkcs": {
+        "type": "CentralTransitive",
+        "requested": "[10.0.15, )",
+        "resolved": "10.0.15",
+        "contentHash": "4jEv/lXDuQkh60lPU3hlwASErXdv1ZMKmsxVuBfZWiVKT5Q2QGo58kTa6rN519+PU+m4Hsj1m3yT8fN+Xw0XZw=="
       }
     }
   }

@@ -4,6 +4,7 @@
     <CentralPackageVersionOverrideEnabled>false</CentralPackageVersionOverrideEnabled>
     <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
     <DisableImplicitNuGetFallbackFolder>true</DisableImplicitNuGetFallbackFolder>
+    <CentralPackageTransitivePinningEnabled>true</CentralPackageTransitivePinningEnabled>
   </PropertyGroup>
   <ItemGroup>
     <PackageVersion Include="Kentico.Xperience.Admin" Version="31.0.0" />
@@ -14,7 +15,6 @@
     <PackageVersion Include="kentico.xperience.mjml" Version="31.0.0" />
     <PackageVersion Include="Kentico.Xperience.WebApp" Version="31.0.0" />
     <PackageVersion Include="Kentico.Xperience.Core.Tests" Version="31.0.0" />
-    <PackageVersion Include="Kentico.Xperience.Lucene" Version="" Condition="'$(LOCAL_NUGET)' == 'true'" />
     <PackageVersion Include="Lucene.Net" Version="4.8.0-beta00017" />
     <PackageVersion Include="Lucene.Net.Analysis.Common" Version="4.8.0-beta00017" />
     <PackageVersion Include="Lucene.Net.Facet" Version="4.8.0-beta00017" />
@@ -26,5 +26,12 @@
     <PackageVersion Include="coverlet.collector" Version="6.0.4" />
     <PackageVersion Include="NSubstitute" Version="5.3.0" />
     <PackageVersion Include="AutoFixture" Version="4.18.1" />
+    <PackageVersion Include="Aspire.Hosting.AppHost" Version="17.0.0" />
+    <PackageVersion Include="Aspire.Hosting.Dotnet" Version="17.0.0" />
+    <PackageVersion Include="Aspire.Hosting.JavaScript" Version="17.0.0" />
+    <PackageVersion Include="Aspire.Hosting.SqlServer" Version="17.0.0" />
+    <PackageVersion Include="CommunityToolkit.Aspire.Hosting.MailPit" Version="17.0.0" />
+    <!-- Pin Xperience's transitive version to a patched release until its dependency graph updates. -->
+    <PackageVersion Include="System.Security.Cryptography.Pkcs" Version="10.0.15" />
   </ItemGroup>
 </Project>

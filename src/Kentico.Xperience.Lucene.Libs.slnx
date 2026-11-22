@@ -1,0 +1,5 @@
+<Solution>
+  <Project Path="Kentico.Xperience.Lucene.Admin/Kentico.Xperience.Lucene.Admin.csproj" />
+  <Project Path="Kentico.Xperience.Lucene.Core/Kentico.Xperience.Lucene.Core.csproj" />
+  <Project Path="Kentico.Xperience.Lucene/Kentico.Xperience.Lucene.csproj" />
+</Solution>
