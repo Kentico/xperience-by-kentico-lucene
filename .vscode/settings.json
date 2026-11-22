@@ -9,30 +9,30 @@
     "**/node_modules": true,
     "**/bin": true,
     "**/obj": true,
-    "**/packages.lock.json": true,
+    "**/packages.lock.json": true
   },
 
   "editor.formatOnSave": true,
   "editor.defaultFormatter": "esbenp.prettier-vscode",
 
   "[markdown]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
 
   "[csharp]": {
-    "editor.defaultFormatter": "ms-dotnettools.csharp",
+    "editor.defaultFormatter": "ms-dotnettools.csharp"
   },
 
   "[aspnetcorerazor]": {
-    "editor.defaultFormatter": "ms-dotnettools.csharp",
+    "editor.defaultFormatter": "ms-dotnettools.csharp"
   },
 
   // template:azure:start
   "files.associations": {
-    ".azuredevops/**/*.yaml": "azure-pipelines",
+    ".azuredevops/**/*.{yml,yaml}": "azure-pipelines"
   },
   // template:azure:end
 
   "dotnet.defaultSolution": "Kentico.Xperience.Lucene.slnx",
-  "dotnet.solution.autoOpen": "Kentico.Xperience.Lucene.slnx",
+  "dotnet.solution.autoOpen": "Kentico.Xperience.Lucene.slnx"
 }

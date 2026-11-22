@@ -19,7 +19,7 @@ public class DefaultLuceneIndexService(IHostEnvironment hostEnvironment) : ILuce
 
     public T UseIndexAndTaxonomyWriter<T>(LuceneIndex index, Func<IndexWriter, ITaxonomyWriter, T> useIndexWriter, IndexStorageModel storage, OpenMode openMode = OpenMode.CREATE_OR_APPEND)
     {
-        var lockAcquired = false;
+        bool lockAcquired = false;
         var fileLock = new FileLock(LuceneIndexLockHelper.GetLockFilePath(storage.Path, hostEnvironment));
 
         try
@@ -52,7 +52,7 @@ public class DefaultLuceneIndexService(IHostEnvironment hostEnvironment) : ILuce
 
     public TResult UseWriter<TResult>(LuceneIndex index, Func<IndexWriter, TResult> useIndexWriter, IndexStorageModel storage, OpenMode openMode = OpenMode.CREATE_OR_APPEND)
     {
-        var lockAcquired = false;
+        bool lockAcquired = false;
         var fileLock = new FileLock(LuceneIndexLockHelper.GetLockFilePath(storage.Path, hostEnvironment));
 
         try

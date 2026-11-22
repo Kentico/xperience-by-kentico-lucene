@@ -206,7 +206,7 @@ public class IndexListingPage : ListingPage
                 .AddErrorMessage(string.Format("Error loading Lucene index with identifier {0}.", id)));
         }
 
-        bool indexDeleted = await luceneClient.DeleteIndex(index!);
+        bool indexDeleted = await luceneClient.DeleteIndex(index);
 
         if (!indexDeleted)
         {

@@ -8,7 +8,7 @@ public interface ILuceneIndexManager
     /// <summary>
     /// Gets all existing indexes.
     /// </summary>
-    IEnumerable<LuceneIndex> GetAllIndices();
+    public IEnumerable<LuceneIndex> GetAllIndices();
 
     /// <summary>
     /// Gets a registered <see cref="LuceneIndex"/> with the specified <paramref name="indexName"/>,
@@ -17,7 +17,7 @@ public interface ILuceneIndexManager
     /// <param name="indexName">The name of the index to retrieve.</param>
     /// <exception cref="ArgumentNullException" />
     /// <exception cref="InvalidOperationException" />
-    LuceneIndex? GetIndex(string indexName);
+    public LuceneIndex? GetIndex(string indexName);
 
     /// <summary>
     /// Gets a registered <see cref="LuceneIndex"/> with the specified <paramref name="identifier"/>,
@@ -26,7 +26,7 @@ public interface ILuceneIndexManager
     /// <param name="identifier">The identifier of the index to retrieve.</param>
     /// <exception cref="ArgumentNullException" />
     /// <exception cref="InvalidOperationException" />
-    LuceneIndex? GetIndex(int identifier);
+    public LuceneIndex? GetIndex(int identifier);
 
     /// <summary>
     /// Gets a registered <see cref="LuceneIndex"/> with the specified <paramref name="indexName"/>. If no index is found, a <see cref="InvalidOperationException" /> is thrown.
@@ -34,7 +34,7 @@ public interface ILuceneIndexManager
     /// <param name="indexName">The name of the index to retrieve.</param>
     /// <exception cref="ArgumentNullException" />
     /// <exception cref="InvalidOperationException" />
-    LuceneIndex GetRequiredIndex(string indexName);
+    public LuceneIndex GetRequiredIndex(string indexName);
 
     /// <summary>
     /// Adds an index to the store.
@@ -42,5 +42,5 @@ public interface ILuceneIndexManager
     /// <param name="indexConfiguration">The index to add.</param>
     /// <exception cref="ArgumentNullException" />
     /// <exception cref="InvalidOperationException" />
-    void AddIndex(LuceneIndexModel indexConfiguration);
+    public void AddIndex(LuceneIndexModel indexConfiguration);
 }

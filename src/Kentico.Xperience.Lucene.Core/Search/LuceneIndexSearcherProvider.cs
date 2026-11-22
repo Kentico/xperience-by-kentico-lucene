@@ -94,7 +94,7 @@ internal sealed class LuceneIndexSearcherProvider : IDisposable
 
         disposed = true;
 
-        foreach (var key in cache.Keys.ToArray())
+        foreach (string? key in cache.Keys.ToArray())
         {
             if (cache.TryRemove(key, out var cached))
             {

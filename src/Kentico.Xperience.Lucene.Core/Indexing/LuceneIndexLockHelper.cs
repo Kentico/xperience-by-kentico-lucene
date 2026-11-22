@@ -21,7 +21,7 @@ internal static class LuceneIndexLockHelper
     internal static string GetLockFilePath(string indexName, IHostEnvironment environment)
     {
         // Lock file is stored on local file system, not in CMS.IO storage
-        var lockDir = Path.Combine(environment.ContentRootPath, "$LuceneLocks", indexName);
+        string lockDir = Path.Combine(environment.ContentRootPath, "$LuceneLocks", indexName);
         return Path.Combine(lockDir, LOCK_FILE_NAME);
     }
 }

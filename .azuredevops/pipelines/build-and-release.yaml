@@ -19,7 +19,7 @@ stages:
   - stage: Build
     jobs:
       - job: Build
-        displayName: Build, Sign, Test & Pack
+        displayName: Build, Sign & Pack
 
         variables:
           - group: Code Sign KV Auth
@@ -34,6 +34,10 @@ stages:
             value: src/Kentico.Xperience.Lucene.Libs.slnx
 
         steps:
+          - task: UseDotNet@2
+            inputs:
+              useGlobalJson: true
+
           - task: PowerShell@2
             displayName: Set Node.js version from package.json
             inputs:
@@ -51,12 +55,6 @@ stages:
             displayName: "Install Node.js from package.json version"
             inputs:
               version: $(PACKAGE_JSON_NODE_VERSION)
-
-          - task: UseDotNet@2
-            displayName: Install .NET SDK from global.json
-            inputs:
-              packageType: sdk
-              useGlobalJson: true
 
           - task: DotNetCoreCLI@2
             displayName: Restore dotnet tools
@@ -97,15 +95,15 @@ stages:
             parameters:
               Configuration: $(Configuration)
               artifacts:
-                - CRMCommon:
-                  artifactName: "Kentico-Xperience-Lucene"
-                  projectPath: "src/Kentico.Xperience.Lucene"
-                - CRMDynamics:
-                  artifactName: "Kentico-Xperience-Lucene-Admin"
-                  projectPath: "src/Kentico.Xperience.Lucene.Admin"
-                - CRMSalesforce:
+                - Core:
                   artifactName: "Kentico-Xperience-Lucene-Core"
                   projectPath: "src/Kentico.Xperience.Lucene.Core"
+                - Aggregate:
+                  artifactName: "Kentico-Xperience-Lucene"
+                  projectPath: "src/Kentico.Xperience.Lucene"
+                - Admin:
+                  artifactName: "Kentico-Xperience-Lucene-Admin"
+                  projectPath: "src/Kentico.Xperience.Lucene.Admin"
 
   - ${{ if eq(variables['Build.SourceBranch'], 'refs/heads/main') }}:
       - stage: PublishNuGetPackages

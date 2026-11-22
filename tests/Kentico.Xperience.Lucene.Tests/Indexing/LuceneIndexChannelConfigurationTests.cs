@@ -39,23 +39,14 @@ public class LuceneIndexChannelConfigurationTests
     }
 
     [Test]
-    public void Constructor_WithoutIncludedPaths_ThrowsArgumentException()
-    {
-        Assert.Throws<ArgumentException>(() =>
-            new LuceneIndexChannelConfiguration("DancingGoatPages", "Dancing Goat", []));
-    }
+    public void Constructor_WithoutIncludedPaths_ThrowsArgumentException() => Assert.Throws<ArgumentException>(() =>
+                                                                                       new LuceneIndexChannelConfiguration("DancingGoatPages", "Dancing Goat", []));
 
     [Test]
-    public void Constructor_WithoutDisplayNameAndIncludedPaths_ThrowsArgumentException()
-    {
-        Assert.Throws<ArgumentException>(() =>
-            new LuceneIndexChannelConfiguration("DancingGoatPages", []));
-    }
+    public void Constructor_WithoutDisplayNameAndIncludedPaths_ThrowsArgumentException() => Assert.Throws<ArgumentException>(() =>
+                                                                                                     new LuceneIndexChannelConfiguration("DancingGoatPages", []));
 
     [Test]
-    public void Constructor_WithoutChannelName_ThrowsArgumentException()
-    {
-        Assert.Throws<ArgumentException>(() =>
-            new LuceneIndexChannelConfiguration(" ", [new LuceneIndexIncludedPath("/")]));
-    }
+    public void Constructor_WithoutChannelName_ThrowsArgumentException() => Assert.Throws<ArgumentException>(() =>
+                                                                                     new LuceneIndexChannelConfiguration(" ", [new LuceneIndexIncludedPath("/")]));
 }

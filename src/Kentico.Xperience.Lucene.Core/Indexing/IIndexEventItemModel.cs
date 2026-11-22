@@ -10,53 +10,53 @@ public interface IIndexEventItemModel
     /// <summary>
     /// The identifier of the item
     /// </summary>
-    int ItemID { get; set; }
+    public int ItemID { get; set; }
 
 
     /// <summary>
     /// The <see cref="ContentItemFields.ContentItemGUID"/>
     /// </summary>
-    Guid ItemGuid { get; set; }
+    public Guid ItemGuid { get; set; }
 
 
     /// <summary>
     /// Content language name.
     /// </summary>
-    string LanguageName { get; set; }
+    public string LanguageName { get; set; }
 
 
     /// <summary>
     /// Content item type name.
     /// </summary>
-    string ContentTypeName { get; set; }
+    public string ContentTypeName { get; set; }
 
 
     /// <summary>
     /// The <see cref="ContentItemFields.ContentItemName"/>
     /// </summary>
-    string Name { get; set; }
+    public string Name { get; set; }
 
 
     /// <summary>
     /// Indicates if content item is secured.
     /// </summary>
-    bool IsSecured { get; set; }
+    public bool IsSecured { get; set; }
 
 
     /// <summary>
     /// Content item type identifier.
     /// </summary>
-    int ContentTypeID { get; set; }
+    public int ContentTypeID { get; set; }
 
 
     /// <summary>
     /// Content language ID.
     /// </summary>
-    int ContentLanguageID { get; set; }
+    public int ContentLanguageID { get; set; }
 
 
     /// <summary>
     /// The representation of the type of this <see cref="IIndexEventItemModel"/>.
     /// </summary>
-    IndexEventItemModelType IndexEventItemModelType { get; }
+    public IndexEventItemModelType IndexEventItemModelType { get; }
 }
