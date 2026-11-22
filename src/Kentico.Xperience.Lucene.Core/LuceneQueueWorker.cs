@@ -55,7 +55,7 @@ internal class LuceneQueueWorker : ThreadQueueWorker<LuceneQueueItem, LuceneQueu
 
         if (indexManager.GetIndex(queueItem.IndexName) == null)
         {
-            throw new InvalidOperationException($"Attempted to log task for Lucene index '{queueItem.IndexName},' but it is not registered.");
+            throw new InvalidOperationException($"Attempted to log task for Lucene index '{queueItem.IndexName}' but it is not registered.");
         }
 
         Current.Enqueue(queueItem, false);
