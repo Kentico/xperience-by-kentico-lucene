@@ -2,6 +2,7 @@
   <Import Project="$(MSBuildThisFileDirectory)..\Directory.Packages.props" />
 
   <PropertyGroup>
+    <CentralPackageTransitivePinningEnabled>true</CentralPackageTransitivePinningEnabled>
     <NoWarn>$(NoWarn);NU1507</NoWarn>
   </PropertyGroup>
 

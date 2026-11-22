@@ -9,7 +9,7 @@
       "type": "coreclr",
       "request": "launch",
       "preLaunchTask": "dotnet: build",
-      "program": "bin/Debug/net10.0/DancingGoat.dll",
+      "program": "${workspaceFolder}/examples/DancingGoat/bin/Debug/net10.0/DancingGoat.dll",
       "args": [],
       "cwd": "${workspaceFolder}/examples/DancingGoat",
       "stopAtEntry": false,

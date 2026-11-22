@@ -73,6 +73,8 @@ Playwright tests live in `tests/e2e` and require a licensed database. See the [e
 
 ## Development Workflow
 
+Central transitive pinning is disabled for packable library projects under `src` and enabled for the running sample and test projects under `examples` and `tests`. When changing a transitive security pin, regenerate the affected lockfiles and inspect packed library nuspecs to keep their dependency contracts intentional.
+
 1. Create a branch with a suitable prefix:
    - `feat/` for new functionality
    - `refactor/` for restructuring
@@ -96,8 +98,8 @@ An admin applies these settings. Check them with `./scripts/Test-RepositorySetti
 - `.github/CODEOWNERS` names an owner that GitHub resolves; the owner team has the Admin role, and outside collaborators are added through teams.
 - **Settings** > **General** > **Automatically delete head branches**: on.
 - Import the `main` branch rulesets from `.github/rulesets`:
-  - `protect-main.json` blocks deleting `main` and force-pushing.
-  - `merge-queue.json` requires the `Build and Test` and `E2E Tests` checks and the merge queue; repository admins can bypass it.
+  - `protect-main.json` blocks deleting `main` and force-pushing, requires the supported-integration review policies, and enables Copilot code review.
+  - `merge-queue.json` requires the `Build and Test` and `E2E Tests` checks and squash merge queue; repository admins may bypass either ruleset only through a pull request.
 - **Settings** > **Advanced Security**:
   - Enable the dependency graph and confirm manifests are detected.
   - Enable Dependabot alerts, with an auto-triage rule for low-impact development dependency alerts.

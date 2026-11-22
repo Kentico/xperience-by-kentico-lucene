@@ -28,20 +28,35 @@ function Add-Result([string]$Setting, [string]$Status, [string]$Evidence) {
 }
 
 # Returns the parsed JSON, or $null when the endpoint answers with an error (404: off or no access)
-function Invoke-GitHubApi([string]$Path) {
-    $output = gh api --method GET $Path 2>$null
+function Invoke-GitHubApi([string]$Path, [switch]$Paginate) {
+    if ($Paginate) {
+        $output = gh api --method GET --paginate --slurp $Path 2>$null
+    } else {
+        $output = gh api --method GET $Path 2>$null
+    }
     if ($LASTEXITCODE -ne 0) {
         Write-Warning "Cannot inspect $Path (gh exit $LASTEXITCODE): disabled, unavailable, or insufficient access. Verify in GitHub settings."
         return $null
     }
     if (-not $output) { return @{} }
     # -NoEnumerate (twice): an empty list stays a list instead of $null
-    Write-Output -NoEnumerate ($output | ConvertFrom-Json -NoEnumerate)
+    if ($Paginate) {
+        $pages = $output | ConvertFrom-Json -NoEnumerate
+        $items = [System.Collections.Generic.List[object]]::new()
+        foreach ($page in $pages) {
+            foreach ($item in $page) {
+                $items.Add($item)
+            }
+        }
+        Write-Output -NoEnumerate $items.ToArray()
+    } else {
+        Write-Output -NoEnumerate ($output | ConvertFrom-Json -NoEnumerate)
+    }
 }
 
 $repo = Invoke-GitHubApi $api
 if (-not $repo) { throw "Repository $Repository not found, or gh is not signed in with access to it." }
-$teams = Invoke-GitHubApi "$api/teams"
+$teams = Invoke-GitHubApi "$api/teams" -Paginate
 $owner = $repo.owner.login
 
 # CODEOWNERS: GitHub validates the file; an owner it cannot resolve is an error

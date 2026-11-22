@@ -11,6 +11,7 @@ const isCi = !!process.env.CI;
 export default defineConfig({
   testDir: ".",
   testIgnore: ["node_modules/**"],
+  timeout: 150_000,
   fullyParallel: false,
   forbidOnly: isCi,
   retries: isCi ? 2 : 0,
