@@ -12,6 +12,7 @@ post-release scripts and pending integration validation; preserve these fields.
 The compare renderer narrowly maps the template's base implementation to `.Core`,
 retains the aggregate sample reference, includes all three solution/package entries,
 and uses `kentico-xperience-integrations-lucene-admin`. Preserve these adaptations
+and the existing NUnit project filename/assembly `Kentico.Xperience.Lucene.Core.Tests`
 when updating the skill itself; run `scripts/Test-TemplateRendering.ps1`.
 
 ## 1. Check the starting state

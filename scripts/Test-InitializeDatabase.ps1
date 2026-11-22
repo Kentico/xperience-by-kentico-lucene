@@ -5,7 +5,7 @@ $ErrorActionPreference = 'Stop'
 $work = Join-Path ([IO.Path]::GetTempPath()) "lucene-database-script-test-$([guid]::NewGuid())"
 $project = Join-Path $work 'examples/DancingGoat'
 $settingsPath = Join-Path $project 'appsettings.json'
-$script:state = @{ Calls = [Collections.Generic.List[string]]::new(); FailManager = $false; SettingsPath = $settingsPath }
+$script:state = @{ Calls = [Collections.Generic.List[string]]::new(); FailManager = $false; FailUpdate = $false; Status = 'Ready'; SettingsPath = $settingsPath }
 $global:luceneDatabaseTest = $script:state
 $original = '{"ConnectionStrings":{"CMSConnectionString":"Data Source=fixture;Initial Catalog=fixture;Integrated Security=True"},"CMSHashStringSalt":"fixture-shared-salt"}'
 $previousConnection = $env:ConnectionStrings__CMSConnectionString
@@ -27,7 +27,8 @@ function dotnet {
             return
         }
         'run' {
-            if ($args -contains '--kxp-db-status') { return '{"state":"Ready","databaseVersion":"31.10.0"}' }
+            if ($args -contains '--kxp-db-status') { return "{`"state`":`"$($global:luceneDatabaseTest.Status)`",`"databaseVersion`":`"31.10.0`"}" }
+            if ($args -contains '--kxp-update' -and $global:luceneDatabaseTest.FailUpdate) { $global:LASTEXITCODE = 1; return }
             if ($args -contains '--kxp-ci-enable') { return '{"success":true,"message":"fixture CI enabled"}' }
             return
         }
@@ -39,6 +40,8 @@ function Reset-Fixture {
     [IO.File]::WriteAllText($settingsPath, $original)
     $script:state.Calls.Clear()
     $script:state.FailManager = $false
+    $script:state.FailUpdate = $false
+    $script:state.Status = 'Ready'
 }
 
 function Assert-Unchanged {
@@ -90,13 +93,33 @@ try {
     if ($script:state.Calls | Where-Object { $_ -like 'user-secrets set CMSHashStringSalt*' }) { throw 'Committed salt was overridden.' }
 
     Reset-Fixture
-    & $initializer -IfNotReady -LicenseFile '' | Out-Null
+    & $initializer -IfNotReady -SaveTo UserSecrets -LicenseFile '' | Out-Null
     Assert-Unchanged
     if ($script:state.Calls | Where-Object { $_ -like 'kentico-xperience-dbmanager*' -or $_ -like '*--kxp-update*' }) { throw 'Ready database was changed.' }
+    if (-not ($script:state.Calls | Where-Object { $_ -eq 'user-secrets remove CMSHashStringSalt' })) { throw 'Ready database retained the stale salt override.' }
 
     Reset-Fixture
     Assert-Rejected { & $initializer -LicenseFile (Join-Path $work 'missing-license.txt') } 'License file not found'
-    Write-Host 'Database initialization: 6 mocked safety cases passed; no services or secrets accessed.'
+
+    Reset-Fixture
+    & $initializer -IfNotReady -SaveTo None -LicenseFile '' | Out-Null
+    Assert-Unchanged
+    if ($script:state.Calls | Where-Object { $_ -like 'user-secrets*' }) { throw 'Ready None mode accessed secrets.' }
+
+    Reset-Fixture
+    $script:state.Status = 'UpdateRequired'
+    & $initializer -IfNotReady -SaveTo UserSecrets -LicenseFile '' | Out-Null
+    Assert-Unchanged
+    $updateIndex = $script:state.Calls.FindIndex([Predicate[string]]{ param($call) $call -like '*--kxp-update*' })
+    $removeIndex = $script:state.Calls.IndexOf('user-secrets remove CMSHashStringSalt')
+    if ($updateIndex -lt 0 -or $removeIndex -le $updateIndex) { throw 'Salt was not normalized after successful update.' }
+
+    Reset-Fixture
+    $script:state.Status = 'UpdateRequired'
+    $script:state.FailUpdate = $true
+    Assert-Rejected { & $initializer -IfNotReady -SaveTo UserSecrets -LicenseFile '' } 'DancingGoat CLI failed'
+    if ($script:state.Calls | Where-Object { $_ -like 'user-secrets set*' -or $_ -like 'user-secrets remove*' }) { throw 'Failed update modified secrets.' }
+    Write-Host 'Database initialization: 9 mocked safety cases passed; no services or secrets accessed.'
 }
 finally {
     Remove-Variable luceneDatabaseTest -Scope Global

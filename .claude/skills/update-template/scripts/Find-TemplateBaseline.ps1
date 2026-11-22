@@ -52,6 +52,10 @@ $scores = git -C $Template log --format='%H %aI %s' $Branch | ForEach-Object {
         $meta, $path = $_ -split "`t", 2
         if ($path -match '/App_Data/CIRepository/') { return }
         if ($setup.family -eq 'Kentico' -and $setup.name -eq 'Lucene' -and
+            $path -eq 'tests/Kentico.Xperience.RepoTemplate.Tests/Kentico.Xperience.RepoTemplate.Tests.csproj') {
+            $path = 'tests/Kentico.Xperience.Lucene.Tests/Kentico.Xperience.Lucene.Core.Tests.csproj'
+        }
+        if ($setup.family -eq 'Kentico' -and $setup.name -eq 'Lucene' -and
             $path.StartsWith('src/Kentico.Xperience.RepoTemplate/')) {
             $path = $path.Replace('src/Kentico.Xperience.RepoTemplate/', "src/$dotNet.Core/").
                 Replace('Kentico.Xperience.RepoTemplate.csproj', "$dotNet.Core.csproj")

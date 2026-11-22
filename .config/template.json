@@ -48,6 +48,7 @@
     },
     "localAdaptations": [
       "Compare root implementation paths to Core; retain aggregate references and add aggregate solution/package entries.",
+      "Map the template NUnit project to the existing Kentico.Xperience.Lucene.Core.Tests.csproj and preserve its assembly identity.",
       "Preserve actual admin module identity during ordered token rendering.",
       "Shared canonical DancingGoat design skill retained from Lucene, not replaced with template design guidance.",
       "Database initialization preserves committed settings on failure and rejects a conflicting macro salt."

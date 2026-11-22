@@ -56,6 +56,9 @@ user-secrets store; disclose that it switches that sample's local database.
 CI explicitly uses `-SaveTo AppSettings` in an isolated CI checkout.
 `-IfNotReady` may **update** an existing database; use only with approval for that
 database update.
+After Ready status or a successful update, UserSecrets/Salt modes remove a stale
+local macro salt override so ordinary startup uses the committed CI salt.
+None mode never accesses user secrets.
 
 The script seeds stock data, signs with the existing committed salt, restores all
 Lucene CI objects and enables CI. It restores committed appsettings on failure or

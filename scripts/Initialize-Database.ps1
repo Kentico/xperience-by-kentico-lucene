@@ -58,7 +58,7 @@ param (
     # Drop and recreate the database if it exists
     [switch]$Recreate,
 
-    # Do nothing when the database is ready; apply the Xperience update when it is behind the application
+    # Keep a ready database; update an older one. After success, normalize a stale local macro salt override
     [switch]$IfNotReady,
 
     [ValidateSet('UserSecrets', 'Salt', 'AppSettings', 'None')]
@@ -112,6 +112,19 @@ if ($useUserSecrets) {
 if (-not $ServerName) { throw 'No SQL Server: pass -ServerName or set Data Source in examples/DancingGoat/appsettings.json.' }
 if (-not $DatabaseName) { throw 'No database name: pass -DatabaseName or set Initial Catalog in examples/DancingGoat/appsettings.json.' }
 
+function Remove-LocalSaltOverride {
+    if (-not ($useUserSecrets -and $stored -and $committedSalt)) { return }
+    Push-Location $project
+    try {
+        dotnet user-secrets remove 'CMSHashStringSalt' | Out-Null
+        if ($LASTEXITCODE -ne 0) { throw 'dotnet user-secrets remove failed' }
+        Write-Host 'Removed the local salt override; using the committed CI macro salt.'
+    }
+    finally {
+        Pop-Location
+    }
+}
+
 # Runs DancingGoat's Xperience CLI against the target database (DancingGoat must be built)
 function Invoke-DancingGoatCli([string[]]$cliArguments) {
     $previousConnection = $env:ConnectionStrings__CMSConnectionString
@@ -145,6 +158,7 @@ if ($IfNotReady) {
     $status = $statusJson | ConvertFrom-Json
     switch ($status.state) {
         'Ready' {
+            Remove-LocalSaltOverride
             Write-Host "Database '$DatabaseName' is ready ($($status.databaseVersion))."
             return
         }
@@ -152,6 +166,7 @@ if ($IfNotReady) {
             Write-Host $status.message
             Invoke-DancingGoatCli @('--kxp-update', '--skip-confirmation')
             if ($LASTEXITCODE -ne 0) { throw "Xperience database update failed ($LASTEXITCODE)" }
+            Remove-LocalSaltOverride
             return
         }
         default {
@@ -189,11 +204,7 @@ try {
         if ($LASTEXITCODE -ne 0) { throw "kentico-xperience-dbmanager failed ($LASTEXITCODE)" }
         $databaseCreated = $true
 
-        if ($useUserSecrets -and $stored -and $committedSalt) {
-            dotnet user-secrets remove 'CMSHashStringSalt' | Out-Null
-            if ($LASTEXITCODE -ne 0) { throw 'dotnet user-secrets remove failed' }
-            Write-Host 'Removed the local salt override; using the committed CI macro salt.'
-        }
+        Remove-LocalSaltOverride
 
         switch ($SaveTo) {
             'UserSecrets' {

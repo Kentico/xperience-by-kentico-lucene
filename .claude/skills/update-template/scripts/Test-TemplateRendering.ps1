@@ -40,7 +40,14 @@ $files = @{
 <Solution><!-- __VERSION__ -->
   <Project Path="src/Kentico.Xperience.RepoTemplate/Kentico.Xperience.RepoTemplate.csproj" />
   <Project Path="src/Kentico.Xperience.RepoTemplate.Admin/Kentico.Xperience.RepoTemplate.Admin.csproj" />
+  <Project Path="tests/Kentico.Xperience.RepoTemplate.Tests/Kentico.Xperience.RepoTemplate.Tests.csproj" />
 </Solution>
+'@
+    'tests/Kentico.Xperience.RepoTemplate.Tests/Kentico.Xperience.RepoTemplate.Tests.csproj' = @'
+<Project><!-- __VERSION__ -->
+  <PropertyGroup><AssemblyName>Kentico.Xperience.RepoTemplate.Tests</AssemblyName></PropertyGroup>
+  <ProjectReference Include="..\..\src\Kentico.Xperience.RepoTemplate\Kentico.Xperience.RepoTemplate.csproj" />
+</Project>
 '@
     'src/Kentico.Xperience.RepoTemplate.Libs.slnx' = @'
 <Solution><!-- __VERSION__ -->
@@ -92,6 +99,12 @@ try {
     Assert-Contains 'src/Kentico.Xperience.Lucene.Admin/Kentico.Xperience.Lucene.Admin.csproj' @(
         '..\Kentico.Xperience.Lucene.Core\Kentico.Xperience.Lucene.Core.csproj',
         '<ProjectName>xperience-integrations-lucene-admin</ProjectName>')
+    Assert-Contains 'tests/Kentico.Xperience.Lucene.Tests/Kentico.Xperience.Lucene.Core.Tests.csproj' @(
+        '<AssemblyName>Kentico.Xperience.Lucene.Core.Tests</AssemblyName>',
+        '..\..\src\Kentico.Xperience.Lucene.Core\Kentico.Xperience.Lucene.Core.csproj')
+    Assert-Contains 'Kentico.Xperience.Lucene.slnx' @(
+        'tests/Kentico.Xperience.Lucene.Tests/Kentico.Xperience.Lucene.Core.Tests.csproj') @(
+        'Kentico.Xperience.Lucene.Tests/Kentico.Xperience.Lucene.Tests.csproj')
     foreach ($path in 'Kentico.Xperience.Lucene.slnx', 'src/Kentico.Xperience.Lucene.Libs.slnx') {
         Assert-Contains $path @(
             'Kentico.Xperience.Lucene.Core/Kentico.Xperience.Lucene.Core.csproj',
@@ -116,7 +129,7 @@ try {
         $rejected = $true
     }
     if (-not $rejected) { throw 'An in-repository output folder was accepted.' }
-    Write-Host 'Lucene template rendering: 7 representative files and output safety passed.'
+    Write-Host 'Lucene template rendering: 8 representative files and output safety passed.'
 }
 finally {
     if (Test-Path -LiteralPath $work) { Remove-Item -LiteralPath $work -Recurse -Force }

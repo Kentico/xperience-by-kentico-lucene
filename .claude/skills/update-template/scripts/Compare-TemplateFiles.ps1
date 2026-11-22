@@ -130,6 +130,9 @@ function Get-Applicability([string]$path) {
 }
 
 function Get-LocalPath([string]$path) {
+    if ($isLucene -and $path -eq 'tests/Kentico.Xperience.RepoTemplate.Tests/Kentico.Xperience.RepoTemplate.Tests.csproj') {
+        return 'tests/Kentico.Xperience.Lucene.Tests/Kentico.Xperience.Lucene.Core.Tests.csproj'
+    }
     if ($isLucene -and $path.StartsWith('src/Kentico.Xperience.RepoTemplate/')) {
         return $path.Replace('src/Kentico.Xperience.RepoTemplate/', "src/$dotNet.Core/").
             Replace('Kentico.Xperience.RepoTemplate.csproj', "$dotNet.Core.csproj").
@@ -153,6 +156,12 @@ function Format-Rendered([string]$path, [byte[]]$bytes) {
 
     # Not renamed by setup-repo: this skill, and the Xperience CI repository
     if ($path -notmatch '^\.claude/skills/update-template/|/App_Data/CIRepository/') {
+        if ($isLucene) {
+            $c = $c.Replace('Kentico.Xperience.RepoTemplate.Tests/Kentico.Xperience.RepoTemplate.Tests.csproj',
+                'Kentico.Xperience.Lucene.Tests/Kentico.Xperience.Lucene.Core.Tests.csproj').
+                Replace('Kentico.Xperience.RepoTemplate.Tests\Kentico.Xperience.RepoTemplate.Tests.csproj',
+                'Kentico.Xperience.Lucene.Tests\Kentico.Xperience.Lucene.Core.Tests.csproj')
+        }
         if ($isLucene -and $path -notmatch '^examples/DancingGoat/DancingGoat\.csproj$') {
             $c = $c.Replace('Kentico.Xperience.RepoTemplate/Kentico.Xperience.RepoTemplate.csproj',
                 "$dotNet.Core/$dotNet.Core.csproj")
@@ -161,6 +170,10 @@ function Format-Rendered([string]$path, [byte[]]$bytes) {
         }
         foreach ($token in $tokens) { $c = $c.Replace($token[0], $token[1]) }
         if ($isLucene) {
+            if ($path -eq 'tests/Kentico.Xperience.RepoTemplate.Tests/Kentico.Xperience.RepoTemplate.Tests.csproj') {
+                $c = $c.Replace('<AssemblyName>Kentico.Xperience.Lucene.Tests</AssemblyName>',
+                    '<AssemblyName>Kentico.Xperience.Lucene.Core.Tests</AssemblyName>')
+            }
             if ($path -eq 'examples/DancingGoat/DancingGoat.csproj') {
                 $c = [regex]::Replace($c, '(?m)^[ \t]*<ProjectReference Include="[^"]*Kentico\.Xperience\.Lucene\.Admin[\\/][^"]+"[ \t]*/>\r?\n', '')
             }
