@@ -1,7 +1,7 @@
 # DancingGoat Lucene overlay
 
 The sample exercises Lucene search on Xperience 31.10.0. Its library minimum is
-31.0.0; SDK 11 and .NET 10 are the tooling/target baselines.
+31.6.0; SDK 11 and .NET 10 are the tooling/target baselines.
 Keep public APIs, package graph, sample identities, and existing tests stable.
 
 | Path (relative to `examples/DancingGoat`) | Retained overlay |

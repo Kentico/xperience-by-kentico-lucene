@@ -45,7 +45,7 @@ dotnet build examples\DancingGoat --configuration Release --no-restore -p:SIGN_F
 ```
 
 The root dbmanager tool follows the sample's Xperience version (31.10.0); library
-minimum remains 31.0.0. The helper preserves the committed macro salt, saves the
+minimum remains 31.6.0. The helper preserves the committed macro salt, saves the
 connection in the sample's existing user-secrets store, restores Lucene's CI
 objects and enables CI. Choosing a new database changes the sample's local
 user-secrets connection; `-SaveTo None` avoids that and requires a runtime

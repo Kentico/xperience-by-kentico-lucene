@@ -39,7 +39,7 @@ Non-Xperience dependency versions must be at least the adopted template's versio
 newer compatible fixes must satisfy its cooldown/minimum-release-age. Setup itself
 does not change manifests or locks to bypass missing-dependency errors.
 dbmanager comes from root `.config/dotnet-tools.json` and must match sample
-Xperience **31.10.0**; library minimum **31.0.0** is intentionally separate.
+Xperience **31.10.0**; library minimum **31.6.0** is intentionally separate.
 
 ## 4. New database
 

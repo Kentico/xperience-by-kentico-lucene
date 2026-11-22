@@ -43,7 +43,7 @@ The root `setup-local` skill and `scripts/Initialize-Database.ps1` use the root
 dbmanager tool and preserve the committed macro salt and existing CI objects.
 Use a separately named database for fresh checks; never recreate one without
 approval. SDK 11 / .NET 10 and Node 26 are tooling baselines; sample Xperience
-31.10.0 and library minimum 31.0.0 stay separate.
+31.10.0 and library minimum 31.6.0 stay separate.
 
 Development and CI use local Mailpit on port 1025. Development also configures
 email processing and a 48-hour admin session; CI uses embedded admin assets instead

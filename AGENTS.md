@@ -8,7 +8,7 @@ and intentional differences.
 
 - SDK: exact .NET 11 SDK in `global.json`; targets: .NET 10.
 - Library release: 16.0.0 (dropping .NET 8 requires this major version).
-- Library Xperience minimum: **31.0.0** in root `Directory.Packages.props` and admin `@kentico/*` packages.
+- Library Xperience minimum: **31.6.0** in root `Directory.Packages.props` and admin `@kentico/*` packages.
 - DancingGoat Xperience: **31.10.0** in `examples/Directory.Packages.props`; dbmanager and Management MCP follow this version.
 - Node.js: supported Node 26 baseline from the client/e2e manifests.
 - `src/Kentico.Xperience.Lucene.Core`: indexing, storage, configuration and search.
@@ -41,9 +41,11 @@ packaging embeds the admin client assets.
 Non-Xperience dependency versions must be at least the adopted template's versions.
 Use newer compatible releases when needed to resolve warnings or vulnerabilities,
 after the configured Dependabot cooldown/npm minimum-release-age; never bypass the
-age policy. Keep Kentico library 31.0.0 and sample 31.10.0 unless the supported
+age policy. Keep Kentico library 31.6.0 and sample 31.10.0 unless the supported
 version is explicitly changed.
 Keep existing NUnit fixtures, assertions and behavior when updating test packages.
+npm audit advisories are informational; do not make a clean audit a requirement.
+Build, lint, typecheck, format and test results remain validation gates.
 
 ## Local environment
 

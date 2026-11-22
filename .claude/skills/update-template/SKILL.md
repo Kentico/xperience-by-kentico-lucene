@@ -87,7 +87,7 @@ For each release, oldest first (`<from>` is the previous release, or the baselin
 Skip unless the release notes or the Downstream section say otherwise:
 
 - template-only files: `.github/workflows/template-smoke.yml`, the `setup-repo` skill, the `---Template info---` part of `README.md`, `template:upstream` blocks, the template repository's own `.config/template.json` values
-- Kentico package versions: preserve library minimum 31.0.0 and sample 31.10.0 unless explicitly approved; their version separation is intentional
+- Kentico package versions: preserve library minimum 31.6.0 and sample 31.10.0 unless explicitly approved; their version separation is intentional
 - `examples/DancingGoat` changes from an Xperience update: the `update-xperience` skill owns them
 - naming convention changes and folder moves
 - changes for parts this repository lacks: `.Admin` project when `setup.noAdmin`, `.azuredevops/` for Community or examples, `publish.yml` for Kentico, Labs, or examples, packaging for examples
