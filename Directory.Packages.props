@@ -30,7 +30,7 @@
     <PackageVersion Include="Aspire.Hosting.Dotnet" Version="17.0.0" />
     <PackageVersion Include="Aspire.Hosting.JavaScript" Version="17.0.0" />
     <PackageVersion Include="Aspire.Hosting.SqlServer" Version="17.0.0" />
-    <PackageVersion Include="CommunityToolkit.Aspire.Hosting.MailPit" Version="17.0.0" />
+    <PackageVersion Include="CommunityToolkit.Aspire.Hosting.MailPit" Version="13.6.1" />
     <!-- Pin Xperience's transitive version to a patched release until its dependency graph updates. -->
     <PackageVersion Include="System.Security.Cryptography.Pkcs" Version="10.0.15" />
   </ItemGroup>
