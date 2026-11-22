@@ -20,9 +20,6 @@
           },
           {
             "context": "E2E Tests"
-          },
-          {
-            "context": "example-ci-restore"
           }
         ]
       }

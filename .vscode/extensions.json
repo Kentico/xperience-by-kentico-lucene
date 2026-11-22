@@ -3,10 +3,10 @@
     "ms-dotnettools.csdevkit",
     "editorconfig.editorconfig",
     "davidanson.vscode-markdownlint",
-    "esbenp.prettier-vscode",
-    "dotjoshjohnson.xml",
+    // template:azure:start
+    "ms-azure-devops.azure-pipelines",
+    // template:azure:end
     "dbaeumer.vscode-eslint",
-    "ms-azure-devops.azure-pipelines"
+    "esbenp.prettier-vscode",
   ],
-  "unwantedRecommendations": []
 }

@@ -1,24 +1,106 @@
+<!--
+Agent fill guidance (short):
+- Keep bullets single-line and high-signal.
+- Prefer concrete facts over intent.
+- Use "None" only for required fields that must remain present.
+- Remove optional sections/subsections when unpopulated.
+- Do not paste generated file dumps (assets, bundled output).
+-->
+
 # Summary
 
-Describe the change and why it matters.
+One short paragraph: what changed and why it matters.
+
+## TL;DR
+
+- <Most important change>
+- <Main risk or behavior impact>
+- <First thing reviewers should check>
 
 ## Status
 
 - Risk: Low | Medium | High
 - Breaking change: Yes | No
 - Manual testing needed: Yes | No
-- Data, schema, or content impact: None | Describe
+- Data/schema/content impact: None | Yes
+
+## Linked Work
+
+- Fixes: None
+- Related: None
 
 ## Review Map
 
-1. First area to review
-2. Second area to review
+1. <Area or files to review first>
+2. <Area or files to review second>
+3. <Area or files to review third>
+
+## Changes by Area
+
+### Core / Library
+
+- <Single-line change>
+- <Single-line change>
+
+<!-- template:admin:start -->
+
+### Admin UI / Client
+
+- <Single-line change>
+- <Single-line change>
+
+<!-- template:admin:end -->
+
+### Sample / Example Apps
+
+- <Single-line change>
+- <Single-line change>
+
+### Tests (Unit/Integration)
+
+- <Single-line change>
+- <Single-line change>
+
+### Build / CI/CD
+
+- <Single-line change>
+- <Single-line change>
+
+### Docs / Architecture
+
+- <Single-line change>
+- <Single-line change>
+
+### Configuration / Dependencies
+
+- <Single-line change>
+- <Single-line change>
 
 ## Validation
 
-- Automated checks:
-- Manual checks:
+### Automated
 
-## Maintainer actions
+- Required GitHub checks: See PR checks (or summarize only if non-obvious)
+- Other automated checks: <list or None>
 
-List any repository settings, pipeline path, or release follow-up. Write `None` when no action is needed.
+### Manual (Optional)
+
+1. <Step>
+2. <Step>
+3. <Expected result>
+
+## Risk and Rollback
+
+- Main risk: <Short statement>
+- Rollback approach: <Short statement>
+- Post-deploy verification: <Short statement>
+
+## Out of Scope (Optional)
+
+- <Explicitly excluded item>
+- <Explicitly excluded item>
+
+## Reviewer Notes (Optional)
+
+- <Known tradeoff>
+- <Open question for reviewer decision>

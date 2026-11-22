@@ -2,99 +2,51 @@
   "version": "2.0.0",
   "tasks": [
     {
-      "label": ".NET: build (Solution)",
-      "command": "dotnet",
-      "type": "process",
-      "args": [
-        "build",
-        "/property:GenerateFullPaths=true",
-        "/consoleloggerparameters:NoSummary"
-      ],
-      "problemMatcher": "$msCompile"
-    },
-    {
-      "label": ".NET: rebuild (Solution)",
-      "command": "dotnet",
-      "type": "process",
-      "args": [
-        "build",
-        "--no-incremental",
-        "/property:GenerateFullPaths=true",
-        "/consoleloggerparameters:NoSummary"
-      ],
-      "problemMatcher": "$msCompile"
-    },
-    {
-      "label": ".NET: clean (Solution)",
-      "command": "dotnet",
-      "type": "process",
-      "args": [
-        "clean",
-        "/property:GenerateFullPaths=true",
-        "/consoleloggerparameters:NoSummary"
-      ],
-      "problemMatcher": "$msCompile"
-    },
-    {
-      "label": ".NET: test (Solution)",
-      "command": "dotnet",
-      "type": "process",
-      "args": [
-        "test",
-        "/property:GenerateFullPaths=true",
-        "/consoleloggerparameters:NoSummary"
-      ],
-      "problemMatcher": "$msCompile"
-    },
-    {
-      "label": ".NET: format (Lucene)",
-      "command": "dotnet",
-      "type": "process",
-      "args": [
-        "format",
-        "Kentico.Xperience.Lucene.slnx",
-        "--exclude",
-        "./examples/**"
-      ],
-      "problemMatcher": "$msCompile"
-    },
-    {
-      "label": ".NET: watch (DancingGoat)",
-      "command": "dotnet",
-      "type": "process",
-      "args": [
-        "watch",
-        "run",
-        "--project",
-        "${workspaceFolder}/examples/DancingGoat/DancingGoat.csproj"
-      ],
-      "options": {
-        "env": {
-          "DOTNET_WATCH_RESTART_ON_RUDE_EDIT": "true"
-        }
-      },
-      "problemMatcher": "$msCompile"
-    },
-    {
-      "label": ".NET: run (DancingGoat)",
-      "command": "dotnet",
-      "type": "process",
-      "args": [
-        "run",
-        "--project",
-        "${workspaceFolder}/examples/DancingGoat/DancingGoat.csproj"
-      ],
-      "problemMatcher": "$msCompile",
-      "isBackground": true
-    },
-    {
       "type": "npm",
       "script": "install",
       "path": "src/Kentico.Xperience.Lucene.Admin/Client",
       "group": "build",
       "problemMatcher": [],
-      "label": "npm: install - src/Kentico.Xperience.Lucene.Admin/Client",
-      "detail": "install dependencies from package"
+      "label": "npm: install - admin client",
+      "detail": "install dependencies from package",
+    },
+    {
+      "type": "npm",
+      "script": "lint",
+      "path": "src/Kentico.Xperience.Lucene.Admin/Client",
+      "problemMatcher": ["$eslint-stylish"],
+      "label": "npm: lint - admin client",
+      "detail": "eslint --max-warnings=0",
+    },
+    {
+      "type": "npm",
+      "script": "format",
+      "path": "src/Kentico.Xperience.Lucene.Admin/Client",
+      "problemMatcher": [],
+      "label": "npm: format - admin client",
+      "detail": "prettier --write .",
+    },
+    {
+      "type": "dotnet",
+      "task": "build",
+      "problemMatcher": ["$msCompile"],
+      "group": "build",
+      "label": "dotnet: build",
+    },
+    {
+      "type": "shell",
+      "command": "dotnet",
+      "args": ["format", "Kentico.Xperience.Lucene.slnx"],
+      "problemMatcher": ["$msCompile"],
+      "group": "none",
+      "label": "dotnet: format",
+    },
+    {
+      "type": "dotnet",
+      "task": "clean",
+      "problemMatcher": ["$msCompile"],
+      "group": "build",
+      "label": "dotnet: clean",
     },
     {
       "type": "npm",
@@ -102,8 +54,8 @@
       "path": "src/Kentico.Xperience.Lucene.Admin/Client",
       "group": "build",
       "problemMatcher": [],
-      "label": "npm: build - src/Kentico.Xperience.Lucene.Admin/Client",
-      "detail": "webpack --mode=production"
+      "label": "npm: build - admin client",
+      "detail": "webpack --mode=production",
     },
     {
       "type": "npm",
@@ -111,65 +63,33 @@
       "path": "src/Kentico.Xperience.Lucene.Admin/Client",
       "group": "build",
       "problemMatcher": [],
-      "label": "npm: build:dev - src/Kentico.Xperience.Lucene.Admin/Client",
-      "detail": "webpack --mode=development"
+      "label": "npm: build:dev - admin client",
+      "detail": "webpack --mode=development",
     },
     {
       "type": "npm",
       "script": "start",
       "path": "src/Kentico.Xperience.Lucene.Admin/Client",
       "problemMatcher": [],
-      "label": "npm: start - src/Kentico.Xperience.Lucene.Admin/Client",
-      "detail": "webpack serve --mode development"
+      "label": "npm: watch - admin client",
+      "detail": "webpack serve --mode development",
     },
     {
-      "type": "npm",
-      "script": "typecheck",
-      "path": "src/Kentico.Xperience.Lucene.Admin/Client",
-      "problemMatcher": [],
-      "label": "npm: typecheck - admin client"
+      "label": "dotnet: watch DancingGoat",
+      "command": "dotnet",
+      "type": "process",
+      "args": [
+        "watch",
+        "run",
+        "--project",
+        "${workspaceFolder}/examples/DancingGoat/DancingGoat.csproj",
+      ],
+      "options": {
+        "env": {
+          "DOTNET_WATCH_RESTART_ON_RUDE_EDIT": "true",
+        },
+      },
+      "problemMatcher": "$msCompile",
     },
-    {
-      "type": "npm",
-      "script": "lint",
-      "path": "src/Kentico.Xperience.Lucene.Admin/Client",
-      "problemMatcher": [],
-      "label": "npm: lint - admin client"
-    },
-    {
-      "type": "npm",
-      "script": "format:check",
-      "path": "src/Kentico.Xperience.Lucene.Admin/Client",
-      "problemMatcher": [],
-      "label": "npm: format:check - admin client"
-    },
-    {
-      "type": "npm",
-      "script": "typecheck",
-      "path": "tests/e2e",
-      "problemMatcher": [],
-      "label": "npm: typecheck - e2e"
-    },
-    {
-      "type": "npm",
-      "script": "lint",
-      "path": "tests/e2e",
-      "problemMatcher": [],
-      "label": "npm: lint - e2e"
-    },
-    {
-      "type": "npm",
-      "script": "test",
-      "path": "tests/e2e",
-      "problemMatcher": [],
-      "label": "npm: test - e2e"
-    },
-    {
-      "type": "npm",
-      "script": "format:check",
-      "path": "tests/e2e",
-      "problemMatcher": [],
-      "label": "npm: format:check - e2e"
-    }
-  ]
+  ],
 }

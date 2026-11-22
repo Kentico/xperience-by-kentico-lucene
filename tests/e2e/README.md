@@ -27,15 +27,15 @@ Before a commit, run `npm run typecheck`, `npm run lint`, and `npm run format:ch
 
 ## CI
 
-The `.github/workflows/ci.yml` e2e job needs the `XPERIENCE_LICENSE_KEY` secret and uses `scripts/Initialize-Database.ps1` to create the database and restore the sample's CI repository. When the secret is unavailable, the job reports an explicit skip; this is not a runtime test pass. The existing CI search smoke job remains until the new browser coverage has been verified after integration.
+The `build_and_test` CI job runs static checks and the Release build/tests for every pull request. The `e2e` job needs the `XPERIENCE_LICENSE_KEY` secret and uses `scripts/Initialize-Database.ps1` to create the database and restore the sample's CI repository before running browser coverage. When the secret is unavailable, the job reports an explicit skip; this is not a runtime test pass.
 
 ## Configuration
 
-| Variable | Default |
-| --- | --- |
-| `DANCING_GOAT_BASE_URL` | `applicationUrl` from `examples/DancingGoat/Properties/launchSettings.json` |
-| `ADMIN_BASE_URL` | `<base URL>/admin` |
-| `E2E_ADMIN_USERNAME` | `administrator` |
-| `E2E_ADMIN_PASSWORD` | `Pass@12345` |
-| `E2E_WEB_SERVER_COMMAND` | `dotnet run --project examples/DancingGoat` |
-| `E2E_WEB_SERVER_TIMEOUT_MS` | `180000` |
+| Variable                    | Default                                                                     |
+| --------------------------- | --------------------------------------------------------------------------- |
+| `DANCING_GOAT_BASE_URL`     | `applicationUrl` from `examples/DancingGoat/Properties/launchSettings.json` |
+| `ADMIN_BASE_URL`            | `<base URL>/admin`                                                          |
+| `E2E_ADMIN_USERNAME`        | `administrator`                                                             |
+| `E2E_ADMIN_PASSWORD`        | `Pass@12345`                                                                |
+| `E2E_WEB_SERVER_COMMAND`    | `dotnet run --project examples/DancingGoat`                                 |
+| `E2E_WEB_SERVER_TIMEOUT_MS` | `180000`                                                                    |
