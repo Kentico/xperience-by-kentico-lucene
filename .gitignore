@@ -1,6 +1,13 @@
 ### XbK additions
 
 **/wwwroot/cache.json
+**/CMSModules/WebFarm/*
+**/App_Data/LuceneSearch/*
+**/CIRepository/.lock/
+examples/DancingGoat/$LuceneLocks/
+examples/DancingGoat/DeploymentPackage.zip
+examples/DancingGoat/App_Data/$CDRepository/.lock/
+examples/DancingGoat/$CDRepository
 
 # Local agent settings
 .claude/settings.local.json
@@ -144,15 +151,3 @@ segments_2i
 
 # Generated files
 **/Client/dist/*
-**/CMSModules/WebFarm/*
-**/App_Data/LuceneSearch/*
-
-# MCP server definitions
-mcp.json
-claude_desktop_config.json
-mcp_config.json
-examples/DancingGoat/$LuceneLocks/
-examples/DancingGoat/DeploymentPackage.zip
-examples/DancingGoat/App_Data/$CDRepository/.lock/
-**/CIRepository/.lock/
-examples/DancingGoat/$CDRepository
