@@ -9,7 +9,6 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <AdminOrgName>kentico</AdminOrgName>
     <RootNamespace>Kentico.Xperience.Lucene.Core</RootNamespace>
     <NoWarn>$(NoWarn);S1075</NoWarn>
   </PropertyGroup>
