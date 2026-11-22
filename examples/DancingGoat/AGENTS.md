@@ -38,6 +38,17 @@
 | Recompile styles + bundles | `npm run build`                            |
 | Accessibility scan        | `npm run a11y -- <url> [<url> ...]`         |
 
+From the repository root, `aspire run` starts the site and Lucene admin client.
+The root `setup-local` skill and `scripts/Initialize-Database.ps1` use the root
+dbmanager tool and preserve the committed macro salt and existing CI objects.
+Use a separately named database for fresh checks; never recreate one without
+approval. SDK 11 / .NET 10 and Node 26 are tooling baselines; sample Xperience
+31.10.0 and library minimum 31.0.0 stay separate.
+
+Development and CI use local Mailpit on port 1025. Development also configures
+email processing and a 48-hour admin session; CI uses embedded admin assets instead
+of Proxy mode. Production keeps the existing email/session behavior.
+
 ## Content changes
 
 If you change the site's content model (add or remove fields, define new content types or schemas, etc.), you must run the following commands to regenerate the code files.
@@ -96,7 +107,10 @@ Change these with the Management MCP (or the administration) while the site runs
 
 ## Kentico MCP Servers
 
-Both servers are configured in `.mcp.json` at the repository root. The values are committed, and the Management MCP URL
+Canonical shared skills, including DancingGoat-scoped `design-conventions`, live
+at root `.claude/skills` for both Copilot and Claude. Do not recreate nested copies.
+
+Kentico servers and Aspire are configured in `.mcp.json` at the repository root. The values are committed, and the Management MCP URL
 and secret mirror the `ManagementApi` section of `appsettings.Development.json`.
 
 - **Kentico Docs MCP** (`kentico-docs-mcp`) is the **primary source** for any question about Xperience by Kentico APIs, configuration, and usage patterns. Prefer it over web search and over prior knowledge.

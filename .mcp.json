@@ -9,12 +9,17 @@
       "command": "npx",
       "args": [
         "-y",
-        "@kentico/management-api-mcp@latest"
+        "@kentico/management-api-mcp@31.10.0"
       ],
       "env": {
         "MANAGEMENT_API_URL": "http://localhost:14536/kentico-api/management",
         "MANAGEMENT_API_SECRET": "mcp_secret_30DEFBD4-7B2C-42E4-82F9-48DAF758409D"
       }
+    },
+    "aspire": {
+      "type": "stdio",
+      "command": "aspire",
+      "args": ["agent", "mcp"]
     }
   }
 }

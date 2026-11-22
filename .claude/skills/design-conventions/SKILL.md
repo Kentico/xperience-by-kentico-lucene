@@ -1,9 +1,11 @@
 ---
 name: design-conventions
-description: Design guidance for this project — color tokens, typography, grid and layout, imagery, voice and writing conventions, and the Tailwind CSS styles workflow. Use when working on UI, styling, layout, widgets or components with a visual surface, writing user-facing copy, or answering design questions.
+description: Design guidance for examples/DancingGoat — color tokens, typography, grid and layout, imagery, voice and writing conventions, and the Tailwind CSS styles workflow. Use when working on the DancingGoat UI, styling, layout, widgets, user-facing copy, or design questions.
 ---
 
 # Design conventions
+
+All paths in this skill are relative to `examples/DancingGoat/`. This is the canonical shared skill for Copilot and Claude; it does not describe the Lucene administration client.
 
 ## Design direction
 
