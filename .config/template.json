@@ -37,6 +37,7 @@
   "provenance": {
     "adoption": "existing-repository-overlay",
     "integrationValidation": "pending",
+    "dependencyPolicy": "Non-Xperience dependencies at least adopted template versions; newer compatible warning/vulnerability fixes subject to cooldown/minimum-release-age. Kentico library 31.0.0 and sample 31.10.0 remain explicit exceptions; preserve APIs, package graph and test behavior.",
     "borrowedScripts": {
       "sourceCommit": "2b4598eaaa9944693c0f23e28fc30d63fcde92d9",
       "paths": [

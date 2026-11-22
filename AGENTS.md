@@ -19,7 +19,7 @@ Integration validation is required before treating the migration as complete.
 - `tests/e2e`: browser coverage; `examples/DancingGoat`: localized faceted search sample.
 - `examples/AppHost`: local orchestration; `src/Kentico.Xperience.Lucene.Libs.slnx`: all three packages.
 
-Do not restructure public APIs, package IDs or dependencies as template cleanup.
+Do not restructure public APIs, package IDs or the dependency graph as template cleanup.
 Recommend further breaking changes separately. Do not raise the library Xperience
 minimum while updating only the sample.
 
@@ -39,8 +39,11 @@ Regenerate affected lockfiles with `dotnet restore --force-evaluate` after depen
 changes, then verify locked restore. Never hand-merge locks. Run client/e2e npm
 format, lint and typecheck commands when those sources change. Standard Release
 packaging embeds admin assets; there is no `LOCAL_NUGET` emulation.
-Non-Xperience dependencies may move to compatible releases only after the template's
-configured Dependabot cooldown/npm minimum-release-age; never bypass the age policy.
+Non-Xperience dependency versions must be at least the adopted template's versions.
+Use newer compatible releases when needed to resolve warnings or vulnerabilities,
+after the configured Dependabot cooldown/npm minimum-release-age; never bypass the
+age policy. Kentico library 31.0.0 and sample 31.10.0 are explicit exceptions.
+Keep existing NUnit fixtures, assertions and behavior when updating test packages.
 
 ## Local environment
 

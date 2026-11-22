@@ -92,13 +92,21 @@ For each release, oldest first (`<from>` is the previous release, or the baselin
 Skip unless the release notes or the Downstream section say otherwise:
 
 - template-only files: `.github/workflows/template-smoke.yml`, the `setup-repo` skill, the `---Template info---` part of `README.md`, `template:upstream` blocks, the template repository's own `.config/template.json` values
-- package versions (`Directory.Packages.props`, lock files, `package.json` dependencies): Dependabot handles them
+- Kentico package versions: preserve library minimum 31.0.0 and sample 31.10.0 unless explicitly approved; their version separation is intentional
 - `examples/DancingGoat` changes from an Xperience update: the `update-xperience` skill owns them
 - naming convention changes and folder moves
 - changes for parts this repository lacks: `.Admin` project when `setup.noAdmin`, `.azuredevops/` for Community or examples, `publish.yml` for Kentico, Labs, or examples, packaging for examples
 - items in `skipped`, unless the project changed so that the reason no longer holds
 
 Weigh the rest against this project: what it builds, what it changed on purpose (see its git history for the files), and whether the change fixes a problem it has. Recommended changes, security fixes, and SDK or Node.js minimum raises are adopted unless something here conflicts.
+
+Non-Xperience dependencies, including test libraries, helper tools and npm devdeps,
+must not be older than the adopted template's versions. Align them to compatible
+template versions, or newer eligible versions needed to resolve warnings or
+vulnerabilities. Respect the configured cooldown/minimum-release-age. Regenerate
+locks with the package manager; preserve existing tests, APIs and package graph.
+If compatibility or age eligibility prevents alignment, report the blocker rather
+than silently retaining an older dependency or bypassing the age policy.
 
 Done when every change in every newer release has a decision and a reason.
 

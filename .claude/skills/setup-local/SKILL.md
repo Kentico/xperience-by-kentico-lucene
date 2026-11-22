@@ -35,6 +35,9 @@ dotnet build Kentico.Xperience.Lucene.slnx --configuration Release --no-restore 
 Use `npm ci` in `src/Kentico.Xperience.Lucene.Admin/Client` and `tests/e2e`,
 then `npm run install:browsers` in `tests/e2e` when browser checks are required.
 Release builds embed admin assets; there is no LOCAL_NUGET emulation.
+Non-Xperience dependency versions must be at least the adopted template's versions;
+newer compatible fixes must satisfy its cooldown/minimum-release-age. Setup itself
+does not change manifests or locks to bypass missing-dependency errors.
 dbmanager comes from root `.config/dotnet-tools.json` and must match sample
 Xperience **31.10.0**; library minimum **31.0.0** is intentionally separate.
 
