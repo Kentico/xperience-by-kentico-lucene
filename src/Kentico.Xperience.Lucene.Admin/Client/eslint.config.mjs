@@ -42,6 +42,8 @@ export default defineConfig(
         "error",
         { allowNumber: true },
       ],
+      // Every hook dependency missing from the list is a stale-closure bug
+      "react-hooks/exhaustive-deps": "error",
     },
   },
   // Build tooling (CommonJS, runs in Node)
