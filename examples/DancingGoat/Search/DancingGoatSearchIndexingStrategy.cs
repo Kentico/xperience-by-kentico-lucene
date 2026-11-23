@@ -132,6 +132,15 @@ public sealed partial class DancingGoatSearchIndexingStrategy(
             page.SystemFields.WebPageItemParentID));
     }
 
+    public override IEnumerable<LuceneSearchFieldDescriptor> GetSearchFieldDescriptors() =>
+    [
+        new(nameof(DancingGoatSearchResultModel.Title), LuceneSearchFieldKind.Text, "Title"),
+        new(CONTENT_FIELD_NAME, LuceneSearchFieldKind.Text, "Content"),
+        new(nameof(DancingGoatSearchResultModel.Url), LuceneSearchFieldKind.Exact, "URL"),
+        new(nameof(DancingGoatSearchResultModel.ContentType), LuceneSearchFieldKind.Exact, "Content type label"),
+        new(IS_SECURED_FIELD_NAME, LuceneSearchFieldKind.Boolean, "Secured", SECURED_VALUE, NOT_SECURED_VALUE)
+    ];
+
     public override FacetsConfig FacetsConfigFactory()
     {
         var facetsConfig = new FacetsConfig();

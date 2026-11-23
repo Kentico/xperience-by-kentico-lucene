@@ -24,6 +24,12 @@ public sealed class LuceneIndex
 
 
     /// <summary>
+    /// The human-readable name of the Lucene index. Equals <see cref="IndexName"/> when no display name was set.
+    /// </summary>
+    public string DisplayName { get; }
+
+
+    /// <summary>
     /// The Name of the WebSiteChannel.
     /// </summary>
     [Obsolete("This property is no longer used. WebsiteChannelName is now used within Kentico.Xperience.Lucene.Core.Indexing.LuceneIndexChannelConfiguration and is a property of each channel configuration.")]
@@ -67,6 +73,7 @@ public sealed class LuceneIndex
     {
         Identifier = indexConfiguration.Id;
         IndexName = indexConfiguration.IndexName;
+        DisplayName = indexConfiguration.DisplayName;
         LanguageNames = [.. indexConfiguration.LanguageNames];
         IncludedReusableContentTypes = [.. indexConfiguration.ReusableContentTypeNames];
         ChannelConfigurations = [.. indexConfiguration.Channels];

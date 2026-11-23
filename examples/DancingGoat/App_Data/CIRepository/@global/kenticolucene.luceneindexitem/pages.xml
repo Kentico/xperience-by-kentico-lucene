@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<kenticolucene.luceneindexitem>
+  <LuceneIndexItemAnalyzerName>Standard</LuceneIndexItemAnalyzerName>
+  <LuceneIndexItemDisplayName>Pages</LuceneIndexItemDisplayName>
+  <LuceneIndexItemGuid>c8fff1f1-31a6-48ad-a972-2421a011887a</LuceneIndexItemGuid>
+  <LuceneIndexItemIndexName>Pages</LuceneIndexItemIndexName>
+  <LuceneIndexItemStrategyName>DancingGoatGlobalSearch</LuceneIndexItemStrategyName>
+</kenticolucene.luceneindexitem>

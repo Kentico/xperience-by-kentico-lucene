@@ -34,4 +34,13 @@ public interface ILuceneIndexingStrategy
     /// <param name="changedItem">The reusable content item that was modified</param>
     /// <returns>Items that should be passed to <see cref="MapToLuceneDocumentOrNull"/> for indexing</returns>
     public Task<IEnumerable<IIndexEventItemModel>> FindItemsToReindex(IndexEventReusableItemModel changedItem);
+
+
+    /// <summary>
+    /// Declares how the fields this strategy indexes can be searched, so the administration Search tab can offer typed filters.
+    /// Fields from <see cref="BaseDocumentProperties"/> are declared by the library and do not need to be returned.
+    /// Indexed fields without a descriptor are listed as untyped and can still be searched with a Lucene query.
+    /// </summary>
+    /// <returns>Descriptors of fields this strategy indexes. A descriptor overrides a base field with the same name.</returns>
+    public IEnumerable<LuceneSearchFieldDescriptor> GetSearchFieldDescriptors() => [];
 }

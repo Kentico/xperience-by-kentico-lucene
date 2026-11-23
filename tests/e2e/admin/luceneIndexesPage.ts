@@ -7,16 +7,60 @@ export class LuceneIndexesPage {
   constructor(private readonly page: Page) {}
 
   private get indexRow(): Locator {
-    return this.page.getByRole("row").filter({ hasText: luceneIndexName });
+    // Match the exact code name cell; other indexes may use the DancingGoatGlobalSearch strategy.
+    return this.page.getByRole("row").filter({
+      has: this.page.getByRole("cell", { name: luceneIndexName, exact: true }),
+    });
   }
 
   async goto(): Promise<void> {
     await this.page.goto(`${adminBaseUrl}/lucene/indexes`);
   }
 
+  async openWizard(): Promise<void> {
+    await this.page.goto(`${adminBaseUrl}/lucene/indexes/create`);
+    await expect(this.page.getByTestId("step-identity")).toBeVisible();
+  }
+
+  async addWizardChannel(): Promise<void> {
+    await this.page
+      .getByRole("button", { name: "Add website channel", exact: true })
+      .click();
+    const form = this.page.getByTestId("wizard-source-form");
+    await expect(form).toBeVisible();
+    await form.getByLabel("Website channel", { exact: true }).click();
+    await this.page.getByTestId("wizard-channel-option").first().click();
+    await form.getByRole("textbox", { name: /Path$/ }).click({ trial: true });
+  }
+
+  async expectWizardStep(label: string): Promise<void> {
+    const current = this.page
+      .getByTestId("wizard-steps")
+      .locator('[aria-current="step"]');
+    await expect(current).toHaveCount(1);
+    await expect(current).toHaveText(label);
+    const currentBounds = await current.boundingBox();
+    const buttonBounds = await current.getByRole("button").boundingBox();
+    if (!currentBounds || !buttonBounds) {
+      throw new Error("The current wizard step must have visible bounds.");
+    }
+    expect(currentBounds.width).toBeLessThanOrEqual(buttonBounds.width + 1);
+  }
+
+  async selectWizardCheckbox(group: string): Promise<void> {
+    const checkbox = this.page
+      .getByRole("group", { name: group, exact: true })
+      .getByRole("checkbox")
+      .first();
+    await checkbox.press("Space");
+    await expect(checkbox).toBeChecked();
+  }
+
   async expectIndexListed(): Promise<void> {
     await expect(
-      this.page.getByText(luceneIndexName, { exact: true }),
+      this.indexRow
+        .getByRole("cell", { name: luceneIndexName, exact: true })
+        .first(),
     ).toBeVisible({
       timeout: 30_000,
     });
@@ -24,127 +68,207 @@ export class LuceneIndexesPage {
   }
 
   async openIndex(): Promise<void> {
-    await this.indexRow.getByRole("link").click();
-    await expect(this.page.getByLabel("Index Name")).toHaveValue(
-      luceneIndexName,
+    await this.indexRow.getByRole("link").first().click();
+    await this.openTab("Configuration");
+    await expect(
+      this.page
+        .getByTestId("config-settings")
+        .getByText(luceneIndexName, { exact: true })
+        .last(),
+    ).toBeVisible();
+  }
+
+  async openInspector(tab: string): Promise<void> {
+    await this.indexRow.getByRole("link").first().click();
+    await this.openTab(tab);
+  }
+
+  async openTab(tab: string): Promise<void> {
+    await this.page
+      .getByTestId("side-navigation-vertical-menu")
+      .getByRole("link", { name: tab, exact: true })
+      .click();
+  }
+
+  // Read-only configuration hierarchy and section editor panel helpers.
+  configuredChannel(channelName = "DancingGoatPages"): Locator {
+    return this.page.locator(
+      `[data-testid="config-channel"][data-channel="${channelName}"]`,
     );
   }
 
-  async openConfiguredChannel(): Promise<void> {
-    await this.configuredChannelRow().click();
-    await expect(
-      this.page.getByRole("button", {
-        name: "Save website channel configuration",
-      }),
-    ).toBeVisible();
+  async pathValues(channelName = "DancingGoatPages"): Promise<string[]> {
+    const paths =
+      this.configuredChannel(channelName).getByTestId("config-path");
+    await paths.first().waitFor();
+    return paths.evaluateAll((items) =>
+      items.map((item) => item.getAttribute("data-path") ?? ""),
+    );
   }
 
-  configuredChannelRow(): Locator {
-    const channelTable = this.page.getByRole("table").filter({
-      has: this.page.getByRole("columnheader", {
-        name: "Website Channel",
-      }),
-    });
-
-    return channelTable.getByRole("row").filter({
-      has: this.page.getByRole("cell", {
-        name: "Dancing Goat Pages",
-        exact: true,
-      }),
-    });
+  configPanel(): Locator {
+    return this.page.getByTestId("config-panel");
   }
 
-  includedPathRow(path: string): Locator {
-    const pathTable = this.page.getByRole("table").filter({
-      has: this.page.getByRole("columnheader", { name: "Path" }),
-    });
+  async openSectionEditor(editLabel: string): Promise<Locator> {
+    await this.page
+      .getByRole("button", { name: editLabel, exact: true })
+      .click();
+    await expect(this.configPanel()).toHaveCount(1);
+    await expect(this.configPanel()).toBeVisible();
+    // Wait for the side panel to finish sliding in.
+    await this.saveButton().click({ trial: true });
+    return this.configPanel();
+  }
 
-    return pathTable.getByRole("row").filter({
-      has: this.page.getByRole("cell", { name: path, exact: true }),
-    });
+  async openChannelEditor(channelName = "DancingGoatPages"): Promise<Locator> {
+    await this.configuredChannel(channelName)
+      .getByRole("button", { name: /^Edit / })
+      .click();
+    await expect(this.configPanel()).toBeVisible();
+    await this.saveButton().click({ trial: true });
+    return this.configPanel();
+  }
+
+  panelPaths(): Locator {
+    return this.configPanel().getByTestId("config-panel-path");
+  }
+
+  async panelPathValues(): Promise<string[]> {
+    return this.panelPaths()
+      .getByRole("textbox", { name: "Path" })
+      .evaluateAll((inputs) =>
+        inputs.map((input) => (input as HTMLInputElement).value),
+      );
+  }
+
+  async includedPath(path: string): Promise<Locator> {
+    const index = (await this.panelPathValues()).indexOf(path);
+    if (index < 0) {
+      throw new Error(`The path ${path} is not in the editor.`);
+    }
+    return this.panelPaths().nth(index);
   }
 
   async addIncludedPath(path: string): Promise<string> {
-    await this.page.getByRole("button", { name: "Add new path" }).click();
-    await this.page.getByLabel("Included Path").fill(path);
-
-    const contentTypes = this.page
-      .getByText("Included content types", { exact: true })
-      .locator("..")
-      .locator("..")
-      .getByRole("combobox");
-    await contentTypes.click();
-    const firstOption = this.page.getByRole("option").first();
-    await expect(firstOption).toBeVisible();
-    const contentType = await firstOption.innerText();
-    await firstOption.click();
-    await contentTypes.press("Escape");
-
-    await this.page.getByRole("button", { name: "Save Path" }).click();
-    await expect(this.includedPathRow(path)).toBeVisible();
-    return contentType;
-  }
-
-  async editIncludedPath(
-    path: string,
-    newPath: string,
-    expectedContentType: string,
-  ): Promise<void> {
-    await this.includedPathRow(path).getByRole("cell").first().click();
-    const pathInput = this.page.getByLabel("Included Path");
-    await expect(pathInput).toHaveValue(path);
-    await expect(
-      this.page.getByText(expectedContentType, { exact: true }),
-    ).toBeVisible();
-    await pathInput.fill(newPath);
-    await this.page.getByRole("button", { name: "Save Path" }).click();
-    await expect(this.includedPathRow(newPath)).toBeVisible();
-  }
-
-  async saveChannelConfiguration(): Promise<void> {
-    await this.page
-      .getByRole("button", {
-        name: "Save website channel configuration",
-      })
+    const panel = await this.openChannelEditor();
+    await panel
+      .getByRole("button", { name: "Add included path", exact: true })
       .click();
-    await expect(
-      this.page.getByRole("button", {
-        name: "Add new website channel configuration",
-      }),
-    ).toBeVisible();
+    const block = this.panelPaths().last();
+    await block.getByRole("textbox", { name: "Path" }).fill(path);
+    const selector = block.getByTestId("path-content-types");
+    await selector.getByRole("textbox", { name: /^Search / }).click();
+    const firstOption = this.contentTypeOptions().first();
+    const label = (await firstOption.innerText()).split("\n")[0].trim();
+    await this.selectContentType(selector, label);
+    return label;
+  }
+
+  async editIncludedPath(path: string, newPath: string): Promise<void> {
+    await this.openChannelEditor();
+    const block = await this.includedPath(path);
+    const input = block.getByRole("textbox", { name: "Path" });
+    await input.fill(newPath);
+    await expect(input).toHaveValue(newPath);
+  }
+
+  async removeIncludedPath(path: string): Promise<void> {
+    if (!(await this.configPanel().isVisible())) {
+      await this.openChannelEditor();
+    }
+    const block = await this.includedPath(path);
+    await block.getByRole("button", { name: /^Remove included path/ }).click();
+    expect(await this.panelPathValues()).not.toContain(path);
+  }
+
+  saveButton(): Locator {
+    return this.page.getByRole("button", { name: "Save", exact: true });
   }
 
   async saveIndexConfiguration(): Promise<void> {
-    await this.page.getByRole("button", { name: "Save", exact: true }).click();
+    await this.saveButton().click();
     await expect(
-      this.page.getByText("Index edited", { exact: true }),
+      this.page
+        .getByText(/^Index edited\. Saving does not rebuild the index\./)
+        .first(),
     ).toBeVisible();
+    await expect(this.configPanel()).toHaveCount(0);
   }
 
   async restoreIncludedPaths(paths: string[]): Promise<void> {
     await this.goto();
     await this.expectIndexListed();
     await this.openIndex();
-    await this.openConfiguredChannel();
-
-    let removedPath = false;
-    for (const path of paths) {
-      const pathRow = this.includedPathRow(path);
-      if (await pathRow.count()) {
-        await pathRow.hover();
-        await pathRow.getByTestId("button-delete").click();
-        removedPath = true;
-      }
+    const configured = await this.pathValues();
+    const stale = paths.filter((path) => configured.includes(path));
+    if (stale.length === 0) {
+      return;
     }
+    await this.openChannelEditor();
+    for (const path of stale) {
+      await this.removeIncludedPath(path);
+    }
+    await this.saveIndexConfiguration();
+  }
+  // Content type selector helpers (owned by Configuration; reused by the wizard).
+  contentTypeSelector(scope: Locator, label: string): Locator {
+    return scope.getByRole("group", { name: label, exact: true });
+  }
 
-    if (removedPath) {
-      await this.saveChannelConfiguration();
+  // The option list is a native drop-down rendered outside the selector; only one is open at a time.
+  contentTypeMenu(): Locator {
+    return this.page.getByTestId("content-type-menu");
+  }
+
+  contentTypeOptions(): Locator {
+    return this.contentTypeMenu().getByTestId("content-type-option");
+  }
+
+  contentTypeOption(_selector: Locator, typeLabel: string): Locator {
+    return this.contentTypeOptions()
+      .filter({
+        has: this.page.getByText(typeLabel, { exact: true }),
+      })
+      .first();
+  }
+
+  async selectContentType(selector: Locator, typeLabel: string): Promise<void> {
+    const search = selector.getByRole("textbox", { name: /^Search / });
+    await search.fill(typeLabel);
+    const option = this.contentTypeOption(selector, typeLabel);
+    if ((await option.getAttribute("data-selected")) !== "true") {
+      await option.getByRole("button").click();
+    }
+    await expect(option).toHaveAttribute("data-selected", "true");
+    await search.fill("");
+    expect(await this.selectedContentTypes(selector)).toContain(typeLabel);
+  }
+
+  async removeContentType(selector: Locator, typeLabel: string): Promise<void> {
+    await selector
+      .getByRole("list", { name: /^Selected / })
+      .getByRole("button", { name: `remove ${typeLabel}`, exact: true })
+      .click();
+    expect(await this.selectedContentTypes(selector)).not.toContain(typeLabel);
+  }
+
+  async selectedContentTypes(selector: Locator): Promise<string[]> {
+    return (
+      await selector.getByTestId("selected-content-type").allInnerTexts()
+    ).map((t) => t.trim());
+  }
+  async restoreContentTypeRemoved(
+    selector: Locator,
+    typeLabel: string,
+  ): Promise<void> {
+    if ((await this.selectedContentTypes(selector)).includes(typeLabel)) {
+      await this.removeContentType(selector, typeLabel);
       await this.saveIndexConfiguration();
     }
   }
-
   async rebuildIndex(): Promise<void> {
     await this.indexRow.getByTestId("button-Rebuild").click();
-    await expect(this.page.getByText(/Indexing in progress\./)).toBeVisible();
+    await expect(this.page.getByText(/Rebuild requested\./)).toBeVisible();
   }
 }

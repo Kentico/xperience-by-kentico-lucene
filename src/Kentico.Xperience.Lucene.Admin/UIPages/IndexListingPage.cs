@@ -1,4 +1,4 @@
-﻿using CMS.Core;
+using CMS.Core;
 using CMS.Membership;
 
 using Kentico.Xperience.Admin.Base;
@@ -10,7 +10,7 @@ using Kentico.Xperience.Lucene.Core.Indexing;
    parentType: typeof(LuceneApplicationPage),
    slug: "indexes",
    uiPageType: typeof(IndexListingPage),
-   name: "List of registered Lucene indices",
+   name: "Indexes",
    templateName: TemplateNames.LISTING,
    order: UIPageOrder.NoOrder)]
 
@@ -27,6 +27,12 @@ public class IndexListingPage : ListingPage
     private readonly ILuceneConfigurationStorageService configurationStorageService;
     private readonly IConversionService conversionService;
     private readonly ILuceneIndexManager indexManager;
+
+
+    private const string DISPLAY_NAME_CAPTION = "Display name";
+    private const string DOCUMENTS_CAPTION = "Documents";
+    private const string LAST_UPDATED_CAPTION = "Last updated";
+    private const string UNAVAILABLE = "Unavailable";
 
 
     protected override string ObjectType => LuceneIndexItemInfo.OBJECT_TYPE;
@@ -59,8 +65,8 @@ public class IndexListingPage : ListingPage
             [
                 new()
                 {
-                    Headline = "No indexes",
-                    Content = "No Lucene indexes registered. See <a target='_blank' href='https://github.com/Kentico/xperience-by-kentico-lucene'>our instructions</a> to read more about creating and registering Lucene indexes.",
+                    Headline = "No indexes yet",
+                    Content = "Select <strong>New index</strong> to create a Lucene index, or register one in code. See the <a target='_blank' rel='noopener noreferrer' href='https://github.com/Kentico/xperience-by-kentico-lucene'>Lucene integration documentation</a> for details.",
                     ContentAsHtml = true,
                     Type = CalloutType.FriendlyWarning,
                     Placement = CalloutPlacement.OnDesk
@@ -68,19 +74,28 @@ public class IndexListingPage : ListingPage
             ];
         }
 
+        // Documents and Last updated are filled from Lucene in LoadData, so they use the GUID column as a
+        // placeholder (not the sorted ID column) and cannot be sorted or searched by the database query.
         PageConfiguration.ColumnConfigurations
             .AddColumn(nameof(LuceneIndexItemInfo.LuceneIndexItemId), "ID", defaultSortDirection: SortTypeEnum.Asc, sortable: true)
-            .AddColumn(nameof(LuceneIndexItemInfo.LuceneIndexItemIndexName), "Name", sortable: true, searchable: true)
-            .AddColumn(nameof(LuceneIndexItemInfo.LuceneIndexItemStrategyName), "Index Strategy", searchable: true, sortable: true)
-            .AddColumn(nameof(LuceneIndexItemInfo.LuceneIndexItemAnalyzerName), "Lucene Analyzer", searchable: true, sortable: true)
-            // Placeholder field which will be replaced with a customized value
-            .AddColumn(nameof(LuceneIndexItemInfo.LuceneIndexItemId), "Entries", sortable: true)
-            .AddColumn(nameof(LuceneIndexItemInfo.LuceneIndexItemId), "Last Updated", sortable: true);
+            .AddColumn(nameof(LuceneIndexItemInfo.LuceneIndexItemDisplayName), DISPLAY_NAME_CAPTION, sortable: true, searchable: true)
+            .AddColumn(nameof(LuceneIndexItemInfo.LuceneIndexItemIndexName), "Code name", sortable: true, searchable: true)
+            .AddColumn(nameof(LuceneIndexItemInfo.LuceneIndexItemStrategyName), "Indexing strategy", searchable: true, sortable: true)
+            .AddColumn(nameof(LuceneIndexItemInfo.LuceneIndexItemAnalyzerName), "Analyzer", searchable: true, sortable: true)
+            .AddColumn(nameof(LuceneIndexItemInfo.LuceneIndexItemGuid), DOCUMENTS_CAPTION, sortable: false,
+                tooltip: "Number of documents stored in the index on this application instance.")
+            .AddColumn(nameof(LuceneIndexItemInfo.LuceneIndexItemGuid), LAST_UPDATED_CAPTION, sortable: false,
+                tooltip: "Last write to the index on this application instance, in server time. A rebuild runs in the background, so this can change after the rebuild request.");
 
-        PageConfiguration.AddEditRowAction<IndexEditPage>();
-        PageConfiguration.TableActions.AddCommand("Rebuild", nameof(Rebuild), icon: Icons.RotateRight);
-        PageConfiguration.TableActions.AddDeleteAction(nameof(Delete), "Delete");
-        PageConfiguration.HeaderActions.AddLink<IndexCreatePage>("Create");
+        PageConfiguration.AddEditRowAction<IndexEditSection>();
+        PageConfiguration.TableActions.AddCommand("Rebuild", nameof(Rebuild), icon: Icons.RotateRight, title: "Rebuild index");
+        PageConfiguration.TableActions.AddDeleteAction(nameof(Delete), "Delete", title: "Delete index");
+        if (PageConfiguration.TableActions.LastOrDefault()?.ConfirmationConfiguration is ConfirmationConfiguration deleteConfirmation)
+        {
+            deleteConfirmation.Title = "Delete index?";
+            deleteConfirmation.Detail = "The index files and its configuration are removed. Searches that use this index stop returning results. This cannot be undone.";
+        }
+        PageConfiguration.HeaderActions.AddLink<IndexCreatePage>("New index");
 
         await base.ConfigurePage();
     }
@@ -92,6 +107,7 @@ public class IndexListingPage : ListingPage
         var result = await base.LoadData(settings, cancellationToken);
 
         ICollection<LuceneIndexStatisticsModel> statistics = [];
+        bool statisticsAvailable = true;
         try
         {
             statistics = await luceneClient.GetStatistics(cancellationToken);
@@ -102,19 +118,24 @@ public class IndexListingPage : ListingPage
         }
         catch (Exception ex)
         {
+            statisticsAvailable = false;
             EventLogService.LogException(nameof(IndexListingPage), nameof(LoadData), ex);
         }
 
         // Add statistics for indexes that are registered but not created in Lucene
-        AddMissingStatistics(ref statistics, indexManager);
+        if (statisticsAvailable)
+        {
+            AddMissingStatistics(ref statistics, indexManager);
+        }
 
         if (PageConfiguration.ColumnConfigurations is not List<ColumnConfiguration> columns)
         {
             return result;
         }
 
-        int entriesColIndex = columns.FindIndex(c => c.Caption == "Entries");
-        int updatedColIndex = columns.FindIndex(c => c.Caption == "Last Updated");
+        int displayColIndex = columns.FindIndex(c => c.Caption == DISPLAY_NAME_CAPTION);
+        int entriesColIndex = columns.FindIndex(c => c.Caption == DOCUMENTS_CAPTION);
+        int updatedColIndex = columns.FindIndex(c => c.Caption == LAST_UPDATED_CAPTION);
 
         foreach (var row in result.Rows)
         {
@@ -123,20 +144,28 @@ public class IndexListingPage : ListingPage
                 continue;
             }
 
-            var stats = GetStatistic(row, statistics);
+            var index = indexManager.GetIndex(conversionService.GetInteger(row.Identifier, 0));
 
-            if (stats is null)
+            // Indexes created before display names existed have none stored; show the code name instead.
+            if (displayColIndex >= 0 && cells[displayColIndex] is StringCell displayCell
+                && string.IsNullOrWhiteSpace(displayCell.Value?.ToString())
+                && index is not null)
             {
-                continue;
+                displayCell.Value = index.DisplayName;
             }
 
-            if (cells[entriesColIndex] is StringCell entriesCell)
+            // The placeholder cells hold the row GUID until replaced, so never leave them unchanged.
+            var stats = statisticsAvailable && index is not null
+                ? statistics.FirstOrDefault(s => string.Equals(s.Name, index.IndexName, StringComparison.OrdinalIgnoreCase))
+                : null;
+
+            if (entriesColIndex >= 0 && cells[entriesColIndex] is StringCell entriesCell)
             {
-                entriesCell.Value = stats.Entries.ToString();
+                entriesCell.Value = stats?.Entries.ToString() ?? UNAVAILABLE;
             }
-            if (cells[updatedColIndex] is StringCell updatedCell)
+            if (updatedColIndex >= 0 && cells[updatedColIndex] is StringCell updatedCell)
             {
-                updatedCell.Value = stats.UpdatedAt.ToLocalTime().ToString();
+                updatedCell.Value = FormatLastUpdated(stats);
             }
         }
 
@@ -144,14 +173,14 @@ public class IndexListingPage : ListingPage
     }
 
 
-    private LuceneIndexStatisticsModel? GetStatistic(Row row, ICollection<LuceneIndexStatisticsModel> statistics)
+    private static string FormatLastUpdated(LuceneIndexStatisticsModel? stats)
     {
-        int indexID = conversionService.GetInteger(row.Identifier, 0);
-        string indexName = indexManager.GetIndex(indexID) is LuceneIndex index
-            ? index.IndexName
-            : "";
+        if (stats is null)
+        {
+            return UNAVAILABLE;
+        }
 
-        return statistics.FirstOrDefault(s => string.Equals(s.Name, indexName, StringComparison.OrdinalIgnoreCase));
+        return stats.UpdatedAt == DateTime.MinValue ? "Never" : stats.UpdatedAt.ToLocalTime().ToString();
     }
 
 
@@ -169,7 +198,7 @@ public class IndexListingPage : ListingPage
         if (index is null)
         {
             return ResponseFrom(result)
-                .AddErrorMessage(string.Format("Error loading Lucene index with identifier {0}.", id));
+                .AddErrorMessage(string.Format("Index with ID {0} is not loaded in this application. Refresh the listing; if the index is still listed, check the Event Log.", id));
         }
         try
         {
@@ -178,7 +207,7 @@ public class IndexListingPage : ListingPage
             await luceneClient.Rebuild(index.IndexName, CancellationToken.None);
 
             return ResponseFrom(result)
-                .AddSuccessMessage("Indexing in progress. Visit your Lucene dashboard for details about the indexing process.");
+                .AddSuccessMessage("Rebuild requested. Items are indexed in the background and completion is not tracked. Open the index Overview tab to check the current state.");
         }
         catch (Exception ex)
         {
@@ -203,10 +232,19 @@ public class IndexListingPage : ListingPage
         if (index is null)
         {
             return await Task.FromResult<ICommandResponse>(ResponseFrom(result)
-                .AddErrorMessage(string.Format("Error loading Lucene index with identifier {0}.", id)));
+                .AddErrorMessage(string.Format("Index with ID {0} is not loaded in this application. Refresh the listing; if the index is still listed, check the Event Log.", id)));
         }
 
-        bool indexDeleted = await luceneClient.DeleteIndex(index);
+        bool indexDeleted;
+        try
+        {
+            indexDeleted = await luceneClient.DeleteIndex(index);
+        }
+        catch (Exception ex)
+        {
+            EventLogService.LogException(nameof(IndexListingPage), nameof(Delete), ex);
+            indexDeleted = false;
+        }
 
         if (!indexDeleted)
         {
@@ -216,7 +254,8 @@ public class IndexListingPage : ListingPage
 
         configurationStorageService.TryDeleteIndex(id);
 
-        var response = NavigateTo(pageLinkGenerator.GetPath<IndexListingPage>());
+        var response = NavigateTo(pageLinkGenerator.GetPath<IndexListingPage>())
+            .AddSuccessMessage(string.Format("Index '{0}' deleted.", index.IndexName));
 
         return await Task.FromResult<ICommandResponse>(response);
     }

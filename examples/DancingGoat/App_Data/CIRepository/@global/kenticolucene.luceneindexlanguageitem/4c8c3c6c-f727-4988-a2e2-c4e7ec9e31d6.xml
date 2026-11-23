@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<kenticolucene.luceneindexlanguageitem>
+  <LuceneIndexLanguageItemGuid>4c8c3c6c-f727-4988-a2e2-c4e7ec9e31d6</LuceneIndexLanguageItemGuid>
+  <LuceneIndexLanguageItemIndexItemId>
+    <CodeName>Pages</CodeName>
+    <GUID>c8fff1f1-31a6-48ad-a972-2421a011887a</GUID>
+    <ObjectType>kenticolucene.luceneindexitem</ObjectType>
+  </LuceneIndexLanguageItemIndexItemId>
+  <LuceneIndexLanguageItemName>en</LuceneIndexLanguageItemName>
+</kenticolucene.luceneindexlanguageitem>

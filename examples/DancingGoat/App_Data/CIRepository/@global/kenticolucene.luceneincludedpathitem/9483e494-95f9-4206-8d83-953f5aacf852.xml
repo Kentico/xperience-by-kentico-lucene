@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<kenticolucene.luceneincludedpathitem>
+  <LuceneIncludedPathItemAliasPath>/Products/%</LuceneIncludedPathItemAliasPath>
+  <LuceneIncludedPathItemChannelName>DancingGoatPages</LuceneIncludedPathItemChannelName>
+  <LuceneIncludedPathItemGuid>9483e494-95f9-4206-8d83-953f5aacf852</LuceneIncludedPathItemGuid>
+  <LuceneIncludedPathItemIndexItemId>
+    <CodeName>DancingGoatGlobal</CodeName>
+    <GUID>7a4afab1-b707-48e9-9f60-e24add4e6c1c</GUID>
+    <ObjectType>kenticolucene.luceneindexitem</ObjectType>
+  </LuceneIncludedPathItemIndexItemId>
+</kenticolucene.luceneincludedpathitem>

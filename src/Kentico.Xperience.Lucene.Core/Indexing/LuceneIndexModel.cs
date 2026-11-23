@@ -22,6 +22,17 @@ public sealed class LuceneIndexModel
 
 
     /// <summary>
+    /// The name shown in the admin UI. Falls back to <see cref="IndexName"/> when empty, so indexes created
+    /// before display names existed keep working.
+    /// </summary>
+    public string DisplayName
+    {
+        get => string.IsNullOrWhiteSpace(field) ? IndexName : field;
+        set;
+    } = "";
+
+
+    /// <summary>
     /// The collection of <see cref="ContentLanguageInfo.ContentLanguageName"/> names associated with the index, derived from <see cref="LuceneIndexLanguageItemInfo.LuceneIndexLanguageItemName"/>.
     /// </summary>
     public IEnumerable<string> LanguageNames { get; set; } = Enumerable.Empty<string>();
@@ -91,6 +102,7 @@ public sealed class LuceneIndexModel
     {
         Id = index.LuceneIndexItemId;
         IndexName = index.LuceneIndexItemIndexName;
+        DisplayName = index.LuceneIndexItemDisplayName;
         RebuildHook = index.LuceneIndexItemRebuildHook;
         StrategyName = index.LuceneIndexItemStrategyName;
         AnalyzerName = index.LuceneIndexItemAnalyzerName;
@@ -120,6 +132,7 @@ public sealed class LuceneIndexModel
     {
         Id = index.LuceneIndexItemId;
         IndexName = index.LuceneIndexItemIndexName;
+        DisplayName = index.LuceneIndexItemDisplayName;
         ChannelName = index.LuceneIndexItemChannelName;
         RebuildHook = index.LuceneIndexItemRebuildHook;
         StrategyName = index.LuceneIndexItemStrategyName;

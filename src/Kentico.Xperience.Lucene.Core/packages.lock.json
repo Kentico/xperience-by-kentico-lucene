@@ -57,6 +57,17 @@
           "Lucene.Net.Queries": "4.8.0-beta00017"
         }
       },
+      "Lucene.Net.QueryParser": {
+        "type": "Direct",
+        "requested": "[4.8.0-beta00017, )",
+        "resolved": "4.8.0-beta00017",
+        "contentHash": "ZrF7EL06qB+2S2K4T3PliIa5EiJ5Ii7c/zFRMhsNozymz+HRHMVoI/nMYSdN6WF7X1Ef1DTeajMwvsbGTfl28Q==",
+        "dependencies": {
+          "Lucene.Net.Analysis.Common": "4.8.0-beta00017",
+          "Lucene.Net.Queries": "4.8.0-beta00017",
+          "Lucene.Net.Sandbox": "4.8.0-beta00017"
+        }
+      },
       "SonarAnalyzer.CSharp": {
         "type": "Direct",
         "requested": "[10.36.0.15337, )",
@@ -123,6 +134,14 @@
         "type": "Transitive",
         "resolved": "4.8.0-beta00017",
         "contentHash": "RVpZCfa/7pgvytFw64zLqinvZPQt4TojvcFghdAA5vhnpSs5GTbtciPIxFH3wwH3f2dYJywiqYKo1h3JBCXRBA==",
+        "dependencies": {
+          "Lucene.Net": "4.8.0-beta00017"
+        }
+      },
+      "Lucene.Net.Sandbox": {
+        "type": "Transitive",
+        "resolved": "4.8.0-beta00017",
+        "contentHash": "wRAzQZ4Z1yEuAaTwO+RrZB6l3Lz+vNGAiDshf0IjAr8qeVvQj74iodEcff4Bes88bnhqsWLUZlDUg/ygraxX2Q==",
         "dependencies": {
           "Lucene.Net": "4.8.0-beta00017"
         }

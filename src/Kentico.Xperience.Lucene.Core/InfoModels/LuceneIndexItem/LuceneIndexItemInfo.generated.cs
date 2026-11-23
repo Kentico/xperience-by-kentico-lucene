@@ -70,6 +70,17 @@ public partial class LuceneIndexItemInfo : AbstractInfo<LuceneIndexItemInfo, IIn
 
 
     /// <summary>
+    /// Display name shown in the admin UI. Empty for indexes created before display names existed.
+    /// </summary>
+    [DatabaseField]
+    public virtual string LuceneIndexItemDisplayName
+    {
+        get => ValidationHelper.GetString(GetValue(nameof(LuceneIndexItemDisplayName)), String.Empty);
+        set => SetValue(nameof(LuceneIndexItemDisplayName), value, String.Empty);
+    }
+
+
+    /// <summary>
     /// Channel name.
     /// </summary>
     [DatabaseField]

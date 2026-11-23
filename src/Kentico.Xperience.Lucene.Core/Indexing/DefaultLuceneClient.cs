@@ -1,10 +1,6 @@
-using CMS.ContentEngine;
 using CMS.Core;
-using CMS.DataEngine;
-using CMS.Helpers;
 using CMS.Helpers.Caching.Abstractions;
 using CMS.IO;
-using CMS.Websites;
 
 using Kentico.Xperience.Lucene.Core.Scaling;
 using Kentico.Xperience.Lucene.Core.Search;
@@ -14,7 +10,6 @@ using Lucene.Net.Index;
 using Lucene.Net.Search;
 
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Options;
 
 using CmsDirectoryInfo = CMS.IO.DirectoryInfo;
 
@@ -31,16 +26,7 @@ internal class DefaultLuceneClient : ILuceneClient
     private readonly ILuceneSearchService luceneSearchService;
 
 
-    private readonly IContentQueryExecutor executor;
-
-
     private readonly IServiceProvider serviceProvider;
-
-
-    private readonly IInfoProvider<ContentLanguageInfo> languageProvider;
-
-
-    private readonly IProgressiveCache cache;
 
 
     private readonly IEventLogService log;
@@ -58,7 +44,10 @@ internal class DefaultLuceneClient : ILuceneClient
     private readonly LuceneSearchCacheInvalidator searchCacheInvalidator;
 
 
-    private readonly LuceneSearchOptions luceneSearchOptions;
+    private readonly LuceneIndexedItemEnumerator itemEnumerator;
+
+
+    private readonly LuceneRebuildTracker rebuildTracker;
 
 
     internal const string CACHEKEY_STATISTICS = "Lucene|ListIndices";
@@ -68,29 +57,25 @@ internal class DefaultLuceneClient : ILuceneClient
         ICacheAccessor cacheAccessor,
         ILuceneIndexService luceneIndexService,
         ILuceneSearchService luceneSearchService,
-        IContentQueryExecutor executor,
         IServiceProvider serviceProvider,
-        IInfoProvider<ContentLanguageInfo> languageProvider,
-        IProgressiveCache cache,
         IEventLogService log,
         ILuceneIndexManager indexManager,
         IWebFarmService webFarmService,
         LuceneSearchCacheInvalidator searchCacheInvalidator,
-        IOptions<LuceneSearchOptions> luceneSearchOptions
+        LuceneIndexedItemEnumerator itemEnumerator,
+        LuceneRebuildTracker rebuildTracker
         )
     {
         this.cacheAccessor = cacheAccessor;
         this.luceneIndexService = luceneIndexService;
         this.luceneSearchService = luceneSearchService;
-        this.executor = executor;
         this.serviceProvider = serviceProvider;
-        this.languageProvider = languageProvider;
-        this.cache = cache;
         this.log = log;
         this.indexManager = indexManager;
         this.webFarmService = webFarmService;
         this.searchCacheInvalidator = searchCacheInvalidator;
-        this.luceneSearchOptions = luceneSearchOptions.Value;
+        this.itemEnumerator = itemEnumerator;
+        this.rebuildTracker = rebuildTracker;
     }
 
     /// <inheritdoc />
@@ -231,75 +216,7 @@ internal class DefaultLuceneClient : ILuceneClient
 
         luceneIndexService.ResetIndex(luceneIndex);
 
-        var contentQueryExecutionOptions = new ContentQueryExecutionOptions
-        {
-            IncludeSecuredItems = luceneSearchOptions.IncludeSecuredItems
-        };
-
-        var indexedItems = new List<IIndexEventItemModel>();
-        foreach (var channelConfiguration in luceneIndex.ChannelConfigurations)
-        {
-            foreach (var path in channelConfiguration.IncludedPaths)
-            {
-                var pathMatch =
-                    LucenePathHelper.EndsWithWildcard(path.AliasPath)
-                        ? PathMatch.Children(path.AliasPath[..^2])
-                        : PathMatch.Single(path.AliasPath);
-
-                foreach (string language in luceneIndex.LanguageNames)
-                {
-                    if (path.ContentTypes != null && path.ContentTypes.Count > 0)
-                    {
-                        var queryBuilder = new ContentItemQueryBuilder();
-
-                        foreach (var contentType in path.ContentTypes)
-                        {
-                            queryBuilder.ForContentType(contentType.ContentTypeName,
-                                config => config.ForWebsite(channelConfiguration.WebsiteChannelName, includeUrlPath: true, pathMatch: pathMatch));
-                        }
-
-                        queryBuilder.InLanguage(language);
-
-                        var webpages = await executor.GetWebPageResult(queryBuilder,
-                            container => container,
-                            options: contentQueryExecutionOptions,
-                            cancellationToken: cancellationToken ?? default);
-
-                        foreach (var page in webpages)
-                        {
-                            var item = await MapToEventItem(page, channelConfiguration.WebsiteChannelName);
-                            indexedItems.Add(item);
-                        }
-                    }
-                }
-            }
-        }
-
-        foreach (string language in luceneIndex.LanguageNames)
-        {
-            if (luceneIndex.IncludedReusableContentTypes != null && luceneIndex.IncludedReusableContentTypes.Count > 0)
-            {
-                var queryBuilder = new ContentItemQueryBuilder();
-
-                foreach (string reusableContentType in luceneIndex.IncludedReusableContentTypes)
-                {
-                    queryBuilder.ForContentType(reusableContentType);
-                }
-
-                queryBuilder.InLanguage(language);
-
-                var reusableItems = await executor.GetResult(queryBuilder,
-                    result => result,
-                    options: contentQueryExecutionOptions,
-                    cancellationToken: cancellationToken ?? default);
-
-                foreach (var reusableItem in reusableItems)
-                {
-                    var item = await MapToEventReusableItem(reusableItem);
-                    indexedItems.Add(item);
-                }
-            }
-        }
+        var indexedItems = await itemEnumerator.GetItemsAsync(luceneIndex, cancellationToken ?? default);
 
         log.LogInformation(
             "Kentico.Xperience.Lucene",
@@ -308,47 +225,7 @@ internal class DefaultLuceneClient : ILuceneClient
         );
 
         indexedItems.ForEach(item => LuceneQueueWorker.EnqueueLuceneQueueItem(new LuceneQueueItem(item, LuceneTaskType.PUBLISH_INDEX, luceneIndex.IndexName)));
-    }
-
-    private async Task<IndexEventWebPageItemModel> MapToEventItem(IWebPageContentQueryDataContainer content, string websiteChannelName)
-    {
-        var languages = await GetAllLanguages();
-
-        string languageName = languages.FirstOrDefault(l => l.ContentLanguageID == content.ContentItemCommonDataContentLanguageID)?.ContentLanguageName ?? string.Empty;
-
-        var item = new IndexEventWebPageItemModel(
-            content.WebPageItemID,
-            content.WebPageItemGUID,
-            languageName,
-            content.ContentTypeName,
-            content.WebPageItemName,
-            content.ContentItemIsSecured,
-            content.ContentItemContentTypeID,
-            content.ContentItemCommonDataContentLanguageID,
-            websiteChannelName,
-            content.WebPageItemTreePath,
-            content.WebPageItemOrder);
-
-        return item;
-    }
-
-    private async Task<IndexEventReusableItemModel> MapToEventReusableItem(IContentQueryDataContainer content)
-    {
-        var languages = await GetAllLanguages();
-
-        string languageName = languages.FirstOrDefault(l => l.ContentLanguageID == content.ContentItemCommonDataContentLanguageID)?.ContentLanguageName ?? string.Empty;
-
-        var item = new IndexEventReusableItemModel(
-            content.ContentItemID,
-            content.ContentItemGUID,
-            languageName,
-            content.ContentTypeName,
-            content.ContentItemName,
-            content.ContentItemIsSecured,
-            content.ContentItemContentTypeID,
-            content.ContentItemCommonDataContentLanguageID);
-
-        return item;
+        rebuildTracker.RecordRequest(luceneIndex.IndexName, indexedItems.Count);
     }
 
     private Task<int> UpsertRecordsInternal(IEnumerable<Document> documents, string indexName)
@@ -443,18 +320,6 @@ internal class DefaultLuceneClient : ILuceneClient
         }
         return Task.FromResult(0);
     }
-
-    private Task<IEnumerable<ContentLanguageInfo>> GetAllLanguages() =>
-        cache.LoadAsync(async cs =>
-        {
-            var results = await languageProvider.Get()
-                .GetEnumerableTypedResultAsync(cancellationToken: CancellationToken.None);
-
-            cs.GetCacheDependency = () => CacheHelper.GetCacheDependency($"{ContentLanguageInfo.OBJECT_TYPE}|all");
-
-            return results;
-        }, new CacheSettings(5, nameof(DefaultLuceneClient), nameof(GetAllLanguages)));
-
 
     /// <summary>
     /// Gets the last write time of the directory, if the directory itself doesn't have a valid last write time,

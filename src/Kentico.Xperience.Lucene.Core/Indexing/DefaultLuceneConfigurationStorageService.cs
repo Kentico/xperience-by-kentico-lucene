@@ -1,6 +1,4 @@
-﻿using System.Text;
-
-using CMS.Base;
+﻿using CMS.Base;
 using CMS.ContentEngine;
 using CMS.DataEngine;
 using CMS.DataEngine.CollectionExtensions;
@@ -58,6 +56,7 @@ internal class DefaultLuceneConfigurationStorageService : ILuceneConfigurationSt
         var newInfo = new LuceneIndexItemInfo()
         {
             LuceneIndexItemIndexName = configuration.IndexName ?? string.Empty,
+            LuceneIndexItemDisplayName = configuration.DisplayName ?? string.Empty,
             LuceneIndexItemStrategyName = configuration.StrategyName ?? string.Empty,
             LuceneIndexItemAnalyzerName = configuration.AnalyzerName ?? string.Empty,
             LuceneIndexItemRebuildHook = configuration.RebuildHook ?? string.Empty
@@ -222,8 +221,6 @@ internal class DefaultLuceneConfigurationStorageService : ILuceneConfigurationSt
     /// <inheritdoc />
     public async Task<bool> TryEditIndexAsync(LuceneIndexModel configuration)
     {
-        configuration.IndexName = RemoveWhitespacesUsingStringBuilder(configuration.IndexName ?? string.Empty);
-
         var indexInfo = await indexProvider.GetAsync(configuration.Id, CancellationToken.None);
 
         if (indexInfo is null)
@@ -234,7 +231,8 @@ internal class DefaultLuceneConfigurationStorageService : ILuceneConfigurationSt
         indexInfo.LuceneIndexItemRebuildHook = configuration.RebuildHook ?? string.Empty;
         indexInfo.LuceneIndexItemStrategyName = configuration.StrategyName ?? string.Empty;
         indexInfo.LuceneIndexItemAnalyzerName = configuration.AnalyzerName ?? string.Empty;
-        indexInfo.LuceneIndexItemIndexName = configuration.IndexName ?? string.Empty;
+        // The code name is immutable after creation: it names the index storage and is referenced by application code.
+        indexInfo.LuceneIndexItemDisplayName = configuration.DisplayName ?? string.Empty;
 
         await indexProvider.SetAsync(indexInfo, CancellationToken.None);
 
@@ -502,19 +500,6 @@ internal class DefaultLuceneConfigurationStorageService : ILuceneConfigurationSt
     }
 
 
-    private static string RemoveWhitespacesUsingStringBuilder(string source)
-    {
-        var builder = new StringBuilder(source.Length);
-        for (int i = 0; i < source.Length; i++)
-        {
-            char c = source[i];
-            if (!char.IsWhiteSpace(c))
-            {
-                builder.Append(c);
-            }
-        }
-        return source.Length == builder.Length ? source : builder.ToString();
-    }
 
     private Task<IEnumerable<ChannelInfo>> GetChannelInfos()
         => channelProvider.Get()

@@ -1,418 +1,392 @@
-import type {
-  ActionCell,
-  StringCell,
-  TableAction,
-  TableCell,
-  TableColumn,
-  TableRow,
-} from "@kentico/xperience-admin-components";
-import {
-  Button,
-  ButtonType,
-  CellType,
-  ColumnContentType,
-  Stack,
-  Table,
-} from "@kentico/xperience-admin-components";
 import { useFormComponentCommandProvider } from "@kentico/xperience-admin-base";
+import {
+  Box,
+  Button,
+  ButtonColor,
+  ButtonType,
+  Callout,
+  CalloutPlacementType,
+  CalloutType,
+  Card,
+  FormItemWrapper,
+  getDataTestId,
+  Inline,
+  Input,
+  MenuItem,
+  Select,
+  Spacing,
+  Stack,
+  TextWithLabel,
+} from "@kentico/xperience-admin-components";
 import React, { useState } from "react";
-import type {
-  CSSObjectWithLabel,
-  GroupBase,
-  SingleValue,
-  StylesConfig,
-} from "react-select";
-import Select from "react-select";
-import type { LuceneIndexConfigurationFormComponentProps } from "../models/LuceneIndexConfigurationFormComponentProps";
+import {
+  ContentTypeSelector,
+  type ContentTypeSelectorOption,
+} from "../components/ContentTypeSelector";
+import { RemoveButton } from "../components/RemoveButton";
+import type { IncludedPath } from "../models/IncludedPath";
 import type { LuceneIndexChannelConfiguration } from "../models/LuceneIndexChannelConfiguration";
-import type { OptionType } from "../models/OptionType";
-import type { LuceneIndexChannel } from "../models/LuceneIndexChannel";
-import { LuceneIncludedPathConfiguration } from "./LuceneIncludedPathConfiguration";
+import type { LuceneIndexConfigurationFormComponentProps } from "../models/LuceneIndexConfigurationFormComponentProps";
+import type { LuceneIndexContentType } from "../models/LuceneIndexContentType";
 import type { RowActionSuccessResult } from "../models/RowActionSuccessResult";
+
+const PATH_EXPLANATION =
+  "Use /% at the end to include all pages below the path, for example /Articles/%.";
+
+const getPathIssue = (
+  paths: IncludedPath[],
+  index: number,
+): string | undefined => {
+  const aliasPath = (paths[index]?.aliasPath ?? "").trim();
+  if (aliasPath === "") {
+    return "Enter a path.";
+  }
+  const duplicate = paths.some(
+    (p, i) =>
+      i < index &&
+      (p.aliasPath ?? "").trim().toLowerCase() === aliasPath.toLowerCase(),
+  );
+  return duplicate
+    ? "This path is already included for this channel."
+    : undefined;
+};
+
+const serialize = (value: LuceneIndexChannelConfiguration[]): string =>
+  JSON.stringify(
+    value.map((c) => ({
+      channel: c.websiteChannelName,
+      paths: c.includedPaths.map((p) => ({
+        path: p.aliasPath ?? "",
+        types: p.contentTypes.map((t) => t.contentTypeName).sort(),
+      })),
+    })),
+  );
 
 export const LuceneSearchIndexConfigurationFormComponent = (
   props: LuceneIndexConfigurationFormComponentProps,
 ): React.JSX.Element => {
-  const [showChannelEdit, setShowChannelEdit] = useState<boolean>(false);
-  const [showAddNewChannelConfiguration, setShowAddNewChannelConfiguration] =
-    useState<boolean>(true);
-  const [showPathConfiguration, setShowPathConfiguration] =
-    useState<boolean>(false);
   const { executeCommand } = useFormComponentCommandProvider();
+  const value = props.value;
+  const [baseline, setBaseline] = useState(value);
+  const [emitted, setEmitted] = useState(value);
+  const [busyChannel, setBusyChannel] = useState<string | null>(null);
 
-  const getEmptyChannel = (): LuceneIndexChannelConfiguration => {
-    const emptyChannel: LuceneIndexChannelConfiguration = {
-      channelDisplayName: null,
-      websiteChannelName: null,
-      includedPaths: [],
-    };
+  // A value the component did not emit (initial load or reload after save) becomes the new baseline.
+  if (value !== emitted) {
+    setBaseline(value);
+    setEmitted(value);
+  }
 
-    return emptyChannel;
-  };
-  const getUnconfiguredChannelOptions = (
-    configuredChannels: LuceneIndexChannelConfiguration[] = props.value,
-  ): OptionType[] => {
-    const filteredOptions: OptionType[] =
-      props.possibleChannels
-        ?.filter(
-          (possibleChannel) =>
-            !configuredChannels.some(
-              (existingChannel) =>
-                existingChannel.websiteChannelName ===
-                possibleChannel.channelName,
-            ),
-        )
-        .map((channel) => {
-          const option: OptionType = {
-            value: channel.channelName,
-            label: channel.channelDisplayName,
-          };
-          return option;
-        }) ?? [];
+  const editMode: string | undefined = props.editMode;
+  const disabled = editMode === "disabled" || editMode === "readOnly";
+  const changed = serialize(value) !== serialize(baseline);
 
-    return filteredOptions;
+  const emit = (next: LuceneIndexChannelConfiguration[]): void => {
+    setEmitted(next);
+    props.onChange?.(next);
   };
 
-  const [channel, setChannel] =
-    useState<LuceneIndexChannelConfiguration>(getEmptyChannel());
-  const [selectedChannelOption, setSelectedChannelOption] =
-    useState<OptionType | null>(null);
-  const [channelOptions, setChannelOptions] = useState<OptionType[]>(
-    getUnconfiguredChannelOptions(),
-  );
+  const channelLabel = (channel: LuceneIndexChannelConfiguration): string =>
+    props.possibleChannels?.find(
+      (c) => c.channelName === channel.websiteChannelName,
+    )?.channelDisplayName ??
+    channel.channelDisplayName ??
+    channel.websiteChannelName ??
+    "";
 
-  const prepareRows = (
-    channels: LuceneIndexChannelConfiguration[],
-  ): TableRow[] => {
-    const getCells = (
+  const contentTypeOptions: ContentTypeSelectorOption[] = (
+    props.possibleContentTypeItems ?? []
+  ).map((t) => ({
+    value: t.contentTypeName,
+    label: t.contentTypeDisplayName || t.contentTypeName,
+  }));
+
+  const updateChannel = (
+    channelIndex: number,
+    update: (
       channel: LuceneIndexChannelConfiguration,
-    ): TableCell[] => {
-      const channelName = channel.websiteChannelName?.toString() ?? "";
-      const channelDisplayName = channel.channelDisplayName?.toString() ?? "";
-      const cell: StringCell = {
-        type: CellType.String,
-        value: channelDisplayName,
-      };
-      const deleteAction: TableAction = {
-        label: "delete",
-        icon: "xp-bin",
-        disabled: false,
-        destructive: true,
-      };
-
-      const deleteWebsiteChannelConfiguration: () => Promise<void> =
-        async () => {
-          const response = await executeCommand<RowActionSuccessResult, string>(
-            props,
-            "DeleteWebsiteChannelConfiguration",
-            channelName,
-          );
-          if (!response?.success) {
-            return;
-          }
-
-          const newValue = props.value.filter(
-            (x) => x.websiteChannelName !== channelName,
-          );
-          props.onChange?.(newValue);
-          setShowChannelEdit(false);
-          setChannelOptions(getUnconfiguredChannelOptions(newValue));
-          setShowAddNewChannelConfiguration(true);
-          setEmptyChannel();
-        };
-
-      const deletePathCell: ActionCell = {
-        actions: [deleteAction],
-        type: CellType.Action,
-        onInvokeAction: deleteWebsiteChannelConfiguration,
-      };
-
-      const cells: TableCell[] = [cell, deletePathCell];
-      return cells;
-    };
-
-    return channels.map((channel) => {
-      const row: TableRow = {
-        identifier: channel.websiteChannelName ?? "",
-        cells: getCells(channel),
-        disabled: false,
-      };
-
-      return row;
-    });
+    ) => LuceneIndexChannelConfiguration,
+  ): void => {
+    emit(value.map((c, i) => (i === channelIndex ? update(c) : c)));
   };
 
-  const rows = prepareRows(props.value);
-
-  const prepareColumns = (): TableColumn[] => {
-    const columns: TableColumn[] = [];
-
-    const column: TableColumn = {
-      name: "Website Channel",
-      visible: true,
-      contentType: ColumnContentType.Text,
-      caption: "",
-      minWidth: 0,
-      maxWidth: 1000,
-      sortable: true,
-      searchable: true,
-    };
-
-    const actionColumn: TableColumn = {
-      name: "Actions",
-      visible: true,
-      contentType: ColumnContentType.Action,
-      caption: "",
-      minWidth: 0,
-      maxWidth: 1000,
-      sortable: false,
-      searchable: false,
-    };
-
-    columns.push(column);
-    columns.push(actionColumn);
-    return columns;
+  const updatePath = (
+    channelIndex: number,
+    pathIndex: number,
+    update: { aliasPath?: string; contentTypes?: LuceneIndexContentType[] },
+  ): void => {
+    updateChannel(channelIndex, (c) => ({
+      ...c,
+      includedPaths: c.includedPaths.map((p, j) =>
+        j === pathIndex
+          ? {
+              ...p,
+              aliasPath: update.aliasPath ?? p.aliasPath,
+              contentTypes: update.contentTypes ?? p.contentTypes,
+            }
+          : p,
+      ),
+    }));
   };
 
-  const addWebsiteChannelConfiguration = (): void => {
-    setShowChannelEdit(true);
-    setShowAddNewChannelConfiguration(false);
-    setEmptyChannel();
-    const filteredOptions: OptionType[] = getUnconfiguredChannelOptions();
-    setChannelOptions(filteredOptions);
-  };
-
-  const showChannelDetail = (identifier: unknown): void => {
-    if (!showChannelEdit) {
-      if (typeof identifier !== "string") {
-        return;
-      }
-
-      const selectedChannelName = identifier;
-      const selectedChannel = props.value.find(
-        (x) => x.websiteChannelName === selectedChannelName,
+  const addChannel = async (channelName: string): Promise<void> => {
+    setBusyChannel(channelName);
+    try {
+      const response = await executeCommand<RowActionSuccessResult, string>(
+        props,
+        "AddWebsiteChannelConfiguration",
+        channelName,
       );
-      if (!selectedChannel) {
-        return;
-      }
-
-      setChannel(selectedChannel);
-
-      const option = selectChannelOption(selectedChannelName);
-      if (!option) {
-        return;
-      }
-
-      const filteredOptions: OptionType[] = getUnconfiguredChannelOptions();
-      filteredOptions.push(option);
-      setChannelOptions(filteredOptions);
-    } else {
-      setEmptyChannel();
-    }
-
-    setShowChannelEdit(!showChannelEdit);
-    setShowAddNewChannelConfiguration(!showAddNewChannelConfiguration);
-  };
-
-  const selectChannelOption = (
-    selectedChannelName: string,
-  ): OptionType | undefined => {
-    const selectedChannel: LuceneIndexChannel | undefined =
-      props.possibleChannels?.find(
-        (x) => x.channelName === selectedChannelName,
-      );
-    if (!selectedChannel) {
-      return undefined;
-    }
-
-    const selectedOption: OptionType = {
-      value: selectedChannel.channelName,
-      label: selectedChannel.channelDisplayName,
-    };
-
-    setSelectedChannelOption(selectedOption);
-    setShowPathConfiguration(true);
-    return selectedOption;
-  };
-
-  const setEmptyChannel = (): void => {
-    const emptyChannel = getEmptyChannel();
-    setChannel(emptyChannel);
-    setSelectedChannelOption(null);
-  };
-
-  const saveWebsiteChannelConfiguration = async (): Promise<void> => {
-    if (
-      !rows.some((x) => {
-        return x.identifier === channel.websiteChannelName;
-      })
-    ) {
-      if (channel.websiteChannelName === "" || !channel.websiteChannelName) {
-        alert("Invalid Channel");
-      } else {
-        const response = await executeCommand<RowActionSuccessResult, string>(
-          props,
-          "AddWebsiteChannelConfiguration",
-          channel.websiteChannelName,
-        );
-        if (!response?.success) {
-          return;
-        }
-
-        const newValue = [...props.value, channel];
-        props.onChange?.(newValue);
-        setChannelOptions(getUnconfiguredChannelOptions(newValue));
-      }
-    } else {
-      const rowIndex = rows.findIndex((x) => {
-        return x.identifier === channel.websiteChannelName;
-      });
-
-      if (rowIndex === -1) {
-        alert("Invalid edit");
-        return;
-      }
-
-      const propPathIndex = props.value.findIndex((x) => {
-        return x.websiteChannelName === channel.websiteChannelName;
-      });
-      if (propPathIndex === -1) {
-        alert("Invalid edit");
-        return;
-      }
-
-      const updatedChannel: LuceneIndexChannelConfiguration = {
-        websiteChannelName: channel.websiteChannelName,
-        channelDisplayName: channel.channelDisplayName,
-        includedPaths: channel.includedPaths,
-      };
-
-      const response = await executeCommand<
-        RowActionSuccessResult,
-        LuceneIndexChannelConfiguration
-      >(props, "SaveWebsiteChannelConfiguration", updatedChannel);
       if (!response?.success) {
         return;
       }
-
-      const newValue = props.value.map((value, index) =>
-        index === propPathIndex ? updatedChannel : value,
+      const option = props.possibleChannels?.find(
+        (c) => c.channelName === channelName,
       );
-      props.onChange?.(newValue);
-      setChannelOptions(getUnconfiguredChannelOptions(newValue));
-    }
-
-    setShowAddNewChannelConfiguration(true);
-    setEmptyChannel();
-    setShowChannelEdit(false);
-  };
-
-  const selectChannel = (newValue: SingleValue<OptionType>): void => {
-    if (!newValue) {
-      setEmptyChannel();
-      return;
-    }
-
-    setChannel((prev) => ({
-      ...prev,
-      websiteChannelName: newValue.value,
-      channelDisplayName: newValue.label,
-    }));
-
-    selectChannelOption(newValue.value);
-  };
-
-  const customStyle: StylesConfig<OptionType, false, GroupBase<OptionType>> = {
-    control: (styles, { isFocused }) => ({
-      ...styles,
-      backgroundColor: "white",
-      borderColor: isFocused ? "black" : "gray",
-      "&:hover": {
-        borderColor: "black",
-      },
-      borderRadius: 20,
-      boxShadow: "gray",
-      padding: 2,
-      minHeight: "fit-content",
-    }),
-    option: (styles, { isSelected }) => {
-      return {
-        ...styles,
-        backgroundColor: isSelected ? "#bab4f0" : "white",
-        "&:hover": {
-          backgroundColor: isSelected ? "#a097f7" : "lightgray",
+      emit([
+        ...value,
+        {
+          websiteChannelName: channelName,
+          channelDisplayName: option?.channelDisplayName ?? channelName,
+          includedPaths: [
+            { aliasPath: "/%", contentTypes: [], identifier: null },
+          ],
         },
-        color: isSelected ? "purple" : "black",
-        cursor: "pointer",
-      };
-    },
-    input: (styles) => ({ ...styles }),
-    container: (styles) => ({ ...styles, borderColor: "gray" }),
-    placeholder: (styles) => ({ ...styles }),
-    dropdownIndicator: (styles, state): CSSObjectWithLabel => ({
-      ...styles,
-      transform: state.selectProps.menuIsOpen
-        ? "rotate(180deg)"
-        : "rotate(0deg)",
-    }),
-    menu: (styles) => ({
-      ...styles,
-      zIndex: 9999,
-    }),
+      ]);
+    } finally {
+      setBusyChannel(null);
+    }
   };
+
+  const removeChannel = async (channelName: string): Promise<void> => {
+    setBusyChannel(channelName);
+    try {
+      const response = await executeCommand<RowActionSuccessResult, string>(
+        props,
+        "DeleteWebsiteChannelConfiguration",
+        channelName,
+      );
+      if (!response?.success) {
+        return;
+      }
+      emit(value.filter((c) => c.websiteChannelName !== channelName));
+    } finally {
+      setBusyChannel(null);
+    }
+  };
+
+  const unusedChannels =
+    props.possibleChannels?.filter(
+      (c) => !value.some((v) => v.websiteChannelName === c.channelName),
+    ) ?? [];
 
   return (
-    <Stack>
-      <Table
-        columns={prepareColumns()}
-        rows={rows}
-        onRowClick={showChannelDetail}
-      />
-      {showChannelEdit && (
-        <div style={{ marginTop: "20px" }}>
+    <FormItemWrapper
+      label={props.label}
+      explanationText={props.explanationText}
+      invalid={props.invalid}
+      validationMessage={props.validationMessage}
+      dataTestId={getDataTestId("channel-configuration")}
+    >
+      <Stack spacing={Spacing.L}>
+        {value.length === 0 && (
+          <Callout
+            type={CalloutType.FriendlyWarning}
+            placement={CalloutPlacementType.OnPaper}
+            headline="No website channels"
+          >
+            Pages are indexed only from website channels added here.
+          </Callout>
+        )}
+        {value.map((channel, ci) => {
+          const name = channel.websiteChannelName ?? "";
+          const label = channelLabel(channel);
+          const pathCount = channel.includedPaths.length;
+          return (
+            <section
+              key={name}
+              aria-label={`Website channel ${label}`}
+              data-testid="configured-channel"
+              data-channel={name}
+            >
+              <Card
+                headline={label}
+                description={`Code name: ${name} · ${String(pathCount)} ${
+                  pathCount === 1 ? "path" : "paths"
+                }`}
+                footer={
+                  <Inline spacing={Spacing.S}>
+                    <Button
+                      type={ButtonType.Button}
+                      color={ButtonColor.Secondary}
+                      label="Add path"
+                      disabled={disabled}
+                      onClick={() => {
+                        updateChannel(ci, (c) => ({
+                          ...c,
+                          includedPaths: [
+                            ...c.includedPaths,
+                            {
+                              aliasPath: "",
+                              contentTypes: [],
+                              identifier: null,
+                            },
+                          ],
+                        }));
+                      }}
+                    />
+                    <RemoveButton
+                      title={`Remove ${label} from index`}
+                      disabled={disabled || busyChannel !== null}
+                      inProgress={busyChannel === name}
+                      onClick={() => {
+                        void removeChannel(name);
+                      }}
+                    />
+                  </Inline>
+                }
+              >
+                <Stack spacing={Spacing.L}>
+                  {pathCount === 0 && (
+                    <Callout
+                      type={CalloutType.FriendlyWarning}
+                      placement={CalloutPlacementType.OnPaper}
+                      headline="No paths"
+                    >
+                      Add a path, or the channel is removed when you save.
+                    </Callout>
+                  )}
+                  {channel.includedPaths.map((path, pi) => {
+                    const issue = getPathIssue(channel.includedPaths, pi);
+                    const selected = path.contentTypes.map(
+                      (t) => t.contentTypeName,
+                    );
+                    return (
+                      <Box
+                        key={`${name}|${String(pi)}`}
+                        spacingY={Spacing.S}
+                        dataTestId={getDataTestId("included-path")}
+                      >
+                        <Stack spacing={Spacing.M}>
+                          <Input
+                            label="Path"
+                            value={path.aliasPath ?? ""}
+                            disabled={disabled}
+                            markAsRequired
+                            placeholder="/Articles/%"
+                            explanationText={PATH_EXPLANATION}
+                            invalid={issue !== undefined}
+                            validationMessage={issue}
+                            onChange={(e) => {
+                              updatePath(ci, pi, { aliasPath: e.target.value });
+                            }}
+                          />
+                          <ContentTypeSelector
+                            label={`Content types for ${path.aliasPath ?? ""}`}
+                            dataTestId="path-content-types"
+                            options={contentTypeOptions}
+                            selected={selected}
+                            selectedLabels={Object.fromEntries(
+                              path.contentTypes.map((t) => [
+                                t.contentTypeName,
+                                t.contentTypeDisplayName || t.contentTypeName,
+                              ]),
+                            )}
+                            disabled={disabled}
+                            onChange={(names) => {
+                              updatePath(ci, pi, {
+                                contentTypes: names.map(
+                                  (n) =>
+                                    path.contentTypes.find(
+                                      (t) => t.contentTypeName === n,
+                                    ) ??
+                                    props.possibleContentTypeItems?.find(
+                                      (t) => t.contentTypeName === n,
+                                    ) ?? {
+                                      contentTypeName: n,
+                                      contentTypeDisplayName: n,
+                                    },
+                                ),
+                              });
+                            }}
+                          />
+                          {selected.length === 0 && (
+                            <Callout
+                              type={CalloutType.FriendlyWarning}
+                              placement={CalloutPlacementType.OnPaper}
+                            >
+                              No pages are indexed from this path until you
+                              select a content type.
+                            </Callout>
+                          )}
+                          {pathCount > 1 && (
+                            <Inline>
+                              <RemoveButton
+                                title={`Remove path ${path.aliasPath ?? ""}`.trim()}
+                                disabled={disabled}
+                                onClick={() => {
+                                  updateChannel(ci, (c) => ({
+                                    ...c,
+                                    includedPaths: c.includedPaths.filter(
+                                      (_, j) => j !== pi,
+                                    ),
+                                  }));
+                                }}
+                              />
+                            </Inline>
+                          )}
+                        </Stack>
+                      </Box>
+                    );
+                  })}
+                </Stack>
+              </Card>
+            </section>
+          );
+        })}
+        <Inline spacing={Spacing.M}>
           <Select
-            closeMenuOnSelect={true}
-            isMulti={false}
-            placeholder="Select website channel"
-            value={selectedChannelOption}
-            options={channelOptions}
-            onChange={selectChannel}
-            styles={customStyle}
-          />
-          {showPathConfiguration && (
-            <div style={{ maxWidth: "95%", margin: "20px auto" }}>
-              <LuceneIncludedPathConfiguration
-                possibleContentTypeItems={props.possibleContentTypeItems}
-                value={channel.includedPaths}
-                onChange={(newPaths) => {
-                  setChannel((prev) => ({
-                    ...prev,
-                    includedPaths: newPaths,
-                  }));
-                }}
+            label="Add website channel"
+            aria-label="Add website channel"
+            value=""
+            placeholder={
+              unusedChannels.length === 0
+                ? "All website channels are added"
+                : "Select a channel"
+            }
+            disabled={
+              disabled || unusedChannels.length === 0 || busyChannel !== null
+            }
+            onChange={(channelName) => {
+              if (channelName) {
+                void addChannel(channelName);
+              }
+            }}
+          >
+            {unusedChannels.map((c) => (
+              <MenuItem
+                key={c.channelName}
+                value={c.channelName}
+                primaryLabel={c.channelDisplayName}
               />
-            </div>
-          )}
-          <div style={{ marginTop: "20px" }}>
+            ))}
+          </Select>
+        </Inline>
+        {changed && (
+          <Inline spacing={Spacing.M}>
             <Button
               type={ButtonType.Button}
-              label="Save website channel configuration"
+              color={ButtonColor.Secondary}
+              label="Discard website channel changes"
+              disabled={disabled}
               onClick={() => {
-                void saveWebsiteChannelConfiguration();
+                emit(baseline);
               }}
-            ></Button>
-          </div>
-        </div>
-      )}
-      {showAddNewChannelConfiguration && (
-        <div style={{ marginTop: "20px" }}>
-          <Button
-            type={ButtonType.Button}
-            label="Add new website channel configuration"
-            onClick={addWebsiteChannelConfiguration}
-          ></Button>
-        </div>
-      )}
-    </Stack>
+            />
+            <TextWithLabel value="Website channel changes are saved with the rest of the configuration." />
+          </Inline>
+        )}
+      </Stack>
+    </FormItemWrapper>
   );
 };

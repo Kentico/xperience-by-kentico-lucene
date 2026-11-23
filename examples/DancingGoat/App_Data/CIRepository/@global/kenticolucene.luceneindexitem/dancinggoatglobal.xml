@@ -1,6 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <kenticolucene.luceneindexitem>
   <LuceneIndexItemAnalyzerName>Standard</LuceneIndexItemAnalyzerName>
+  <LuceneIndexItemDisplayName>Dancing Goat Global</LuceneIndexItemDisplayName>
   <LuceneIndexItemGuid>7a4afab1-b707-48e9-9f60-e24add4e6c1c</LuceneIndexItemGuid>
   <LuceneIndexItemIndexName>DancingGoatGlobal</LuceneIndexItemIndexName>
   <LuceneIndexItemStrategyName>DancingGoatGlobalSearch</LuceneIndexItemStrategyName>

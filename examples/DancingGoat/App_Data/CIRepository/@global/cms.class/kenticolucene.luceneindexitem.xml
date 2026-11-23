@@ -9,6 +9,7 @@
       <field column="LuceneIndexItemStrategyName" columnprecision="0" columnsize="100" columntype="text" enabled="true" guid="590082bf-f710-42a1-978e-837e664ee85a" visible="true" />
       <field column="LuceneIndexItemAnalyzerName" columnprecision="0" columnsize="100" columntype="text" enabled="true" guid="b0775f01-50c3-42a2-bd3a-9a755ad1a628" visible="true" />
       <field allowempty="true" column="LuceneIndexItemRebuildHook" columnprecision="0" columnsize="100" columntype="text" enabled="true" guid="fa397c68-7598-474d-b080-14a1973352a5" visible="true" />
+      <field allowempty="true" column="LuceneIndexItemDisplayName" columnprecision="0" columnsize="200" columntype="text" enabled="true" guid="b33f7109-feb5-4dba-8845-bc34832e9f6a" visible="true" />
     </form>
   </ClassFormDefinition>
   <ClassGUID>69cfa587-bec6-4d38-8a5d-1b42af7bee97</ClassGUID>

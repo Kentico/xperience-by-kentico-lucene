@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <kenticolucene.luceneincludedpathitem>
-  <LuceneIncludedPathItemAliasPath>/%</LuceneIncludedPathItemAliasPath>
+  <LuceneIncludedPathItemAliasPath>/Articles/%</LuceneIncludedPathItemAliasPath>
   <LuceneIncludedPathItemChannelName>DancingGoatPages</LuceneIncludedPathItemChannelName>
   <LuceneIncludedPathItemGuid>00fefea5-cfe3-4498-9c25-ad99a040e26a</LuceneIncludedPathItemGuid>
   <LuceneIncludedPathItemIndexItemId>

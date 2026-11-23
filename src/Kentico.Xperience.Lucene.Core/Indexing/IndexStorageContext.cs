@@ -30,6 +30,13 @@ public class IndexStorageContext
 
 
     /// <summary>
+    /// Gets every index generation currently present in storage, published or not.
+    /// </summary>
+    public IReadOnlyList<IndexStorageModel> GetExistingGenerations() =>
+        storageStrategy.GetExistingIndices(IndexStoragePathRoot).OrderBy(x => x.Generation).ToList();
+
+
+    /// <summary>
     /// Gets the currently published index generation, or <see langword="null"/> when no generation has been
     /// published yet.
     /// </summary>

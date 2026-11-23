@@ -68,6 +68,9 @@ public static class LuceneStartupExtensions
 
         services
             .AddSingleton<LuceneModuleInstaller>()
+            .AddSingleton<LuceneIndexedItemEnumerator>()
+            .AddSingleton<LuceneRebuildTracker>()
+            .AddSingleton<ILuceneIndexInspector, DefaultLuceneIndexInspector>()
             .AddSingleton<ILuceneClient, DefaultLuceneClient>()
             .AddSingleton<ILuceneTaskLogger, DefaultLuceneTaskLogger>()
             .AddSingleton<ILuceneTaskProcessor, DefaultLuceneTaskProcessor>()

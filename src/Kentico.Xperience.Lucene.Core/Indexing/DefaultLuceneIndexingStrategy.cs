@@ -37,5 +37,12 @@ public class DefaultLuceneIndexingStrategy : ILuceneIndexingStrategy
 
     /// <inheritdoc />
     public virtual async Task<IEnumerable<IIndexEventItemModel>> FindItemsToReindex(IndexEventReusableItemModel changedItem) => await Task.FromResult(new List<IIndexEventItemModel>() { changedItem });
+
+    /// <summary>
+    /// Declares the <c>Name</c> text field indexed by <see cref="MapToLuceneDocumentOrNull"/>.
+    /// Override to declare the fields of a custom document.
+    /// </summary>
+    public virtual IEnumerable<LuceneSearchFieldDescriptor> GetSearchFieldDescriptors() =>
+        [new(nameof(IIndexEventItemModel.Name), LuceneSearchFieldKind.Text, "Name")];
 }
 

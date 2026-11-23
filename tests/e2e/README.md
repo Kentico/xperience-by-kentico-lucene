@@ -37,3 +37,11 @@ The `build_and_test` CI job runs static checks and the Release build/tests for e
 | `ADMIN_BASE_URL`            | `<base URL>/admin`                                                          |
 | `E2E_WEB_SERVER_COMMAND`    | `dotnet run --project examples/DancingGoat`                                 |
 | `E2E_WEB_SERVER_TIMEOUT_MS` | `180000`                                                                    |
+
+Admin specs cover display-name navigation, immutable code names, grouped Configuration
+editors, typed Search filters (wildcards, Boolean values and AND matching), advanced
+queries, paged results and stored-record details. Overview coverage includes rebuild
+confirmation, health tooltips, independently paged diagnostics and expired-run/retry
+states. Wizard coverage checks preview draft preservation and complete Review values.
+Content type selection is checked with 50+ available types. Wizard specs stop before
+creating an index.
